@@ -1,0 +1,716 @@
+
+      <div class="contentWrapper">
+        <div  class="content">
+
+            <!-- HEADER SSI INCLUDE -->
+                    <div class="sidebar">
+            <div class="sidebarHeader">
+            <div class="avatar avatar-md pull-left"><img ng-src="{{myIdentity.avatar}}" alt="Img"/></div>
+               <div class="userTag pull-left btn-group" data-ng-init="init()">{{myIdentity.rtcIdentity}}<p></p>
+              <div class="statusTag dropdown-toggle" id="statusTagDD" data-toggle="dropdown">
+                        <i id="state" class="fa fa-circle green font14"></i> {{ statePresence }}
+                        <i id="color" class="fa fa-angle-down font14 pull-right"></i>
+                    </div>
+                    <ul class="dropdown-menu font18" id="dropdown" role="menu" >
+                       <li id="online" ><a ng-click="online()"><i class="fa fa-circle green font14" ></i>  on-line</a></li>
+                        <li id="ausente"><a ng-click="ausente()"><i  class="fa fa-circle red font14" ></i> ausente</a></li>
+                        <li id="ocupado"><a ng-click="ocupado()"><i  class="fa fa-circle yellow font14"></i> ocupado</a></li>
+                        <li id="offline"><a ng-click="off_line()"><i class="fa fa-circle-o font14"></i> off-line</a></li>
+                    </ul>
+
+             <!-- <div class="statusTag dropdown-toggle" id="statusTagDD" data-toggle="dropdown">
+              
+                <i class={{myState.classHtml}}> </i>
+                <select "dropdown-menu font18" ng-model="myState" ng-options="states.name for states in states" ng-change="update(myState)"></select>
+              </div>-->
+          </div>
+            </div>
+            <div class="userSearch clearfix">
+              <input type="text" placeholder="Pesquisar ..." />
+              <i class="fa fa-search"></i>
+            </div>
+
+            <div class="sidebarBody">
+
+              <div class="sidebarConversation panel-group">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-target="#collapse0" href="#">
+                        Em conversação
+                      </a>
+                      <i class="fa"></i>
+                    </h4>
+                  </div>
+                  <div id="collapse0" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                      <ul class="list-unstyled sidebarContacts">
+                        <li>
+                          <div class="avatar avatar-sm pull-left"><img ng-src="{{friend.avatar}}" alt="Img"/></div>
+                          <span class="font18"><i class="fa fa-video-camera"></i> {{friend.username}} <span class="callDuration">(<span class="timerM"></span>:<span class="timerS"></span>)</span></span>
+                          <p><i class="{{ friend.statecss }}"></i> {{friend.presence}}</p>
+                          <ul class="list-inline userListOptions pull-right">
+                            <li><button class="button-sm" ng-click="hangupBtn(conversation)"><i class="fa fa-video-camera endCall font18"></i></button></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sidebarBodyInner panel-group">
+                  <div class="panel panel-default" ng-repeat="group in listGroups" ng-model="listGroups">
+                  <div class="panel-heading" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-target="#collapse1" >
+                        {{ group.name }}
+                      </a>
+                      <i class="fa"></i>
+                    </h4>
+                  </div>
+                  <div id="collapse1" class="panel-collapse collapse in">
+                    <div class="panel-body" ng-repeat="user in group.users">
+                      <ul class="list-unstyled sidebarContacts"  >
+
+                        <li   >
+                          <div class="avatar avatar-sm pull-left" ng-click="webChat(user)"><span id="counter" class="notification-counter">{{ numbMessages }}</span><img  ng-src="{{user.avatar}}" alt="Img" ng-click="webChat(user)"/></div>
+                          <span class="font18" ng-click="webChat(user)"  ng-drag="true"  ng-drag-data="{}" ng-drag-success="onDragComplete($data,$event,user)">{{ user.username }}</span>
+                          <p id="{{ user.rtcIdentity }}s"><i id="{{ user.rtcIdentity }}" class="{{ user.statecss }}" ng-click="webChat(user)" ></i> {{ user.presence }}</p> 
+                          <ul class="list-inline userListOptions pull-right">
+                            <li><button class="button-sm" ng-click="callTo(user, 'audio')"><i class="fa fa-phone font18"></i></button></li>
+                            <li><button class="button-sm" ng-click="callTo(user,  'audio-video')"><i class="fa fa-video-camera font18"></i></button></li>
+                            <li><button class="button-sm" ng-click="removeUser(user, group.groupId)"><i class="fa fa-user font18"><span>-</span></i></button></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                
+                
+       
+              </div>
+            </div>
+
+            <div class="sidebarFooter">
+
+              <a data-toggle="modal" data-target="#numPadModal"  title="Abrir teclado">
+                <i class="fa fa-circle"></i><i class="fa fa-circle"></i><i class="fa fa-circle"></i>
+                <i class="fa fa-circle"></i><i class="fa fa-circle"></i><i class="fa fa-circle"></i>
+                <i class="fa fa-circle"></i><i class="fa fa-circle"></i><i class="fa fa-circle"></i>
+                <i class="fa fa-circle"></i><i class="fa fa-circle"></i><i class="fa fa-circle"></i>
+            </a>
+              <a data-toggle="modal" data-target="#addUserModal"  title="Adicionar contacto"><i class="fa fa-user composed"><span>+</span></i></a>
+              <a data-toggle="modal" data-target="#addGroupModal"  title="Adicionar grupo"><i class="fa fa-folder-open composed"><span>+</span></i></a>
+              <a data-toggle="modal" data-target="#removeGroupModal"  title="Remover grupo"><i class="fa fa-folder-open composed"><span>-</span></i></a>
+
+            </div>
+
+          </div>
+
+
+        <div class="contentInner withSidebarRight" id="centro" ng-show="actividade" >
+                        <h1>Atividade recente</h1>
+                        <ul class="list-unstyled timelineBar" ng-repeat="event in timeLine track by $index">
+                            <li class="row">
+                                <div class="avatar avatar-md pull-left"><img ng-src="{{event.participants[0].avatar}}" alt="Img"/></div>
+                                <div class="event">
+                                   {{event.call}} <a href="wonder-chat.html" class="username"><i class="fa fa-circle green font8"></i>{{event.participants[0].username}}</a>          {{timeLine.call}} <a href="wonder-chat.html" class="username"><i class="fa fa-circle green font8"></i>{{timeLine.participants}}</a> 
+                                   <p>{{event.time|date:medium}}</p>
+                              </div>
+                              <a class="action" ng-click="reCall(event.participants)"><i class="fa fa-video-camera" ></i>Ligar de novo</a>
+                          </li>
+                        </ul>
+</div>
+
+
+<div class="sidebarRight" id="lateral" ng-show="actividade">
+    <h1 id="lateral1">Favoritos</h1>
+    <ul class="list-inline list-unstyled">
+        <li class="avatarWrapper">
+            <div class="avatar avatar-lg">
+                <a href=""><img src="css/images/654.jpg" alt="Img"/></a>
+                <ul class="list-inline avatarActions">
+                    <li class="button-sm"><a href="#"><i class="fa fa-video-camera"></i></a></li>
+                    <li class="button-sm"><a href="#"><i class="fa fa-phone"></i></a></li>
+                    <li class="button-sm"><a href="#"><i class="fa fa-file"></i></a></li>
+                    <li class="button-sm"><a href="#"><i class="fa fa-envelope"></i></a></li>
+              </ul>
+        </div>
+        <div class="avatarTag"><i class="fa fa-circle green font12"></i> Diogo Reis</div>
+  </li>
+
+  <li class="avatarWrapper">
+    <div class="avatar avatar-lg">                
+       <a href=""><img src="css/images/722.jpg" alt="Img"/></a>
+       <ul class="list-inline avatarActions">
+            <li class="button-sm"><a href="#"><i class="fa fa-video-camera"></i></a></li>
+            <li class="button-sm"><a href="#"><i class="fa fa-phone"></i></a></li>
+            <li class="button-sm"><a href="#"><i class="fa fa-file"></i></a></li>
+            <li class="button-sm"><a href="#"><i class="fa fa-envelope"></i></a></li>
+      </ul>
+</div>
+<div class="avatarTag"><i class="fa fa-circle green font12"></i> Ana Barbosa</div>            
+</li>
+
+<li class="avatarWrapper">
+  <div class="avatar avatar-lg">
+      <a href=""><img src="css/images/909.jpg" alt="Img"/></a>
+      <ul class="list-inline avatarActions">
+          <li class="button-sm"><a href="#"><i class="fa fa-video-camera"></i></a></li>
+          <li class="button-sm"><a href="#"><i class="fa fa-phone"></i></a></li>
+          <li class="button-sm"><a href="#"><i class="fa fa-file"></i></a></li>
+          <li class="button-sm"><a href="#"><i class="fa fa-envelope"></i></a></li>
+    </ul>
+</div>
+<div class="avatarTag"><i class="fa fa-circle yellow font12"></i> Rita Coelho</div>
+</li>
+
+<li class="avatarWrapper">
+     <div class="avatar avatar-lg">
+       <a href=""><img src="css/images/906.jpg" alt="Img"/></a>
+       <ul class="list-inline avatarActions">
+            <li class="button-sm"><a href="#"><i class="fa fa-video-camera"></i></a></li>
+            <li class="button-sm"><a href="#"><i class="fa fa-phone"></i></a></li>
+            <li class="button-sm"><a href="#"><i class="fa fa-file"></i></a></li>
+            <li class="button-sm"><a href="#"><i class="fa fa-envelope"></i></a></li>
+      </ul>
+</div>
+<div class="avatarTag"><i class="fa fa-circle yellow font12"></i> Mariana Neves</div>
+</li>
+
+<li class="avatarWrapper">
+    <div class="avatar avatar-lg">
+       <a href=""><img src="{{friend.avatar}}" alt="Img"/></a>
+       <ul class="list-inline avatarActions">
+            <li class="button-sm"><a href="#"><i class="fa fa-video-camera"></i></a></li>
+            <li class="button-sm"><a href="#"><i class="fa fa-phone"></i></a></li>
+            <li class="button-sm"><a href="#"><i class="fa fa-file"></i></a></li>
+            <li class="button-sm"><a href="#"><i class="fa fa-envelope"></i></a></li>
+      </ul>
+</div>
+<div class="avatarTag"><i class="fa fa-circle yellow font12"></i> Martim Almeida</div>
+</li>
+
+<li class="avatarWrapper">
+   <div class="avatar avatar-lg">
+      <a href=""><img src="css/images/672.jpg" alt="Img"/></a>
+      <ul class="list-inline avatarActions">
+          <li class="button-sm"><a href="#"><i class="fa fa-video-camera"></i></a></li>
+          <li class="button-sm"><a href="#"><i class="fa fa-phone"></i></a></li>
+          <li class="button-sm"><a href="#"><i class="fa fa-file"></i></a></li>
+          <li class="button-sm"><a href="#"><i class="fa fa-envelope"></i></a></li>
+    </ul>
+</div>
+<div class="avatarTag"><i class="fa fa-circle red font12"></i> Rodrigo Castro</div>
+</li>
+
+<li class="avatarWrapper">
+     <div class="avatar avatar-lg">
+        <a href=""><img src="css/images/589.jpg" alt="Img"/></a>
+        <ul class="list-inline avatarActions">
+            <li class="button-sm"><a href="#"><i class="fa fa-video-camera"></i></a></li>
+            <li class="button-sm"><a href="#"><i class="fa fa-phone"></i></a></li>
+            <li class="button-sm"><a href="#"><i class="fa fa-file"></i></a></li>
+            <li class="button-sm"><a href="#"><i class="fa fa-envelope"></i></a></li>
+      </ul>
+</div>
+<div class="avatarTag"><i class="fa fa-circle-o gray font12"></i> Inês Alves</div>
+</li>
+</ul>
+</div>
+
+        <div class="contentInner" id="chat" ng-show="call" >
+
+
+               <div class="audioVideoWrapper">
+
+
+                <div class="chatHeader">
+                    <div class="avatar avatar-lg pull-left" ><img ng-src="{{friend.avatar}}" alt="Img"/></div>
+                    <span class="font32">{{friend.username}} </span>
+                    <p class=" font18"><i class="{{ friend.statecss }}"></i> {{friend.presence}}</p>
+                    <div class="btnGroup">
+                         <button class="font16" title="Conversa Vídeo" ng-click="updateConversation(conversation)"><i class="fa fa-video-camera"></i><span>Vídeo</span></button>
+                        <button class="font16" title="Conversa Áudio" ng-click="callTo(friend, 'audio')" ><i class="fa fa-phone"></i><span>Áudio</span></button>
+                        <button class="font16" title="Partilhar ecrã" ng-click="callTo(friend, 'screen')"><i class="fa fa-desktop"></i><span>Partilhar ecrã</span></button>
+                        <button class="font16" title="Adicionar Participante" data-toggle="modal" data-target="#sendInviteModal"><i class="fa fa-user"></i><span>Adicionar participante</span></button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+
+                    <div class="audioVideo chatLayout">
+
+                        <div class="audioVideoInner">
+
+                           <div class="chatBodyInner">
+                                <div class="chat">
+                                    <div class="chatSubject"><input type="text" placeholder="Definir assunto..."/></div>
+                                        <div class="chatScreen">
+                                            <div class="chatInner">
+                                                <ul class="chatMessages list-unstyled" id="chatMessages">
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    <div class="textAreaWrapper ui-widget-content">
+                                        <i class="fa fa-ellipsis-h font14"></i>
+                                        <div class="textArea"><textarea placeholder="Escrever mensagem..."></textarea><button  ng-click="submitChatMsg(conversation)"><i class="fa fa-reply"></i> Enviar</button></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        <div class="audioVideoScreen">
+
+                            <div class="audioVideoGroup">
+                                <ul class="list-inline list-unstyled">
+                                    <li class="avatar avatar-sm"><img ng-src="{{friend.avatar}}" alt="img" /></li>
+                                </ul>
+                            </div>
+
+
+                            <div class="audioScreen">
+
+                                <audio id="audio" loop>
+                                    <source src="css/images/audio.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+
+                                <div class="audioHeader">
+                                  <div class="callStatus font16"></div>
+                                </div>
+                                <div class="audioInner">
+                                    
+                                    <div class="avatarWrapper">
+                                        <div class="avatar avatar-lg">                
+                                             <a href="#"><img src="{{friend.avatar}}" alt="Img"/></a>
+                                        </div>
+                                        <div class="avatarTag"><i class="fa fa-circle green font12"></i> {{friend.username}}</div>
+                                        <div class="callNote"></div>                  
+                                    </div>
+                                        
+                                </div>
+                            </div> <!-- END audioScreen -->
+
+
+                            <div class="videoScreen">
+                                <div class="videoInner" id="videos">
+                                   
+                                                 <video id="video" width="100%" height="100%" autoplay >
+                                      
+                                                  </video>
+                                                  
+                                    <div class="videoPIP">
+                                        <ul class="list-unstyled">
+                                            <li id="remotes">
+                                               
+                                                   
+                                                  </video>
+                                                 
+                                                <!--</video>-->
+                                            </li>
+                                            
+                                        </ul>
+                                         <video id="aux" width="1%" height="1%"  muted   autoplay src="" >
+                                    </div>
+                                    
+                                </div>
+
+                            </div> <!-- END videoScreen -->
+
+                                    <div class="callActions">
+                                        <button class="cancelCall wonderBtn font18" ng-click="Cancelar()"><i class="fa fa-phone endCall font24"></i> Cancelar conversa</button>
+                                        <ul class="list-inline list-unstyled btnGroup">
+                                            <li id="actionMute" title="Ligar/Desligar áudio"><button onclick="controlMedia('un/mute')"><i class="fa fa-microfone-slash font24"></i></button></li>
+                                            <li id="actionSelf" title="Ligar/Desligar vídeo"><button onclick="pageLayout('self')"><i class="fa fa-video-camera font24 slashedIcon"><span>/</span><span>/</span></i></button></li>
+                                            <li id="actionEndCall" title="Terminar conversa"><button class="red" ng-click="hangupBtn(conversation)"><i class="fa fa-phone endCall font24"></i></button></li>
+                                            <li id="actionExpand" title="Mais opções..."><button onclick="pageLayout('expand')"><i class="fa fa-ellipsis-h font24"></i></button></li>
+                                            <li id="actionExpand_inviteUser" title="Adicionar participante"><button data-toggle="modal" data-target="#sendInviteModal"><i class="fa fa-user font24"></i></button></li>
+                                            <li id="actionExpand_shareScreen" title="Partilhar ecrã"><button><i class="fa fa-desktop font24"></i></button></li>
+                                            <li id="actionExpand_wideScreen" title="Aumentar área"><button onclick="pageLayout('widescreen')"><i class="fa fa-expand font24"></i></button></li>
+                                        </ul>
+                                    </div>
+
+                                <ul class="list-inline list-unstyled callSignalStrenght">
+                                    <li class="bar1 full"></li>
+                                    <li class="bar2 full"></li>
+                                    <li class="bar3 full"></li>
+                                    <li class="bar4"></li>
+                                </ul>
+
+                        </div>
+
+
+                        </div>
+
+                        <div class="sfSidebar">
+                            <div class="sfBar pull-left" title="Clique para fechar"><i class="fa fa-ellipsis-v font14"></i></div>
+                             <div class="sfSidebarInner">
+
+                               <div class="sFHeader">Ficheiros partilhados</div>
+
+                            <ul class="sFBody list-unstyled">
+                                <li class="sFUpload font14">
+                                    <div class="pull-left">
+                                        <label>Ata Reunião 03/07.docx</label>
+                                        <span>(21%)</span>
+                                    </div>
+                                    <div class="pull-right font18">
+                                        <button type="button">
+                                        ×
+                                        </button>
+                                    </div>
+                                    <div class="sFUploadProgress clearfix"><span class="sFUploadBar"></span></div>
+                                </li>
+                                <li>
+                                    <i class="fa fa-file-word-o sfFileTypeIco"></i>
+                                    <span class="sFFileName" title="Ata Reunião 01/07.docx">Ata Reunião 01/07.docx</span>
+                                    <a href="#" data-toggle="modal" data-target="#removeFileModal"><i class="fa fa-times pull-right" title="Eliminar"></i></a>
+                                    <a href="#" ><i class="fa fa-download pull-right" title="Download"></i></a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-file-word-o sfFileTypeIco"></i>
+                                    <span class="sFFileName" title="Ata Reunião 02/07.docx">Ata Reunião 02/07.docx</span>
+                                    <a href="#" data-toggle="modal" data-target="#removeFileModal"><i class="fa fa-times pull-right" title="Eliminar"></i></a>
+                                    <a href="#" ><i class="fa fa-download pull-right" title="Download"></i></a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-file-excel-o sfFileTypeIco"></i>
+                                    <span class="sFFileName" title="Folha de cálculos webRTC XPTO.xlsx">Folha de cálculos webRTC XPTO.xlsx</span>
+                                    <a href="#" data-toggle="modal" data-target="#removeFileModal"><i class="fa fa-times pull-right" title="Eliminar"></i></a>
+                                    <a href="#" ><i class="fa fa-download pull-right" title="Download"></i></a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-file-pdf-o sfFileTypeIco"></i>
+                                    <span class="sFFileName" title="Whitepaper WebRTC.pdf">Whitepaper WebRTC.pdf</span>
+                                    <a href="#" data-toggle="modal" data-target="#removeFileModal"><i class="fa fa-times pull-right" title="Eliminar"></i></a>
+                                    <a href="#" ><i class="fa fa-download pull-right" title="Download"></i></a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-file-image-o sfFileTypeIco"></i>
+                                    <span class="sFFileName" title="DSCF1354.jpg">DSCF1354.jpg</span>
+                                    <a href="#" data-toggle="modal" data-target="#removeFileModal"><i class="fa fa-times pull-right" title="Eliminar"></i></a>
+                                    <a href="#" ><i class="fa fa-download pull-right" title="Download"></i></a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-file-image-o sfFileTypeIco"></i>
+                                    <span class="sFFileName" title="DSCF1355.jpg">DSCF1355.jpg</span>
+                                    <a href="#" data-toggle="modal" data-target="#removeFileModal"><i class="fa fa-times pull-right" title="Eliminar"></i></a>
+                                    <a href="#" ><i class="fa fa-download pull-right" title="Download"></i></a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-file-image-o sfFileTypeIco"></i>
+                                    <span class="sFFileName" title="DSCF1356.jpg">DSCF1356.jpg</span>
+                                    <a href="#" data-toggle="modal" data-target="#removeFileModal"><i class="fa fa-times pull-right" title="Eliminar"></i></a>
+                                    <a href="#" ><i class="fa fa-download pull-right" title="Download"></i></a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-file-image-o sfFileTypeIco"></i>
+                                    <span class="sFFileName" title="DSCF1359.jpg">DSCF1359.jpg</span>
+                                    <a href="#" data-toggle="modal" data-target="#removeFileModal"><i class="fa fa-times pull-right" title="Eliminar"></i></a>
+                                    <a href="#" ><i class="fa fa-download pull-right" title="Download"></i></a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-file-image-o sfFileTypeIco"></i>
+                                    <span class="sFFileName" title="DSCF1311.jpg">DSCF1311.jpg</span>
+                                    <a href="#" data-toggle="modal" data-target="#removeFileModal"><i class="fa fa-times pull-right" title="Eliminar"></i></a>
+                                    <a href="#" ><i class="fa fa-download pull-right" title="Download"></i></a>
+                                </li>
+                            </ul>
+                            <div class="sFFooter"><button class="sFAddFileBtn wonderBtn font16"><i class="fa fa-file pull-left"></i>Adicionar ficheiro</button></div>
+
+                             </div>
+                        </div>
+
+                    </div>
+                <div class="audioVideoChatWrapper clearfix">
+                    <div class="audioVideoChat">
+
+                            <div class="chatBodyInnerBottom">
+                                <div class="chatBottom">
+                                    <div class="chatScreen">
+                                        <div class="chatInner">
+                                            <ul class="chatMessages list-unstyled" id="chatMessages">
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="textAreaWrapperBottom ui-widget-content">
+                                        <i class="fa fa-ellipsis-h font14"></i>
+                                        <div class="textArea"><textarea placeholder="Escrever mensagem..."></textarea><button  ng-click="submitChatMsg(conversation)"><i class="fa fa-reply"></i> Enviar</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="mainFooter">
+    <a href="http://www.ptinovacao.pt/pt/index.html" target="_blank"><img src="css/images/ptis.png" alt="PTInS"></a>
+</footer>
+
+</div>
+
+
+<!-- MODALS SSI INCLUDE -->
+
+<!--MODALS -->
+
+<!-- ADD NEW GROUP -->
+
+        <div class="modal fade" id="addGroupModal" role="dialog" aria-hidden="true">
+          <div class="modal-dialog wonderModal-md">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  &times;
+                </button>
+                <h4 class="modal-title font24"><i class="fa fa-folder-open composed"><span>+</span></i> Novo grupo</h4>
+              </div>
+              <div class="modal-body">
+              <label class="font16">Digite o nome que deseja atribuir ao novo grupo.</label>
+              <input type="text" placeholder="" ng-model="nameGroup" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()" />
+              <button id="btnSearch" class="addGroupBtn pull-right wonderBtn font18" ng-click="addGroup(nameGroup)"><i class="fa fa-folder-open composed"><span>+</span></i> Criar</button>
+              <span class="clearfix"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+<!-- REMOVE GROUP -->
+
+  <div class="modal fade" id="removeGroupModal" role="dialog" aria-hidden="true">
+          <div class="modal-dialog wonderModal-md">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  &times;
+                </button>
+                <h4 class="modal-title font24"><i class="fa fa-folder-open composed"><span>-</span></i> Remover Grupos</h4>
+              </div>
+              <div class="modal-body">
+              <label class="font16">Os contactos associados aos grupos removidos serão movidos para o grupo "Outros".</label>
+                <ul class="removeGroups list-unstyled">
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+<!-- REMOVE SF FILE -->
+
+        <div class="modal fade" id="removeFileModal" role="dialog" aria-hidden="true">
+          <div class="modal-dialog wonderModal-md">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  &times;
+                </button>
+                <h4 class="modal-title font24"><i class="fa fa-file"></i> Remover Ficheiro</h4>
+              </div>
+              <div class="modal-body">
+              <label class="font16 full-width">Pretende remover o ficheiro "<span></span>"?</label>
+
+              <button class="removeFileBtn pull-right wonderBtn font18" data-dismiss="modal"><i class="fa fa-file"></i> Remover</button>
+              <span class="clearfix"></span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+<!-- CLOSE ADD NEW GROUP -->
+
+        <div class="modal fade" id="closeaddGroupModal" role="dialog" aria-hidden="true">
+          <div class="modal-dialog wonderModal-md">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  &times;
+                </button>
+                <h4 class="modal-title font24"></i>ERRO</h4>
+              </div>
+              <div class="modal-body">
+              <label class="font16" color="red">Já existe um grupo com esse nome.</label>            
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></i> Fechar </button>
+              <span class="clearfix"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+<!-- REMOVE USER CONTACT -->
+
+        <div class="modal fade" id="removeUserModal" role="dialog" aria-hidden="true">
+          <div class="modal-dialog wonderModal-md">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  &times;
+                </button>
+                <h4 class="modal-title font24"><i class="fa fa-user composed"><span>-</span></i> Remover Utilizador</h4>
+              </div>
+              <div class="modal-body">
+              <label class="font16 full-width">Remover o utilizador <span></span>?</label>
+
+              <button class="removeUserBtn pull-right wonderBtn font18" data-dismiss="modal"><i class="fa fa-user composed"><span>-</span></i> Remover</button>
+              <span class="clearfix"></span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+<!-- INCOMING CALL -->
+
+        <!-- INCOMING CALL -->
+
+        <div class="modal fade" id="incomingCallModal" role="dialog" aria-hidden="true" >
+          <div class="modal-dialog wonderModal-sm">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  &times;
+                </button>
+                <h4 class="modal-title font24"><i class="fa fa-video-camera"></i> Chamada de vídeo em curso</h4>
+              </div>
+              <div class="modal-body">
+              <div class="inCallSubject font16">Assunto da chamada</div>
+              <div class="inCallContact">
+     
+              <div class="avatarWrapper">
+                <div class="avatar avatar-lg">
+                  <a href=""><img src="{{friend.avatar}}" alt="Img"/></a>
+                </div>
+                <div class="avatarTag" id="caller"><i class="fa fa-circle yellow font12"></i> 
+                  </div>
+              </div>
+
+               </div>
+
+              <div class="inCallActions" >
+                <button class="font24" ng-click="Acceptbtn()"><i class="fa fa-video-camera"></i> Vídeo</button>
+                <button class="font24"><i class="fa fa-phone"></i> Áudio</button>
+                <button class="font24" ng-click="Rejectbtn()"><i class="fa fa-phone"  ></i></button>
+              </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+<!-- DIAL PAD -->
+
+        <div class="modal fade" id="numPadModal" role="dialog" aria-hidden="true">
+          <div class="modal-dialog wonderModal-sm">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  &times;
+                </button>
+                <h4 class="modal-title font24"><i class="fa fa-phone"></i> Chamada externa</h4>
+              </div>
+              <div class="modal-body">
+                <div class="dialScreen"></div>
+                <div class="dialMsg"></div>
+                <ul class="dialPad list-unstyled list-inline">
+                  <li id="dialPad-1"><button>1</button></li>
+                  <li id="dialPad-2"><button>2</button></li>
+                  <li id="dialPad-3"><button>3</button></li>
+                  <li id="dialPad-4"><button>4</button></li>
+                  <li id="dialPad-5"><button>5</button></li>
+                  <li id="dialPad-6"><button>6</button></li>
+                  <li id="dialPad-7"><button>7</button></li>
+                  <li id="dialPad-8"><button>8</button></li>
+                  <li id="dialPad-9"><button>9</button></li>
+                  <li id="dialPad-asterisk"><button>*</button></li>
+                  <li id="dialPad-0"><button>0</button></li>
+                  <li id="dialPad-cardinal"><button>#</button></li>
+                  <li id="dialPad-call"><button><i class="fa fa-phone"></i></button></li>
+                  <li id="dialPad-end"><button><i class="fa fa-phone endCall"></i></button></li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+<!-- ADD USER CONTACT -->
+
+        <div class="modal fade" id="addUserModal" role="dialog" aria-hidden="true">
+          <div class="modal-dialog wonderModal-md">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  &times;
+                </button>
+                <h4 class="modal-title font24"><i class="fa fa-user"></i> Adicionar novo contacto</h4>
+              </div>
+              <div class="modal-body">
+              <label class="font16">Pesquise por nome, e-mail ou contacto telefónico.</label>
+              <input type="text" placeholder="Pesquisar ..." />
+              <i class="fa fa-search font18"></i>
+                <ul class="modalSearchResults list-unstyled" ng-repeat="AllUsers in AllUsers">
+                  <li>
+                    <div class="pull-left">
+                      <div class="avatar avatar-md"><img  alt="Img"/></div>
+                      <span class="font18">{{AllUsers.name}}</span>
+                    </div>
+                    <div class="pull-right">
+                      <button class="wonderBtn font14"><i class="fa fa-plus"></i> Adicionar</button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+<!-- ADD PARTICIPANT/GUEST -->
+
+        <div class="modal fade" id="sendInviteModal" role="dialog" aria-hidden="true">
+          <div class="modal-dialog wonderModal-md">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  &times;
+                </button>
+                <h4 class="modal-title font24"><i class="fa fa-user"></i> Adicionar participante</h4>
+              </div>
+              <div class="modal-body">
+              <label class="font16">Pesquise por nome, e-mail ou contacto telefónico.</label>
+              <input type="text" placeholder="Pesquisar ..." />
+              <i class="fa fa-search font18"></i>
+                <ul class="modalSearchResults list-unstyled" ng-repeat="AllUsers in AllUsers" >
+                  <li>
+                    <div class="pull-left">
+                      <div class="avatar avatar-md"><img src="css/images/138.jpg" alt="Img"/></div>
+                      <span class="font18">{{AllUsers.name}}</span>
+                    </div>
+                    <div class="pull-right">
+                      <button class="wonderBtn font14"><i class="fa fa-plus"></i> Adicionar</button>
+                    </div>
+                  </li>
+                </ul>
+
+                <label class="font16">Alternativamente, partilhe a hiperligação abaixo com o convidado.</label>
+                <input class="guestURL" onclick="this.select();" type="text" value="http://wond.er/V29uZGVy"/>
+              </div>
+
+            </div>
+          </div>
+        </div>
+

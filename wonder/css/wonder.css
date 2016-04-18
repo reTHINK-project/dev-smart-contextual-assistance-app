@@ -1,0 +1,1458 @@
+.gray {
+  color: #ccc; }
+
+.green, .on-line {
+  color: #32d167; }
+
+.red, .off-line {
+  color: #e44c43; }
+
+.yellow, .ocupado {
+  color: #facf8d; }
+
+.notification-container {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    top: 15px;
+    left: 15px;
+    
+    i {
+        color: #fff;
+    }
+}
+
+.notification-counter {   
+    position: absolute;
+    top: -2px;
+    left: 12px;
+    
+    background-color: rgba(212, 19, 13, 1);
+    color: #fff;
+    border-radius: 3px;
+    padding: 1px 3px;
+    font: 8px Verdana;
+}
+
+.full-width {
+  width: 100%; }
+
+.blink {
+  animation: blink 1s steps(5, start) infinite;
+  -webkit-animation: blink 1s steps(5, start) infinite; }
+
+@keyframes blink {
+  to {
+    visibility: hidden; } }
+@-webkit-keyframes blink {
+  to {
+    visibility: hidden; } }
+.dot {
+  font-size: 24px;
+  -webkit-animation-name: dot;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-name: dot;
+  -moz-animation-duration: 1s;
+  -moz-animation-iteration-count: infinite; }
+
+.dot:nth-child(2) {
+  -webkit-animation-delay: 100ms;
+  -moz-animation-delay: 100ms; }
+
+.dot:nth-child(3) {
+  -webkit-animation-delay: 300ms;
+  -moz-animation-delay: 300ms; }
+
+@-webkit-keyframes dot {
+  0% {
+    opacity: 1; }
+
+  100% {
+    opacity: 0; } }
+@-moz-keyframes dot {
+  0% {
+    opacity: 1; }
+
+  100% {
+    opacity: 0; } }
+.button-sm,
+.avatar-sm,
+.avatar-sm img {
+  width: 32px;
+  height: 32px; }
+
+.button-md,
+.avatar-md,
+.avatar-md img {
+  width: 64px;
+  height: 64px; }
+
+.button-lg,
+.avatar-lg,
+.avatar-lg img {
+  width: 128px;
+  height: 128px; }
+
+.font8 {
+  font-size: 8px; }
+
+.font12 {
+  font-size: 12px; }
+
+.font14 {
+  font-size: 14px; }
+
+.font16 {
+  font-size: 16px; }
+
+.font18 {
+  font-size: 18px; }
+
+.font24 {
+  font-size: 24px; }
+
+.font32 {
+  font-size: 32px; }
+
+.fa-phone.endCall {
+  transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  -webkit-transform: rotate(135deg); }
+
+/*******************************************************************************
+ FONT AWESOME
+*******************************************************************************/
+@font-face {
+  font-family: 'fa';
+  src: url("fonts/font-awesome/fontawesome-webfont.eot");
+  src: url("fonts/font-awesome/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("fonts/font-awesome/fontawesome-webfont.woff") format("woff"), url("fonts/font-awesome/fontawesome-webfont.ttf") format("truetype"), url("fonts/font-awesome/fontawesome-webfont.svg#fontawesomeregular") format("svg"); }
+@font-face {
+  font-family: 'open_sanslight';
+  src: url("fonts/opensans-light/opensans-light-webfont.eot");
+  src: url("fonts/opensans-light/opensans-light-webfont.eot?#iefix") format("embedded-opentype"), url("fonts/opensans-light/opensans-light-webfont.woff") format("woff"), url("fonts/opensans-light/opensans-light-webfont.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+.fa {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'fa';
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -moz-osx-font-smoothing: grayscale; }
+
+.fa:empty {
+  width: 1em; }
+
+.fa-circle-o:before {
+  content: "\f10c"; }
+
+.fa-reply:before {
+  content: "\f112"; }
+
+.fa-times:before {
+  content: "\f00d"; }
+
+.fa-circle:before {
+  content: "\f111"; }
+
+.fa-video-camera:before {
+  content: "\f03d"; }
+
+.fa-file:before {
+  content: "\f15b"; }
+
+.fa-envelope:before {
+  content: "\f0e0"; }
+
+.fa-phone:before {
+  content: "\f095"; }
+
+.fa-angle-up:before {
+  content: "\f106"; }
+
+.fa-angle-down:before {
+  content: "\f107"; }
+
+.fa-desktop:before {
+  content: "\f108"; }
+
+.fa-search:before {
+  content: "\f002"; }
+
+.fa-plus:before {
+  content: "\f067"; }
+
+.fa-minus:before {
+  content: "\f068"; }
+
+.fa-user:before {
+  content: "\f007"; }
+
+.fa-download:before {
+  content: "\f019"; }
+
+.fa-folder-open:before {
+  content: "\f07c"; }
+
+.fa-ellipsis-h:before {
+  content: "\f141"; }
+
+.fa-ellipsis-v:before {
+  content: "\f142"; }
+
+.fa-file-pdf-o:before {
+  content: "\f1c1"; }
+
+.fa-file-word-o:before {
+  content: "\f1c2"; }
+
+.fa-file-excel-o:before {
+  content: "\f1c3"; }
+
+.fa-file-image-o:before {
+  content: "\f1c5"; }
+
+.fa-eye:before {
+  content: "\f06e"; }
+
+.fa-cog:before {
+  content: "\f013"; }
+
+.fa-microfone:before {
+  content: "\f130"; }
+
+.fa-microfone-slash:before {
+  content: "\f131"; }
+
+.fa-expand:before {
+  content: "\f065"; }
+
+.fa-compress:before {
+  content: "\f066"; }
+
+/*******************************************************************************
+ MEDIA QUERIES
+*******************************************************************************/
+@media screen and (max-width: 1080px) {
+  .chatHeader .btnGroup button span {
+    display: none; }
+  .chatHeader .btnGroup button i {
+    margin-right: 0; } }
+@media screen and (max-width: 1022px) {
+  .sidebarRight {
+    width: 200px !important;
+    min-width: 200px !important; }
+
+  .contentInner.withSidebarRight {
+    right: 200px !important; } }
+@media screen and (max-width: 856px) {
+  .sidebarRight {
+    display: none !important; }
+
+  .contentInner.withSidebarRight {
+    right: 0px !important; } }
+/*******************************************************************************
+ EXTERNAL COMPONENTS OVERRIDES
+*******************************************************************************/
+.panel-group .panel {
+  border: 0;
+  border-radius: 0; }
+  .panel-group .panel + .panel {
+    margin-top: 1px !important; }
+
+.panel-group .panel-heading {
+  background-color: #586887;
+  border: 0;
+  border-radius: 0;
+  color: #e9ebf2; }
+  .panel-group .panel-heading a {
+    padding: 0 10px; }
+  .panel-group .panel-heading a:focus {
+    background-color: #8a8f9e;
+    color: #fff; }
+  .panel-group .panel-heading [data-toggle="collapse"] + i {
+    float: right;
+    color: #e9ebf2;
+    font-size: 18px; }
+    .panel-group .panel-heading [data-toggle="collapse"] + i:before {
+      content: "\f106"; }
+  .panel-group .panel-heading [data-toggle="collapse"].collapsed + i:before {
+    content: "\f107"; }
+
+.panel-body {
+  background-color: #414d63;
+  border-top: 0 !important;
+  padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: "Helvetica Neue Light", "Helvetica Neue LT 45", 'open_sanslight', Helvetica, Arial, sans-serif; }
+  html a, body a {
+    text-decoration: none !important; }
+
+h1 {
+  font-size: 32px;
+  color: #293140; }
+
+button:focus, input:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 5px 0.5px #358bc4; }
+
+body {
+  overflow: hidden;
+  font-weight: 100;
+  color: #e9ebf2; }
+  body ::-webkit-scrollbar {
+    width: 12px; }
+  body ::-webkit-scrollbar-button {
+    height: 0; }
+  body ::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.2); }
+  body ::-webkit-scrollbar-thumb {
+    background-color: #666; }
+
+i.composed {
+  font-size: 24px;
+  color: #e9ebf2; }
+  i.composed span {
+    font-size: 18px;
+    vertical-align: 15px;
+    line-height: 3px; }
+
+.mainWrapper {
+  min-height: 100%;
+  height: 100%;
+  position: relative; }
+
+.mainHeader {
+  background-color: #293140;
+  height: 60px;
+  position: fixed;
+  width: 100%;
+  z-index: 10; }
+  .mainHeader > .logoHeader {
+    font-size: 32px;
+    margin: 5px 0 0 18px; }
+  .mainHeader i {
+    margin-top: 19px;
+    margin-right: 15px;
+    color: #7889a9; }
+    .mainHeader i:hover {
+      color: #fff; }
+
+.contentWrapper {
+  position: absolute;
+  height: 100%;
+  padding: 60px 0 40px;
+  width: 100%; }
+
+.userListOptions {
+  position: absolute;
+  display: none;
+  top: auto;
+  right: 0;
+  margin: -37px 10px 0 0; }
+  .userListOptions li {
+    padding: 0;
+    margin: 0 2px; }
+    .userListOptions li button {
+      border: 0;
+      padding: 0;
+      border-radius: 50%;
+      background-color: #32d167; }
+    .userListOptions li:last-child button {
+      background-color: #e44c43; }
+    .userListOptions li:last-child i span {
+      font-size: 12px;
+      vertical-align: 10px;
+      margin-left: -1px;
+      line-height: 0px; }
+    .userListOptions li i {
+      color: #e9ebf2; }
+
+.sidebar {
+  position: absolute;
+  left: 0;
+  background-color: #414d63;
+  min-width: 320px;
+  width: 320px;
+  height: 100%; }
+  .sidebar .sidebarHeader {
+    height: 85px;
+    width: 100%;
+    padding: 10px; }
+  .sidebar .userTag {
+    font-size: 24px;
+    font-weight: 100;
+    margin: 5px 0 0 10px; }
+    .sidebar .userTag.open > .statusTag {
+      background-color: #e9ebf2; }
+      .sidebar .userTag.open > .statusTag i.fa-angle-up {
+        color: #414d63;
+        padding-top: 5px; }
+    .sidebar .userTag > p {
+      margin: 0; }
+    .sidebar .userTag > .statusTag {
+      font-size: 18px;
+      font-weight: 100;
+      width: 130px;
+      margin-top: 0;
+      padding: 0 5px;
+      color: #8a8f9e; }
+      .sidebar .userTag > .statusTag + .dropdown-menu {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        min-width: 130px;
+        opacity: 0.9; }
+        .sidebar .userTag > .statusTag + .dropdown-menu a {
+          padding: 5px;
+          color: #8a8f9e; }
+      .sidebar .userTag > .statusTag i {
+        vertical-align: 2px; }
+        .sidebar .userTag > .statusTag i.fa-angle-down {
+          color: #e9ebf2;
+          padding-top: 5px; }
+  .sidebar .userSearch {
+    position: relative;
+    padding: 0 10px;
+    margin-bottom: 8px; }
+    .sidebar .userSearch input {
+      width: 100%;
+      border-radius: 16px;
+      border: 0;
+      height: 32px;
+      background-color: #8a8f9e;
+      padding: 0 10px; }
+      .sidebar .userSearch input::-webkit-input-placeholder {
+        color: #414d63; }
+      .sidebar .userSearch input:-ms-input-placeholder {
+        color: #414d63; }
+      .sidebar .userSearch input:-moz-placeholder {
+        color: #414d63; }
+      .sidebar .userSearch input::-moz-placeholder {
+        color: #414d63; }
+      .sidebar .userSearch input + i {
+        position: absolute;
+        font-size: 14px;
+        top: 9px;
+        right: 24px;
+        color: #414d63; }
+  .sidebar .sidebarConversation {
+    padding-bottom: 1px;
+    display: none; }
+    .sidebar .sidebarConversation .sidebarContacts {
+      background-color: #fff; }
+      .sidebar .sidebarConversation .sidebarContacts .avatar + span {
+        color: #358bc4; }
+      .sidebar .sidebarConversation .sidebarContacts .callDuration {
+        color: #414d63; }
+      .sidebar .sidebarConversation .sidebarContacts:hover > li {
+        background-color: #fff; }
+  .sidebar .sidebarContacts {
+    margin: 0;
+    padding: 0; }
+    .sidebar .sidebarContacts span.noContactsInList {
+      padding: 0 15px; }
+    .sidebar .sidebarContacts > li {
+      padding: 2px 15px; }
+      .sidebar .sidebarContacts > li:hover {
+        background-color: #586887; }
+        .sidebar .sidebarContacts > li:hover .userListOptions {
+          display: block; }
+        .sidebar .sidebarContacts > li:hover .avatar + span {
+          width: 130px; }
+    .sidebar .sidebarContacts .avatar {
+      margin: 5px 10px 0 0; }
+      .sidebar .sidebarContacts .avatar + span {
+        display: block;
+        white-space: nowrap;
+        width: 230px;
+        overflow: hidden;
+        text-overflow: ellipsis; }
+    .sidebar .sidebarContacts p {
+      color: #8a8f9e;
+      margin: 0; }
+      .sidebar .sidebarContacts p i {
+        vertical-align: 1px; }
+  .sidebar .sidebarBody {
+    overflow: hidden; }
+  .sidebar .sidebarBody {
+    overflow: auto;
+    position: relative; }
+  .sidebar .sidebarFooter {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 45px;
+    padding-left: 10px; }
+    .sidebar .sidebarFooter a:first-child {
+      width: 18px;
+      line-height: 0px;
+      height: 0;
+      display: block;
+      margin: 10px 0 0 10px; }
+      .sidebar .sidebarFooter a:first-child + a {
+        margin-left: 55px; }
+    .sidebar .sidebarFooter a > i {
+      margin: 0 23px;
+      color: #e9ebf2; }
+      .sidebar .sidebarFooter a > i.fa-circle {
+        font-size: 6px;
+        margin: 0; }
+    .sidebar .sidebarFooter a:hover > i {
+      color: #fff; }
+
+.content {
+  position: relative;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden; }
+
+.contentInner {
+  background-color: #e9ebf2;
+  overflow: auto;
+  position: absolute;
+  top: 0;
+  left: 320px;
+  right: 0;
+  height: 100%; }
+  .contentInner.withSidebarRight {
+    min-width: 330px;
+    right: 375px; }
+
+.username {
+  cursor: pointer; }
+
+.timelineBar {
+  margin: 0;
+  padding: 0 20px 20px; }
+  .timelineBar h1 {
+    margin-top: 10px; }
+  .timelineBar .row {
+    min-height: 74px;
+    background-color: #fff;
+    margin: 10px 0;
+    position: relative;
+    overflow: hidden; }
+    .timelineBar .row .avatar {
+      margin: 5px 10px; }
+    .timelineBar .row .event {
+      color: #000;
+      font-size: 14px;
+      margin: 5px;
+      height: 100%;
+      margin-left: 80px; }
+      .timelineBar .row .event i {
+        vertical-align: 3px; }
+      .timelineBar .row .event p {
+        font-size: 11px;
+        color: #ccc; }
+    .timelineBar .row .img_preview {
+      height: 150px;
+      max-height: 150px;
+      margin-top: 5px; }
+      .timelineBar .row .img_preview + p {
+        margin: 2px 0 20px 0; }
+    .timelineBar .row .action {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      color: #358bc4;
+      margin-right: 5px;
+      cursor: pointer; }
+      .timelineBar .row .action i {
+        vertical-align: 1px;
+        margin-right: 5px; }
+
+.slashedIcon > span:first-child {
+  position: absolute;
+  top: 13px;
+  font-weight: bold;
+  margin-left: -19px !important;
+  font-size: 26px !important;
+  color: #e44c43; }
+.slashedIcon > span:last-child {
+  position: absolute;
+  margin-left: -17px !important;
+  font-size: 26px !important;
+  font-weight: 400;
+  top: 13px; }
+
+.sidebarRight {
+  position: absolute;
+  right: 0;
+  width: 375px;
+  min-width: 375px;
+  height: 100%;
+  background-color: #dbdfe7;
+  overflow: auto; }
+  .sidebarRight .avatar:hover img {
+    opacity: 0.5; }
+  .sidebarRight .avatar:hover .avatarActions {
+    display: block; }
+  .sidebarRight h1 {
+    margin-top: -10px; }
+  .sidebarRight > ul {
+    margin: 20px 12px; }
+
+.avatar {
+  background-color: #fff;
+  border: 0;
+  overflow: hidden;
+  border-radius: 50%; }
+  .avatar img {
+    display: block;
+    min-width: 100%;
+    min-height: 100%;
+    opacity: 1; }
+
+.avatarActions {
+  display: none;
+  position: absolute;
+  top: 85px;
+  left: 0;
+  width: 145px;
+  height: 40px; }
+  .avatarActions li {
+    border-radius: 50%;
+    background-color: #414d63; }
+    .avatarActions li:hover {
+      background-color: #293140; }
+      .avatarActions li:hover > a > i {
+        color: #fff; }
+    .avatarActions li i {
+      font-size: 16px;
+      color: #e9ebf2;
+      vertical-align: -7px;
+      padding-left: 5px; }
+    .avatarActions li:first-child i {
+      padding-left: 8px; }
+    .avatarActions li:last-child i {
+      padding-left: 3px;
+      vertical-align: -6px; }
+
+.avatarWrapper {
+  position: relative;
+  width: 145px;
+  height: 160px;
+  margin: 10px; }
+  .avatarWrapper .avatarTag {
+    height: 20px;
+    width: 128px;
+    color: #414d63;
+    text-align: center;
+    padding-top: 5px;
+    font-size: 14px; }
+    .avatarWrapper .avatarTag > i {
+      font-size: 12px;
+      vertical-align: 2px; }
+
+.mainFooter {
+  clear: both;
+  background-color: #1a1f26;
+  position: absolute;
+  bottom: 0;
+  height: 40px;
+  width: 100%; }
+
+/*******************************************************************************
+ MODALS
+*******************************************************************************/
+.wonderModal-sm {
+  width: 390px; }
+
+.wonderModal-md {
+  width: 450px; }
+
+#addUserModal label,
+#addGroupModal label,
+#sendInviteModal label,
+#removeUserModal label,
+#removeFileModal label {
+  color: #414d63;
+  margin-bottom: 10px; }
+#addUserModal input,
+#addGroupModal input,
+#sendInviteModal input,
+#removeUserModal input,
+#removeFileModal input {
+  width: 100%;
+  border-radius: 21px;
+  border: 0;
+  height: 42px;
+  background-color: #d0d3d9;
+  padding: 0 20px;
+  color: #fff; }
+  #addUserModal input::-webkit-input-placeholder,
+  #addGroupModal input::-webkit-input-placeholder,
+  #sendInviteModal input::-webkit-input-placeholder,
+  #removeUserModal input::-webkit-input-placeholder,
+  #removeFileModal input::-webkit-input-placeholder {
+    color: #fff; }
+  #addUserModal input:-ms-input-placeholder,
+  #addGroupModal input:-ms-input-placeholder,
+  #sendInviteModal input:-ms-input-placeholder,
+  #removeUserModal input:-ms-input-placeholder,
+  #removeFileModal input:-ms-input-placeholder {
+    color: #fff; }
+  #addUserModal input:-moz-placeholder,
+  #addGroupModal input:-moz-placeholder,
+  #sendInviteModal input:-moz-placeholder,
+  #removeUserModal input:-moz-placeholder,
+  #removeFileModal input:-moz-placeholder {
+    color: #fff; }
+  #addUserModal input::-moz-placeholder,
+  #addGroupModal input::-moz-placeholder,
+  #sendInviteModal input::-moz-placeholder,
+  #removeUserModal input::-moz-placeholder,
+  #removeFileModal input::-moz-placeholder {
+    color: #fff; }
+  #addUserModal input + i,
+  #addGroupModal input + i,
+  #sendInviteModal input + i,
+  #removeUserModal input + i,
+  #removeFileModal input + i {
+    position: absolute;
+    top: 65px;
+    right: 34px;
+    color: #fff; }
+#addUserModal .removeUserBtn,
+#addUserModal .removeFileBtn,
+#addGroupModal .removeUserBtn,
+#addGroupModal .removeFileBtn,
+#sendInviteModal .removeUserBtn,
+#sendInviteModal .removeFileBtn,
+#removeUserModal .removeUserBtn,
+#removeUserModal .removeFileBtn,
+#removeFileModal .removeUserBtn,
+#removeFileModal .removeFileBtn {
+  margin-top: 10px;
+  background-color: #e44c43;
+  width: 140px; }
+
+#addGroupModal .addGroupBtn {
+  border: 0;
+  padding: 0;
+  margin-top: 20px;
+  width: 95px;
+  background-color: #32d167;
+  color: #fff;
+  border-radius: 16px; }
+  #addGroupModal .addGroupBtn i {
+    color: #fff;
+    font-size: 19px; }
+    #addGroupModal .addGroupBtn i span {
+      vertical-align: 8px;
+      font-size: 14px; }
+
+#removeGroupModal .modal-body {
+  color: #414d63; }
+#removeGroupModal .removeGroups {
+  min-height: 300px; }
+  #removeGroupModal .removeGroups li {
+    margin: 10px 0; }
+    #removeGroupModal .removeGroups li .pull-left {
+      padding-top: 3px; }
+  #removeGroupModal .removeGroups .removeGroupBtn {
+    width: 135px;
+    background-color: #e44c43; }
+    #removeGroupModal .removeGroups .removeGroupBtn i.composed span {
+      vertical-align: 11px;
+      margin-left: -3px; }
+
+#incomingCallModal .modal-header {
+  background-color: #32d167; }
+#incomingCallModal .inCallSubject {
+  color: #414d63; }
+#incomingCallModal .inCallContact {
+  margin: 15px 90px; }
+#incomingCallModal .inCallActions {
+  height: 50px; }
+  #incomingCallModal .inCallActions button i {
+    margin: 0 8px 0 -10px; }
+  #incomingCallModal .inCallActions button:first-child {
+    color: #e9ebf2;
+    background-color: #32d167;
+    border: 0;
+    height: 100%;
+    width: 140px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px; }
+  #incomingCallModal .inCallActions button:nth-child(2) {
+    color: #e9ebf2;
+    background-color: #32d167;
+    border: 0;
+    height: 100%;
+    width: 140px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px; }
+  #incomingCallModal .inCallActions button:last-child {
+    color: #e9ebf2;
+    background-color: #e44c43;
+    border: 0;
+    height: 100%;
+    width: 50px;
+    border-radius: 50%;
+    margin-left: 12px; }
+    #incomingCallModal .inCallActions button:last-child i {
+      transform: rotate(135deg);
+      -ms-transform: rotate(135deg);
+      -webkit-transform: rotate(135deg);
+      top: 26%;
+      left: 21%; }
+
+#numPadModal .modal-body {
+  padding: 0; }
+#numPadModal .dialScreen {
+  width: 295px;
+  height: 70px;
+  text-align: center;
+  padding: 20px;
+  margin-left: 40px;
+  font-size: 44px;
+  color: #414d63;
+  overflow-y: hidden;
+  overflow-x: hidden; }
+#numPadModal .dialMsg {
+  width: 100%;
+  height: 30px;
+  font-size: 18px;
+  text-align: center;
+  color: #414d63; }
+#numPadModal .dialPad {
+  width: 100%;
+  height: 470px;
+  padding: 10px 64px 10px 54px;
+  margin: 0; }
+  #numPadModal .dialPad li {
+    width: 80px;
+    height: 80px;
+    margin: 2px 0 2px 7px;
+    padding: 0; }
+    #numPadModal .dialPad li button {
+      position: relative;
+      cursor: pointer;
+      border: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: #d0d3d9;
+      font-size: 32px;
+      color: #fff; }
+      #numPadModal .dialPad li button:hover {
+        background-color: #8a8f9e; }
+      #numPadModal .dialPad li button i {
+        position: absolute; }
+    #numPadModal .dialPad li#dialPad-call {
+      width: 171px;
+      font-size: 44px;
+      margin-top: 10px; }
+      #numPadModal .dialPad li#dialPad-call > button {
+        width: 100%;
+        background-color: #32d167;
+        border-radius: 40px;
+        font-size: 44px; }
+      #numPadModal .dialPad li#dialPad-call i {
+        top: 26%;
+        left: 39%; }
+    #numPadModal .dialPad li#dialPad-end > button {
+      background-color: #e44c43;
+      font-size: 44px; }
+      #numPadModal .dialPad li#dialPad-end > button i {
+        top: 26%;
+        left: 21%; }
+
+.wonderBtn {
+  width: 110px;
+  height: 32px;
+  border-radius: 16px;
+  background-color: #414d63;
+  border: 0;
+  color: #e9ebf2; }
+
+.modalSearchResults {
+  width: 100%;
+  height: 100px;
+  margin-top: 10px;
+  display: table; }
+  .modalSearchResults li {
+    padding: 10px 0;
+    display: table-row; }
+    .modalSearchResults li > .pull-left {
+      width: 70%;
+      height: 80px;
+      padding: 7px; }
+      .modalSearchResults li > .pull-left .avatar, .modalSearchResults li > .pull-left span {
+        display: table-cell; }
+      .modalSearchResults li > .pull-left span {
+        vertical-align: middle;
+        padding: 10px;
+        color: #414d63; }
+    .modalSearchResults li > .pull-right {
+      width: 30%;
+      height: 80px;
+      text-align: center;
+      padding-top: 28px; }
+
+.modal {
+  background-color: rgba(0, 0, 0, 0.3); }
+  .modal .modal-content {
+    border-radius: 0; }
+    .modal .modal-content .modal-header {
+      background-color: #414d63; }
+      .modal .modal-content .modal-header .close {
+        color: #e9ebf2;
+        opacity: 1;
+        margin-top: 3px; }
+
+/*******************************************************************************
+ CHAT
+*******************************************************************************/
+.audioVideoWrapper {
+  width: 100%;
+  height: 100%;
+  padding: 20px; }
+  .audioVideoWrapper .chatHeader {
+    width: 100%;
+    height: 140px;
+    display: none; }
+    .audioVideoWrapper .chatHeader span, .audioVideoWrapper .chatHeader p {
+      color: #414d63;
+      margin-left: 20px; }
+    .audioVideoWrapper .chatHeader .fa-circle {
+      vertical-align: -1px;
+      margin-left: 21px; }
+    .audioVideoWrapper .chatHeader .btnGroup {
+      padding-left: 20px; }
+      .audioVideoWrapper .chatHeader .btnGroup button {
+        border: 0;
+        color: #e9ebf2;
+        background-color: #414d63;
+        height: 32px;
+        border-radius: 16px;
+        padding: 0 15px;
+        margin-right: 5px; }
+        .audioVideoWrapper .chatHeader .btnGroup button i {
+          margin-right: 5px; }
+        .audioVideoWrapper .chatHeader .btnGroup button span {
+          color: #e9ebf2;
+          margin-left: 0; }
+        .audioVideoWrapper .chatHeader .btnGroup button:first-child {
+          min-width: 60px;
+          margin: 20px 0 0 21px;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          margin-right: 0; }
+          .audioVideoWrapper .chatHeader .btnGroup button:first-child + button {
+            min-width: 60px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0; }
+  .audioVideoWrapper .audioVideo {
+    width: 100%;
+    height: 100%;
+    padding-right: 10px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1001; }
+    .audioVideoWrapper .audioVideo.multiLayout {
+      height: 65%; }
+      .audioVideoWrapper .audioVideo.multiLayout + .audioVideoChatWrapper {
+        height: 35%;
+        display: block; }
+      .audioVideoWrapper .audioVideo.multiLayout > .audioVideoInner .chatBodyInner {
+        display: none; }
+    .audioVideoWrapper .audioVideo.chatLayout .audioScreen {
+      display: none; }
+    .audioVideoWrapper .audioVideo .audioVideoInner {
+      width: 100%;
+      height: 100%;
+      word-break: break-all;
+      padding-right: 250px;
+      overflow: hidden;
+      background-color: #fff; }
+    .audioVideoWrapper .audioVideo .sfSidebar {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 260px;
+      height: 100%;
+      color: gray;
+      overflow: hidden;
+      background-color: #dbdfe7; }
+      .audioVideoWrapper .audioVideo .sfSidebar .sfBar {
+        position: relative;
+        background-color: #e9ebf2;
+        width: 10px;
+        height: 100%;
+        cursor: pointer; }
+        .audioVideoWrapper .audioVideo .sfSidebar .sfBar > i {
+          position: absolute;
+          color: #8a8f9e;
+          left: 4px;
+          top: 50%; }
+      .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner {
+        position: relative;
+        width: 250px;
+        height: 100%;
+        word-break: break-all;
+        overflow: hidden; }
+        .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFHeader {
+          width: 100%;
+          height: 32px;
+          background-color: #cbd1db;
+          line-height: 32px;
+          padding-left: 10px;
+          position: absolute;
+          top: 0;
+          z-index: 100;
+          color: #414d63; }
+        .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody {
+          width: 100%;
+          height: inherit;
+          margin-top: -45px;
+          padding-top: 77px;
+          color: #414d63;
+          overflow: auto; }
+          .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody .sFUpload {
+            width: 100%;
+            height: 50px;
+            background-color: #fff;
+            display: none; }
+            .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody .sFUpload .pull-left {
+              padding: 6px 0 0 7px;
+              width: 225px; }
+              .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody .sFUpload .pull-left label {
+                width: 175px;
+                height: 25px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                margin-bottom: 0;
+                font-weight: normal; }
+              .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody .sFUpload .pull-left span {
+                padding-left: 4px;
+                vertical-align: 10px; }
+            .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody .sFUpload .pull-right {
+              padding: 6px 0 0; }
+              .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody .sFUpload .pull-right > button {
+                border: 0;
+                background: transparent;
+                color: #e44c43;
+                vertical-align: 2px;
+                line-height: 18px;
+                font-weight: 700; }
+                .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody .sFUpload .pull-right > button:focus {
+                  box-shadow: none; }
+            .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody .sFUpload .sFUploadProgress {
+              width: 95%;
+              height: 5px;
+              margin: 0 auto;
+              background-color: #bfdaec;
+              overflow: hidden; }
+              .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody .sFUpload .sFUploadProgress .sFUploadBar {
+                display: block;
+                height: 5px;
+                width: 21%;
+                background-color: #358bc4; }
+          .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody li:not(.sFUpload) {
+            padding: 3px 0; }
+            .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody li:not(.sFUpload) span {
+              text-overflow: ellipsis;
+              width: 175px;
+              overflow: hidden;
+              white-space: nowrap;
+              display: inline-block;
+              vertical-align: -4px; }
+            .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody li:not(.sFUpload) i {
+              margin-right: 3px; }
+              .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody li:not(.sFUpload) i.sfFileTypeIco {
+                vertical-align: 2px;
+                margin-left: 10px; }
+            .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody li:not(.sFUpload) a {
+              display: none;
+              color: #414d63; }
+              .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody li:not(.sFUpload) a i {
+                line-height: 18px; }
+            .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody li:not(.sFUpload):hover {
+              background-color: #e9ebf2; }
+              .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFBody li:not(.sFUpload):hover > a {
+                display: inline; }
+        .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFFooter {
+          width: 100%;
+          height: 40px;
+          position: absolute;
+          bottom: 0;
+          color: #414d63;
+          padding: 4px 10px; }
+          .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFFooter button {
+            width: 100%; }
+            .audioVideoWrapper .audioVideo .sfSidebar .sfSidebarInner .sFFooter button i {
+              margin: 3px 0 0 5px; }
+  .audioVideoWrapper .audioVideoChatWrapper {
+    width: 100%;
+    height: 0;
+    padding-top: 10px;
+    position: relative;
+    display: none; }
+    .audioVideoWrapper .audioVideoChatWrapper .audioVideoChat {
+      width: 100%;
+      height: 100%;
+      word-break: break-all;
+      margin-top: -40px;
+      padding-top: 40px;
+      position: relative; }
+      .audioVideoWrapper .audioVideoChatWrapper .audioVideoChat > .chatBodyInner {
+        display: block; }
+
+.chatBodyInner,
+.chatBodyInnerBottom {
+  float: left;
+  background-color: #e9ebf2;
+  position: relative;
+  width: 100%;
+  height: inherit;
+  word-break: break-all; }
+
+.chat,
+.chatBottom {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  word-break: break-all;
+  padding: 40px 0 58px; }
+  .chat .chatSubject,
+  .chatBottom .chatSubject {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 32px; }
+    .chat .chatSubject input,
+    .chatBottom .chatSubject input {
+      width: 100%;
+      height: 32px;
+      border: 0;
+      background-color: #fff;
+      padding: 10px; }
+  .chat .chatScreen,
+  .chatBottom .chatScreen {
+    overflow: auto;
+    width: 100%;
+    height: 100%; }
+    .chat .chatScreen .chatInner,
+    .chatBottom .chatScreen .chatInner {
+      display: table;
+      height: 100%;
+      width: 100%; }
+      .chat .chatScreen .chatInner .chatMessages,
+      .chatBottom .chatScreen .chatInner .chatMessages {
+        background-color: #fff;
+        display: table-cell;
+        vertical-align: bottom;
+        color: #414d63;
+        padding: 5px 20px; }
+        .chat .chatScreen .chatInner .chatMessages li,
+        .chatBottom .chatScreen .chatInner .chatMessages li {
+          width: 100%;
+          min-height: 38px;
+          margin-top: 15px; }
+          .chat .chatScreen .chatInner .chatMessages li.info,
+          .chatBottom .chatScreen .chatInner .chatMessages li.info {
+            min-width: 24px; }
+            .chat .chatScreen .chatInner .chatMessages li.info .avatar,
+            .chatBottom .chatScreen .chatInner .chatMessages li.info .avatar {
+              width: 24px;
+              height: 24px;
+              margin: 6px 0 0 4px; }
+          .chat .chatScreen .chatInner .chatMessages li img,
+          .chatBottom .chatScreen .chatInner .chatMessages li img {
+            float: left; }
+          .chat .chatScreen .chatInner .chatMessages li span,
+          .chatBottom .chatScreen .chatInner .chatMessages li span {
+            display: block;
+            padding-left: 40px; }
+            .chat .chatScreen .chatInner .chatMessages li span .fa-circle,
+            .chatBottom .chatScreen .chatInner .chatMessages li span .fa-circle {
+              vertical-align: 3px; }
+          .chat .chatScreen .chatInner .chatMessages li p > i,
+          .chatBottom .chatScreen .chatInner .chatMessages li p > i {
+            vertical-align: 3px; }
+
+.chatBottom {
+  padding: 0; }
+
+.textAreaWrapperBottom {
+  height: 38px; }
+
+.textAreaWrapper {
+  height: 50px; }
+
+.textAreaWrapper,
+.textAreaWrapperBottom {
+  position: absolute;
+  bottom: 0;
+  top: auto !important;
+  width: 100%;
+  word-break: break-all;
+  border: 0; }
+  .textAreaWrapper > i,
+  .textAreaWrapperBottom > i {
+    position: absolute;
+    color: #8a8f9e;
+    left: 50%;
+    top: -11px; }
+  .textAreaWrapper .textArea,
+  .textAreaWrapperBottom .textArea {
+    position: relative;
+    height: 100%;
+    margin-top: 8px; }
+    .textAreaWrapper .textArea textarea,
+    .textAreaWrapperBottom .textArea textarea {
+      width: 100%;
+      height: 100%;
+      resize: none;
+      padding: 10px;
+      padding-right: 85px;
+      border: 0; }
+    .textAreaWrapper .textArea button,
+    .textAreaWrapperBottom .textArea button {
+      position: absolute;
+      background-color: #414d63;
+      top: 50%;
+      right: 20px;
+      border: 0;
+      height: 24px;
+      width: 65px;
+      border-radius: 12px;
+      margin-top: -12px;
+      color: #e9ebf2; }
+
+.audioVideoScreen {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: none; }
+  .audioVideoScreen:hover .callActions {
+    height: 65px; }
+
+.audioScreen {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  padding-top: 36px;
+  display: none; }
+  .audioScreen .audioHeader {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 36px; }
+    .audioScreen .audioHeader .callStatus {
+      padding: 6px 0 0 10px; }
+  .audioScreen .audioInner {
+    width: 100%;
+    height: 100%;
+    position: relative; }
+    .audioScreen .audioInner .avatarWrapper {
+      position: absolute;
+      width: 160px;
+      left: 50%;
+      top: 50%;
+      margin-top: -100px;
+      margin-left: -74px; }
+      .audioScreen .audioInner .avatarWrapper .callNote {
+        color: #414d63;
+        text-align: center; }
+        .audioScreen .audioInner .avatarWrapper .callNote.timer {
+          padding-top: 6px;
+          margin-left: -36px; }
+
+.callActions {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  margin-left: -116px;
+  line-height: 30px;
+  overflow: hidden;
+  height: 0px;
+  -webkit-transition: height .3s; }
+  .callActions .cancelCall {
+    width: 210px;
+    margin-top: 20px;
+    background-color: #e44c43;
+    text-align: center;
+    display: none; }
+    .callActions .cancelCall > i {
+      margin-right: 5px; }
+  .callActions .btnGroup {
+    margin-bottom: -60px;
+    display: none; }
+    .callActions .btnGroup li {
+      padding: 2px;
+      opacity: 0.4; }
+      .callActions .btnGroup li:hover {
+        opacity: 0.8; }
+    .callActions .btnGroup button {
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      border-radius: 50%;
+      border: 0;
+      background-color: #414d63; }
+      .callActions .btnGroup button i {
+        color: #fff;
+        vertical-align: -3px; }
+    .callActions .btnGroup #actionExpand_inviteUser,
+    .callActions .btnGroup #actionExpand_shareScreen,
+    .callActions .btnGroup #actionExpand_wideScreen {
+      display: none; }
+
+#actionEndCall > button {
+  background-color: #e44c43; }
+
+.callSignalStrenght {
+  position: absolute;
+  bottom: 0;
+  width: 41px;
+  height: 40px;
+  right: 0;
+  margin: 0 9px 10px 0;
+  opacity: 0.5; }
+  .callSignalStrenght li {
+    vertical-align: baseline;
+    width: 8px;
+    border-radius: 5px;
+    padding: 0;
+    border: 2px solid #fff; }
+    .callSignalStrenght li.full {
+      background-color: #fff; }
+    .callSignalStrenght li.bar1 {
+      height: 10px;
+      margin-top: 30px; }
+    .callSignalStrenght li.bar2 {
+      height: 15px;
+      margin-top: 25px; }
+    .callSignalStrenght li.bar3 {
+      height: 20px;
+      margin-top: 20px; }
+    .callSignalStrenght li.bar4 {
+      height: 25px;
+      margin-top: 15px; }
+
+.cancelInviteID {
+  display: inline !important;
+  padding-left: 0px !important; }
+
+.cancelInviteLink {
+  color: #e44c43; }
+  .cancelInviteLink:hover {
+    color: #f00;
+    cursor: pointer; }
+  .cancelInviteLink.canceledInvite:hover {
+    cursor: default; }
+
+.audioVideoGroup {
+  position: absolute;
+  height: 48px;
+  top: 10px;
+  left: 10px;
+  z-index: 2; }
+  .audioVideoGroup ul {
+    position: relative;
+    height: 100%; }
+  .audioVideoGroup li {
+    opacity: .6;
+    margin-right: 2px;
+    padding: 0;
+    vertical-align: top; }
+    .audioVideoGroup li:first-child, .audioVideoGroup li:first-child > img {
+      height: 48px;
+      width: 48px;
+      opacity: 1; }
+
+#actionSelf .slashedIcon > span {
+  font-weight: 800;
+  top: -4px;
+  font-size: 28px !important;
+  transform: skew(328deg, 0deg);
+  -webkit-transform: skew(328deg, 0deg);
+  -ms-transform: skew(328deg, 0deg);
+  -o-transform: skew(328deg, 0deg); }
+  #actionSelf .slashedIcon > span:first-child {
+    margin-left: -26px !important;
+    color: #414d63; }
+  #actionSelf .slashedIcon > span:last-child {
+    margin-left: -23px !important; }
+
+.videoScreen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: none; }
+  .videoScreen .videoInner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #000; }
+    .videoScreen .videoInner .videoPIP {
+      position: absolute;
+      width: 160px;
+      min-height: 90px;
+      top: 0;
+      right: 10px;
+      z-index: 3; }
+      .videoScreen .videoInner .videoPIP ul {
+        position: relative; }
+      .videoScreen .videoInner .videoPIP li {
+        width: 160px;
+        margin-top: 10px; }
+      .videoScreen .videoInner .videoPIP .inviteConfirm {
+        min-height: 90px;
+        background-color: #fff;
+        opacity: .85; }
+        .videoScreen .videoInner .videoPIP .inviteConfirm .avatarWrapper {
+          height: 90px;
+          padding-top: 5px; }
+          .videoScreen .videoInner .videoPIP .inviteConfirm .avatarWrapper .avatar {
+            margin-left: 55px; }
+          .videoScreen .videoInner .videoPIP .inviteConfirm .avatarWrapper .avatarTag {
+            margin-left: 10px;
+            padding-top: 0; }
+            .videoScreen .videoInner .videoPIP .inviteConfirm .avatarWrapper .avatarTag i {
+              margin-right: 5px; }
+          .videoScreen .videoInner .videoPIP .inviteConfirm .avatarWrapper .cancelInvite {
+            margin: 3px 0 0 3px;
+            width: 135px;
+            height: 24px;
+            border-radius: 12px;
+            background-color: #e44c43; }
+  .videoScreen .videoInner,
+  .videoScreen video {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -o-box;
+    display: box; }
+
+.ui-resizable {
+  position: relative; }
+
+.ui-resizable-handle {
+  position: absolute;
+  font-size: 0.1px;
+  display: block; }
+
+.ui-resizable-disabled .ui-resizable-handle,
+.ui-resizable-autohide .ui-resizable-handle {
+  display: none; }
+
+.ui-resizable-n {
+  cursor: row-resize;
+  height: 12px;
+  width: 100%;
+  top: -10px;
+  left: 0; }
