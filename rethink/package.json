@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "Apache-2.0",
   "scripts": {
-    "preinstall": "npm install -g lite-server",
+    "preinstall": "npm install -g typescript typings lite-server",
     "start": "tsc -p tsconfig.json && lite-server"
   },
   "dependencies": {
