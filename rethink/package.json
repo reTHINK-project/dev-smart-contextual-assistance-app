@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "license": "Apache-2.0",
   "scripts": {
-    "tsc": "tsc -p tsconfig.json"
+    "preinstall": "npm install -g lite-server",
+    "start": "tsc -p tsconfig.json && lite-server"
   },
   "dependencies": {
     "@angular/common": "2.0.0-rc.1",
