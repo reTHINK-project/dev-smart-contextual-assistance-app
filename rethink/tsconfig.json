@@ -1,0 +1,28 @@
+{
+	"compileOnSave": true,
+	"compilerOptions": {
+		"target": "es5",
+		"module": "system",
+		"moduleResolution": "node",
+		"removeComments": true,
+		"preserveConstEnums": true,
+		"experimentalDecorators": true,
+		"noImplicitAny": true,
+		"sourceMap": true,
+		"outDir": "dist"
+	},
+	"filesGlob": [
+		"main.ts",
+		"src/**/*.ts",
+		"typings/browser/**/*.ts"
+	],
+	"files": [
+		"main.ts",
+		"src/app.ts",
+		"typings/browser/ambient/es6-shim/index.d.ts",
+		"typings/browser/ambient/jquery/index.d.ts"
+	],
+	"atom": {
+		"rewriteTsconfig": true
+	}
+}
