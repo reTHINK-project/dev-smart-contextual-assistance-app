@@ -22,6 +22,12 @@
 		"app/app.ts",
 		"comp/contact/contact.ts",
 		"comp/contact/contactlist.ts",
+		"comp/contact/me.ts",
+		"comp/context/activity.ts",
+		"comp/context/breadcrumb.ts",
+		"comp/context/fileshare.ts",
+		"comp/context/menu.ts",
+		"comp/context/sender.ts",
 		"typings/browser/ambient/es6-shim/index.d.ts",
 		"typings/browser/ambient/jquery/index.d.ts"
 	],

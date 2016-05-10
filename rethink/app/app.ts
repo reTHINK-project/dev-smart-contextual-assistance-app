@@ -1,10 +1,21 @@
 import { Component } from '@angular/core';
-import { Contact, ContactComponent } from '../comp/contact/contact';
+
+import { Contact } from '../comp/contact/contact';
+import { ContextMeComponent } from '../comp/contact/me';
 import { ContactListComponent } from '../comp/contact/contactlist';
+
+import { ContextBreadCrumbComponent } from '../comp/context/breadcrumb';
+import { ContextMenuComponent } from '../comp/context/menu';
+import { ContextActivityComponent } from '../comp/context/activity';
+import { ContextFileShareComponent } from '../comp/context/fileshare';
+import { ContextSenderComponent } from '../comp/context/sender';
 
 @Component({
   selector: 'div[my-app]',
-  directives: [ContactComponent, ContactListComponent],
+  directives: [
+    ContextMeComponent, ContactListComponent,
+    ContextBreadCrumbComponent, ContextMenuComponent, ContextActivityComponent, ContextFileShareComponent, ContextSenderComponent
+  ],
   templateUrl: 'app/view/app.html'
 })
 export class Application {
@@ -16,10 +27,10 @@ export class Application {
   ]
 
   onContactClick(contact: Contact) {
-    console.log('(contact-click)', contact);
+    console.log('(contact-click)', contact)
   }
 
   onContactAdd() {
-    console.log('(contact-add)');
+    console.log('(contact-add)')
   }
 }
