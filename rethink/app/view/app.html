@@ -97,7 +97,6 @@
                 <div class="all-25 medium-30 xlarge-20 sidebar hide-small hide-tiny">
 
                     <ul class="contactlist all-100">
-
                         <li class="search-bar half-padding">
                             <form class="all-100 filter">
                                 <span class="fa fa-search"></span>
@@ -105,43 +104,10 @@
                                 <input type="text" value="" placeholder="type a name" id="search-field" class="search push-left">
                             </form>
                         </li>
-                        <li class="quarter-padding" contact [model]="contact"></li>
-                        <li class="quarter-padding">
-                            <div class="contact-avatar push-left">
-                                <img src="img/avatar-2.jpg">
-                                <span class="status away"><i class="fa fa-circle"></i></span>
-                            </div>
-                            <div class="all-70">
-                                <h4 class="contact-name"><a href="user.html" class="">Diogo Reis</a></h4>
-                            </div>
-                            <div class="pointer">
-                                <span class="action chat"><i class="fa fa-angle-right"></i></span>
-                            </div>
-                        </li>
-                        <li class="quarter-padding offline">
-                            <div class="contact-avatar push-left">
-                                <img src="img/avatar-3.jpg">
-                                <span class="status offline"><i class="fa fa-circle-o"></i></span>
-                            </div>
-                            <div class="all-70">
-                                <h4 class="contact-name"><a href="user.html" class="">Rodrigo Castro</a></h4>
-                            </div>
-                            <div class="pointer">
-                                <span class="action chat"><i class="fa fa-angle-right"></i></span>
-                            </div>
-                        </li>
-                        <li class="quarter-padding">
-                            <div class="contact-avatar push-left">
-                                <img src="img/avatar-4.jpg">
-                                <span class="status online"><i class="fa fa-circle"></i></span>
-                            </div>
-                            <div class="all-70">
-                                <h4 class="contact-name"><a href="user.html"class="">Martim Almeida</a></h4>
-                            </div>
-                            <div class="pointer">
-                                <span class="action chat"><i class="fa fa-angle-right"></i></span>
-                            </div>
-                        </li>
+
+                        <!-- List of contacts -->
+                        <li *ngFor="let contact of contacts" contact [model]="contact"></li>
+
                         <li class="half-padding options">
                             <span class="add-user"><a hre="#" id="myModalTrigger4">+</a></span>
                             <span class="add-text"> Add Contact</span>
@@ -149,10 +115,7 @@
                     </ul>
 
                     <footer class="alt-foot">
-
-
                         Copyright 2016 © Altice Labs - All rights reserved
-
                     </footer>
                 </div>
 

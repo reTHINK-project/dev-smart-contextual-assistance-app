@@ -7,9 +7,10 @@ import { Contact, ContactComponent } from '../comp/contact';
   templateUrl: 'app/view/app.html'
 })
 export class Application {
-  contact: Contact = {
-    name: "Rita Coelho",
-    status: "online",
-    avatar: "img/avatar.jpg"
-  }
+  contacts: [Contact] = [
+    { name: "Rita Coelho", status: "online", avatar: "img/avatar.jpg" },
+    { name: "Diogo Reis", status: "away", avatar: "img/avatar-2.jpg" },
+    { name: "Rodrigo Castro", status: "offline", avatar: "img/avatar-3.jpg" },
+    { name: "Martim Almeida", status: "online", avatar: "img/avatar-4.jpg" }
+  ]
 }
