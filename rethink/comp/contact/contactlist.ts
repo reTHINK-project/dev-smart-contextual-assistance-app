@@ -1,8 +1,8 @@
-import { Component, Input, HostBinding } from '@angular/core';
+import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/core';
 import { Contact, ContactComponent } from './contact';
 
 @Component({
-  selector: 'ul[contactlist]',
+  selector: 'ul[contact-list]',
   templateUrl: 'comp/contact/contactlist.html',
   directives: [ContactComponent]
 })
@@ -11,4 +11,22 @@ export class ContactListComponent {
 
   @Input() model: Contact[] = []
 
+  @Output('contact-click') contactClick = new EventEmitter()
+  @Output('contact-add') contactAdd = new EventEmitter()
+
+  private contactsFilter: Contact[] = []
+
+  ngOnInit() {
+    this.filter("")
+  }
+
+  onFilterKey(event: any) {
+    this.filter(event.target.value)
+  }
+
+  filter(value: string) {
+    this.contactsFilter = this.model.filter((contact) => {
+      if(contact.name.indexOf(value) !== -1) return true
+    })
+  }
 }

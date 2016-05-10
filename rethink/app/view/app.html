@@ -96,7 +96,9 @@
 
                 <!-- big sidebar large screens -->
                 <div class="all-25 medium-30 xlarge-20 sidebar hide-small hide-tiny">
-                    <ul contactlist [model]="contacts"></ul>
+                    <ul contact-list [model]="contacts" (contact-click)="onContactClick($event)" (contact-add)="onContactAdd()">
+                      <!--<li contact *ngFor="let contact of contacts" [model]="contact" (contact-click)="onContactClick($event)"></li>-->
+                    </ul>
 
                     <footer class="alt-foot">
                         Copyright 2016 © Altice Labs - All rights reserved

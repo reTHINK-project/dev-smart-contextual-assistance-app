@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Contact } from '../comp/contact/contact';
+import { Contact, ContactComponent } from '../comp/contact/contact';
 import { ContactListComponent } from '../comp/contact/contactlist';
 
 @Component({
   selector: 'div[my-app]',
-  directives: [ContactListComponent],
+  directives: [ContactComponent, ContactListComponent],
   templateUrl: 'app/view/app.html'
 })
 export class Application {
@@ -14,4 +14,12 @@ export class Application {
     { name: "Rodrigo Castro", status: "offline", avatar: "img/avatar-3.jpg" },
     { name: "Martim Almeida", status: "online", avatar: "img/avatar-4.jpg" }
   ]
+
+  onContactClick(contact: Contact) {
+    console.log('(contact-click)', contact);
+  }
+
+  onContactAdd() {
+    console.log('(contact-add)');
+  }
 }

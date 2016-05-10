@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, HostBinding } from '@angular/core';
+import { Component, Input, Output, OnInit, HostBinding, EventEmitter } from '@angular/core';
 
 export type ContactStatus = 'online' | 'away' | 'offline'
 
@@ -17,13 +17,11 @@ export class ContactComponent implements OnInit {
 
   @Input() model: Contact
 
+  @Output('contact-click') contactClick = new EventEmitter()
+
   ngOnInit() {
     if (this.model.status === 'offline') {
       this.hostClass = 'quarter-padding offline'
     }
-  }
-
-  test() {
-    console.log('click-test')
   }
 }
