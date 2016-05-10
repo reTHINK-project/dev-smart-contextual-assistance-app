@@ -13,12 +13,14 @@
 	},
 	"filesGlob": [
 		"main.ts",
-		"src/**/*.ts",
+		"app/**/*.ts",
+		"comp/**/*.ts",
 		"typings/browser/**/*.ts"
 	],
 	"files": [
 		"main.ts",
-		"src/app.ts",
+		"app/app.ts",
+		"comp/contact.ts",
 		"typings/browser/ambient/es6-shim/index.d.ts",
 		"typings/browser/ambient/jquery/index.d.ts"
 	],

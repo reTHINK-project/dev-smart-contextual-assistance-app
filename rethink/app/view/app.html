@@ -1,0 +1,641 @@
+<div class="container">
+
+    <!-- Push Wrapper -->
+    <div class="mp-pusher wrapper" id="mp-pusher">
+
+        <!-- mp-menu -->
+        <nav id="mp-menu" class="mp-menu">
+            <div class="mp-level">
+                <h2 class="half-padding">"Contexts"</h2>
+
+                <ul class="context-menu">
+                    <li class="search-bar half-padding">
+                        <form class="all-100 filter">
+                            <span class="fa fa-search"></span>
+                            <input type="text" value="" placeholder="type a team's name" id="search-field" class="search push-left">
+                        </form>
+                    </li>
+                    <li class="all-100 half-padding">
+                        <span class="fa fa-angle-up push-right"></span>
+                        <a class="" href="#"><i class="fa fa-briefcase"></i> Work</a>
+                        <ul>
+                          <li class="sub-level active">
+                              Team 1
+                          </li>
+                          <li class="sub-level">
+                              Team number two
+                              <i class="fa fa-lock push-left"></i>
+                          </li>
+                          <li class="sub-level">
+                              Team name
+                          </li>
+
+                          <li class="sub-level">
+                              Astonishingly team long name
+                              <div class="alert">
+                                  <a href="user.html"><span class="new-message">1</span></a>
+                                  <i class="fa fa-comment-o"></i>
+                              </div>
+                          </li>
+                        </ul>
+                    </li>
+                    <li class="all-100 half-padding">
+                        <span class="fa fa-angle-down push-right"></span>
+                        <a class="fitt" href="#"><i class="fa fa-heartbeat"></i> fitness</a>
+                    </li>
+                    <li class="all-100 half-padding">
+                        <span class="fa fa-angle-down push-right"></span>
+                        <a class="school" href="#"><i class="fa fa-heart"></i> school</a>
+                    </li>
+                    <li class="half-padding options">
+                        <span class="add-user"><a hre="#" id="myModalTrigger3">+</a></span>
+                        <span class="add-text"> new context</span>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- /mp-menu -->
+
+        <div class="scroller">
+            <!-- this is for emulating position fixed of the nav -->
+            <div class="scroller-inner">
+                <!-- header -->
+
+                <header class="all-100 half-padding">
+
+                    <ul class="contactlist all-45">
+                        <li class="context-name quarter-padding">
+                            <i class="fa fa-ellipsis-v"></i>
+
+                            <a href="#" id="trigger" class="menu-trigger"><h3 class="quarter-horizontal-space level-1 hide-small hide-tiny">work: </h3><span class="fa fa-lock"></span><h3 class=""><a href="">team 1</a></h3>
+                            </a>
+                        </li>
+                    </ul>
+
+
+                    <h1 class="small-logo push-left"><img src="img/rethinklogo2.png"></h1>
+                    <ul class="push-right contactlist">
+                        <li class="user-area all-100 hide-all show-large show-xlarge">
+                            <div class="main-avatar push-left">
+                                <img src="img/avatar-1.jpg">
+                                <span class="status online"><i class="fa fa-circle"></i></span>
+                            </div>
+                            <div class="main-username push-left quarter-padding">
+                                <h3>Filipe Penedo</h3>
+                                <span class="status-changer all-100 ink-dropdown push-left" data-target="#my-menu-dropdown"><a class=""><span class="fa fa-angle-down"></span></a>
+                                <ul id="my-menu-dropdown" class="dropdown-menu">
+                                    <li class=""><a href="#">online</a></li>
+                                    <li class=""><a href="#">appear offline</a></li>
+                                    <li class=""><a href="#">busy</a></li>
+                                </ul>
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+                </header>
+                <!-- big sidebar large screens -->
+                <div class="all-25 medium-30 xlarge-20 sidebar hide-small hide-tiny">
+
+                    <ul class="contactlist all-100">
+
+                        <li class="search-bar half-padding">
+                            <form class="all-100 filter">
+                                <span class="fa fa-search"></span>
+                                <!--<label for="search-field" class="search all-10 push-left"><a hre="#"><i class="fa fa-search"></i></a></label>-->
+                                <input type="text" value="" placeholder="type a name" id="search-field" class="search push-left">
+                            </form>
+                        </li>
+                        <li class="quarter-padding" contact [model]="contact"></li>
+                        <li class="quarter-padding">
+                            <div class="contact-avatar push-left">
+                                <img src="img/avatar-2.jpg">
+                                <span class="status away"><i class="fa fa-circle"></i></span>
+                            </div>
+                            <div class="all-70">
+                                <h4 class="contact-name"><a href="user.html" class="">Diogo Reis</a></h4>
+                            </div>
+                            <div class="pointer">
+                                <span class="action chat"><i class="fa fa-angle-right"></i></span>
+                            </div>
+                        </li>
+                        <li class="quarter-padding offline">
+                            <div class="contact-avatar push-left">
+                                <img src="img/avatar-3.jpg">
+                                <span class="status offline"><i class="fa fa-circle-o"></i></span>
+                            </div>
+                            <div class="all-70">
+                                <h4 class="contact-name"><a href="user.html" class="">Rodrigo Castro</a></h4>
+                            </div>
+                            <div class="pointer">
+                                <span class="action chat"><i class="fa fa-angle-right"></i></span>
+                            </div>
+                        </li>
+                        <li class="quarter-padding">
+                            <div class="contact-avatar push-left">
+                                <img src="img/avatar-4.jpg">
+                                <span class="status online"><i class="fa fa-circle"></i></span>
+                            </div>
+                            <div class="all-70">
+                                <h4 class="contact-name"><a href="user.html"class="">Martim Almeida</a></h4>
+                            </div>
+                            <div class="pointer">
+                                <span class="action chat"><i class="fa fa-angle-right"></i></span>
+                            </div>
+                        </li>
+                        <li class="half-padding options">
+                            <span class="add-user"><a hre="#" id="myModalTrigger4">+</a></span>
+                            <span class="add-text"> Add Contact</span>
+                        </li>
+                    </ul>
+
+                    <footer class="alt-foot">
+
+
+                        Copyright 2016 © Altice Labs - All rights reserved
+
+                    </footer>
+                </div>
+
+                <div class="all-75 medium-70 xlarge-80 main-content hide-small hide-tiny">
+                    <div class="content-panel all-100 hide-small hide-tiny">
+
+                        <ul class="all-75 large-65 xlarge-65 medium-100 activity-list">
+                            <h3 class="padding">Recent Activity</h3>
+                            <li class="half-padding">
+                                <div class="push-right align-right">
+                                    <span class="date">20/07/2014, 15:36</span>
+                                </div>
+                                <div class="contact-avatar push-left">
+                                    <img src="img/avatar-2.jpg">
+                                    <span class="status away"><i class="fa fa-circle"></i></span>
+                                </div>
+                                <h4 class="contact-name"><a href="user.html"class="">Diogo Reis</a></h4>
+                                <p class="quarter-vertical-padding"><span class="chat"><i class="fa fa-keyboard-o"></i>Wrote a Message</span>Lorem ipsum dolor sit amet, vix eu exerci efficiantur, antiopam indoctum usu et. Vis te quot</p>
+                            </li>
+                            <li class="half-padding">
+                                <div class="push-right align-right">
+                                    <span class="date">at 12:32</span>
+
+                                </div>
+                                <div class="contact-avatar push-left">
+                                    <img src="img/avatar-4.jpg">
+                                    <span class="status online"><i class="fa fa-circle"></i></span>
+                                </div>
+                                <h4 class="contact-name"><a href="user.html" class="">Martim Almeida</a></h4>
+                                <p class="quarter-vertical-padding"><span class="video failed push-left"><i class="fa fa-video-camera"></i>Video call failed</span><span class="callback"><a href="call.html">call back</a></span>
+                                </p>
+                            </li>
+                            <li class="half-padding offline">
+                                <div class="push-right align-right">
+                                    <span class="date">yesterday, at 14:30</span>
+                                </div>
+                                <div class="contact-avatar push-left">
+                                    <img src="img/avatar-3.jpg">
+                                    <span class="status offline"><i class="fa fa-circle-o"></i></span>
+                                </div>
+                                <h4 class="contact-name"><a href="user.html"class="">Rodrigo Castro</a></h4>
+                                <p class="quarter-vertical-padding"><span class="audio"><i class="fa fa-phone"></i>Audio call</span><span class="specs">6 mins</span></p>
+                            </li>
+                            <li class="half-padding offline">
+                                <div class="push-right align-right">
+                                    <span class="date">Yesterday, at 14:30</span>
+
+                                </div>
+                                <div class="contact-avatar push-left">
+                                    <img src="img/avatar-3.jpg">
+                                    <span class="status offline"><i class="fa fa-circle-o"></i></span>
+                                </div>
+                                <h4 class="contact-name"><a href="user.html"class="">Rodrigo Castro</a></h4>
+                                <p class="quarter-vertical-padding"><span class="audio failed push-left"><i class="fa fa-phone"></i>Audio Call failed</span>
+                                    <span class="callback"><a href="call.html">call back</a></span>
+                                </p>
+                            </li>
+                            <li class="half-padding">
+                                <div class="push-right align-right">
+                                    <span class="date">at 14:30</span>
+                                </div>
+                                <div class="contact-avatar push-left">
+                                    <img src="img/avatar.jpg">
+                                    <span class="status online"><i class="fa fa-circle"></i></span>
+                                </div>
+                                <h4 class="contact-name"><a href="user.html"class="">Rita Coelho</a></h4>
+                                <p class="quarter-vertical-padding"><span class="file"><i class="fa fa-file-o"></i>Shared a file</span><span class="specs">foto.jpg</span></p>
+                                <div class="filetransfer">
+                                    <a href="#file-view" id="myModalTrigger3"><img src="img/fileteste.jpg"></a>
+                                </div>
+                            </li>
+                            <li class="half-padding">
+                                <div class="push-right align-right">
+                                    <span class="date">at 12:32</span>
+                                </div>
+                                <div class="contact-avatar push-left">
+                                    <img src="img/avatar-4.jpg">
+                                    <span class="status online"><i class="fa fa-circle"></i></span>
+                                </div>
+                                <h4 class="contact-name"><a href="user.html" class="">Martim Almeida</a></h4>
+                                <p class="quarter-vertical-padding"><span class="video"><i class="fa fa-video-camera"></i>Video Call</span><span class="specs">6 mins</span></p>
+                            </li>
+                        </ul>
+
+                        <div class="all-25 large-35 xlarge-35 hide-medium hide-small hide-tiny">
+                            <div class="content-box archive list">
+                                <h3 class="padding">Archive</h3>
+                                <ul class="all-100 activity-list">
+                                    <li class="search-bar half-padding">
+                                        <form class="all-100 filter">
+                                            <span class="fa fa-search"></span>
+                                            <!--<label for="search-field2" class="search all-10 push-left"><a hre="#"><i class="fa fa-search"></i></a></label>-->
+                                            <input type="text" value="" placeholder="type a file name" id="search-field2" class="search push-left">
+                                        </form>
+                                    </li>
+                                    <li class="half-padding">
+                                        <div class="push-right align-right">
+                                            <span class="date">20/07/2014, 15:36</span>
+                                        </div>
+                                        <p class="quarter-vertical-padding"><span class="file"><i class="fa fa-file-o"></i>file uploaded</span><span class="specs">foto.jpg</span><span class="specs">1.2MB</span></p>
+                                    </li>
+                                    <li class="half-padding">
+                                        <div class="push-right align-right">
+                                            <span class="date">20/07/2014, 15:36</span>
+                                        </div>
+                                        <p class="quarter-vertical-padding"><span class="file"><i class="fa fa-file-o"></i>file uploaded</span><span class="specs">foto.jpg</span><span class="specs">1.2MB</span></p>
+                                    </li>
+                                    <li class="half-padding">
+                                        <div class="push-right align-right">
+                                            <span class="date">20/07/2014, 15:36</span>
+                                        </div>
+                                        <p class="quarter-vertical-padding"><span class="file"><i class="fa fa-file-o"></i>file uploaded</span><span class="specs">KPI.jpg</span><span class="specs">1.2MB</span></p>
+                                        <img src="img/kpi-example.jpg">
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+                <!-- SMALL SCREENS CONTENT -->
+                <div class="ink-tabs bottom hide-all show-small show-tiny all-100" data-prevent-url-change="false">
+
+
+                    <div id="actividade" class="tabs-content">
+                        <div class="content-box">
+                            <h3 class="padding">Recent Activity</h3>
+                            <ul class="activity-list all-100">
+                                <li class="half-padding">
+                                    <div class="push-right align-right">
+                                        <span class="date">20/07/2014, 15:36</span>
+                                    </div>
+                                    <div class="contact-avatar push-left">
+                                        <img src="img/avatar-2.jpg">
+                                        <span class="status away"><i class="fa fa-circle"></i></span>
+                                    </div>
+                                    <h4 class="contact-name"><a href="user.html"class="">Diogo Reis</a></h4>
+                                    <p class="quarter-vertical-padding"><span class="chat"><i class="fa fa-keyboard-o"></i>Wrote a Message</span>Lorem ipsum dolor sit amet, vix eu exerci efficiantur, antiopam indoctum usu et. Vis te quot</p>
+                                </li>
+                                <li class="half-padding">
+                                    <div class="push-right align-right">
+                                        <span class="date">at 12:32</span>
+                                        <span class="callback"><a href="video-call.html">call back</a></span>
+                                    </div>
+                                    <div class="contact-avatar push-left">
+                                        <img src="img/avatar-4.jpg">
+                                        <span class="status online"><i class="fa fa-circle"></i></span>
+                                    </div>
+                                    <h4 class="contact-name"><a href="user.html" class="">Martim Almeida</a></h4>
+                                    <p class="quarter-vertical-padding"><span class="video failed push-left"><i class="fa fa-video-camera"></i>Video call failed</span>
+                                    </p>
+                                </li>
+                                <li class="half-padding offline">
+                                    <div class="push-right align-right">
+                                        <span class="date">yesterday, at 14:30</span>
+                                    </div>
+                                    <div class="contact-avatar push-left">
+                                        <img src="img/avatar-3.jpg">
+                                        <span class="status offline"><i class="fa fa-circle-o"></i></span>
+                                    </div>
+                                    <h4 class="contact-name"><a href="user.html"class="">Rodrigo Castro</a></h4>
+                                    <p class="quarter-vertical-padding"><span class="audio"><i class="fa fa-phone"></i>Audio call</span><span class="specs">6 mins</span></p>
+                                </li>
+                                <li class="half-padding offline">
+                                    <div class="push-right align-right">
+                                        <span class="date">Yesterday, at 14:30</span>
+                                        <span class="callback"><a href="call.html">call back</a></span>
+                                    </div>
+                                    <div class="contact-avatar push-left">
+                                        <img src="img/avatar-3.jpg">
+                                        <span class="status offline"><i class="fa fa-circle-o"></i></span>
+                                    </div>
+                                    <h4 class="contact-name"><a href="user.html"class="">Rodrigo Castro</a></h4>
+                                    <p class="quarter-vertical-padding"><span class="audio failed push-left"><i class="fa fa-phone"></i>Audio Call failed</span>
+                                    </p>
+                                </li>
+                                <li class="half-padding">
+                                    <div class="push-right align-right">
+                                        <span class="date">at 14:30</span>
+                                    </div>
+                                    <div class="contact-avatar push-left">
+                                        <img src="img/avatar.jpg">
+                                        <span class="status online"><i class="fa fa-circle"></i></span>
+                                    </div>
+                                    <h4 class="contact-name"><a href="user.html"class="">Rita Coelho</a></h4>
+                                    <p class="quarter-vertical-padding"><span class="file"><i class="fa fa-file-o"></i>Shared a file</span><span class="specs">foto.jpg</span></p>
+                                    <div class="filetransfer">
+                                        <a href="#file-view" id="myModalTrigger3"><img src="img/fileteste.jpg"></a>
+                                    </div>
+                                </li>
+                                <li class="half-padding">
+                                    <div class="push-right align-right">
+                                        <span class="date">at 12:32</span>
+                                    </div>
+                                    <div class="contact-avatar push-left">
+                                        <img src="img/avatar-4.jpg">
+                                        <span class="status online"><i class="fa fa-circle"></i></span>
+                                    </div>
+                                    <h4 class="contact-name"><a href="user.html" class="">Martim Almeida</a></h4>
+                                    <p class="quarter-vertical-padding"><span class="video"><i class="fa fa-video-camera"></i>Video Call</span><span class="specs">6 mins</span></p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="message-sender all-100 half-padding">
+                            <form class="all-100">
+
+                                <input type="text" value="" placeholder="your message goes here " class="all-75 large-35 xlarge-35 chat-sender">
+                                <!--<div class="send-options half-padding all-20">
+                          <a class="button" href="#"><i class="fa fa-send-o"></i></a>
+                         </div>-->
+                            </form>
+                        </div>
+                    </div>
+                    <!-- contactos -->
+
+                    <div id="contactos" class="tabs-content full-bar">
+                        <ul class="contactlist all-100">
+
+                            <li class="search-bar half-padding">
+                                <form class="all-100 filter">
+                                    <span class="fa fa-search"></span>
+                                    <!--<label for="search-field2" class="search all-10 push-left"><a hre="#"><i class="fa fa-search"></i></a></label>-->
+                                    <input type="text" value="" placeholder="" id="search-field2" class="search push-left">
+                                </form>
+                            </li>
+                            <li class="quarter-padding">
+                                <div class="contact-avatar push-left">
+                                    <img src="img/avatar.jpg">
+                                    <span class="status online"><i class="fa fa-circle"></i></span>
+                                </div>
+                                <div class="all-70">
+                                    <h4 class="contact-name"><a href="user.html" class="">Rita Coelho</a></h4>
+                                </div>
+                                <div class="alert">
+                                    <a href="user.html"><span class="new-message">1</span></a>
+                                    <i class="fa fa-comment-o"></i>
+                                </div>
+                                <div class="pointer">
+                                    <span class="action chat"><i class="fa fa-angle-right"></i></span>
+                                </div>
+                                <!--<div class="contact-me">
+                            <span class="action chat"><a hre="#"><i class="fa fa-keyboard-o"></i></a></span>
+                            <span class="action audio"><a hre="#"><i class="fa fa-phone"></i></a></span>
+                            <span class="action video"><a hre="#"><i class="fa fa-video-camera"></i></a></span>
+                            <span class="action file"><a hre="#"><i class="fa fa-file-o"></i></a></span>
+                        </div>-->
+                            </li>
+                            <li class="quarter-padding">
+                                <div class="contact-avatar push-left">
+                                    <img src="img/avatar-2.jpg">
+                                    <span class="status away"><i class="fa fa-circle"></i></span>
+                                </div>
+                                <div class="all-70">
+                                    <h4 class="contact-name"><a href="user.html" class="">Diogo Reis</a></h4>
+                                </div>
+                                <div class="pointer">
+                                    <span class="action chat"><i class="fa fa-angle-right"></i></span>
+                                </div>
+                            </li>
+                            <li class="quarter-padding offline">
+                                <div class="contact-avatar push-left">
+                                    <img src="img/avatar-3.jpg">
+                                    <span class="status offline"><i class="fa fa-circle-o"></i></span>
+                                </div>
+                                <div class="all-70">
+                                    <h4 class="contact-name"><a href="user.html" class="">Rodrigo Castro</a></h4>
+                                </div>
+                                <div class="pointer">
+                                    <span class="action chat"><i class="fa fa-angle-right"></i></span>
+                                </div>
+                            </li>
+                            <li class="quarter-padding">
+                                <div class="contact-avatar push-left">
+                                    <img src="img/avatar-4.jpg">
+                                    <span class="status online"><i class="fa fa-circle"></i></span>
+                                </div>
+                                <div class="all-70">
+                                    <h4 class="contact-name"><a href="user.html"class="">Martim Almeida</a></h4>
+                                </div>
+                                <div class="pointer">
+                                    <span class="action chat"><i class="fa fa-angle-right"></i></span>
+                                </div>
+                            </li>
+                            <li class="half-padding options">
+                                <span class="add-user"><a href="#add" class="ink-button">+</a></span>
+                                <span class="add-text"> Add Contact</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- settings -->
+                    <div id="settings" class="tabs-content">
+                        <div class="contactbox all-100">
+                            <ul class="contactlist big">
+                                <li class="user-area all-100">
+                                    <div class="main-avatar push-left">
+                                        <img src="img/avatar-1.jpg">
+                                        <span class="status online"><i class="fa fa-circle"></i></span>
+                                    </div>
+                                    <div class="main-username push-left quarter-padding">
+                                        <h3>Filipe Penedo</h3>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- archive -->
+                    <div id="archive" class="tabs-content">
+                        <h3 class="padding">Archive</h3>
+                        <ul class="all-100 activity-list">
+                            <li class="search-bar half-padding">
+                                <form class="all-100 filter">
+                                    <span class="fa fa-search"></span>
+                                    <!--<label for="search-field2" class="search all-10 push-left"><a hre="#"><i class="fa fa-search"></i></a></label>-->
+                                    <input type="text" value="" placeholder="" id="search-field2" class="search push-left">
+                                </form>
+                            </li>
+                            <li class="half-padding">
+                                <div class="push-right align-right">
+                                    <span class="date">20/07/2014, 15:36</span>
+                                </div>
+                                <p class="quarter-vertical-padding"><span class="file"><i class="fa fa-file-o"></i>file uploaded</span><span class="specs">foto.jpg</span><span class="specs">1.2MB</span></p>
+                            </li>
+                            <li class="half-padding">
+                                <div class="push-right align-right">
+                                    <span class="date">20/07/2014, 15:36</span>
+                                </div>
+                                <p class="quarter-vertical-padding"><span class="file"><i class="fa fa-file-o"></i>file uploaded</span><span class="specs">foto.jpg</span><span class="specs">1.2MB</span></p>
+                            </li>
+                            <li class="half-padding">
+                                <div class="push-right align-right">
+                                    <span class="date">20/07/2014, 15:36</span>
+                                </div>
+                                <p class="quarter-vertical-padding"><span class="file"><i class="fa fa-file-o"></i>file uploaded</span><span class="specs">KPI.jpg</span><span class="specs">1.2MB</span></p>
+                                <img src="img/kpi-example.jpg">
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="chats" class="tabs-content">
+
+
+
+                        <div class="contactbox all-100">
+                            <div class="contact-avatar push-left">
+                                <img src="img/avatar.jpg">
+                                <span class="status online"><i class="fa fa-circle"></i></span>
+                            </div>
+                            <div class="">
+                                <h4 class="contact-name push-left"><a href="#" class="">Rita Coelho</a></h4>
+                            </div>
+                            <div class="contact-me">
+                                <span class="action audio"><a href="call.html"><i class="fa fa-phone"></i></a></span>
+                                <span class="action video"><a href="video-call.html"><i class="fa fa-video-camera"></i></a></span>
+                            </div>
+                        </div>
+                        <div class="content-box user">
+                            <ul class="activity-list">
+                                <div class="tagline"><span class="older"><i class="fa fa-angle-up"></i> Older messages</span>
+                                    <!--<span class="date-tag">hoje</span>-->
+                                    <hr>
+                                </div>
+                                <li class="half-padding">
+                                    <div class="push-right align-right">
+                                        <span class="date">at 14:30</span>
+                                    </div>
+                                    <div class="contact-avatar push-left">
+                                        <img src="img/avatar.jpg">
+                                        <span class="status online"><i class="fa fa-circle"></i></span>
+                                    </div>
+                                    <h4 class="contact-name"><a href="user.html"class="">Rita Coelho</a></h4>
+                                    <p class="quarter-vertical-padding"><span class="file"><i class="fa fa-file-o"></i>Shared a file</span><span class="specs">nomedoficheiro.jpg</span></p>
+                                    <div class="filetransfer">
+                                        <a href="#file-view" id="myModalTrigger3"><img src="img/fileteste.jpg"></a>
+                                    </div>
+                                </li>
+                                <div class="tagline"><span class="tag"><i class="fa fa-bookmark"></i>Lorem</span>
+                                    <hr>
+                                </div>
+                                <li class="half-padding">
+                                    <div class="push-right align-right">
+                                        <span class="date">at 14:30</span>
+                                    </div>
+                                    <div class="contact-avatar push-left">
+                                        <img src="img/avatar.jpg">
+                                        <span class="status online"><i class="fa fa-circle"></i></span>
+                                    </div>
+                                    <p class="quarter-vertical-padding">
+                                        <!--<span class="chat"><i class="fa fa-keyboard-o"></i></span>-->
+                                        <span class="message">Lorem ipsum dolor sit amet, vix eu exerci efficiantur, antiopam indoctum usu et. Vis te quot</span>
+                                    </p>
+                                </li>
+                                <li class="half-padding">
+                                    <div class="push-right align-right">
+                                        <span class="date">at 14:30</span>
+                                    </div>
+                                    <div class="contact-avatar push-left">
+                                        <img src="img/avatar.jpg">
+                                        <span class="status online"><i class="fa fa-circle"></i></span>
+                                    </div>
+                                    <p class="quarter-vertical-padding">
+                                        <!--<span class="chat"><i class="fa fa-keyboard-o"></i></span>-->
+                                        <span class="message">Lorem ipsum dolor sit amet, vix eu exerci efficiantur.</span>
+                                    </p>
+                                </li>
+
+                                <li class="half-padding reply">
+                                    <div class="push-right align-right">
+                                        <span class="date">at 14:30</span>
+                                    </div>
+                                    <div class="contact-avatar push-left">
+                                        <img src="img/avatar-1.jpg">
+                                        <span class="status online"><i class="fa fa-circle"></i></span>
+                                    </div>
+                                    <span class="message-options">
+                                  <ul class="messages">
+                                      <li class=""><a href="#"><i class="fa fa-pencil"></i>edit</a></li>
+                                      <li class=""><a href="#"><i class="fa fa-pencil"></i>delete</a></li>
+                                      <li class=""><a href="#"><i class="fa fa-tag"></i>tag</a></li>
+                                  </ul>
+
+                                </span>
+                                    <p class="quarter-vertical-padding">
+                                        <!--<span class="chat"><i class="fa fa-keyboard-o"></i></span>-->
+                                        <span class="message">Lorem ipsum dolor sit amet, vix eu exerci efficiantur.</span>
+                                    </p>
+                                </li>
+                                <li class="half-padding unread">
+                                    <div class="push-right align-right">
+                                        <span class="date">at 14:30</span>
+                                    </div>
+                                    <div class="contact-avatar push-left">
+                                        <img src="img/avatar.jpg">
+                                        <span class="status online"><i class="fa fa-circle"></i></span>
+                                    </div>
+                                    <p class="quarter-vertical-padding">
+                                        <!--<span class="chat"><i class="fa fa-keyboard-o"></i></span>-->
+                                        <span class="message">Lorem ipsum dolor sit amet, vix eu exerci efficiantur.</span>
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <!-- If you're using 'bottom' positioning, put this div AFTER the content. -->
+                    <ul class="tabs-nav">
+                        <li class="all-20"><a class="tabs-tab" href="#actividade"><i class="fa fa-clock-o"></i></a></li>
+                        <li class="all-20"><a class="tabs-tab" href="#chats"><i class="fa fa-comment-o"></i></a></li>
+                        <li class="all-20"><a class="tabs-tab" href="#archive"><i class="fa fa-archive"></i></a></li>
+                        <li class="all-20"><a class="tabs-tab" href="#settings"><i class="fa fa-cog"></i></a></li>
+                        <li class="all-20"><a class="tabs-tab" href="#contactos"><i class="fa fa-users"></i></a></li>
+                    </ul>
+                </div>
+
+                <div class="message-sender all-75 medium-70 xlarge-80 hide-small hide-tiny push-right">
+                    <form class="all-100">
+                        <div class="all-75 large-65 xlarge-65 half-padding">
+                            <input type="text" value="" placeholder="your message goes here" class="all-100 chat-sender">
+                        </div>
+                        <ul class="uploader all-35 small-25 tiny-25">
+                            <li class="send-file all-50 align-center">
+                                <span class="send-file"><a href="#"><i class="fa fa-file-o"></i> add file</a></span>
+                            </li>
+                            <li class="take-pic all-50 align-center">
+                                <span class="snap"><a hre="#"><i class="fa fa-camera-retro"></i> take a photo</a></span>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+
+            </div>
+            <!-- /scroller-inner -->
+
+        </div>
+        <!-- /scroller -->
+
+    </div>
+    <!-- /pusher -->
+
+</div>
+<!-- /container -->
