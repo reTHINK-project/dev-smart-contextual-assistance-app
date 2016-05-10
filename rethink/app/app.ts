@@ -20,7 +20,7 @@ import { ContextSenderComponent } from '../comp/context/sender';
 })
 export class Application {
   contacts: [Contact] = [
-    { name: "Rita Coelho", status: "online", avatar: "img/avatar.jpg" },
+    { name: "Rita Coelho", status: "online", avatar: "img/avatar.jpg", unread: 1 },
     { name: "Diogo Reis", status: "away", avatar: "img/avatar-2.jpg" },
     { name: "Rodrigo Castro", status: "offline", avatar: "img/avatar-3.jpg" },
     { name: "Martim Almeida", status: "online", avatar: "img/avatar-4.jpg" }
