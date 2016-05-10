@@ -93,26 +93,10 @@
                         </li>
                     </ul>
                 </header>
+
                 <!-- big sidebar large screens -->
                 <div class="all-25 medium-30 xlarge-20 sidebar hide-small hide-tiny">
-
-                    <ul class="contactlist all-100">
-                        <li class="search-bar half-padding">
-                            <form class="all-100 filter">
-                                <span class="fa fa-search"></span>
-                                <!--<label for="search-field" class="search all-10 push-left"><a hre="#"><i class="fa fa-search"></i></a></label>-->
-                                <input type="text" value="" placeholder="type a name" id="search-field" class="search push-left">
-                            </form>
-                        </li>
-
-                        <!-- List of contacts -->
-                        <li *ngFor="let contact of contacts" contact [model]="contact"></li>
-
-                        <li class="half-padding options">
-                            <span class="add-user"><a hre="#" id="myModalTrigger4">+</a></span>
-                            <span class="add-text"> Add Contact</span>
-                        </li>
-                    </ul>
+                    <ul contactlist [model]="contacts"></ul>
 
                     <footer class="alt-foot">
                         Copyright 2016 © Altice Labs - All rights reserved

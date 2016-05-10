@@ -1,0 +1,14 @@
+<li class="search-bar half-padding">
+    <form class="all-100 filter">
+        <span class="fa fa-search"></span>
+        <input type="text" value="" placeholder="type a name" id="search-field" class="search push-left">
+    </form>
+</li>
+
+<!-- List of contacts -->
+<li *ngFor="let contact of model" contact [model]="contact"></li>
+
+<li class="half-padding options">
+    <span class="add-user"><a hre="#" id="myModalTrigger4">+</a></span>
+    <span class="add-text"> Add Contact</span>
+</li>

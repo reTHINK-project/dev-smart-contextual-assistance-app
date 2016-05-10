@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { Contact, ContactComponent } from '../comp/contact';
+import { Contact } from '../comp/contact/contact';
+import { ContactListComponent } from '../comp/contact/contactlist';
 
 @Component({
   selector: 'div[my-app]',
-  directives: [ContactComponent],
+  directives: [ContactListComponent],
   templateUrl: 'app/view/app.html'
 })
 export class Application {

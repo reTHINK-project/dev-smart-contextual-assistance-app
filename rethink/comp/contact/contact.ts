@@ -10,7 +10,7 @@ export interface Contact {
 
 @Component({
   selector: 'li[contact]',
-  templateUrl: 'comp/view/contact.html'
+  templateUrl: 'comp/contact/contact.html'
 })
 export class ContactComponent implements OnInit {
   @HostBinding('class') hostClass = 'quarter-padding'

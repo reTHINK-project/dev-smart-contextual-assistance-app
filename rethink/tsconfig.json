@@ -20,7 +20,8 @@
 	"files": [
 		"main.ts",
 		"app/app.ts",
-		"comp/contact.ts",
+		"comp/contact/contact.ts",
+		"comp/contact/contactlist.ts",
 		"typings/browser/ambient/es6-shim/index.d.ts",
 		"typings/browser/ambient/jquery/index.d.ts"
 	],
