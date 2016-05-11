@@ -3,7 +3,9 @@
 </div>
 <div class="contact-avatar push-left">
     <img src="{{model.contact.avatar}}">
-    <span class="status {{model.contact.status}}"><i class="fa fa-circle"></i></span>
+    <span class="status {{model.contact.status}}">
+      <i class="fa fa-circle{{model.contact.status==='offline'?'-o':''}}"></i>
+    </span>
 </div>
 <h4 class="contact-name"><a href="#">{{model.contact.name}}</a></h4>
 

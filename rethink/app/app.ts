@@ -1,22 +1,24 @@
 import { Component } from '@angular/core';
 
 import { Contact } from '../comp/contact/contact';
-import { Activity } from '../comp/context/activity/activity';
+import { Activity } from '../comp/activity/activity';
 
-import { ContextMeComponent } from '../comp/contact/me';
+import { ContactMeComponent } from '../comp/contact/me';
 import { ContactListComponent } from '../comp/contact/contactlist';
+
+import { ActivityListComponent } from '../comp/activity/activitylist';
+import { FileShareListComponent } from '../comp/fileshare/filesharelist';
 
 import { ContextBreadCrumbComponent } from '../comp/context/breadcrumb';
 import { ContextMenuComponent } from '../comp/context/menu';
-import { ContextActivityListComponent } from '../comp/context/activity/activitylist';
-import { ContextFileShareListComponent } from '../comp/context/fileshare/filesharelist';
 import { ContextSenderComponent } from '../comp/context/sender';
 
 @Component({
   selector: 'div[my-app]',
   directives: [
-    ContextMeComponent, ContactListComponent,
-    ContextBreadCrumbComponent, ContextMenuComponent, ContextActivityListComponent, ContextFileShareListComponent, ContextSenderComponent
+    ContactMeComponent, ContactListComponent,
+    ActivityListComponent, FileShareListComponent,
+    ContextBreadCrumbComponent, ContextMenuComponent, ContextSenderComponent
   ],
   templateUrl: 'app/view/app.html'
 })

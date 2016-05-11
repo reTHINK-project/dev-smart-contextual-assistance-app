@@ -1,5 +1,5 @@
 import { Component, Input, Output, OnInit, HostBinding, EventEmitter } from '@angular/core';
-import { Contact } from '../../contact/contact';
+import { Contact } from '../contact/contact';
 
 export type ActivityType = 'message' | 'audio-call' | 'audio-call-failed' | 'video-call' | 'video-call-failed' | 'file-share'
 
@@ -12,10 +12,10 @@ export interface Activity {
 }
 
 @Component({
-  selector: 'li[context-activity]',
-  templateUrl: 'comp/context/activity/activity.html'
+  selector: 'li[activity]',
+  templateUrl: 'comp/activity/activity.html'
 })
-export class ContextActivityComponent implements OnInit {
+export class ActivityComponent implements OnInit {
   @HostBinding('class') hostClass = 'half-padding'
 
   @Input() model: Activity

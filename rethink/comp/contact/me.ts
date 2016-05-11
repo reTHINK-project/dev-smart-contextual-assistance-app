@@ -4,7 +4,7 @@ import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/co
   selector: 'ul[contact-me]',
   templateUrl: 'comp/contact/me.html'
 })
-export class ContextMeComponent {
+export class ContactMeComponent {
   @HostBinding('class') hostClass = 'push-right contactlist'
 
 }
