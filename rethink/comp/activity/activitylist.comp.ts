@@ -1,9 +1,10 @@
 import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/core';
-import { Activity, ActivityComponent } from './activity';
+import { Activity } from './activity';
+import { ActivityComponent } from './activity.comp';
 
 @Component({
   selector: 'ul[activity-list]',
-  templateUrl: 'comp/activity/activitylist.html',
+  templateUrl: 'comp/activity/activitylist.comp.html',
   directives: [ActivityComponent]
 })
 export class ActivityListComponent {

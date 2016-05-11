@@ -1,9 +1,10 @@
 import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/core';
-import { Contact, ContactComponent } from './contact';
+import { Contact } from './contact';
+import { ContactComponent } from './contact.comp';
 
 @Component({
   selector: 'ul[contact-list]',
-  templateUrl: 'comp/contact/contactlist.html',
+  templateUrl: 'comp/contact/contactlist.comp.html',
   directives: [ContactComponent]
 })
 export class ContactListComponent {

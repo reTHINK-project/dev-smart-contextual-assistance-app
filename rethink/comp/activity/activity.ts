@@ -1,4 +1,3 @@
-import { Component, Input, Output, OnInit, HostBinding, EventEmitter } from '@angular/core';
 import { Contact } from '../contact/contact';
 
 export type ActivityType = 'message' | 'audio-call' | 'audio-call-failed' | 'video-call' | 'video-call-failed' | 'file-share'
@@ -9,20 +8,4 @@ export interface Activity {
   date: string
   message?: string
   duration?: number
-}
-
-@Component({
-  selector: 'li[activity]',
-  templateUrl: 'comp/activity/activity.html'
-})
-export class ActivityComponent implements OnInit {
-  @HostBinding('class') hostClass = 'half-padding'
-
-  @Input() model: Activity
-
-  ngOnInit() {
-    if (this.model.contact.status === 'offline') {
-      this.hostClass = 'half-padding offline'
-    }
-  }
 }

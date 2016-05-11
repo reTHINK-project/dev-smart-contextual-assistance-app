@@ -2,7 +2,7 @@ import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/co
 
 @Component({
   selector: 'div[file-share-list]',
-  templateUrl: 'comp/fileshare/filesharelist.html'
+  templateUrl: 'comp/fileshare/filesharelist.comp.html'
 })
 export class FileShareListComponent {
   @HostBinding('class') hostClass = 'all-25 large-35 xlarge-35 hide-medium hide-small hide-tiny'

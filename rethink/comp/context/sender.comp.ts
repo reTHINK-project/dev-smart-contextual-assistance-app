@@ -2,7 +2,7 @@ import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/co
 
 @Component({
   selector: 'div[context-sender]',
-  templateUrl: 'comp/context/sender.html'
+  templateUrl: 'comp/context/sender.comp.html'
 })
 export class ContextSenderComponent {
   @HostBinding('class') hostClass = 'message-sender all-75 medium-70 xlarge-80 hide-small hide-tiny push-right'

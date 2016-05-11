@@ -3,15 +3,15 @@ import { Component } from '@angular/core';
 import { Contact } from '../comp/contact/contact';
 import { Activity } from '../comp/activity/activity';
 
-import { ContactMeComponent } from '../comp/contact/me';
-import { ContactListComponent } from '../comp/contact/contactlist';
+import { ContactMeComponent } from '../comp/contact/me.comp';
+import { ContactListComponent } from '../comp/contact/contactlist.comp';
 
-import { ActivityListComponent } from '../comp/activity/activitylist';
-import { FileShareListComponent } from '../comp/fileshare/filesharelist';
+import { ActivityListComponent } from '../comp/activity/activitylist.comp';
+import { FileShareListComponent } from '../comp/fileshare/filesharelist.comp';
 
-import { ContextBreadCrumbComponent } from '../comp/context/breadcrumb';
-import { ContextMenuComponent } from '../comp/context/menu';
-import { ContextSenderComponent } from '../comp/context/sender';
+import { ContextBreadCrumbComponent } from '../comp/context/breadcrumb.comp';
+import { ContextMenuComponent } from '../comp/context/menu.comp';
+import { ContextSenderComponent } from '../comp/context/sender.comp';
 
 @Component({
   selector: 'div[my-app]',
