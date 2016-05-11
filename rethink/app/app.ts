@@ -31,11 +31,11 @@ export class Application {
   ]
 
   activities: [Activity] = [
-    { contact: this.contacts[1], type: 'message', date: '20/07/2014, 15:36', message: 'Lorem ipsum dolor sit amet, vix eu exerci efficiantur, antiopam indoctum usu et. Vis te quot' },
-    { contact: this.contacts[3], type: 'video-call-failed', date: 'at 12:32' },
-    { contact: this.contacts[2], type: 'audio-call', date: 'yesterday, at 14:30', duration: 6 },
-    { contact: this.contacts[2], type: 'audio-call-failed', date: 'Yesterday, at 14:30' },
-    { contact: this.contacts[0], type: 'file-share', date: 'at 14:30' }
+    { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'Lorem ipsum dolor sit amet, vix eu exerci efficiantur, antiopam indoctum usu et. Vis te quot' },
+    { contact: this.contacts[3], type: 'video-call', status: 'failed', date: 'at 12:32' },
+    { contact: this.contacts[2], type: 'audio-call', status: 'ok', date: 'yesterday, at 14:30', duration: 6 },
+    { contact: this.contacts[2], type: 'audio-call', status: 'failed', date: 'Yesterday, at 14:30' },
+    { contact: this.contacts[0], type: 'file-share', status: 'ok', date: 'at 14:30' }
   ]
 
   onContactClick(contact: Contact) {

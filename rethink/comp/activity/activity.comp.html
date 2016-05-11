@@ -15,27 +15,29 @@
   {{model.message}}
 </p>
 
-<!-- audio call -->
-<p *ngIf="model.type === 'audio-call'" class="quarter-vertical-padding">
-  <span class="audio"><i class="fa fa-phone"></i>Audio call</span>
-  <span class="specs">{{model.duration}} mins</span>
-</p>
+<!-- audio-call -->
+<div *ngIf="model.type === 'audio-call'" class="quarter-vertical-padding">
+  <p *ngIf="model.status === 'ok'">
+    <span class="audio"><i class="fa fa-phone"></i>Audio call</span>
+    <span class="specs">{{model.duration}} mins</span>
+  </p>
+  <p *ngIf="model.status === 'failed'">
+    <span class="audio failed push-left"><i class="fa fa-phone"></i>Audio Call failed</span>
+    <span class="callback"><a href="#">call back</a></span>
+  </p>
+</div>
 
-<p *ngIf="model.type === 'audio-call-failed'" class="quarter-vertical-padding">
-  <span class="audio failed push-left"><i class="fa fa-phone"></i>Audio Call failed</span>
-  <span class="callback"><a href="#">call back</a></span>
-</p>
-
-<!-- video call -->
-<p *ngIf="model.type === 'video-call'" class="quarter-vertical-padding">
-  <span class="video"><i class="fa fa-video-camera"></i>Video call</span>
-  <span class="specs">{{model.duration}} mins</span>
-</p>
-
-<p *ngIf="model.type === 'video-call-failed'" class="quarter-vertical-padding">
-  <span class="video failed push-left"><i class="fa fa-video-camera"></i>Video call failed</span>
-  <span class="callback"><a href="#">call back</a></span>
-</p>
+<!-- video-call -->
+<div *ngIf="model.type === 'video-call'" class="quarter-vertical-padding">
+  <p *ngIf="model.status === 'ok'">
+    <span class="video"><i class="fa fa-video-camera"></i>Video call</span>
+    <span class="specs">{{model.duration}} mins</span>
+  </p>
+  <p *ngIf="model.status === 'failed'">
+    <span class="video failed push-left"><i class="fa fa-video-camera"></i>Video call failed</span>
+    <span class="callback"><a href="#">call back</a></span>
+  </p>
+</div>
 
 <!-- file-share -->
 <div *ngIf="model.type === 'file-share'">
