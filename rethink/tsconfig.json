@@ -26,6 +26,7 @@
 		"comp/context/activity/activity.ts",
 		"comp/context/activity/activitylist.ts",
 		"comp/context/breadcrumb.ts",
+		"comp/context/context.ts",
 		"comp/context/fileshare/filesharelist.ts",
 		"comp/context/menu.ts",
 		"comp/context/sender.ts",

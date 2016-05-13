@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { Contact } from '../comp/contact/contact';
+import { Context } from '../comp/context/context';
 import { Activity } from '../comp/context/activity/activity';
 
 import { ContextMeComponent } from '../comp/contact/me';
@@ -35,6 +36,28 @@ export class Application {
     { contact: this.contacts[2], type: 'audio-call-failed', date: 'Yesterday, at 14:30' },
     { contact: this.contacts[0], type: 'file-share', date: 'at 14:30' }
   ]
+
+  contexts: [Context] = [
+    {name: "Work", icon: 'a', childs: []},
+    {name: "Fitness", icon: 'a', childs: []},
+    {name: "School", icon: 'a', childs: []}
+  ]
+
+  contextOpened:boolean;
+
+  ngOnInit() {
+    this.contextOpened = false;
+  }
+
+  onOpenContext(event: Event) {
+    this.contextOpened = !this.contextOpened;
+  }
+
+  onClickOutside(event: Event) {
+    if (event.srcElement.id === 'mp-pusher') {
+      this.contextOpened = false;
+    }
+  }
 
   onContactClick(contact: Contact) {
     console.log('(contact-click)', contact)

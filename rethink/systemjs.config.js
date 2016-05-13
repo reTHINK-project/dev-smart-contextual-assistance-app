@@ -4,6 +4,7 @@
   var map = {
     'main':                       'dist',
     'rxjs':                       'node_modules/rxjs',
+    'symbol-observable':          'node_modules/symbol-observable',
     'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
     '@angular':                   'node_modules/@angular'
   };
@@ -11,6 +12,7 @@
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
     'main':                       { main: 'main.js',  defaultExtension: 'js' },
+    'symbol-observable':          { main: 'index.js'},
     'rxjs':                       { defaultExtension: 'js' },
     'angular2-in-memory-web-api': { defaultExtension: 'js' },
   };
@@ -23,6 +25,7 @@
     '@angular/platform-browser',
     '@angular/platform-browser-dynamic',
     '@angular/upgrade',
+    '@angular/router',
   ];
 
   // add package entries for angular packages in the form '@angular/common': { main: 'index.js', defaultExtension: 'js' }

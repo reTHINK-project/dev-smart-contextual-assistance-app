@@ -1,4 +1,4 @@
-import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/core';
+import { Component, Input, Output, HostBinding, EventEmitter, OnInit } from '@angular/core';
 
 @Component({
   selector: 'ul[context-breadcrumb]',
@@ -7,4 +7,5 @@ import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/co
 export class ContextBreadCrumbComponent {
   @HostBinding('class') hostClass = 'contactlist all-45'
 
+  @Output('open-context') openContext = new EventEmitter();
 }

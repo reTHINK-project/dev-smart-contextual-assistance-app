@@ -463,7 +463,7 @@ body.rethink div.container {
   /* content style */
   /* line 183, ../sass/component.scss */
   /* line 189, ../sass/component.scss */
-  /* line 198, ../sass/component.scss 
+  /* line 198, ../sass/component.scss
   .mp-menu.mp-overlap h2::before {
       position: absolute;
       top: 0;
@@ -480,7 +480,7 @@ body.rethink div.container {
       transform: translateX(-100%);
   }*/
   /* line 214, ../sass/component.scss */
-  /* line 222, ../sass/component.scss 
+  /* line 222, ../sass/component.scss
   .mp-overlap .mp-level.mp-level-overlay > h2::before {
       opacity: 1;
       -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
@@ -584,6 +584,11 @@ body.rethink div.container .mp-pusher.mp-pushed::after {
   -moz-transition: opacity 0.3s;
   transition: opacity 0.3s;
 }
+
+body.rethink div.container .mp-pusher.mp-pushed {
+  transform: translate3d(320px, 0px, 0px);  
+}
+
 /* line 592, ../sass/rethink.scss */
 body.rethink div.container .mp-level.mp-level-overlay {
   cursor: pointer;
