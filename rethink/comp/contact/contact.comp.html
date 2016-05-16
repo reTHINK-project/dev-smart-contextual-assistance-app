@@ -1,11 +1,11 @@
-<div class="contact-avatar push-left" (click)="contactClick.emit(model)">
+<div class="contact-avatar push-left">
     <img src="{{model.avatar}}">
     <span class="status {{model.status}}">
       <i class="fa fa-circle{{model.status==='offline'?'-o':''}}"></i>
     </span>
 </div>
 <div class="all-70">
-    <h4 class="contact-name"><a href="#" class="" (click)="contactClick.emit(model)">{{model.name}}</a></h4>
+    <h4 class="contact-name"><a href="javascript:;">{{model.name}}</a></h4>
 </div>
 <div *ngIf="model.unread" class="alert">
     <a href="user.html"><span class="new-message">{{model.unread}}</span></a>

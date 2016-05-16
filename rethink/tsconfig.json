@@ -6,6 +6,7 @@
 		"moduleResolution": "node",
 		"removeComments": true,
 		"preserveConstEnums": true,
+		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"noImplicitAny": true,
 		"sourceMap": true,
@@ -19,7 +20,9 @@
 	],
 	"files": [
 		"main.ts",
+		"app/activityView.ts",
 		"app/app.ts",
+		"app/userView.ts",
 		"comp/activity/activity.comp.ts",
 		"comp/activity/activity.ts",
 		"comp/activity/activitylist.comp.ts",

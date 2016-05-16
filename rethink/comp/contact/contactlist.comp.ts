@@ -9,13 +9,18 @@ import { ContactComponent } from './contact.comp';
   directives: [ContactComponent]
 })
 export class ContactListComponent implements OnInit {
+
   @HostBinding('class') hostClass = 'contactlist all-100'
 
-  @Input() model: Contact[] = []
+  @Input() set model(contacts:Contact[]) {
+    this.contacts = contacts
+    this.filter("");
+  }
 
-  // @Output('contact-click') contactClick = new EventEmitter()
+  @Output('contact-click') contactClick = new EventEmitter()
   @Output('contact-add') contactAdd = new EventEmitter()
 
+  private contacts:Contact[] = []
   private contactsFilter: Contact[] = []
 
   ngOnInit() {
@@ -31,7 +36,7 @@ export class ContactListComponent implements OnInit {
   }
 
   filter(value: string) {
-    this.contactsFilter = this.model.filter((contact) => {
+    this.contactsFilter = this.contacts.filter((contact) => {
       if(contact.name.indexOf(value) !== -1) return true
     })
   }

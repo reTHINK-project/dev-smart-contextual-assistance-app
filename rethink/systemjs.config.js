@@ -26,6 +26,7 @@
     '@angular/platform-browser-dynamic',
     '@angular/upgrade',
     '@angular/router',
+    '@angular/router-deprecated'
   ];
 
   // add package entries for angular packages in the form '@angular/common': { main: 'index.js', defaultExtension: 'js' }

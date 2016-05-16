@@ -18,7 +18,7 @@
 
                 <!-- big sidebar large screens -->
                 <div class="all-25 medium-30 xlarge-20 sidebar hide-small hide-tiny">
-                    <ul contact-list [model]="contacts" (contact-add)="onContactAdd()"></ul>
+                    <ul contact-list [model]="contacts" (contact-click)="onContactClick($event)" (contact-add)="onContactAdd()"></ul>
 
                     <footer class="alt-foot">
                         Copyright 2016 © Altice Labs - All rights reserved
@@ -27,14 +27,13 @@
 
                 <div class="all-75 medium-70 xlarge-80 main-content hide-small hide-tiny">
                     <div class="content-panel all-100 hide-small hide-tiny">
-                        <ul activity-list [model]="activities"></ul>
-                        <div file-share-list></div>
-
-                        <router-outlet></router-outlet>
+                      <router-outlet></router-outlet>
+                        <!-- <ul activity-list [model]="activities"></ul>
+                        <div file-share-list></div> -->
                     </div>
                 </div>
 
-                <div context-sender></div>
+                <!-- <div context-sender></div> -->
             </div>
             <!-- /scroller-inner -->
         </div>

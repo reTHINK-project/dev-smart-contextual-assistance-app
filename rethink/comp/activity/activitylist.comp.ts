@@ -10,12 +10,10 @@ import { ActivityComponent } from './activity.comp';
 export class ActivityListComponent {
   @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list'
 
-  @Input() model: Activity[] = []
+  @Input() set model(activities:Activity[]) {
+    this.activityFilter = activities
+  }
 
   private activityFilter: Activity[] = []
-
-  ngOnInit() {
-    this.activityFilter = this.model
-  }
 
 }
