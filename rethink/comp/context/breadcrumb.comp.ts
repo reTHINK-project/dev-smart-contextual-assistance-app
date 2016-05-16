@@ -2,7 +2,7 @@ import { Component, Input, Output, HostBinding, EventEmitter, OnInit } from '@an
 
 @Component({
   selector: 'ul[context-breadcrumb]',
-  templateUrl: 'comp/context/breadcrumb.html'
+  templateUrl: 'comp/context/breadcrumb.comp.html'
 })
 export class ContextBreadCrumbComponent {
   @HostBinding('class') hostClass = 'contactlist all-45'

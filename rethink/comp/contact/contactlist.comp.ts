@@ -1,23 +1,29 @@
-import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/core';
-import { Contact, ContactComponent } from './contact';
+import { Component, OnInit, Input, Output, HostBinding, EventEmitter } from '@angular/core';
+
+import { Contact } from './contact';
+import { ContactComponent } from './contact.comp';
 
 @Component({
   selector: 'ul[contact-list]',
-  templateUrl: 'comp/contact/contactlist.html',
+  templateUrl: 'comp/contact/contactlist.comp.html',
   directives: [ContactComponent]
 })
-export class ContactListComponent {
+export class ContactListComponent implements OnInit {
   @HostBinding('class') hostClass = 'contactlist all-100'
 
   @Input() model: Contact[] = []
 
-  @Output('contact-click') contactClick = new EventEmitter()
+  // @Output('contact-click') contactClick = new EventEmitter()
   @Output('contact-add') contactAdd = new EventEmitter()
 
   private contactsFilter: Contact[] = []
 
   ngOnInit() {
     this.filter("")
+  }
+
+  onContactClick(model:Contact) {
+    console.log('aaa', model);
   }
 
   onFilterKey(event: any) {
