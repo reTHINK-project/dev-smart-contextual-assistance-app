@@ -6,8 +6,26 @@ export type ActivityType = 'message' | 'audio-call' | 'video-call' | 'file-share
 export interface Activity {
   contact: Contact
   type: ActivityType
-  status: ActivityStatus
   date: string
+
   message?: string
+  status?: ActivityStatus
   duration?: number
+
+  //data: Message | Call | File
 }
+
+/*
+export interface Message {
+  message: string
+}
+
+export interface Call {
+  status: ActivityStatus
+  duration: number
+}
+
+export interface File {
+
+}
+*/

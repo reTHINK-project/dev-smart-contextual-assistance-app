@@ -6,7 +6,8 @@
     'rxjs':                       'node_modules/rxjs',
     'symbol-observable':          'node_modules/symbol-observable',
     'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
-    '@angular':                   'node_modules/@angular'
+    '@angular':                   'node_modules/@angular',
+    'runtime-browser':            'node_modules/runtime-browser/bin'
   };
 
   // packages tells the System loader how to load when no filename and/or no extension
@@ -15,6 +16,7 @@
     'symbol-observable':          { main: 'index.js'},
     'rxjs':                       { defaultExtension: 'js' },
     'angular2-in-memory-web-api': { defaultExtension: 'js' },
+    'runtime-browser':            { main: 'rethink.js', defaultExtension: 'js' }
   };
 
   var packageNames = [

@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 
 import {Contact} from '../comp/contact/contact';
-import {Activity} from '../comp/activity/activity'
+import {Activity} from '../comp/activity/activity';
 import {Context} from '../comp/context/context';
+
+import rethink from 'runtime-browser';
 
 @Injectable()
 export class AppService {
+  domain = 'hybroker.rethink.ptinovacao.pt'
+  config = { runtimeURL: 'https://rethink-app.quobis.com/RuntimeUA', development: true }
 
   contacts: [Contact] = [
     {id: 'id1', name: 'Rita Coelho', status: 'online', avatar: 'img/avatar.jpg', unread: 1 },
@@ -27,6 +31,51 @@ export class AppService {
     {name: "Fitness", icon: 'a', childs: []},
     {name: "School", icon: 'a', childs: []}
   ]
+
+  constructor() {
+    console.log('[Loading Rethink Runtime at] ', this.config.runtimeURL)
+    rethink.install(this.config).then((runtime) => {
+      console.log('[Runtime Loaded]')
+      this.getListOfHyperties().then((result) => {
+        console.log('[Hyperties] ', result)
+      })
+
+      let hypertyURL = 'hyperty-catalogue://catalogue.' + this.domain + '/.well-known/hyperty/HelloWorldObserver'
+      runtime.requireHyperty(hypertyURL).then((hyperty) => {
+        console.log('[Hyperty Loaded]: ', hyperty)
+      })
+    }).catch((error) => {
+      console.error('[Error Loading Runtime] ', error)
+    })
+  }
+
+  getListOfHyperties() {
+    let hypertiesURL = 'https://catalogue.' + this.domain + '/.well-known/hyperty/'
+    if (this.config.development) {
+      hypertiesURL = 'https://' + this.domain + '/.well-known/hyperty/Hyperties.json'
+    }
+
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: hypertiesURL,
+        success: (result: any, status: string, jqXHR: JQueryXHR) => {
+          let response: any = []
+          if (typeof result === 'object') {
+            Object.keys(result).forEach(function(key) {
+              response.push(key)
+            })
+          } else if (typeof result === 'string') {
+            response = JSON.parse(result)
+          }
+          resolve(response)
+        },
+        error: (jqXHR: JQueryXHR, status: string, error: string) => {
+          console.log(error)
+          reject(error)
+        }
+      })
+    })
+  }
 
   getContacts() {
      return Promise.resolve(this.contacts)

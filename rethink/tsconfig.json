@@ -16,6 +16,7 @@
 		"main.ts",
 		"app/**/*.ts",
 		"comp/**/*.ts",
+		"services/**/*.ts",
 		"typings/browser/**/*.ts"
 	],
 	"files": [
@@ -36,6 +37,8 @@
 		"comp/context/sender.comp.ts",
 		"comp/fileshare/filesharelist.comp.ts",
 		"comp/user/user.comp.ts",
+		"services/app.service.ts",
+		"services/modules.d.ts",
 		"typings/browser/ambient/es6-shim/index.d.ts",
 		"typings/browser/ambient/jquery/index.d.ts"
 	],
