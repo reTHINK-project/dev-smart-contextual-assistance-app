@@ -29,7 +29,7 @@ import { UserView } from './userView';
   templateUrl: 'app/view/app.html'
 })
 @Routes([
-  {path: '/', component: ActivityView},
+  {path: '/:resource', component: ActivityView},
   {path: '/user/:id', component: UserView}
 ])
 export class Application {
@@ -39,32 +39,12 @@ export class Application {
   contacts: Contact[] = []
 
   contextOpened: boolean
-  resource: string
-
-  urlParam(name: string): string {
-    let results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href)
-    if (results === null) {
-      return undefined
-    } else {
-      return results[1] || undefined
-    }
-  }
 
   ngOnInit() {
-    this.resource = this.urlParam('resource')
-    if (!this.resource) {
-      console.error('[Query Parameter "resource" is undefined]')
-    }
-
     this.contextOpened = false;
 
     this.appService.getContacts().then((contacts) => {
       this.contacts = contacts
-    });
-
-    this.appService.getHypertyChat().then((hyperty: any) => {
-      console.log('[Hyperty Loaded]', hyperty)
-      hyperty.instance.join(this.resource)
     })
   }
 

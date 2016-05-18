@@ -14,7 +14,8 @@ export class AppService {
 
   config = { runtimeURL: this.runtimeURL, development: true }
 
-  runtime: any;
+  chat: any
+  runtime: any
 
   contacts: [Contact] = [
     {id: 'id1', name: 'Rita Coelho', status: 'online', avatar: 'img/avatar.jpg', unread: 1 },
@@ -41,11 +42,23 @@ export class AppService {
     this._loadRuntime()
   }
 
-  getHypertyChat() {
+  getChatGroup(resource: string) {
     return new Promise((resolve, reject) => {
-      this._waitRuntimeReady(() => {
-        resolve(this.runtime.requireHyperty(this.hypertyURL))
-      })
+      if (this.chat) {
+        console.log('[Return Chat]', resource)
+        resolve(this.chat)
+      } else {
+        this._waitRuntimeReady(() => {
+          this.runtime.requireHyperty(this.hypertyURL).then((hyperty: any) => {
+            console.log('[Hyperty Loaded]', hyperty)
+            hyperty.instance.join(resource).then((chat: any) => {
+              console.log('[Joined Chat]', resource)
+              this.chat = chat
+              resolve(this.chat)
+            })
+          })
+        })
+      }
     })
   }
 
