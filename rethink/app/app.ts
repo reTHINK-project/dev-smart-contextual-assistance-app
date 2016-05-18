@@ -20,7 +20,7 @@ import { UserView } from './userView';
   directives: [
     ROUTER_DIRECTIVES,
     ContactMeComponent, ContactListComponent,
-    ContextBreadCrumbComponent, ContextMenuComponent, ContextSenderComponent
+    ContextBreadCrumbComponent
   ],
   providers: [
     ROUTER_PROVIDERS,

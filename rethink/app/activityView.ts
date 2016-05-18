@@ -4,6 +4,8 @@ import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 
 import { ActivityListComponent } from '../comp/activity/activitylist.comp';
 import { FileShareListComponent } from '../comp/fileshare/filesharelist.comp';
+import { ContextMenuComponent } from '../comp/context/menu.comp';
+import { ContextSenderComponent } from '../comp/context/sender.comp';
 
 import {Activity} from '../comp/activity/activity'
 
@@ -15,6 +17,7 @@ import { AppService } from '../services/app.service';
   directives: [
     ROUTER_DIRECTIVES,
     ActivityListComponent, FileShareListComponent,
+    ContextMenuComponent, ContextSenderComponent
   ]
 })
 export class ActivityView implements OnInit {
