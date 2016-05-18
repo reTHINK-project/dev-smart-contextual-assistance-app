@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Router, Routes, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/router';
+import { Router, Routes, RouteSegment, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/router';
 
 import { AppService }     from '../services/app.service';
 import { Contact } from '../comp/contact/contact';
@@ -34,18 +34,38 @@ import { UserView } from './userView';
 ])
 export class Application {
 
-  constructor(private appService: AppService, private router:Router) {}
+  constructor(private appService: AppService, private router: Router) {}
 
   contacts: Contact[] = []
 
-  contextOpened:boolean;
+  contextOpened: boolean
+  resource: string
+
+  urlParam(name: string): string {
+    let results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href)
+    if (results === null) {
+      return undefined
+    } else {
+      return results[1] || undefined
+    }
+  }
 
   ngOnInit() {
+    this.resource = this.urlParam('resource')
+    if (!this.resource) {
+      console.error('[Query Parameter "resource" is undefined]')
+    }
+
     this.contextOpened = false;
 
     this.appService.getContacts().then((contacts) => {
       this.contacts = contacts
     });
+
+    this.appService.getHypertyChat().then((hyperty: any) => {
+      console.log('[Hyperty Loaded]', hyperty)
+      hyperty.instance.join(this.resource)
+    })
   }
 
   onOpenContext(event: Event) {

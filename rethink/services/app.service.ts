@@ -8,9 +8,13 @@ import rethink from 'runtime-browser';
 
 @Injectable()
 export class AppService {
-  domain = 'vitor.dev'
-  runtime = 'https://' + this.domain + '/.well-known/runtime/Runtime';
-  config = { runtimeURL: this.runtime, development: true }
+  domain = 'hybroker.rethink.ptinovacao.pt'
+  runtimeURL = 'https://' + this.domain + '/.well-known/runtime/Runtime';
+  hypertyURL = 'hyperty-catalogue://catalogue.' + this.domain + '/.well-known/hyperty/HypertyChat'
+
+  config = { runtimeURL: this.runtimeURL, development: true }
+
+  runtime: any;
 
   contacts: [Contact] = [
     {id: 'id1', name: 'Rita Coelho', status: 'online', avatar: 'img/avatar.jpg', unread: 1 },
@@ -34,19 +38,14 @@ export class AppService {
   ]
 
   constructor() {
-    console.log('[Loading Rethink Runtime at] ', this.config.runtimeURL)
-    rethink.install(this.config).then((runtime) => {
-      console.log('[Runtime Loaded]')
-      this.getListOfHyperties().then((result) => {
-        console.log('[Hyperties] ', result)
-      })
+    this._loadRuntime()
+  }
 
-      let hypertyURL = 'hyperty-catalogue://catalogue.' + this.domain + '/.well-known/hyperty/HelloWorldObserver'
-      runtime.requireHyperty(hypertyURL).then((hyperty) => {
-        console.log('[Hyperty Loaded]: ', hyperty)
+  getHypertyChat() {
+    return new Promise((resolve, reject) => {
+      this._waitRuntimeReady(() => {
+        resolve(this.runtime.requireHyperty(this.hypertyURL))
       })
-    }).catch((error) => {
-      console.error('[Error Loading Runtime] ', error)
     })
   }
 
@@ -88,6 +87,24 @@ export class AppService {
 
   getContexts() {
     return Promise.resolve(this.contexts)
+  }
+
+  private _waitRuntimeReady(callback: any) {
+    if (this.runtime) {
+      callback()
+    } else {
+      setTimeout(() => { this._waitRuntimeReady(callback) })
+    }
+  }
+
+  private _loadRuntime() {
+    console.log('[Loading Rethink Runtime at] ', this.config.runtimeURL)
+    rethink.install(this.config).then((runtime) => {
+      console.log('[Runtime Loaded]')
+      this.runtime = runtime
+    }).catch((error) => {
+      console.error('[Error Loading Runtime] ', error)
+    })
   }
 
 }
