@@ -9,7 +9,7 @@ module.exports = {
   server: {
     baseDir: './',
     middleware: {
-      1: function(req, res, next) {
+      2: function(req, res, next) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         next();
       }
