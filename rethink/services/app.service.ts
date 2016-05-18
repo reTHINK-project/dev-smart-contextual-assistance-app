@@ -8,8 +8,9 @@ import rethink from 'runtime-browser';
 
 @Injectable()
 export class AppService {
-  domain = 'hybroker.rethink.ptinovacao.pt'
-  config = { runtimeURL: 'https://rethink-app.quobis.com/RuntimeUA', development: true }
+  domain = 'vitor.dev'
+  runtime = 'https://' + this.domain + '/.well-known/runtime/Runtime';
+  config = { runtimeURL: this.runtime, development: true }
 
   contacts: [Contact] = [
     {id: 'id1', name: 'Rita Coelho', status: 'online', avatar: 'img/avatar.jpg', unread: 1 },
