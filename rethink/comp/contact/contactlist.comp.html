@@ -2,7 +2,7 @@
 <li class="search-bar half-padding">
     <form class="all-100 filter">
         <span class="fa fa-search"></span>
-        <input type="text" placeholder="type a name" id="search-field" class="search push-left" (keyup)="onFilterKey($event)">
+        <input type="text" placeholder="type a name" class="search push-left" (keyup)="onFilterKey($event)">
     </form>
 </li>
 
@@ -12,6 +12,6 @@
 
 <!-- Add conact button -->
 <li class="half-padding options" (click)="contactAdd.emit()">
-    <span class="add-user"><a hre="#" id="myModalTrigger4">+</a></span>
+    <span class="add-user"><a hre="#">+</a></span>
     <span class="add-text"> Add Contact</span>
 </li>
