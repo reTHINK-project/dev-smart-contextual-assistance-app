@@ -37,6 +37,7 @@
 		"comp/context/sender.comp.ts",
 		"comp/fileshare/filesharelist.comp.ts",
 		"comp/user/contact-box.comp.ts",
+		"comp/user/content-box.comp.ts",
 		"comp/user/user.comp.ts",
 		"services/app.service.ts",
 		"services/modules.d.ts",

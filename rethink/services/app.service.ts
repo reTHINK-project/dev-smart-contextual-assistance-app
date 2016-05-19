@@ -28,26 +28,42 @@ export class AppService {
   ]
 
   contexts: [Context] = [
-    {name: "Work", icon: 'a', childs: []},
-    {name: "Fitness", icon: 'a', childs: []},
-    {name: "School", icon: 'a', childs: []}
+    {
+      name: "Work",
+      icon: 'a',
+      communication: 'comm://hybroker.rethink.ptinovacao.pt',
+      contacts: [
+        this.contacts[1],
+        this.contacts[2]
+      ],
+      activities: [
+        { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'message 1' },
+        { contact: this.contacts[2], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'message 2' },
+        { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'message 3' },
+        { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'message 4' },
+        { contact: this.contacts[2], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'message 5' },
+        { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'message 6' },
+      ]
+    },
+    {name: "Fitness", icon: 'a', communication: 'comm://hybroker.rethink.ptinovacao.pt', contacts: [], activities: []},
+    {name: "School", icon: 'a', communication: 'comm://hybroker.rethink.ptinovacao.pt', contacts: [], activities: []}
   ]
 
   constructor() {
-    console.log('[Loading Rethink Runtime at] ', this.config.runtimeURL)
-    rethink.install(this.config).then((runtime) => {
-      console.log('[Runtime Loaded]')
-      this.getListOfHyperties().then((result) => {
-        console.log('[Hyperties] ', result)
-      })
-
-      let hypertyURL = 'hyperty-catalogue://catalogue.' + this.domain + '/.well-known/hyperty/HelloWorldObserver'
-      runtime.requireHyperty(hypertyURL).then((hyperty) => {
-        console.log('[Hyperty Loaded]: ', hyperty)
-      })
-    }).catch((error) => {
-      console.error('[Error Loading Runtime] ', error)
-    })
+    // console.log('[Loading Rethink Runtime at] ', this.config.runtimeURL)
+    // rethink.install(this.config).then((runtime) => {
+    //   console.log('[Runtime Loaded]')
+    //   this.getListOfHyperties().then((result) => {
+    //     console.log('[Hyperties] ', result)
+    //   })
+    //
+    //   let hypertyURL = 'hyperty-catalogue://catalogue.' + this.domain + '/.well-known/hyperty/HelloWorldObserver'
+    //   runtime.requireHyperty(hypertyURL).then((hyperty) => {
+    //     console.log('[Hyperty Loaded]: ', hyperty)
+    //   })
+    // }).catch((error) => {
+    //   console.error('[Error Loading Runtime] ', error)
+    // })
   }
 
   getListOfHyperties() {
@@ -79,7 +95,26 @@ export class AppService {
   }
 
   getContacts() {
-     return Promise.resolve(this.contacts)
+    return Promise.resolve(this.contacts)
+  }
+
+  getContact(id:string) {
+
+    // TODO: Optimize this promise to handle with multiple contacts
+    return new Promise<Contact>((resolve, reject) => {
+
+      let contact = this.contacts.filter((contact) => {
+        if(contact.id.indexOf(id) !== -1) return true
+      })
+
+      if (contact.length === 1) {
+        resolve(contact[0])
+      } else {
+        reject('Contact not found');
+      }
+
+
+    })
   }
 
   getActivities() {
@@ -88,6 +123,25 @@ export class AppService {
 
   getContexts() {
     return Promise.resolve(this.contexts)
+  }
+
+  getContext(name:string) {
+
+    // TODO: Optimize this promise to handle with multiple contexts
+    return new Promise<Context>((resolve, reject) => {
+
+      let context = this.contexts.filter((context) => {
+        if(context.name.indexOf(name) !== -1) return true
+      })
+
+      if (context.length === 1) {
+        resolve(context[0])
+      } else {
+        reject('Contact not found');
+      }
+
+
+    })
   }
 
 }
