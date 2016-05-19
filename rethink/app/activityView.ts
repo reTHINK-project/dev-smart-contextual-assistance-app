@@ -25,6 +25,7 @@ export class ActivityView {
   @HostBinding('class') hostClass = 'content-panel'
 
   chat: any
+  chatActive = false
   activities: Activity[] = []
 
   constructor(private router: Router, private appService: AppService){}
@@ -42,6 +43,7 @@ export class ActivityView {
 
     console.log('[Chat URL] ', url)
     this.appService.getChatGroup(url).then((chat: any) => {
+      this.chatActive = true
       this.chat = chat
       chat.addEventListener('new:message:recived', (msg: any) => {
         //FIX: my on messages are without identity !
