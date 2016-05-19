@@ -1,6 +1,6 @@
 import { Component, Input, Output, OnInit, HostBinding, EventEmitter } from '@angular/core';
 
-import { Router, ROUTER_DIRECTIVES } from '@angular/router';
+import { Router, RouteSegment, ROUTER_DIRECTIVES } from '@angular/router';
 
 import { ActivityListComponent } from '../comp/activity/activitylist.comp';
 import { FileShareListComponent } from '../comp/fileshare/filesharelist.comp';
@@ -30,7 +30,18 @@ export class ActivityView implements OnInit {
   ngOnInit() {
     this.appService.getActivities().then((activities) => {
       this.activities = activities
-    });
+    })
+  }
+
+  routerOnActivate(curr: RouteSegment): void {
+    //let domain = curr.getParam('domain')
+    let resource = curr.getParam('resource')
+    let url = 'comm://hybroker.rethink.ptinovacao.pt/' + resource
+
+    console.log('[Chat URL] ', url)
+    this.appService.getChatGroup(url).then((chat: any) => {
+      chat.send('Testing chat...')
+    })
   }
 
 }

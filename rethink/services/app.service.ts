@@ -8,9 +8,14 @@ import rethink from 'runtime-browser';
 
 @Injectable()
 export class AppService {
-  domain = 'vitor.dev'
-  runtime = 'https://' + this.domain + '/.well-known/runtime/Runtime';
-  config = { runtimeURL: this.runtime, development: true }
+  domain = 'hybroker.rethink.ptinovacao.pt'
+  runtimeURL = 'https://' + this.domain + '/.well-known/runtime/Runtime';
+  hypertyURL = 'hyperty-catalogue://catalogue.' + this.domain + '/.well-known/hyperty/HypertyChat'
+
+  config = { runtimeURL: this.runtimeURL, development: true }
+
+  chat: any
+  runtime: any
 
   contacts: [Contact] = [
     {id: 'id1', name: 'Rita Coelho', status: 'online', avatar: 'img/avatar.jpg', unread: 1 },
@@ -50,20 +55,27 @@ export class AppService {
   ]
 
   constructor() {
-    // console.log('[Loading Rethink Runtime at] ', this.config.runtimeURL)
-    // rethink.install(this.config).then((runtime) => {
-    //   console.log('[Runtime Loaded]')
-    //   this.getListOfHyperties().then((result) => {
-    //     console.log('[Hyperties] ', result)
-    //   })
-    //
-    //   let hypertyURL = 'hyperty-catalogue://catalogue.' + this.domain + '/.well-known/hyperty/HelloWorldObserver'
-    //   runtime.requireHyperty(hypertyURL).then((hyperty) => {
-    //     console.log('[Hyperty Loaded]: ', hyperty)
-    //   })
-    // }).catch((error) => {
-    //   console.error('[Error Loading Runtime] ', error)
-    // })
+    this._loadRuntime()
+  }
+
+  getChatGroup(resource: string) {
+    return new Promise((resolve, reject) => {
+      if (this.chat) {
+        console.log('[Return Chat]', resource)
+        resolve(this.chat)
+      } else {
+        this._waitRuntimeReady(() => {
+          this.runtime.requireHyperty(this.hypertyURL).then((hyperty: any) => {
+            console.log('[Hyperty Loaded]', hyperty)
+            hyperty.instance.join(resource).then((chat: any) => {
+              console.log('[Joined Chat]', resource)
+              this.chat = chat
+              resolve(this.chat)
+            })
+          })
+        })
+      }
+    })
   }
 
   getListOfHyperties() {
@@ -125,22 +137,21 @@ export class AppService {
     return Promise.resolve(this.contexts)
   }
 
-  getContext(name:string) {
+  private _waitRuntimeReady(callback: any) {
+    if (this.runtime) {
+      callback()
+    } else {
+      setTimeout(() => { this._waitRuntimeReady(callback) })
+    }
+  }
 
-    // TODO: Optimize this promise to handle with multiple contexts
-    return new Promise<Context>((resolve, reject) => {
-
-      let context = this.contexts.filter((context) => {
-        if(context.name.indexOf(name) !== -1) return true
-      })
-
-      if (context.length === 1) {
-        resolve(context[0])
-      } else {
-        reject('Contact not found');
-      }
-
-
+  private _loadRuntime() {
+    console.log('[Loading Rethink Runtime at] ', this.config.runtimeURL)
+    rethink.install(this.config).then((runtime) => {
+      console.log('[Runtime Loaded]')
+      this.runtime = runtime
+    }).catch((error) => {
+      console.error('[Error Loading Runtime] ', error)
     })
   }
 
