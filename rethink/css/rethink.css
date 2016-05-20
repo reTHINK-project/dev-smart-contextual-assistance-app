@@ -1,6 +1,6 @@
 @charset "UTF-8";
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700,300);
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,600);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600);
 @import url(responsive.css);
 /* line 65, ../sass/rethink.scss */
 html {
@@ -427,7 +427,7 @@ body.rethink form.invite button {
 /* line 478, ../sass/rethink.scss */
 body.rethink div.container {
   /* line 16, ../sass/component.scss */
-  overflow-x: scroll;
+  /* overflow-x: scroll; */
   /* line 21, ../sass/component.scss
   .menu-trigger:before {
       position: absolute;
@@ -586,7 +586,7 @@ body.rethink div.container .mp-pusher.mp-pushed::after {
 }
 
 body.rethink div.container .mp-pusher.mp-pushed {
-  transform: translate3d(320px, 0px, 0px);  
+  transform: translate3d(320px, 0px, 0px);
 }
 
 /* line 592, ../sass/rethink.scss */
@@ -2659,7 +2659,8 @@ body.rethink div.main-content {
 }
 /* line 2700, ../sass/rethink.scss */
 body.rethink div.content-box {
-  overflow: hidden;
+  /* overflow: hidden; */
+  overflow-y: scroll;
 }
 /* line 2711, ../sass/rethink.scss */
 body.rethink div.content-box.user ul.activity-list li {

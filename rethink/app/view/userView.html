@@ -1,4 +1,4 @@
-<div user [model]="contact"></div>
+<div user [modelContact]="contact" [modelContext]="context"></div>
 
 <div file-share-list></div>
-<div context-sender></div>
+<div context-sender [active]="chatActive" (on-message)="onMessage($event)"></div>

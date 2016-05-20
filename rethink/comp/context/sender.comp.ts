@@ -11,7 +11,8 @@ export class ContextSenderComponent {
   @Output('on-message') onMessage = new EventEmitter()
 
   submit(form: any) {
-    form.controls.message.updateValue('')
     this.onMessage.emit(form.value.message)
+
+    form.controls.message.updateValue('')
   }
 }

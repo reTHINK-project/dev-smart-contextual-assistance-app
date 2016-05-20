@@ -1,8 +1,11 @@
 import { Component, Input, Output, OnInit, HostBinding, EventEmitter } from '@angular/core';
 
+// Interfaces
 import { Contact } from '../contact/contact';
+import { Context } from '../context/context';
 import { Activity } from '../activity/activity';
 
+// Components
 import { ContactBox } from './contact-box.comp';
 import { ContentBox } from './content-box.comp';
 
@@ -17,12 +20,12 @@ import { ContentBox } from './content-box.comp';
 export class UserComponent implements OnInit {
   @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100'
 
-  @Input() model:Contact
-  @Input() activity:Activity
+  @Input() modelContact:Contact
+  @Input() modelContext:Context
 
   ngOnInit() {
-    console.log(this.model);
-    console.log(this.activity);
+    // console.log(this.modelContact);
+    // console.log(this.modelContext);
   }
 
 }

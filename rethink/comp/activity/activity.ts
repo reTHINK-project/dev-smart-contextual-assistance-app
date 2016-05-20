@@ -12,6 +12,7 @@ export interface Activity {
   status?: ActivityStatus
   duration?: number
 
+  read?: boolean
   //data: Message | Call | File
 }
 

@@ -1,28 +1,28 @@
-import { Injectable } from '@angular/core';
-
-import {Contact} from '../comp/contact/contact';
-import {Activity} from '../comp/activity/activity';
-import {Context} from '../comp/context/context';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 
 import rethink from 'runtime-browser';
 
+// Interfaces
+import {Activity} from '../comp/activity/activity';
+import {Contact} from '../comp/contact/contact';
+import {Context} from '../comp/context/context';
+
+// Data
+import {contacts} from './contacts';
+
 @Injectable()
 export class AppService {
+
   domain = 'hybroker.rethink.ptinovacao.pt'
   runtimeURL = 'https://' + this.domain + '/.well-known/runtime/Runtime';
-  hypertyURL = 'hyperty-catalogue://catalogue.' + this.domain + '/.well-known/hyperty/HypertyChat'
 
-  config = { runtimeURL: this.runtimeURL, development: true }
+  config = {domain: this.domain, runtimeURL: this.runtimeURL, development: true }
 
-  chat: any
   runtime: any
 
-  contacts: [Contact] = [
-    {id: 'id1', name: 'Rita Coelho', status: 'online', avatar: 'img/avatar.jpg', unread: 1 },
-    {id: 'id2', name: 'Diogo Reis', status: 'away', avatar: 'img/avatar-2.jpg' },
-    {id: 'id3', name: 'Rodrigo Castro', status: 'offline', avatar: 'img/avatar-3.jpg' },
-    {id: 'id4', name: 'Martim Almeida', status: 'online', avatar: 'img/avatar-4.jpg' }
-  ]
+  public runtimeReady = new EventEmitter();
+
+  private contacts = contacts
 
   activities: [Activity] = [
     { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'Lorem ipsum dolor sit amet, vix eu exerci efficiantur, antiopam indoctum usu et. Vis te quot' },
@@ -32,50 +32,8 @@ export class AppService {
     { contact: this.contacts[0], type: 'file-share', status: 'ok', date: 'at 14:30' }
   ]
 
-  contexts: [Context] = [
-    {
-      name: "Work",
-      icon: 'a',
-      communication: 'comm://hybroker.rethink.ptinovacao.pt',
-      contacts: [
-        this.contacts[1],
-        this.contacts[2]
-      ],
-      activities: [
-        { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'message 1' },
-        { contact: this.contacts[2], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'message 2' },
-        { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'message 3' },
-        { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'message 4' },
-        { contact: this.contacts[2], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'message 5' },
-        { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'message 6' },
-      ]
-    },
-    {name: "Fitness", icon: 'a', communication: 'comm://hybroker.rethink.ptinovacao.pt', contacts: [], activities: []},
-    {name: "School", icon: 'a', communication: 'comm://hybroker.rethink.ptinovacao.pt', contacts: [], activities: []}
-  ]
-
   constructor() {
     this._loadRuntime()
-  }
-
-  getChatGroup(resource: string) {
-    return new Promise((resolve, reject) => {
-      if (this.chat) {
-        console.log('[Return Chat]', resource)
-        resolve(this.chat)
-      } else {
-        this._waitRuntimeReady(() => {
-          this.runtime.requireHyperty(this.hypertyURL).then((hyperty: any) => {
-            console.log('[Hyperty Loaded]', hyperty)
-            hyperty.instance.join(resource).then((chat: any) => {
-              console.log('[Joined Chat]', resource)
-              this.chat = chat
-              resolve(this.chat)
-            })
-          })
-        })
-      }
-    })
   }
 
   getListOfHyperties() {
@@ -133,25 +91,19 @@ export class AppService {
     return Promise.resolve(this.activities)
   }
 
-  getContexts() {
-    return Promise.resolve(this.contexts)
-  }
-
-  private _waitRuntimeReady(callback: any) {
-    if (this.runtime) {
-      callback()
-    } else {
-      setTimeout(() => { this._waitRuntimeReady(callback) })
-    }
-  }
-
   private _loadRuntime() {
     console.log('[Loading Rethink Runtime at] ', this.config.runtimeURL)
-    rethink.install(this.config).then((runtime) => {
-      console.log('[Runtime Loaded]')
-      this.runtime = runtime
-    }).catch((error) => {
-      console.error('[Error Loading Runtime] ', error)
+
+    return new Promise((resolve, reject) => {
+
+      rethink.install(this.config).then((runtime) => {
+        console.log('[Runtime Loaded]')
+        this.runtime = runtime
+        this.runtimeReady.emit(runtime);
+      }).catch((error) => {
+        console.error('[Error Loading Runtime] ', error)
+      })
+
     })
   }
 

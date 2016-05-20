@@ -2,6 +2,7 @@ module.exports = {
   open: false,
   online: true,
   port: 443,
+  ghostMode: false,
   https: {
     "key": "rethink-certificate.key",
     "cert": "rethink-certificate.cert"

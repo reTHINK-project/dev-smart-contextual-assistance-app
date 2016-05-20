@@ -1,2 +1,2 @@
-<div contact-box [model]="model"></div>
-<div content-box [model]="activity"></div>
+<div *ngIf="modelContact" contact-box [model]="modelContact"></div>
+<div *ngIf="modelContext" content-box [model]="modelContext"></div>

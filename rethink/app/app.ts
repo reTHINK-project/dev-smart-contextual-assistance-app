@@ -2,9 +2,15 @@ import { Component, OnInit } from '@angular/core';
 
 import { Router, Routes, RouteSegment, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/router';
 
+// Services
 import { AppService }     from '../services/app.service';
+import { ContextService }     from '../services/context.service';
+
+// Interfaces
 import { Contact } from '../comp/contact/contact';
 
+
+// Components
 import { ContactMeComponent } from '../comp/contact/me.comp';
 import { ContactListComponent } from '../comp/contact/contactlist.comp';
 
@@ -24,12 +30,13 @@ import { UserView } from './userView';
   ],
   providers: [
     ROUTER_PROVIDERS,
-    AppService
+    AppService,
+    ContextService
   ],
   templateUrl: 'app/view/app.html'
 })
 @Routes([
-  {path: '/:resource', component: ActivityView},
+  {path: '/', component: ActivityView},
   {path: '/user/:id', component: UserView}
 ])
 export class Application {
@@ -41,11 +48,13 @@ export class Application {
   contextOpened: boolean
 
   ngOnInit() {
+
     this.contextOpened = false;
 
     this.appService.getContacts().then((contacts) => {
       this.contacts = contacts
     })
+
   }
 
   onOpenContext(event: Event) {
