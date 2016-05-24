@@ -83,10 +83,8 @@ export class AppService {
 
       rethink.install(this.config).then((runtime) => {
         console.log('[Runtime Loaded]')
-        this.runtime = runtime
-        this.runtimeReady.emit(runtime);
-
-        return this._login(runtime);
+        this.runtime = runtime;
+        resolve(runtime);
       }).catch((error) => {
         console.error('[Error Loading Runtime] ', error)
       }).then((logged) => {
@@ -96,12 +94,6 @@ export class AppService {
       })
 
     })
-  }
-
-  private _login(runtime: any) {
-
-    console.log(runtime);
-
   }
 
 }

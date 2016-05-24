@@ -14,6 +14,10 @@ import { Activity } from '../comp/activity/activity'
 
 // Services
 import { ChatService } from '../services/chat.service';
+import { VideoService } from '../services/video.service';
+import { AppService }     from '../services/app.service';
+import { ContextService }     from '../services/context.service';
+
 
 @Component({
   selector: 'div[user]',
@@ -22,9 +26,6 @@ import { ChatService } from '../services/chat.service';
     ROUTER_DIRECTIVES,
     ActivityListComponent, FileShareListComponent,
     ContextMenuComponent, ContextSenderComponent
-  ],
-  providers: [
-    ChatService
   ]
 })
 export class ActivityView {
@@ -34,40 +35,35 @@ export class ActivityView {
   chatActive = false
   activities: Activity[] = []
 
-  constructor(private router: Router, private chatService: ChatService) {}
+  constructor(
+    private router: Router,
+    private appService: AppService,
+    private chatService: ChatService,
+    private contextService: ContextService,
+    private videoService: VideoService
+  ) {}
 
-  /*ngOnInit() {
+  ngOnInit() {
     this.appService.getActivities().then((activities) => {
       this.activities = activities
     })
-  }*/
+  }
 
   routerOnActivate(curr: RouteSegment): void {
     //let domain = curr.getParam('domain')
     let resource = curr.getParam('resource')
     let url = 'comm://hybroker.rethink.ptinovacao.pt/' + resource
 
-    console.log('[Chat URL] ', url)
+    console.log('[Chat URL] ', url, this.chatService.hypertyChat)
     if (resource) {
       this.chatService.join(url).then((chat: any) => {
         this.chatActive = true
-        this.chat = chat
-        chat.addEventListener('new:message:recived', (msg: any) => {
-          //FIX: my on messages are without identity !
-          if (msg.identity) {
-            //TODO: replace by contact search...
-            let contact: Contact = {
-              id: msg.identity.identity,
-              name: msg.identity.infoToken.name,
-              status: 'online',
-              avatar: msg.identity.infoToken.picture,
-              email: msg.identity.infoToken.email
-            }
-
-            this.activities.push({ contact: contact, type: 'message', date: new Date().toJSON(), message: msg.value.chatMessage })
-          }
-        })
+        this.prepareChat(chat);
       })
+    } else {
+      this.chatService.hypertyChat.addEventListener('chat:subscribe', (chat: any) => {
+        this.prepareChat(chat);
+      });
     }
 
   }
@@ -75,6 +71,31 @@ export class ActivityView {
   onMessage(message: string) {
     console.log('Send Message: ', message);
     this.chat.send(message)
+  }
+
+
+  prepareChat(chat: any) {
+
+    console.log('Prepare Chat:', chat);
+
+    chat.addEventListener('new:message:recived', (msg: any) => {
+      console.log('[New Message]', msg);
+
+      //FIX: my on messages are without identity !
+      if (msg.identity) {
+        //TODO: replace by contact search...
+        let contact: Contact = {
+          id: msg.identity.identity,
+          name: msg.identity.infoToken.name,
+          status: 'online',
+          avatar: msg.identity.infoToken.picture,
+          email: msg.identity.infoToken.email
+        }
+
+        this.activities.push({ contact: contact, type: 'message', date: new Date().toJSON(), message: msg.value.chatMessage })
+      }
+
+    });
   }
 
 }

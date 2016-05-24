@@ -18,10 +18,9 @@ export class ChatService {
 
   hypertyURL = 'hyperty-catalogue://catalogue.' + this.appService.domain + '/.well-known/hyperty/HypertyChat'
   chat: any
-  instance: any
+  hypertyChat: any
 
   private runtime: any
-  public hypertyChatReady = new EventEmitter();
 
   constructor(private appService: AppService) {}
 
@@ -29,19 +28,18 @@ export class ChatService {
 
     return new Promise((resolve, reject) => {
 
-      if (!this.instance) {
+      if (!this.hypertyChat) {
         this.appService.getHyperty(this.hypertyURL)
         .then((hyperty: any) => {
-          this.instance = hyperty.instance;
-          this.hypertyChatReady.emit(this.instance);
-          resolve(hyperty.instance);
+          this.hypertyChat = hyperty.instance;
+          resolve(this.hypertyChat);
         })
         .catch((reason) => {
           console.error(reason);
           reject(reason);
         })
       } else {
-        resolve(this.instance);
+        resolve(this.hypertyChat);
       }
 
     })
@@ -52,8 +50,9 @@ export class ChatService {
 
     return new Promise((resolve, reject) => {
 
-      this.instance.create(name, participants).then((chat: any) => {
+      this.hypertyChat.create(name, participants).then((chat: any) => {
         this.chat = chat;
+        console.log('[Chat Created]', chat)
         resolve(chat);
       }).catch((reason: any) => {
         reject(reason);
@@ -67,7 +66,7 @@ export class ChatService {
 
     return new Promise((resolve, reject) => {
 
-      this.instance.join(resource).then((chat: any) => {
+      this.hypertyChat.join(resource).then((chat: any) => {
         console.log('[Joined Chat]', resource)
         this.chat = chat
         resolve(this.chat)

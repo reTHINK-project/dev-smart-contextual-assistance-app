@@ -35,7 +35,7 @@ import { UserView } from './userView';
 ])
 export class Application {
 
-  constructor(private appService: AppService, private router: Router) {}
+  constructor(private router: Router, private appService: AppService) {}
 
   contacts: Contact[] = []
 

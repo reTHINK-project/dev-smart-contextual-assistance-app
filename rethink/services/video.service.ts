@@ -18,10 +18,9 @@ export class VideoService {
 
   hypertyURL = 'hyperty-catalogue://catalogue.' + this.appService.domain + '/.well-known/hyperty/HypertyConnector'
   controller: any
-  instance: any
+  hypertyVideo: any
 
   private runtime: any
-  @Output() hypertyConnectorReady = new EventEmitter();
 
   constructor(private appService: AppService) {
 
@@ -31,20 +30,19 @@ export class VideoService {
 
     return new Promise((resolve, reject) => {
 
-      if (!this.instance) {
+      if (!this.hypertyVideo) {
 
         this.appService.getHyperty(this.hypertyURL)
         .then((hyperty: any) => {
-          this.instance = hyperty.instance;
-          this.hypertyConnectorReady.emit(this.instance);
-          resolve(hyperty.instance);
+          this.hypertyVideo = hyperty.instance;
+          resolve(this.hypertyVideo);
         })
         .catch((reason) => {
           console.error(reason);
           reject(reason);
         })
       } else {
-        resolve(this.instance);
+        resolve(this.hypertyVideo);
       }
 
     })
