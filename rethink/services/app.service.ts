@@ -1,4 +1,5 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 import rethink from 'runtime-browser';
 
@@ -36,34 +37,6 @@ export class AppService {
     this._loadRuntime()
   }
 
-  getListOfHyperties() {
-    let hypertiesURL = 'https://catalogue.' + this.domain + '/.well-known/hyperty/'
-    if (this.config.development) {
-      hypertiesURL = 'https://' + this.domain + '/.well-known/hyperty/Hyperties.json'
-    }
-
-    return new Promise((resolve, reject) => {
-      $.ajax({
-        url: hypertiesURL,
-        success: (result: any, status: string, jqXHR: JQueryXHR) => {
-          let response: any = []
-          if (typeof result === 'object') {
-            Object.keys(result).forEach(function(key) {
-              response.push(key)
-            })
-          } else if (typeof result === 'string') {
-            response = JSON.parse(result)
-          }
-          resolve(response)
-        },
-        error: (jqXHR: JQueryXHR, status: string, error: string) => {
-          console.log(error)
-          reject(error)
-        }
-      })
-    })
-  }
-
   getContacts() {
     return Promise.resolve(this.contacts)
   }
@@ -91,6 +64,22 @@ export class AppService {
     return Promise.resolve(this.activities)
   }
 
+  getHyperty(url:string) {
+
+    return new Promise((resolve, reject) => {
+
+      this.runtime.requireHyperty(url).then((hyperty: any) => {
+        console.log('[Hyperty Loaded]', hyperty)
+        resolve(hyperty);
+      }).catch((reason: any) => {
+        console.error('[Hyperty Load Error]', reason);
+        reject(reason);
+      })
+
+    });
+
+  }
+
   private _loadRuntime() {
     console.log('[Loading Rethink Runtime at] ', this.config.runtimeURL)
 
@@ -100,11 +89,23 @@ export class AppService {
         console.log('[Runtime Loaded]')
         this.runtime = runtime
         this.runtimeReady.emit(runtime);
+
+        return this._login(runtime);
       }).catch((error) => {
         console.error('[Error Loading Runtime] ', error)
+      }).then((logged) => {
+
+      }).catch((error) => {
+        console.error('[Login error] ', error);
       })
 
     })
+  }
+
+  private _login(runtime: any) {
+
+    console.log(runtime);
+
   }
 
 }

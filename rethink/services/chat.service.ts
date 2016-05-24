@@ -21,25 +21,29 @@ export class ChatService {
   instance: any
 
   private runtime: any
-  public hypertyReady = new EventEmitter();
+  public hypertyChatReady = new EventEmitter();
 
-  constructor(private appService: AppService) {
-
-    appService.runtimeReady.subscribe((runtime: any) => {
-      this.runtime = runtime;
-      this.getHyperty();
-    })
-
-  }
+  constructor(private appService: AppService) {}
 
   getHyperty() {
 
-    this.runtime.requireHyperty(this.hypertyURL).then((hyperty: any) => {
-      console.log('[Hyperty Loaded]', hyperty)
-      this.instance = hyperty.instance;
-      this.hypertyReady.emit(this.instance);
-    }).catch((reason: any) => {
-      console.error('[Hyperty Load Error]', reason);
+    return new Promise((resolve, reject) => {
+
+      if (!this.instance) {
+        this.appService.getHyperty(this.hypertyURL)
+        .then((hyperty: any) => {
+          this.instance = hyperty.instance;
+          this.hypertyChatReady.emit(this.instance);
+          resolve(hyperty.instance);
+        })
+        .catch((reason) => {
+          console.error(reason);
+          reject(reason);
+        })
+      } else {
+        resolve(this.instance);
+      }
+
     })
 
   }

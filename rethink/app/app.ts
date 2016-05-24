@@ -51,7 +51,7 @@ export class Application {
 
     this.contextOpened = false;
 
-    this.appService.getContacts().then((contacts) => {
+    this.appService.getContacts().then((contacts: any) => {
       this.contacts = contacts
     })
 

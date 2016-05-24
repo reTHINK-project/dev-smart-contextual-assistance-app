@@ -16,6 +16,8 @@ export class ContentBox implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.activities = this.model.activities;
+
+    console.log('HERE:', this.model)
   }
 
   ngAfterViewChecked() {

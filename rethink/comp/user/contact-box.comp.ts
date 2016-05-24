@@ -11,7 +11,10 @@ export class ContactBox implements OnInit {
 
   @Input() model:Contact
 
-  ngOnInit() {
+  @Output('video-call') videoClick = new EventEmitter()
+  @Output('audio-call') audioClick = new EventEmitter()
 
+  ngOnInit() {
+    console.log('HERE:', this.model)
   }
 }

@@ -48,25 +48,28 @@ export class ActivityView {
     let url = 'comm://hybroker.rethink.ptinovacao.pt/' + resource
 
     console.log('[Chat URL] ', url)
-    this.chatService.join(url).then((chat: any) => {
-      this.chatActive = true
-      this.chat = chat
-      chat.addEventListener('new:message:recived', (msg: any) => {
-        //FIX: my on messages are without identity !
-        if (msg.identity) {
-          //TODO: replace by contact search...
-          let contact: Contact = {
-            id: msg.identity.identity,
-            name: msg.identity.infoToken.name,
-            status: 'online',
-            avatar: msg.identity.infoToken.picture,
-            email: msg.identity.infoToken.email
-          }
+    if (resource) {
+      this.chatService.join(url).then((chat: any) => {
+        this.chatActive = true
+        this.chat = chat
+        chat.addEventListener('new:message:recived', (msg: any) => {
+          //FIX: my on messages are without identity !
+          if (msg.identity) {
+            //TODO: replace by contact search...
+            let contact: Contact = {
+              id: msg.identity.identity,
+              name: msg.identity.infoToken.name,
+              status: 'online',
+              avatar: msg.identity.infoToken.picture,
+              email: msg.identity.infoToken.email
+            }
 
-          this.activities.push({ contact: contact, type: 'message', date: new Date().toJSON(), message: msg.value.chatMessage })
-        }
+            this.activities.push({ contact: contact, type: 'message', date: new Date().toJSON(), message: msg.value.chatMessage })
+          }
+        })
       })
-    })
+    }
+
   }
 
   onMessage(message: string) {
