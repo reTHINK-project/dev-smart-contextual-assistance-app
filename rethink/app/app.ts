@@ -9,7 +9,6 @@ import { ContextService }     from '../services/context.service';
 // Interfaces
 import { Contact } from '../comp/contact/contact';
 
-
 // Components
 import { ContactMeComponent } from '../comp/contact/me.comp';
 import { ContactListComponent } from '../comp/contact/contactlist.comp';
@@ -27,11 +26,6 @@ import { UserView } from './userView';
     ROUTER_DIRECTIVES,
     ContactMeComponent, ContactListComponent,
     ContextBreadCrumbComponent
-  ],
-  providers: [
-    ROUTER_PROVIDERS,
-    AppService,
-    ContextService
   ],
   templateUrl: 'app/view/app.html'
 })

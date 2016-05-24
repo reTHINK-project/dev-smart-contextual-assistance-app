@@ -39,12 +39,12 @@ export class UserView implements OnActivate {
   @HostBinding('class') hostClass = 'content-panel'
   @HostBinding('id') id = 'user-view'
 
-  @Output() contact:Contact
-  @Output() context:Context
-  @Output() action:string = 'init'
-  @Output() owner:Contact
-  @Output() otherStream:any
-  @Output() myStream:any
+  contact:Contact
+  context:Context
+  action:string = 'init'
+  owner:Contact
+  otherStream:any
+  myStream:any
 
   private haveNotification = false
   private hypertyChat: any
@@ -64,7 +64,6 @@ export class UserView implements OnActivate {
   ngOnInit() {
 
     this.appService.runtimeReady.subscribe(() => {
-
       this.chatService.getHyperty().then((hypertyChat) => {
         this.hypertyChat = hypertyChat;
         return this.videoService.getHyperty();

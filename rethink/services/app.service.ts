@@ -33,10 +33,6 @@ export class AppService {
     { contact: this.contacts[0], type: 'file-share', status: 'ok', date: 'at 14:30' }
   ]
 
-  constructor() {
-    this._loadRuntime()
-  }
-
   getContacts() {
     return Promise.resolve(this.contacts)
   }
@@ -80,7 +76,7 @@ export class AppService {
 
   }
 
-  private _loadRuntime() {
+  loadRuntime() {
     console.log('[Loading Rethink Runtime at] ', this.config.runtimeURL)
 
     return new Promise((resolve, reject) => {
