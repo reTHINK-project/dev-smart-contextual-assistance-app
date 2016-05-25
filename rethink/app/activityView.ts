@@ -1,15 +1,17 @@
 import { Component, Input, Output, OnInit, HostBinding, EventEmitter } from '@angular/core';
 
-import { Router, RouteSegment, ROUTER_DIRECTIVES } from '@angular/router';
+import { Router, Routes, RouteSegment, ROUTER_DIRECTIVES } from '@angular/router';
 
 // Components
 import { ActivityListComponent } from '../comp/activity/activitylist.comp';
 import { FileShareListComponent } from '../comp/fileshare/filesharelist.comp';
 import { ContextMenuComponent } from '../comp/context/menu.comp';
 import { ContextSenderComponent } from '../comp/context/sender.comp';
+import { NotificationBox } from '../comp/user/notification.comp';
 
 // Interfaces
 import { Contact } from '../comp/contact/contact'
+import { Context } from '../comp/context/context'
 import { Activity } from '../comp/activity/activity'
 
 // Services
@@ -24,16 +26,24 @@ import { ContextService }     from '../services/context.service';
   templateUrl: 'app/view/activityView.html',
   directives: [
     ROUTER_DIRECTIVES,
+    NotificationBox,
     ActivityListComponent, FileShareListComponent,
     ContextMenuComponent, ContextSenderComponent
   ]
 })
+@Routes([
+  {path: '/:resource', component: this}
+])
 export class ActivityView {
   @HostBinding('class') hostClass = 'content-panel'
 
   chat: any
   chatActive = false
   activities: Activity[] = []
+
+  haveNotification = false
+  owner: any
+  me: Contact
 
   constructor(
     private router: Router,
@@ -44,8 +54,11 @@ export class ActivityView {
   ) {}
 
   ngOnInit() {
-    this.appService.getActivities().then((activities) => {
-      this.activities = activities
+
+    this.me = this.appService.me;
+
+    this.contextService.getContextByName('Work').then((context:Context) => {
+      this.activities = context.activities
     })
   }
 
@@ -62,9 +75,13 @@ export class ActivityView {
       })
     } else {
       this.chatService.hypertyChat.addEventListener('chat:subscribe', (chat: any) => {
+        this.chatActive = true
         this.prepareChat(chat);
       });
     }
+
+    this.prepareVideo();
+    this._updateView();
 
   }
 
@@ -92,10 +109,78 @@ export class ActivityView {
           email: msg.identity.infoToken.email
         }
 
-        this.activities.push({ contact: contact, type: 'message', date: new Date().toJSON(), message: msg.value.chatMessage })
+        let activity = <Activity>{ contact: contact, type: 'message', date: new Date().toJSON(), message: msg.value.chatMessage, read: false }
+
+        this.contextService.getContextByResource(msg.url).then((context:Context) => {
+
+          context.activities.push(activity);
+          console.log('[Context Exists]:', context);
+
+        }).catch((reason: any) => {
+
+          this._createNewContext(msg, activity).then((context:Context) => {
+            console.log('[Context Created]: ', context);
+          })
+
+        })
+        // this.activities.push({ contact: contact, type: 'message', date: new Date().toJSON(), message: msg.value.chatMessage })
       }
 
+      // console.log('Activities: ', this.activities);
+
     });
+  }
+
+  prepareVideo() {
+    console.log('[Hyperty Video is ready]');
+    this.videoService.hypertyVideo.addEventListener('connector:connected', (controller: any) => {
+
+      console.log('[Hyperty Video is connected]: ', controller);
+
+      // this.videoController = controller;
+      // this.videoController.addEventListener('stream:added', this._processVideo);
+      this.videoService.hypertyVideo.addEventListener('have:notification', (event: any) => {
+        // notificationHandler(controller, event);
+        console.log('have:notification', controller, event);
+
+        this.owner = event.identity.infoToken;
+        this.haveNotification = true;
+      });
+
+    });
+
+  }
+
+  private _createNewContext(msg: any, activity:Activity) {
+    console.info('creating a new one', msg);
+
+    // name: string, resource: string, contacts:Contact[], activities:Activity[], type: ContextType = 'private'
+    return new Promise<Context>((resolve, reject) => {
+      this.contextService.createContext(
+        msg.identity.infoToken.name,
+        msg.url,
+        [],
+        [activity],
+        'private'
+      ).then((context) => {
+        resolve(context)
+      })
+    })
+  }
+
+  private _updateView() {
+    // // TODO: Optimize this to on resize
+    let $ele = $(document);
+    let contentHeight = $ele.height();
+    let sender = 62;
+    let margin = 60;
+    let height = contentHeight - (sender + margin);
+
+    console.log('update View', height, $ele)
+
+    $ele.find('div[user]').css({'overflow-y': 'scroll'});
+    let scrollable = $ele.find('div[user]').height(height);
+
   }
 
 }

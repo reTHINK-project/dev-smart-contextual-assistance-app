@@ -25,13 +25,7 @@ export class AppService {
 
   private contacts = contacts
 
-  activities: [Activity] = [
-    { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'Lorem ipsum dolor sit amet, vix eu exerci efficiantur, antiopam indoctum usu et. Vis te quot' },
-    { contact: this.contacts[3], type: 'video-call', status: 'failed', date: 'at 12:32' },
-    { contact: this.contacts[2], type: 'audio-call', status: 'ok', date: 'yesterday, at 14:30', duration: 6 },
-    { contact: this.contacts[2], type: 'audio-call', status: 'failed', date: 'Yesterday, at 14:30' },
-    { contact: this.contacts[0], type: 'file-share', status: 'ok', date: 'at 14:30' }
-  ]
+  me = <Contact>{}
 
   getContacts() {
     return Promise.resolve(this.contacts)
@@ -54,10 +48,6 @@ export class AppService {
 
 
     })
-  }
-
-  getActivities() {
-    return Promise.resolve(this.activities)
   }
 
   getHyperty(url:string) {
@@ -87,13 +77,33 @@ export class AppService {
         resolve(runtime);
       }).catch((error) => {
         console.error('[Error Loading Runtime] ', error)
-      }).then((logged) => {
-
-      }).catch((error) => {
-        console.error('[Login error] ', error);
       })
 
     })
+  }
+
+  getMyIdentity(hyperty: any) {
+
+    console.log('[Get my Identity]:', hyperty)
+
+    return new Promise((resolve, reject) => {
+
+      let hypertyURL = hyperty.runtimeHypertyURL;
+      hyperty.instance.identityManager.discoverUserRegistered(hypertyURL).then((user: any) => {
+        resolve(user);
+      }).catch((reason: any) => {
+        console.info('Error getting the register user, using fake information', reason);
+
+        this.me.id = 'id10';
+        this.me.name = 'Vitor Silva';
+        this.me.status = 'online';
+        this.me.email = 'vitorsilva@boldint.com';
+
+        resolve(this.me);
+      })
+
+    })
+
   }
 
 }

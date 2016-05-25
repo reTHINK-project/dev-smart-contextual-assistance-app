@@ -37,6 +37,9 @@ export class UserView implements OnActivate {
 
   contact:Contact
   context:Context
+
+  me:Contact
+
   action:string = 'init'
   owner:Contact
   otherStream:any
@@ -55,6 +58,9 @@ export class UserView implements OnActivate {
   ) {}
 
   ngOnInit() {
+
+    this.me = this.appService.me;
+
   }
 
   routerOnActivate(curr: RouteSegment): void {
@@ -62,7 +68,7 @@ export class UserView implements OnActivate {
     this.current = id;
 
     this.activateChat();
-    this.activateVideo();
+    // this.activateVideo();
 
     this._updateView();
   }
@@ -78,23 +84,23 @@ export class UserView implements OnActivate {
     }).catch((reason) => { console.error(reason); })
   }
 
-  activateVideo() {
-
-    this.videoService.hypertyVideo.addEventListener('connector:connected', (controller: any) => {
-
-      this.videoController = controller;
-      this.videoController.addEventListener('stream:added', this._processVideo);
-      this.videoService.hypertyVideo.addEventListener('have:notification', (event: any) => {
-        // notificationHandler(controller, event);
-        console.log('have:notification', controller, event);
-
-        this.haveNotification = true;
-        this.owner = event.identity.infoToken;
-
-      });
-
-    });
-  }
+  // activateVideo() {
+  //
+  //   this.videoService.hypertyVideo.addEventListener('connector:connected', (controller: any) => {
+  //
+  //     this.videoController = controller;
+  //     this.videoController.addEventListener('stream:added', this._processVideo);
+  //     this.videoService.hypertyVideo.addEventListener('have:notification', (event: any) => {
+  //       // notificationHandler(controller, event);
+  //       console.log('have:notification', controller, event);
+  //
+  //       this.haveNotification = true;
+  //       this.owner = event.identity.infoToken;
+  //
+  //     });
+  //
+  //   });
+  // }
 
   onMessage(message: string) {
 
@@ -103,7 +109,7 @@ export class UserView implements OnActivate {
     // resource:string, contact:Contact, type: ActivityType, status:string, message:string
     this.contextService.updateContextActivity(
       this.chatService.chat.dataObject.url,
-      this.contact,
+      this.me,
       'message',
       'ok',
       message
@@ -134,12 +140,7 @@ export class UserView implements OnActivate {
       this.action = 'video';
       mediaStream = stream;
 
-      return this.videoService.hypertyVideo.hypertyDiscovery.discoverHypertyPerUser(this.contact.email, '')
-    })
-    .then((userHyperty) => {
-      console.log('[Hyperty Video]:', this.videoService.hypertyVideo);
-
-      return this.videoService.hypertyVideo.connect(userHyperty.hypertyURL, mediaStream);
+      return this.videoService.hypertyVideo.connect(this.contact.email, mediaStream);
     }).then((controller) => {
       this.myStream = URL.createObjectURL(mediaStream)
       this.videoController = controller;

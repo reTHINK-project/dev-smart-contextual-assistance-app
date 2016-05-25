@@ -44,6 +44,7 @@
 		"services/chat.service.ts",
 		"services/contacts.ts",
 		"services/context.service.ts",
+		"services/me.ts",
 		"services/modules.d.ts",
 		"services/video.service.ts",
 		"typings/globals/es6-shim/index.d.ts",

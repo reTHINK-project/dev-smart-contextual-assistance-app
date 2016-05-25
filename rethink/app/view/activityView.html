@@ -1,3 +1,4 @@
+<div *ngIf="haveNotification && owner" role="alert" notification-box [model]='owner' (accept-call)="onAcceptCall()" (reject-call)="onRejectCall()"></div>
 <ul activity-list [model]="activities"></ul>
 
 <div file-share-list></div>

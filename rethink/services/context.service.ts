@@ -13,7 +13,23 @@ export class ContextService {
 
   private contacts = contacts
 
+  activities: [Activity] = [
+    { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'Lorem ipsum dolor sit amet, vix eu exerci efficiantur, antiopam indoctum usu et. Vis te quot' },
+    { contact: this.contacts[3], type: 'video-call', status: 'failed', date: 'at 12:32' },
+    { contact: this.contacts[2], type: 'audio-call', status: 'ok', date: 'yesterday, at 14:30', duration: 6 },
+    { contact: this.contacts[2], type: 'audio-call', status: 'failed', date: 'Yesterday, at 14:30' },
+    { contact: this.contacts[0], type: 'file-share', status: 'ok', date: 'at 14:30' }
+  ]
+
   contexts: Context[] = [
+    {
+      name: "Work",
+      type: 'public',
+      icon: 'a',
+      resource: 'comm://hybroker.rethink.ptinovacao.pt',
+      contacts: this.contacts,
+      activities: this.activities
+    },
     {
       name: '',
       type: 'private',

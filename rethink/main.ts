@@ -22,6 +22,8 @@ appService.loadRuntime().then((runtime) => {
 }).catch((reason) => {
   console.log('error Loading hyperty video', reason);
 }).then((hypertyVideo) => {
+  return appService.getMyIdentity(hypertyVideo)
+}).then((user) => {
   console.log('READY')
   // enableProdMode();
   bootstrap(Application, [ ROUTER_PROVIDERS, ContextService,

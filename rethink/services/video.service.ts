@@ -18,6 +18,7 @@ export class VideoService {
 
   hypertyURL = 'hyperty-catalogue://catalogue.' + this.appService.domain + '/.well-known/hyperty/HypertyConnector'
   controller: any
+  hyperty: any
   hypertyVideo: any
 
   private runtime: any
@@ -35,14 +36,15 @@ export class VideoService {
         this.appService.getHyperty(this.hypertyURL)
         .then((hyperty: any) => {
           this.hypertyVideo = hyperty.instance;
-          resolve(this.hypertyVideo);
+          this.hyperty = hyperty
+          resolve(this.hyperty);
         })
         .catch((reason) => {
           console.error(reason);
           reject(reason);
         })
       } else {
-        resolve(this.hypertyVideo);
+        resolve(this.hyperty);
       }
 
     })

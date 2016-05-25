@@ -8,6 +8,7 @@ import { ContextService }     from '../services/context.service';
 
 // Interfaces
 import { Contact } from '../comp/contact/contact';
+import { Context } from '../comp/context/context';
 
 // Components
 import { ContactMeComponent } from '../comp/contact/me.comp';
@@ -35,7 +36,9 @@ import { UserView } from './userView';
 ])
 export class Application {
 
-  constructor(private router: Router, private appService: AppService) {}
+  constructor(private router: Router,
+    private appService: AppService,
+    private contextService: ContextService) {}
 
   contacts: Contact[] = []
 
@@ -45,8 +48,8 @@ export class Application {
 
     this.contextOpened = false;
 
-    this.appService.getContacts().then((contacts: any) => {
-      this.contacts = contacts
+    this.contextService.getContextByName('Work').then((context:Context) => {
+      this.contacts = context.contacts
     })
 
   }

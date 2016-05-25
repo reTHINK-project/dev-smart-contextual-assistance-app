@@ -18,6 +18,7 @@ export class ChatService {
 
   hypertyURL = 'hyperty-catalogue://catalogue.' + this.appService.domain + '/.well-known/hyperty/HypertyChat'
   chat: any
+  hyperty: any
   hypertyChat: any
 
   private runtime: any
@@ -32,14 +33,15 @@ export class ChatService {
         this.appService.getHyperty(this.hypertyURL)
         .then((hyperty: any) => {
           this.hypertyChat = hyperty.instance;
-          resolve(this.hypertyChat);
+          this.hyperty = hyperty
+          resolve(this.hyperty);
         })
         .catch((reason) => {
           console.error(reason);
           reject(reason);
         })
       } else {
-        resolve(this.hypertyChat);
+        resolve(this.hyperty);
       }
 
     })
