@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, Output, HostBinding, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, HostBinding, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 import { Contact } from './contact';
 import { ContactComponent } from './contact.comp';
@@ -6,13 +7,18 @@ import { ContactComponent } from './contact.comp';
 @Component({
   selector: 'ul[contact-list]',
   templateUrl: 'comp/contact/contactlist.comp.html',
-  directives: [ContactComponent]
+  directives: [ContactComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContactListComponent implements OnInit {
 
   @HostBinding('class') hostClass = 'contactlist all-100'
 
-  @Input() set model(contacts:Contact[]) {
+  @Input() set model (contacts:Contact[]) {
+
+    console.log('Set Model Contacts List:', contacts);
+    if (!contacts) return;
+
     this.contacts = contacts
     this.filter("");
   }
@@ -20,11 +26,13 @@ export class ContactListComponent implements OnInit {
   @Output('contact-click') contactClick = new EventEmitter()
   @Output('contact-add') contactAdd = new EventEmitter()
 
-  private contacts:Contact[] = []
-  private contactsFilter: Contact[] = []
+  private contacts: Contact[]
+  private contactsFilter: Contact[]
+
+  constructor(private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.filter("")
+
   }
 
   onContactClick(model:Contact) {

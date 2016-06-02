@@ -6,5 +6,6 @@ export interface Contact {
   status: ContactStatus
   avatar: string
   unread?: number
-  email: string
+  email: string,
+  userURL: string
 }

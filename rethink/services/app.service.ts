@@ -28,7 +28,11 @@ export class AppService {
   me = <Contact>{}
 
   getContacts() {
-    return Promise.resolve(this.contacts)
+
+    return new Promise((resolve, reject) => {
+      resolve(this.contacts);
+    })
+
   }
 
   getContact(id:string) {
@@ -89,16 +93,19 @@ export class AppService {
     return new Promise((resolve, reject) => {
 
       let hypertyURL = hyperty.runtimeHypertyURL;
-      hyperty.instance.identityManager.discoverUserRegistered(hypertyURL).then((user: any) => {
+      hyperty.instance.identityManager.discoverUserRegistered().then((user: any) => {
+
+        console.info('Getting the register user', user);
+        this.me.userURL = user.userURL;
+        this.me.name = user.cn;
+        this.me.email = user.username;
+        this.me.avatar = user.avatar;
+        this.me.status = 'online';
+        this.me.unread = 1;
+
         resolve(user);
       }).catch((reason: any) => {
         console.info('Error getting the register user, using fake information', reason);
-
-        this.me.id = 'id10';
-        this.me.name = 'Vitor Silva';
-        this.me.status = 'online';
-        this.me.email = 'vitorsilva@boldint.com';
-
         resolve(this.me);
       })
 

@@ -10,6 +10,7 @@ import { ContextService } from '../services/context.service';
 // Interfaces
 import { Contact } from '../comp/contact/contact';
 import { Context } from '../comp/context/context';
+import { Activity } from '../comp/activity/activity';
 
 // Components
 import { ContactBox } from '../comp/user/contact-box.comp';
@@ -38,12 +39,11 @@ export class UserView implements OnActivate {
   contact:Contact
   context:Context
 
-  me:Contact
-
   action:string = 'init'
   owner:Contact
   otherStream:any
   myStream:any
+  me:Contact
 
   private haveNotification = false
   private chatActive = false
@@ -60,7 +60,6 @@ export class UserView implements OnActivate {
   ngOnInit() {
 
     this.me = this.appService.me;
-
   }
 
   routerOnActivate(curr: RouteSegment): void {
@@ -75,7 +74,7 @@ export class UserView implements OnActivate {
 
   activateChat() {
 
-    this.appService.getContact(this.current)
+    this.contextService.getContact(this.current)
     .then((contact) => this._getContext(contact))
     .catch((reason) => { console.log('create chat and new context') })
     .then((context:Context) => this._getChat(context))
@@ -105,6 +104,8 @@ export class UserView implements OnActivate {
   onMessage(message: string) {
 
     console.log('MESSAGE:', message, this.chatService.chat);
+
+    // let activity = <Activity>{ contact: this.me, type: 'message', date: new Date().toJSON(), message: message, read: false }
 
     // resource:string, contact:Contact, type: ActivityType, status:string, message:string
     this.contextService.updateContextActivity(

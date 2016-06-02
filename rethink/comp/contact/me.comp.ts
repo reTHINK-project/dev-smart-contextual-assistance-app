@@ -15,10 +15,6 @@ export class ContactMeComponent {
 
   constructor(private appService:AppService ) {}
 
-  model:Contact;
-
-  ngOnInit() {
-    this.model = this.appService.me;
-  }
+  @Input() model:Contact;
 
 }

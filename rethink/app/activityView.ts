@@ -43,7 +43,6 @@ export class ActivityView {
 
   haveNotification = false
   owner: any
-  me: Contact
 
   constructor(
     private router: Router,
@@ -54,12 +53,9 @@ export class ActivityView {
   ) {}
 
   ngOnInit() {
-
-    this.me = this.appService.me;
-
-    this.contextService.getContextByName('Work').then((context:Context) => {
-      this.activities = context.activities
-    })
+    // this.contextService.getContextByName('Work').then((context:Context) => {
+    //   this.activities = context.activities
+    // })
   }
 
   routerOnActivate(curr: RouteSegment): void {
@@ -76,7 +72,7 @@ export class ActivityView {
     } else {
       this.chatService.hypertyChat.addEventListener('chat:subscribe', (chat: any) => {
         this.chatActive = true
-        this.prepareChat(chat);
+        // this.prepareChat(chat);
       });
     }
 
@@ -106,7 +102,8 @@ export class ActivityView {
           name: msg.identity.infoToken.name,
           status: 'online',
           avatar: msg.identity.infoToken.picture,
-          email: msg.identity.infoToken.email
+          email: msg.identity.infoToken.email,
+          userURL: msg.identity.userURL
         }
 
         let activity = <Activity>{ contact: contact, type: 'message', date: new Date().toJSON(), message: msg.value.chatMessage, read: false }
@@ -118,7 +115,7 @@ export class ActivityView {
 
         }).catch((reason: any) => {
 
-          this._createNewContext(msg, activity).then((context:Context) => {
+          this._createNewContext(msg, contact, activity).then((context:Context) => {
             console.log('[Context Created]: ', context);
           })
 
@@ -133,6 +130,8 @@ export class ActivityView {
 
   prepareVideo() {
     console.log('[Hyperty Video is ready]');
+    if (!this.videoService.hypertyVideo) return;
+
     this.videoService.hypertyVideo.addEventListener('connector:connected', (controller: any) => {
 
       console.log('[Hyperty Video is connected]: ', controller);
@@ -151,7 +150,7 @@ export class ActivityView {
 
   }
 
-  private _createNewContext(msg: any, activity:Activity) {
+  private _createNewContext(msg: any, contact:Contact, activity:Activity) {
     console.info('creating a new one', msg);
 
     // name: string, resource: string, contacts:Contact[], activities:Activity[], type: ContextType = 'private'
@@ -159,7 +158,7 @@ export class ActivityView {
       this.contextService.createContext(
         msg.identity.infoToken.name,
         msg.url,
-        [],
+        [contact],
         [activity],
         'private'
       ).then((context) => {
@@ -178,8 +177,8 @@ export class ActivityView {
 
     console.log('update View', height, $ele)
 
-    $ele.find('div[user]').css({'overflow-y': 'scroll'});
-    let scrollable = $ele.find('div[user]').height(height);
+    $ele.find('ul[activity-list]').css({'overflow-y': 'scroll'});
+    let scrollable = $ele.find('ul[activity-list]').height(height);
 
   }
 

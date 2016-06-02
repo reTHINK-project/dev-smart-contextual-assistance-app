@@ -7,7 +7,7 @@
 </li>
 
 <!-- List of ContactComponent -->
-<li contact *ngFor="let contact of contactsFilter" [model]="contact" (click)="contactClick.emit(contact)"></li>
+<li *ngIf="contactsFilter && contact" contact *ngFor="let contact of contactsFilter" [model]="contact" (click)="contactClick.emit(contact)"></li>
 <!--<ng-content select="li[contact]"></ng-content>-->
 
 <!-- Add conact button -->
