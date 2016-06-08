@@ -13,29 +13,51 @@ The initial version is focused on Co-worker Business Conversation context and Pe
 -	GroupChat Hyperty to support chat communication with group of users
 -	Connector Hyperty to support Audio and Video communication with users
 
-![Smart Contextual Assistance Architecture](smart-contextual-assistance-arch.png)
+The picture below depicts the Contextual Communication model used.
+Each Contextual Communication session is characterised by a [Context data object]() and a [Communication Data Object]() that Hyperties used to manage context and communication in a integrated way. On the other side Contextual Communications are composite objects - CompositeContextualComm - organised in a tree structure, where the leaves are atomic objects - AtomicContextualComm. Contextual Communications can be triggered by different Context values - ContextualCommTrigger - for example for certain location values.
 
-The picture below depicts the Context Concept landscape map view concept that will be researched in terms of User Interface design to express a User Context composed by different types of context (e.g. location, activity, availability, etc ) each one having different levels of detail (eg work -> Customer Conversation -> Subject).
+The Application uses ContextName, ContextScheme and ContextResource defined by ContextualCommTrigger,  to discover and subscribe to Context Data Objects which will provide the data required to trigger the execution of each Contextual Communication session.
 
-![Context Landscape View Concept](context-landscape-view-concept.png)
+![Context Communication model](contextual-communication-design.png)
 
-Such context landscape view can be displayed in a 2D screen display as shown below. Browsing through the Context Landscape in touchscreen devices can be done with swipe gestures.
 
-![Context Landscape View in 2D](2d-context-landscape.png)
+### Screen Shots
 
-### Smart Phone User Interface
+In this sections, some screen shots are provided for the Business Assistance features provided by the Smart Contextual Assistance when the user is in a Work Context.
 
-In the next sections, initial UI concepts for a Smart Phone device are provided.
+The user can explicitly select a certain context by clicking on top left side of the header.
 
-#### Context in general
+![Context Management](ContextManagementGUI.png.png)
 
-The top header contains a User Context landscape silhouette which gives access to different sets of assistance features.
+By default, when the Work context is selected or automatically triggered, the home screen is the Work Timeline, which contains:
 
-![Top Header with MyContext Condensed](top-header-mycontext-condensed.png)
+-	A summary of shared work files and some KPIs about user's Work Activities.
+-	the list of co-workers
+- last messages exchanged among co-workers.
+-	there is a command button to start a specific Work Conversation.
 
-When tapped, the top header will expand into a browsable Context Landscap map as the example shown below, which contains different types of context with different layers of detail. At the bottom, there is a time control cursor enables to move the context backward or forward in time (timescale should be set in settings)(probably this will only be provided in phase 2).
+![Work Context Home](WorkHomeGUI.png)
 
-![A complex Work user context example](mycontext-work-landscape-example.png)
+
+
+![User Management](UserManagementGui.png)
+
+When a specific Contextual Work Communication starts (eg when the user selects from the Context or a Work Activity Context is inferred by the App), the Fitness Session UI is activated, which contains:
+
+-	Messages exchanged between the active Fitness Buddy User Group ie other Fitness Buddies that are also in a Fitness Session. Each message entry includes a summary of the Buddy Fitness KPIs and a command to invite for a Buddy Session.
+-	Graphics with real time analysis of Key Performace Indicators from the Fitness Session (to be researched if these KPIs can also be represented with a specific Fitness Context landscape map).
+-	at the bottom an input form to write and send chat messages to Fitness Buddies
+-	at the top some notifications can appear with new Buddy invitations or new Buddy recommendations
+
+
+![Peer Work Context](UserWorkContextGUI.png)
+
+![Peer Work Context](UserWorkContextGUI.png)
+
+![Audio Communication in Peer Work Context](AudioConversationGui.png)
+
+![Video Communication in Peer Work Context](AVConversationGui.png)
+
 
 #### Fitness Context
 
