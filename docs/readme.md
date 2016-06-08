@@ -27,7 +27,7 @@ The user can explicitly select a certain context by clicking on top left side of
 
 ![Context Management](ContextManagementGUI.png)
 
-By default, when the Work context is selected or automatically triggered, the home screen is the Work Timeline is displayed, which contains:
+By default, when the Work context is selected or automatically triggered, the Work Timeline is displayed, which contains:
 
 -	A summary of shared work files.
 -	the list of co-workers including its availability status
