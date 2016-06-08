@@ -25,7 +25,7 @@ The Application uses ContextName, ContextScheme and ContextResource defined by C
 
 The user can explicitly select a certain context by clicking on top left side of the header and browse through the context tree.
 
-![Context Management](ContextManagementGUI.png.png)
+![Context Management](ContextManagementGUI.png)
 
 By default, when the Work context is selected or automatically triggered, the home screen is the Work Timeline is displayed, which contains:
 
