@@ -3,7 +3,8 @@
 Package ContextualComm {
 
 	class ContextualComm {
-	trigger : ContextualCommTrigger[]
+	communication : Communication.Communication
+	context : Context.Context
 	}
 
 	class ContextualCommTrigger {
@@ -11,6 +12,7 @@ Package ContextualComm {
 	contextScheme ?: string
 	contextResource ?: HypertyResource.HypertyResourceType
 	values : Context.ConntextValue[]
+	trigger : ContextualComm
 	}
 
 	note bottom : Context Values that triggers ContextualComm.\n Discovered with one of these: Context Object name,\n Context scheme or Hyperty Resource
@@ -24,13 +26,13 @@ Package ContextualComm {
 	class CompositeContextualComm {
 	}
 
- ContextualComm -right-> "1..*" ContextualCommTrigger
+ ContextualComm <-right- "1..*" ContextualCommTrigger
 
 	CompositeContextualComm *-"0..*" CompositeContextualComm
 
-	ContextualComm -up-|> ActivityContext.ActivityContext
+	ContextualComm *-up-> ActivityContext.ActivityContext
 
-	ContextualComm -up-|> Communication.Communication
+	ContextualComm *-up-> Communication.Communication
 
 	CompositeContextualComm -up-|> ContextualComm
 
