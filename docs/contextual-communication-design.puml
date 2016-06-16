@@ -21,18 +21,31 @@ Package ContextualComm {
 	}
 
 	class AtomicContextualComm {
+	parent : CompositeContextualComm
+	user : ContextualCommUser
 	}
 
 	class CompositeContextualComm {
+	parent ?: CompositeContextualComm
+	users ?: ContextualCommUser[]
+	contexts : ContextualComm[]
+	}
+
+	class ContextualCommUser {
+	}
+
+	class Identity.Identity {
+	 guid: User.UserGUIDURL
+	 identifiers: User.UserURL[]
 	}
 
  ContextualComm <-right- "1..*" ContextualCommTrigger
 
-	CompositeContextualComm *-"0..*" CompositeContextualComm
-
 	ContextualComm *-up-> ActivityContext.ActivityContext
 
 	ContextualComm *-up-> Communication.Communication
+
+	ContextualCommUser -up-|> Identity.Identity
 
 	CompositeContextualComm -up-|> ContextualComm
 

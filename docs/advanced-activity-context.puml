@@ -1,0 +1,50 @@
+@startuml "advanced-activity-context.png"
+
+Package ActivityContextual {
+
+class ActivityContext {
+  id: string
+  type = "activity"
+  description ?: string
+  time?: date
+  values: TimeActivity[]
+  tag?: string
+  children ?=["activityrequests"]
+  childUrls : URL.URL[]
+}
+
+
+class TimeActivity {
+  name = "s"
+  unit = "second"
+  value : float
+}
+
+class ActivityRequests <<Children>> {
+  parent = "activitycontext"
+  listener = "activityrequests"
+  type = "ActivityRequest"
+  resourcePermissions = "write"
+}
+
+class ActivityRequest <<SyncObjectChild>> {
+  id: string
+  type = "activity"
+  description ?: string
+  time?: date
+  values: TimeActivity[]
+  tag?: string
+}
+}
+ActivityContext *-- "1..*" TimeActivity
+
+ActivityContext -up-|> Context.Context
+ActivityRequests -up-|> Context.Actions
+ActivityRequest -up-|> Context.Action
+TimeActivity -up-|> Context.ContextValue
+ActivityContext .left. ActivityRequests
+ActivityRequest .. ActivityRequests
+ActivityContext --> HypertyResource.HypertyResourceType
+
+
+@enduml
