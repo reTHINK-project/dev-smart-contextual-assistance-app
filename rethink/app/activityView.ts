@@ -1,6 +1,6 @@
 import { Component, Input, Output, OnInit, HostBinding, EventEmitter } from '@angular/core';
 
-import { Router, Routes, RouteSegment, ROUTER_DIRECTIVES } from '@angular/router';
+import { Router, Routes, RouteSegment, ROUTER_DIRECTIVES, OnActivate } from '@angular/router';
 
 // Components
 import { ActivityListComponent } from '../comp/activity/activitylist.comp';
@@ -34,10 +34,9 @@ import { ContextService }     from '../services/context.service';
 @Routes([
   {path: '/:resource', component: this}
 ])
-export class ActivityView {
+export class ActivityView implements OnActivate {
   @HostBinding('class') hostClass = 'content-panel'
 
-  chat: any
   chatActive = false
   activities: Activity[] = []
 
@@ -56,97 +55,98 @@ export class ActivityView {
     // this.contextService.getContextByName('Work').then((context:Context) => {
     //   this.activities = context.activities
     // })
+
+    this.chatService.onInvitation((event: any) => {
+      console.log('[Activity View - onInvitation] ', event);
+    })
   }
 
   routerOnActivate(curr: RouteSegment): void {
-    //let domain = curr.getParam('domain')
-    let resource = curr.getParam('resource')
-    let url = 'comm://hybroker.rethink.ptinovacao.pt/' + resource
+    let context = curr.getParam('context')
 
-    console.log('[Chat URL] ', url, this.chatService.hypertyChat)
-    if (resource) {
-      this.chatService.join(url).then((chat: any) => {
-        this.chatActive = true
-        this.prepareChat(chat);
-      })
-    } else {
-      this.chatService.hypertyChat.addEventListener('chat:subscribe', (chat: any) => {
-        this.chatActive = true
-        // this.prepareChat(chat);
-      });
-    }
+    console.log('Context:', context);
 
-    this.prepareVideo();
-    this._updateView();
+    this.chatService.create(context, []).then((result: any) => {
+      console.log('Create chat service for all my contacts', result);
 
+      return this.contextService.getContextByName(context)
+    }).then((context:Context) => {
+
+      console.log('Contextes: ', context);
+
+      // this.contacts = context.contacts;
+    }).catch((reason) => {
+      console.log('Error: ', reason);
+    })
   }
 
   onMessage(message: string) {
     console.log('Send Message: ', message);
-    this.chat.send(message)
+    this.chatService.send(message)
   }
-
 
   prepareChat(chat: any) {
 
-    console.log('Prepare Chat:', chat);
-
-    chat.addEventListener('new:message:recived', (msg: any) => {
-      console.log('[New Message]', msg);
-
-      //FIX: my on messages are without identity !
-      if (msg.identity) {
-        //TODO: replace by contact search...
-        let contact: Contact = {
-          id: msg.identity.identity,
-          name: msg.identity.infoToken.name,
-          status: 'online',
-          avatar: msg.identity.infoToken.picture,
-          email: msg.identity.infoToken.email,
-          userURL: msg.identity.userURL
-        }
-
-        let activity = <Activity>{ contact: contact, type: 'message', date: new Date().toJSON(), message: msg.value.chatMessage, read: false }
-
-        this.contextService.getContextByResource(msg.url).then((context:Context) => {
-
-          context.activities.push(activity);
-          console.log('[Context Exists]:', context);
-
-        }).catch((reason: any) => {
-
-          this._createNewContext(msg, contact, activity).then((context:Context) => {
-            console.log('[Context Created]: ', context);
-          })
-
-        })
-        // this.activities.push({ contact: contact, type: 'message', date: new Date().toJSON(), message: msg.value.chatMessage })
-      }
-
-      // console.log('Activities: ', this.activities);
-
+    this.chatService.onMessage((message: any) => {
+      console.log('[Activity View - onMessage] ', message);
     });
+
+    // chat.addEventListener('new:message:recived', (msg: any) => {
+    //   console.log('[New Message]', msg);
+    //
+    //   //FIX: my on messages are without identity !
+    //   if (msg.identity) {
+    //     //TODO: replace by contact search...
+    //     let contact: Contact = {
+    //       id: msg.identity.identity,
+    //       name: msg.identity.infoToken.name,
+    //       status: 'online',
+    //       avatar: msg.identity.infoToken.picture,
+    //       email: msg.identity.infoToken.email,
+    //       userURL: msg.identity.userURL
+    //     }
+    //
+    //     let activity = <Activity>{ contact: contact, type: 'message', date: new Date().toJSON(), message: msg.value.chatMessage, read: false }
+    //
+    //     this.contextService.getContextByResource(msg.url).then((context:Context) => {
+    //
+    //       context.activities.push(activity);
+    //       console.log('[Context Exists]:', context);
+    //
+    //     }).catch((reason: any) => {
+    //
+    //       this._createNewContext(msg, contact, activity).then((context:Context) => {
+    //         console.log('[Context Created]: ', context);
+    //       })
+    //
+    //     })
+    //     // this.activities.push({ contact: contact, type: 'message', date: new Date().toJSON(), message: msg.value.chatMessage })
+    //   }
+    //
+    //   // console.log('Activities: ', this.activities);
+    //
+    // });
   }
 
   prepareVideo() {
     console.log('[Hyperty Video is ready]');
     if (!this.videoService.hypertyVideo) return;
 
-    this.videoService.hypertyVideo.addEventListener('connector:connected', (controller: any) => {
-
-      console.log('[Hyperty Video is connected]: ', controller);
-
-      // this.videoController = controller;
-      // this.videoController.addEventListener('stream:added', this._processVideo);
-      this.videoService.hypertyVideo.addEventListener('have:notification', (event: any) => {
-        // notificationHandler(controller, event);
-        console.log('have:notification', controller, event);
-
-        this.owner = event.identity.infoToken;
-        this.haveNotification = true;
-      });
-
-    });
+    // this.videoService.hypertyVideo.addEventListener('connector:connected', (controller: any) => {
+    //
+    //   console.log('[Hyperty Video is connected]: ', controller);
+    //
+    //   // this.videoController = controller;
+    //   // this.videoController.addEventListener('stream:added', this._processVideo);
+    //   this.videoService.hypertyVideo.addEventListener('have:notification', (event: any) => {
+    //     // notificationHandler(controller, event);
+    //     console.log('have:notification', controller, event);
+    //
+    //     this.owner = event.identity.infoToken;
+    //     this.haveNotification = true;
+    //   });
+    //
+    // });
 
   }
 

@@ -9,6 +9,8 @@ import { Context, ContextType } from '../comp/context/context';
 import { Contact } from '../comp/contact/contact';
 import { Activity, ActivityType } from '../comp/activity/activity';
 
+import { ContextualCommTrigger, ContextualComm, ContextValues } from '../models/ContextualCommTrigger';
+
 // Data
 import { contacts } from './contacts';
 
@@ -27,38 +29,10 @@ export class ContextService {
     { contact: this.contacts[0], type: 'file-share', status: 'ok', date: 'at 14:30' }
   ]
 
-  private sourceContexts = new Subject<Array<Context>>();
+  private sourceContexts = new Subject<Array<ContextualCommTrigger>>();
 
   contexts = this.sourceContexts.asObservable();
-  contextsList: Context[] = [];
-
-  // contexts: Context[] = [
-  //   {
-  //     name: "Work",
-  //     type: 'public',
-  //     icon: 'a',
-  //     resource: 'comm://hybroker.rethink.ptinovacao.pt',
-  //     contacts: this.contacts,
-  //     activities: this.activities,
-  //   },
-  //   {
-  //     name: '',
-  //     type: 'private',
-  //     resource: '',
-  //     contacts: [],
-  //     activities: [
-  //       { contact: this.contacts[0], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'Praesent quis quam mattis, tempus nulla iaculis, porttitor dui. In.' },
-  //       { contact: this.contacts[1], type: 'file-share', status: 'ok', date: 'at 14:30' },
-  //       { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vel lorem ullamcorper, mattis odio id, tempus risus. Pellentesque finibus justo ut turpis congue lacinia. In justo nisi, porttitor eget porta nec, aliquam a sem. Duis non iaculis erat. Ut turpis lorem, blandit a pulvinar ut, vehicula at lectus. Etiam at metus vel tellus accumsan venenatis. Nullam justo risus, gravida ultricies molestie ut, bibendum ut dolor. Sed auctor sollicitudin nisi sit amet placerat.' },
-  //       { contact: this.contacts[0], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'Class aptent taciti sociosqu ad.' },
-  //       { contact: this.contacts[0], type: 'message', status: 'ok', read: false, date: '20/07/2014, 15:36', message: 'Sed vel faucibus risus. Proin.' },
-  //       { contact: this.contacts[1], type: 'message', status: 'ok', read: false, date: '20/07/2014, 15:36', message: 'Integer in libero eu libero.' },
-  //     ]
-  //   },
-  //
-  //   {name: "Fitness", type: 'private', icon: 'a', resource: 'comm://hybroker.rethink.ptinovacao.pt', contacts: [], activities: []},
-  //   {name: "School", type: 'private', icon: 'a', resource: 'comm://hybroker.rethink.ptinovacao.pt', contacts: [], activities: []}
-  // ]
+  contextsList: ContextualCommTrigger[] = [];
 
   getContexts() {
     return Promise.resolve(this.contexts)
@@ -74,32 +48,49 @@ export class ContextService {
 
   create(dataObject: any) {
 
-    return new Promise<Context>((resolve, reject) => {
+    return new Promise<ContextualCommTrigger>((resolve, reject) => {
 
-      let context = <Context>{}
+      console.log('dataObject: ', dataObject);
 
-      context.id = dataObject.data.id;
-      context.name = dataObject.data.name;
-      context.owner = dataObject.data.owner;
-      context.status = dataObject.data.status;
-      context.schema = dataObject.data.schema;
-      context.reporter = dataObject.data.reporter;
-      context.duration = dataObject.data.duration;
-      context.startingTime = dataObject.data.startingTime;
-      context.lastModified = dataObject.data.lastModified;
-      context.participants = dataObject.data.participants;
+      let contextValue:ContextValues = {
+        name: 'location',
+        unit: 'rad',
+        value: 0,
+        sum: 0
+      }
 
-      context.type = 'public';
-      context.contacts = [];
-      context.activities = [];
-      context.childs = [];
-      context.resource = dataObject.url;
+      let contextualCommTrigger:ContextualCommTrigger = {
+        contextName: dataObject.data.id,
+        contextScheme: 'context',
+        contextResource: ['video', 'audio', 'chat'],
+        values: [contextValue],
+        triggers: []
+      }
 
-      this.localStorage.setObject(context.id, context);
-      this.contextsList.push(context);
-      this.sourceContexts.next(this.contextsList);
+      resolve(contextualCommTrigger);
 
-      resolve(context);
+      // context.id = dataObject.data.id;
+      // context.name = dataObject.data.name;
+      // context.owner = dataObject.data.owner;
+      // context.status = dataObject.data.status;
+      // context.schema = dataObject.data.schema;
+      // context.reporter = dataObject.data.reporter;
+      // context.duration = dataObject.data.duration;
+      // context.startingTime = dataObject.data.startingTime;
+      // context.lastModified = dataObject.data.lastModified;
+      // context.participants = dataObject.data.participants;
+      //
+      // context.type = 'public';
+      // context.contacts = [];
+      // context.activities = [];
+      // context.childs = [];
+      // context.resource = dataObject.url;
+      //
+      // this.localStorage.setObject(context.id, context);
+      // this.contextsList.push(context);
+      // this.sourceContexts.next(this.contextsList);
+
+      // resolve(context);
 
     })
 
@@ -112,7 +103,7 @@ export class ContextService {
       context.childs.push(value);
 
       this.localStorage.setObject(context.id, context);
-      this.sourceContexts.next(context.childs);
+      // this.sourceContexts.next(context.childs);
     });
 
   }
@@ -167,37 +158,38 @@ export class ContextService {
 
     // TODO: Optimize this promise to handle with multiple contacts
     return new Promise<Context>((resolve, reject) => {
-
-      console.log(this.sourceContexts);
-
-      let context = this.contextsList.filter((context) => {
-        console.log('Context Filter:', context);
-
-        if(context.name.indexOf(name) !== -1) return true
-      })
-
-      if (context.length === 1) {
-        resolve(context[0])
-      } else {
-        reject('Context not found');
-      }
+    //
+    //   console.log(this.sourceContexts);
+    //
+    //   let context = this.contextsList.filter((context) => {
+    //     console.log('Context Filter:', context);
+    //
+    //     if(context.name.indexOf(name) !== -1) return true
+    //   })
+    //
+    //   if (context.length === 1) {
+    //     resolve(context[0])
+    //   } else {
+    //     reject('Context not found');
+    //   }
     })
 
   }
 
   getContextByResource(resource:string) {
+
     // TODO: Optimize this promise to handle with multiple contacts
     return new Promise<Context>((resolve, reject) => {
-
-      let context = this.contextsList.filter((context) => {
-        if(context.resource.indexOf(resource) !== -1) return true
-      })
-
-      if (context.length === 1) {
-        resolve(context[0])
-      } else {
-        reject('Context not found');
-      }
+    //
+    //   let context = this.contextsList.filter((context) => {
+    //     if(context.resource.indexOf(resource) !== -1) return true
+    //   })
+    //
+    //   if (context.length === 1) {
+    //     resolve(context[0])
+    //   } else {
+    //     reject('Context not found');
+    //   }
     })
 
   }

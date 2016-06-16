@@ -8,6 +8,8 @@ import {Activity} from '../comp/activity/activity';
 import {Contact} from '../comp/contact/contact';
 import {Context} from '../comp/context/context';
 
+import { UserProfile } from '../models/UserProfile';
+
 // Data
 import {contacts} from './contacts';
 
@@ -25,7 +27,7 @@ export class AppService {
 
   private contacts = contacts
 
-  me = <Contact>{}
+  myIdentity = <UserProfile>{}
 
   getContacts() {
 
@@ -95,18 +97,22 @@ export class AppService {
       let hypertyURL = hyperty.runtimeHypertyURL;
       hyperty.instance.identityManager.discoverUserRegistered().then((user: any) => {
 
-        console.info('Getting the register user', user);
-        this.me.userURL = user.userURL;
-        this.me.name = user.cn;
-        this.me.email = user.username;
-        this.me.avatar = user.avatar;
-        this.me.status = 'online';
-        this.me.unread = 1;
+        console.info('Getting the registed user', user);
 
-        resolve(user);
+        this.myIdentity = {
+          username: user.username,
+          userURL: user.userURL,
+          cn: user.cn,
+          locale: user.locale,
+          avatar: user.avatar,
+          status: 'online',
+          unread: 0
+        }
+
+        resolve(this.myIdentity);
       }).catch((reason: any) => {
         console.info('Error getting the register user, using fake information', reason);
-        resolve(this.me);
+        resolve(this.myIdentity);
       })
 
     })
