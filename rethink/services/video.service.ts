@@ -16,7 +16,7 @@ import {contacts} from './contacts';
 @Injectable()
 export class VideoService {
 
-  hypertyURL = 'hyperty-catalogue://catalogue.' + this.appService.domain + '/.well-known/hyperty/HypertyConnector'
+  hypertyURL = 'hyperty-catalogue://catalogue.' + this.appService.domain + '/.well-known/hyperty/Connector'
   controller: any
   hyperty: any
   hypertyVideo: any

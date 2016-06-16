@@ -12,6 +12,8 @@ import { Contact } from '../comp/contact/contact';
 import { Context } from '../comp/context/context';
 import { Activity } from '../comp/activity/activity';
 
+import { UserProfile } from '../models/UserProfile';
+
 // Components
 import { ContactBox } from '../comp/user/contact-box.comp';
 import { VideoContactBox } from '../comp/user/video-contact-box.comp';
@@ -43,7 +45,7 @@ export class UserView implements OnActivate {
   owner:Contact
   otherStream:any
   myStream:any
-  me:Contact
+  myIdentity:UserProfile
 
   private haveNotification = false
   private chatActive = false
@@ -59,7 +61,8 @@ export class UserView implements OnActivate {
 
   ngOnInit() {
 
-    this.me = this.appService.me;
+    this.myIdentity = this.appService.myIdentity;
+
   }
 
   routerOnActivate(curr: RouteSegment): void {
@@ -69,15 +72,15 @@ export class UserView implements OnActivate {
     this.activateChat();
     // this.activateVideo();
 
-    this._updateView();
+    this.updateView();
   }
 
   activateChat() {
 
-    this.contextService.getContact(this.current)
-    .then((contact) => this._getContext(contact))
+    this.appService.getContact(this.current)
+    .then((contact) => this.getContext(contact))
     .catch((reason) => { console.log('create chat and new context') })
-    .then((context:Context) => this._getChat(context))
+    .then((context:Context) => this.getChat(context))
     .then((context) => {
       this.chatActive = true
     }).catch((reason) => { console.error(reason); })
@@ -103,23 +106,23 @@ export class UserView implements OnActivate {
 
   onMessage(message: string) {
 
-    console.log('MESSAGE:', message, this.chatService.chat);
-
-    // let activity = <Activity>{ contact: this.me, type: 'message', date: new Date().toJSON(), message: message, read: false }
-
-    // resource:string, contact:Contact, type: ActivityType, status:string, message:string
-    this.contextService.updateContextActivity(
-      this.chatService.chat.dataObject.url,
-      this.me,
-      'message',
-      'ok',
-      message
-    ).then((context) => {
-
-      console.log('Update the context:', context);
-      this.chatService.chat.send(message)
-      this.context = context;
-    })
+    // console.log('MESSAGE:', message, this.chatService.chat);
+    //
+    // // let activity = <Activity>{ contact: this.me, type: 'message', date: new Date().toJSON(), message: message, read: false }
+    //
+    // // resource:string, contact:Contact, type: ActivityType, status:string, message:string
+    // this.contextService.updateContextActivity(
+    //   this.chatService.chat.dataObject.url,
+    //   this.me,
+    //   'message',
+    //   'ok',
+    //   message
+    // ).then((context) => {
+    //
+    //   console.log('Update the context:', context);
+    //   this.chatService.chat.send(message)
+    //   this.context = context;
+    // })
 
   }
 
@@ -137,7 +140,7 @@ export class UserView implements OnActivate {
     let options = {video: true, audio: true};
     let mediaStream: any;
 
-    this._getUserMedia(options).then((stream) => {
+    this.getUserMedia(options).then((stream) => {
       this.action = 'video';
       mediaStream = stream;
 
@@ -145,7 +148,7 @@ export class UserView implements OnActivate {
     }).then((controller) => {
       this.myStream = URL.createObjectURL(mediaStream)
       this.videoController = controller;
-      this.videoController.addEventListener('stream:added', this._processVideo);
+      this.videoController.addEventListener('stream:added', this.processVideo);
     })
 
   }
@@ -154,7 +157,7 @@ export class UserView implements OnActivate {
 
     let options = {video: true, audio: true};
 
-    this._getUserMedia(options).then((mediaStream) => {
+    this.getUserMedia(options).then((mediaStream) => {
       this.action = 'video';
       this.myStream = URL.createObjectURL(mediaStream)
       return this.videoController.accept(mediaStream)
@@ -169,20 +172,20 @@ export class UserView implements OnActivate {
 
   }
 
-  private _notification(event: any) {
+  private notification(event: any) {
     console.log('NOTIFICATION: ', event);
 
     this.action = 'video';
   }
 
-  private _processVideo(event: any) {
+  private processVideo(event: any) {
     console.log('[Process External Video]: ', event);
     this.otherStream = URL.createObjectURL(event.stream)
 
     this.action = 'video';
   }
 
-  private _updateView() {
+  private updateView() {
     // // TODO: Optimize this to on resize
     let $ele = $(document);
     let contentHeight = $ele.height();
@@ -196,31 +199,31 @@ export class UserView implements OnActivate {
     let scrollable = $ele.find('div[content-box]').height(height);
   }
 
-  private _getChat(context: Context) {
+  private getChat(context: Context) {
     console.log('Have this context: ', context);
     console.log('Get a chat resource or create a new one with ', this.contact.name);
 
     this.context = context;
 
-    if (this.chatService.chat && context) {
-      return this.chatService.join(context.resource);
-    } else {
-      return this.chatService.create(this.contact.name, [this.contact])
-      .then((chat) => this._createNewContext(chat))
-      .catch((reason) => {
-        console.log('ERROR CREATING THE CHAT SERVICE');
-      })
-    }
+    // if (this.chatService.chat && context) {
+    //   return this.chatService.join(context.resource);
+    // } else {
+    //   return this.chatService.create(this.contact.name, [this.contact])
+    //   .then((chat) => this._createNewContext(chat))
+    //   .catch((reason) => {
+    //     console.log('ERROR CREATING THE CHAT SERVICE');
+    //   })
+    // }
 
   }
 
-  private _getContext(contact: Contact) {
+  private getContext(contact: Contact) {
     console.log('Get Context for this contact: ', contact);
     this.contact = contact;
     return this.contextService.getContextByName(contact.name)
   }
 
-  private _createNewContext(chat: any) {
+  private createNewContext(chat: any) {
     console.info('creating a new one', chat);
 
     // name: string, resource: string, contacts:Contact[], activities:Activity[], type: ContextType = 'private'
@@ -238,7 +241,7 @@ export class UserView implements OnActivate {
     })
   }
 
-  private _getUserMedia(constraints: any) {
+  private getUserMedia(constraints: any) {
     return new Promise((resolve, reject) => {
 
       navigator.mediaDevices.getUserMedia(constraints)
