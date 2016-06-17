@@ -2,11 +2,6 @@
 
 Package WorkContext {
 
-  class WorkTask {
-  name : string
-  description ?: string
-  }
-
   class ContextualCommWork {
   contexts : ContextualCommWorkTask[]
   communication : Communication.Communication
@@ -16,7 +11,8 @@ Package WorkContext {
   note top : Comm participants are all users of all Tasks
 
   class ContextualCommWorkTask {
-  task : WorkTask
+  name : string
+  description ?: string
   contexts : ContextualCommWorkTaskUser[]
   communication : Communication.Communication
   context : WorkContext.WorkTaskContext
