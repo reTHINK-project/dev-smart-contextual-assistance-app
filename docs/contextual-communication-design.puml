@@ -5,6 +5,7 @@ Package ContextualComm {
 	class ContextualComm {
 	communication : Communication.Communication
 	context : Context.Context
+	users ?: ContextualCommUser[]
 	}
 
 	class ContextualCommTrigger {
@@ -22,12 +23,11 @@ Package ContextualComm {
 
 	class AtomicContextualComm {
 	parent : CompositeContextualComm
-	user : ContextualCommUser
+	users : ContextualCommUser[]
 	}
 
 	class CompositeContextualComm {
 	parent ?: CompositeContextualComm
-	users ?: ContextualCommUser[]
 	contexts : ContextualComm[]
 	}
 

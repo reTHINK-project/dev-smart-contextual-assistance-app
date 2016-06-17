@@ -1,0 +1,135 @@
+@startuml "work-context.png"
+
+Package WorkContext {
+
+class WorkContext {
+  id: string
+  url: URL.ContextURL
+  schema: URL.HypertyCatalogueURL
+  name = "<username>-work"
+  type = "activity"
+  description = "working"
+  time?: date
+  values: ContextValue[]
+  tag?: string
+}
+
+class WorkTaskContext {
+  id: string
+  url: URL.ContextURL
+  schema: URL.HypertyCatalogueURL
+  name = "<username>-<ContextualCommWorkTask.name>-work"
+  type = "activity"
+  description = "working on <ContextualCommWorkTask.name>"
+  time?: date
+  values: ContextValue[]
+  tag?: string
+}
+
+class WorkTaskUserContext {
+  id: string
+  url: URL.ContextURL
+  schema: URL.HypertyCatalogueURL
+  name = "<username>-<taskname>-<ContextualCommWorkTaskUser.user.profile.username>-work"
+  type = "activity"
+  description = "working with <ContextualCommWorkTaskUser.user.profile.username>"
+  time?: date
+  values: ContextValue[]
+  tag?: string
+}
+
+abstract class AbstractWorkContext {
+  id: string
+  url: URL.ContextURL
+  schema: URL.HypertyCatalogueURL
+  name: string
+  type = "activity"
+  description: string
+  time?: date
+  values: ContextValue[]
+  tag?: string
+}
+
+
+class TimeActivity {
+  type = "activity"
+  name = "second"
+  unit = "s"
+  value : float
+  time: date
+  updateTime: date
+}
+
+note bottom : value = activity duration \n time = activity start \n updateTime = last time value was updated
+
+class LocationLatitude {
+  type = "location"
+  name = "degrees-latitude"
+  unit = "lat"
+  value : float
+  time: date
+  updateTime: date
+}
+
+class LocationLongitude {
+  type = "location"
+  name = "degrees-longitude"
+  unit = "lon"
+  value : float
+  time: date
+  updateTime: date
+}
+
+class Availability {
+  type = "availability"
+  name = "availability"
+  unit = "pres"
+  value : Context.AvailabilityStatus
+  time: date
+  updateTime: date
+}
+
+class UserActivity {
+  type = "user-activity"
+  name = "user-activity"
+  unit = "act"
+  value : Context.UserActivity
+  time: date
+  updateTime: date
+}
+
+class UserCommunication {
+  type = "user-communication"
+  name = "user-communication"
+  unit = "comm"
+  value : Context.UserCommunication
+  time: date
+  updateTime: date
+}
+
+}
+
+WorkContext -down-|> AbstractWorkContext
+WorkTaskContext -down-|> AbstractWorkContext
+WorkTaskUserContext -down-|> AbstractWorkContext
+
+AbstractWorkContext *-- "1..*" TimeActivity
+AbstractWorkContext *-- "0..*" LocationLatitude
+AbstractWorkContext *-- "0..*" LocationLongitude
+AbstractWorkContext *-- "0..*" Availability
+AbstractWorkContext *-- "0..*" UserActivity
+AbstractWorkContext *-- "0..*" UserCommunication
+
+AbstractWorkContext -right-|> Context.Context
+TimeActivity -down-|> Context.ContextValue
+LocationLatitude -down-|> Context.ContextValue
+LocationLongitude -down-|> Context.ContextValue
+Availability -down-|> Context.ContextValue
+UserActivity -down-|> Context.ContextValue
+UserCommunication -down-|> Context.ContextValue
+
+Context.ContextValue ---up[hidden]- Context.Context
+
+
+
+@enduml
