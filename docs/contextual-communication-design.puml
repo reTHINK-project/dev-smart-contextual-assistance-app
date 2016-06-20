@@ -48,7 +48,7 @@ Package ContextualComm {
 
  ContextualComm <-right- "1..*" ContextualCommTrigger
 
-	ContextualComm *-up-> ActivityContext.ActivityContext
+	ContextualComm *-up-> Context.Context
 
 	ContextualComm *-up-> Communication.Communication
 
