@@ -3,8 +3,15 @@
 Package ContextualComm {
 
 	class ContextualComm {
+	url : URL.URL
 	communication : Communication.Communication
 	context : Context.Context
+	users ?: ContextualCommUser[]
+	messages ?: Communication.ChatMessage[]
+	files ?: HypertyResource[]
+	photos ?: HypertyResource[]
+	audios ?: HypertyResource[]
+	videos ?: HypertyResource[]
 	}
 
 	class ContextualCommTrigger {
@@ -22,13 +29,13 @@ Package ContextualComm {
 
 	class AtomicContextualComm {
 	parent : CompositeContextualComm
-	user : ContextualCommUser
+	users : ContextualCommUser[]
 	}
 
 	class CompositeContextualComm {
 	parent ?: CompositeContextualComm
-	users ?: ContextualCommUser[]
 	contexts : ContextualComm[]
+	users ?: ContextualCommUser[]
 	}
 
 	class ContextualCommUser {
@@ -41,7 +48,7 @@ Package ContextualComm {
 
  ContextualComm <-right- "1..*" ContextualCommTrigger
 
-	ContextualComm *-up-> ActivityContext.ActivityContext
+	ContextualComm *-up-> Context.Context
 
 	ContextualComm *-up-> Communication.Communication
 

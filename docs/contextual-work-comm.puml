@@ -21,7 +21,7 @@ Package WorkContext {
   note right : Comm participants are all users of the Task
 
   class ContextualCommWorkTaskUser {
-  user : ContextualComm.ContextualCommUser[]
+  users : ContextualComm.ContextualCommUser[]
   communication : Communication.Communication
   context : WorkContext.WorkTaskUserContext
   }
