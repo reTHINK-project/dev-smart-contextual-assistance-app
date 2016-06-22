@@ -9,8 +9,8 @@ import { ContextService }     from '../services/context.service';
 
 // Interfaces
 import { Contact } from '../comp/contact/contact';
-import { Context } from '../comp/context/context';
-import { UserProfile } from '../models/UserProfile';
+import { ContextualComm } from '../models/ContextualComm';
+import { ContextualCommUser } from '../models/ContextualCommUser';
 
 // Components
 import { ContactMeComponent } from '../comp/contact/me.comp';
@@ -23,8 +23,6 @@ import { ContextSenderComponent } from '../comp/context/sender.comp';
 import { ActivityView } from './activityView';
 import { UserView } from './userView';
 
-import { contacts } from '../services/contacts';
-
 @Component({
   selector: 'div[my-app]',
   directives: [
@@ -36,7 +34,7 @@ import { contacts } from '../services/contacts';
   templateUrl: 'app/view/app.html'
 })
 @Routes([
-  {path: '/:context', component: ActivityView},
+  {path: '/:context/:task', component: ActivityView},
   {path: '/user/:id', component: UserView}
 ])
 export class Application {
@@ -46,8 +44,8 @@ export class Application {
     private chatService: ChatService,
     private contextService: ContextService) {}
 
-  contacts: Contact[] = [];
-  myIdentity: UserProfile
+  contacts: ContextualCommUser[];
+  myIdentity: ContextualCommUser
   // @HostListener("input", "$event.target.value")
 
   contextOpened: boolean
@@ -56,13 +54,52 @@ export class Application {
 
     this.contextOpened = false;
 
-    // let listOfContacts:Contact[] = contacts;
+    this.contextService.contextUsers.subscribe((users:ContextualCommUser[]) => {
 
-    this.contextService.contexts.subscribe((context) => {
+      console.log("UPDATE ON APP:", users);
 
-      console.log(context[0]);
-      // this.contexts.push(context.childs);
-      // this.contacts = context[0].contacts;
+      if (!this.contacts) this.contacts = [];
+
+      users.forEach((user) => {
+        this.contacts.push(user);
+      })
+
+    })
+
+    this.chatService.onUserAdded((user:any) => {
+
+      console.log('[App - onUserAdded]', user);
+
+      // let users:ContextualCommUser[] = [];
+      // if (user.hasOwnProperty('userProfile')){
+      //   let current:ContextualCommUser = {
+      //     username: user.userProfile.username,
+      //     cn: user.userProfile.cn,
+      //     avatar: user.userProfile.avatar,
+      //     userURL: user.userProfile.userURL,
+      //     locale: user.userProfile.locale,
+      //     status: 'online',
+      //     unread: 0
+      //   }
+      //   users.push(current);
+      // } else {
+      //   user.status = 'online';
+      //   user.unread = 0;
+      //   users.push(user);
+      // }
+      //
+      // this.contextService.updateContextCommUsers(users);
+    });
+
+    this.chatService.onInvitation((event:any) => {
+      console.log('event: ', event);
+
+      this.chatService.join(event.url).then((chatController:any) => {
+        console.log('[Join Controller]', chatController);
+      }).catch((reason) => {
+        console.error(reason);
+      });
+
     })
 
     this.myIdentity = this.appService.myIdentity;
@@ -97,13 +134,8 @@ export class Application {
 
   onContactAdd() {
 
-    // this.contacts[1].status = 'online'
-
-    // this.contacts.push({avatar: '', email:"vitorsilva@boldint.com", id:"user://boldint.com/vitorsilva", name:"Vitor Silva", status:"online"})
-    // console.log('Update the Contacts:', this.contacts);
-
-
-
-    this.chatService.invite(['vitorsilva@boldint.com']);
+    this.chatService.invite(['openidtest20@gmail.com']).then((chatController: any) => {
+      console.log('[User as joined with success]', chatController)
+    })
   }
 }

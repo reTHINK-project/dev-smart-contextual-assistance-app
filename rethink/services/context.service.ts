@@ -5,34 +5,44 @@ import { Subject }    from 'rxjs/Subject';
 import { LocalStorage } from './storage.service';
 
 // Interfaces
-import { Context, ContextType } from '../comp/context/context';
 import { Contact } from '../comp/contact/contact';
-import { Activity, ActivityType } from '../comp/activity/activity';
 
-import { ContextualCommTrigger, ContextualComm, ContextValues } from '../models/ContextualCommTrigger';
-
-// Data
-import { contacts } from './contacts';
+import { ContextualCommTrigger, ContextValues } from '../models/ContextualCommTrigger';
+import { Context } from '../models/Context';
+import { ContextualComm } from '../models/ContextualComm';
+import { ContextualCommUser } from '../models/ContextualCommUser';
+import { Communication } from '../models/Communication';
 
 @Injectable()
 export class ContextService {
 
-  private contacts = contacts
-
   constructor(private localStorage:LocalStorage){}
 
-  activities: [Activity] = [
-    { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'Lorem ipsum dolor sit amet, vix eu exerci efficiantur, antiopam indoctum usu et. Vis te quot' },
-    { contact: this.contacts[3], type: 'video-call', status: 'failed', date: 'at 12:32' },
-    { contact: this.contacts[2], type: 'audio-call', status: 'ok', date: 'yesterday, at 14:30', duration: 6 },
-    { contact: this.contacts[2], type: 'audio-call', status: 'failed', date: 'Yesterday, at 14:30' },
-    { contact: this.contacts[0], type: 'file-share', status: 'ok', date: 'at 14:30' }
-  ]
+  // activities: [Activity] = [
+  //   { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'Lorem ipsum dolor sit amet, vix eu exerci efficiantur, antiopam indoctum usu et. Vis te quot' },
+  //   { contact: this.contacts[3], type: 'video-call', status: 'failed', date: 'at 12:32' },
+  //   { contact: this.contacts[2], type: 'audio-call', status: 'ok', date: 'yesterday, at 14:30', duration: 6 },
+  //   { contact: this.contacts[2], type: 'audio-call', status: 'failed', date: 'Yesterday, at 14:30' },
+  //   { contact: this.contacts[0], type: 'file-share', status: 'ok', date: 'at 14:30' }
+  // ]
 
-  private sourceContexts = new Subject<Array<ContextualCommTrigger>>();
+  private activeContext:any;
 
+  private sourceContextsList: ContextualComm[] = [];
+  private sourceContexts = new Subject<Array<ContextualComm>>();
   contexts = this.sourceContexts.asObservable();
-  contextsList: ContextualCommTrigger[] = [];
+
+  private contextualCommUsersList = new Subject<Array<ContextualCommUser>>();
+  private contextUsersList: ContextualCommUser[] = [];
+  contextUsers = this.contextualCommUsersList.asObservable();
+
+  private contextTrigger = new Subject<Array<ContextualCommTrigger>>();
+  triggersList: ContextualCommTrigger[] = [];
+
+
+  getCurrentContext() {
+
+  }
 
   getContexts() {
     return Promise.resolve(this.contexts)
@@ -40,124 +50,119 @@ export class ContextService {
 
   get(key: string) {
 
-    return new Promise<Context>((resolve, reject) => {
+    return new Promise<ContextualComm>((resolve, reject) => {
       resolve(this.localStorage.getObject(key));
     });
 
   }
 
-  create(dataObject: any) {
+  create(name: string, dataObject: any) {
 
-    return new Promise<ContextualCommTrigger>((resolve, reject) => {
+    return new Promise<ContextualComm>((resolve, reject) => {
 
       console.log('dataObject: ', dataObject);
 
-      let contextValue:ContextValues = {
-        name: 'location',
-        unit: 'rad',
-        value: 0,
-        sum: 0
-      }
+      this.createContextTrigger(name, dataObject).then((context:ContextualCommTrigger) => {
 
-      let contextualCommTrigger:ContextualCommTrigger = {
-        contextName: dataObject.data.id,
-        contextScheme: 'context',
-        contextResource: ['video', 'audio', 'chat'],
-        values: [contextValue],
-        triggers: []
-      }
+        let communication = <Communication>{}
+        Object.keys(dataObject.data).forEach((key: any, value: any) =>{
+          communication[key] = dataObject.data[key];
+        })
 
-      resolve(contextualCommTrigger);
+        let users:ContextualCommUser[] = [];
+        let user = <ContextualCommUser>{}
+        Object.keys(dataObject.data.participants).forEach((key: any, value: any) => {
+          console.log(key, value);
+          user = dataObject.data.participants[key];
+          users.push(user);
+        });
 
-      // context.id = dataObject.data.id;
-      // context.name = dataObject.data.name;
-      // context.owner = dataObject.data.owner;
-      // context.status = dataObject.data.status;
-      // context.schema = dataObject.data.schema;
-      // context.reporter = dataObject.data.reporter;
-      // context.duration = dataObject.data.duration;
-      // context.startingTime = dataObject.data.startingTime;
-      // context.lastModified = dataObject.data.lastModified;
-      // context.participants = dataObject.data.participants;
-      //
-      // context.type = 'public';
-      // context.contacts = [];
-      // context.activities = [];
-      // context.childs = [];
-      // context.resource = dataObject.url;
-      //
-      // this.localStorage.setObject(context.id, context);
-      // this.contextsList.push(context);
-      // this.sourceContexts.next(this.contextsList);
+        let contextComm:ContextualComm = {
+          url: dataObject.url,
+          name: dataObject.data.name,
+          description: '',
+          users: users,
+          messages: [],
+          contexts: [],
+          communication: communication
+        }
 
-      // resolve(context);
+        context.trigger = contextComm;
 
-    })
+        this.localStorage.setObject(context.contextName, context);
+        this.sourceContextsList.push(contextComm);
+        this.sourceContexts.next(this.sourceContextsList);
 
-  }
+        resolve(contextComm);
 
-  updateContext(contextName: string, value: Context) {
-
-    this.getContextByName(contextName).then((context) => {
-      console.log('[Update Context]: ', context);
-      context.childs.push(value);
-
-      this.localStorage.setObject(context.id, context);
-      // this.sourceContexts.next(context.childs);
-    });
-
-  }
-
-  createContext(name: string, resource: string, contacts:Contact[], activities:Activity[], type: ContextType = 'private') {
-
-    return new Promise<Context>((resolve, reject) => {
-
-      // TODO: optimize this process, we need create a context like a child from the parent context
-      try {
-
-        let context = <Context>{}
-
-        context.name = name,
-        context.resource = resource,
-        context.type = type,
-        context.contacts = [],
-        context.activities = activities
-
-        // this.sourceContexts.next(context);
-
-        resolve(context);
-      } catch(error) {
-        reject(error)
-      }
-    })
-  }
-
-  updateContextActivity(resource:string, contact:Contact, type: ActivityType, status:string, message:string) {
-
-    return new Promise<Context>((resolve, reject) => {
-      let activity = <Activity>{}
-
-      activity.contact = contact
-      activity.type = type
-      activity.date = new Date().toJSON()
-      activity.status = 'ok',
-      activity.message = message
-
-      return this.getContextByName('Work').then((context) => {
-        // context.childs.push();
-        context.activities.push(activity);
-        resolve(context);
       })
 
     })
 
-    // { contact: this.contacts[0], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'Praesent quis quam mattis, tempus nulla iaculis, porttitor dui. In.' },
+  }
+
+  updateContextCommUsers(users: ContextualCommUser[]) {
+
+    console.log('[Update the Context Comm Users]', this.activeContext, users);
+    if(this.activeContext) {
+
+      let contextualComm = this.activeContext.trigger;
+
+      users.forEach((user) => {
+        user.status = 'online';
+        user.unread = 0;
+        contextualComm.users.push(user);
+        this.contextUsersList.push(user);
+      })
+
+      this.localStorage.setObject('ContactList', contextualComm.users);
+      this.contextualCommUsersList.next(this.contextUsersList);
+
+    }
+  }
+
+  updateContextCommMessages() {
+
+  }
+
+  createContextTrigger(name: string, dataObject: any) {
+
+    return new Promise<ContextualCommTrigger>((resolve, reject) => {
+
+      console.log('[Context Service - Get Localstorage] ', this.localStorage.hasObject(name), this.localStorage);
+
+      if (!this.localStorage.hasObject(name)) {
+        let contextValue:ContextValues = {
+          name: 'location',
+          unit: 'rad',
+          value: 0,
+          sum: 0
+        }
+
+        let contextualCommTrigger:ContextualCommTrigger = {
+          contextName: name,
+          contextScheme: 'context',
+          contextResource: ['video', 'audio', 'chat'],
+          values: [contextValue],
+          trigger: null
+        }
+
+        this.localStorage.setObject(name, contextualCommTrigger)
+        this.activeContext = contextualCommTrigger;
+        resolve(contextualCommTrigger);
+      } else {
+        let contextualCommTrigger:ContextualCommTrigger = this.localStorage.getObject(name);
+        this.activeContext = contextualCommTrigger;
+        resolve(contextualCommTrigger);
+      }
+    })
+
   }
 
   getContextByName(name:string) {
 
     // TODO: Optimize this promise to handle with multiple contacts
-    return new Promise<Context>((resolve, reject) => {
+    return new Promise<ContextualComm>((resolve, reject) => {
     //
     //   console.log(this.sourceContexts);
     //
@@ -179,17 +184,17 @@ export class ContextService {
   getContextByResource(resource:string) {
 
     // TODO: Optimize this promise to handle with multiple contacts
-    return new Promise<Context>((resolve, reject) => {
-    //
-    //   let context = this.contextsList.filter((context) => {
-    //     if(context.resource.indexOf(resource) !== -1) return true
-    //   })
-    //
-    //   if (context.length === 1) {
-    //     resolve(context[0])
-    //   } else {
-    //     reject('Context not found');
-    //   }
+    return new Promise<ContextualComm>((resolve, reject) => {
+
+      let context = this.sourceContextsList.filter((context) => {
+        if(context.url.indexOf(resource) !== -1) return true
+      })
+
+      if (context.length === 1) {
+        resolve(context[0])
+      } else {
+        reject('Context not found');
+      }
     })
 
   }

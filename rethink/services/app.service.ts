@@ -8,10 +8,7 @@ import {Activity} from '../comp/activity/activity';
 import {Contact} from '../comp/contact/contact';
 import {Context} from '../comp/context/context';
 
-import { UserProfile } from '../models/UserProfile';
-
-// Data
-import {contacts} from './contacts';
+import { ContextualCommUser } from '../models/ContextualCommUser';
 
 @Injectable()
 export class AppService {
@@ -25,36 +22,7 @@ export class AppService {
 
   public runtimeReady = new EventEmitter();
 
-  private contacts = contacts
-
-  myIdentity = <UserProfile>{}
-
-  getContacts() {
-
-    return new Promise((resolve, reject) => {
-      resolve(this.contacts);
-    })
-
-  }
-
-  getContact(id:string) {
-
-    // TODO: Optimize this promise to handle with multiple contacts
-    return new Promise<Contact>((resolve, reject) => {
-
-      let contact = this.contacts.filter((contact) => {
-        if(contact.id.indexOf(id) !== -1) return true
-      })
-
-      if (contact.length === 1) {
-        resolve(contact[0])
-      } else {
-        reject('Contact not found');
-      }
-
-
-    })
-  }
+  myIdentity = <ContextualCommUser>{}
 
   getHyperty(url:string) {
 

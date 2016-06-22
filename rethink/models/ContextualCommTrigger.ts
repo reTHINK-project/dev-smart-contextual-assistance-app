@@ -1,5 +1,6 @@
-import { Communication} from './Communication';
-import { ActivityContext, TimeActivity } from './ActivityContext';
+import { Communication, ChatMessage } from './Communication';
+import { ContextualCommUser } from './ContextualCommUser';
+import { Context, TimeActivity } from './Context';
 
 export type HypertyResource = 'chat' | 'video' | 'audio';
 
@@ -8,13 +9,21 @@ export interface ContextualCommTrigger {
   contextScheme?: string
   contextResource?: HypertyResource[]
   values?: ContextValues[]
-  triggers: ContextualComm[]
+  trigger: ContextualComm
 }
 
 export interface ContextualComm {
 
-  communications: Communication[]
-  activities: ActivityContext[]
+  url: string // id from context data object reporter url
+  communication: Communication
+  context?: Context // TODO remove this as optional
+
+  users?: ContextualCommUser[]
+  messages?: ChatMessage[]
+  files?: HypertyResource[]
+  photos?: HypertyResource[]
+  audios?: HypertyResource[]
+  videos?: HypertyResource[]
 
 }
 

@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter} from '@angular/core';
+import { Injectable} from '@angular/core';
 
 import rethink from 'runtime-browser';
 
@@ -9,12 +9,10 @@ import { ContextService } from './context.service';
 // Interfaces
 import { Activity } from '../comp/activity/activity';
 import { Contact } from '../comp/contact/contact';
-import { Context } from '../comp/context/context';
-import { ContextualCommTrigger } from '../models/ContextualCommTrigger';
-import { UserProfile } from '../models/UserProfile';
 
-// Data
-import {contacts} from './contacts';
+import { ContextualComm } from '../models/ContextualComm';
+import { ContextualCommUser } from '../models/ContextualCommUser';
+import { ChatMessage } from '../models/Communication';
 
 @Injectable()
 export class ChatService {
@@ -23,11 +21,14 @@ export class ChatService {
   chatController: any
 
   hyperty: any
-  hypertyChat: any
+  chatGroupManager: any
 
-  contextualComm:ContextualCommTrigger
+  contextualComm:ContextualComm
 
   private runtime: any
+  private _onUserAdded:Function
+  private _onMessage:Function
+  private _onInvitation:Function
 
   constructor(
     private appService: AppService,
@@ -38,10 +39,10 @@ export class ChatService {
 
     return new Promise((resolve, reject) => {
 
-      if (!this.hypertyChat) {
+      if (!this.chatGroupManager) {
         this.appService.getHyperty(this.hypertyURL)
         .then((hyperty: any) => {
-          this.hypertyChat = hyperty.instance;
+          this.chatGroupManager = hyperty.instance;
           this.hyperty = hyperty
           resolve(this.hyperty);
         })
@@ -57,18 +58,51 @@ export class ChatService {
 
   }
 
+  prepareHyperty() {
+
+    this.chatGroupManager.onInvitation((event:any) => {
+      console.log('[onInvitation]', event);
+
+      if (event.hasOwnProperty('identity')) {
+        this.contextService.updateContextCommUsers([event.identity.userProfile]);
+      }
+
+      if (this._onInvitation) this._onInvitation(event);
+    })
+
+    this.chatController.onUserAdded((user:any) => {
+
+      console.log('[Chat Service - onUserAdded]', user);
+
+      if (user.hasOwnProperty('userProfile')) {
+        this.contextService.updateContextCommUsers([user.userProfile]);
+      } else if (user.hasOwnProperty('data')) {
+        let data = user.data;
+        let users:ContextualCommUser[] = []
+
+        data.forEach((current:any) => {
+          users.push(current.userProfile);
+        });
+        this.contextService.updateContextCommUsers(users);
+      }
+
+    })
+  }
+
   create(name: string, users:Contact[]) {
 
     return new Promise((resolve, reject) => {
 
-      this.hypertyChat.create(name, users).then((chatController: any) => {
+      this.chatGroupManager.create(name, users).then((chatController: any) => {
         this.chatController = chatController;
         console.log('[Chat Created]', chatController)
 
-        return this.contextService.create(chatController.dataObject)
+        this.prepareHyperty();
+
+        return this.contextService.create(name, chatController.dataObject)
       }).catch((reason: any) => {
         reject(reason);
-      }).then((context:Context) => {
+      }).then((context:ContextualComm) => {
 
         console.log('Context Created:', context);
 
@@ -83,9 +117,12 @@ export class ChatService {
 
     return new Promise((resolve, reject) => {
 
-      this.hypertyChat.join(resource).then((chatController: any) => {
+      this.chatGroupManager.join(resource).then((chatController: any) => {
         console.log('[Joined Chat]', resource)
         this.chatController = chatController
+
+        this.prepareHyperty();
+
         resolve(this.chatController)
       })
 
@@ -93,13 +130,14 @@ export class ChatService {
 
   }
 
-  invite(listOfEmails:UserProfile[]) {
+  invite(listOfEmails:String[]) {
 
     return new Promise((resolve, reject) => {
 
-      this.chatController.invite(listOfEmails).then((chatController: any) => {
-        console.log('[Invite Chat]', chatController);
-        this.chatController = chatController
+      console.log('[Invite]', this.chatController);
+
+      this.chatController.addUser(listOfEmails).then((result: any) => {
+        console.log('[Invite Chat]', result);
         resolve(this.chatController)
       })
 
@@ -109,20 +147,31 @@ export class ChatService {
 
   send(message: string) {
 
-    return new Promise((resolve, reject) => {
+    return new Promise<ChatMessage>((resolve, reject) => {
 
-      this.chatController.send(message).then(resolve).catch(reject);
+      console.log(this.chatController);
+
+      this.chatController.send(message).then((chatMessage:ChatMessage) => {
+        if (this._onMessage) this._onMessage(chatMessage);
+        resolve(chatMessage);
+      }).catch(reject);
 
     })
 
   }
 
   onInvitation(callback: Function) {
-    this.hypertyChat.onInvitation(callback);
+    // this.hypertyChat.onInvitation(callback);
+    this._onInvitation = callback;
   }
 
   onMessage(callback: Function) {
-    this.chatController.onMessage(callback);
+    this._onMessage = callback;
+    //this.chatController.onMessage(callback);
+  }
+
+  onUserAdded(callback: Function) {
+    this._onUserAdded = callback;
   }
 
 }

@@ -10,9 +10,6 @@ import {Activity} from '../comp/activity/activity';
 import {Contact} from '../comp/contact/contact';
 import {Context} from '../comp/context/context';
 
-// Data
-import {contacts} from './contacts';
-
 @Injectable()
 export class VideoService {
 

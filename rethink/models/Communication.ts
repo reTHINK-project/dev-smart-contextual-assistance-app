@@ -1,9 +1,10 @@
 import { HypertyResource } from './HypertyResource';
-import { UserProfile } from './UserProfile';
+import { ContextualCommUser } from './ContextualCommUser';
 
 export type CommunictionStatus = 'open' | 'pending' | 'closed' | 'paused' | 'failed';
 
 export interface Communication {
+  [index: string]: string | number | Date | ContextualCommUser
   scheme:string
   startingTime: Date
   lastModified: Date
@@ -14,5 +15,11 @@ export interface Communication {
   id?: string
   name?: string
   duration?: Date
-  participants?: UserProfile
+  participants?: ContextualCommUser
+  owner?: string
+}
+
+
+export interface ChatMessage {
+  message: string
 }

@@ -9,10 +9,10 @@ import { ContextService } from '../services/context.service';
 
 // Interfaces
 import { Contact } from '../comp/contact/contact';
-import { Context } from '../comp/context/context';
 import { Activity } from '../comp/activity/activity';
 
-import { UserProfile } from '../models/UserProfile';
+import { ContextualComm, ContextualCommTaskUser } from '../models/ContextualComm';
+import { ContextualCommUser } from '../models/ContextualCommUser';
 
 // Components
 import { ContactBox } from '../comp/user/contact-box.comp';
@@ -39,13 +39,13 @@ export class UserView implements OnActivate {
   @HostBinding('id') id = 'user-view'
 
   contact:Contact
-  context:Context
+  context:ContextualComm
 
   action:string = 'init'
   owner:Contact
   otherStream:any
   myStream:any
-  myIdentity:UserProfile
+  myIdentity:ContextualCommUser
 
   private haveNotification = false
   private chatActive = false
@@ -77,13 +77,13 @@ export class UserView implements OnActivate {
 
   activateChat() {
 
-    this.appService.getContact(this.current)
-    .then((contact) => this.getContext(contact))
-    .catch((reason) => { console.log('create chat and new context') })
-    .then((context:Context) => this.getChat(context))
-    .then((context) => {
-      this.chatActive = true
-    }).catch((reason) => { console.error(reason); })
+    // this.appService.getContact(this.current)
+    // .then((contact) => this.getContext(contact))
+    // .catch((reason) => { console.log('create chat and new context') })
+    // .then((context:Context) => this.getChat(context))
+    // .then((context) => {
+    //   this.chatActive = true
+    // }).catch((reason) => { console.error(reason); })
   }
 
   // activateVideo() {
@@ -199,7 +199,7 @@ export class UserView implements OnActivate {
     let scrollable = $ele.find('div[content-box]').height(height);
   }
 
-  private getChat(context: Context) {
+  private getChat(context: ContextualComm) {
     console.log('Have this context: ', context);
     console.log('Get a chat resource or create a new one with ', this.contact.name);
 
@@ -221,24 +221,6 @@ export class UserView implements OnActivate {
     console.log('Get Context for this contact: ', contact);
     this.contact = contact;
     return this.contextService.getContextByName(contact.name)
-  }
-
-  private createNewContext(chat: any) {
-    console.info('creating a new one', chat);
-
-    // name: string, resource: string, contacts:Contact[], activities:Activity[], type: ContextType = 'private'
-    return new Promise<Context>((resolve, reject) => {
-      this.contextService.createContext(
-        this.contact.name,
-        chat.dataObject.url,
-        chat.dataObject.participants,
-        [],
-        'private'
-      ).then((context) => {
-        this.context = context;
-        resolve(context)
-      })
-    })
   }
 
   private getUserMedia(constraints: any) {

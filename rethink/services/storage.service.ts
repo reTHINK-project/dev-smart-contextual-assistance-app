@@ -31,6 +31,10 @@ export class LocalStorage {
     public remove(key:string):any {
         this.localStorage.removeItem(key);
     }
+
+    public hasObject(key:string):any {
+      return this.localStorage[key] === null;
+    }
 }
 
 export const LOCAL_STORAGE_PROVIDERS:any[] = [
