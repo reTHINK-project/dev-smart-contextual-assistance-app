@@ -1,5 +1,5 @@
 import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/core';
-import { RouteSegment, ROUTER_DIRECTIVES, OnActivate } from '@angular/router';
+import { Params, ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
 
 // Services
 import { AppService } from '../services/app.service';
@@ -8,11 +8,7 @@ import { VideoService } from '../services/video.service';
 import { ContextService } from '../services/context.service';
 
 // Interfaces
-import { Contact } from '../comp/contact/contact';
 import { Activity } from '../comp/activity/activity';
-
-import { ContextualComm, ContextualCommTaskUser } from '../models/ContextualComm';
-import { ContextualCommUser } from '../models/ContextualCommUser';
 
 // Components
 import { ContactBox } from '../comp/user/contact-box.comp';
@@ -34,18 +30,13 @@ import { FileShareListComponent } from '../comp/fileshare/filesharelist.comp';
     ContextMenuComponent, ContextSenderComponent
   ]
 })
-export class UserView implements OnActivate {
+export class UserView {
   @HostBinding('class') hostClass = 'content-panel'
   @HostBinding('id') id = 'user-view'
 
-  contact:Contact
-  context:ContextualComm
-
   action:string = 'init'
-  owner:Contact
   otherStream:any
   myStream:any
-  myIdentity:ContextualCommUser
 
   private haveNotification = false
   private chatActive = false
@@ -61,19 +52,19 @@ export class UserView implements OnActivate {
 
   ngOnInit() {
 
-    this.myIdentity = this.appService.myIdentity;
+    // this.myIdentity = this.appService.myIdentity;
 
   }
 
-  routerOnActivate(curr: RouteSegment): void {
-    let id = curr.getParam('id');
-    this.current = id;
-
-    this.activateChat();
-    // this.activateVideo();
-
-    this.updateView();
-  }
+  // routerOnActivate(curr: RouteSegment): void {
+  //   let id = curr.getParam('id');
+  //   this.current = id;
+  //
+  //   this.activateChat();
+  //   // this.activateVideo();
+  //
+  //   this.updateView();
+  // }
 
   activateChat() {
 
@@ -144,7 +135,7 @@ export class UserView implements OnActivate {
       this.action = 'video';
       mediaStream = stream;
 
-      return this.videoService.hypertyVideo.connect(this.contact.email, mediaStream);
+      // return this.videoService.hypertyVideo.connect(this.contact.email, mediaStream);
     }).then((controller) => {
       this.myStream = URL.createObjectURL(mediaStream)
       this.videoController = controller;
@@ -199,9 +190,9 @@ export class UserView implements OnActivate {
     let scrollable = $ele.find('div[content-box]').height(height);
   }
 
-  private getChat(context: ContextualComm) {
+  /*private getChat(context: ContextualComm) {
     console.log('Have this context: ', context);
-    console.log('Get a chat resource or create a new one with ', this.contact.name);
+    // console.log('Get a chat resource or create a new one with ', this.contact.name);
 
     this.context = context;
 
@@ -220,8 +211,8 @@ export class UserView implements OnActivate {
   private getContext(contact: Contact) {
     console.log('Get Context for this contact: ', contact);
     this.contact = contact;
-    return this.contextService.getContextByName(contact.name)
-  }
+    // return this.contextService.getContextByName(contact.name)
+  }*/
 
   private getUserMedia(constraints: any) {
     return new Promise((resolve, reject) => {

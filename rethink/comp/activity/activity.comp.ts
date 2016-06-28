@@ -1,5 +1,4 @@
 import { Component, Input, Output, OnInit, HostBinding, EventEmitter } from '@angular/core';
-import { Activity } from './activity';
 
 @Component({
   selector: 'li[activity]',
@@ -8,10 +7,10 @@ import { Activity } from './activity';
 export class ActivityComponent implements OnInit {
   @HostBinding('class') hostClass = 'half-padding'
 
-  @Input() model: Activity
+  @Input() model: any
 
   ngOnInit() {
-    if (this.model.contact.status === 'offline') {
+    if (this.model.user.status === 'offline') {
       this.hostClass = 'half-padding offline'
     }
   }

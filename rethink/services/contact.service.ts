@@ -2,7 +2,7 @@
 import { Injectable, EventEmitter} from '@angular/core';
 
 // Interfaces
-import { ContextualCommUser } from '../models/ContextualCommUser';
+import { User } from '../models/models';
 
 // Services
 import { LocalStorage } from './storage.service';
@@ -10,7 +10,7 @@ import { LocalStorage } from './storage.service';
 @Injectable()
 export class ContactService {
 
-  users: [ContextualCommUser]
+  users: User[]
 
   constructor(private localStorage:LocalStorage){}
 
@@ -33,7 +33,7 @@ export class ContactService {
   getContact(id:string) {
 
     // TODO: Optimize this promise to handle with multiple contacts
-    return new Promise<ContextualCommUser>((resolve, reject) => {
+    return new Promise<User>((resolve, reject) => {
 
       let users = this.users.filter((user) => {
         if(user.userURL.indexOf(id) !== -1) return true

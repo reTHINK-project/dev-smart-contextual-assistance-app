@@ -4,11 +4,10 @@ import { Observable } from 'rxjs/Observable';
 import rethink from 'runtime-browser';
 
 // Interfaces
-import {Activity} from '../comp/activity/activity';
-import {Contact} from '../comp/contact/contact';
-import {Context} from '../comp/context/context';
+import { Activity } from '../comp/activity/activity';
+import { Context } from '../comp/context/context';
 
-import { ContextualCommUser } from '../models/ContextualCommUser';
+import { User } from '../models/models';
 
 @Injectable()
 export class AppService {
@@ -22,7 +21,7 @@ export class AppService {
 
   public runtimeReady = new EventEmitter();
 
-  myIdentity = <ContextualCommUser>{}
+  myIdentity = <User>{}
 
   getHyperty(url:string) {
 

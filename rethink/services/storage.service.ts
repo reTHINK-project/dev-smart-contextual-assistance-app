@@ -33,7 +33,7 @@ export class LocalStorage {
     }
 
     public hasObject(key:string):any {
-      return this.localStorage[key] === null;
+      return this.localStorage.hasOwnProperty[key];
     }
 }
 

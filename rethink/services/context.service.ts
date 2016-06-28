@@ -1,22 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Subject }    from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 // Services
 import { LocalStorage } from './storage.service';
 
 // Interfaces
-import { Contact } from '../comp/contact/contact';
+import { ContextTrigger, Context, Communication, User, Message } from '../models/models';
 
-import { ContextualCommTrigger, ContextValues } from '../models/ContextualCommTrigger';
-import { Context } from '../models/Context';
-import { ContextualComm } from '../models/ContextualComm';
-import { ContextualCommUser } from '../models/ContextualCommUser';
-import { Communication } from '../models/Communication';
+let initialUsers: User[] = [];
+let initialMessages: Message[] = [];
 
 @Injectable()
 export class ContextService {
-
-  constructor(private localStorage:LocalStorage){}
 
   // activities: [Activity] = [
   //   { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'Lorem ipsum dolor sit amet, vix eu exerci efficiantur, antiopam indoctum usu et. Vis te quot' },
@@ -28,131 +24,132 @@ export class ContextService {
 
   private activeContext:any;
 
-  private sourceContextsList: ContextualComm[] = [];
-  private sourceContexts = new Subject<Array<ContextualComm>>();
-  contexts = this.sourceContexts.asObservable();
+  context: Subject<Context> = new Subject<Context>();
+  contextList: Observable<Context[]>;
 
-  private contextualCommUsersList = new Subject<Array<ContextualCommUser>>();
-  private contextUsersList: ContextualCommUser[] = [];
-  contextUsers = this.contextualCommUsersList.asObservable();
+  userList: Observable<User[]>;
+  newUser: Subject<User> = new Subject<User>();
+  userUpdate: Subject<User> = new Subject<User>();
 
-  private contextTrigger = new Subject<Array<ContextualCommTrigger>>();
-  triggersList: ContextualCommTrigger[] = [];
+  messageList: Observable<Message[]>;
+  newMessage: Subject<Message> = new Subject<Message>();
+  messages: Subject<Message> = new Subject<Message>();
 
+  constructor(private localStorage:LocalStorage) {
 
-  getCurrentContext() {
-
-  }
-
-  getContexts() {
-    return Promise.resolve(this.contexts)
-  }
-
-  get(key: string) {
-
-    return new Promise<ContextualComm>((resolve, reject) => {
-      resolve(this.localStorage.getObject(key));
+    this.contextList = this.context.scan((context: Context[]) => {
+      return context;
     });
 
+    this.userList = this.userUpdate.scan((users: User[], value: User) => {
+      users.push(value);
+      return users;
+    }, initialUsers)
+
+    this.newUser.subscribe(this.userUpdate);
+
+    this.messageList = this.messages.scan((messages: Message[], value: Message) => {
+      messages.push(value);
+      return messages;
+    }, initialMessages);
+
+    this.newMessage.subscribe(this.messages);
+
   }
 
-  create(name: string, dataObject: any) {
+  create(name: string, dataObject: any, parent?:string) {
 
-    return new Promise<ContextualComm>((resolve, reject) => {
+    return new Promise<Context>((resolve, reject) => {
 
-      console.log('dataObject: ', dataObject);
+      this.createContextTrigger(name, dataObject, parent).then((contextTrigger:ContextTrigger) => {
 
-      this.createContextTrigger(name, dataObject).then((context:ContextualCommTrigger) => {
-
-        let communication = <Communication>{}
-        Object.keys(dataObject.data).forEach((key: any, value: any) =>{
-          communication[key] = dataObject.data[key];
-        })
-
-        let users:ContextualCommUser[] = [];
-        let user = <ContextualCommUser>{}
-        Object.keys(dataObject.data.participants).forEach((key: any, value: any) => {
-          console.log(key, value);
-          user = dataObject.data.participants[key];
-          users.push(user);
-        });
-
-        let contextComm:ContextualComm = {
+        let context:Context = new Context({
           url: dataObject.url,
           name: dataObject.data.name,
-          description: '',
-          users: users,
-          messages: [],
-          contexts: [],
-          communication: communication
-        }
+          description: 'Description of the context'
+        });
 
-        context.trigger = contextComm;
+        let communication:Communication = new Communication(dataObject.data);
+        communication.resources = ['chat'];
 
-        this.localStorage.setObject(context.contextName, context);
-        this.sourceContextsList.push(contextComm);
-        this.sourceContexts.next(this.sourceContextsList);
+        // set the communication to the Context
+        context.communication = communication;
 
-        resolve(contextComm);
+        Object.keys(dataObject.data.participants).forEach((key: any, value: any) => {
+          let user:User = new User(dataObject.data.participants[key]);
+          this.newUser.next(user);
 
+          // Add users to the context
+          context.addUser(user);
+        });
+
+        // set the parent to the context
+        if (parent) { context.parent = parent; }
+
+        // Set this context to the context triggers;
+        contextTrigger.trigger.push(context);
+
+        // Update the localStorage contextTrigger
+        this.localStorage.setObject(contextTrigger.name, contextTrigger);
+
+        // add the context to the observable list
+        this.context.next(context);
+
+        // Create a new Context based on the parent contextTrigger
+        this.localStorage.setObject(context.name, context);
+
+        resolve(context);
       })
 
     })
 
   }
 
-  updateContextCommUsers(users: ContextualCommUser[]) {
-
-    console.log('[Update the Context Comm Users]', this.activeContext, users);
-    if(this.activeContext) {
-
-      let contextualComm = this.activeContext.trigger;
-
-      users.forEach((user) => {
-        user.status = 'online';
-        user.unread = 0;
-        contextualComm.users.push(user);
-        this.contextUsersList.push(user);
-      })
-
-      this.localStorage.setObject('ContactList', contextualComm.users);
-      this.contextualCommUsersList.next(this.contextUsersList);
-
-    }
+  addUser(user:User) {
+    this.newUser.next(user);
   }
 
-  updateContextCommMessages() {
+  addMessage(message:any) {
 
+    console.log('Add new message', message);
+
+    let user = new User(message.identity.userProfile);
+    let newMessage:Message = new Message({
+      type: 'message',
+      message: message.value.message,
+      user: user
+    });
+
+    console.log('Message: ', newMessage);
+    this.newMessage.next(newMessage);
   }
 
-  createContextTrigger(name: string, dataObject: any) {
+  createContextTrigger(name: string, dataObject: any, parent?:string) {
 
-    return new Promise<ContextualCommTrigger>((resolve, reject) => {
+    return new Promise<ContextTrigger>((resolve, reject) => {
 
-      console.log('[Context Service - Get Localstorage] ', this.localStorage.hasObject(name), this.localStorage);
+      console.log('[Context Service - Get Localstorage] ', parent, this.localStorage.hasObject(parent), this.localStorage.hasObject(name), this.localStorage);
 
-      if (!this.localStorage.hasObject(name)) {
-        let contextValue:ContextValues = {
+      if (!this.localStorage.hasObject(name) || (parent && !this.localStorage.hasObject(parent))) {
+
+        let contextName = name;
+        let contextScheme = 'context';
+        let contextResource = ['video', 'audio', 'chat'];
+
+        let contextTrigger = new ContextTrigger(
+          null, contextName, contextScheme, contextResource);
+
+        /*let contextValue:ContextValues = {
           name: 'location',
           unit: 'rad',
           value: 0,
           sum: 0
-        }
+        }*/
 
-        let contextualCommTrigger:ContextualCommTrigger = {
-          contextName: name,
-          contextScheme: 'context',
-          contextResource: ['video', 'audio', 'chat'],
-          values: [contextValue],
-          trigger: null
-        }
-
-        this.localStorage.setObject(name, contextualCommTrigger)
-        this.activeContext = contextualCommTrigger;
-        resolve(contextualCommTrigger);
+        this.localStorage.setObject(name, contextTrigger)
+        resolve(contextTrigger);
       } else {
-        let contextualCommTrigger:ContextualCommTrigger = this.localStorage.getObject(name);
-        this.activeContext = contextualCommTrigger;
+        let contextualCommTrigger:ContextTrigger = this.localStorage.getObject(name);
         resolve(contextualCommTrigger);
       }
     })
@@ -162,7 +159,7 @@ export class ContextService {
   getContextByName(name:string) {
 
     // TODO: Optimize this promise to handle with multiple contacts
-    return new Promise<ContextualComm>((resolve, reject) => {
+    return new Promise<Context>((resolve, reject) => {
     //
     //   console.log(this.sourceContexts);
     //
@@ -184,9 +181,9 @@ export class ContextService {
   getContextByResource(resource:string) {
 
     // TODO: Optimize this promise to handle with multiple contacts
-    return new Promise<ContextualComm>((resolve, reject) => {
+    return new Promise<Context>((resolve, reject) => {
 
-      let context = this.sourceContextsList.filter((context) => {
+/*      let context = this.sourceContextsList.filter((context) => {
         if(context.url.indexOf(resource) !== -1) return true
       })
 
@@ -194,7 +191,7 @@ export class ContextService {
         resolve(context[0])
       } else {
         reject('Context not found');
-      }
+      }*/
     })
 
   }

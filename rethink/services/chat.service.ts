@@ -8,11 +8,8 @@ import { ContextService } from './context.service';
 
 // Interfaces
 import { Activity } from '../comp/activity/activity';
-import { Contact } from '../comp/contact/contact';
 
-import { ContextualComm } from '../models/ContextualComm';
-import { ContextualCommUser } from '../models/ContextualCommUser';
-import { ChatMessage } from '../models/Communication';
+import { User, Message, Context } from '../models/models';
 
 @Injectable()
 export class ChatService {
@@ -23,7 +20,7 @@ export class ChatService {
   hyperty: any
   chatGroupManager: any
 
-  contextualComm:ContextualComm
+  contextualComm:Context
 
   private runtime: any
   private _onUserAdded:Function
@@ -63,9 +60,11 @@ export class ChatService {
     this.chatGroupManager.onInvitation((event:any) => {
       console.log('[onInvitation]', event);
 
-      if (event.hasOwnProperty('identity')) {
-        this.contextService.updateContextCommUsers([event.identity.userProfile]);
-      }
+      this.join(event.url).then(a => {
+        console.log(a);
+      }).catch(reason => {
+        console.log(reason);
+      })
 
       if (this._onInvitation) this._onInvitation(event);
     })
@@ -75,21 +74,31 @@ export class ChatService {
       console.log('[Chat Service - onUserAdded]', user);
 
       if (user.hasOwnProperty('userProfile')) {
-        this.contextService.updateContextCommUsers([user.userProfile]);
+
+        this.contextService.addUser(user.userProfile);
+
+        if(this._onUserAdded) this._onUserAdded(user.userProfile);
+
       } else if (user.hasOwnProperty('data')) {
         let data = user.data;
-        let users:ContextualCommUser[] = []
-
         data.forEach((current:any) => {
-          users.push(current.userProfile);
+          this.contextService.addUser(current.userProfile);
+          if(this._onUserAdded) this._onUserAdded(current.userProfile);
         });
-        this.contextService.updateContextCommUsers(users);
-      }
 
+      }
     })
+
+    this.chatController.onMessage((message: any) => {
+      console.log('[Chat Service - onMessage]', message);
+
+      // if (this._onMessage) this._onMessage(message);
+      this.contextService.addMessage(message);
+    })
+
   }
 
-  create(name: string, users:Contact[]) {
+  create(name: string, users:User[], parent?:string) {
 
     return new Promise((resolve, reject) => {
 
@@ -99,10 +108,10 @@ export class ChatService {
 
         this.prepareHyperty();
 
-        return this.contextService.create(name, chatController.dataObject)
+        return this.contextService.create(name, chatController.dataObject, parent);
       }).catch((reason: any) => {
         reject(reason);
-      }).then((context:ContextualComm) => {
+      }).then((context:Context) => {
 
         console.log('Context Created:', context);
 
@@ -147,13 +156,12 @@ export class ChatService {
 
   send(message: string) {
 
-    return new Promise<ChatMessage>((resolve, reject) => {
+    return new Promise<any>((resolve, reject) => {
 
-      console.log(this.chatController);
-
-      this.chatController.send(message).then((chatMessage:ChatMessage) => {
-        if (this._onMessage) this._onMessage(chatMessage);
-        resolve(chatMessage);
+      this.chatController.send(message).then((message:Message) => {
+        console.log('[Chat Service - onMessage]', message);
+        this.contextService.addMessage(message);
+        resolve(message);
       }).catch(reject);
 
     })
@@ -163,11 +171,6 @@ export class ChatService {
   onInvitation(callback: Function) {
     // this.hypertyChat.onInvitation(callback);
     this._onInvitation = callback;
-  }
-
-  onMessage(callback: Function) {
-    this._onMessage = callback;
-    //this.chatController.onMessage(callback);
   }
 
   onUserAdded(callback: Function) {

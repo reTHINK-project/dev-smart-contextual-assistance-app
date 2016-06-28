@@ -2,12 +2,12 @@
     <span class="date">{{model.date}}</span>
 </div>
 <div class="contact-avatar push-left">
-    <img src="{{model.contact.avatar}}">
-    <span class="status {{model.contact.status}}">
-      <i class="fa fa-circle{{model.contact.status==='offline'?'-o':''}}"></i>
+    <img src="{{model.user.avatar}}">
+    <span class="status {{model.user.status}}">
+      <i class="fa fa-circle{{model.user.status==='offline'?'-o':''}}"></i>
     </span>
 </div>
-<h4 class="contact-name"><a href="#">{{model.contact.name}}</a></h4>
+<h4 class="contact-name"><a href="#">{{model.user.name}}</a></h4>
 
 <!-- message -->
 <p *ngIf="model.type === 'message'" class="quarter-vertical-padding">

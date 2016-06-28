@@ -1,15 +1,13 @@
-import { HypertyResource } from './HypertyResource';
-
-export interface Context {
+export interface IContext {
   id: string
   type: string
-  values: TimeActivity[]
+  values: ITimeActivity[]
   description?: string
   time?: Date
   tag?: string
 }
 
-export interface TimeActivity {
+export interface ITimeActivity {
   name: string
   unit: string
   value: number

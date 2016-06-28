@@ -4,7 +4,7 @@ import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/co
 import { AppService } from '../../services/app.service';
 
 // Model
-import { ContextualCommUser } from '../../models/ContextualCommUser';
+import { User } from '../../models/models';
 
 @Component({
   selector: 'ul[contact-me]',
@@ -15,6 +15,6 @@ export class ContactMeComponent {
 
   constructor(private appService:AppService ) {}
 
-  @Input() model:ContextualCommUser;
+  @Input() model:User;
 
 }

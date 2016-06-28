@@ -1,5 +1,7 @@
 <div *ngIf="haveNotification && owner" role="alert" notification-box [model]='owner' (accept-call)="onAcceptCall()" (reject-call)="onRejectCall()"></div>
-<ul activity-list [model]="activities"></ul>
+
+<h3 class="padding">Recent Activity</h3>
+<ul activity-list [model]="messages"></ul>
 
 <div file-share-list></div>
 <div context-sender [active]="chatActive" (on-message)="onMessage($event)"></div>

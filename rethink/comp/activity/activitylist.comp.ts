@@ -1,4 +1,11 @@
-import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/core';
+import { Component, Input, Output, HostBinding, EventEmitter, ChangeDetectorRef } from '@angular/core';
+
+import { Observable } from 'rxjs/Observable';
+
+
+import { Message } from '../../models/models';
+
+
 import { Activity } from './activity';
 import { ActivityComponent } from './activity.comp';
 
@@ -8,12 +15,19 @@ import { ActivityComponent } from './activity.comp';
   directives: [ActivityComponent]
 })
 export class ActivityListComponent {
+
   @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list'
 
-  @Input() set model(activities:Activity[]) {
-    this.activityFilter = activities
+  @Input() set model(messages:Observable<Array<Message>>) {
+
+  console.log("Set Messages Observable: ", messages);
+
+    this.messages = messages;
+
   }
 
-  private activityFilter: Activity[] = []
+  private messages:Observable<Array<Message>>
+
+  // private messageFilter: Message[] = []
 
 }

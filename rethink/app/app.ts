@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, HostBinding, HostListener, ChangeDetectionStrategy } from '@angular/core';
-import { Router, Routes, RouteSegment, OnActivate, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/router';
+import { Router, RouterConfig, ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 // Services
@@ -8,9 +8,7 @@ import { ChatService }    from '../services/chat.service';
 import { ContextService }     from '../services/context.service';
 
 // Interfaces
-import { Contact } from '../comp/contact/contact';
-import { ContextualComm } from '../models/ContextualComm';
-import { ContextualCommUser } from '../models/ContextualCommUser';
+import { Context, User } from '../models/models';
 
 // Components
 import { ContactMeComponent } from '../comp/contact/me.comp';
@@ -30,91 +28,36 @@ import { UserView } from './userView';
     ContactMeComponent, ContactListComponent,
     ContextBreadCrumbComponent
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'app/view/app.html'
 })
-@Routes([
-  {path: '/:context/:task', component: ActivityView},
-  {path: '/user/:id', component: UserView}
-])
+
 export class Application {
 
-  constructor(private router: Router,
+  contacts:Observable<User[]>
+  myIdentity: User
+
+  contextOpened: boolean
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private appService: AppService,
     private chatService: ChatService,
     private contextService: ContextService) {}
-
-  contacts: ContextualCommUser[];
-  myIdentity: ContextualCommUser
-  // @HostListener("input", "$event.target.value")
-
-  contextOpened: boolean
 
   ngOnInit() {
 
     this.contextOpened = false;
 
-    this.contextService.contextUsers.subscribe((users:ContextualCommUser[]) => {
+    console.log('APP Started,  ', this.contextService.userList);
 
-      console.log("UPDATE ON APP:", users);
-
-      if (!this.contacts) this.contacts = [];
-
-      users.forEach((user) => {
-        this.contacts.push(user);
-      })
-
-    })
-
-    this.chatService.onUserAdded((user:any) => {
-
-      console.log('[App - onUserAdded]', user);
-
-      // let users:ContextualCommUser[] = [];
-      // if (user.hasOwnProperty('userProfile')){
-      //   let current:ContextualCommUser = {
-      //     username: user.userProfile.username,
-      //     cn: user.userProfile.cn,
-      //     avatar: user.userProfile.avatar,
-      //     userURL: user.userProfile.userURL,
-      //     locale: user.userProfile.locale,
-      //     status: 'online',
-      //     unread: 0
-      //   }
-      //   users.push(current);
-      // } else {
-      //   user.status = 'online';
-      //   user.unread = 0;
-      //   users.push(user);
-      // }
-      //
-      // this.contextService.updateContextCommUsers(users);
-    });
+    this.contacts = this.contextService.userList;
 
     this.chatService.onInvitation((event:any) => {
       console.log('event: ', event);
-
-      this.chatService.join(event.url).then((chatController:any) => {
-        console.log('[Join Controller]', chatController);
-      }).catch((reason) => {
-        console.error(reason);
-      });
-
     })
 
     this.myIdentity = this.appService.myIdentity;
-
-    // this.appService.getContacts().then((contacts:Contact[]) => {
-    //   this.contacts = contacts;
-    // })
-
-  }
-
-  onChange(updatedValue: string) {
-
-    console.log('AQUI:', updatedValue);
-
-    // this.value = updatedValue.trim();
   }
 
   onOpenContext(event: Event) {
@@ -127,9 +70,9 @@ export class Application {
     }
   }
 
-  onContactClick(contact: Contact) {
-    console.log('(contact-click)', contact)
-    this.router.navigate(['/user/' + contact.id]);
+  onContactClick(user: User) {
+    console.log('(contact-click)', user)
+    // this.router.navigate(['/user/' + contact]);
   }
 
   onContactAdd() {
@@ -137,5 +80,6 @@ export class Application {
     this.chatService.invite(['openidtest20@gmail.com']).then((chatController: any) => {
       console.log('[User as joined with success]', chatController)
     })
+
   }
 }

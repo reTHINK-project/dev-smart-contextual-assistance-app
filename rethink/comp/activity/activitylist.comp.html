@@ -1,4 +1,2 @@
-<h3 class="padding">Recent Activity</h3>
-
 <!-- List of ContextActivityComponent -->
-<li activity *ngFor="let activity of activityFilter" [model]="activity"></li>
+<li activity *ngFor="let message of messages | async" [model]="message"></li>

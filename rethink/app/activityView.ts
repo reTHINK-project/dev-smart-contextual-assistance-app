@@ -1,6 +1,6 @@
 import { Component, Input, Output, OnInit, HostBinding, EventEmitter } from '@angular/core';
-
-import { Router, Routes, RouteSegment, ROUTER_DIRECTIVES, OnActivate } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { Router, ROUTER_DIRECTIVES, ActivatedRoute} from '@angular/router';
 
 // Components
 import { ActivityListComponent } from '../comp/activity/activitylist.comp';
@@ -13,9 +13,7 @@ import { NotificationBox } from '../comp/user/notification.comp';
 import { Contact } from '../comp/contact/contact'
 import { Activity } from '../comp/activity/activity'
 
-import { ContextualComm, ContextualCommTaskUser } from '../models/ContextualComm';
-import { ChatMessage } from '../models/Communication';
-import { Context } from '../models/Context';
+import { Context, User, Message } from '../models/models';
 
 // Services
 import { ChatService } from '../services/chat.service';
@@ -35,16 +33,20 @@ import { ContextService }     from '../services/context.service';
   ]
 })
 
-export class ActivityView implements OnActivate {
+export class ActivityView implements OnInit {
+
   @HostBinding('class') hostClass = 'content-panel'
 
-  chatActive = false
-  messages:ChatMessage[] = [];
+  messages: Observable<Message[]>;
 
-  haveNotification = false
-  owner: any
+  private haveNotification = false
+  private owner: any
+  private chatActive:boolean = true;
+
+  private sub: any;
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private appService: AppService,
     private chatService: ChatService,
@@ -53,98 +55,59 @@ export class ActivityView implements OnActivate {
   ) {}
 
   ngOnInit() {
-    // this.contextService.getContextByName('Work').then((context:Context) => {
-    //   this.activities = context.activities
-    // })
 
-    this.contextService.contextUsers.subscribe((update: any) => {
-      console.log('UPDATE: ', update);
-    })
+    this.route.params.subscribe(params => {
+      let context = params['context']; // (+) converts string 'id' to a number
+      let task = params['task'];
 
-    this.chatService.onInvitation((event: any) => {
-      console.log('[Activity View - onInvitation] ', event);
-    })
+      this.onRouteActivated(context, task)
+
+    });
+
+    this.messages = this.contextService.messageList;
+    
   }
 
-  routerOnActivate(curr: RouteSegment): void {
-    let context = curr.getParam('context')
-    let task = curr.getParam('task')
+  onRouteActivated(context:string, task:string) {
 
     console.log('Context:', context);
     console.log('Task:', task);
 
+    // TODO: Optimize this process
+    // Creating the Work Context
+    console.info('Creating the context ', context, ' chat group');  
     this.chatService.create(context, []).then((result: any) => {
+
+      // Creating the task context
+      console.info('Creating the context ', task, ' chat group');
+      return this.chatService.create(task, [], context);
+    }).then((result: any) => {
       console.log('Create chat service for all my contacts', result);
 
       this.chatActive = true;
-
-      return this.contextService.getContextByName(context)
-    }).then((context:ContextualComm) => {
-
-      console.log('Contextes: ', context);
-
-      // this.contacts = context.contacts;
-    }).catch((reason) => {
-      console.log('Error: ', reason);
+    }).catch(reason => {
+      console.error(reason);
     })
 
-    this.chatService.onMessage((message: any) => {
-      console.log('[Activity View - onMessage] ', message);
-
-
-    });
+    
   }
 
-  onMessage(message: string) {
-    console.log('Send Message: ', message);
+  onMessage(message:string) {
 
-    this.chatService.send(message).then((message:ChatMessage) => {
-      console.log('Message Sended: ', message);
-      this.messages.push(message);
+    this.chatService.send(message).then((message:any) => {
+      // this._updateView();
     })
+
   }
 
   prepareChat(chat: any) {
 
-    // this.chatService.onMessage((message: any) => {
-    //   console.log('[Activity View - onMessage] ', message);
-    // });
+/*    this.chatService.onMessage((message: any) => {
+      console.log('[Activity View - onMessage] ', message);
 
-    // chat.addEventListener('new:message:recived', (msg: any) => {
-    //   console.log('[New Message]', msg);
-    //
-    //   //FIX: my on messages are without identity !
-    //   if (msg.identity) {
-    //     //TODO: replace by contact search...
-    //     let contact: Contact = {
-    //       id: msg.identity.identity,
-    //       name: msg.identity.infoToken.name,
-    //       status: 'online',
-    //       avatar: msg.identity.infoToken.picture,
-    //       email: msg.identity.infoToken.email,
-    //       userURL: msg.identity.userURL
-    //     }
-    //
-    //     let activity = <Activity>{ contact: contact, type: 'message', date: new Date().toJSON(), message: msg.value.chatMessage, read: false }
-    //
-    //     this.contextService.getContextByResource(msg.url).then((context:Context) => {
-    //
-    //       context.activities.push(activity);
-    //       console.log('[Context Exists]:', context);
-    //
-    //     }).catch((reason: any) => {
-    //
-    //       this._createNewContext(msg, contact, activity).then((context:Context) => {
-    //         console.log('[Context Created]: ', context);
-    //       })
-    //
-    //     })
-    //     // this.activities.push({ contact: contact, type: 'message', date: new Date().toJSON(), message: msg.value.chatMessage })
-    //   }
-    //
-    //   // console.log('Activities: ', this.activities);
-    //
-    // });
+      // this._updateView();
+    });
+*/
   }
 
   prepareVideo() {
@@ -175,7 +138,8 @@ export class ActivityView implements OnActivate {
     let contentHeight = $ele.height();
     let sender = 62;
     let margin = 60;
-    let height = contentHeight - (sender + margin);
+    let title = 47;
+    let height = contentHeight - (sender + margin + title);
 
     console.log('update View', height, $ele)
 

@@ -2,7 +2,7 @@ import { enableProdMode, provide } from '@angular/core';
 import { bootstrap }      from '@angular/platform-browser-dynamic';
 import { Application }    from './app/app';
 
-import { ROUTER_PROVIDERS } from '@angular/router';
+import { APP_ROUTER_PROVIDERS } from './app/app.routes';
 
 import { AppService }     from './services/app.service';
 import { ChatService }    from './services/chat.service';
@@ -32,10 +32,10 @@ appService.loadRuntime().then((runtime) => {
 }).then((user) => {
   console.log('READY')
   // enableProdMode();
-  bootstrap(Application, [ ROUTER_PROVIDERS, LocalStorage,
+  bootstrap(Application, [APP_ROUTER_PROVIDERS, LocalStorage,
     provide(ContextService, {useValue: contextService}),
     provide(AppService, {useValue: appService}),
     provide(ChatService, {useValue: chatService}),
     provide(VideoService, {useValue: videoService})
-  ])
+  ]).catch(err => console.error(err));
 })
