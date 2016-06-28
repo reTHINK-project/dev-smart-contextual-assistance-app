@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable, Subject } from 'rxjs/Rx';
 
 // Services
 import { LocalStorage } from './storage.service';
@@ -41,17 +40,21 @@ export class ContextService {
       return context;
     });
 
-    this.userList = this.userUpdate.scan((users: User[], value: User) => {
+
+    // Users
+    this.userList = this.newUser.scan((users: User[], value: User) => {
+      console.log('Scan Users:', value);
       users.push(value);
       return users;
-    }, initialUsers)
+    }, initialUsers).publishReplay(1).refCount();
 
     this.newUser.subscribe(this.userUpdate);
 
-    this.messageList = this.messages.scan((messages: Message[], value: Message) => {
+    // Messages
+    this.messageList = this.newMessage.scan((messages: Message[], value: Message) => {
       messages.push(value);
       return messages;
-    }, initialMessages);
+    }, initialMessages).publishReplay(1).refCount();
 
     this.newMessage.subscribe(this.messages);
 
@@ -77,8 +80,8 @@ export class ContextService {
 
         Object.keys(dataObject.data.participants).forEach((key: any, value: any) => {
           let user:User = new User(dataObject.data.participants[key]);
-          this.newUser.next(user);
 
+          this.addUser(user);
           // Add users to the context
           context.addUser(user);
         });
@@ -106,6 +109,9 @@ export class ContextService {
   }
 
   addUser(user:User) {
+
+    console.log('add user:', user);
+
     this.newUser.next(user);
   }
 

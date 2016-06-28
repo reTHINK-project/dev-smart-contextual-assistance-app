@@ -25,4 +25,4 @@ gulp.task('start', function(done) {
 
   runSequence('sass', 'sass:watch', done);
 
-})
+});

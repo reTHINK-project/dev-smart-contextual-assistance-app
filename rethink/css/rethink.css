@@ -2619,6 +2619,11 @@ body.rethink .content-panel div.marker {
   z-index: 120;
   position: relative;
 }
+
+body.rethink .content-panel ul.activity-list {
+  overflow-y: scroll;
+}
+
 /* line 2647, ../sass/rethink.scss */
 body.rethink .content-panel div.marker span.work-marker {
   position: absolute;

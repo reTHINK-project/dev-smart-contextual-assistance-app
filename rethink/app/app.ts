@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, HostBinding, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterConfig, ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 
 // Services
 import { AppService }     from '../services/app.service';

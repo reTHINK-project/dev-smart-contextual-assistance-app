@@ -1,6 +1,6 @@
 import { Component, Input, Output, OnInit, HostBinding, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { Router, ROUTER_DIRECTIVES, ActivatedRoute} from '@angular/router';
+import { Observable } from 'rxjs/Rx';
 
 // Components
 import { ActivityListComponent } from '../comp/activity/activitylist.comp';
@@ -131,21 +131,4 @@ export class ActivityView implements OnInit {
     // });
 
   }
-
-  private _updateView() {
-    // // TODO: Optimize this to on resize
-    let $ele = $(document);
-    let contentHeight = $ele.height();
-    let sender = 62;
-    let margin = 60;
-    let title = 47;
-    let height = contentHeight - (sender + margin + title);
-
-    console.log('update View', height, $ele)
-
-    $ele.find('ul[activity-list]').css({'overflow-y': 'scroll'});
-    let scrollable = $ele.find('ul[activity-list]').height(height);
-
-  }
-
 }
