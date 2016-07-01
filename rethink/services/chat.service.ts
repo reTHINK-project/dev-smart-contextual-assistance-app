@@ -60,7 +60,7 @@ export class ChatService {
     this.chatGroupManager.onInvitation((event:any) => {
       console.log('[onInvitation]', event);
 
-      this.join(event.url).then(a => {
+    this.join(event.url).then(a => {
         console.log(a);
       }).catch(reason => {
         console.log(reason);
@@ -73,20 +73,19 @@ export class ChatService {
 
       console.log('[Chat Service - onUserAdded]', user);
 
-      if (user.hasOwnProperty('userProfile')) {
-
-        this.contextService.addUser(user.userProfile);
-
-        if(this._onUserAdded) this._onUserAdded(user.userProfile);
-
-      } else if (user.hasOwnProperty('data')) {
+      if (user.hasOwnProperty('data')) {
         let data = user.data;
         data.forEach((current:any) => {
-          this.contextService.addUser(current.userProfile);
-          if(this._onUserAdded) this._onUserAdded(current.userProfile);
+          this.contextService.addUser(current);
+          if(this._onUserAdded) this._onUserAdded(current);
         });
 
+      } else {
+        this.contextService.addUser(user);
+
+        if(this._onUserAdded) this._onUserAdded(user);
       }
+
     })
 
     this.chatController.onMessage((message: any) => {
@@ -98,7 +97,7 @@ export class ChatService {
 
   }
 
-  create(name: string, users:User[], parent?:string) {
+  create(name: string, users:string[], parent?:string) {
 
     return new Promise((resolve, reject) => {
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Input } from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 
 // Services
@@ -21,7 +21,34 @@ export class ContextService {
   //   { contact: this.contacts[0], type: 'file-share', status: 'ok', date: 'at 14:30' }
   // ]
 
-  private activeContext:any;
+  private activeContext: any;
+  private currentUser: User;
+  private contextPath: string;
+  private taskPath: string
+
+  public set setContextPath(v: string) {
+    this.contextPath = v;
+  }
+
+  public get getContextPath(): string {
+    return this.contextPath;
+  }
+
+  public set setTaskPath(v: string) {
+    this.taskPath = v;
+  }
+
+  public get getTaskPath(): string {
+    return this.taskPath;
+  }
+
+  public set setCurrentUser(v : User) {
+    this.currentUser = v;
+  }
+
+  public get getCurrentUser() : User {
+    return this.currentUser;
+  }
 
   context: Subject<Context> = new Subject<Context>();
   contextList: Observable<Context[]>;
@@ -40,13 +67,18 @@ export class ContextService {
       return context;
     });
 
-
-    // Users
-    this.userList = this.newUser.scan((users: User[], value: User) => {
+    this.userList = this.newUser.distinctUntilChanged((a: User, b:User) => {
+      console.log('Distinct:', a, b);
+      return a.userURL === b.userURL;
+    }).skipWhile((user:User, index:Number) => {
+      console.log('Skip:', user, index);
+      return user.userURL === this.currentUser.userURL;
+    }).scan((users: User[], value: User) => {
       console.log('Scan Users:', value);
       users.push(value);
+      localStorage.set('ContactList', JSON.stringify(users));
       return users;
-    }, initialUsers).publishReplay(1).refCount();
+    }, initialUsers).publishReplay(1).refCount()
 
     this.newUser.subscribe(this.userUpdate);
 
@@ -58,6 +90,18 @@ export class ContextService {
 
     this.newMessage.subscribe(this.messages);
 
+  }
+
+  getUser(userURL:string):Observable<User> {
+    console.log('Get User includes:', userURL);
+
+    return this.userList.flatMap((users:User[]) => {
+      console.log("USers:" , users);
+      return users;
+    }).filter( (user:User) => {
+      console.log(user.userURL === userURL, user.userURL.includes(userURL))
+      return user.userURL === userURL || user.userURL.includes(userURL);
+    });
   }
 
   create(name: string, dataObject: any, parent?:string) {
@@ -72,6 +116,8 @@ export class ContextService {
           description: 'Description of the context'
         });
 
+        // this.activeContext = context;
+
         let communication:Communication = new Communication(dataObject.data);
         communication.resources = ['chat'];
 
@@ -81,9 +127,10 @@ export class ContextService {
         Object.keys(dataObject.data.participants).forEach((key: any, value: any) => {
           let user:User = new User(dataObject.data.participants[key]);
 
-          this.addUser(user);
           // Add users to the context
           context.addUser(user);
+
+          this.addUser(user);
         });
 
         // set the parent to the context
@@ -110,15 +157,18 @@ export class ContextService {
 
   addUser(user:User) {
 
-    console.log('add user:', user);
-
-    this.newUser.next(user);
+    let current:User = new User(user);
+    this.newUser.next(current);
   }
 
   addMessage(message:any) {
 
     console.log('Add new message', message);
 
+    this.getUser(message.identity.userProfile.userURL).forEach((user:User) => {
+      console.log('User:', user);
+    })
+   
     let user = new User(message.identity.userProfile);
     let newMessage:Message = new Message({
       type: 'message',

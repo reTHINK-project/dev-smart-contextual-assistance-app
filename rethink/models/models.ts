@@ -6,6 +6,8 @@ import { IContextualCommTrigger } from './rethink/IContextualCommTrigger';
 
 export class User implements IContextualCommUser {
 
+  id: string;
+
   username:string;
   cn:string;
   avatar:string;
@@ -23,6 +25,8 @@ export class User implements IContextualCommUser {
     this.userURL  = obj && obj.userURL;
     this.status   = obj && obj.status   || 'online';
     this.unread   = obj && obj.unread   || 0;
+
+    this.id       = this.userURL.substr(this.userURL.lastIndexOf('/'));
   }
 
 }
@@ -72,11 +76,13 @@ export class Message implements IChatMessage {
   type: string;
   message: string;
   user: User;
+  date: Date;
 
   constructor(obj: any) {
     this.type             = obj && obj.type;
     this.message          = obj && obj.message;
     this.user             = obj && obj.user;
+    this.date             = obj && obj.date || new Date().toISOString();
   }
 }
 

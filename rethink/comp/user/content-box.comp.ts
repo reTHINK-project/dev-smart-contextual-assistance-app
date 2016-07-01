@@ -1,26 +1,49 @@
-import { Component, Input, Output, OnInit, AfterViewChecked, HostBinding, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnInit, AfterViewChecked, HostBinding, EventEmitter, ElementRef } from '@angular/core';
 
-import { Context } from '../context/context';
-import { Activity } from '../activity/activity';
+import { Observable } from 'rxjs/Rx';
+
+import { User, Message } from '../../models/models';
 
 @Component({
   selector: 'div[content-box]',
   templateUrl: 'comp/user/content-box.comp.html'
 })
-export class ContentBox implements OnInit, AfterViewChecked {
+export class ContentBox implements OnInit {
   @HostBinding('class') hostClass = 'content-box user'
 
-  @Input() model:Context
+  @Input() messages: Observable<Message>
 
-  private activities:Activity[] = []
+  constructor(private el: ElementRef){}
 
   ngOnInit() {
-    this.activities = this.model.activities;
+    
+	  this.messages.subscribe((message:Message) => {
 
-    console.log('HERE:', this.model)
+      setTimeout(() => {
+        this.scrollToBottom();
+      })
+
+    });
+
+    this.updateView();
+    this.scrollToBottom();
   }
 
-  ngAfterViewChecked() {
+  updateView(): void {
+    let scrollPane: any = this.el.nativeElement;
+    let parentEl: any = scrollPane.offsetParent;
+    let top = scrollPane.offsetTop;
+    let parentElHeight = parentEl.offsetHeight;
 
+    // TODO: replace the number for the sender box height;
+    let height = parentElHeight - (top + 62);
+    scrollPane.style.height = height + 'px';
   }
+
+  scrollToBottom(): void {
+    let scrollPane: any = this.el.nativeElement;
+    scrollPane.scrollTop = scrollPane.scrollHeight;
+  }
+
+
 }

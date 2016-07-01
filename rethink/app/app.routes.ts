@@ -9,7 +9,7 @@ export const ActivityRoutes:RouterConfig = [
 
 export const routes:RouterConfig = [
   ...ActivityRoutes,
-  {path: 'user/:id', component: UserView}
+  {path: ':context/:task/:id', component: UserView}
 ]
 
 export const APP_ROUTER_PROVIDERS = [

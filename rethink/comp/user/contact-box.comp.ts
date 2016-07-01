@@ -1,6 +1,7 @@
 import { Component, Input, Output, OnInit, HostBinding, EventEmitter } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 
-import { Contact } from '../contact/contact';
+import { User } from '../../models/models';
 
 @Component({
   selector: 'div[contact-box]',
@@ -9,12 +10,19 @@ import { Contact } from '../contact/contact';
 export class ContactBox implements OnInit {
   @HostBinding('class') hostClass = 'contactbox padding all-100 small'
 
-  @Input() model:Contact
+  @Input() model:Observable<User>
+
+  private user:User;
 
   @Output('video-call') videoClick = new EventEmitter()
   @Output('audio-call') audioClick = new EventEmitter()
 
   ngOnInit() {
     console.log('HERE:', this.model)
+
+    this.model.subscribe((user:User) => {
+      this.user = user;
+    });
+
   }
 }

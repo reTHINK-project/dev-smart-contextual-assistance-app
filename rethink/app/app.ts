@@ -38,6 +38,8 @@ export class Application {
 
   contextOpened: boolean
 
+  private path:string;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -52,12 +54,8 @@ export class Application {
     console.log('APP Started,  ', this.contextService.userList);
 
     this.contacts = this.contextService.userList;
-
-    this.chatService.onInvitation((event:any) => {
-      console.log('event: ', event);
-    })
-
     this.myIdentity = this.appService.myIdentity;
+
   }
 
   onOpenContext(event: Event) {
@@ -72,13 +70,18 @@ export class Application {
 
   onContactClick(user: User) {
     console.log('(contact-click)', user)
-    // this.router.navigate(['/user/' + contact]);
+
+    let context = this.contextService.getContextPath;
+    let task = this.contextService.getTaskPath;
+    let path = context + "/" + task;
+
+    this.router.navigate(['/' + context, '/' + task, user.id]);
   }
 
   onContactAdd() {
 
-    this.chatService.invite(['openidtest20@gmail.com']).then((chatController: any) => {
-      console.log('[User as joined with success]', chatController)
+    this.chatService.invite(['openidtest10@gmail.com', 'openidtest20@gmail.com']).then((chatController: any) => {
+      console.log('[Users as joined with success]', chatController)
     })
 
   }

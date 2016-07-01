@@ -1,6 +1,5 @@
-import { provide, Injectable} from '@angular/core';
+import { provide } from '@angular/core';
 
-@Injectable()
 export class LocalStorage {
 
     public localStorage:any;
@@ -13,11 +12,17 @@ export class LocalStorage {
     }
 
     public set(key:string, value:string):void {
-        this.localStorage[key] = value;
+      this.localStorage[key] = value;
     }
 
-    public get(key:string):string {
-        return this.localStorage[key] || false;
+    public get(key:string):Promise<string> {
+       return new Promise<string>((resolve, reject) => {
+        try {
+          resolve(this.localStorage[key] || false); 
+        } catch (error) {
+          reject(error);
+        }
+      })
     }
 
     public setObject(key:string, value:any):void {
@@ -25,7 +30,13 @@ export class LocalStorage {
     }
 
     public getObject(key:string):any {
-        JSON.parse(this.localStorage[key] || '{}');
+      return new Promise((resolve, reject) => {
+        try {
+          resolve(JSON.parse(this.localStorage[key] || '{}')); 
+        } catch (error) {
+          reject(error);
+        }
+      })
     }
 
     public remove(key:string):any {

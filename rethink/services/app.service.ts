@@ -18,10 +18,7 @@ export class AppService {
   config = {domain: this.domain, runtimeURL: this.runtimeURL, development: true }
 
   runtime: any
-
-  public runtimeReady = new EventEmitter();
-
-  myIdentity = <User>{}
+  myIdentity:User;
 
   getHyperty(url:string) {
 
@@ -66,15 +63,8 @@ export class AppService {
 
         console.info('Getting the registed user', user);
 
-        this.myIdentity = {
-          username: user.username,
-          userURL: user.userURL,
-          cn: user.cn,
-          locale: user.locale,
-          avatar: user.avatar,
-          status: 'online',
-          unread: 0
-        }
+        let myUser = new User(user);
+        this.myIdentity = myUser;
 
         resolve(this.myIdentity);
       }).catch((reason: any) => {

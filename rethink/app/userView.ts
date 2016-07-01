@@ -1,5 +1,6 @@
-import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/core';
-import { Params, ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
+import { Component, Input, Output, HostBinding, EventEmitter, OnInit } from '@angular/core';
+import { Params, Router, ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
 
 // Services
 import { AppService } from '../services/app.service';
@@ -8,7 +9,7 @@ import { VideoService } from '../services/video.service';
 import { ContextService } from '../services/context.service';
 
 // Interfaces
-import { Activity } from '../comp/activity/activity';
+import { User, Message } from '../models/models';
 
 // Components
 import { ContactBox } from '../comp/user/contact-box.comp';
@@ -30,20 +31,25 @@ import { FileShareListComponent } from '../comp/fileshare/filesharelist.comp';
     ContextMenuComponent, ContextSenderComponent
   ]
 })
-export class UserView {
+export class UserView implements OnInit {
   @HostBinding('class') hostClass = 'content-panel'
   @HostBinding('id') id = 'user-view'
 
-  action:string = 'init'
-  otherStream:any
-  myStream:any
+  action:string = 'init';
+  otherStream:any;
+  myStream:any;
 
-  private haveNotification = false
-  private chatActive = false
-  private videoController:any
-  private current:string
+  private haveNotification = false;
+  private chatActive = false;
+  private videoController:any;
+  private current:string;
+
+  private contact: Observable<User>
+  private messages: Observable<Message[]>
 
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private appService: AppService,
     private contextService: ContextService,
     private chatService: ChatService,
@@ -52,29 +58,62 @@ export class UserView {
 
   ngOnInit() {
 
-    // this.myIdentity = this.appService.myIdentity;
+    this.route.params.subscribe(params => {
+      let context = params['context']; // (+) converts string 'id' to a number
+      let task = params['task'];
+      let userID = params['id'];
+
+      this.contextService.setContextPath = context;
+      this.contextService.setTaskPath = task;
+
+      this.onRouteActivated(userID);
+
+    });
 
   }
 
-  // routerOnActivate(curr: RouteSegment): void {
-  //   let id = curr.getParam('id');
-  //   this.current = id;
-  //
-  //   this.activateChat();
-  //   // this.activateVideo();
-  //
-  //   this.updateView();
-  // }
+  onRouteActivated(userID: string) {
 
-  activateChat() {
+    console.log('[User View on Route Activated]', userID);
 
-    // this.appService.getContact(this.current)
-    // .then((contact) => this.getContext(contact))
-    // .catch((reason) => { console.log('create chat and new context') })
-    // .then((context:Context) => this.getChat(context))
-    // .then((context) => {
-    //   this.chatActive = true
-    // }).catch((reason) => { console.error(reason); })
+    this.messages = this.contextService.messageList;
+
+    // Get current contact
+    this.contact = this.contextService.getUser(userID);
+
+    this.contact.subscribe((user:User) => {
+
+      console.log('Prepare chat:', user);
+
+      this.prepareChat(user);
+    }).unsubscribe();
+
+  }
+
+  prepareChat(user:User) {
+
+    // TODO: Optimize this process
+    // Creating the Work Context
+    let parent = this.contextService.getTaskPath;
+    console.info('Create chat service for user ', user);
+    let users: string[] = [];
+    users.push(user.userURL);
+
+    this.chatService.create(user.userURL, users, parent).then((result: any) => {
+      console.info('the chat is ready to be used ', result);
+      this.chatActive = true;
+    }).catch(reason => {
+      console.error(reason);
+    });
+
+  }
+
+  onMessage(message:string) {
+
+    this.chatService.send(message).then((message:any) => {
+      // this._updateView();
+    })
+
   }
 
   // activateVideo() {
@@ -94,28 +133,6 @@ export class UserView {
   //
   //   });
   // }
-
-  onMessage(message: string) {
-
-    // console.log('MESSAGE:', message, this.chatService.chat);
-    //
-    // // let activity = <Activity>{ contact: this.me, type: 'message', date: new Date().toJSON(), message: message, read: false }
-    //
-    // // resource:string, contact:Contact, type: ActivityType, status:string, message:string
-    // this.contextService.updateContextActivity(
-    //   this.chatService.chat.dataObject.url,
-    //   this.me,
-    //   'message',
-    //   'ok',
-    //   message
-    // ).then((context) => {
-    //
-    //   console.log('Update the context:', context);
-    //   this.chatService.chat.send(message)
-    //   this.context = context;
-    // })
-
-  }
 
   onAudioCall() {
     console.log('Make a audio call');

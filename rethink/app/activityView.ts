@@ -60,6 +60,9 @@ export class ActivityView implements OnInit {
       let context = params['context']; // (+) converts string 'id' to a number
       let task = params['task'];
 
+      this.contextService.setContextPath = context;
+      this.contextService.setTaskPath = task;
+
       this.onRouteActivated(context, task)
 
     });
@@ -100,35 +103,4 @@ export class ActivityView implements OnInit {
 
   }
 
-  prepareChat(chat: any) {
-
-/*    this.chatService.onMessage((message: any) => {
-      console.log('[Activity View - onMessage] ', message);
-
-      // this._updateView();
-    });
-*/
-  }
-
-  prepareVideo() {
-    console.log('[Hyperty Video is ready]');
-    if (!this.videoService.hypertyVideo) return;
-
-    // this.videoService.hypertyVideo.addEventListener('connector:connected', (controller: any) => {
-    //
-    //   console.log('[Hyperty Video is connected]: ', controller);
-    //
-    //   // this.videoController = controller;
-    //   // this.videoController.addEventListener('stream:added', this._processVideo);
-    //   this.videoService.hypertyVideo.addEventListener('have:notification', (event: any) => {
-    //     // notificationHandler(controller, event);
-    //     console.log('have:notification', controller, event);
-    //
-    //     this.owner = event.identity.infoToken;
-    //     this.haveNotification = true;
-    //   });
-    //
-    // });
-
-  }
 }

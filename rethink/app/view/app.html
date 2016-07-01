@@ -18,6 +18,8 @@
                 </header>
 
                 <!-- big sidebar large screens -->
+                <!-- bootstrap: col-xs-4 col-md-4 col-lg-2 sidebar hide-small hide-tiny -->
+                <!-- all-25 medium-30 xlarge-20 sidebar hide-small hide-tiny -->
                 <div class="all-25 medium-30 xlarge-20 sidebar hide-small hide-tiny">
                     <ul contact-list [model]="contacts" (contact-click)="onContactClick($event)" (contact-add)="onContactAdd()"></ul>
 
@@ -25,7 +27,9 @@
                         Copyright 2016 © Altice Labs - All rights reserved
                     </footer>
                 </div>
-
+                
+                <!-- bootstrap: col-xs-8 col-md-8 col-lg-10 main-content hide-small hide-tiny -->
+                <!-- all-75 medium-70 xlarge-80 main-content hide-small hide-tiny -->
                 <div class="all-75 medium-70 xlarge-80 main-content hide-small hide-tiny">
                     <div class="content-panel all-100 hide-small hide-tiny">
                       <router-outlet></router-outlet>
