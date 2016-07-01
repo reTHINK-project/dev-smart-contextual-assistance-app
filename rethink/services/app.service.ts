@@ -13,9 +13,9 @@ import { User } from '../models/models';
 export class AppService {
 
   domain = 'hybroker.rethink.ptinovacao.pt'
-  runtimeURL = 'https://' + this.domain + '/.well-known/runtime/Runtime';
+  runtimeURL = 'https://catalogue.' + this.domain + '/.well-known/runtime/Runtime';
 
-  config = {domain: this.domain, runtimeURL: this.runtimeURL, development: true }
+  config = {domain: this.domain, runtimeURL: this.runtimeURL, development: false }
 
   runtime: any
   myIdentity:User;
@@ -37,7 +37,7 @@ export class AppService {
   }
 
   loadRuntime() {
-    console.log('[Loading Rethink Runtime at] ', this.config.runtimeURL)
+    console.log('[Loading Rethink Runtime at] ', this.config)
 
     return new Promise((resolve, reject) => {
 
