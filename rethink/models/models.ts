@@ -17,6 +17,8 @@ export class User implements IContextualCommUser {
   status:string;
   unread:number;
 
+  domain: string;
+
   constructor(obj: any) {
     this.username = obj && obj.username;
     this.cn       = obj && obj.cn;
@@ -25,6 +27,7 @@ export class User implements IContextualCommUser {
     this.userURL  = obj && obj.userURL;
     this.status   = obj && obj.status   || 'online';
     this.unread   = obj && obj.unread   || 0;
+    this.domain   = obj && obj.domain   || 'rethink.hybroker.ptinovacao.pt';
 
     this.id       = this.userURL.substr(this.userURL.lastIndexOf('/'));
   }

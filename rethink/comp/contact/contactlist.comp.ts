@@ -27,11 +27,6 @@ export class ContactListComponent implements OnInit {
   private contactsFilter: Observable<Array<User>>
 
   ngOnInit() {
-/*    this.contacts.subscribe((users:User[]) => {
-      setTimeout(() => {
-        this.filter('');
-      })
-    })*/
   }
 
   onContactClick(model:User) {

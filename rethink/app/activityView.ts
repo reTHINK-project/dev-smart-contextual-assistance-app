@@ -79,11 +79,11 @@ export class ActivityView implements OnInit {
     // TODO: Optimize this process
     // Creating the Work Context
     console.info('Creating the context ', context, ' chat group');  
-    this.chatService.create(context, []).then((result: any) => {
+    this.chatService.create(context, [], []).then((result: any) => {
 
       // Creating the task context
       console.info('Creating the context ', task, ' chat group');
-      return this.chatService.create(task, [], context);
+      return this.chatService.create(task, [], [], context);
     }).then((result: any) => {
       console.log('Create chat service for all my contacts', result);
 

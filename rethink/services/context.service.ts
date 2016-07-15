@@ -63,22 +63,22 @@ export class ContextService {
 
   constructor(private localStorage:LocalStorage) {
 
+    if (localStorage.hasObject('Contacts')){
+      initialUsers = localStorage.getObject('Contacts');
+    }
+
     this.contextList = this.context.scan((context: Context[]) => {
       return context;
     });
 
-    this.userList = this.newUser.distinctUntilChanged((a: User, b:User) => {
-      console.log('Distinct:', a, b);
-      return a.userURL === b.userURL;
-    }).skipWhile((user:User, index:Number) => {
-      console.log('Skip:', user, index);
-      return user.userURL === this.currentUser.userURL;
-    }).scan((users: User[], value: User) => {
+    this.userList = this.newUser.scan((users: User[], value: User) => {
       console.log('Scan Users:', value);
       users.push(value);
-      localStorage.set('ContactList', JSON.stringify(users));
+      localStorage.setObject('Contacts', users);
       return users;
-    }, initialUsers).publishReplay(1).refCount()
+    }, initialUsers)
+    .publishBehavior(initialUsers)
+    .refCount();
 
     this.newUser.subscribe(this.userUpdate);
 
@@ -86,7 +86,9 @@ export class ContextService {
     this.messageList = this.newMessage.scan((messages: Message[], value: Message) => {
       messages.push(value);
       return messages;
-    }, initialMessages).publishReplay(1).refCount();
+    }, initialMessages)
+    .publishBehavior(initialMessages)
+    .refCount();
 
     this.newMessage.subscribe(this.messages);
 
@@ -128,9 +130,9 @@ export class ContextService {
           let user:User = new User(dataObject.data.participants[key]);
 
           // Add users to the context
-          context.addUser(user);
+          // context.addUser(user);
 
-          this.addUser(user);
+          // this.addUser(user);
         });
 
         // set the parent to the context
@@ -156,8 +158,8 @@ export class ContextService {
   }
 
   addUser(user:User) {
-
     let current:User = new User(user);
+    console.log('User Current: ', current);
     this.newUser.next(current);
   }
 

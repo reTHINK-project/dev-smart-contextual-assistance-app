@@ -15,7 +15,7 @@ export class AppService {
   domain = 'hybroker.rethink.ptinovacao.pt'
   runtimeURL = 'https://catalogue.' + this.domain + '/.well-known/runtime/Runtime';
 
-  config = {domain: this.domain, runtimeURL: this.runtimeURL, development: false }
+  config = {domain: this.domain, runtimeURL: this.runtimeURL, development: true }
 
   runtime: any
   myIdentity:User;

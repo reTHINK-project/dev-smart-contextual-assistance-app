@@ -8,7 +8,7 @@ import { User } from './models/models';
 import { AppService }     from './services/app.service';
 import { ChatService }    from './services/chat.service';
 import { VideoService }   from './services/video.service';
-import { LocalStorage }   from './services/storage.service';
+import { LocalStorage, LOCAL_STORAGE_PROVIDERS }   from './services/storage.service';
 
 import { ContextService }     from './services/context.service';
 
@@ -36,8 +36,7 @@ appService.loadRuntime()
   console.log('READY');
 
   // enableProdMode();
-  bootstrap(Application, [APP_ROUTER_PROVIDERS,
-    provide(LocalStorage, {useValue: localStorage}),
+  bootstrap(Application, [APP_ROUTER_PROVIDERS, LOCAL_STORAGE_PROVIDERS,
     provide(ContextService, {useValue: contextService}),
     provide(AppService, {useValue: appService}),
     provide(ChatService, {useValue: chatService}),

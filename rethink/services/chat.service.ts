@@ -14,6 +14,7 @@ import { User, Message, Context } from '../models/models';
 @Injectable()
 export class ChatService {
 
+  domain = this.appService.domain;
   hypertyURL = 'hyperty-catalogue://catalogue.' + this.appService.domain + '/.well-known/hyperty/GroupChatManager'
   chatController: any
 
@@ -97,11 +98,11 @@ export class ChatService {
 
   }
 
-  create(name: string, users:string[], parent?:string) {
+  create(name: string, users:string[], domains:string[], parent?:string) {
 
     return new Promise((resolve, reject) => {
 
-      this.chatGroupManager.create(name, users).then((chatController: any) => {
+      this.chatGroupManager.create(name, users, domains).then((chatController: any) => {
         this.chatController = chatController;
         console.log('[Chat Created]', chatController)
 

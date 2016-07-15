@@ -15,14 +15,8 @@ export class LocalStorage {
       this.localStorage[key] = value;
     }
 
-    public get(key:string):Promise<string> {
-       return new Promise<string>((resolve, reject) => {
-        try {
-          resolve(this.localStorage[key] || false); 
-        } catch (error) {
-          reject(error);
-        }
-      })
+    public get(key:string):any {
+      return this.localStorage[key] || false;
     }
 
     public setObject(key:string, value:any):void {
@@ -30,13 +24,7 @@ export class LocalStorage {
     }
 
     public getObject(key:string):any {
-      return new Promise((resolve, reject) => {
-        try {
-          resolve(JSON.parse(this.localStorage[key] || '{}')); 
-        } catch (error) {
-          reject(error);
-        }
-      })
+      return JSON.parse(this.localStorage[key] || '{}'); 
     }
 
     public remove(key:string):any {
@@ -44,7 +32,7 @@ export class LocalStorage {
     }
 
     public hasObject(key:string):any {
-      return this.localStorage.hasOwnProperty[key];
+      return this.localStorage.hasOwnProperty(key);
     }
 }
 
