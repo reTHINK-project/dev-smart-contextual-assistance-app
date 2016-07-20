@@ -1,5 +1,5 @@
-import { Component, Input, Output, OnInit, HostBinding, EventEmitter } from '@angular/core';
-import { Router, ROUTER_DIRECTIVES, ActivatedRoute} from '@angular/router';
+import { Component, Input, Output, OnInit, HostBinding } from '@angular/core';
+import { Router, ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 // Components
@@ -37,7 +37,7 @@ export class ActivityView implements OnInit {
 
   @HostBinding('class') hostClass = 'content-panel'
 
-  messages: Observable<Message[]>;
+  @Input() messages: Observable<Message[]>;
 
   private haveNotification = false
   private owner: any

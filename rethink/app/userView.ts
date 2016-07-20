@@ -99,10 +99,10 @@ export class UserView implements OnInit {
     let users: string[] = [];
     users.push(user.userURL);
 
-    this.chatService.create(user.userURL, users, parent).then((result: any) => {
+    this.chatService.create(user.userURL, users, ['hybroker.rethink.ptinovacao.pt'], parent).then((result: any) => {
       console.info('the chat is ready to be used ', result);
       this.chatActive = true;
-    }).catch(reason => {
+    }).catch((reason) => {
       console.error(reason);
     });
 

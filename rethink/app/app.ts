@@ -31,9 +31,9 @@ import { UserView } from './userView';
   templateUrl: 'app/view/app.html'
 })
 
-export class Application {
+export class Application implements OnInit {
 
-  contacts:Observable<User[]>
+  @Input() contacts:Observable<User[]>
   myIdentity: User
 
   contextOpened: boolean

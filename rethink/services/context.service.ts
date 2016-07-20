@@ -1,5 +1,5 @@
 import { Injectable, Input } from '@angular/core';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 
 // Services
 import { LocalStorage } from './storage.service';
@@ -54,12 +54,13 @@ export class ContextService {
   contextList: Observable<Context[]>;
 
   userList: Observable<User[]>;
-  newUser: Subject<User> = new Subject<User>();
-  userUpdate: Subject<User> = new Subject<User>();
+  private sUser: BehaviorSubject<User[]>;
+  private newUser: Subject<User> = new Subject<User>();
+  private userUpdate: Subject<User> = new Subject<User>();
 
   messageList: Observable<Message[]>;
-  newMessage: Subject<Message> = new Subject<Message>();
-  messages: Subject<Message> = new Subject<Message>();
+  private newMessage: Subject<Message> = new Subject<Message>();
+  private messages: Subject<Message> = new Subject<Message>();
 
   constructor(private localStorage:LocalStorage) {
 
@@ -71,8 +72,15 @@ export class ContextService {
       return context;
     });
 
+    /* this.sUser = new BehaviorSubject<User[]>(initialUsers);
+    this.userList = this.sUser.combineLatest(this.newUser, (users:User[], user:User) => {
+      console.log('Combine:', users, user);
+      users.push(user);
+      return users;
+    }) */
+
     this.userList = this.newUser.scan((users: User[], value: User) => {
-      console.log('Scan Users:', value);
+      console.log('Scan Users:', users, value);
       users.push(value);
       localStorage.setObject('Contacts', users);
       return users;
@@ -110,7 +118,7 @@ export class ContextService {
 
     return new Promise<Context>((resolve, reject) => {
 
-      this.createContextTrigger(name, dataObject, parent).then((contextTrigger:ContextTrigger) => {
+      this.createContextTrigger(this.contextPath, dataObject, parent).then((contextTrigger:ContextTrigger) => {
 
         let context:Context = new Context({
           url: dataObject.url,
@@ -138,6 +146,8 @@ export class ContextService {
         // set the parent to the context
         if (parent) { context.parent = parent; }
 
+        console.log(contextTrigger);
+
         // Set this context to the context triggers;
         contextTrigger.trigger.push(context);
 
@@ -146,9 +156,6 @@ export class ContextService {
 
         // add the context to the observable list
         this.context.next(context);
-
-        // Create a new Context based on the parent contextTrigger
-        this.localStorage.setObject(context.name, context);
 
         resolve(context);
       })
@@ -185,7 +192,7 @@ export class ContextService {
   createContextTrigger(name: string, dataObject: any, parent?:string) {
 
     return new Promise<ContextTrigger>((resolve, reject) => {
-
+      console.log('[Context Service - Get Localstorage] ', parent, name);
       console.log('[Context Service - Get Localstorage] ', parent, this.localStorage.hasObject(parent), this.localStorage.hasObject(name), this.localStorage);
 
       if (!this.localStorage.hasObject(name) || (parent && !this.localStorage.hasObject(parent))) {
@@ -194,8 +201,7 @@ export class ContextService {
         let contextScheme = 'context';
         let contextResource = ['video', 'audio', 'chat'];
 
-        let contextTrigger = new ContextTrigger(
-          null, contextName, contextScheme, contextResource);
+        let contextTrigger = new ContextTrigger(null, contextName, contextScheme, contextResource);
 
         /*let contextValue:ContextValues = {
           name: 'location',

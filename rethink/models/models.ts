@@ -29,7 +29,7 @@ export class User implements IContextualCommUser {
     this.unread   = obj && obj.unread   || 0;
     this.domain   = obj && obj.domain   || 'rethink.hybroker.ptinovacao.pt';
 
-    this.id       = this.userURL.substr(this.userURL.lastIndexOf('/'));
+    this.id       = this.userURL ? this.userURL.substr(this.userURL.lastIndexOf('/')) : '';
   }
 
 }

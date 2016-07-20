@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, HostBinding, SimpleChange, EventEmitter } from '@angular/core';
+import { Component, AfterViewInit, Input, Output, HostBinding, ChangeDetectorRef, ChangeDetectionStrategy, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 import { ContactComponent } from './contact.comp';
@@ -9,24 +9,35 @@ import { ContextService }     from '../../services/context.service';
 @Component({
   selector: 'ul[contact-list]',
   templateUrl: 'comp/contact/contactlist.comp.html',
-  directives: [ContactComponent]
+  directives: [ContactComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ContactListComponent implements OnInit {
+export class ContactListComponent implements AfterViewInit {
 
   @HostBinding('class') hostClass = 'contactlist all-100'
 
-  @Input() set model(contacts:Observable<Array<User>>) {
-    this.contacts = contacts;
-    this.filter('');
-  }
+  @Input() model: Observable<Array<User>>
 
   @Output('contact-click') contactClick = new EventEmitter()
   @Output('contact-add') contactAdd = new EventEmitter()
 
-  private contacts: Observable<Array<User>>
   private contactsFilter: Observable<Array<User>>
 
-  ngOnInit() {
+  constructor(
+    private cd:ChangeDetectorRef){}
+
+  ngAfterViewInit() {
+
+    this.model.subscribe((contacts) => {
+
+      // console.log('Contacts:', contacts);
+      // will be called every time an item is added/removed
+      this.filter('');
+
+      this.cd.detectChanges();
+      this.cd.markForCheck();
+    });
+
   }
 
   onContactClick(model:User) {
@@ -38,9 +49,12 @@ export class ContactListComponent implements OnInit {
   }
 
   filter(value: string) {
-    /*this.contactsFilter = this.contacts.reduce((users: User[], user: User) => {
-      if (user.cn === value) { users.push(user); }
-      return users;
-    });*/
+    this.contactsFilter = this.model.map((users:User[], index:number) => {
+      console.log('Filter Users: ', users);
+      return users.filter((user:User) => {
+        return user.cn.includes(value);
+      });
+    })
+
   }
 }

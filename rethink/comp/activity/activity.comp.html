@@ -1,46 +1,46 @@
 <div class="push-right align-right">
-    <span class="date">{{model.date}}</span>
+    <span class="date">{{message.date}}</span>
 </div>
 <div class="contact-avatar push-left">
-    <img src="{{model.user.avatar}}">
-    <span class="status {{model.user.status}}">
-      <i class="fa fa-circle{{model.user.status==='offline'?'-o':''}}"></i>
+    <img src="{{message.user.avatar}}">
+    <span class="status {{message.user.status}}">
+      <i class="fa fa-circle{{message.user.status==='offline'?'-o':''}}"></i>
     </span>
 </div>
-<h4 class="contact-name"><a href="#">{{model.user.cn}}</a></h4>
+<h4 class="contact-name"><a href="#">{{message.user.cn}}</a></h4>
 
 <!-- message -->
-<p *ngIf="model.type === 'message'" class="quarter-vertical-padding">
+<p *ngIf="message.type === 'message'" class="quarter-vertical-padding">
   <span class="chat"><i class="fa fa-keyboard-o"></i>Wrote a Message</span>
-  {{model.message}}
+  {{message.message}}
 </p>
 
 <!-- audio-call -->
-<div *ngIf="model.type === 'audio-call'" class="quarter-vertical-padding">
-  <p *ngIf="model.status === 'ok'">
+<div *ngIf="message.type === 'audio-call'" class="quarter-vertical-padding">
+  <p *ngIf="message.status === 'ok'">
     <span class="audio"><i class="fa fa-phone"></i>Audio call</span>
-    <span class="specs">{{model.duration}} mins</span>
+    <span class="specs">{{message.duration}} mins</span>
   </p>
-  <p *ngIf="model.status === 'failed'">
+  <p *ngIf="message.status === 'failed'">
     <span class="audio failed push-left"><i class="fa fa-phone"></i>Audio Call failed</span>
     <span class="callback"><a href="#">call back</a></span>
   </p>
 </div>
 
 <!-- video-call -->
-<div *ngIf="model.type === 'video-call'" class="quarter-vertical-padding">
-  <p *ngIf="model.status === 'ok'">
+<div *ngIf="message.type === 'video-call'" class="quarter-vertical-padding">
+  <p *ngIf="message.status === 'ok'">
     <span class="video"><i class="fa fa-video-camera"></i>Video call</span>
-    <span class="specs">{{model.duration}} mins</span>
+    <span class="specs">{{message.duration}} mins</span>
   </p>
-  <p *ngIf="model.status === 'failed'">
+  <p *ngIf="message.status === 'failed'">
     <span class="video failed push-left"><i class="fa fa-video-camera"></i>Video call failed</span>
     <span class="callback"><a href="#">call back</a></span>
   </p>
 </div>
 
 <!-- file-share -->
-<div *ngIf="model.type === 'file-share'">
+<div *ngIf="message.type === 'file-share'">
   <p class="quarter-vertical-padding">
     <span class="file"><i class="fa fa-file-o"></i>Shared a file</span>
     <span class="specs">foto.jpg</span>

@@ -1,4 +1,4 @@
-import { Component, Input, Output, HostBinding, OnInit, EventEmitter, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, Output, HostBinding, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, Renderer, ViewChild, AfterViewInit } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 
@@ -12,29 +12,29 @@ import { ActivityComponent } from './activity.comp';
 @Component({
   selector: 'ul[activity-list]',
   templateUrl: 'comp/activity/activitylist.comp.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   directives: [ActivityComponent]
 })
-export class ActivityListComponent implements OnInit {
+export class ActivityListComponent implements AfterViewInit {
 
   @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list'
 
-  @Input() set model(messages:Observable<Array<Message>>) {
+  @Input() messages:Observable<Array<Message>>
 
-  console.log("Set Messages Observable: ", messages);
-    this.messages = messages;
-  }
+  constructor(
+    private cd:ChangeDetectorRef,
+    private renderer: Renderer, 
+    private el: ElementRef){}
 
-  private messages:Observable<Array<Message>>
-
-  constructor(private el: ElementRef){}
-
-  ngOnInit() {
-    
-	  this.messages.subscribe((messages: Array<Message>) => {
+  ngAfterViewInit() {
+ 	  this.messages.subscribe((messages: Array<Message>) => {
 
       setTimeout(() => {
         this.scrollToBottom();
       })
+
+      this.cd.detectChanges();
+      this.cd.markForCheck();
 
     });
 

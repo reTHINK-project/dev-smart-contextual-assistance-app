@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, HostBinding, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, OnInit, HostBinding, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { User } from '../../models/models';
 
@@ -14,9 +14,14 @@ export class ContactComponent implements OnInit {
 
   @Output('contact-click') contactClick = new EventEmitter()
 
+  constructor(private cd: ChangeDetectorRef) {}
+
   ngOnInit() {
     if (this.model.status === 'offline') {
       this.hostClass = 'quarter-padding offline'
     }
+
+    this.cd.detectChanges();
+    this.cd.markForCheck();
   }
 }
