@@ -3,8 +3,8 @@
 </div>
 
 <div *ngIf="chatActive" class="col-lg-65 col-md-100">
-  <div *ngIf="contact && action==='init'" contact-box [model]="contact"  (video-call)="onVideoCall()" (audio-call)="onAudioCall()"></div>
-  <div *ngIf="contact && action==='video'" video-contact-box [model]="contact" [myStream]="myStream" [otherStream]="otherStream"></div>
+  <div *ngIf="contact && action==='init'" contact-box [user]="contact | async"  (video-call)="onVideoCall()" (audio-call)="onAudioCall()"></div>
+  <div *ngIf="contact && action==='video'" video-contact-box [model]="contact | async" [myStream]="myStream" [otherStream]="otherStream"></div>
   <div *ngIf="haveNotification && owner" role="alert" notification-box [model]='owner' (accept-call)="onAcceptCall()" (reject-call)="onRejectCall()"></div>
   <div content-box [messages]="messages"></div>
 </div>

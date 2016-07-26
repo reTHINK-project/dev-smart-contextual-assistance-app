@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input, Output, HostBinding, ChangeDetectorRef, ChangeDetectionStrategy, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, HostBinding, ChangeDetectorRef, ChangeDetectionStrategy, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 import { ContactComponent } from './contact.comp';
@@ -12,7 +12,7 @@ import { ContextService }     from '../../services/context.service';
   directives: [ContactComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ContactListComponent implements AfterViewInit {
+export class ContactListComponent implements OnInit, AfterViewInit {
 
   @HostBinding('class') hostClass = 'contactlist all-100'
 
@@ -25,6 +25,10 @@ export class ContactListComponent implements AfterViewInit {
 
   constructor(
     private cd:ChangeDetectorRef){}
+  
+  ngOnInit() {
+    this.cd.detach();
+  }
 
   ngAfterViewInit() {
 
@@ -36,6 +40,7 @@ export class ContactListComponent implements AfterViewInit {
 
       this.cd.detectChanges();
       this.cd.markForCheck();
+      this.cd.reattach()
     });
 
   }
@@ -50,7 +55,6 @@ export class ContactListComponent implements AfterViewInit {
 
   filter(value: string) {
     this.contactsFilter = this.model.map((users:User[], index:number) => {
-      console.log('Filter Users: ', users);
       return users.filter((user:User) => {
         return user.cn.includes(value);
       });

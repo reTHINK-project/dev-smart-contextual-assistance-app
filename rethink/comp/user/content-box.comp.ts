@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, AfterViewChecked, HostBinding, EventEmitter, ElementRef } from '@angular/core';
+import { Component, Input, Output, OnInit, AfterViewInit, ChangeDetectorRef, Renderer, HostBinding, EventEmitter, ElementRef } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 
@@ -8,20 +8,25 @@ import { User, Message } from '../../models/models';
   selector: 'div[content-box]',
   templateUrl: 'comp/user/content-box.comp.html'
 })
-export class ContentBox implements OnInit {
+export class ContentBox implements AfterViewInit {
   @HostBinding('class') hostClass = 'content-box user'
 
-  @Input() messages: Observable<Message>
+  @Input() messages:Observable<Array<Message>>
 
-  constructor(private el: ElementRef){}
+  constructor(
+    private cd:ChangeDetectorRef,
+    private renderer: Renderer, 
+    private el: ElementRef){}
 
-  ngOnInit() {
-    
-	  this.messages.subscribe((message:Message) => {
+  ngAfterViewInit() {
+ 	  this.messages.subscribe((messages: Array<Message>) => {
 
       setTimeout(() => {
         this.scrollToBottom();
       })
+
+      this.cd.detectChanges();
+      this.cd.markForCheck();
 
     });
 

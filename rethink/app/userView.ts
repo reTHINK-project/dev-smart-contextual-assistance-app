@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Rx';
 import { AppService } from '../services/app.service';
 import { ChatService } from '../services/chat.service';
 import { VideoService } from '../services/video.service';
+import { MessageService } from '../services/message.service';
+import { ContactService } from '../services/contact.service';
 import { ContextService } from '../services/context.service';
 
 // Interfaces
@@ -51,7 +53,9 @@ export class UserView implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private appService: AppService,
+    private messageService: MessageService,
     private contextService: ContextService,
+    private contactService: ContactService,
     private chatService: ChatService,
     private videoService: VideoService
   ) {}
@@ -76,16 +80,26 @@ export class UserView implements OnInit {
 
     console.log('[User View on Route Activated]', userID);
 
-    this.messages = this.contextService.messageList;
+    this.messages = this.messageService.messageList;
 
     // Get current contact
-    this.contact = this.contextService.getUser(userID);
+    this.contact = this.contactService.getContact(userID)
+    // this.messages = this.messageService
 
     this.contact.subscribe((user:User) => {
-
       console.log('Prepare chat:', user);
 
-      this.prepareChat(user);
+      this.contextService.getContextByName(user.userURL).then((context) => {
+        console.log(context);
+
+        this.messages = this.messageService.setMessages(context.messages);
+
+        this.prepareChat(user);
+      }).catch((reason) => {
+        console.error(reason);
+        this.prepareChat(user);
+      })
+
     }).unsubscribe();
 
   }
@@ -96,6 +110,7 @@ export class UserView implements OnInit {
     // Creating the Work Context
     let parent = this.contextService.getTaskPath;
     console.info('Create chat service for user ', user);
+
     let users: string[] = [];
     users.push(user.userURL);
 
@@ -191,20 +206,6 @@ export class UserView implements OnInit {
     this.otherStream = URL.createObjectURL(event.stream)
 
     this.action = 'video';
-  }
-
-  private updateView() {
-    // // TODO: Optimize this to on resize
-    let $ele = $(document);
-    let contentHeight = $ele.height();
-    let profile = 127;
-    let sender = 62;
-    let margin = 60;
-    let height = contentHeight - (profile + sender + margin);
-
-    console.log('update View', height, $ele)
-
-    let scrollable = $ele.find('div[content-box]').height(height);
   }
 
   /*private getChat(context: ContextualComm) {

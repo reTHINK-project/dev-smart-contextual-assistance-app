@@ -1250,7 +1250,7 @@ body.rethink ul.activity-list {
 /* line 1317, ../sass/rethink.scss */
 body.rethink ul.activity-list li:last-child {
   border: none;
-  margin-bottom: 80px;
+  /* margin-bottom: 80px;*/
 }
 /* line 1322, ../sass/rethink.scss */
 body.rethink ul.activity-list li {
@@ -2618,10 +2618,6 @@ body.rethink .content-panel div.marker {
   display: block;
   z-index: 120;
   position: relative;
-}
-
-body.rethink .content-panel ul.activity-list {
-  overflow-y: scroll;
 }
 
 /* line 2647, ../sass/rethink.scss */

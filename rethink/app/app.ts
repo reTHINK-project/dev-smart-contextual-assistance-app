@@ -3,9 +3,11 @@ import { Router, RouterConfig, ROUTER_DIRECTIVES, ActivatedRoute } from '@angula
 import { Observable } from 'rxjs/Rx';
 
 // Services
-import { AppService }     from '../services/app.service';
-import { ChatService }    from '../services/chat.service';
-import { ContextService }     from '../services/context.service';
+import { AppService } from '../services/app.service';
+import { ChatService } from '../services/chat.service';
+import { ContactService } from '../services/contact.service';
+import { MessageService } from '../services/message.service';
+import { ContextService } from '../services/context.service';
 
 // Interfaces
 import { Context, User } from '../models/models';
@@ -34,7 +36,7 @@ import { UserView } from './userView';
 export class Application implements OnInit {
 
   @Input() contacts:Observable<User[]>
-  myIdentity: User
+  @Input() myIdentity: User
 
   contextOpened: boolean
 
@@ -45,17 +47,21 @@ export class Application implements OnInit {
     private router: Router,
     private appService: AppService,
     private chatService: ChatService,
+    private contactService: ContactService,
     private contextService: ContextService) {}
 
   ngOnInit() {
-
     this.contextOpened = false;
+      
+      console.log('APP Started,  ', this.contactService.userList, this.appService);
+      
+      this.contactService.userList.subscribe((users) => {
+        console.log('Init Users:', users);
+      });
 
-    console.log('APP Started,  ', this.contextService.userList);
-
-    this.contacts = this.contextService.userList;
-    this.myIdentity = this.appService.myIdentity;
-
+      this.myIdentity = this.appService.getCurrentUser;
+      
+      this.contacts = this.contactService.userList;
   }
 
   onOpenContext(event: Event) {
@@ -71,6 +77,8 @@ export class Application implements OnInit {
   onContactClick(user: User) {
     console.log('(contact-click)', user)
 
+    user.status = 'offline';
+
     let context = this.contextService.getContextPath;
     let task = this.contextService.getTaskPath;
     let path = context + "/" + task;
@@ -80,7 +88,7 @@ export class Application implements OnInit {
 
   onContactAdd() {
 
-    this.chatService.invite(['openidtest10@gmail.com', 'openidtest20@gmail.com']).then((chatController: any) => {
+    this.chatService.invite(['openidtest10@gmail.com', 'openidtest20@gmail.com'], ['hybroker.rethink.ptinovacao.pt', 'hybroker.rethink.ptinovacao.pt']).then((chatController: any) => {
       console.log('[Users as joined with success]', chatController)
     })
 

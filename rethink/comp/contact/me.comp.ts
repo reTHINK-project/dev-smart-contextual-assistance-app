@@ -11,10 +11,13 @@ import { User } from '../../models/models';
   templateUrl: 'comp/contact/me.comp.html'
 })
 export class ContactMeComponent {
+
   @HostBinding('class') hostClass = 'push-right contactlist'
 
-  constructor(private appService:AppService ) {}
-
   @Input() model:User;
+
+  constructor(private appService:AppService ) {
+    console.log(this.model);
+  }
 
 }

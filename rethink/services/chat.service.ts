@@ -1,9 +1,11 @@
-import { Injectable} from '@angular/core';
+import { Injectable, bind } from '@angular/core';
 
 import rethink from 'runtime-browser';
 
 // Services
 import { AppService } from './app.service';
+import { MessageService } from './message.service';
+import { ContactService } from './contact.service';
 import { ContextService } from './context.service';
 
 // Interfaces
@@ -30,7 +32,9 @@ export class ChatService {
 
   constructor(
     private appService: AppService,
-    private contextService: ContextService
+    private contextService: ContextService,
+    private contactService: ContactService,
+    private messageService: MessageService
   ) {}
 
   getHyperty() {
@@ -77,12 +81,12 @@ export class ChatService {
       if (user.hasOwnProperty('data')) {
         let data = user.data;
         data.forEach((current:any) => {
-          this.contextService.addUser(current);
+          this.contactService.addContact(current);
           if(this._onUserAdded) this._onUserAdded(current);
         });
 
       } else {
-        this.contextService.addUser(user);
+        this.contactService.addContact(user);
 
         if(this._onUserAdded) this._onUserAdded(user);
       }
@@ -92,8 +96,8 @@ export class ChatService {
     this.chatController.onMessage((message: any) => {
       console.log('[Chat Service - onMessage]', message);
 
-      // if (this._onMessage) this._onMessage(message);
-      this.contextService.addMessage(message);
+      this.messageService.addMessage(message);
+
     })
 
   }
@@ -106,9 +110,11 @@ export class ChatService {
         this.chatController = chatController;
         console.log('[Chat Created]', chatController)
 
+        let chatName:string = chatController.dataObject.data.name;
+
         this.prepareHyperty();
 
-        return this.contextService.create(name, chatController.dataObject, parent);
+        return this.contextService.create(chatName, chatController.dataObject, parent);
       }).catch((reason: any) => {
         reject(reason);
       }).then((context:Context) => {
@@ -139,13 +145,13 @@ export class ChatService {
 
   }
 
-  invite(listOfEmails:String[]) {
+  invite(listOfEmails:String[], listOfDomains:String[]) {
 
     return new Promise((resolve, reject) => {
 
-      console.log('[Invite]', this.chatController);
+      console.log('[Invite]', listOfEmails, '\n', listOfDomains);
 
-      this.chatController.addUser(listOfEmails).then((result: any) => {
+      this.chatController.addUser(listOfEmails, listOfDomains).then((result: any) => {
         console.log('[Invite Chat]', result);
         resolve(this.chatController)
       })
@@ -160,7 +166,8 @@ export class ChatService {
 
       this.chatController.send(message).then((message:Message) => {
         console.log('[Chat Service - onMessage]', message);
-        this.contextService.addMessage(message);
+
+        this.messageService.addMessage(message);
         resolve(message);
       }).catch(reject);
 
@@ -178,3 +185,7 @@ export class ChatService {
   }
 
 }
+
+export var chatServiceInjectables: Array<any> = [
+  bind(ChatService).toClass(ChatService)
+];

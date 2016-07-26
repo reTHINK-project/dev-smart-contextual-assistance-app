@@ -19,6 +19,7 @@ import { Context, User, Message } from '../models/models';
 import { ChatService } from '../services/chat.service';
 import { VideoService } from '../services/video.service';
 import { AppService }     from '../services/app.service';
+import { MessageService } from '../services/message.service';
 import { ContextService }     from '../services/context.service';
 
 
@@ -50,6 +51,7 @@ export class ActivityView implements OnInit {
     private router: Router,
     private appService: AppService,
     private chatService: ChatService,
+    private messageService: MessageService,
     private contextService: ContextService,
     private videoService: VideoService
   ) {}
@@ -67,7 +69,7 @@ export class ActivityView implements OnInit {
 
     });
 
-    this.messages = this.contextService.messageList;
+    this.messages = this.messageService.messageList;
     
   }
 

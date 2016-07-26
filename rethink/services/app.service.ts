@@ -1,7 +1,10 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { Injectable, Output, EventEmitter, bind } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 import rethink from 'runtime-browser';
+
+// Services
+import { ContactService } from './contact.service';
 
 // Interfaces
 import { Activity } from '../comp/activity/activity';
@@ -18,7 +21,18 @@ export class AppService {
   config = {domain: this.domain, runtimeURL: this.runtimeURL, development: true }
 
   runtime: any
-  myIdentity:User;
+
+  private currentUser: User;
+
+  public set setCurrentUser(v : User) {
+    this.currentUser = v;
+  }
+
+  public get getCurrentUser() : User {
+    return this.currentUser;
+  }
+
+  constructor(private contactService: ContactService) {} 
 
   getHyperty(url:string) {
 
@@ -52,24 +66,24 @@ export class AppService {
     })
   }
 
-  getMyIdentity(hyperty: any) {
+  getIdentity(hyperty: any) {
 
     console.log('[Get my Identity]:', hyperty)
 
     return new Promise((resolve, reject) => {
 
       let hypertyURL = hyperty.runtimeHypertyURL;
-      hyperty.instance.identityManager.discoverUserRegistered().then((user: any) => {
-
-        console.info('Getting the registed user', user);
+      hyperty.instance.identityManager.discoverUserRegistered().then((user: User) => {
 
         let myUser = new User(user);
-        this.myIdentity = myUser;
+        this.setCurrentUser = myUser;
 
-        resolve(this.myIdentity);
+        console.info('Getting the registed user', myUser);
+
+        resolve(myUser);
       }).catch((reason: any) => {
         console.info('Error getting the register user, using fake information', reason);
-        resolve(this.myIdentity);
+        resolve(reason);
       })
 
     })
@@ -77,3 +91,7 @@ export class AppService {
   }
 
 }
+
+export var appServiceInjectables: Array<any> = [
+  bind(AppService).toClass(AppService)
+];

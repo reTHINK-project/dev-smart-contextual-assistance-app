@@ -10,19 +10,13 @@ import { User } from '../../models/models';
 export class ContactBox implements OnInit {
   @HostBinding('class') hostClass = 'contactbox padding all-100 small'
 
-  @Input() model:Observable<User>
-
-  private user:User;
+  @Input() user:Observable<User>
 
   @Output('video-call') videoClick = new EventEmitter()
   @Output('audio-call') audioClick = new EventEmitter()
 
   ngOnInit() {
-    console.log('HERE:', this.model)
-
-    this.model.subscribe((user:User) => {
-      this.user = user;
-    });
+    console.log('HERE:', this.user)
 
   }
 }

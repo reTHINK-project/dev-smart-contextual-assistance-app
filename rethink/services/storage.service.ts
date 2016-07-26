@@ -1,4 +1,4 @@
-import { provide } from '@angular/core';
+import { bind } from '@angular/core';
 
 export class LocalStorage {
 
@@ -36,6 +36,6 @@ export class LocalStorage {
     }
 }
 
-export const LOCAL_STORAGE_PROVIDERS:any[] = [
-    provide(LocalStorage, {useClass: LocalStorage})
+export var localStorageServiceInjectables: Array<any> = [
+  bind(LocalStorage).toClass(LocalStorage)
 ];

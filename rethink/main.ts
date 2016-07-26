@@ -8,15 +8,21 @@ import { User } from './models/models';
 import { AppService }     from './services/app.service';
 import { ChatService }    from './services/chat.service';
 import { VideoService }   from './services/video.service';
-import { LocalStorage, LOCAL_STORAGE_PROVIDERS }   from './services/storage.service';
+import { MessageService } from './services/message.service';
+import { ContactService } from './services/contact.service';
+import { LocalStorage }   from './services/storage.service';
+import { servicesInjectables }   from './services/services';
 
 import { ContextService }     from './services/context.service';
 
-let appService = new AppService();
 let localStorage = new LocalStorage();
-let contextService = new ContextService(localStorage);
-let chatService = new ChatService(appService, contextService);
-let videoService = new VideoService(appService)
+let contactService = new ContactService(localStorage);
+let appService = new AppService(contactService);
+let messageService = new MessageService(appService, localStorage, contactService);
+let contextService = new ContextService(localStorage, contactService, messageService);
+let chatService = new ChatService(appService, contextService, contactService, messageService);
+let videoService = new VideoService(appService);
+
 appService.loadRuntime()
 .then((runtime) => {
   return chatService.getHyperty()
@@ -30,17 +36,18 @@ appService.loadRuntime()
 //   console.log('error Loading hyperty video', reason);
 // })
 .then((hypertyVideo) => {
-  return appService.getMyIdentity(hypertyVideo)
+  return appService.getIdentity(hypertyVideo)
 }).then((user: User) => {
-  contextService.setCurrentUser = user;
   console.log('READY');
 
   // enableProdMode();
-  bootstrap(Application, [APP_ROUTER_PROVIDERS, LOCAL_STORAGE_PROVIDERS,
-    provide(ContextService, {useValue: contextService}),
+  bootstrap(Application, [APP_ROUTER_PROVIDERS,
     provide(AppService, {useValue: appService}),
     provide(ChatService, {useValue: chatService}),
-    provide(VideoService, {useValue: videoService})
+    provide(MessageService, {useValue: messageService}),
+    provide(VideoService, {useValue: videoService}),
+    provide(ContextService, {useValue: contextService}),
+    provide(ContactService, {useValue: contactService})
   ]).catch(err => console.error(err));
 
 });

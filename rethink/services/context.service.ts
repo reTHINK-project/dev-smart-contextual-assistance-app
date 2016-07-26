@@ -1,14 +1,13 @@
-import { Injectable, Input } from '@angular/core';
+import { Injectable, Input, bind } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 
 // Services
 import { LocalStorage } from './storage.service';
+import { ContactService } from './contact.service';
+import { MessageService } from './message.service';
 
 // Interfaces
 import { ContextTrigger, Context, Communication, User, Message } from '../models/models';
-
-let initialUsers: User[] = [];
-let initialMessages: Message[] = [];
 
 @Injectable()
 export class ContextService {
@@ -21,8 +20,12 @@ export class ContextService {
   //   { contact: this.contacts[0], type: 'file-share', status: 'ok', date: 'at 14:30' }
   // ]
 
-  private activeContext: any;
-  private currentUser: User;
+  private cxtTrigger:Set<ContextTrigger> = new Set<ContextTrigger>();
+  private cxtList:Map<string, Context> = new Map<string, Context>();
+
+  private activeContextTrigger: ContextTrigger;
+  private activeContext: Context;
+
   private contextPath: string;
   private taskPath: string
 
@@ -42,76 +45,15 @@ export class ContextService {
     return this.taskPath;
   }
 
-  public set setCurrentUser(v : User) {
-    this.currentUser = v;
-  }
+  constructor(
+    private localStorage:LocalStorage,
+    private contactService: ContactService,
+    private messageService: MessageService
+  ) {
 
-  public get getCurrentUser() : User {
-    return this.currentUser;
-  }
+    this.contactService.newUser.subscribe((user:User) => this.updateContextUsers(user));
+    this.messageService.newMessage.subscribe((message:Message) => this.updateContextMessages(message));
 
-  context: Subject<Context> = new Subject<Context>();
-  contextList: Observable<Context[]>;
-
-  userList: Observable<User[]>;
-  private sUser: BehaviorSubject<User[]>;
-  private newUser: Subject<User> = new Subject<User>();
-  private userUpdate: Subject<User> = new Subject<User>();
-
-  messageList: Observable<Message[]>;
-  private newMessage: Subject<Message> = new Subject<Message>();
-  private messages: Subject<Message> = new Subject<Message>();
-
-  constructor(private localStorage:LocalStorage) {
-
-    if (localStorage.hasObject('Contacts')){
-      initialUsers = localStorage.getObject('Contacts');
-    }
-
-    this.contextList = this.context.scan((context: Context[]) => {
-      return context;
-    });
-
-    /* this.sUser = new BehaviorSubject<User[]>(initialUsers);
-    this.userList = this.sUser.combineLatest(this.newUser, (users:User[], user:User) => {
-      console.log('Combine:', users, user);
-      users.push(user);
-      return users;
-    }) */
-
-    this.userList = this.newUser.scan((users: User[], value: User) => {
-      console.log('Scan Users:', users, value);
-      users.push(value);
-      localStorage.setObject('Contacts', users);
-      return users;
-    }, initialUsers)
-    .publishBehavior(initialUsers)
-    .refCount();
-
-    this.newUser.subscribe(this.userUpdate);
-
-    // Messages
-    this.messageList = this.newMessage.scan((messages: Message[], value: Message) => {
-      messages.push(value);
-      return messages;
-    }, initialMessages)
-    .publishBehavior(initialMessages)
-    .refCount();
-
-    this.newMessage.subscribe(this.messages);
-
-  }
-
-  getUser(userURL:string):Observable<User> {
-    console.log('Get User includes:', userURL);
-
-    return this.userList.flatMap((users:User[]) => {
-      console.log("USers:" , users);
-      return users;
-    }).filter( (user:User) => {
-      console.log(user.userURL === userURL, user.userURL.includes(userURL))
-      return user.userURL === userURL || user.userURL.includes(userURL);
-    });
   }
 
   create(name: string, dataObject: any, parent?:string) {
@@ -120,82 +62,69 @@ export class ContextService {
 
       this.createContextTrigger(this.contextPath, dataObject, parent).then((contextTrigger:ContextTrigger) => {
 
-        let context:Context = new Context({
-          url: dataObject.url,
-          name: dataObject.data.name,
-          description: 'Description of the context'
-        });
+        if (!this.localStorage.hasObject(dataObject.data.name)) {
 
-        // this.activeContext = context;
+          console.info('[Create a new context: ]', dataObject.data.name);
 
-        let communication:Communication = new Communication(dataObject.data);
-        communication.resources = ['chat'];
+          let context:Context = new Context({
+            url: dataObject.url,
+            name: dataObject.data.name,
+            description: 'Description of the context'
+          });
 
-        // set the communication to the Context
-        context.communication = communication;
+          let communication:Communication = new Communication(dataObject.data);
+          communication.resources = ['chat'];
 
-        Object.keys(dataObject.data.participants).forEach((key: any, value: any) => {
-          let user:User = new User(dataObject.data.participants[key]);
+          // set the communication to the Context
+          context.communication = communication;
 
-          // Add users to the context
-          // context.addUser(user);
+          Object.keys(dataObject.data.participants).forEach((key: any, value: any) => {
+            let user:User = new User(dataObject.data.participants[key]);
 
-          // this.addUser(user);
-        });
+            // Add users to the context
+            // context.addUser(user);
 
-        // set the parent to the context
-        if (parent) { context.parent = parent; }
+            // this.addUser(user);
+          });
 
-        console.log(contextTrigger);
+          // set the parent to the context
+          if (parent) { context.parent = parent; }
 
-        // Set this context to the context triggers;
-        contextTrigger.trigger.push(context);
+          console.log(contextTrigger);
 
-        // Update the localStorage contextTrigger
-        this.localStorage.setObject(contextTrigger.name, contextTrigger);
+          // Set this context to the context triggers;
+          contextTrigger.trigger.push(context);
 
-        // add the context to the observable list
-        this.context.next(context);
+          // Update the localStorage contextTrigger
+          this.localStorage.setObject(context.name, context);
 
-        resolve(context);
-      })
+          // Set the active context
+          this.activeContext = context;
+          resolve(context);
+        } else {
+          console.info('[Get an stored context: ]', dataObject.data.name);
 
+          let context = this.localStorage.getObject(dataObject.data.name);
+
+          // Set the active context
+          this.activeContext = context;
+
+          // Resolve the context
+          resolve(context);
+        }
+
+      });
     })
 
-  }
-
-  addUser(user:User) {
-    let current:User = new User(user);
-    console.log('User Current: ', current);
-    this.newUser.next(current);
-  }
-
-  addMessage(message:any) {
-
-    console.log('Add new message', message);
-
-    this.getUser(message.identity.userProfile.userURL).forEach((user:User) => {
-      console.log('User:', user);
-    })
-   
-    let user = new User(message.identity.userProfile);
-    let newMessage:Message = new Message({
-      type: 'message',
-      message: message.value.message,
-      user: user
-    });
-
-    console.log('Message: ', newMessage);
-    this.newMessage.next(newMessage);
   }
 
   createContextTrigger(name: string, dataObject: any, parent?:string) {
 
     return new Promise<ContextTrigger>((resolve, reject) => {
-      console.log('[Context Service - Get Localstorage] ', parent, name);
-      console.log('[Context Service - Get Localstorage] ', parent, this.localStorage.hasObject(parent), this.localStorage.hasObject(name), this.localStorage);
+      console.log('[Context Service - Get Localstorage] ', name, parent, this.localStorage.hasObject(parent), this.localStorage.hasObject('trigger-' + name), this.localStorage);
 
-      if (!this.localStorage.hasObject(name) || (parent && !this.localStorage.hasObject(parent))) {
+      if (!this.localStorage.hasObject('trigger-' + name)) {
+        console.info('[Create a new context]', name, parent);
 
         let contextName = name;
         let contextScheme = 'context';
@@ -210,35 +139,65 @@ export class ContextService {
           sum: 0
         }*/
 
-        this.localStorage.setObject(name, contextTrigger)
+        // Update the localStorage contextTrigger
+        this.localStorage.setObject('trigger-' + contextTrigger.name, contextTrigger);
+
+        // Set the active context trigger;
+        this.activeContextTrigger = contextTrigger;
+
+        this.cxtTrigger.add(contextTrigger)
+
+        // Resolve the context trigger
         resolve(contextTrigger);
       } else {
-        let contextualCommTrigger:ContextTrigger = this.localStorage.getObject(name);
+        console.info('[Get the exist context]', name, parent);
+        let contextualCommTrigger:ContextTrigger = this.localStorage.getObject('trigger-' + name);
         resolve(contextualCommTrigger);
       }
     })
 
   }
 
-  getContextByName(name:string) {
+  updateContextMessages(message:Message) {
 
-    // TODO: Optimize this promise to handle with multiple contacts
+    console.log('Active Context:', this.activeContext);
+    if (!this.activeContext) {
+
+    }
+    let contextName = this.activeContext.name;
+    let context = this.localStorage.getObject(contextName);
+    context.messages.push(message);
+    this.localStorage.setObject(contextName, context);
+
+    console.log('[Context Update messages]', contextName, context);
+  }
+
+  updateContextUsers(user:User) {
+    console.log('Active Context:', this.activeContext);
+
+    let context = this.localStorage.getObject(this.activeContext.name);
+    if (context) context.users.push(user);
+
+    console.log('[Context Update users]', context);
+  }
+
+  getContextByName(name:string):Promise<Context> {
+
     return new Promise<Context>((resolve, reject) => {
-    //
-    //   console.log(this.sourceContexts);
-    //
-    //   let context = this.contextsList.filter((context) => {
-    //     console.log('Context Filter:', context);
-    //
-    //     if(context.name.indexOf(name) !== -1) return true
-    //   })
-    //
-    //   if (context.length === 1) {
-    //     resolve(context[0])
-    //   } else {
-    //     reject('Context not found');
-    //   }
-    })
+
+      let context:Context;
+      
+      if (this.localStorage.hasObject(name)) {
+        context = this.localStorage.getObject(name);
+
+        // TODO: Solve the problem of active context
+        this.activeContext = context;
+        resolve(context);
+      } else {
+        reject('No context found');
+      }
+
+    });
 
   }
 
@@ -261,3 +220,7 @@ export class ContextService {
   }
 
 }
+
+export var contextServiceInjectables: Array<any> = [
+  bind(ContextService).toClass(ContextService)
+];
