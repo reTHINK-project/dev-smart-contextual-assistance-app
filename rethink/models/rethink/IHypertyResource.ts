@@ -1,1 +1,1 @@
-export type IHypertyResource = 'chat' | 'video' | 'audio';
+export type IHypertyResource =  string;

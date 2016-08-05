@@ -22,57 +22,50 @@ export class ContactService {
   private create: Subject<User> = new Subject<User>();
 
   userList: Observable<User[]>;
-  private sUser: Subject<User[]>;
+  private sUser: Subject<User> = new BehaviorSubject(new User({}));
 
   constructor(private localStorage:LocalStorage){
 
-    if (localStorage.hasObject('Contacts')){
-      initialUsers = localStorage.getObject('Contacts');
+    if (localStorage.hasObject('contacts')){
+      initialUsers = localStorage.getObject('contacts');
     }
 
-    this.users = this.updates.scan((users:User[], user:User) => {
-      console.log('Scan users', user);
-      users.push(user);
-      return users;
-    }, initialUsers)
-    .publishReplay(1)
-    .refCount();
+    this.userList = this.updates.scan((users:User[], user:User) => {
 
-    this.create.map((user:User, index:number) => {
-      console.log('create user:', user);
-      return user;
-    }).subscribe(this.updates);
-
-    this.newUser.subscribe(this.create);
-
-    this.userList = new BehaviorSubject(initialUsers);
-    this.userList.combineLatest(this.users, (users:User[], user:User) => {
-
-      console.log('New User: ',  user);
+      console.log('Users: ', users);
 
       let haveUser = users.find((value:User, index:number) => {
         return value.userURL === user.userURL;
       })
 
       if (!haveUser) {
-        localStorage.setObject('Contacts', users);
+        users.push(user);
+        localStorage.setObject('contacts', users);
       }
-
       return users;
-    })
+    }, initialUsers)
     .publishReplay(1)
     .refCount();
 
-    // TODO: subscribe hot;
-    this.users.subscribe(() => {});
-    this.userList.subscribe(() => {});
+    this.create.map((user:User, index:number) => {
+      return user;
+    }).subscribe(this.updates);
+
+    this.newUser.subscribe(this.create);
+ 
+    this.users = this.sUser.combineLatest(this.userList, (user:User, users:User[]) => {
+      return users;
+    });
+
+    // Hot subscribe
+    this.userList.subscribe((users:User[]) => {console.log('Users:', users)});
+
+    initialUsers.map((user:User) => this.addContact(user));
+    
   }
 
   addContact(user:User) {
-    let current:User = new User(user);
-    console.log('User Current: ', current);
-
-    this.newUser.next(current);
+    this.newUser.next(user);
   }
 
   updateContact(user:User, property:string, value: any) {
@@ -98,6 +91,7 @@ export class ContactService {
       console.log(user.userURL === userURL, user.userURL.includes(userURL))
       return user.userURL === userURL || user.userURL.includes(userURL);
     }).map((user:User) => user)
+
   }
 
 }

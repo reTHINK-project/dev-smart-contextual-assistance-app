@@ -2,8 +2,10 @@
     <i class="fa fa-ellipsis-v"></i>
 
     <a href="javascript:;" class="menu-trigger" (click)="openContext.emit($event)">
-      <h3 class="quarter-horizontal-space level-1 hide-small hide-tiny">work: </h3>
-      <span class="fa fa-lock"></span>
-      <h3 class=""><a href="">team 1</a></h3>
+      <h3 class="quarter-horizontal-space level-1 hide-small hide-tiny">
+        <a routerLink="/work" routerLinkActive="active">Work</a>
+        <span class="fa fa-lock"></span>
+        <h3 class=""><a routerLink="team1" routerLinkActive="active">Team1</a></h3>
+      </h3>
     </a>
 </li>

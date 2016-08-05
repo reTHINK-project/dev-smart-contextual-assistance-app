@@ -16,8 +16,8 @@ import { servicesInjectables }   from './services/services';
 import { ContextService }     from './services/context.service';
 
 let localStorage = new LocalStorage();
+let appService = new AppService();
 let contactService = new ContactService(localStorage);
-let appService = new AppService(contactService);
 let messageService = new MessageService(appService, localStorage, contactService);
 let contextService = new ContextService(localStorage, contactService, messageService);
 let chatService = new ChatService(appService, contextService, contactService, messageService);

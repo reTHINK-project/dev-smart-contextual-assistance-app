@@ -3,9 +3,6 @@ import { Observable } from 'rxjs/Rx';
 
 import rethink from 'runtime-browser';
 
-// Services
-import { ContactService } from './contact.service';
-
 // Interfaces
 import { Activity } from '../comp/activity/activity';
 import { Context } from '../comp/context/context';
@@ -32,7 +29,7 @@ export class AppService {
     return this.currentUser;
   }
 
-  constructor(private contactService: ContactService) {} 
+  constructor() {} 
 
   getHyperty(url:string) {
 

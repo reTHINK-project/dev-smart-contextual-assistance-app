@@ -1,4 +1,4 @@
-import { Component, Input, Output, HostBinding, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, AfterViewInit, Output, HostBinding, EventEmitter, OnInit } from '@angular/core';
 import { Params, Router, ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
@@ -33,7 +33,7 @@ import { FileShareListComponent } from '../comp/fileshare/filesharelist.comp';
     ContextMenuComponent, ContextSenderComponent
   ]
 })
-export class UserView implements OnInit {
+export class UserView implements OnInit, AfterViewInit {
   @HostBinding('class') hostClass = 'content-panel'
   @HostBinding('id') id = 'user-view'
 
@@ -71,7 +71,6 @@ export class UserView implements OnInit {
       this.contextService.setTaskPath = task;
 
       this.onRouteActivated(userID);
-
     });
 
   }
@@ -80,7 +79,7 @@ export class UserView implements OnInit {
 
     console.log('[User View on Route Activated]', userID);
 
-    this.messages = this.messageService.messageList;
+    // this.messages = this.messageService.messageList;
 
     // Get current contact
     this.contact = this.contactService.getContact(userID)
@@ -93,15 +92,20 @@ export class UserView implements OnInit {
         console.log(context);
 
         this.messages = this.messageService.setMessages(context.messages);
-
+        
         this.prepareChat(user);
       }).catch((reason) => {
+        // TODO: if the user was not found
         console.error(reason);
         this.prepareChat(user);
       })
 
     }).unsubscribe();
 
+  }
+
+  ngAfterViewInit() {
+    console.log('[User View Init]', this.messages);
   }
 
   prepareChat(user:User) {

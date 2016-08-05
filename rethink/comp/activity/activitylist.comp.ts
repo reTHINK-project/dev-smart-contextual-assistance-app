@@ -1,6 +1,6 @@
-import { Component, Input, Output, HostBinding, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, Renderer, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, OnDestroy, HostBinding, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, Renderer, ViewChild, AfterViewInit } from '@angular/core';
 
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 
 
 import { Message } from '../../models/models';
@@ -12,14 +12,15 @@ import { ActivityComponent } from './activity.comp';
 @Component({
   selector: 'ul[activity-list]',
   templateUrl: 'comp/activity/activitylist.comp.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   directives: [ActivityComponent]
 })
-export class ActivityListComponent implements AfterViewInit {
+export class ActivityListComponent implements AfterViewInit, OnDestroy {
 
   @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list'
 
   @Input() messages:Observable<Array<Message>>
+
+  private msgObs:Subscription;
 
   constructor(
     private cd:ChangeDetectorRef,
@@ -27,7 +28,7 @@ export class ActivityListComponent implements AfterViewInit {
     private el: ElementRef){}
 
   ngAfterViewInit() {
- 	  this.messages.subscribe((messages: Array<Message>) => {
+ 	  this.msgObs = this.messages.subscribe((messages: Array<Message>) => {
 
       setTimeout(() => {
         this.scrollToBottom();
@@ -40,6 +41,10 @@ export class ActivityListComponent implements AfterViewInit {
 
     this.updateView();
     this.scrollToBottom();
+  }
+
+  ngOnDestroy() {
+    this.msgObs.unsubscribe();
   }
 
   updateView(): void {

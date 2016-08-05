@@ -52,16 +52,31 @@ export class Application implements OnInit {
 
   ngOnInit() {
     this.contextOpened = false;
-      
-      console.log('APP Started,  ', this.contactService.userList, this.appService);
-      
-      this.contactService.userList.subscribe((users) => {
-        console.log('Init Users:', users);
-      });
 
-      this.myIdentity = this.appService.getCurrentUser;
-      
-      this.contacts = this.contactService.userList;
+    console.log('Route: ', this.route);
+    console.log('Router: ', this.router);
+
+    this.route.url.subscribe(url => {
+      console.log(url);
+    })
+
+    this.route.params.subscribe(params => {
+      let context = params['context']; // (+) converts string 'id' to a number
+      let task = params['task'];
+      let userID = params['id'];
+
+      console.log("Routes: ", params);
+    });
+
+    console.log('APP Started,  ', this.contactService.userList, this.appService);
+    
+    this.contactService.userList.subscribe((users) => {
+      console.log('Init Users:', users);
+    });
+
+    this.myIdentity = this.appService.getCurrentUser;
+    
+    this.contacts = this.contactService.userList;
   }
 
   onOpenContext(event: Event) {

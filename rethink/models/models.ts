@@ -2,7 +2,7 @@ import { ICommunication, ICommunictionStatus, IChatMessage } from './rethink/ICo
 import { IContextualComm } from './rethink/IContextualComm';
 import { IHypertyResource } from './rethink/IHypertyResource';
 import { IContextualCommUser } from './rethink/IContextualCommUser';
-import { IContextualCommTrigger } from './rethink/IContextualCommTrigger';
+import { IContextualCommTrigger, IContextValues } from './rethink/IContextualCommTrigger';
 
 export class User implements IContextualCommUser {
 
@@ -29,6 +29,7 @@ export class User implements IContextualCommUser {
     this.unread   = obj && obj.unread   || 0;
     this.domain   = obj && obj.domain   || 'rethink.hybroker.ptinovacao.pt';
 
+    // TODO: split by the @ from user and domain <domain>@<identifier>
     this.id       = this.userURL ? this.userURL.substr(this.userURL.lastIndexOf('/')) : '';
   }
 
@@ -68,7 +69,7 @@ export class Communication implements ICommunication {
     this.status             = obj && obj.status;
 
     // Extra fields
-    this.resources          = obj && obj.resources  || '';
+    this.resources          = obj && obj.resources || obj.chatmessage || '';
     this.children           = obj && obj.children   || [];
     
   }
@@ -123,20 +124,20 @@ export class Context implements IContextualComm {
 }
 
 // TODO: Optimize the contextTrigger to use the IHypertyResource types
-export class ContextTrigger {
+export class ContextTrigger implements IContextualCommTrigger {
 
   name:string;
   contextScheme:string;
-  contextResource: string[];
-  values: Array<string|number>;
+  contextResource: IHypertyResource[];
+  values: IContextValues[];
 
   trigger:Context[];
 
   constructor(trigger: Context[],
     name?: string, 
     contextScheme?: string,
-    contextResource?: string[],
-    values?: Array<string|number>) {
+    contextResource?: IHypertyResource[],
+    values?: IContextValues[]) {
 
       this.name = name
       this.contextScheme = contextScheme

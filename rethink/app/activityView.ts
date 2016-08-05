@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, HostBinding } from '@angular/core';
+import { Component, Input, Output, AfterViewInit, OnInit, HostBinding } from '@angular/core';
 import { Router, ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
@@ -34,7 +34,7 @@ import { ContextService }     from '../services/context.service';
   ]
 })
 
-export class ActivityView implements OnInit {
+export class ActivityView implements OnInit, AfterViewInit {
 
   @HostBinding('class') hostClass = 'content-panel'
 
@@ -71,6 +71,10 @@ export class ActivityView implements OnInit {
 
     this.messages = this.messageService.messageList;
     
+  }
+
+  ngAfterViewInit() {
+    console.log('[Activity View Init]');
   }
 
   onRouteActivated(context:string, task:string) {

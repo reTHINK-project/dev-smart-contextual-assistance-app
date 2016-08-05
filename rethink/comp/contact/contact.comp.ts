@@ -4,8 +4,7 @@ import { User } from '../../models/models';
 
 @Component({
   selector: 'li[contact]',
-  templateUrl: 'comp/contact/contact.comp.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: 'comp/contact/contact.comp.html'
 })
 export class ContactComponent implements OnInit {
   @HostBinding('class') hostClass = 'quarter-padding'
@@ -21,7 +20,7 @@ export class ContactComponent implements OnInit {
       this.hostClass = 'quarter-padding offline'
     }
 
-    this.cd.detectChanges();
-    this.cd.markForCheck();
+    /*this.cd.detectChanges();
+    this.cd.markForCheck();*/
   }
 }

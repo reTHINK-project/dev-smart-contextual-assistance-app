@@ -20,6 +20,8 @@ export class MessageService {
   private updates: Subject<Message> = new Subject<Message>();
   private messages: Observable<Message[]>
 
+  private sMessage: Subject<Message> = new BehaviorSubject(new Message({}));
+
   constructor(
     private appService:AppService,
     private localStorage:LocalStorage,
@@ -41,40 +43,58 @@ export class MessageService {
 
     this.newMessage.subscribe(this.create);
 
+    this.messages = this.sMessage.combineLatest(this.messageList, (message:Message, messages:Message[]) => {
+      console.log('Combine: ', message, messages);
+      return messages;
+    });
+
+    // Hot subscribe
+    this.messages.subscribe((messages:Message[]) => {console.log('Messages:', messages)});
   }
 
   setMessages(messages:Message[] = []):Observable<Message[]> {
 
-    var initMessages = this.updates.scan((messages:Message[], message:Message) => {
-      console.log('Scan message', messages, message);
+    let a = this.sMessage.scan((messages:Message[], message:Message) => {
+      console.log('SET MESSAGES: ', messages, message);
+      return messages;
+    }, messages).combineLatest(this.newMessage, (messages:Message[], message:Message) => {
+      console.log('Combine new messages: ', messages, message);
       messages.push(message);
       return messages;
-    }, messages)
-    .publishReplay(1)
-    .refCount();
+    }).publishReplay(1).refCount();
 
-    /* messages.map((message:Message) => {
-      this.newMessage.next(message);
-    })*/
+    a.subscribe((messages) => {});
 
-    return initMessages;
+    return a;
 
+  }
+
+  reciveMessag(message: any) {
+
+    this.contactService.getContact(message.identity.userProfile.userURL).subscribe((user) => {
+      console.log('Recive Message from User: ', user);
+
+      this.message(user, message);
+    });
+    
   }
 
   addMessage(message:any) {
 
-    console.log('Add new message', message);
+    let user:User = this.appService.getCurrentUser;
+    this.message(user, message);
 
-    let user:User = new User(message.identity.userProfile);
+  }
+
+  message(user:User, message:any) {
+
     let newMessage:Message = new Message({
       type: 'message',
       message: message.value.message,
       user: user
     });
 
-    console.log('Message: ', newMessage);
     this.newMessage.next(newMessage);
-
   }
 
 }

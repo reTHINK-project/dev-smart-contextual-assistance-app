@@ -43,7 +43,7 @@ export class ContextService {
 
   public get getTaskPath(): string {
     return this.taskPath;
-  }
+  }  
 
   constructor(
     private localStorage:LocalStorage,
@@ -58,15 +58,21 @@ export class ContextService {
 
   create(name: string, dataObject: any, parent?:string) {
 
+
+    // TODO Add the dataObject on Rx.Observable (stream);
+    // TODO add a Stream to look on changes for dataObject changes;
     return new Promise<Context>((resolve, reject) => {
 
       this.createContextTrigger(this.contextPath, dataObject, parent).then((contextTrigger:ContextTrigger) => {
+
+        // TODO Create the verification to reuse a context, because at this moment we can't reuse a communication or connection dataObject;
+        let context:Context;
 
         if (!this.localStorage.hasObject(dataObject.data.name)) {
 
           console.info('[Create a new context: ]', dataObject.data.name);
 
-          let context:Context = new Context({
+          context = new Context({
             url: dataObject.url,
             name: dataObject.data.name,
             description: 'Description of the context'
@@ -78,40 +84,32 @@ export class ContextService {
           // set the communication to the Context
           context.communication = communication;
 
-          Object.keys(dataObject.data.participants).forEach((key: any, value: any) => {
-            let user:User = new User(dataObject.data.participants[key]);
-
-            // Add users to the context
-            // context.addUser(user);
-
-            // this.addUser(user);
-          });
+          // Set the active context
+          this.activeContext = context;
 
           // set the parent to the context
           if (parent) { context.parent = parent; }
 
-          console.log(contextTrigger);
-
           // Set this context to the context triggers;
           contextTrigger.trigger.push(context);
 
-          // Update the localStorage contextTrigger
-          this.localStorage.setObject(context.name, context);
-
-          // Set the active context
-          this.activeContext = context;
-          resolve(context);
         } else {
-          console.info('[Get an stored context: ]', dataObject.data.name);
-
-          let context = this.localStorage.getObject(dataObject.data.name);
-
-          // Set the active context
-          this.activeContext = context;
-
-          // Resolve the context
-          resolve(context);
+          console.info('[Get the context to localStorage: ]', dataObject.data.name);
+          context = <Context> this.localStorage.getObject(dataObject.data.name);
         }
+
+        context.users = dataObject.data.participants;
+
+        Object.keys(dataObject.data.participants).forEach((key: any, value: any) => {
+          let user:User = new User(dataObject.data.participants[key]);
+          this.contactService.addContact(user);
+        });
+
+        // Update the localStorage context
+        this.localStorage.setObject(context.name, context);
+
+        console.info('[Active Context: ]', context);
+        resolve(context);
 
       });
     })
@@ -165,7 +163,7 @@ export class ContextService {
 
     }
     let contextName = this.activeContext.name;
-    let context = this.localStorage.getObject(contextName);
+    let context:Context = this.localStorage.getObject(contextName);
     context.messages.push(message);
     this.localStorage.setObject(contextName, context);
 
@@ -174,10 +172,8 @@ export class ContextService {
 
   updateContextUsers(user:User) {
     console.log('Active Context:', this.activeContext);
-
-    let context = this.localStorage.getObject(this.activeContext.name);
-    if (context) context.users.push(user);
-
+    let context:Context = this.activeContext;
+    context.users.push(user);
     console.log('[Context Update users]', context);
   }
 
@@ -186,7 +182,7 @@ export class ContextService {
     return new Promise<Context>((resolve, reject) => {
 
       let context:Context;
-      
+
       if (this.localStorage.hasObject(name)) {
         context = this.localStorage.getObject(name);
 

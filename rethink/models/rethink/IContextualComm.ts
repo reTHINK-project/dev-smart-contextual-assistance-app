@@ -1,18 +1,19 @@
-import { IContextualComm } from './IContextualCommTrigger';
+import { ICommunication, IChatMessage } from './ICommunication';
+import { IContext, ITimeActivity } from './IContext';
 import { IContextualCommUser } from './IContextualCommUser';
 import { IHypertyResource } from './IHypertyResource';
 
-export interface IContextualComm extends IContextualComm {
+export interface IContextualComm {
 
-  name?: string
-  description?: string
+  url: string // id from context data object reporter url
+  communication: ICommunication
+  context?: IContext // TODO remove this as optional
 
-  parent?: string
-  contexts: string[]
   users?: IContextualCommUser[]
-}
+  messages?: IChatMessage[]
+  files?: IHypertyResource[]
+  photos?: IHypertyResource[]
+  audios?: IHypertyResource[]
+  videos?: IHypertyResource[]
 
-export interface IContextualCommTaskUser extends IContextualComm {
-  parent: IContextualComm
-  users: IContextualCommUser[]
 }

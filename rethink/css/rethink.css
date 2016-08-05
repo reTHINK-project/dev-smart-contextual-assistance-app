@@ -1241,7 +1241,7 @@ body.rethink form.filter span.fa.fa-search {
 }
 /* line 1310, ../sass/rethink.scss */
 body.rethink ul.activity-list {
-  overflow: hidden;
+  overflow-y: scroll;
   display: block;
   margin: 0;
   padding: 0;

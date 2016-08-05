@@ -65,7 +65,7 @@ export class ChatService {
     this.chatGroupManager.onInvitation((event:any) => {
       console.log('[onInvitation]', event);
 
-    this.join(event.url).then(a => {
+      this.join(event.url).then(a => {
         console.log(a);
       }).catch(reason => {
         console.log(reason);
@@ -96,7 +96,7 @@ export class ChatService {
     this.chatController.onMessage((message: any) => {
       console.log('[Chat Service - onMessage]', message);
 
-      this.messageService.addMessage(message);
+      this.messageService.reciveMessag(message);
 
     })
 
@@ -133,12 +133,15 @@ export class ChatService {
     return new Promise((resolve, reject) => {
 
       this.chatGroupManager.join(resource).then((chatController: any) => {
-        console.log('[Joined Chat]', resource)
         this.chatController = chatController
+        console.log('[Joined Chat]', chatController)
 
-        this.prepareHyperty();
+        let chatName:string = chatController.dataObject.data.name;
 
-        resolve(this.chatController)
+        this.contextService.create(chatName, chatController.dataObject).then((result:any) => {
+          this.prepareHyperty();
+          resolve(this.chatController)
+        })
       })
 
     })
