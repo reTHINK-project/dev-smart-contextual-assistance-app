@@ -13,7 +13,7 @@ import { NotificationBox } from '../comp/user/notification.comp';
 import { Contact } from '../comp/contact/contact'
 import { Activity } from '../comp/activity/activity'
 
-import { Context, User, Message } from '../models/models';
+import { ContextualComm, User, Message } from '../models/models';
 
 // Services
 import { ChatService } from '../services/chat.service';

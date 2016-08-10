@@ -1,13 +1,13 @@
-export interface IContext {
+export interface Context {
   id: string
   type: string
-  values: ITimeActivity[]
+  values: TimeActivity[]
   description?: string
   time?: Date
   tag?: string
 }
 
-export interface ITimeActivity {
+export interface TimeActivity {
   name: string
   unit: string
   value: number

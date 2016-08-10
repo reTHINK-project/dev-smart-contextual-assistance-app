@@ -11,7 +11,7 @@ import { ContextService } from './context.service';
 // Interfaces
 import { Activity } from '../comp/activity/activity';
 
-import { User, Message, Context } from '../models/models';
+import { User, Message, ContextualComm } from '../models/models';
 
 @Injectable()
 export class ChatService {
@@ -23,7 +23,7 @@ export class ChatService {
   hyperty: any
   chatGroupManager: any
 
-  contextualComm:Context
+  contextualComm:ContextualComm
 
   private runtime: any
   private _onUserAdded:Function
@@ -117,7 +117,7 @@ export class ChatService {
         return this.contextService.create(chatName, chatController.dataObject, parent);
       }).catch((reason: any) => {
         reject(reason);
-      }).then((context:Context) => {
+      }).then((context:ContextualComm) => {
 
         console.log('Context Created:', context);
 

@@ -1,0 +1,18 @@
+<li *ngIf="model"  class="user-area all-100">
+  <div class="main-avatar push-left">
+    <img src="{{model.avatar}}">
+    <span class="status {{model.status}}"><i class="fa fa-circle"></i></span>
+  </div>
+  
+  <div class="main-username push-left quarter-padding">
+    <h3>{{model.cn}}</h3>
+    <span class="status-changer all-100 ink-dropdown push-left" data-target="#my-menu-dropdown"><a class=""><span class="fa fa-angle-down"></span></a>
+      <ul id="my-menu-dropdown" class="dropdown-menu">
+          <li class=""><a href="#">online</a></li>
+          <li class=""><a href="#">appear offline</a></li>
+          <li class=""><a href="#">busy</a></li>
+      </ul>
+    </span>
+  </div>
+</li>
+

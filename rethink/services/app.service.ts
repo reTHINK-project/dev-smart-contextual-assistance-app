@@ -1,5 +1,6 @@
+import 'rxjs/add/observable/of';
 import { Injectable, Output, EventEmitter, bind } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
 
 import rethink from 'runtime-browser';
 
@@ -19,6 +20,8 @@ export class AppService {
 
   runtime: any
 
+  private logged:Subject<boolean>;
+
   private currentUser: User;
 
   public set setCurrentUser(v : User) {
@@ -29,7 +32,9 @@ export class AppService {
     return this.currentUser;
   }
 
-  constructor() {} 
+  constructor() {
+    this.logged = new BehaviorSubject(true);
+  }
 
   getHyperty(url:string) {
 
@@ -74,6 +79,7 @@ export class AppService {
 
         let myUser = new User(user);
         this.setCurrentUser = myUser;
+        this.logged.next(true);
 
         console.info('Getting the registed user', myUser);
 
@@ -85,6 +91,10 @@ export class AppService {
 
     })
 
+  }
+
+  isAuthenticated() {
+    return this.logged.asObservable();
   }
 
 }

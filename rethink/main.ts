@@ -1,4 +1,22 @@
-import { enableProdMode, provide } from '@angular/core';
+import { enableProdMode } from '@angular/core';
+import { bootstrap } from '@angular/platform-browser-dynamic';
+
+// Routes
+import { appRouterProviders } from './app/rethink.routes';
+
+// App Component
+import { RethinkComponent } from './app/rethink.component';
+
+// Services
+import { servicesInjectables } from './services/services';
+
+// enableProdMode();
+
+bootstrap(RethinkComponent, [appRouterProviders, servicesInjectables])
+    .then(success => console.log(`Bootstrap success`))
+    .catch(error => console.log(error));
+
+/*import { enableProdMode, provide } from '@angular/core';
 import { bootstrap }      from '@angular/platform-browser-dynamic';
 import { Application }    from './app/app';
 
@@ -50,4 +68,4 @@ appService.loadRuntime()
     provide(ContactService, {useValue: contactService})
   ]).catch(err => console.error(err));
 
-});
+});*/

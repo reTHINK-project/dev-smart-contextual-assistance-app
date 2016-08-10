@@ -99,6 +99,6 @@ export class MessageService {
 
 }
 
-export var contextServiceInjectables: Array<any> = [
+export var messageServiceInjectables: Array<any> = [
   bind(MessageService).toClass(MessageService)
 ];

@@ -10,7 +10,7 @@ import { MessageService } from '../services/message.service';
 import { ContextService } from '../services/context.service';
 
 // Interfaces
-import { Context, User } from '../models/models';
+import { ContextualComm, User } from '../models/models';
 
 // Components
 import { ContactMeComponent } from '../comp/contact/me.comp';
@@ -98,7 +98,7 @@ export class Application implements OnInit {
     let task = this.contextService.getTaskPath;
     let path = context + "/" + task;
 
-    this.router.navigate(['/' + context, '/' + task, user.id]);
+    this.router.navigate(['/' + context, '/' + task, user.guid]);
   }
 
   onContactAdd() {

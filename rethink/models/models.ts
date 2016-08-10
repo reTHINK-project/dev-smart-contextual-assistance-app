@@ -1,22 +1,24 @@
-import { ICommunication, ICommunictionStatus, IChatMessage } from './rethink/ICommunication';
-import { IContextualComm } from './rethink/IContextualComm';
-import { IHypertyResource } from './rethink/IHypertyResource';
-import { IContextualCommUser } from './rethink/IContextualCommUser';
-import { IContextualCommTrigger, IContextValues } from './rethink/IContextualCommTrigger';
+// Rethink Interfaces
+import { HypertyResource, HypertyResourceType } from './rethink/HypertyResource';
+import { Communication, CommunictionStatus } from './rethink/Communication'
+import { ContextValue } from './rethink/Context';
+import { UserIdentity } from './rethink/UserIdentity';
 
-export class User implements IContextualCommUser {
+export class User implements UserIdentity {
 
-  id: string;
+  guid: string;
+  identifiers: string;
+  idp: string;
 
-  username:string;
-  cn:string;
-  avatar:string;
-  locale:string;
-  userURL:string;
+  username: string;
+  cn: string;
+  avatar: string;
+  locale: string;
+  userURL: string;
 
-  status:string;
-  unread:number;
+  status: string;
 
+  unread: number;
   domain: string;
 
   constructor(obj: any) {
@@ -29,54 +31,19 @@ export class User implements IContextualCommUser {
     this.unread   = obj && obj.unread   || 0;
     this.domain   = obj && obj.domain   || 'rethink.hybroker.ptinovacao.pt';
 
+    this.identifiers = '';
+
     // TODO: split by the @ from user and domain <domain>@<identifier>
-    this.id       = this.userURL ? this.userURL.substr(this.userURL.lastIndexOf('/')) : '';
+    this.guid     = this.userURL ?  this.createIndentifier(this.userURL) : '';
   }
 
-}
-
-export class Communication implements ICommunication {
-
-  scheme:string
-  startingTime: Date
-  lastModified: Date
-  status: ICommunictionStatus
-  resources: IHypertyResource[]
-  children: string
-
-  id: string
-  name: string
-  duration: Date
-  participants: User
-  owner: string
-
-  schema: string
-  
-  constructor(obj: any) {
-
-    this.duration	          = obj && obj.duration;
-    this.id                 = obj && obj.id;
-    this.lastModified       = obj && obj.lastModified;
-    this.name               = obj && obj.name;
-    this.owner              = obj && obj.owner;
-
-    this.participants	      = obj && obj.participants;
-
-    this.scheme             = obj && obj.scheme;
-    this.schema             = obj && obj.schema;
-
-    this.startingTime       = obj && obj.startingTime;
-    this.status             = obj && obj.status;
-
-    // Extra fields
-    this.resources          = obj && obj.resources || obj.chatmessage || '';
-    this.children           = obj && obj.children   || [];
-    
+  createIndentifier(userURL:string):string {
+    let url:string[] = userURL.split('/');
+    return url[2] + '@' + url[3];
   }
-
 }
 
-export class Message implements IChatMessage {
+export class Message {
   type: string;
   message: string;
   user: User;
@@ -90,7 +57,7 @@ export class Message implements IChatMessage {
   }
 }
 
-export class Context implements IContextualComm {
+export class ContextualComm {
 
   name:string;
   description:string;
@@ -124,22 +91,22 @@ export class Context implements IContextualComm {
 }
 
 // TODO: Optimize the contextTrigger to use the IHypertyResource types
-export class ContextTrigger implements IContextualCommTrigger {
+export class ContextualCommTrigger {
 
-  name:string;
+  contextName:string;
   contextScheme:string;
-  contextResource: IHypertyResource[];
-  values: IContextValues[];
+  contextResource: HypertyResourceType[];
+  values: ContextValue[];
 
-  trigger:Context[];
+  trigger: ContextualComm[];
 
-  constructor(trigger: Context[],
+  constructor(trigger: ContextualComm[],
     name?: string, 
     contextScheme?: string,
-    contextResource?: IHypertyResource[],
-    values?: IContextValues[]) {
+    contextResource?: HypertyResourceType[],
+    values?: ContextValue[]) {
 
-      this.name = name
+      this.contextName = name
       this.contextScheme = contextScheme
       this.contextResource = contextResource
       this.values = values || []

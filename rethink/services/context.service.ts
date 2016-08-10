@@ -1,13 +1,15 @@
-import { Injectable, Input, bind } from '@angular/core';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
+import { Injectable, Input, bind } from '@angular/core'
+import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx'
 
 // Services
-import { LocalStorage } from './storage.service';
-import { ContactService } from './contact.service';
-import { MessageService } from './message.service';
+import { LocalStorage } from './storage.service'
+import { ContactService } from './contact.service'
+import { MessageService } from './message.service'
 
 // Interfaces
-import { ContextTrigger, Context, Communication, User, Message } from '../models/models';
+import { Communication } from '../models/rethink/Communication'
+import { HypertyResourceType } from '../models/rethink/HypertyResource'
+import { ContextualCommTrigger, ContextualComm, User, Message } from '../models/models'
 
 @Injectable()
 export class ContextService {
@@ -20,11 +22,11 @@ export class ContextService {
   //   { contact: this.contacts[0], type: 'file-share', status: 'ok', date: 'at 14:30' }
   // ]
 
-  private cxtTrigger:Set<ContextTrigger> = new Set<ContextTrigger>();
-  private cxtList:Map<string, Context> = new Map<string, Context>();
+  private cxtTrigger:Set<ContextualCommTrigger> = new Set<ContextualCommTrigger>();
+  private cxtList:Map<string, ContextualComm> = new Map<string, ContextualComm>();
 
-  private activeContextTrigger: ContextTrigger;
-  private activeContext: Context;
+  private activeContextTrigger: ContextualCommTrigger;
+  private activeContext: ContextualComm;
 
   private contextPath: string;
   private taskPath: string
@@ -61,25 +63,25 @@ export class ContextService {
 
     // TODO Add the dataObject on Rx.Observable (stream);
     // TODO add a Stream to look on changes for dataObject changes;
-    return new Promise<Context>((resolve, reject) => {
+    return new Promise<ContextualComm>((resolve, reject) => {
 
-      this.createContextTrigger(this.contextPath, dataObject, parent).then((contextTrigger:ContextTrigger) => {
+      this.createContextTrigger(this.contextPath, dataObject, parent).then((contextTrigger:ContextualCommTrigger) => {
 
         // TODO Create the verification to reuse a context, because at this moment we can't reuse a communication or connection dataObject;
-        let context:Context;
+        let context:ContextualComm;
 
         if (!this.localStorage.hasObject(dataObject.data.name)) {
 
           console.info('[Create a new context: ]', dataObject.data.name);
 
-          context = new Context({
+          context = new ContextualComm({
             url: dataObject.url,
             name: dataObject.data.name,
-            description: 'Description of the context'
+            description: 'Description of the context',
           });
 
-          let communication:Communication = new Communication(dataObject.data);
-          communication.resources = ['chat'];
+          let communication:Communication = <Communication>(dataObject.data);
+          communication.resources = [HypertyResourceType.chat]
 
           // set the communication to the Context
           context.communication = communication;
@@ -95,7 +97,7 @@ export class ContextService {
 
         } else {
           console.info('[Get the context to localStorage: ]', dataObject.data.name);
-          context = <Context> this.localStorage.getObject(dataObject.data.name);
+          context = <ContextualComm> this.localStorage.getObject(dataObject.data.name);
         }
 
         context.users = dataObject.data.participants;
@@ -118,7 +120,7 @@ export class ContextService {
 
   createContextTrigger(name: string, dataObject: any, parent?:string) {
 
-    return new Promise<ContextTrigger>((resolve, reject) => {
+    return new Promise<ContextualCommTrigger>((resolve, reject) => {
       console.log('[Context Service - Get Localstorage] ', name, parent, this.localStorage.hasObject(parent), this.localStorage.hasObject('trigger-' + name), this.localStorage);
 
       if (!this.localStorage.hasObject('trigger-' + name)) {
@@ -126,9 +128,9 @@ export class ContextService {
 
         let contextName = name;
         let contextScheme = 'context';
-        let contextResource = ['video', 'audio', 'chat'];
+        let contextResource = [HypertyResourceType.video, HypertyResourceType.audio, HypertyResourceType.chat];
 
-        let contextTrigger = new ContextTrigger(null, contextName, contextScheme, contextResource);
+        let contextTrigger = new ContextualCommTrigger(null, contextName, contextScheme, contextResource);
 
         /*let contextValue:ContextValues = {
           name: 'location',
@@ -138,7 +140,7 @@ export class ContextService {
         }*/
 
         // Update the localStorage contextTrigger
-        this.localStorage.setObject('trigger-' + contextTrigger.name, contextTrigger);
+        this.localStorage.setObject('trigger-' + contextTrigger.contextName, contextTrigger);
 
         // Set the active context trigger;
         this.activeContextTrigger = contextTrigger;
@@ -149,7 +151,7 @@ export class ContextService {
         resolve(contextTrigger);
       } else {
         console.info('[Get the exist context]', name, parent);
-        let contextualCommTrigger:ContextTrigger = this.localStorage.getObject('trigger-' + name);
+        let contextualCommTrigger:ContextualCommTrigger = this.localStorage.getObject('trigger-' + name);
         resolve(contextualCommTrigger);
       }
     })
@@ -163,7 +165,7 @@ export class ContextService {
 
     }
     let contextName = this.activeContext.name;
-    let context:Context = this.localStorage.getObject(contextName);
+    let context:ContextualComm = this.localStorage.getObject(contextName);
     context.messages.push(message);
     this.localStorage.setObject(contextName, context);
 
@@ -172,16 +174,16 @@ export class ContextService {
 
   updateContextUsers(user:User) {
     console.log('Active Context:', this.activeContext);
-    let context:Context = this.activeContext;
+    let context:ContextualComm = this.activeContext;
     context.users.push(user);
     console.log('[Context Update users]', context);
   }
 
-  getContextByName(name:string):Promise<Context> {
+  getContextByName(name:string):Promise<ContextualComm> {
 
-    return new Promise<Context>((resolve, reject) => {
+    return new Promise<ContextualComm>((resolve, reject) => {
 
-      let context:Context;
+      let context:ContextualComm;
 
       if (this.localStorage.hasObject(name)) {
         context = this.localStorage.getObject(name);
@@ -200,7 +202,7 @@ export class ContextService {
   getContextByResource(resource:string) {
 
     // TODO: Optimize this promise to handle with multiple contacts
-    return new Promise<Context>((resolve, reject) => {
+    return new Promise<ContextualComm>((resolve, reject) => {
 
 /*      let context = this.sourceContextsList.filter((context) => {
         if(context.url.indexOf(resource) !== -1) return true
