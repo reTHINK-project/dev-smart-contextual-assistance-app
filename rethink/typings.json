@@ -1,9 +1,7 @@
 {
   "globalDependencies": {
     "es6-shim": "registry:dt/es6-shim",
-    "jquery": "registry:dt/jquery",
-    "mediastream": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/master/webrtc/MediaStream.d.ts",
-    "rtcpeerconnection": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/master/webrtc/RTCPeerConnection.d.ts"
+    "jquery": "registry:dt/jquery"
   },
   "dependencies": {}
 }

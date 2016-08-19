@@ -22,26 +22,12 @@ export class ContactService {
   private create: Subject<User> = new Subject<User>();
 
   userList: Observable<User[]>;
-  private sUser: Subject<User> = new BehaviorSubject(new User({}));
 
-  constructor(private localStorage:LocalStorage){
-
-    if (localStorage.hasObject('contacts')){
-      initialUsers = localStorage.getObject('contacts');
-    }
+  constructor() {
 
     this.userList = this.updates.scan((users:User[], user:User) => {
-
-      console.log('Users: ', users);
-
-      let haveUser = users.find((value:User, index:number) => {
-        return value.userURL === user.userURL;
-      })
-
-      if (!haveUser) {
-        users.push(user);
-        localStorage.setObject('contacts', users);
-      }
+      console.log('Scan contacts: ', users, user);
+      users.push(user);
       return users;
     }, initialUsers)
     .publishReplay(1)
@@ -52,16 +38,26 @@ export class ContactService {
     }).subscribe(this.updates);
 
     this.newUser.subscribe(this.create);
- 
-    this.users = this.sUser.combineLatest(this.userList, (user:User, users:User[]) => {
+
+  }
+
+  setContacts(users:User[] = []):Observable<User[]> {
+    let init:Subject<User[]> = new BehaviorSubject<User[]>(users);
+
+    init.map((users:User[], index:number) => {
+      console.log('Map users: ', users, index);
+      return users.map((user:User) => {
+        return new User(user);
+      });
+    }).combineLatest(this.updates, (users:User[], user:User) => {
+      console.log('Combine: ', users, user);
+      users.push(user);
       return users;
-    });
+    }).subscribe((b:any) => { /* console.log('B: 0', b); */ })
 
-    // Hot subscribe
-    this.userList.subscribe((users:User[]) => {console.log('Users:', users)});
+    this.userList = init.asObservable(); 
 
-    initialUsers.map((user:User) => this.addContact(user));
-    
+    return this.userList;
   }
 
   addContact(user:User) {
@@ -73,6 +69,10 @@ export class ContactService {
   }
 
   removeContact() {
+
+  }
+
+  getAllContacts() {
 
   }
 
@@ -95,10 +95,6 @@ export class ContactService {
   }
 
 }
-
-export var contactServiceInjectables: Array<any> = [
-  bind(ContactService).toClass(ContactService)
-];
 
 // {id: 'id1', userURL:'', name: 'Rita Coelho', status: 'online', avatar: 'img/avatar.jpg', email:'openidtest20@gmail.com', unread: 1},
 // {id: 'id2', userURL:'', name: 'Diogo Reis', status: 'away', avatar: 'img/avatar-2.jpg', email:'openidtest10@gmail.com'},

@@ -13,14 +13,12 @@ import { Message, User } from '../models/models';
 @Injectable()
 export class MessageService {
 
-  messageList: Observable<Message[]>;
+  messageList:Observable<Message[]>;
   newMessage: Subject<Message> = new Subject<Message>();
 
+  private messages: Observable<Message[]>;
   private create: Subject<Message> = new Subject<Message>();
   private updates: Subject<Message> = new Subject<Message>();
-  private messages: Observable<Message[]>
-
-  private sMessage: Subject<Message> = new BehaviorSubject(new Message({}));
 
   constructor(
     private appService:AppService,
@@ -28,45 +26,33 @@ export class MessageService {
     private contactService:ContactService
   ) {
 
-    this.messageList = this.updates.scan((messages:Message[], message:Message) => {
-      console.log('Scan message', messages, message);
-      messages.push(message);
+    this.messages = this.updates.scan((messages:Message[], message:Message) => {
+      // console.log('Scan message', messages, message);
+      messages.push(new Message(message));
       return messages;
     }, [])
     .publishReplay(1)
     .refCount();
 
     this.create.map((message:Message, index:number) => {
-      console.log('create message:', message);
+      // console.log('create message:', message);
       return message;
     }).subscribe(this.updates);
 
     this.newMessage.subscribe(this.create);
-
-    this.messages = this.sMessage.combineLatest(this.messageList, (message:Message, messages:Message[]) => {
-      console.log('Combine: ', message, messages);
-      return messages;
-    });
-
-    // Hot subscribe
-    this.messages.subscribe((messages:Message[]) => {console.log('Messages:', messages)});
   }
 
   setMessages(messages:Message[] = []):Observable<Message[]> {
+    let init:Subject<Message[]> = new BehaviorSubject<Message[]>(messages);
 
-    let a = this.sMessage.scan((messages:Message[], message:Message) => {
-      console.log('SET MESSAGES: ', messages, message);
-      return messages;
-    }, messages).combineLatest(this.newMessage, (messages:Message[], message:Message) => {
-      console.log('Combine new messages: ', messages, message);
+    init.combineLatest(this.updates, (messages:Message[], message:Message) => {
+      // console.log('Combine: ', messages, message);
       messages.push(message);
       return messages;
-    }).publishReplay(1).refCount();
+    }).subscribe((b:any) => { /* console.log('B: 0', b); */ })
 
-    a.subscribe((messages) => {});
-
-    return a;
-
+    this.messageList = init.asObservable();
+    return this.messageList;
   }
 
   reciveMessag(message: any) {
@@ -98,7 +84,3 @@ export class MessageService {
   }
 
 }
-
-export var messageServiceInjectables: Array<any> = [
-  bind(MessageService).toClass(MessageService)
-];

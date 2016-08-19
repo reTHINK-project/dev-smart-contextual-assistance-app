@@ -1,0 +1,15 @@
+<form class="all-100" #sendForm="ngForm" (submit)="onSubmit(sendForm.value)">
+    <div class="all-75 large-65 xlarge-65 half-padding">
+        <input type="text" placeholder="your message goes here"
+        class="all-100 chat-sender"
+        [(ngModel)]="model.message" ngControl="message" name="message">
+    </div>
+    <ul class="uploader all-35 small-25 tiny-25">
+        <li class="send-file all-50 align-center">
+            <span class="send-file"><a href="#"><i class="fa fa-file-o"></i> add file</a></span>
+        </li>
+        <li class="take-pic all-50 align-center">
+            <span class="snap"><a hre="#"><i class="fa fa-camera-retro"></i> take a photo</a></span>
+        </li>
+    </ul>
+</form>

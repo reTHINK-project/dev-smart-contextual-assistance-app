@@ -102,7 +102,7 @@ export class ChatService {
 
   }
 
-  create(name: string, users:string[], domains:string[], parent?:string) {
+  create(name: string, users:string[], domains:string[]) {
 
     return new Promise((resolve, reject) => {
 
@@ -111,18 +111,12 @@ export class ChatService {
         console.log('[Chat Created]', chatController)
 
         let chatName:string = chatController.dataObject.data.name;
-
         this.prepareHyperty();
 
-        return this.contextService.create(chatName, chatController.dataObject, parent);
+        resolve(chatController);
       }).catch((reason: any) => {
         reject(reason);
-      }).then((context:ContextualComm) => {
-
-        console.log('Context Created:', context);
-
-        resolve(this.chatController);
-      })
+      });
 
     })
 
@@ -166,6 +160,8 @@ export class ChatService {
   send(message: string) {
 
     return new Promise<any>((resolve, reject) => {
+
+      console.log('Send message: ', this.chatController);
 
       this.chatController.send(message).then((message:Message) => {
         console.log('[Chat Service - onMessage]', message);

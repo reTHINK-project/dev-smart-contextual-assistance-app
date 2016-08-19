@@ -252,7 +252,7 @@ body.rethink div.scroller-inner {
   height: 100%;
 }
 /* line 308, ../sass/rethink.scss */
-body.rethink div.scroller-inner div.message-sender {
+body.rethink div.scroller-inner .message-sender {
   position: fixed;
   bottom: 0;
   right: 0;
@@ -273,7 +273,7 @@ body.rethink div.scroller-inner div.message-sender {
             }*/
 }
 /* line 317, ../sass/rethink.scss */
-body.rethink div.scroller-inner div.message-sender ul.uploader {
+body.rethink div.scroller-inner .message-sender ul.uploader {
   border-left: 1px solid #ddd;
   margin: 0;
   padding: 0;
@@ -281,22 +281,22 @@ body.rethink div.scroller-inner div.message-sender ul.uploader {
   min-height: 62px;
 }
 /* line 324, ../sass/rethink.scss */
-body.rethink div.scroller-inner div.message-sender ul.uploader li {
+body.rethink div.scroller-inner .message-sender ul.uploader li {
   display: inline-block;
   padding: 13px;
   margin: 0;
 }
 /* line 329, ../sass/rethink.scss */
-body.rethink div.scroller-inner div.message-sender ul.uploader li a, body.rethink div.scroller-inner div.message-sender ul.uploader li i {
+body.rethink div.scroller-inner .message-sender ul.uploader li a, body.rethink div.scroller-inner .message-sender ul.uploader li i {
   color: #666;
   padding: 2px;
 }
 /* line 333, ../sass/rethink.scss */
-body.rethink div.scroller-inner div.message-sender ul.uploader li a:hover, body.rethink div.scroller-inner div.message-sender ul.uploader li i:hover {
+body.rethink div.scroller-inner .message-sender ul.uploader li a:hover, body.rethink div.scroller-inner .message-sender ul.uploader li i:hover {
   color: #009cff;
 }
 /* line 336, ../sass/rethink.scss */
-body.rethink div.scroller-inner div.message-sender ul.uploader li a:hover i, body.rethink div.scroller-inner div.message-sender ul.uploader li i:hover i {
+body.rethink div.scroller-inner .message-sender ul.uploader li a:hover i, body.rethink div.scroller-inner .message-sender ul.uploader li i:hover i {
   color: #009cff;
   -webkit-transition: all 150ms ease-in-out;
   -moz-transition: all 150ms ease-in-out;
@@ -305,11 +305,11 @@ body.rethink div.scroller-inner div.message-sender ul.uploader li a:hover i, bod
   transition: all 150ms ease-in-out;
 }
 /* line 345, ../sass/rethink.scss */
-body.rethink div.scroller-inner div.message-sender ul.uploader li.take-pic:hover, body.rethink div.scroller-inner div.message-sender ul.uploader li.send-file:hover {
+body.rethink div.scroller-inner .message-sender ul.uploader li.take-pic:hover, body.rethink div.scroller-inner .message-sender ul.uploader li.send-file:hover {
   background-color: #fff;
 }
 /* line 350, ../sass/rethink.scss */
-body.rethink div.scroller-inner div.message-sender ul.uploader li.take-pic span.snap {
+body.rethink div.scroller-inner .message-sender ul.uploader li.take-pic span.snap {
   font-size: 12px;
   padding: 8px;
   display: inline-block;
@@ -321,7 +321,7 @@ body.rethink div.scroller-inner div.message-sender ul.uploader li.take-pic span.
   border-radius: 12px;
 }
 /* line 359, ../sass/rethink.scss */
-body.rethink div.scroller-inner div.message-sender ul.uploader li.take-pic span.tt {
+body.rethink div.scroller-inner .message-sender ul.uploader li.take-pic span.tt {
   display: inline-block;
   font-size: 14px;
   text-transform: uppercase;
@@ -329,7 +329,7 @@ body.rethink div.scroller-inner div.message-sender ul.uploader li.take-pic span.
   padding-top: 6px;
 }
 /* line 369, ../sass/rethink.scss */
-body.rethink div.scroller-inner div.message-sender ul.uploader li.send-file span.tt {
+body.rethink div.scroller-inner .message-sender ul.uploader li.send-file span.tt {
   display: inline-block;
   font-size: 14px;
   text-transform: uppercase;
@@ -337,7 +337,7 @@ body.rethink div.scroller-inner div.message-sender ul.uploader li.send-file span
   padding-top: 6px 8px;
 }
 /* line 377, ../sass/rethink.scss */
-body.rethink div.scroller-inner div.message-sender ul.uploader li.send-file span.send-file {
+body.rethink div.scroller-inner .message-sender ul.uploader li.send-file span.send-file {
   font-size: 12px;
   padding: 8px;
   display: inline-block;
@@ -374,12 +374,12 @@ body.rethink div.scroller-inner div.message-sender ul.uploader li.send-file span
                         }*/
 }
 /* line 414, ../sass/rethink.scss */
-body.rethink div.scroller-inner div.message-sender form {
+body.rethink div.scroller-inner .message-sender form {
   margin: 0;
   padding: 0;
 }
 /* line 431, ../sass/rethink.scss */
-body.rethink div.scroller-inner div.message-sender input {
+body.rethink div.scroller-inner .message-sender input {
   border: none;
   padding: 7px;
   background: #fff;
@@ -391,7 +391,7 @@ body.rethink div.scroller-inner div.message-sender input {
   border-radius: 2px;
 }
 /* line 443, ../sass/rethink.scss */
-body.rethink div.scroller-inner div.message-sender a.button {
+body.rethink div.scroller-inner .message-sender a.button {
   color: #666;
   display: inline-block;
   margin-top: -12px;
@@ -2559,7 +2559,7 @@ body.rethink div.container div.tabs-content div.contactbox h4.contact-name a {
   padding-top: 0;
 }
 /* line 2585, ../sass/rethink.scss */
-body.rethink div.container div.tabs-content div.message-sender {
+body.rethink div.container div.tabs-content .message-sender {
   bottom: 40px;
   height: 42px;
 }

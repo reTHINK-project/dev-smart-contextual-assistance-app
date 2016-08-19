@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
+import { ROUTER_DIRECTIVES, Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 
 // Application Components
 import { ContextBreadcrumbComponent } from './breadcrumb/breadcrumb.component';
@@ -28,6 +28,8 @@ export class RethinkComponent implements OnInit {
   private myIdentity:User;
 
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
     private appService: AppService,
     private chatService: ChatService) {
 
@@ -39,19 +41,36 @@ export class RethinkComponent implements OnInit {
     .then((hyperty) => {
       this.status = 'Getting your identity';
       return this.appService.getIdentity(hyperty)
+    }, (error) => {
+      this.status = error;
     })
     .then((user: any) => {
       this.appService.setCurrentUser = user;
       this.myIdentity = user;
       this.status = 'The app is ready to be used';
-      this.ready = true;
     })
 
   }
 
   // Load data ones componet is ready
   ngOnInit() {
-    
+
+    this.appService.isAuthenticated().subscribe((logged) => {
+      console.log('logged: ', logged);
+      if (logged) {
+        console.log('Redirect:', this.appService.redirectUrl);
+
+        let navigationExtras: NavigationExtras = {
+          preserveQueryParams: true,
+          preserveFragment: true
+        };
+
+        this.ready = true;
+
+        this.router.navigate([this.appService.redirectUrl], navigationExtras);
+      }
+    })
+
   }
 
   onOpenContext() {

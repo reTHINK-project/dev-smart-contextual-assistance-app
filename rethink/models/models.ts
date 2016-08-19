@@ -1,6 +1,7 @@
 // Rethink Interfaces
 import { HypertyResource, HypertyResourceType } from './rethink/HypertyResource';
-import { Communication, CommunictionStatus } from './rethink/Communication'
+import { Communication, CommunictionStatus } from './rethink/Communication';
+import { Connection } from './rethink/Connection';
 import { ContextValue } from './rethink/Context';
 import { UserIdentity } from './rethink/UserIdentity';
 
@@ -65,7 +66,7 @@ export class ContextualComm {
 
   contexts:string[];
   url:string;
-  communication:Communication;
+  communication:Communication | Connection;
 
   users:Array<User>;
   messages:Array<Message>;
@@ -90,7 +91,6 @@ export class ContextualComm {
 
 }
 
-// TODO: Optimize the contextTrigger to use the IHypertyResource types
 export class ContextualCommTrigger {
 
   contextName:string;

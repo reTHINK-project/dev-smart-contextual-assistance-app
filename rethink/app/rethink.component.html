@@ -20,6 +20,13 @@
                 <!-- Router Outlet -->
                 <router-outlet></router-outlet>
 
+                <!-- Loading spinner when wait for the auth and app be ready -->
+                <div *ngIf="!ready"  class="all-100 main-content">
+                    <div class="content-panel all-100">
+                        <span>Loading {{status}}</span>
+                    </div>
+                </div>
+
             </div>
             <!-- /scroller-inner -->
         </div>

@@ -1,20 +1,13 @@
-import { enableProdMode } from '@angular/core';
-import { bootstrap } from '@angular/platform-browser-dynamic';
+// main entry point
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-// Routes
-import { appRouterProviders } from './app/rethink.routes';
+import { RethinkModule } from './app/rethink.module';
 
-// App Component
-import { RethinkComponent } from './app/rethink.component';
+platformBrowserDynamic().bootstrapModule(RethinkModule);
 
-// Services
-import { servicesInjectables } from './services/services';
-
-// enableProdMode();
-
-bootstrap(RethinkComponent, [appRouterProviders, servicesInjectables])
+/*bootstrap(RethinkComponent, [appRouterProviders, servicesInjectables])
     .then(success => console.log(`Bootstrap success`))
-    .catch(error => console.log(error));
+    .catch(error => console.log(error));*/
 
 /*import { enableProdMode, provide } from '@angular/core';
 import { bootstrap }      from '@angular/platform-browser-dynamic';

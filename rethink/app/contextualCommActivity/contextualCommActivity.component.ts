@@ -1,19 +1,63 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostBinding, Renderer, ElementRef, AfterViewInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+
+// Components
+import { ChatEventComponent } from '../../components/rethink/hypertyResource/chat/chatEvent.component';
+import { FileEventComponent } from '../../components/rethink/hypertyResource/file/fileEvent.component';
+
+// Models
+import { Message } from '../../models/models';
 
 @Component({
-  selector: 'activity-list',
-  templateUrl: 'app/components/contextualCommActivity/contextualCommActivity.component.html'
+  selector: 'ul[activity-list]',
+  templateUrl: 'app/contextualCommActivity/contextualCommActivity.component.html',
+  directives: [
+    ChatEventComponent,
+    FileEventComponent
+  ]
 })
-export class contextualCommActivityComponent implements OnInit {
+export class ContextualCommActivityComponent implements OnInit, AfterViewInit {
+  @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list'
 
-  @Input() activities:Observable<any>;
+  @Input() messages:Observable<Message[]>;
 
-  constructor() {}
+  constructor(
+    private el: ElementRef
+  ){}
 
   // Load data ones componet is ready
   ngOnInit() {
 
+    this.messages.subscribe((messages:Message[]) => {
+      // TODO: Check if is really necessary use the timeout
+      setTimeout(() => {
+        this.updateView();
+      })
+    })
+
+  }
+
+  ngAfterViewInit() {
+
+  }
+
+  updateView(): void {
+    let scrollPane: any = this.el.nativeElement;
+    let parentEl: any = scrollPane.offsetParent;
+    let top = scrollPane.offsetTop;
+    let parentElHeight = parentEl.offsetHeight;
+
+    // TODO: replace the number for the sender box height;
+    let height = parentElHeight - (top + 62);
+    scrollPane.style.height = height + 'px';
+
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    let scrollPane: any = this.el.nativeElement;
+    scrollPane.scrollTop = scrollPane.scrollHeight;
   }
 
 }

@@ -58,14 +58,14 @@ export class ContextService {
 
   }
 
-  create(name: string, dataObject: any, parent?:string) {
+  create(name: string, dataObject: any, parent?: any) {
 
 
     // TODO Add the dataObject on Rx.Observable (stream);
     // TODO add a Stream to look on changes for dataObject changes;
     return new Promise<ContextualComm>((resolve, reject) => {
 
-      this.createContextTrigger(this.contextPath, dataObject, parent).then((contextTrigger:ContextualCommTrigger) => {
+      this.createContextTrigger(this.contextPath).then((contextTrigger:ContextualCommTrigger) => {
 
         // TODO Create the verification to reuse a context, because at this moment we can't reuse a communication or connection dataObject;
         let context:ContextualComm;
@@ -89,9 +89,6 @@ export class ContextService {
           // Set the active context
           this.activeContext = context;
 
-          // set the parent to the context
-          if (parent) { context.parent = parent; }
-
           // Set this context to the context triggers;
           contextTrigger.trigger.push(context);
 
@@ -100,17 +97,22 @@ export class ContextService {
           context = <ContextualComm> this.localStorage.getObject(dataObject.data.name);
         }
 
-        context.users = dataObject.data.participants;
+        console.info('[Active Context: ]', context);
+        this.activeContext = context;
 
-        Object.keys(dataObject.data.participants).forEach((key: any, value: any) => {
-          let user:User = new User(dataObject.data.participants[key]);
-          this.contactService.addContact(user);
+        context.communication = <Communication>(dataObject.data);
+
+        if (parent) context.parent = parent;
+
+        context.url = dataObject.url,
+        context.users = dataObject.data.participants.map((item:any) => {
+          this.contactService.addContact(item);
+          return item
         });
 
         // Update the localStorage context
         this.localStorage.setObject(context.name, context);
 
-        console.info('[Active Context: ]', context);
         resolve(context);
 
       });
@@ -118,13 +120,13 @@ export class ContextService {
 
   }
 
-  createContextTrigger(name: string, dataObject: any, parent?:string) {
+  createContextTrigger(name: string) {
 
     return new Promise<ContextualCommTrigger>((resolve, reject) => {
-      console.log('[Context Service - Get Localstorage] ', name, parent, this.localStorage.hasObject(parent), this.localStorage.hasObject('trigger-' + name), this.localStorage);
+      console.log('[Contextual Comm Trigger Service - Get Localstorage] ', name);
 
       if (!this.localStorage.hasObject('trigger-' + name)) {
-        console.info('[Create a new context]', name, parent);
+        console.info('[Create a new ContextualTrigger]', name, parent);
 
         let contextName = name;
         let contextScheme = 'context';
@@ -150,8 +152,8 @@ export class ContextService {
         // Resolve the context trigger
         resolve(contextTrigger);
       } else {
-        console.info('[Get the exist context]', name, parent);
-        let contextualCommTrigger:ContextualCommTrigger = this.localStorage.getObject('trigger-' + name);
+        console.info('[Get the exist ContextualTrigger]', name);
+        let contextualCommTrigger:ContextualCommTrigger = <ContextualCommTrigger> this.localStorage.getObject('trigger-' + name);
         resolve(contextualCommTrigger);
       }
     })
@@ -159,11 +161,7 @@ export class ContextService {
   }
 
   updateContextMessages(message:Message) {
-
     console.log('Active Context:', this.activeContext);
-    if (!this.activeContext) {
-
-    }
     let contextName = this.activeContext.name;
     let context:ContextualComm = this.localStorage.getObject(contextName);
     context.messages.push(message);
@@ -174,9 +172,12 @@ export class ContextService {
 
   updateContextUsers(user:User) {
     console.log('Active Context:', this.activeContext);
-    let context:ContextualComm = this.activeContext;
+    let contextName = this.activeContext.name;
+    let context:ContextualComm = this.localStorage.getObject(contextName);
     context.users.push(user);
-    console.log('[Context Update users]', context);
+    this.localStorage.setObject(contextName, context);
+
+    console.log('[Context Update contacts]', contextName, context);
   }
 
   getContextByName(name:string):Promise<ContextualComm> {
@@ -218,7 +219,3 @@ export class ContextService {
   }
 
 }
-
-export var contextServiceInjectables: Array<any> = [
-  bind(ContextService).toClass(ContextService)
-];

@@ -18,9 +18,10 @@ export class AppService {
 
   config = {domain: this.domain, runtimeURL: this.runtimeURL, development: true }
 
-  runtime: any
-
-  private logged:Subject<boolean>;
+  runtime: any;
+  redirectUrl: string;
+  isLogged: boolean = false;
+  logged:Subject<boolean>;
 
   private currentUser: User;
 
@@ -33,7 +34,7 @@ export class AppService {
   }
 
   constructor() {
-    this.logged = new BehaviorSubject(true);
+    this.logged = new BehaviorSubject(this.isLogged);
   }
 
   getHyperty(url:string) {
@@ -79,7 +80,8 @@ export class AppService {
 
         let myUser = new User(user);
         this.setCurrentUser = myUser;
-        this.logged.next(true);
+        this.isLogged = true;
+        this.logged.next(this.isLogged);
 
         console.info('Getting the registed user', myUser);
 

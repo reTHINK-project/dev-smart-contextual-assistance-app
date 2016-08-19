@@ -1,0 +1,18 @@
+<!-- Search contact input -->
+<li class="search-bar half-padding">
+    <form class="all-100 filter">
+        <span class="fa fa-search"></span>
+        <input type="text" placeholder="type a name" class="search push-left" (keyup)="onFilterKey($event)">
+    </form>
+</li>
+
+<!-- List of ContactComponent -->
+<li *ngFor="let contact of contactsFilter | async" (click)="contactClick.emit(contact)">
+    <user-identity *ngIf="contact"  [model]=contact></user-identity>
+</li>
+
+<!-- Add contact button -->
+<li class="half-padding options" (click)="contactAdd.emit()">
+    <span class="add-user"><a hre="#">+</a></span>
+    <span class="add-text"> Add Contact</span>
+</li>
