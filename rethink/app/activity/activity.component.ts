@@ -43,7 +43,6 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.messages = this.messageService.messageList;
-
   }
 
   ngAfterViewInit() {

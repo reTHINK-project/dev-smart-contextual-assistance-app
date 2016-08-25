@@ -9,32 +9,44 @@ import { User } from '../models/models';
 import { LocalStorage } from './storage.service';
 import { ContextService } from './context.service';
 
-let initialUsers: User[] = [];
-
 @Injectable()
 export class ContactService {
-
-  users: Observable<User[]>;
-
-  newUser: Subject<User> = new Subject<User>();
 
   private updates: Subject<any> = new Subject<any>();
   private create: Subject<User> = new Subject<User>();
 
+  private userListMap: Map<string, User> = new Map<string, User>();
+
+  newUser: Subject<User> = new Subject<User>();
   userList: Observable<User[]>;
 
-  constructor() {
+  constructor(private localStorage: LocalStorage) {
+
+    let init:User[] = this.localStorage.hasObject('contacts') ? this.localStorage.getObject('contacts') : [];
 
     this.userList = this.updates.scan((users:User[], user:User) => {
       console.log('Scan contacts: ', users, user);
-      users.push(user);
+
+      users.forEach((user:User) => {
+        this.userListMap.set(user.userURL, user);
+      });
+
+      let userFind = users.find((value:User) => {
+        return value.userURL === user.userURL;
+      });
+      if (!userFind) {
+        users.push(user);
+        this.localStorage.setObject('contacts', users);
+      }
+
       return users;
-    }, initialUsers)
+    }, init)
     .publishReplay(1)
     .refCount();
 
     this.create.map((user:User, index:number) => {
-      return user;
+      console.log('Create new contact', user);
+      return new User(user);
     }).subscribe(this.updates);
 
     this.newUser.subscribe(this.create);
@@ -42,20 +54,13 @@ export class ContactService {
   }
 
   setContacts(users:User[] = []):Observable<User[]> {
-    let init:Subject<User[]> = new BehaviorSubject<User[]>(users);
 
-    init.map((users:User[], index:number) => {
-      console.log('Map users: ', users, index);
-      return users.map((user:User) => {
-        return new User(user);
+    /*users.forEach((user:User) => {
+      this.userList.forEach((value:User[]) => {
+        console.log('Set contacts: ', value, user);
+        return value.filter((current:User) => {return current.userURL === user.userURL})
       });
-    }).combineLatest(this.updates, (users:User[], user:User) => {
-      console.log('Combine: ', users, user);
-      users.push(user);
-      return users;
-    }).subscribe((b:any) => { /* console.log('B: 0', b); */ })
-
-    this.userList = init.asObservable(); 
+    })*/
 
     return this.userList;
   }
@@ -84,14 +89,11 @@ export class ContactService {
 
   }
 
-  getContact(userURL:string):Observable<User> {
-    console.log('Get User includes:', userURL);
-
-    return this.userList.flatMap((users:User[]) => users).filter((user:User) => {
-      console.log(user.userURL === userURL, user.userURL.includes(userURL))
-      return user.userURL === userURL || user.userURL.includes(userURL);
-    }).map((user:User) => user)
-
+  getContact(userURL:string):User {
+    console.log('Get User includes:', userURL, this.userListMap.get(userURL));
+    let user = this.userListMap.get(userURL);
+    console.log('Contact found: ', user);
+    return user;
   }
 
 }

@@ -34,7 +34,6 @@ export class ContextualCommComponent implements OnInit {
     private contactService: ContactService) {}
 
   // Load data ones componet is ready
-    // Load data ones componet is ready
   ngOnInit() {
 
     console.log('[ContextualComm View - onInit]');
@@ -44,6 +43,10 @@ export class ContextualCommComponent implements OnInit {
 
       this.messageService.setMessages(data.context.messages);
       this.users = this.contactService.setContacts(data.context.users);
+
+      this.users.subscribe((users:User[]) => {
+        console.log('THIS USERS: ', users);
+      })
 
     });
   }

@@ -34,7 +34,17 @@ export class ContextualCommResolve implements Resolve<ContextualComm> {
     return new Promise((resolve, reject) => {
 
       // FIX this is to remove is temporary
-      this.chatService.create(name, [], []).then((chatController: any) => {
+      let participants:any = [];
+      let domains:any =  [];
+      if (name === 'work') {
+        participants.push('openidtest10@gmail.com');
+        domains.push('hybroker.rethink.ptinovacao.pt')
+      } else if (name === 'team1') {
+        participants.push('openidtest20@gmail.com');
+        domains.push('hybroker.rethink.ptinovacao.pt')
+      }
+
+      this.chatService.create(name, participants, domains).then((chatController: any) => {
         console.log('Create chat service for all my contacts', chatController);
         return this.contextService.create(name, chatController.dataObject, context)
       }, (error) => {
@@ -48,7 +58,7 @@ export class ContextualCommResolve implements Resolve<ContextualComm> {
     
     // TODO this is the correct way.. but we can't reuse the chatController
     // TODO the solution is implement the dataObject reusing;
-/*      this.contextService.getContextByName(name).then((contextualComm:ContextualComm) => {
+/*    this.contextService.getContextByName(name).then((contextualComm:ContextualComm) => {
         resolve(contextualComm);
       }).catch((error) => {
         console.info('Creating the context ', name, context, ' chat group');

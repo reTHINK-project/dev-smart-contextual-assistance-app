@@ -57,12 +57,9 @@ export class MessageService {
 
   reciveMessag(message: any) {
 
-    this.contactService.getContact(message.identity.userProfile.userURL).subscribe((user) => {
-      console.log('Recive Message from User: ', user);
+    let user:User = this.contactService.getContact(message.identity.userProfile.userURL);
+    this.message(user, message);
 
-      this.message(user, message);
-    });
-    
   }
 
   addMessage(message:any) {

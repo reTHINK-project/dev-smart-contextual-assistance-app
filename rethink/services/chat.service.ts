@@ -110,7 +110,6 @@ export class ChatService {
         this.chatController = chatController;
         console.log('[Chat Created]', chatController)
 
-        let chatName:string = chatController.dataObject.data.name;
         this.prepareHyperty();
 
         resolve(chatController);
