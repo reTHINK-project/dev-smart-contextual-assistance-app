@@ -164,7 +164,6 @@ export class ContextService {
     console.log('Active Context:', this.activeContext);
     let contextName = this.activeContext.name;
     let context:ContextualComm = this.activeContext
-    context.messages.push(message);
     this.localStorage.setObject(contextName, context);
 
     console.log('[Context Update messages]', contextName, context);
@@ -174,7 +173,6 @@ export class ContextService {
     console.log('Active Context:', this.activeContext);
     let contextName = this.activeContext.name;
     let context:ContextualComm = this.activeContext
-    context.users.push(user);
     this.localStorage.setObject(contextName, context);
 
     console.log('[Context Update contacts]', contextName, context);

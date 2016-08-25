@@ -25,11 +25,11 @@ export class RethinkService {
 
   private currentUser: User;
 
-  public set setCurrentUser(v : User) {
+  public set setCurrentUser(v: User) {
     this.currentUser = v;
   }
 
-  public get getCurrentUser() : User {
+  public get getCurrentUser():User {
     return this.currentUser;
   }
 

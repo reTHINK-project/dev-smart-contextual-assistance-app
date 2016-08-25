@@ -7,6 +7,7 @@ import { User } from '../models/models';
 
 // Services
 import { LocalStorage } from './storage.service';
+import { RethinkService } from './rethink.service';
 import { ContextService } from './context.service';
 
 @Injectable()
@@ -20,26 +21,37 @@ export class ContactService {
   newUser: Subject<User> = new Subject<User>();
   userList: Observable<User[]>;
 
-  constructor(private localStorage: LocalStorage) {
+  constructor(private localStorage: LocalStorage, private rethinkService: RethinkService){
 
     let init:User[] = this.localStorage.hasObject('contacts') ? this.localStorage.getObject('contacts') : [];
 
     this.userList = this.updates.scan((users:User[], user:User) => {
-      console.log('Scan contacts: ', users, user);
+      console.log('Scan contacts: ', users, user);     
 
       users.forEach((user:User) => {
         this.userListMap.set(user.userURL, user);
       });
 
+      let me:User = this.rethinkService.getCurrentUser;
+
+      let meFind = users.findIndex((value:User) => {
+        return value.userURL === me.userURL;
+      })
+
       let userFind = users.find((value:User) => {
         return value.userURL === user.userURL;
       });
+
       if (!userFind) {
         users.push(user);
         this.localStorage.setObject('contacts', users);
       }
 
-      return users;
+      let a = users.filter((user:User) => {
+        return user.userURL !== me.userURL;
+      });
+
+      return a;
     }, init)
     .publishReplay(1)
     .refCount();
