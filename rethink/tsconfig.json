@@ -47,7 +47,7 @@
 		"components/rethink/hypertyResource/file/fileEvent.component.ts",
 		"components/rethink/hypertyResource/video/video.component.ts",
 		"components/rethink/userIdentity/userIdentity.component.ts",
-		"services/app.service.ts",
+		"services/rethink.service.ts",
 		"services/authGuard.service.ts",
 		"services/chat.service.ts",
 		"services/contact.service.ts",

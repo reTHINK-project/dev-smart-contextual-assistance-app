@@ -3,7 +3,7 @@ import { ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 // Services
-import { AppService } from '../../services/services';
+import { RethinkService } from '../../services/services';
 
 // Models
 import { User } from '../../models/models';
@@ -29,7 +29,7 @@ export class ContextualCommUsersComponent implements OnInit {
 
   private contactsFilter:Observable<User[]>;
 
-  constructor(private route: ActivatedRoute, private appService:AppService) {}
+  constructor(private route: ActivatedRoute, private appService:RethinkService) {}
 
   // Load data ones componet is ready
   ngOnInit() {

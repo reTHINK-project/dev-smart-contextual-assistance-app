@@ -3,7 +3,7 @@ import { Injectable, bind } from '@angular/core';
 import rethink from 'runtime-browser';
 
 // Services
-import { AppService } from './app.service';
+import { RethinkService } from './rethink.service';
 import { MessageService } from './message.service';
 import { ContactService } from './contact.service';
 import { ContextService } from './context.service';
@@ -31,7 +31,7 @@ export class ChatService {
   private _onInvitation:Function
 
   constructor(
-    private appService: AppService,
+    private appService: RethinkService,
     private contextService: ContextService,
     private contactService: ContactService,
     private messageService: MessageService

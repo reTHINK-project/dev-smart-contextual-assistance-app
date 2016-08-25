@@ -9,7 +9,7 @@ import { MySelfComponent } from './mySelf/my-self.component';
 import { User } from '../models/models';
 
 // Services
-import { AppService, ChatService, ContextService } from '../services/services';
+import { RethinkService, ChatService, ContextService } from '../services/services';
 
 @Component({
   selector: 'rethink-app',
@@ -30,22 +30,22 @@ export class RethinkComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private appService: AppService,
+    private rethinkService: RethinkService,
     private chatService: ChatService) {
 
     this.status = 'Loading runtime;';
-    this.appService.loadRuntime().then((runtime) => {
+    this.rethinkService.loadRuntime().then((runtime) => {
       this.status = 'Loading hyperty chat service;';
       return this.chatService.getHyperty()
     })
     .then((hyperty) => {
       this.status = 'Getting your identity';
-      return this.appService.getIdentity(hyperty)
+      return this.rethinkService.getIdentity(hyperty)
     }, (error) => {
       this.status = error;
     })
     .then((user: any) => {
-      this.appService.setCurrentUser = user;
+      this.rethinkService.setCurrentUser = user;
       this.myIdentity = user;
       this.status = 'The app is ready to be used';
     })
@@ -55,10 +55,10 @@ export class RethinkComponent implements OnInit {
   // Load data ones componet is ready
   ngOnInit() {
 
-    this.appService.isAuthenticated().subscribe((logged) => {
+    this.rethinkService.isAuthenticated().subscribe((logged) => {
       console.log('logged: ', logged);
       if (logged) {
-        console.log('Redirect:', this.appService.redirectUrl);
+        console.log('Redirect:', this.rethinkService.redirectUrl);
 
         let navigationExtras: NavigationExtras = {
           preserveQueryParams: true,
@@ -67,7 +67,7 @@ export class RethinkComponent implements OnInit {
 
         this.ready = true;
 
-        this.router.navigate([this.appService.redirectUrl], navigationExtras);
+        this.router.navigate([this.rethinkService.redirectUrl], navigationExtras);
       }
     })
 

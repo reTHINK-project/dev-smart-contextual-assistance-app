@@ -2,7 +2,7 @@ import { Injectable, Input, bind } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 
 // Services
-import { AppService } from './app.service';
+import { RethinkService } from './rethink.service';
 import { LocalStorage } from './storage.service';
 import { ContextService } from './context.service';
 import { ContactService } from './contact.service';
@@ -21,7 +21,7 @@ export class MessageService {
   private updates: Subject<Message> = new Subject<Message>();
 
   constructor(
-    private appService:AppService,
+    private appService:RethinkService,
     private localStorage:LocalStorage,
     private contactService:ContactService
   ) {

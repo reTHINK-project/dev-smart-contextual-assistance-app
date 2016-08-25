@@ -11,7 +11,7 @@ import { Context } from '../comp/context/context';
 import { User } from '../models/models';
 
 @Injectable()
-export class AppService {
+export class RethinkService {
 
   domain = 'hybroker.rethink.ptinovacao.pt'
   runtimeURL = 'https://catalogue.' + this.domain + '/.well-known/runtime/Runtime';
@@ -100,7 +100,3 @@ export class AppService {
   }
 
 }
-
-export var appServiceInjectables: Array<any> = [
-  bind(AppService).toClass(AppService)
-];

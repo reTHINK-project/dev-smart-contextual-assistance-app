@@ -1,14 +1,7 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
 
-import rethink from 'runtime-browser';
-
 // Services
-import  { AppService } from './app.service';
-
-// Interfaces
-import {Activity} from '../comp/activity/activity';
-import {Contact} from '../comp/contact/contact';
-import {Context} from '../comp/context/context';
+import  { RethinkService } from './rethink.service';
 
 @Injectable()
 export class VideoService {
@@ -20,7 +13,7 @@ export class VideoService {
 
   private runtime: any
 
-  constructor(private appService: AppService) {
+  constructor(private appService: RethinkService) {
 
   }
 

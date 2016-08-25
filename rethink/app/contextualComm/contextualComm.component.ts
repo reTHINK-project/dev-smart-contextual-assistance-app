@@ -3,7 +3,7 @@ import { ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 // Services
-import { AppService, ChatService, ContextService, MessageService, ContactService } from '../../services/services';
+import { RethinkService, ChatService, ContextService, MessageService, ContactService } from '../../services/services';
 
 // Models
 import { Message, User, ContextualComm } from '../../models/models';
@@ -28,7 +28,7 @@ export class ContextualCommComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute, 
-    private appService: AppService,
+    private appService: RethinkService,
     private messageService: MessageService,
     private contextService: ContextService,
     private contactService: ContactService) {}
