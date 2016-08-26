@@ -4,6 +4,8 @@ module.exports = {
   port: 443,
   ghostMode: false,
   codeSync: false,
+  logFileChanges: true,
+  proxy: false,
   https: {
     "key": "rethink-certificate.key",
     "cert": "rethink-certificate.cert"

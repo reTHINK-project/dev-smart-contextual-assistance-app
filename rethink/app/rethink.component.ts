@@ -62,12 +62,15 @@ export class RethinkComponent implements OnInit {
 
         let navigationExtras: NavigationExtras = {
           preserveQueryParams: true,
-          preserveFragment: true
+          preserveFragment: true,
+          skipLocationChange: true
         };
 
         this.ready = true;
 
-        this.router.navigate([this.rethinkService.redirectUrl], navigationExtras);
+        this.router.navigate([decodeURIComponent(this.rethinkService.redirectUrl)], navigationExtras);
+
+        console.log('REDIRECT: ', this.router.url );
       }
     })
 

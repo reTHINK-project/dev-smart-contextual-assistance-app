@@ -1,14 +1,14 @@
 import { Routes, RouterModule }  from '@angular/router'
 
 // Services
-import { ContextualCommResolve } from '../../services/contextualComm.resolve';
+import { ContextualCommResolve, UserResolve } from '../../services/resolves/resolves';
 
 // Components
 import { ContextualCommComponent } from './contextualComm.component'
 import { ActivityComponent } from '../activity/activity.component';
+import { UserComponent } from '../user/user.component';
 
-
-// TODO Configure the Resolve
+// TODO: Optimize the Resolve Context
 export const context: Routes = [
   {
     path: ':context',
@@ -19,7 +19,18 @@ export const context: Routes = [
     children: [
       {
         path: '',
-        component: ActivityComponent
+        component: ActivityComponent,
+        resolve: {
+          context: ContextualCommResolve
+        },
+      },
+      {
+        path: 'user/:user',
+        component: UserComponent,
+        resolve: {
+          user: UserResolve,
+          // context: ContextualCommResolve
+        }
       }
     ]
   },
@@ -32,7 +43,18 @@ export const context: Routes = [
     children:[
       {
         path: '',
-        component: ActivityComponent
+        component: ActivityComponent,
+        resolve: {
+          context: ContextualCommResolve
+        },
+      },
+      {
+        path: 'user/:user',
+        component: UserComponent,
+        resolve: {
+          user: UserResolve,
+          context: ContextualCommResolve
+        }
       }
     ]
   }

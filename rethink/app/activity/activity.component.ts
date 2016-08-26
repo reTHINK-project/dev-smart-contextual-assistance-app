@@ -32,7 +32,9 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute, 
     private router: Router,
     private chatService: ChatService,
-    private messageService: MessageService) {}
+    private messageService: MessageService) {
+
+  }
 
   // Load data ones componet is ready
   ngOnInit() {
@@ -43,6 +45,7 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.messages = this.messageService.messageList;
+
   }
 
   ngAfterViewInit() {
@@ -59,6 +62,7 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
     this.chatService.send(message).then((message:any) => {
       console.log('[Activity View - onMessage] - message sent', message);
     })
+    
   }
 
 }

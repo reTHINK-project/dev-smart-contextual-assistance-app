@@ -5,13 +5,14 @@ import { CommonModule }   from '@angular/common';
 // Components
 import { ContextualCommComponent } from './contextualComm.component';
 import { ActivityComponent } from '../activity/activity.component';
+import { UserComponent } from '../user/user.component';
 
 // Routes
 import { contextRoutes } from './contextualComm.routing';
 
 // Services
 import { AuthGuard } from '../../services/services'
-import { ContextualCommResolve } from '../../services/contextualComm.resolve';
+import { resolvesInjectables } from '../../services/resolves/resolves';
 
 @NgModule({
   imports: [
@@ -21,11 +22,12 @@ import { ContextualCommResolve } from '../../services/contextualComm.resolve';
   ],
   declarations: [
     ContextualCommComponent,
-    ActivityComponent
+    ActivityComponent,
+    UserComponent
   ],
   providers: [
     AuthGuard,
-    ContextualCommResolve
+    resolvesInjectables
   ]
 })
 export class ContextualCommModule {}

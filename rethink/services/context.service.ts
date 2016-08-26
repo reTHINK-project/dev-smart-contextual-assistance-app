@@ -100,15 +100,16 @@ export class ContextService {
         console.info('[Active Context: ]', context);
         this.activeContext = context;
 
+        context.url = dataObject.url,
+
         context.communication = <Communication>(dataObject.data);
 
-        if (parent) context.parent = parent;
-
-        context.url = dataObject.url,
         context.users = dataObject.data.participants.map((item:any) => {
           this.contactService.addContact(item);
           return item
         });
+
+        if (parent) context.parent = parent;
 
         // Update the localStorage context
         this.localStorage.setObject(context.name, context);
@@ -173,6 +174,7 @@ export class ContextService {
     console.log('Active Context:', this.activeContext);
     let contextName = this.activeContext.name;
     let context:ContextualComm = this.activeContext
+    context.users.push(user);
     this.localStorage.setObject(contextName, context);
 
     console.log('[Context Update contacts]', contextName, context);

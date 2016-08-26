@@ -4,39 +4,53 @@ import { Router, Resolve,
 import { Observable }             from 'rxjs/Observable';
 
 // Model
-import { ContextualComm } from '../models/models';
+import { ContextualComm } from '../../models/models';
 
 // Service
-import { ContextService, MessageService, ChatService } from './services';
+import { ContextService, MessageService, ChatService, RethinkService } from '../services';
 
 @Injectable()
 export class ContextualCommResolve implements Resolve<ContextualComm> {
 
   constructor(
-    private contextService: ContextService,
+    private router: Router,
     private chatService: ChatService,
     private messageService: MessageService,
-    private router: Router) {}
+    private rethinkService: RethinkService,
+    private contextService: ContextService
+    ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<ContextualComm> | Promise<ContextualComm> | ContextualComm {
 
     let context = route.params['context'] 
     let task = route.params['id'];
+    let user = route.params['user'];
     let name = context;
 
-    this.contextService.setContextPath = context;
-    this.contextService.setTaskPath = task;
+    if (context) {
+      this.contextService.setContextPath = context;
+    }
 
     if (task) {
-      name = task; 
+      this.contextService.setTaskPath = task;
+
+      name = task;
+      context = this.contextService.getContextPath;
     }
+
+    if (user) {
+      name = user;
+      context = this.contextService.getContextPath;
+    }
+
+    console.log('[Contextual Comm] Resolve: ', route.params );
 
     return new Promise((resolve, reject) => {
 
       // FIX this is to remove is temporary
       let participants:any = [];
       let domains:any =  [];
-      if (name === 'work') {
+      if (name === 'work' && this.rethinkService.getCurrentUser.username === 'vitorsilva@boldint.com' ) {
         participants.push('openidtest10@gmail.com');
         domains.push('hybroker.rethink.ptinovacao.pt')
       } else if (name === 'team1') {

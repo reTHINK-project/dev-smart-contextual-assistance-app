@@ -1,5 +1,5 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-import { ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
+import { ROUTER_DIRECTIVES, ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 // Services
@@ -27,6 +27,7 @@ export class ContextualCommComponent implements OnInit {
   private users:Observable<User[]>;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute, 
     private appService: RethinkService,
     private messageService: MessageService,
@@ -41,12 +42,8 @@ export class ContextualCommComponent implements OnInit {
     this.route.data.forEach((data: { context: ContextualComm }) => {
       console.log('Resolve Data:', data);
 
-      this.messageService.setMessages(data.context.messages);
       this.users = this.contactService.setContacts(data.context.users);
-
-      this.users.subscribe((users:User[]) => {
-        console.log('THIS USERS: ', users);
-      })
+      this.messageService.setMessages(data.context.messages);
 
     });
   }
@@ -54,13 +51,19 @@ export class ContextualCommComponent implements OnInit {
   onContactClick(user: User) {
     console.log('(contact-click)', user)
 
-    user.status = 'offline';
-
     let context = this.contextService.getContextPath;
     let task = this.contextService.getTaskPath;
-    let path = context + "/" + task;
+    let path:string[] = [];
 
-    // this.router.navigate(['/' + context, '/' + task, user.guid]);
+    path.push(context);
+    if (task) {
+      path.push(task);
+    }
+    path.push('user');
+    path.push(encodeURI(user.guid));
+
+    this.router.navigate(path);
+
   }
 
   onContactAdd() {

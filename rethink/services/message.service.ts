@@ -26,7 +26,7 @@ export class MessageService {
     private contactService:ContactService
   ) {
 
-    this.messages = this.updates.scan((messages:Message[], message:Message) => {
+    this.messageList = this.updates.scan((messages:Message[], message:Message) => {
       // console.log('Scan message', messages, message);
       messages.push(new Message(message));
       return messages;
@@ -43,6 +43,7 @@ export class MessageService {
   }
 
   setMessages(messages:Message[] = []):Observable<Message[]> {
+
     let init:Subject<Message[]> = new BehaviorSubject<Message[]>(messages);
 
     init.combineLatest(this.updates, (messages:Message[], message:Message) => {
@@ -51,14 +52,14 @@ export class MessageService {
       return messages;
     }).subscribe((b:any) => { /* console.log('B: 0', b); */ })
 
-    this.messageList = init.asObservable();
-    return this.messageList;
+    return init.asObservable();
   }
 
   reciveMessag(message: any) {
 
-    let user:User = this.contactService.getContact(message.identity.userProfile.userURL);
-    this.message(user, message);
+    this.contactService.getContact(message.identity.userProfile.userURL).subscribe((user:User) => {
+      this.message(user, message);
+    })
 
   }
 

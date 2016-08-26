@@ -65,6 +65,8 @@ export class ChatService {
     this.chatGroupManager.onInvitation((event:any) => {
       console.log('[onInvitation]', event);
 
+      this.contactService.addContact(new User(event.identity.userProfile));
+
       this.join(event.url).then(a => {
         console.log(a);
       }).catch(reason => {
