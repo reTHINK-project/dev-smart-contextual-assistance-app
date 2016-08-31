@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ComponentResolver, ViewContainerRef } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 
 // Application Components
@@ -31,7 +31,12 @@ export class RethinkComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private rethinkService: RethinkService,
-    private chatService: ChatService) {
+    private chatService: ChatService,
+    private compiler: ComponentResolver,
+    private viewContainerRef: ViewContainerRef) {
+
+    this.compiler.clearCache();
+    this.viewContainerRef = viewContainerRef;
 
     this.status = 'Loading runtime;';
     this.rethinkService.loadRuntime().then((runtime) => {

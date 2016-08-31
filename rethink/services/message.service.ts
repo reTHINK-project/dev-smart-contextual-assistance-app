@@ -2,7 +2,7 @@ import { Injectable, Input, bind } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 
 // Services
-import { RethinkService } from './rethink.service';
+import { RethinkService } from './rethink/rethink.service';
 import { LocalStorage } from './storage.service';
 import { ContextService } from './context.service';
 import { ContactService } from './contact.service';
@@ -47,12 +47,14 @@ export class MessageService {
     let init:Subject<Message[]> = new BehaviorSubject<Message[]>(messages);
 
     init.combineLatest(this.updates, (messages:Message[], message:Message) => {
-      // console.log('Combine: ', messages, message);
+      console.log('Combine: ', messages, message);
       messages.push(message);
       return messages;
     }).subscribe((b:any) => { /* console.log('B: 0', b); */ })
 
-    return init.asObservable();
+    this.messageList = init.asObservable();
+
+    return this.messageList;
   }
 
   reciveMessag(message: any) {

@@ -45,7 +45,7 @@ export class ContextService {
 
   public get getTaskPath(): string {
     return this.taskPath;
-  }  
+  }
 
   constructor(
     private localStorage:LocalStorage,
@@ -94,7 +94,7 @@ export class ContextService {
 
         } else {
           console.info('[Get the context to localStorage: ]', dataObject.data.name);
-          context = <ContextualComm> this.localStorage.getObject(dataObject.data.name);
+          context = this.localStorage.getObject(dataObject.data.name) as ContextualComm;
         }
 
         console.info('[Active Context: ]', context);

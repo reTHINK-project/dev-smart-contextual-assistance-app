@@ -4,11 +4,7 @@ import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
 
 import rethink from 'runtime-browser';
 
-// Interfaces
-import { Activity } from '../comp/activity/activity';
-import { Context } from '../comp/context/context';
-
-import { User } from '../models/models';
+import { User } from '../../models/models';
 
 @Injectable()
 export class RethinkService {

@@ -22,41 +22,33 @@ export class ContextualCommResolve implements Resolve<ContextualComm> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<ContextualComm> | Promise<ContextualComm> | ContextualComm {
 
-    let context = route.params['context'] 
-    let task = route.params['id'];
-    let user = route.params['user'];
-    let name = context;
-
-    if (context) {
-      this.contextService.setContextPath = context;
-    }
-
-    if (task) {
-      this.contextService.setTaskPath = task;
-
-      name = task;
-      context = this.contextService.getContextPath;
-    }
-
-    if (user) {
-      name = user;
-      context = this.contextService.getContextPath;
-    }
-
-    console.log('[Contextual Comm] Resolve: ', route.params );
-
     return new Promise((resolve, reject) => {
 
-      // FIX this is to remove is temporary
+      let context = route.params['context'] 
+      let task = route.params['id'];
+      let user = route.params['user'];
+      let name = context;
+
+      if (context) {
+        this.contextService.setContextPath = context;
+      }
+
+      if (task) {
+        this.contextService.setTaskPath = task;
+
+        name = task;
+        context = this.contextService.getContextPath;
+      }
+
+      if (user) {
+        name = user;
+        context = this.contextService.getContextPath;
+      }
+
+      console.log('[Contextual Comm] Resolve: ', route.params, name, context);
+
       let participants:any = [];
       let domains:any =  [];
-      if (name === 'work' && this.rethinkService.getCurrentUser.username === 'vitorsilva@boldint.com' ) {
-        participants.push('openidtest10@gmail.com');
-        domains.push('hybroker.rethink.ptinovacao.pt')
-      } else if (name === 'team1') {
-        participants.push('openidtest20@gmail.com');
-        domains.push('hybroker.rethink.ptinovacao.pt')
-      }
 
       this.chatService.create(name, participants, domains).then((chatController: any) => {
         console.log('Create chat service for all my contacts', chatController);

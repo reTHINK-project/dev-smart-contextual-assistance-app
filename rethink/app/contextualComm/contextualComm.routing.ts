@@ -6,7 +6,8 @@ import { ContextualCommResolve, UserResolve } from '../../services/resolves/reso
 // Components
 import { ContextualCommComponent } from './contextualComm.component'
 import { ActivityComponent } from '../activity/activity.component';
-import { UserComponent } from '../user/user.component';
+
+import { userRoutes } from '../user/user.routing';
 
 // TODO: Optimize the Resolve Context
 export const context: Routes = [
@@ -20,18 +21,12 @@ export const context: Routes = [
       {
         path: '',
         component: ActivityComponent,
-        resolve: {
-          context: ContextualCommResolve
-        },
       },
       {
-        path: 'user/:user',
-        component: UserComponent,
-        resolve: {
-          user: UserResolve,
-          // context: ContextualCommResolve
-        }
-      }
+        path: ':id',
+        component: ActivityComponent,
+      },
+      ...userRoutes
     ]
   },
   {
@@ -43,19 +38,9 @@ export const context: Routes = [
     children:[
       {
         path: '',
-        component: ActivityComponent,
-        resolve: {
-          context: ContextualCommResolve
-        },
+        component: ActivityComponent
       },
-      {
-        path: 'user/:user',
-        component: UserComponent,
-        resolve: {
-          user: UserResolve,
-          context: ContextualCommResolve
-        }
-      }
+      ...userRoutes
     ]
   }
 ];

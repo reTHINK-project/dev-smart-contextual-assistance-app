@@ -7,7 +7,7 @@ import { User } from '../models/models';
 
 // Services
 import { LocalStorage } from './storage.service';
-import { RethinkService } from './rethink.service';
+import { RethinkService } from './rethink/rethink.service';
 import { ContextService } from './context.service';
 
 @Injectable()
@@ -15,6 +15,7 @@ export class ContactService {
 
   private updates: Subject<any> = new Subject<any>();
   private create: Subject<User> = new Subject<User>();
+  private contacts: Observable<User[]>;
 
   private userListMap: Map<string, User> = new Map<string, User>();
 
@@ -29,8 +30,21 @@ export class ContactService {
       this.userListMap.set(user.userURL, user);
     });
 
-    this.userList = this.updates.scan((users:User[], user:User) => {
-      console.log('Scan contacts: ', users, user);
+    let bSubject = new BehaviorSubject<User[]>(init);
+
+    this.userList = bSubject.asObservable().map((users:any[]) => {
+      console.log('map initial users:', users);
+      return users.map((value:any) => new User(value))
+    }).map((users:User[]) => {
+       let me:User = this.rethinkService.getCurrentUser;
+       console.log('filter initial users:', users);      
+       return users.filter((user:User) => {
+         return user.userURL !== me.userURL;
+       })
+    });
+
+    this.userList.combineLatest(this.updates, (users:User[], user:User) => {
+      console.log('Users: ', users, user);
 
       let me:User = this.rethinkService.getCurrentUser;
 
@@ -52,7 +66,13 @@ export class ContactService {
       });
 
       return a;
-    }, init)
+    });
+
+    this.userList = this.updates.scan((users:User[], user:User) => {
+      console.log('Scan contacts: ', users, user);
+      users.push(user)
+      return users;
+    }, [])
     .publishReplay(1)
     .refCount();
 
@@ -89,8 +109,8 @@ export class ContactService {
 
   }
 
-  getAllContacts() {
-
+  getAllContacts():Observable<User[]> {
+    return this.userList;
   }
 
   getContacts() {

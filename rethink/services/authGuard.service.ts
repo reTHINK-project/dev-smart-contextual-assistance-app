@@ -3,7 +3,7 @@ import { Router, Resolve, CanActivate,
          ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable }             from 'rxjs/Observable';
 
-import { RethinkService } from './rethink.service';
+import { RethinkService } from './rethink/rethink.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

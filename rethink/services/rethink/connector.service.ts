@@ -4,7 +4,7 @@ import { Injectable, EventEmitter, Output } from '@angular/core';
 import  { RethinkService } from './rethink.service';
 
 @Injectable()
-export class VideoService {
+export class ConnectorService {
 
   hypertyURL = 'hyperty-catalogue://catalogue.' + this.appService.domain + '/.well-known/hyperty/Connector'
   controller: any

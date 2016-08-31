@@ -28,9 +28,9 @@ export class ActivityComponent implements OnInit, AfterViewInit, OnDestroy {
   private messages:Observable<Message[]>;
   private chatActive: boolean = false;
 
-  constructor(
-    private route: ActivatedRoute, 
+  constructor( 
     private router: Router,
+    private route: ActivatedRoute,
     private chatService: ChatService,
     private messageService: MessageService) {
 

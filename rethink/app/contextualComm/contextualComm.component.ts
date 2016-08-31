@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
 import { ROUTER_DIRECTIVES, ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
@@ -11,24 +11,29 @@ import { Message, User, ContextualComm } from '../../models/models';
 
 // Components
 import { ContextualCommUsersComponent } from '../contextualCommUsers/contextualCommUsers.component'
+import { AddUserComponent } from '../user/add.user.component';
 
 @Component({
   selector: 'context-view',
   templateUrl: 'app/contextualComm/contextualComm.component.html',
   directives: [
     ROUTER_DIRECTIVES,
-    ContextualCommUsersComponent
+    ContextualCommUsersComponent,
+    AddUserComponent
   ]
 })
 export class ContextualCommComponent implements OnInit {
 
   @HostBinding('class') hostClass = 'context-view';
 
+  @ViewChild(AddUserComponent) addView:AddUserComponent
+
   private users:Observable<User[]>;
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
+    private chatService: ChatService,
     private appService: RethinkService,
     private messageService: MessageService,
     private contextService: ContextService,
@@ -67,11 +72,15 @@ export class ContextualCommComponent implements OnInit {
   }
 
   onContactAdd() {
-/*
-    this.chatService.invite(['openidtest10@gmail.com', 'openidtest20@gmail.com'], ['hybroker.rethink.ptinovacao.pt', 'hybroker.rethink.ptinovacao.pt']).then((chatController: any) => {
-      console.log('[Users as joined with success]', chatController)
-    })*/
+    this.addView.toogle();
+  }
 
+  onCloseEvent() {
+    this.addView.toogle();
+  }
+
+  onInviteEvent(value:any) {
+    console.log('Invite some one: ', value);
   }
 
 

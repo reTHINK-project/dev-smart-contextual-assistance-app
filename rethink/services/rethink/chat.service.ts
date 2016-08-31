@@ -1,17 +1,12 @@
-import { Injectable, bind } from '@angular/core';
-
-import rethink from 'runtime-browser';
+import { Injectable } from '@angular/core';
 
 // Services
 import { RethinkService } from './rethink.service';
-import { MessageService } from './message.service';
-import { ContactService } from './contact.service';
-import { ContextService } from './context.service';
+import { MessageService } from '../message.service';
+import { ContactService } from '../contact.service';
+import { ContextService } from '../context.service';
 
-// Interfaces
-import { Activity } from '../comp/activity/activity';
-
-import { User, Message, ContextualComm } from '../models/models';
+import { User, Message, ContextualComm } from '../../models/models';
 
 @Injectable()
 export class ChatService {
@@ -185,7 +180,3 @@ export class ChatService {
   }
 
 }
-
-export var chatServiceInjectables: Array<any> = [
-  bind(ChatService).toClass(ChatService)
-];

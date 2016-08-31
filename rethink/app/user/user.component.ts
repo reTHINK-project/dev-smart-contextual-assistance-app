@@ -1,5 +1,5 @@
 import { Component, OnInit, HostBinding, Input, Output, EventEmitter } from '@angular/core';
-import { ROUTER_DIRECTIVES, ActivatedRoute, Router } from '@angular/router';
+import { ROUTER_DIRECTIVES, ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 // Services
@@ -61,7 +61,7 @@ export class UserComponent implements OnInit {
     })
     
   }
-  
+
   onCloseEvent() {
     console.log('Close:');
     //history.back();

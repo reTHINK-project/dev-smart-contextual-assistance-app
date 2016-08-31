@@ -20,6 +20,8 @@ export class UserResolve implements Resolve<User> {
 
     let user:string = route.params['user'];
 
+    console.log('[User] Resolve: ', user, route );
+
     // TODO: check why the Observable don't work;
     return new Promise((resolve, reject) => {
 

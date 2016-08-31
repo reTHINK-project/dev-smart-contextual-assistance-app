@@ -8,13 +8,16 @@
     'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
     '@angular':                   'node_modules/@angular',
     'runtime-browser':            'node_modules/runtime-browser/bin',
-    'webrtc-adapter':             'node_modules/webrtc-adapter/out'
+    'webrtc-adapter':             'node_modules/webrtc-adapter/out',
+    'ng2-bootstrap':              'node_modules/ng2-bootstrap',
+    'moment':                     'node_modules/moment/moment.js'
   };
 
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
     'main':                       { main: 'main.js', defaultExtension: 'js' },
     'symbol-observable':          { main: 'index.js'},
+    'ng2-bootstrap':              { main: 'ng2-bootstrap.js', defaultExtension: 'js'},
     'rxjs':                       { defaultExtension: 'js' },
     'angular2-in-memory-web-api': { defaultExtension: 'js' },
     'runtime-browser':            { main: 'rethink.js', defaultExtension: 'js' },

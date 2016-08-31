@@ -1,6 +1,6 @@
 import { NgModule, enableProdMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { disableDeprecatedForms, provideForms, FormsModule } from '@angular/forms';
 
 // App Component
 import { RethinkComponent } from './rethink.component';
@@ -25,7 +25,9 @@ import { servicesInjectables } from '../services/services';
     HomeComponent
   ],
   providers: [
-    servicesInjectables
+    servicesInjectables,
+    disableDeprecatedForms,
+    provideForms
   ],
   bootstrap: [ RethinkComponent ]
 })
