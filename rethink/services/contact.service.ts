@@ -27,7 +27,7 @@ export class ContactService {
     let init:User[] = this.localStorage.hasObject('contacts') ? this.localStorage.getObject('contacts') : [];
 
     init.forEach((user:User) => {
-      this.userListMap.set(user.userURL, user);
+      this.userListMap.set(user.userURL, new User(user));
     });
 
     this.users = this.updates.scan((users:User[], user:User) => {
@@ -139,14 +139,16 @@ export class ContactService {
 
   }
 
-  getContact(userURL:string):Observable<User> {
+  getContact(userURL:string):User {
     console.log('Get User includes:', userURL);
 
-    return this.userList.flatMap((users:User[]) => {
+    return this.userListMap.get(userURL);
+
+    /*return this.userList.map((users:User[]) => {
       return users.filter((user:User) => {
         return user.userURL.includes(userURL) || user.guid.includes(userURL) || user.username.includes(userURL);
       })
-    });
+    })*/
 
     /*let user:User = this.userListMap.entries()
       return user.userURL.includes(userURL) || user.guid.includes(userURL) || user.username.includes(userURL); 

@@ -93,6 +93,11 @@ export class ContextService {
           // Set the active context
           this.activeContext = context;
 
+          context.users = dataObject.data.participants.map((item:any) => {
+            this.contactService.addContact(item);
+            return new User(item);
+          });
+
           // Set this context to the context triggers;
           contextTrigger.trigger.push(context);
 
@@ -107,11 +112,6 @@ export class ContextService {
         context.url = dataObject.url,
 
         context.communication = <Communication>(dataObject.data);
-
-        context.users = dataObject.data.participants.map((item:any) => {
-          this.contactService.addContact(item);
-          return new User(item);
-        });
 
         if (parent) context.parent = parent;
 

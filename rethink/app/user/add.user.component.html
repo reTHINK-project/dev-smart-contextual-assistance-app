@@ -20,13 +20,13 @@ aria-labelled-by="">
                     </form>
                 </li>
 
-                <li class="quarter-padding" *ngFor="let user of contactList | async">
+                <li class="quarter-padding" *ngFor="let user of contactList | async" (click)="contactClick.emit(user)">
                     <div class="contact-avatar push-left">
                         <img src="{{user.avatar}}">
                         <span class="status {{user.status}}"><i class="fa fa-circle"></i></span>
                     </div>
                     <div class="all-70">
-                        <h4 class="contact-name"><a href="{{user.username}}" class="">{{user.cn}}</a></h4>
+                        <h4 class="contact-name"><a href="javascript:;" class="">{{user.cn}}</a></h4>
                     </div>
                     <div class="pointer">
                         <span class="action chat"><i class="fa fa-angle-right"></i></span>

@@ -32,7 +32,7 @@ export class MessageService {
 
     this.messages = this.updates.scan((messages:Message[], message:Message) => {
       console.log('Scan message', messages, message);
-      messages.push(new Message(message));
+      messages.push(message);
       return messages;
     }, this.init)
     .publishReplay(1)
@@ -40,30 +40,38 @@ export class MessageService {
 
     this.create.map((message:Message, index:number) => {
       // console.log('create message:', message);
-      return message;
+      return new Message(message);
     }).subscribe(this.updates);
 
     this.newMessage.subscribe(this.create);
 
     this.bSubject = new BehaviorSubject<Message[]>([]);
-    // ADD the scan messages;
-    this.messageList = this.bSubject.asObservable().merge(this.messages);
+    this.messageList = this.bSubject.asObservable()
+    
+    this.messageList.combineLatest(this.messages, (messages:Message[], values:Message[]) => {
+      console.log('COmbine Latest: ', messages, values);
+      return messages.concat(values);
+    });
     
   }
 
   setMessages(messages:Message[] = []) {
 
-    this.init = Array<any>();
-
+    this.init = [];
     this.bSubject.next(messages);
 
   }
 
   reciveMessag(message: any) {
 
-    this.contactService.getContact(message.identity.userProfile.userURL).subscribe((user:User) => {
-      this.message(user, message);
-    })
+    let user:User = this.contactService.getContact(message.identity.userProfile.userURL);
+    console.log('Recive Message from user:', user);
+
+    if (!user) {
+      user = new User(message.identity.userProfile);
+    }
+
+    this.message(user, message);
 
   }
 

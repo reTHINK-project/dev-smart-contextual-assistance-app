@@ -19,8 +19,9 @@ export class AddUserComponent implements OnInit {
 
   @Output() closeEvent = new EventEmitter();
   @Output() inviteEvent = new EventEmitter();
+  @Output() contactClick = new EventEmitter();
 
-  model = <any>{email: '', domain: 'hybroker.rethink.ptinovacao.pt'};
+  model = <any>{email: '', domain: ''};
 
   @Input() busy: boolean = false;
 
@@ -37,7 +38,7 @@ export class AddUserComponent implements OnInit {
 
 
   submitEvent() {
-    this.inviteEvent.emit( JSON.parse(JSON.stringify(this.model)) );
+    // this.inviteEvent.emit( JSON.parse(JSON.stringify(this.model)) );
 
     this.busy = true;
     this.chatService.invite([this.model.email], [this.model.domain])
@@ -45,6 +46,7 @@ export class AddUserComponent implements OnInit {
       console.log('[Users as joined with success]', chatController);
       setTimeout(() => {
         this.busy = false;
+        this.clean();
       }, 200);
       
     }).catch((error) => {
@@ -54,6 +56,7 @@ export class AddUserComponent implements OnInit {
   
   clean() {
     this.model.email = '';
+    this.model.domain = '';
   }
 
   show() {
