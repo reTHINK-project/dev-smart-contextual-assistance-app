@@ -3,8 +3,6 @@ import { Injectable, Output, EventEmitter, bind } from '@angular/core';
 import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
 import { Http, Response } from '@angular/http';
 
-import {config} from 
-
 import jquery from 'jquery';
 
 import rethink from 'runtime-browser';
