@@ -54,13 +54,6 @@ export class ContextualCommResolve implements Resolve<ContextualComm> {
       
       console.log('Users:', this.contextService.getActiveContext(context), participants, domains);
 
-/*      if (contextualComm) {
-        contextualComm.users.forEach((user:User) => {
-          participants.push(user.userURL);
-          domains.push(user.domain);
-        });
-      }*/
-
       this.chatService.create(name, participants, domains).then((chatController: any) => {
         console.log('Create chat service for all my contacts', chatController);
         return this.contextService.create(name, chatController.dataObject, context)
@@ -69,6 +62,9 @@ export class ContextualCommResolve implements Resolve<ContextualComm> {
         reject(error);
       }).then((contextualComm:ContextualComm) => {
         this.contextService.getContextByName(name).then((contextualComm:ContextualComm) => {
+
+          this.messageService.setMessages(contextualComm.messages);
+
           resolve(contextualComm);
         })
       });

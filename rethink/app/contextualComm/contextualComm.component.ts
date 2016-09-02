@@ -48,10 +48,8 @@ export class ContextualCommComponent implements OnInit {
 
     this.route.data.forEach((data: { context: ContextualComm }) => {
       console.log('Resolve Data:', data);
-
-      this.messageService.setMessages(data.context.messages);
-
     });
+
   }
 
   onContactClick(user: User) {

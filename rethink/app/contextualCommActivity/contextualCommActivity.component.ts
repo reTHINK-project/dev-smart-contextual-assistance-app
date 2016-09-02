@@ -39,20 +39,27 @@ export class ContextualCommActivityComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-
+    this.updateView();
   }
 
   updateView(): void {
-    let scrollPane: any = this.el.nativeElement;
-    let parentEl: any = scrollPane.offsetParent;
-    let top = scrollPane.offsetTop;
-    let parentElHeight = parentEl.offsetHeight;
 
-    // TODO: replace the number for the sender box height;
-    let height = parentElHeight - (top + 62);
-    scrollPane.style.height = height + 'px';
+    // TODO: Solve the problem of try to scroll and adjust height before the ngAfterViewInit
+    try {
+      let scrollPane: any = this.el.nativeElement;
+      let parentEl: any = scrollPane.offsetParent;
+      let top = scrollPane.offsetTop;
+      let parentElHeight = parentEl.offsetHeight;
 
-    this.scrollToBottom();
+      // TODO: replace the number for the sender box height;
+      let height = parentElHeight - (top + 62);
+      scrollPane.style.height = height + 'px';
+
+      this.scrollToBottom();
+    } catch (error) {
+      
+    }
+    
   }
 
   scrollToBottom(): void {

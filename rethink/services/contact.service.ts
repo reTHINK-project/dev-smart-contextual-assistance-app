@@ -40,6 +40,7 @@ export class ContactService {
 
       if (!userFind) {
         users.push(user);
+        this.userListMap.set(user.userURL, new User(user));
         this.localStorage.setObject('contacts', users);
       }
 
@@ -142,7 +143,22 @@ export class ContactService {
   getContact(userURL:string):User {
     console.log('Get User includes:', userURL);
 
-    return this.userListMap.get(userURL);
+    let found: boolean = false;
+    let user:User;
+    
+    while (!found) {
+      if (
+        this.userListMap.values().next().value.userURL.includes(userURL) ||
+        this.userListMap.values().next().value.guid.includes(userURL) ||
+        this.userListMap.values().next().value.username.includes(userURL) ) {
+          found = true;
+          user = this.userListMap.values().next().value;
+        } 
+    }
+
+    console.log('User found: ', user);
+
+    return user;
 
     /*return this.userList.map((users:User[]) => {
       return users.filter((user:User) => {

@@ -1,7 +1,7 @@
 import { Routes, RouterModule }  from '@angular/router';
 
 // Services
-import { UserResolve } from '../../services/resolves/resolves';
+import { UserResolve, ContextualCommResolve } from '../../services/resolves/resolves';
 
 // Components
 import { UserComponent } from '../user/user.component';
