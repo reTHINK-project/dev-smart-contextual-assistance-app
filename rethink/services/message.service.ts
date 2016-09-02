@@ -16,9 +16,13 @@ export class MessageService {
   messageList:Observable<Message[]>;
   newMessage: Subject<Message> = new Subject<Message>();
 
+  private bSubject:Subject<Message[]>;
   private messages: Observable<Message[]>;
   private create: Subject<Message> = new Subject<Message>();
   private updates: Subject<Message> = new Subject<Message>();
+
+
+  private init:Array<any> = Array<any>();
 
   constructor(
     private appService:RethinkService,
@@ -26,11 +30,11 @@ export class MessageService {
     private contactService:ContactService
   ) {
 
-    this.messageList = this.updates.scan((messages:Message[], message:Message) => {
-      // console.log('Scan message', messages, message);
+    this.messages = this.updates.scan((messages:Message[], message:Message) => {
+      console.log('Scan message', messages, message);
       messages.push(new Message(message));
       return messages;
-    }, [])
+    }, this.init)
     .publishReplay(1)
     .refCount();
 
@@ -40,21 +44,19 @@ export class MessageService {
     }).subscribe(this.updates);
 
     this.newMessage.subscribe(this.create);
+
+    this.bSubject = new BehaviorSubject<Message[]>([]);
+    // ADD the scan messages;
+    this.messageList = this.bSubject.asObservable().merge(this.messages);
+    
   }
 
-  setMessages(messages:Message[] = []):Observable<Message[]> {
+  setMessages(messages:Message[] = []) {
 
-    let init:Subject<Message[]> = new BehaviorSubject<Message[]>(messages);
+    this.init = Array<any>();
 
-    init.combineLatest(this.updates, (messages:Message[], message:Message) => {
-      console.log('Combine: ', messages, message);
-      messages.push(message);
-      return messages;
-    }).subscribe((b:any) => { /* console.log('B: 0', b); */ })
+    this.bSubject.next(messages);
 
-    this.messageList = init.asObservable();
-
-    return this.messageList;
   }
 
   reciveMessag(message: any) {

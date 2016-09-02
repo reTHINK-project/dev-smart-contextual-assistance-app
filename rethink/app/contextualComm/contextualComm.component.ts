@@ -26,7 +26,7 @@ export class ContextualCommComponent implements OnInit {
 
   @HostBinding('class') hostClass = 'context-view';
 
-  @ViewChild(AddUserComponent) addView:AddUserComponent
+  @ViewChild(AddUserComponent) addView:AddUserComponent;
 
   private users:Observable<User[]>;
 
@@ -44,10 +44,11 @@ export class ContextualCommComponent implements OnInit {
 
     console.log('[ContextualComm View - onInit]');
 
+    this.users = this.contactService.userList;
+
     this.route.data.forEach((data: { context: ContextualComm }) => {
       console.log('Resolve Data:', data);
 
-      this.users = this.contactService.setContacts(data.context.users);
       this.messageService.setMessages(data.context.messages);
 
     });

@@ -2,6 +2,8 @@ import 'rxjs/add/observable/of';
 import { Injectable, Output, EventEmitter, bind } from '@angular/core';
 import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
 
+import jquery from 'jquery';
+
 import rethink from 'runtime-browser';
 
 import { User } from '../../models/models';
@@ -94,5 +96,53 @@ export class RethinkService {
   isAuthenticated() {
     return this.logged.asObservable();
   }
+
+  loadStubs() {
+
+    let domain = window.location.hostname;
+    let protostubsURL = 'https://' + domain + '/.well-known/protocolstub/ProtoStubs.json';
+    let runtime = this.runtime;
+
+    return new Promise(function(resolve, reject) {
+
+      let settings:JQueryAjaxSettings = {
+        url: protostubsURL,
+        error: (reason:any) => {
+          reject(reason);
+        },
+        success: (result:any) => {
+          let response:any[] = [];
+          if (typeof result === 'object') {
+            Object.keys(result).forEach((key) => {
+              response.push(key);
+            });
+          } else if (typeof result === 'string') {
+            response = JSON.parse(result);
+          }
+
+          let stubs = response.filter((stub) => {
+            return stub !== 'default';
+          });
+
+          if (stubs.length) {
+
+            let loadAllStubs:any[] = [];
+            stubs.forEach((stub) => {
+              console.log('AQUI:', runtime);
+              loadAllStubs.push(runtime.requireProtostub('https://' + stub + '/.well-known/protocolstub/' + stub));
+            });
+
+            Promise.all(loadAllStubs).then((result) => {
+              resolve(result);
+            }).catch(reason => reject(reason));
+          }
+        },
+      }
+
+      jquery.ajax(settings);
+
+    });
+  }
+
 
 }

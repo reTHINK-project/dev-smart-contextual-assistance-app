@@ -38,10 +38,15 @@ export class RethinkComponent implements OnInit {
     this.compiler.clearCache();
     this.viewContainerRef = viewContainerRef;
 
-    this.status = 'Loading runtime;';
-    this.rethinkService.loadRuntime().then((runtime) => {
-      this.status = 'Loading hyperty chat service;';
+    this.rethinkService.loadRuntime()
+    .then((runtime) => {
+      this.status = 'Loading stubs service;';
+      return this.rethinkService.loadStubs()
+    }).then((result) => {
+      console.log('Loading protostubs: ', result);
       return this.chatService.getHyperty()
+    }, (error) => {
+      console.log('Error: ', error);
     })
     .then((hyperty) => {
       this.status = 'Getting your identity';

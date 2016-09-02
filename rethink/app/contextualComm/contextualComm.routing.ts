@@ -22,10 +22,6 @@ export const context: Routes = [
         path: '',
         component: ActivityComponent,
       },
-      {
-        path: ':id',
-        component: ActivityComponent,
-      },
       ...userRoutes
     ]
   },

@@ -30,7 +30,7 @@ export class User implements UserIdentity {
     this.userURL  = obj && obj.userURL;
     this.status   = obj && obj.status   || 'online';
     this.unread   = obj && obj.unread   || 0;
-    this.domain   = obj && obj.domain   || 'rethink.hybroker.ptinovacao.pt';
+    this.domain   = obj && obj.domain   || 'hybroker.rethink.ptinovacao.pt';
 
     this.identifiers = '';
 

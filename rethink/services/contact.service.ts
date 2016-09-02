@@ -13,14 +13,14 @@ import { ContextService } from './context.service';
 @Injectable()
 export class ContactService {
 
+  userList: Observable<User[]>;
+  newUser: Subject<User> = new Subject<User>();
+
+  private users: Observable<User[]>;
   private updates: Subject<any> = new Subject<any>();
   private create: Subject<User> = new Subject<User>();
-  private contacts: Observable<User[]>;
 
   private userListMap: Map<string, User> = new Map<string, User>();
-
-  newUser: Subject<User> = new Subject<User>();
-  userList: Observable<User[]>;
 
   constructor(private localStorage: LocalStorage, private rethinkService: RethinkService){
 
@@ -30,6 +30,38 @@ export class ContactService {
       this.userListMap.set(user.userURL, user);
     });
 
+    this.users = this.updates.scan((users:User[], user:User) => {
+
+      let me:User = this.rethinkService.getCurrentUser;
+
+      let userFind = users.find((value:User) => {
+        return value.userURL === user.userURL;
+      });
+
+      if (!userFind) {
+        users.push(user);
+        this.localStorage.setObject('contacts', users);
+      }
+
+      let filter = users.filter((user:User) => {
+        return user.userURL !== me.userURL;
+      });
+
+      console.log('Filter:', filter)
+
+      return filter;
+    }, init)
+    .publishReplay(1)
+    .refCount();
+
+    this.create.map((user:User, index:number) => {
+      console.log('Create new contact', user);
+      return new User(user);
+    }).subscribe(this.updates);
+
+    this.newUser.subscribe(this.create);
+
+    // create the initial data;
     let bSubject = new BehaviorSubject<User[]>(init);
 
     this.userList = bSubject.asObservable().map((users:any[]) => {
@@ -41,10 +73,11 @@ export class ContactService {
        return users.filter((user:User) => {
          return user.userURL !== me.userURL;
        })
-    });
+    }).merge(this.users);
 
-    this.userList.combineLatest(this.updates, (users:User[], user:User) => {
+/*    this.userList.combineLatest(this.users, (users:User[], user:User) => {
       console.log('Users: ', users, user);
+      users.concat(user);
 
       let me:User = this.rethinkService.getCurrentUser;
 
@@ -66,22 +99,7 @@ export class ContactService {
       });
 
       return a;
-    });
-
-    this.userList = this.updates.scan((users:User[], user:User) => {
-      console.log('Scan contacts: ', users, user);
-      users.push(user)
-      return users;
-    }, [])
-    .publishReplay(1)
-    .refCount();
-
-    this.create.map((user:User, index:number) => {
-      console.log('Create new contact', user);
-      return new User(user);
-    }).subscribe(this.updates);
-
-    this.newUser.subscribe(this.create);
+    });*/
 
   }
 

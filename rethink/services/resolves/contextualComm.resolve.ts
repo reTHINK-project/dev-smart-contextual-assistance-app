@@ -4,7 +4,7 @@ import { Router, Resolve,
 import { Observable }             from 'rxjs/Observable';
 
 // Model
-import { ContextualComm } from '../../models/models';
+import { ContextualComm, User } from '../../models/models';
 
 // Service
 import { ContextService, MessageService, ChatService, RethinkService } from '../services';
@@ -49,6 +49,17 @@ export class ContextualCommResolve implements Resolve<ContextualComm> {
 
       let participants:any = [];
       let domains:any =  [];
+
+      let contextualComm:ContextualComm = this.contextService.getActiveContext(context)
+      
+      console.log('Users:', this.contextService.getActiveContext(context), participants, domains);
+
+/*      if (contextualComm) {
+        contextualComm.users.forEach((user:User) => {
+          participants.push(user.userURL);
+          domains.push(user.domain);
+        });
+      }*/
 
       this.chatService.create(name, participants, domains).then((chatController: any) => {
         console.log('Create chat service for all my contacts', chatController);

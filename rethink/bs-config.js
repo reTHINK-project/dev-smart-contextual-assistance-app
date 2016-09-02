@@ -20,7 +20,8 @@ module.exports = {
     },
     routes: {
       "/.well-known/runtime": "node_modules/runtime-browser/bin",
-      "/.well-known/hyperty": "resources/descriptors/"
+      "/.well-known/hyperty": "resources/descriptors/",
+      "/.well-known/protocolstub": "resources/descriptors/"
     }
   }
 };

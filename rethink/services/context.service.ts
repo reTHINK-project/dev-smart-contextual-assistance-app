@@ -31,6 +31,10 @@ export class ContextService {
   private contextPath: string;
   private taskPath: string
 
+  public getActiveContext(v: string): ContextualComm {
+    return this.localStorage.hasObject(v) ? this.localStorage.getObject(v) as ContextualComm : null;
+  }
+
   public set setContextPath(v: string) {
     this.contextPath = v;
   }
@@ -53,7 +57,7 @@ export class ContextService {
     private messageService: MessageService
   ) {
 
-    this.contactService.newUser.subscribe((user:User) => this.updateContextUsers(user));
+    // this.contactService.newUser.subscribe((user:User) => this.updateContextUsers(user));
     this.messageService.newMessage.subscribe((message:Message) => this.updateContextMessages(message));
 
   }
@@ -106,7 +110,7 @@ export class ContextService {
 
         context.users = dataObject.data.participants.map((item:any) => {
           this.contactService.addContact(item);
-          return item
+          return new User(item);
         });
 
         if (parent) context.parent = parent;
@@ -165,6 +169,7 @@ export class ContextService {
     console.log('Active Context:', this.activeContext);
     let contextName = this.activeContext.name;
     let context:ContextualComm = this.activeContext
+    context.messages.push(message);
     this.localStorage.setObject(contextName, context);
 
     console.log('[Context Update messages]', contextName, context);

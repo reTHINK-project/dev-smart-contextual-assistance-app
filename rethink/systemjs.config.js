@@ -10,12 +10,14 @@
     'runtime-browser':            'node_modules/runtime-browser/bin',
     'webrtc-adapter':             'node_modules/webrtc-adapter/out',
     'ng2-bootstrap':              'node_modules/ng2-bootstrap',
-    'moment':                     'node_modules/moment/moment.js'
+    'moment':                     'node_modules/moment/moment.js',
+    'jquery':                     'node_modules/jquery/dist'
   };
 
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
     'main':                       { main: 'main.js', defaultExtension: 'js' },
+    'jquery':                     { main: 'jquery.js'},
     'symbol-observable':          { main: 'index.js'},
     'ng2-bootstrap':              { main: 'ng2-bootstrap.js', defaultExtension: 'js'},
     'rxjs':                       { defaultExtension: 'js' },
