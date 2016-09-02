@@ -11,14 +11,14 @@ import { User, Message, ContextualComm } from '../../models/models';
 @Injectable()
 export class ChatService {
 
-  domain = this.appService.domain;
-  hypertyURL = 'hyperty-catalogue://catalogue.' + this.appService.domain + '/.well-known/hyperty/GroupChatManager'
-  chatController: any
+  chatController: any;
 
-  hyperty: any
-  chatGroupManager: any
+  hyperty: any;
+  hypertyURL: string;
 
-  contextualComm:ContextualComm
+  chatGroupManager: any;
+
+  contextualComm:ContextualComm;
 
   private runtime: any
   private _onUserAdded:Function
@@ -30,11 +30,14 @@ export class ChatService {
     private contextService: ContextService,
     private contactService: ContactService,
     private messageService: MessageService
-  ) {}
+  ) {
+  }
 
   getHyperty() {
 
     return new Promise((resolve, reject) => {
+
+      this.hypertyURL = 'hyperty-catalogue://catalogue.' + this.appService.domain + '/.well-known/hyperty/GroupChatManager'
 
       if (!this.chatGroupManager) {
         this.appService.getHyperty(this.hypertyURL)

@@ -1,4 +1,5 @@
 import { NgModule, enableProdMode } from '@angular/core';
+import { HttpModule, JsonpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { disableDeprecatedForms, provideForms, FormsModule } from '@angular/forms';
 
@@ -18,6 +19,8 @@ import { servicesInjectables } from '../services/services';
   imports: [
     BrowserModule,
     FormsModule,
+    JsonpModule,
+    HttpModule,
     routing
   ],
   declarations: [

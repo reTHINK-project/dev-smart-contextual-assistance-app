@@ -1,4 +1,5 @@
 {
-  "development": true,
-  "domain": "vitor.dev"
+  "development": false,
+  "runtimeURL": "hyperty-catalogue://catalogue.hybroker.rethink.ptinovacao.pt/.well-known/runtime/Runtime",
+  "domain": "hybroker.rethink.ptinovacao.pt"
 }

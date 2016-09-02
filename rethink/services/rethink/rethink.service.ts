@@ -1,6 +1,9 @@
 import 'rxjs/add/observable/of';
 import { Injectable, Output, EventEmitter, bind } from '@angular/core';
 import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
+import { Http, Response } from '@angular/http';
+
+import {config} from 
 
 import jquery from 'jquery';
 
@@ -11,10 +14,13 @@ import { User } from '../../models/models';
 @Injectable()
 export class RethinkService {
 
-  domain = 'hybroker.rethink.ptinovacao.pt'
-  runtimeURL = 'https://catalogue.' + this.domain + '/.well-known/runtime/Runtime';
+  // domain = 'hybroker.rethink.ptinovacao.pt';
+  // runtimeURL = 'https://catalogue.' + this.domain + '/.well-known/runtime/Runtime';
 
-  config = {domain: this.domain, runtimeURL: this.runtimeURL, development: true }
+  // config = {domain: this.domain, runtimeURL: this.runtimeURL, development: true }
+
+  domain: string;
+  config: any;
 
   runtime: any;
   redirectUrl: string;
@@ -31,8 +37,34 @@ export class RethinkService {
     return this.currentUser;
   }
 
-  constructor() {
+  constructor(private http:Http) {
     this.logged = new BehaviorSubject(this.isLogged);
+  }
+
+  loadRuntime() {
+
+    return new Promise((resolve, reject) => {
+
+      this.http.get('./config.json')
+        .map(res => res.json())
+        .subscribe(data => {
+          this.config = data;
+          this.domain = data.domain;
+
+          console.log('[Loading Rethink Runtime at] ', this.config)
+
+          rethink.install(this.config).then((runtime) => {
+            console.log('[Runtime Loaded]')
+            this.runtime = runtime;
+            resolve(runtime);
+          }).catch((error) => {
+            console.error('[Error Loading Runtime] ', error)
+          })
+
+        },
+        err => console.log(err),
+        () => console.log('Completed'));
+    })
   }
 
   getHyperty(url:string) {
@@ -49,22 +81,6 @@ export class RethinkService {
 
     });
 
-  }
-
-  loadRuntime() {
-    console.log('[Loading Rethink Runtime at] ', this.config)
-
-    return new Promise((resolve, reject) => {
-
-      rethink.install(this.config).then((runtime) => {
-        console.log('[Runtime Loaded]')
-        this.runtime = runtime;
-        resolve(runtime);
-      }).catch((error) => {
-        console.error('[Error Loading Runtime] ', error)
-      })
-
-    })
   }
 
   getIdentity(hyperty: any) {
@@ -103,7 +119,7 @@ export class RethinkService {
     let protostubsURL = 'https://' + domain + '/.well-known/protocolstub/ProtoStubs.json';
     let runtime = this.runtime;
 
-    return new Promise(function(resolve, reject) {
+    return new Promise( (resolve, reject) => {
 
       let settings:JQueryAjaxSettings = {
         url: protostubsURL,
@@ -139,7 +155,11 @@ export class RethinkService {
         },
       }
 
-      jquery.ajax(settings);
+      if (!this.config.development) {
+        resolve();
+      } else {
+        jquery.ajax(settings); 
+      }
 
     });
   }
