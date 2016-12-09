@@ -40,7 +40,6 @@ The Application uses ContextName, ContextScheme and ContextResource defined by C
 
 ### [GUI Studies](gui-sketches.md)
 
-
 ### User Journey
 
 The user can explicitly select a certain context by clicking on top left side of the header and browse through the context tree.
