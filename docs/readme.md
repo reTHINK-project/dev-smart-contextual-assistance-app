@@ -16,12 +16,13 @@ User's context can be derived from different sources including:
 -	calendar
 -	opened web documents
 
-Currently the Application is designed to support Co-worker Business Conversation context and Personal Wellbeing context, using data collected from a connected Bracelet. The following Hyperties are used:
+The following Hyperties are used:
 
 -	MyBracelet Hyperty to collect and publish data from a connected bracelet
 -	User Status Hyperty to manage User availability context (presence status)
 -	GroupChat Hyperty to support chat communication with group of users
 -	Connector Hyperty to support Audio and Video communication with users
+- MyContext Hyperty to collect context data from different sources and infer more meaningful context info for the user
 
 The picture below depicts the Context Concept landscape map view concept that will be researched in terms of User Interface design to express a User Context composed by different types of context (e.g. location, activity, availability, etc ) each one having different levels of detail (eg work -> Customer Conversation -> Subject).
 
@@ -34,11 +35,14 @@ Such context landscape view can be displayed in a 2D screen display as shown bel
 The picture below depicts the Contextual Communication model used.
 Each Contextual Communication session is characterised by a [Context data object]() and a [Communication Data Object]() that Hyperties used to manage context and communication in a integrated way. On the other side Contextual Communications are composite objects - CompositeContextualComm - organised in a tree structure, where the leaves are atomic objects - AtomicContextualComm. Contextual Communications can be triggered by different Context values - ContextualCommTrigger - for example for certain location values.
 
+More Studies about user experience and user interfaces can be find [here](gui-sketches.md)
+
+### Data Model
+
 The Application uses ContextName, ContextScheme and ContextResource defined by ContextualCommTrigger,  to discover and subscribe to Context Data Objects which will provide the data required to trigger the execution of each Contextual Communication session.
 
 ![Context Communication model](contextual-communication-design.png)
 
-### [GUI Studies](gui-sketches.md)
 
 ### User Journey
 
