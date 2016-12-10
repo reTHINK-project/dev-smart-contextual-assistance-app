@@ -35,7 +35,7 @@ Such context landscape view can be displayed in a 2D screen display as shown bel
 The picture below depicts the Contextual Communication model used.
 Each Contextual Communication session is characterised by a [Context data object]() and a [Communication Data Object]() that Hyperties used to manage context and communication in a integrated way. On the other side Contextual Communications are composite objects - CompositeContextualComm - organised in a tree structure, where the leaves are atomic objects - AtomicContextualComm. Contextual Communications can be triggered by different Context values - ContextualCommTrigger - for example for certain location values.
 
-More Studies about user experience and user interfaces can be find [here](gui-sketches.md)
+More Studies about user experience and user interfaces can be found [here](gui-sketches.md). A more detailed analysis of the complete Smart Contextual Assistance application is provided [here](analysis.md)
 
 ### Data Model
 
