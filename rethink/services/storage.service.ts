@@ -5,9 +5,7 @@ export class LocalStorage {
     public localStorage:any;
 
     constructor() {
-        if (!localStorage) {
-            throw new Error('Current browser does not support Local Storage');
-        }
+        if (!localStorage) throw new Error('Current browser does not support Local Storage');
         this.localStorage = localStorage;
     }
 
@@ -24,7 +22,7 @@ export class LocalStorage {
     }
 
     public getObject(key:string):any {
-      return JSON.parse(this.localStorage[key] || '{}'); 
+      return JSON.parse(this.localStorage[key] || '{}');
     }
 
     public remove(key:string):any {
