@@ -4,6 +4,8 @@ Package ContextualComm {
 
 	class ContextualComm {
 	url : URL.URL
+	name : string
+	description ?: string
 	communication : Communication.Communication
 	context : Context.Context
 	users ?: ContextualCommUser[]
@@ -46,7 +48,7 @@ Package ContextualComm {
 	 identifiers: User.UserURL[]
 	}
 
- ContextualComm <-right- "1..*" ContextualCommTrigger
+ ContextualComm <---right-"1..*" ContextualCommTrigger
 
 	ContextualComm *-up-> Context.Context
 
