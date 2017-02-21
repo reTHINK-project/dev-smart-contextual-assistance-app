@@ -1,7 +1,1 @@
-.git
-typings/
-node_modules/
-dist/
-
-*.log
-npm-debug.log
+node_modules

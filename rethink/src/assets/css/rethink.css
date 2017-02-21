@@ -1,0 +1,2922 @@
+@charset "UTF-8";
+/* @import url(https://fonts.googleapis.com/css?family=Lato:400,700,300);
+ @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600); */
+@import url(responsive.css);
+/* line 65, ../sass/rethink.scss */
+html {
+  height: 100%;
+}
+
+/* line 69, ../sass/rethink.scss */
+body.ink-drawer.left .left-drawer.show {
+  z-index: 900;
+  background-color: #ff6600;
+}
+
+/* line 74, ../sass/rethink.scss */
+body.rethink {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  background-color: #eff0f4;
+  /* line 1, ../sass/component.scss */
+  /* line 6, ../sass/component.scss */
+  /* line 10, ../sass/component.scss */
+}
+/* line 82, ../sass/rethink.scss */
+body.rethink a.active {
+  outline: none;
+}
+/* line 86, ../sass/rethink.scss */
+body.rethink h3.padding {
+  padding-bottom: 0;
+}
+/* line 91, ../sass/rethink.scss */
+body.rethink ul.context-menu h2, body.rethink ul.context-menu h3, body.rethink ul.context-menu h3 {
+  font-family: 'Open Sans', sans-serif;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 80%;
+}
+/* line 98, ../sass/rethink.scss */
+body.rethink ul.context-menu li:hover {
+  cursor: pointer;
+}
+/* line 102, ../sass/rethink.scss */
+body.rethink ul.context-menu li.half-padding.options {
+  background-color: transparent;
+}
+/* line 105, ../sass/rethink.scss */
+body.rethink ul.context-menu li.half-padding.options:hover {
+  background-color: transparent;
+}
+/* line 110, ../sass/rethink.scss */
+body.rethink ul.context-menu li.sub-level {
+  padding: 6px;
+  padding-left: 38px;
+  font-size: 13px;
+  text-transform: uppercase;
+  position: relative;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+/* line 119, ../sass/rethink.scss */
+body.rethink ul.context-menu li.sub-level:hover {
+  color: #fff;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+/* line 125, ../sass/rethink.scss */
+body.rethink ul.context-menu li.sub-level.active {
+  border-left: 6px solid #3bb7f5;
+  padding-left: 32px;
+}
+/* line 130, ../sass/rethink.scss */
+body.rethink ul.context-menu li.sub-level div.alert {
+  position: absolute;
+  top: 7px;
+  right: 12px;
+}
+/* line 135, ../sass/rethink.scss */
+body.rethink ul.context-menu li.sub-level div.alert a {
+  position: relative;
+  display: block;
+}
+/* line 140, ../sass/rethink.scss */
+body.rethink ul.context-menu li.sub-level div.alert span.new-message {
+  background-color: #e44c43;
+  display: inline-block;
+  font-size: 10px;
+  padding: 1px 4px;
+  color: #f8f8f8;
+  font-weight: 400;
+  position: absolute;
+  top: -5px;
+  right: 1px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+  border-radius: 30px;
+}
+/* line 154, ../sass/rethink.scss */
+body.rethink ul.context-menu li.sub-level div.alert i.fa.fa-comment-o {
+  color: rgba(255, 255, 255, 0.15);
+  font-size: 16px;
+  padding-right: 0;
+}
+/* line 161, ../sass/rethink.scss */
+body.rethink ul.context-menu li.sub-level i.fa.fa-lock {
+  position: absolute;
+  left: 14px;
+  top: 8px;
+  color: rgba(255, 255, 255, 0.15);
+}
+/* line 168, ../sass/rethink.scss */
+body.rethink ul.context-menu li.sub-level i {
+  font-size: 12px;
+  margin-right: 8px;
+}
+/* line 174, ../sass/rethink.scss */
+body.rethink ul.context-menu li.half-padding {
+  background: transparent;
+  display: block;
+  width: 100%;
+  float: none;
+  font-size: 16px;
+  vertical-align: top;
+  border: none;
+  position: relative;
+  margin: 0;
+}
+/* line 185, ../sass/rethink.scss */
+body.rethink ul.context-menu li.half-padding:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+/* line 189, ../sass/rethink.scss */
+body.rethink ul.context-menu li.half-padding a.fitt {
+  color: #ff932d;
+}
+/* line 193, ../sass/rethink.scss */
+body.rethink ul.context-menu li.half-padding a.school {
+  color: #3bb7f5;
+}
+/* line 197, ../sass/rethink.scss */
+body.rethink ul.context-menu li.half-padding.options {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+}
+/* line 203, ../sass/rethink.scss */
+body.rethink ul.context-menu li.half-padding i.fa {
+  padding-right: 8px;
+  font-size: 16px;
+}
+/* line 208, ../sass/rethink.scss */
+body.rethink ul.context-menu li.half-padding a {
+  color: #fff;
+  text-transform: uppercase;
+}
+/* line 212, ../sass/rethink.scss */
+body.rethink ul.context-menu li.half-padding a span.add-user, body.rethink ul.context-menu li.half-padding a span.close {
+  display: inline-block;
+}
+/* line 215, ../sass/rethink.scss */
+body.rethink ul.context-menu li.half-padding a span.add-user a, body.rethink ul.context-menu li.half-padding a span.close a {
+  border: 1px solid #fff;
+  color: #fff;
+  display: block;
+  font-size: 26px;
+  font-weight: 300;
+  height: 36px;
+  line-height: 33px;
+  margin: 0;
+  padding: 0;
+  padding-left: 0 !important;
+  text-align: center;
+  vertical-align: top;
+  width: 38px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+/* line 234, ../sass/rethink.scss */
+body.rethink ul.context-menu li.half-padding a span.add-user a:hover, body.rethink ul.context-menu li.half-padding a span.close a:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -ms-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+}
+/* line 243, ../sass/rethink.scss */
+body.rethink ul.context-menu li.half-padding.search-bar {
+  background-color: transparent;
+  overflow: visible;
+  margin: 0;
+}
+/* line 250, ../sass/rethink.scss */
+body.rethink ul.context-menu li.half-padding.search-bar form {
+  margin: 0;
+}
+/* line 254, ../sass/rethink.scss */
+body.rethink ul.context-menu li.half-padding.search-bar input.search {
+  border: none;
+  height: 34px;
+  margin-top: 3px;
+  color: #f8f8f8;
+  padding: 6px 10px;
+  background-color: rgba(0, 0, 0, 0.15);
+  width: 100%;
+  height: 34px;
+  display: block;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+/* line 269, ../sass/rethink.scss */
+body.rethink ul.context-menu li.half-padding.search-bar input.search i.fa-search {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+}
+/* line 275, ../sass/rethink.scss */
+body.rethink ul.context-menu li.half-padding.search-bar input.search:focus {
+  background-color: rgba(0, 0, 0, 0.15);
+  height: 34px;
+  display: inline-block;
+  transition-duration: 500ms;
+  padding: 6px 10px;
+  padding-left: 34px;
+}
+/* line 292, ../sass/rethink.scss */
+body.rethink .scroller {
+  overflow-y: hidden;
+  position: relative;
+  height: 100%;
+}
+/* line 299, ../sass/rethink.scss */
+body.rethink .scroller-inner {
+  position: relative;
+}
+/* line 304, ../sass/rethink.scss */
+body.rethink div.scroller-inner {
+  position: relative;
+  height: 100%;
+}
+/* line 308, ../sass/rethink.scss */
+body.rethink div.scroller-inner .message-sender {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  border-top: 1px solid #ddd;
+  background-color: #f6f6f6;
+  margin-top: -46px;
+  max-height: 62px;
+            /*span.send-file {
+                font-size: 22px;
+                margin-right: 12px;
+                padding: 4px;
+
+                a {
+                    i {
+                        color: #666;
+                    }
+                }
+            }*/
+}
+/* line 317, ../sass/rethink.scss */
+body.rethink div.scroller-inner .message-sender ul.uploader {
+  border-left: 1px solid #ddd;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  min-height: 62px;
+}
+/* line 324, ../sass/rethink.scss */
+body.rethink div.scroller-inner .message-sender ul.uploader li {
+  display: inline-block;
+  padding: 13px;
+  margin: 0;
+}
+/* line 329, ../sass/rethink.scss */
+body.rethink div.scroller-inner .message-sender ul.uploader li a, body.rethink div.scroller-inner .message-sender ul.uploader li i {
+  color: #666;
+  padding: 2px;
+}
+/* line 333, ../sass/rethink.scss */
+body.rethink div.scroller-inner .message-sender ul.uploader li a:hover, body.rethink div.scroller-inner .message-sender ul.uploader li i:hover {
+  color: #009cff;
+}
+/* line 336, ../sass/rethink.scss */
+body.rethink div.scroller-inner .message-sender ul.uploader li a:hover i, body.rethink div.scroller-inner .message-sender ul.uploader li i:hover i {
+  color: #009cff;
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -ms-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+}
+/* line 345, ../sass/rethink.scss */
+body.rethink div.scroller-inner .message-sender ul.uploader li.take-pic:hover, body.rethink div.scroller-inner .message-sender ul.uploader li.send-file:hover {
+  background-color: #fff;
+}
+/* line 350, ../sass/rethink.scss */
+body.rethink div.scroller-inner .message-sender ul.uploader li.take-pic span.snap {
+  font-size: 12px;
+  padding: 8px;
+  display: inline-block;
+  background-color: #f6f6f6;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
+}
+/* line 359, ../sass/rethink.scss */
+body.rethink div.scroller-inner .message-sender ul.uploader li.take-pic span.tt {
+  display: inline-block;
+  font-size: 14px;
+  text-transform: uppercase;
+  vertical-align: top;
+  padding-top: 6px;
+}
+/* line 369, ../sass/rethink.scss */
+body.rethink div.scroller-inner .message-sender ul.uploader li.send-file span.tt {
+  display: inline-block;
+  font-size: 14px;
+  text-transform: uppercase;
+  vertical-align: top;
+  padding-top: 6px 8px;
+}
+/* line 377, ../sass/rethink.scss */
+body.rethink div.scroller-inner .message-sender ul.uploader li.send-file span.send-file {
+  font-size: 12px;
+  padding: 8px;
+  display: inline-block;
+  background-color: #f6f6f6;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
+                        /*a {
+                            border: 1px solid #666;
+                            color: #666;
+                            display: inline-block;
+                            font-size: 21px;
+                            font-weight: 300;
+                            height: 24px;
+                            line-height: 21px;
+                            margin: 0;
+                            opacity: 0.6;
+                            padding: 0;
+                            text-align: center;
+                            vertical-align: top;
+                            width: 24px;
+
+                            @include border-radius(50%);
+
+                            @include opacity(0.8);
+
+                            &:hover {
+                                @include opacity(1);
+
+                                @include transition;
+                            }
+                        }*/
+}
+/* line 414, ../sass/rethink.scss */
+body.rethink div.scroller-inner .message-sender form {
+  margin: 0;
+  padding: 0;
+}
+/* line 431, ../sass/rethink.scss */
+body.rethink div.scroller-inner .message-sender input {
+  border: none;
+  padding: 7px;
+  background: #fff;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+}
+/* line 443, ../sass/rethink.scss */
+body.rethink div.scroller-inner .message-sender a.button {
+  color: #666;
+  display: inline-block;
+  margin-top: -12px;
+}
+/* line 455, ../sass/rethink.scss */
+body.rethink form.invite input {
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+  background: #fff none repeat scroll 0 0;
+  border: 1px solid #ddd;
+  padding: 7px;
+  width: 100%;
+}
+/* line 464, ../sass/rethink.scss */
+body.rethink form.invite button {
+  color: #fff;
+  background-color: #1bba50;
+  border: none;
+  font-size: 14px;
+  margin-left: 2px;
+  margin-top: 14px;
+  padding: 5px 14px;
+  text-transform: uppercase;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
+}
+/* line 478, ../sass/rethink.scss */
+body.rethink div.container {
+  /* line 16, ../sass/component.scss */
+  /* overflow-x: scroll; */
+  /* line 21, ../sass/component.scss
+  .menu-trigger:before {
+      position: absolute;
+      top: 2px;
+      left: 0;
+      width: 40px;
+      height: 6px;
+      background: #fff;
+      box-shadow: 0 6px #34495e, 0 12px #fff, 0 18px #34495e, 0 24px #fff;
+      content: '';
+  } */
+  /* line 33, ../sass/component.scss */
+  /* line 39, ../sass/component.scss */
+  /* line 53, ../sass/component.scss */
+  /* overlays for pusher and for level that gets covered */
+  /* line 67, ../sass/component.scss */
+  /* line 78, ../sass/component.scss */
+  /* line 89, ../sass/component.scss */
+  /* line 96, ../sass/component.scss */
+  /* line 104, ../sass/component.scss */
+  /* line 113, ../sass/component.scss */
+  /* line 114, ../sass/component.scss */
+  /* line 125, ../sass/component.scss */
+  /* line 133, ../sass/component.scss */
+  /* overlap */
+  /* line 141, ../sass/component.scss */
+  /* First level */
+  /* line 151, ../sass/component.scss */
+  /* line 157, ../sass/component.scss */
+  /* cover */
+  /* line 168, ../sass/component.scss */
+  /* line 173, ../sass/component.scss */
+  /* content style */
+  /* line 183, ../sass/component.scss */
+  /* line 189, ../sass/component.scss */
+  /* line 198, ../sass/component.scss
+  .mp-menu.mp-overlap h2::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin-right: 8px;
+      line-height: 1.8;
+      opacity: 0;
+      color: #fff;
+      -webkit-transition: opacity 0.3s, -webkit-transform 0.1s 0.3s;
+      -moz-transition: opacity 0.3s, -moz-transform 0.1s 0.3s;
+      transition: opacity 0.3s, transform 0.1s 0.3s;
+      -webkit-transform: translateX(-100%);
+      -moz-transform: translateX(-100%);
+      transform: translateX(-100%);
+  }*/
+  /* line 214, ../sass/component.scss */
+  /* line 222, ../sass/component.scss
+  .mp-overlap .mp-level.mp-level-overlay > h2::before {
+      opacity: 1;
+      -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+      -moz-transition: -moz-transform 0.3s, opacity 0.3s;
+      transition: transform 0.3s, opacity 0.3s;
+      -webkit-transform: translateX(0);
+      -moz-transform: translateX(0);
+      transform: translateX(0);
+      color: #fff;
+  }*/
+  /* line 233, ../sass/component.scss */
+  /* line 245, ../sass/component.scss */
+  /* line 254, ../sass/component.scss */
+  /* line 301, ../sass/component.scss */
+  /* line 311, ../sass/component.scss */
+  /* line 316, ../sass/component.scss */
+  /* Fallback example for browsers that don't support 3D transforms (and no JS fallback) */
+  /* We'll show the first level only */
+  /* line 326, ../sass/component.scss */
+  /* line 330, ../sass/component.scss */
+  /* line 334, ../sass/component.scss */
+}
+/* line 484, ../sass/rethink.scss */
+body.rethink div.container .menu-trigger {
+  position: relative;
+}
+/* line 505, ../sass/rethink.scss */
+body.rethink div.container .mp-pusher {
+  position: relative;
+  left: 0;
+  height: 100vh;
+}
+/* line 512, ../sass/rethink.scss */
+body.rethink div.container .mp-menu {
+  position: absolute;
+  /* we can't use fixed here :( */
+  top: 0;
+  left: 0;
+  z-index: 900;
+  width: 320px;
+  height: 100vh;
+  -webkit-transform: translate3d(-100%, 0, 0);
+  -moz-transform: translate3d(-100%, 0, 0);
+  transform: translate3d(-100%, 0, 0);
+}
+/* line 527, ../sass/rethink.scss */
+body.rethink div.container .mp-level {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 320px;
+  height: 100%;
+  background: #f03e54;
+  background-color: #414d63;
+  -webkit-transform: translate3d(-90%, 0, 0);
+  -moz-transform: translate3d(-100%, 0, 0);
+  transform: translate3d(-100%, 0, 0);
+}
+/* line 542, ../sass/rethink.scss */
+body.rethink div.container .mp-pusher::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  content: '';
+  opacity: 0;
+  z-index: 510;
+}
+/* line 554, ../sass/rethink.scss */
+body.rethink div.container .mp-level::after, body.rethink div.container .mp-level::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  content: '';
+  opacity: 0;
+}
+/* line 565, ../sass/rethink.scss */
+body.rethink div.container .mp-pusher::after {
+  background: rgba(35, 43, 56, 0.6);
+  -webkit-transition: opacity 0.3s, width 0.1s 0.3s, height 0.1s 0.3s;
+  -moz-transition: opacity 0.3s, width 0.1s 0.3s, height 0.1s 0.3s;
+  transition: opacity 0.3s, width 0.1s 0.3s, height 0.1s 0.3s;
+}
+/* line 573, ../sass/rethink.scss */
+body.rethink div.container .mp-level::after {
+  background: rgba(35, 43, 56, 0.6);
+  -webkit-transition: opacity 0.3s, width 0.1s 0.3s, height 0.1s 0.3s;
+  -moz-transition: opacity 0.3s, width 0.1s 0.3s, height 0.1s 0.3s;
+  transition: opacity 0.3s, width 0.1s 0.3s, height 0.1s 0.3s;
+  z-index: -1;
+}
+/* line 582, ../sass/rethink.scss */
+body.rethink div.container .mp-pusher.mp-pushed::after {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  -webkit-transition: opacity 0.3s;
+  -moz-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+}
+
+body.rethink div.container .mp-pusher.mp-pushed {
+  transform: translate3d(320px, 0px, 0px);
+}
+
+/* line 592, ../sass/rethink.scss */
+body.rethink div.container .mp-level.mp-level-overlay {
+  cursor: pointer;
+}
+/* line 597, ../sass/rethink.scss */
+body.rethink div.container .mp-level.mp-level-overlay::after {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  -webkit-transition: opacity 0.3s;
+  -moz-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+}
+/* line 607, ../sass/rethink.scss */
+body.rethink div.container .mp-level.mp-level-overlay.mp-level::before {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  opacity: 1;
+}
+/* line 615, ../sass/rethink.scss */
+body.rethink div.container .mp-pusher, body.rethink div.container .mp-level {
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+}
+/* line 623, ../sass/rethink.scss */
+body.rethink div.container .mp-overlap .mp-level.mp-level-open {
+  box-shadow: 1px 0 2px rgba(0, 0, 0, 0.2);
+  -webkit-transform: translate3d(-40px, 0, 0);
+  -moz-transform: translate3d(-40px, 0, 0);
+  transform: translate3d(-40px, 0, 0);
+}
+/* line 632, ../sass/rethink.scss */
+body.rethink div.container .mp-menu > .mp-level, body.rethink div.container .mp-menu.mp-overlap > .mp-level {
+  box-shadow: none;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+/* line 640, ../sass/rethink.scss */
+body.rethink div.container .mp-menu > .mp-level.mp-level-open, body.rethink div.container .mp-menu.mp-overlap > .mp-level.mp-level-open {
+  box-shadow: none;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+/* line 649, ../sass/rethink.scss */
+body.rethink div.container .mp-cover .mp-level.mp-level-open {
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+/* line 656, ../sass/rethink.scss */
+body.rethink div.container .mp-cover .mp-level.mp-level-open > ul > li > .mp-level:not(.mp-level-open) {
+  -webkit-transform: translate3d(-100%, 0, 0);
+  -moz-transform: translate3d(-100%, 0, 0);
+  transform: translate3d(-100%, 0, 0);
+}
+/* line 664, ../sass/rethink.scss */
+body.rethink div.container .mp-menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* line 669, ../sass/rethink.scss */
+body.rethink div.container .mp-menu ul li {
+  color: #fff;
+}
+/* line 672, ../sass/rethink.scss */
+body.rethink div.container .mp-menu ul li.search-bar {
+  display: block;
+  overflow: hidden;
+}
+/* line 680, ../sass/rethink.scss */
+body.rethink div.container .mp-menu h2 {
+  color: #fff;
+  margin-bottom: 0;
+}
+/* line 703, ../sass/rethink.scss */
+body.rethink div.container .mp-menu.mp-cover h2 {
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: 16px;
+}
+/* line 734, ../sass/rethink.scss */
+body.rethink div.container .mp-back {
+  background: rgba(0, 0, 0, 0.1);
+  outline: none;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  display: block;
+  font-size: 0.8em;
+  padding: 1em;
+  position: relative;
+  box-shadow: inset 0 1px rgba(0, 0, 0, 0.1);
+  -webkit-transition: background 0.3s;
+  -moz-transition: background 0.3s;
+  transition: background 0.3s;
+}
+/* line 752, ../sass/rethink.scss */
+body.rethink div.container .mp-back::after {
+  position: absolute;
+  content: "\e037";
+  right: 10px;
+  font-size: 1.3em;
+  color: rgba(0, 0, 0, 0.3);
+}
+/* line 762, ../sass/rethink.scss */
+body.rethink div.container .mp-menu .mp-level.mp-level-overlay > .mp-back {
+  background: transparent;
+  box-shadow: none;
+  color: transparent;
+}
+/* line 769, ../sass/rethink.scss */
+body.rethink div.container .mp-menu .mp-level.mp-level-overlay > .mp-back::after {
+  background: transparent;
+  box-shadow: none;
+  color: transparent;
+}
+/* line 778, ../sass/rethink.scss */
+body.rethink div.container .no-csstransforms3d .mp-pusher, body.rethink div.container .no-js .mp-pusher {
+  padding-left: 300px;
+}
+/* line 783, ../sass/rethink.scss */
+body.rethink div.container .no-csstransforms3d .mp-menu .mp-level, body.rethink div.container .no-js .mp-menu .mp-level {
+  display: none;
+}
+/* line 788, ../sass/rethink.scss */
+body.rethink div.container .no-csstransforms3d .mp-menu > .mp-level, body.rethink div.container .no-js .mp-menu > .mp-level {
+  display: block;
+}
+/* line 794, ../sass/rethink.scss */
+body.rethink.work div.nav-bk {
+  background-color: #414d63;
+}
+/* line 798, ../sass/rethink.scss */
+body.rethink.work div.context-icon span.marker.work {
+  display: block;
+}
+/* line 802, ../sass/rethink.scss */
+body.rethink.work header {
+  background-color: #364258;
+  position: fixed;
+  width: 100%;
+  z-index: 500;
+}
+/* line 809, ../sass/rethink.scss */
+body.rethink.work .fa-lightbulb-o {
+  color: #414d63;
+}
+/* line 813, ../sass/rethink.scss */
+body.rethink.work div.sidebar {
+  background-color: #414d63;
+}
+/* line 817, ../sass/rethink.scss */
+body.rethink.work div.full-bar {
+  background-color: #414d63;
+}
+/* line 821, ../sass/rethink.scss */
+body.rethink.work ul.tabs-nav {
+  background-color: #414d63;
+}
+/* line 829, ../sass/rethink.scss */
+body.rethink.fitness div.nav-bk {
+  background-color: #ff6600;
+}
+/* line 833, ../sass/rethink.scss */
+body.rethink.fitness div.context-icon span.marker.fitness {
+  display: block;
+}
+/* line 837, ../sass/rethink.scss */
+body.rethink.fitness header {
+  background-color: #b44f23;
+}
+/* line 841, ../sass/rethink.scss */
+body.rethink.fitness .fa-lightbulb-o {
+  color: #ff6600;
+}
+/* line 845, ../sass/rethink.scss */
+body.rethink.fitness div.sidebar {
+  background-color: #d45d2a;
+}
+/* line 849, ../sass/rethink.scss */
+body.rethink.fitness div.full-bar {
+  background-color: #ff6600;
+}
+/* line 854, ../sass/rethink.scss */
+body.rethink .bk-login {
+  background-color: transparent;
+  background-image: url("../img/rethink-bk.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+/* line 861, ../sass/rethink.scss */
+body.rethink #map {
+  width: 100%;
+  height: 90vh;
+  background: #ff6600;
+}
+/* line 866, ../sass/rethink.scss */
+body.rethink #map .gm-style {
+  background-color: #414d63;
+}
+/* line 873, ../sass/rethink.scss */
+body.rethink .menu-item, body.rethink .menu-open-button {
+  background: #fff;
+  border-radius: 100%;
+  width: 80px;
+  height: 80px;
+  margin-left: -40px;
+  position: absolute;
+  top: 2px;
+  color: white;
+  text-align: center;
+  line-height: 80px;
+  transform: translate3d(0, 0, 0);
+  transition: transform ease-out 200ms;
+}
+/* line 888, ../sass/rethink.scss */
+body.rethink .menu-open {
+  display: none;
+}
+/* line 896, ../sass/rethink.scss */
+body.rethink div.nav-bk {
+  height: 112px;
+  width: 112px;
+  margin-left: -56px;
+  margin-top: -16px;
+  -webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+}
+/* line 907, ../sass/rethink.scss */
+body.rethink .fa-lightbulb-o {
+  width: 40px;
+  height: 40px;
+  font-size: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background: none;
+  display: block;
+  transition: transform 200ms;
+}
+/* line 920, ../sass/rethink.scss */
+body.rethink .hamburger {
+  width: 25px;
+  height: 3px;
+  background: white;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -12.5px;
+  margin-top: -1.5px;
+  transition: transform 200ms;
+}
+/* line 938, ../sass/rethink.scss */
+body.rethink .hamburger-1 {
+  transform: translate3d(0, -8px, 0);
+}
+/* line 942, ../sass/rethink.scss */
+body.rethink .hamburger-2 {
+  transform: translate3d(0, 0, 0);
+}
+/* line 946, ../sass/rethink.scss */
+body.rethink .hamburger-3 {
+  transform: translate3d(0, 8px, 0);
+}
+/* line 951, ../sass/rethink.scss */
+body.rethink .menu-open:checked + .menu-open-button .hamburger-1 {
+  transform: translate3d(0, 0, 0) rotate(45deg);
+}
+/* line 955, ../sass/rethink.scss */
+body.rethink .menu-open:checked + .menu-open-button .hamburger-2 {
+  transform: translate3d(0, 0, 0) scale(0.1, 1);
+}
+/* line 959, ../sass/rethink.scss */
+body.rethink .menu-open:checked + .menu-open-button .hamburger-3 {
+  transform: translate3d(0, 0, 0) rotate(-45deg);
+}
+/* line 964, ../sass/rethink.scss */
+body.rethink nav.menu {
+  z-index: 100;
+  position: absolute;
+  left: 50%;
+  margin-left: -40px;
+  padding-top: 2px;
+  padding-left: 40px;
+  width: 80px;
+  height: 80px;
+  box-sizing: border-box;
+  font-size: 20px;
+  text-align: left;
+  top: 18px;
+}
+/* line 984, ../sass/rethink.scss */
+body.rethink nav.menu label {
+  box-shadow: none;
+  border: 2px solid #fff;
+}
+/* line 989, ../sass/rethink.scss */
+body.rethink nav.menu div.context-icon {
+  position: relative;
+}
+/* line 992, ../sass/rethink.scss */
+body.rethink nav.menu div.context-icon span.marker {
+  display: none;
+  border-radius: 50%;
+  bottom: 2px;
+  font-size: 21px;
+  padding: 8px;
+  position: absolute;
+  right: -14px;
+  z-index: 120;
+  color: #fff;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  -webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+/* line 1007, ../sass/rethink.scss */
+body.rethink nav.menu div.context-icon span.marker.work {
+  background-color: #414d63;
+}
+/* line 1011, ../sass/rethink.scss */
+body.rethink nav.menu div.context-icon span.marker.fitness {
+  background-color: #ff6600;
+}
+/* line 1020, ../sass/rethink.scss */
+body.rethink .menu-item:nth-child(3) {
+  transition-duration: 70ms;
+}
+/* line 1020, ../sass/rethink.scss */
+body.rethink .menu-item:nth-child(4) {
+  transition-duration: 130ms;
+}
+/* line 1020, ../sass/rethink.scss */
+body.rethink .menu-item:nth-child(5) {
+  transition-duration: 190ms;
+}
+/* line 1025, ../sass/rethink.scss */
+body.rethink .menu-item:hover {
+  font-size: 120%;
+}
+/* line 1029, ../sass/rethink.scss */
+body.rethink .menu-item.new {
+  color: #444;
+  background: #eeeff3;
+}
+/* line 1034, ../sass/rethink.scss */
+body.rethink .menu-item.work {
+  color: #fff;
+  background-color: #414d63;
+}
+/* line 1039, ../sass/rethink.scss */
+body.rethink .menu-item.fitness {
+  background-color: #ff6600;
+}
+/* line 1044, ../sass/rethink.scss */
+body.rethink .menu-open-button {
+  z-index: 2;
+  transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition-duration: 400ms;
+  transform: scale(1, 1) translate3d(0, 0, 0);
+  cursor: pointer;
+}
+/* line 1054, ../sass/rethink.scss */
+body.rethink .menu-open-button:hover {
+  transform: scale(1.2, 1.2) translate3d(0, 0, 0);
+}
+/* line 1058, ../sass/rethink.scss */
+body.rethink .menu-open:checked + .menu-open-button {
+  transition-timing-function: linear;
+  transition-duration: 200ms;
+  transform: scale(0.5, 0.5) translate3d(0, 0, 0);
+}
+/* line 1064, ../sass/rethink.scss */
+body.rethink .menu-open:checked ~ .menu-item {
+  transition-timing-function: cubic-bezier(0.935, 0, 0.34, 1.33);
+}
+/* line 1070, ../sass/rethink.scss */
+body.rethink .menu-open:checked ~ .menu-item:nth-child(3) {
+  transition-duration: 160ms;
+  transform: translate3d(119.4005px, 11.98001px, 0);
+}
+/* line 1070, ../sass/rethink.scss */
+body.rethink .menu-open:checked ~ .menu-item:nth-child(4) {
+  transition-duration: 240ms;
+  transform: translate3d(0.09556px, 119.99996px, 0);
+}
+/* line 1070, ../sass/rethink.scss */
+body.rethink .menu-open:checked ~ .menu-item:nth-child(5) {
+  transition-duration: 320ms;
+  transform: translate3d(-119.38127px, 12.17016px, 0);
+}
+/* line 1077, ../sass/rethink.scss */
+body.rethink div.light-side {
+  background-color: #fff;
+  height: 100vh;
+}
+/* line 1082, ../sass/rethink.scss */
+body.rethink div.login-box {
+  margin-top: 22vh;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+/* line 1088, ../sass/rethink.scss */
+body.rethink div.login-box form.ink-form label {
+  font-size: 0;
+  position: relative;
+  text-align: left;
+}
+/* line 1093, ../sass/rethink.scss */
+body.rethink div.login-box form.ink-form label span.fa {
+  position: absolute;
+  left: 10px;
+  top: -12px;
+  color: #ccc;
+  font-size: 18px;
+}
+/* line 1102, ../sass/rethink.scss */
+body.rethink div.login-box form.ink-form div.form-group {
+  margin: 20px 0;
+}
+/* line 1105, ../sass/rethink.scss */
+body.rethink div.login-box form.ink-form div.form-group input[type="text"], body.rethink div.login-box form.ink-form div.form-group input[type="password"] {
+  width: 100%;
+  padding-left: 34px;
+  font-weight: 300;
+  font-family: "Open Sans", sans-serif;
+  background-color: white;
+  color: #293140;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+/* line 1115, ../sass/rethink.scss */
+body.rethink div.login-box form.ink-form div.form-group input[type="text"]:focus, body.rethink div.login-box form.ink-form div.form-group input[type="password"]:focus {
+  box-shadow: none;
+  color: #293140;
+  font-weight: 300;
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -ms-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+}
+/* line 1125, ../sass/rethink.scss */
+body.rethink div.login-box form.ink-form div.fx-login-submit {
+  margin-top: 22px;
+}
+/* line 1128, ../sass/rethink.scss */
+body.rethink div.login-box form.ink-form div.fx-login-submit button.btn {
+  background-color: #293140;
+  border: 0;
+  width: 100%;
+  color: #fff;
+  padding: 6px 0;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+/* line 1137, ../sass/rethink.scss */
+body.rethink div.login-box form.ink-form div.fx-login-submit button.btn:hover {
+  background-color: #293140;
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -ms-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+}
+/* line 1147, ../sass/rethink.scss */
+body.rethink h1, body.rethink h2, body.rethink h3, body.rethink h4, body.rethink h5 {
+  font-weight: 300;
+  color: #666;
+  text-transform: uppercase;
+}
+/* line 1153, ../sass/rethink.scss */
+body.rethink div.wrapper {
+  height: 100vh;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+}
+/* line 1159, ../sass/rethink.scss */
+body.rethink h1.big-logo {
+  background-image: url("../img/rethink-logo-big.png");
+  background-repeat: no-repeat;
+  height: 48px;
+  width: 100px;
+  margin: 0 auto;
+}
+/* line 1167, ../sass/rethink.scss */
+body.rethink header {
+  overflow: hidden;
+  display: block;
+  margin-bottom: 0;
+  height: 60px;
+}
+/* line 1176, ../sass/rethink.scss */
+body.rethink header h1.small-logo {
+  display: block;
+  width: 160px;
+  margin: 0;
+  display: block;
+  overflow: hidden;
+  margin-top: 6px;
+}
+/* line 1188, ../sass/rethink.scss */
+body.rethink header ul.contactlist {
+  margin: 0;
+  background: transparent;
+}
+/* line 1192, ../sass/rethink.scss */
+body.rethink header ul.contactlist li {
+  display: block;
+}
+/* line 1197, ../sass/rethink.scss */
+body.rethink header ul.contactlist li:hover  {
+  background-color: transparent;
+}
+/* line 1202, ../sass/rethink.scss */
+body.rethink header ul.contactlist li.context-name {
+  background-color: transparent;
+  padding-left: 6px;
+}
+/* line 1206, ../sass/rethink.scss */
+body.rethink header ul.contactlist li.context-name h3 a {
+  color: #3bb7f5;
+}
+/* line 1210, ../sass/rethink.scss */
+body.rethink header ul.contactlist li.context-name:hover  {
+  background-color: transparent;
+}
+/* line 1214, ../sass/rethink.scss */
+body.rethink header ul.contactlist li.context-name span.fa.fa-lock {
+  position: relative;
+  display: inline-block;
+  color: rgba(255, 255, 255, 0.15);
+  margin-right: 6px;
+}
+/* line 1221, ../sass/rethink.scss */
+body.rethink header ul.contactlist li.context-name h3.level-1 {
+  color: rgba(255, 255, 255, 0.8);
+}
+/* line 1225, ../sass/rethink.scss */
+body.rethink header ul.contactlist li.context-name i.fa.fa-ellipsis-v {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  color: #fff;
+  font-size: 16px;
+}
+/* line 1236, ../sass/rethink.scss */
+body.rethink a {
+  text-decoration: none;
+  color: #3c7db9;
+}
+/* line 1241, ../sass/rethink.scss */
+body.rethink a:hover {
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -ms-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+  text-decoration: none;
+}
+/* line 1247, ../sass/rethink.scss */
+body.rethink a.add {
+  font-size: 13px;
+  color: #7d8084;
+}
+/* line 1252, ../sass/rethink.scss */
+body.rethink ul {
+  list-style: none;
+}
+/* line 1259, ../sass/rethink.scss */
+body.rethink ul.rightlinks li a:hover {
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -ms-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+}
+/* line 1270, ../sass/rethink.scss */
+body.rethink a.button.blue {
+  background-color: #293140;
+  padding: 8px 14px;
+  color: #fff;
+  text-decoration: none;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+}
+/* line 1278, ../sass/rethink.scss */
+body.rethink a.button.blue:hover {
+  text-decoration: none;
+  color: #fff;
+  background-color: #293140;
+}
+/* line 1284, ../sass/rethink.scss */
+body.rethink a.button.blue.big {
+  padding: 16px 22px;
+  font-size: 1.15em;
+  display: inline-block;
+}
+/* line 1292, ../sass/rethink.scss */
+body.rethink ul.activity-list li.offline div.contact-avatar, body.rethink ul.activity-list li.offline h4.contact-name {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+}
+/* line 1297, ../sass/rethink.scss */
+body.rethink form.filter {
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+/* line 1302, ../sass/rethink.scss */
+body.rethink form.filter span.fa.fa-search {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  color: rgba(255, 255, 255, 0.8);
+}
+/* line 1310, ../sass/rethink.scss */
+body.rethink ul.activity-list {
+  overflow-y: scroll;
+  display: block;
+  margin: 0;
+  padding: 0;
+  padding-left: 0;
+}
+/* line 1317, ../sass/rethink.scss */
+body.rethink ul.activity-list li:last-child {
+  border: none;
+  /* margin-bottom: 80px;*/
+}
+/* line 1322, ../sass/rethink.scss */
+body.rethink ul.activity-list li {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid #dedede;
+  margin: 0;
+}
+/* line 1331, ../sass/rethink.scss */
+body.rethink ul.activity-list li:hover {
+  background-color: transparent;
+}
+/* line 1334, ../sass/rethink.scss */
+body.rethink ul.activity-list li:hover div.pointer {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+  transition-duration: 600ms;
+  transform: scale(1, 1) translate3d(0, 0, 0);
+  margin-left: 8px;
+}
+/* line 1343, ../sass/rethink.scss */
+body.rethink ul.activity-list li span.callback {
+  display: inline-block;
+  background: #1bba50;
+  color: #fff;
+  font-size: 11px;
+  padding: 6px 12px;
+  text-align: center;
+  line-height: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
+}
+/* line 1354, ../sass/rethink.scss */
+body.rethink ul.activity-list li span.callback:hover {
+  background: #10af45;
+}
+/* line 1360, ../sass/rethink.scss */
+body.rethink ul.activity-list li span.callback a {
+  color: #fff;
+}
+/* line 1365, ../sass/rethink.scss */
+body.rethink ul.activity-list li p {
+  overflow: hidden;
+  margin-bottom: 0;
+}
+/* line 1369, ../sass/rethink.scss */
+body.rethink ul.activity-list li p span {
+  font-size: 12px;
+  text-align: top;
+  margin-right: 12px;
+  font-weight: 400;
+}
+/* line 1375, ../sass/rethink.scss */
+body.rethink ul.activity-list li p span i {
+  font-size: 16px;
+  margin-right: 6px;
+  margin-left: 1px;
+}
+/* line 1381, ../sass/rethink.scss */
+body.rethink ul.activity-list li p span.chat {
+  color: #3bb7f5;
+}
+/* line 1384, ../sass/rethink.scss */
+body.rethink ul.activity-list li p span.chat i {
+  color: #3bb7f5;
+}
+/* line 1389, ../sass/rethink.scss */
+body.rethink ul.activity-list li p span.audio {
+  color: #1bba50;
+  display: inline-block;
+}
+/* line 1393, ../sass/rethink.scss */
+body.rethink ul.activity-list li p span.audio i {
+  color: #1bba50;
+}
+/* line 1397, ../sass/rethink.scss */
+body.rethink ul.activity-list li p span.audio.failed {
+  color: #e44c43;
+  padding-top: 2px;
+}
+/* line 1401, ../sass/rethink.scss */
+body.rethink ul.activity-list li p span.audio.failed i {
+  color: #e44c43;
+}
+/* line 1407, ../sass/rethink.scss */
+body.rethink ul.activity-list li p span.video {
+  color: #1bba50;
+  display: inline-block;
+}
+/* line 1411, ../sass/rethink.scss */
+body.rethink ul.activity-list li p span.video i {
+  color: #1bba50;
+}
+/* line 1415, ../sass/rethink.scss */
+body.rethink ul.activity-list li p span.video.failed {
+  color: #e44c43;
+  padding-top: 2px;
+}
+/* line 1419, ../sass/rethink.scss */
+body.rethink ul.activity-list li p span.video.failed i {
+  color: #e44c43;
+}
+/* line 1425, ../sass/rethink.scss */
+body.rethink ul.activity-list li p span.file {
+  color: #d26a1d;
+}
+/* line 1428, ../sass/rethink.scss */
+body.rethink ul.activity-list li p span.file i {
+  color: #d26a1d;
+}
+/* line 1435, ../sass/rethink.scss */
+body.rethink ul.activity-list li div.filetransfer {
+  padding-left: 68px;
+  max-width: 200px;
+}
+/* line 1439, ../sass/rethink.scss */
+body.rethink ul.activity-list li div.filetransfer img {
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+}
+/* line 1444, ../sass/rethink.scss */
+body.rethink ul.activity-list li span.date, body.rethink ul.activity-list li span.specs {
+  font-size: 11px;
+  color: #444;
+  text-transform: none;
+  display: block;
+  margin-left: 22px;
+}
+/* line 1452, ../sass/rethink.scss */
+body.rethink ul.activity-list li h4.contact-name {
+  margin: 0;
+}
+/* line 1455, ../sass/rethink.scss */
+body.rethink ul.activity-list li h4.contact-name a {
+  color: #444;
+  margin: 0;
+  display: block;
+  font-size: 15px;
+  text-transform: none;
+  font-weight: 400;
+}
+/* line 1463, ../sass/rethink.scss */
+body.rethink ul.activity-list li h4.contact-name a:hover {
+  color: #222;
+}
+/* line 1469, ../sass/rethink.scss */
+body.rethink ul.activity-list li div.contact-avatar {
+  height: 38px;
+  width: 38px;
+  display: inline-block;
+  margin-right: 20px;
+  position: relative;
+}
+/* line 1476, ../sass/rethink.scss */
+body.rethink ul.activity-list li div.contact-avatar img {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+}
+/* line 1483, ../sass/rethink.scss */
+body.rethink ul.activity-list li div.contact-avatar span.status {
+  padding: 0;
+  font-size: 14px;
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+}
+/* line 1490, ../sass/rethink.scss */
+body.rethink ul.activity-list li div.contact-avatar span.status i {
+  padding: 0;
+}
+/* line 1495, ../sass/rethink.scss */
+body.rethink ul.activity-list li div.contact-avatar span.status.online i {
+  color: #32d167;
+}
+/* line 1501, ../sass/rethink.scss */
+body.rethink ul.activity-list li div.contact-avatar span.status.away i {
+  color: #e44c43;
+}
+/* line 1507, ../sass/rethink.scss */
+body.rethink ul.activity-list li div.contact-avatar span.status.offline i {
+  color: #ccc;
+}
+/* line 1516, ../sass/rethink.scss */
+body.rethink div.audio-call, body.rethink div.video-call {
+  min-height: 320px;
+  height: 100%;
+  background-image: url("../img/audio-bk.jpg");
+  background-size: cover;
+  position: relative;
+}
+/* line 1524, ../sass/rethink.scss */
+body.rethink div.audio-call div.contact-me, body.rethink div.video-call div.contact-me {
+  width: 100%;
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+}
+/* line 1530, ../sass/rethink.scss */
+body.rethink div.audio-call div.contact-me.topper, body.rethink div.video-call div.contact-me.topper {
+  top: 0;
+  height: 56px;
+}
+/* line 1536, ../sass/rethink.scss */
+body.rethink div.audio-call div.contactbox, body.rethink div.video-call div.contactbox {
+  background: transparent;
+  border: none;
+  padding-top: 48px;
+}
+/* line 1541, ../sass/rethink.scss */
+body.rethink div.audio-call div.contactbox div.contact-avatar, body.rethink div.video-call div.contactbox div.contact-avatar {
+  height: 82px;
+  width: 82px;
+  margin-right: 14px;
+  position: relative;
+}
+/* line 1547, ../sass/rethink.scss */
+body.rethink div.audio-call div.contactbox div.contact-avatar img, body.rethink div.video-call div.contactbox div.contact-avatar img {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  background-color: #fff;
+}
+/* line 1553, ../sass/rethink.scss */
+body.rethink div.audio-call div.contactbox div.contact-avatar span.calling, body.rethink div.video-call div.contactbox div.contact-avatar span.calling {
+  padding: 0;
+  font-size: 32px;
+  position: absolute;
+  right: -8px;
+  bottom: -2px;
+}
+/* line 1560, ../sass/rethink.scss */
+body.rethink div.audio-call div.contactbox div.contact-avatar span.calling i, body.rethink div.video-call div.contactbox div.contact-avatar span.calling i {
+  color: #32d167;
+}
+/* line 1566, ../sass/rethink.scss */
+body.rethink div.audio-call div.contactbox div.contact-avatar, body.rethink div.video-call div.contactbox div.contact-avatar {
+  width: 86px;
+  height: 86px;
+  margin: 0 auto;
+}
+/* line 1571, ../sass/rethink.scss */
+body.rethink div.audio-call div.contactbox div.contact-avatar span.calling, body.rethink div.video-call div.contactbox div.contact-avatar span.calling {
+  z-index: 200;
+}
+/* line 1574, ../sass/rethink.scss */
+body.rethink div.audio-call div.contactbox div.contact-avatar span.calling i, body.rethink div.video-call div.contactbox div.contact-avatar span.calling i {
+  display: block;
+}
+/* line 1580, ../sass/rethink.scss */
+body.rethink div.audio-call div.contactbox h4, body.rethink div.video-call div.contactbox h4 {
+  display: block;
+  text-align: center;
+  color: #fff;
+  padding-top: 4px;
+  margin: 0;
+}
+/* line 1590, ../sass/rethink.scss */
+body.rethink div.video-call {
+  position: relative;
+  width: 100%;
+  height: 430px
+}
+
+#participant-video {
+  width: 100%;
+  height: 430px;
+  background: black;
+}
+
+#my-video {
+  position: absolute;;
+  top: 8px;
+  right: 8px;
+  width: 152px;
+  height: 86px;
+  background-color: black;
+}
+
+/* line 1596, ../sass/rethink.scss */
+body.rethink div.video-call div.contactbox {
+  display: none;
+}
+/* line 1601, ../sass/rethink.scss */
+body.rethink div.modal-body {
+  padding: 0;
+}
+/* line 1605, ../sass/rethink.scss */
+body.rethink .ink-tabs.bottom > .tabs-nav li a {
+  padding: 8px 8px 8px 18px;
+}
+/* line 1609, ../sass/rethink.scss */
+body.rethink div.full-bar {
+  display: block;
+  margin-top: 0;
+  min-height: 100vh;
+}
+/* line 1616, ../sass/rethink.scss */
+body.rethink div.full-bar .ink-tabs {
+  margin: 0;
+}
+/* line 1621, ../sass/rethink.scss */
+body.rethink div.full-bar ul.main-menu li a {
+  padding-left: 8px;
+  text-align: center;
+}
+/* line 1628, ../sass/rethink.scss */
+body.rethink div.archive {
+  border-left: 1px solid #ddd;
+  height: 100%;
+  overflow: hidden;
+  margin-top: -60px;
+  padding-top: 60px;
+}
+/* line 1635, ../sass/rethink.scss */
+body.rethink div.archive ul.activity-list {
+  height: 120vh;
+}
+/* line 1638, ../sass/rethink.scss */
+body.rethink div.archive ul.activity-list li.search-bar {
+  position: relative;
+}
+/* line 1641, ../sass/rethink.scss */
+body.rethink div.archive ul.activity-list li.search-bar input.search {
+  color: #666;
+  border: 1px solid #dedede;
+  padding: 6px;
+  width: 100%;
+  background-color: #fff;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+/* line 1653, ../sass/rethink.scss */
+body.rethink div.archive ul.activity-list li.search-bar form.filter {
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+/* line 1658, ../sass/rethink.scss */
+body.rethink div.archive ul.activity-list li.search-bar form.filter span.fa.fa-search {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  color: rgba(0, 0, 0, 0.15);
+}
+/* line 1669, ../sass/rethink.scss */
+body.rethink div.sidebar {
+  display: block;
+  height: 100%;
+  position: fixed;
+  min-height: 100vh;
+  padding-top: 60px;
+}
+/* line 1677, ../sass/rethink.scss */
+body.rethink div.inputbox {
+  background-color: #fcfdff;
+  border-top: 1px solid #d6d6d6;
+  display: block;
+  position: absolute;
+  botttom: 0;
+}
+/* line 1685, ../sass/rethink.scss */
+body.rethink div.contact-me {
+  display: inline-block;
+  margin-top: 18px;
+}
+/* line 1689, ../sass/rethink.scss */
+body.rethink div.contact-me span.counter {
+  background-color: rgba(0, 0, 0, 0.15);
+  color: #fff;
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 400;
+  padding: 2px 8px;
+  position: absolute;
+  top: 18px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+}
+/* line 1702, ../sass/rethink.scss */
+body.rethink div.contact-me span.action {
+  background-color: rgba(255, 255, 255, 0.15);
+  display: inline-block;
+  height: 48px;
+  overflow: hidden;
+  padding: 0;
+  width: 48px;
+  margin-right: 8px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+}
+/* line 1713, ../sass/rethink.scss */
+body.rethink div.contact-me span.action a {
+  color: #fff;
+  font-size: 18px;
+  height: 32px;
+  line-height: 46px;
+  padding: 16px;
+  text-align: center;
+  width: 32px;
+}
+/* line 1724, ../sass/rethink.scss */
+body.rethink div.contact-me span.action.volume:hover, body.rethink div.contact-me span.action.full-screen:hover {
+  background-color: #fff;
+  -webkit-box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -ms-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+}
+/* line 1727, ../sass/rethink.scss */
+body.rethink div.contact-me span.action.volume:hover i, body.rethink div.contact-me span.action.full-screen:hover i {
+  color: #666;
+}
+/* line 1738, ../sass/rethink.scss */
+body.rethink div.contact-me span.action.audio.hangup {
+  background-color: #e44c43;
+  width: 90px;
+  -webkit-border-radius: 45px;
+  -moz-border-radius: 45px;
+  -ms-border-radius: 45px;
+  -o-border-radius: 45px;
+  border-radius: 45px;
+}
+/* line 1744, ../sass/rethink.scss */
+body.rethink div.contact-me span.action.audio.hangup:hover {
+  background-color: #dd453c;
+}
+/* line 1748, ../sass/rethink.scss */
+body.rethink div.contact-me span.action.audio.hangup i {
+  transform: translate3d(0, 0, 0) rotate(135deg);
+}
+/* line 1755, ../sass/rethink.scss */
+body.rethink div.contact-me span.action.video.hangup {
+  background-color: #e44c43;
+  width: 90px;
+  -webkit-border-radius: 45px;
+  -moz-border-radius: 45px;
+  -ms-border-radius: 45px;
+  -o-border-radius: 45px;
+  border-radius: 45px;
+}
+/* line 1761, ../sass/rethink.scss */
+body.rethink div.contact-me span.action.video.hangup:hover {
+  background-color: #dd453c;
+}
+/* line 1767, ../sass/rethink.scss */
+body.rethink div.contact-me span.action.audio, body.rethink div.contact-me span.action.video {
+  background-color: #32d167;
+}
+/* line 1770, ../sass/rethink.scss */
+body.rethink div.contact-me span.action.audio:hover, body.rethink div.contact-me span.action.video:hover {
+  background-color: #24c359;
+  -webkit-box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -ms-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+}
+/* line 1778, ../sass/rethink.scss */
+body.rethink div.contact-me span.action.audio.mute, body.rethink div.contact-me span.action.video.mute {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+/* line 1781, ../sass/rethink.scss */
+body.rethink div.contact-me span.action.audio.mute i, body.rethink div.contact-me span.action.video.mute i {
+  color: #222;
+}
+/* line 1786, ../sass/rethink.scss */
+body.rethink div.contact-me span.action.audio.full-screen, body.rethink div.contact-me span.action.video.full-screen {
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.8);
+}
+/* line 1794, ../sass/rethink.scss */
+body.rethink div.contactbox {
+  display: table;
+  clear: both;
+  background-color: #fcfdff;
+  border-bottom: 1px solid #d6d6d6;
+  padding: 22px;
+  position: relative;
+}
+/* line 1803, ../sass/rethink.scss */
+body.rethink div.contactbox.calling-audio div.contact-me {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -ms-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+}
+/* line 1809, ../sass/rethink.scss */
+body.rethink div.contactbox.calling-audio div.call-box {
+  background-color: #fff;
+  -webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+/* line 1816, ../sass/rethink.scss */
+body.rethink div.contactbox h4.contact-name {
+  margin: 0;
+  margin-right: 12px;
+}
+/* line 1820, ../sass/rethink.scss */
+body.rethink div.contactbox h4.contact-name a {
+  color: #666;
+  margin: 0;
+  display: inline-block;
+  font-size: 20px;
+  text-transform: none;
+  font-weight: 300;
+  padding-top: 28px;
+}
+/* line 1829, ../sass/rethink.scss */
+body.rethink div.contactbox h4.contact-name a:hover {
+  color: #666;
+}
+/* line 1835, ../sass/rethink.scss */
+body.rethink div.contactbox div.contact-avatar {
+  height: 82px;
+  width: 82px;
+  margin-right: 14px;
+  position: relative;
+}
+/* line 1841, ../sass/rethink.scss */
+body.rethink div.contactbox div.contact-avatar img {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  background-color: #fff;
+}
+/* line 1847, ../sass/rethink.scss */
+body.rethink div.contactbox div.contact-avatar span.status {
+  padding: 0;
+  font-size: 20px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+/* line 1857, ../sass/rethink.scss */
+body.rethink span.add-user, body.rethink span.close {
+  display: inline-block;
+}
+/* line 1860, ../sass/rethink.scss */
+body.rethink span.add-user a, body.rethink span.close a {
+  border: 1px solid #fff;
+  color: #fff;
+  display: block;
+  font-size: 26px;
+  font-weight: 300;
+  height: 36px;
+  line-height: 33px;
+  margin: 0;
+  opacity: 0.6;
+  padding: 0;
+  text-align: center;
+  vertical-align: top;
+  width: 38px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+}
+/* line 1879, ../sass/rethink.scss */
+body.rethink span.add-user a:hover, body.rethink span.close a:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -ms-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+}
+/* line 1887, ../sass/rethink.scss */
+body.rethink span.close {
+  display: block;
+  margin-top: 22px;
+  color: #666;
+}
+/* line 1892, ../sass/rethink.scss */
+body.rethink span.close a {
+  border: none;
+  background-color: transparent;
+  color: #666;
+  line-height: 34px;
+  font-size: 14px;
+  border: 1px solid #666;
+}
+/* line 1902, ../sass/rethink.scss */
+body.rethink ul.invitations {
+  margin: 0;
+  padding: 0;
+  padding-left: 8px;
+}
+/* line 1908, ../sass/rethink.scss */
+body.rethink div.sidebar ul.contactlist {
+  height: 100%;
+  position: relative;
+}
+/* line 1912, ../sass/rethink.scss */
+body.rethink div.sidebar ul.contactlist li.options {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+}
+/* line 1917, ../sass/rethink.scss */
+body.rethink div.sidebar ul.contactlist li.options:hover {
+  background: transparent;
+}
+/* line 1924, ../sass/rethink.scss */
+body.rethink li.options span.add-text {
+  color: #fff;
+  vertical-align: top;
+  line-height: 36px;
+  padding-left: 12px;
+  text-transform: uppercase;
+  font-weight: 400;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+}
+/* line 1936, ../sass/rethink.scss */
+body.rethink ul.contactlist {
+  overflow: hidden;
+  display: block;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+/* line 1945, ../sass/rethink.scss */
+body.rethink ul.contactlist h3 {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 18px;
+  display: inline-block;
+  margin-bottom: 0;
+}
+/* line 1952, ../sass/rethink.scss */
+body.rethink ul.contactlist li.options:hover {
+  background-color: transparent;
+}
+/* line 1956, ../sass/rethink.scss */
+body.rethink ul.contactlist li.search-bar {
+  background-color: transparent;
+  overflow: visible;
+  display: flex;
+  padding-left: 12px;
+}
+/* line 1962, ../sass/rethink.scss */
+body.rethink ul.contactlist li.search-bar.invite {
+  padding-top: 4px;
+}
+/* line 1965, ../sass/rethink.scss */
+body.rethink ul.contactlist li.search-bar.invite input.search {
+  color: #666;
+  border: 1px solid #dedede;
+  padding: 8px;
+  height: auto;
+  width: 100%;
+  background-color: #fff;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+/* line 1978, ../sass/rethink.scss */
+body.rethink ul.contactlist li.search-bar.invite form.filter {
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+/* line 1983, ../sass/rethink.scss */
+body.rethink ul.contactlist li.search-bar.invite form.filter span.fa.fa-search {
+  position: absolute;
+  right: 12px;
+  top: 14px;
+  color: rgba(0, 0, 0, 0.15);
+}
+/* line 1992, ../sass/rethink.scss */
+body.rethink ul.contactlist li.search-bar:hover {
+  background-color: transparent;
+}
+/* line 1996, ../sass/rethink.scss */
+body.rethink ul.contactlist li.search-bar input.search {
+  background-color: rgba(0, 0, 0, 0.15);
+  height: 34px;
+  margin-top: 3px;
+  color: #f8f8f8;
+  padding: 6px 10px;
+  width: 100%;
+  height: 34px;
+  border: none;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+/* line 2012, ../sass/rethink.scss */
+body.rethink ul.contactlist li.search-bar input.search:focus {
+  float: left;
+  display: inline-block;
+  transition-duration: 500ms;
+  background-color: rgba(0, 0, 0, 0.15);
+  border: none;
+}
+/* line 2024, ../sass/rethink.scss */
+body.rethink ul.contactlist li.search-bar label.search {
+  width: 38px;
+  height: 38px;
+  background-color: #009cff;
+  border: 1px solid #009cff;
+  display: inline-block;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+}
+/* line 2033, ../sass/rethink.scss */
+body.rethink ul.contactlist li.search-bar label.search:hover {
+  -webkit-box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -ms-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+}
+/* line 2039, ../sass/rethink.scss */
+body.rethink ul.contactlist li.search-bar label.search a {
+  color: #fff;
+  font-size: 14px;
+  line-height: 36px;
+  margin: 0;
+  padding: 12px;
+  text-align: center;
+}
+/* line 2047, ../sass/rethink.scss */
+body.rethink ul.contactlist li.search-bar label.search a i {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=60);
+  opacity: 0.6;
+}
+/* line 2052, ../sass/rethink.scss */
+body.rethink ul.contactlist li.search-bar label.search a:hover i {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -ms-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+}
+/* line 2062, ../sass/rethink.scss */
+body.rethink ul.contactlist li {
+  padding-left: 24px;
+  display: block;
+  overflow: hidden;
+  position: relative;
+  margin: 0;
+}
+/* line 2069, ../sass/rethink.scss */
+body.rethink ul.contactlist li:hover, body.rethink ul.contactlist li.active {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+/* line 2073, ../sass/rethink.scss */
+body.rethink ul.contactlist li:hover div.pointer, body.rethink ul.contactlist li.active div.pointer {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+  transition-duration: 500ms;
+  transform: scale(1, 1) translate3d(0, 0, 0);
+  right: 4px;
+}
+/* line 2082, ../sass/rethink.scss */
+body.rethink ul.contactlist li div.alert {
+  position: absolute;
+  top: 18px;
+  right: 32px;
+}
+/* line 2087, ../sass/rethink.scss */
+body.rethink ul.contactlist li div.alert a {
+  position: relative;
+  display: block;
+}
+/* line 2092, ../sass/rethink.scss */
+body.rethink ul.contactlist li div.alert span.new-message {
+  background-color: #e44c43;
+  display: inline-block;
+  font-size: 10px;
+  padding: 1px 4px;
+  color: #f8f8f8;
+  font-weight: 400;
+  position: absolute;
+  top: -6px;
+  right: -2px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+  border-radius: 30px;
+}
+/* line 2106, ../sass/rethink.scss */
+body.rethink ul.contactlist li div.alert i.fa {
+  color: rgba(255, 255, 255, 0.15);
+  font-size: 22px;
+  padding-right: 4px;
+}
+/* line 2116, ../sass/rethink.scss */
+body.rethink ul.contactlist li.offline div.contact-avatar, body.rethink ul.contactlist li.offline .contact-name {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+}
+/* line 2120, ../sass/rethink.scss */
+body.rethink ul.contactlist li.offline:hover {
+  background-color: transparent;
+}
+/* line 2123, ../sass/rethink.scss */
+body.rethink ul.contactlist li.offline:hover .pointer {
+  display: none;
+}
+/* line 2129, ../sass/rethink.scss */
+body.rethink ul.contactlist li.context-name {
+  padding-bottom: 18px;
+  background-color: #3d495f;
+  position: relative;
+}
+/* line 2136, ../sass/rethink.scss */
+body.rethink ul.contactlist li.context-name h3 a {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 300;
+  display: inline;
+}
+/* line 2144, ../sass/rethink.scss */
+body.rethink ul.contactlist li.context-name i.fa.fa-lock {
+  font-size: 13px;
+  position: absolute;
+  left: 12px;
+  top: 18px;
+  color: #fff;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);
+  opacity: 0.4;
+}
+/* line 2154, ../sass/rethink.scss */
+body.rethink ul.contactlist li.context-name:hover {
+  background-color: transparent;
+}
+/* line 2159, ../sass/rethink.scss */
+body.rethink ul.contactlist li.user-area {
+  z-index: 40;
+  display: flex;
+  overflow: visible;
+  margin-bottom: 0;
+}
+/* line 2165, ../sass/rethink.scss */
+body.rethink ul.contactlist li.user-area:hover {
+  background-color: transparent;
+}
+/* line 2169, ../sass/rethink.scss */
+body.rethink ul.contactlist li.user-area ul.dropdown-menu {
+  z-index: 100;
+  border: none;
+  width: 100%;
+  background-color: #414d63;
+  -webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+/* line 2177, ../sass/rethink.scss */
+body.rethink ul.contactlist li.user-area ul.dropdown-menu li {
+  border: none;
+  padding-left: 4px;
+  color: rgba(255, 255, 255, 0.8);
+}
+/* line 2182, ../sass/rethink.scss */
+body.rethink ul.contactlist li.user-area ul.dropdown-menu li:hover {
+  background: transparent;
+}
+/* line 2186, ../sass/rethink.scss */
+body.rethink ul.contactlist li.user-area ul.dropdown-menu li a {
+  font-size: 14px;
+  padding: 4px 8px;
+  color: #fff;
+}
+/* line 2191, ../sass/rethink.scss */
+body.rethink ul.contactlist li.user-area ul.dropdown-menu li a:hover  {
+  background-color: transparent;
+  color: #666;
+}
+/* line 2199, ../sass/rethink.scss */
+body.rethink ul.contactlist li.user-area h3 {
+  color: #fff;
+  padding: 0px;
+  margin: 0;
+  display: inline-block;
+  font-size: 14px;
+  text-transform: none;
+  padding-right: 12px;
+}
+/* line 2210, ../sass/rethink.scss */
+body.rethink ul.contactlist li.user-area span.status-changer a span {
+  color: #fff;
+}
+/* line 2215, ../sass/rethink.scss */
+body.rethink ul.contactlist li.user-area div.main-avatar {
+  height: 38px;
+  width: 38px;
+  display: block;
+  position: relative;
+}
+/* line 2223, ../sass/rethink.scss */
+body.rethink ul.contactlist li.user-area div.main-avatar img {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+}
+/* line 2227, ../sass/rethink.scss */
+body.rethink ul.contactlist li.user-area div.main-avatar span.status {
+  padding: 0;
+  font-size: 16px;
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+}
+/* line 2236, ../sass/rethink.scss */
+body.rethink ul.contactlist li.user-area span.status {
+  margin: 0;
+  padding: 0;
+}
+/* line 2240, ../sass/rethink.scss */
+body.rethink ul.contactlist li.user-area span.status span.fa {
+  line-height: inherit;
+  margin: 0;
+  padding: 2px 4px 0 5px;
+  vertical-align: top;
+  font-size: 12px;
+}
+/* line 2248, ../sass/rethink.scss */
+body.rethink ul.contactlist li.user-area span.status a {
+  color: rgba(255, 255, 255, 0.8);
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  padding-top: 2px;
+  line-height: 18px;
+  text-transform: none;
+}
+/* line 2258, ../sass/rethink.scss */
+body.rethink ul.contactlist li.user-area span.status a:hover {
+  color: #fff;
+}
+/* line 2265, ../sass/rethink.scss */
+body.rethink ul.contactlist li div.pointer {
+  position: absolute;
+  right: 16px;
+  top: 19px;
+  padding: 2px 4px;
+  transform: scale(0.8, 0.8) translate3d(0, 0, 0);
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+}
+/* line 2274, ../sass/rethink.scss */
+body.rethink ul.contactlist li div.pointer span.action {
+  padding: 0;
+  display: inline-block;
+}
+/* line 2278, ../sass/rethink.scss */
+body.rethink ul.contactlist li div.pointer span.action a {
+  padding: 0;
+}
+/* line 2282, ../sass/rethink.scss */
+body.rethink ul.contactlist li div.pointer span.action i {
+  color: #fff;
+  font-size: 14px;
+}
+/* line 2289, ../sass/rethink.scss */
+body.rethink ul.contactlist li h4.contact-name a {
+  color: rgba(255, 255, 255, 0.8);
+  padding: 12px 4px 0px 12px;
+  margin: 0;
+  display: block;
+  font-size: 15px;
+  text-transform: none;
+}
+/* line 2298, ../sass/rethink.scss */
+body.rethink ul.contactlist li div.contact-avatar {
+  height: 38px;
+  width: 38px;
+  margin-top: 4px;
+  position: relative;
+}
+/* line 2304, ../sass/rethink.scss */
+body.rethink ul.contactlist li div.contact-avatar img {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  background-color: #fff;
+}
+/* line 2313, ../sass/rethink.scss */
+body.rethink span.status {
+  padding: 0;
+  font-size: 16px;
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+}
+/* line 2320, ../sass/rethink.scss */
+body.rethink span.status i {
+  padding: 0;
+}
+/* line 2325, ../sass/rethink.scss */
+body.rethink span.status.online i {
+  color: #32d167;
+}
+/* line 2331, ../sass/rethink.scss */
+body.rethink span.status.away i {
+  color: #e44c43;
+}
+/* line 2337, ../sass/rethink.scss */
+body.rethink span.status.offline i {
+  color: #ccc;
+}
+/* line 2343, ../sass/rethink.scss */
+body.rethink ul.main-menu {
+  margin-top: 0;
+  display: block;
+  min-height: 100%;
+  min-width: 100%;
+  background-color: transparent;
+  padding-left: 0;
+}
+/* line 2351, ../sass/rethink.scss */
+body.rethink ul.main-menu i {
+  padding: 0 12px 0 0;
+}
+/* line 2355, ../sass/rethink.scss */
+body.rethink ul.main-menu li {
+  display: block;
+  overflow: hidden;
+  margin: 0;
+  clear: both;
+  position: relative;
+}
+/* line 2362, ../sass/rethink.scss */
+body.rethink ul.main-menu li a {
+  color: rgba(255, 255, 255, 0.8);
+  display: block;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin: 0;
+  background: transparent;
+  border: none;
+  line-height: 2.5em;
+  padding-left: 22px;
+}
+/* line 2375, ../sass/rethink.scss */
+body.rethink ul.main-menu li a span.fa-angle-down {
+  margin-right: 22px;
+  margin-top: 10px;
+}
+/* line 2381, ../sass/rethink.scss */
+body.rethink ul.main-menu li:hover {
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -ms-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+}
+/* line 2382, ../sass/rethink.scss */
+body.rethink ul.main-menu li:hover a {
+  color: #fff;
+}
+/* line 2389, ../sass/rethink.scss */
+body.rethink ul.main-menu li.active {
+  background-color: #3d464e;
+}
+/* line 2395, ../sass/rethink.scss */
+body.rethink .archive {
+  background-color: #f6f6f6;
+}
+/* line 2400, ../sass/rethink.scss */
+body.rethink div.content-box.archive.list ul.activity-list li p {
+  padding-top: 0;
+}
+/* line 2405, ../sass/rethink.scss */
+body.rethink .ink-tabs.bottom > .tabs-nav {
+  border: none;
+  height: 40px;
+  padding-top: 2px;
+}
+/* line 2411, ../sass/rethink.scss */
+body.rethink .ink-tabs .tabs-nav li a:hover {
+  background: none;
+  color: #fff;
+}
+/* line 2416, ../sass/rethink.scss */
+body.rethink div#chats {
+  position: relative;
+  height: 100%;
+}
+/* line 2420, ../sass/rethink.scss */
+body.rethink div#chats div.contactbox {
+  padding: 12px 22px 8px;
+}
+/* line 2424, ../sass/rethink.scss */
+body.rethink div#chats div.content-box.user span.message {
+  display: inline-block;
+}
+/* line 2429, ../sass/rethink.scss */
+body.rethink div#contactos.tabs-content ul.contactlist li.search-bar {
+  background-color: transparent;
+  overflow: visible;
+  padding-left: 4px;
+  padding-top: 36px;
+}
+/* line 2435, ../sass/rethink.scss */
+body.rethink div#contactos.tabs-content ul.contactlist li.search-bar form.filter {
+  position: relative;
+}
+/* line 2438, ../sass/rethink.scss */
+body.rethink div#contactos.tabs-content ul.contactlist li.search-bar form.filter input.search {
+  border: none;
+  height: 34px;
+  margin-top: 3px;
+  color: #f8f8f8;
+  padding: 6px 10px;
+  background-color: rgba(0, 0, 0, 0.15);
+  width: 100%;
+  height: 34px;
+  display: block;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+/* line 2453, ../sass/rethink.scss */
+body.rethink div#contactos.tabs-content ul.contactlist li.search-bar form.filter input.search:focus {
+  background-color: rgba(0, 0, 0, 0.15);
+  transition-duration: 500ms;
+}
+/* line 2462, ../sass/rethink.scss */
+body.rethink div#contactos.tabs-content ul.contactlist li.search-bar form.filter span.fa-search {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  font-size: 13px;
+  color: #fff;
+}
+/* line 2471, ../sass/rethink.scss */
+body.rethink div#contactos.tabs-content ul.contactlist li.search-bar label.search {
+  width: 38px;
+  height: 38px;
+  background-color: #009cff;
+  border: 1px solid #009cff;
+  display: inline-block;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+}
+/* line 2480, ../sass/rethink.scss */
+body.rethink div#contactos.tabs-content ul.contactlist li.search-bar label.search:hover {
+  -webkit-box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -ms-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+}
+/* line 2486, ../sass/rethink.scss */
+body.rethink div#contactos.tabs-content ul.contactlist li.search-bar label.search a {
+  color: #fff;
+  font-size: 14px;
+  line-height: 36px;
+  margin: 0;
+  padding: 12px;
+  text-align: center;
+}
+/* line 2494, ../sass/rethink.scss */
+body.rethink div#contactos.tabs-content ul.contactlist li.search-bar label.search a i {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=60);
+  opacity: 0.6;
+}
+/* line 2499, ../sass/rethink.scss */
+body.rethink div#contactos.tabs-content ul.contactlist li.search-bar label.search a:hover i {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -ms-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+}
+/* line 2510, ../sass/rethink.scss */
+body.rethink div#archive.tabs-content ul.activity-list li.search-bar.half-padding form.filter {
+  position: relative;
+}
+/* line 2513, ../sass/rethink.scss */
+body.rethink div#archive.tabs-content ul.activity-list li.search-bar.half-padding form.filter input.search {
+  border: none;
+  height: 34px;
+  margin-top: 3px;
+  color: #666;
+  padding: 6px 10px;
+  background-color: #fff;
+  width: 100%;
+  height: 34px;
+  display: block;
+  border: 1px solid #dedede;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+/* line 2529, ../sass/rethink.scss */
+body.rethink div#archive.tabs-content ul.activity-list li.search-bar.half-padding form.filter input.search:focus {
+  background-color: rgba(0, 0, 0, 0.15);
+  transition-duration: 500ms;
+}
+/* line 2538, ../sass/rethink.scss */
+body.rethink div#archive.tabs-content ul.activity-list li.search-bar.half-padding form.filter span.fa.fa-search {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  font-size: 13px;
+  color: #666;
+}
+/* line 2549, ../sass/rethink.scss */
+body.rethink div.container div.tabs-content ul.contactlist li.context-name h3 {
+  padding-top: 4px;
+  padding-bottom: 10px;
+}
+/* line 2554, ../sass/rethink.scss */
+body.rethink div.container div.tabs-content div.contactbox {
+  padding: 22px;
+  position: relative;
+}
+/* line 2558, ../sass/rethink.scss */
+body.rethink div.container div.tabs-content div.contactbox div.contact-avatar {
+  height: 48px;
+  width: 48px;
+}
+/* line 2562, ../sass/rethink.scss */
+body.rethink div.container div.tabs-content div.contactbox div.contact-avatar span.status {
+  font-size: 14px;
+  bottom: -2px;
+  right: -2px;
+}
+/* line 2569, ../sass/rethink.scss */
+body.rethink div.container div.tabs-content div.contactbox div.contact-me {
+  position: absolute;
+  bottom: -26px;
+  z-index: 400;
+}
+/* line 2575, ../sass/rethink.scss */
+body.rethink div.container div.tabs-content div.contactbox span.close {
+  display: none;
+}
+/* line 2579, ../sass/rethink.scss */
+body.rethink div.container div.tabs-content div.contactbox h4.contact-name a {
+  font-size: 18px;
+  padding-top: 0;
+}
+/* line 2585, ../sass/rethink.scss */
+body.rethink div.container div.tabs-content .message-sender {
+  bottom: 40px;
+  height: 42px;
+}
+/* line 2591, ../sass/rethink.scss */
+body.rethink ul.tabs-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border: none;
+  margin: 0;
+}
+/* line 2599, ../sass/rethink.scss */
+body.rethink ul.tabs-nav li a {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.15);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+}
+/* line 2606, ../sass/rethink.scss */
+body.rethink ul.tabs-nav li a i {
+  font-size: 22px;
+  color: rgba(255, 255, 255, 0.15);
+}
+/* line 2612, ../sass/rethink.scss */
+body.rethink ul.tabs-nav li a:hover i {
+  color: #fff;
+}
+/* line 2618, ../sass/rethink.scss */
+body.rethink ul.tabs-nav li.active {
+  margin: 0;
+}
+/* line 2621, ../sass/rethink.scss */
+body.rethink ul.tabs-nav li.active a {
+  background-color: transparent;
+  border: none;
+}
+/* line 2625, ../sass/rethink.scss */
+body.rethink ul.tabs-nav li.active a i {
+  color: #fff;
+}
+/* line 2633, ../sass/rethink.scss */
+body.rethink .content-panel {
+  margin-top: 60px;
+}
+/* line 2636, ../sass/rethink.scss */
+body.rethink .content-panel h3 {
+  color: #898e95;
+  font-size: 18px;
+}
+/* line 2641, ../sass/rethink.scss */
+body.rethink .content-panel div.marker {
+  display: block;
+  z-index: 120;
+  position: relative;
+}
+
+/* line 2647, ../sass/rethink.scss */
+body.rethink .content-panel div.marker span.work-marker {
+  position: absolute;
+  top: 50vh;
+  left: 50%;
+  background: #414d63;
+  width: 80px;
+  height: 80px;
+  display: block;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+}
+/* line 2659, ../sass/rethink.scss */
+body.rethink .content-panel div.marker span.fitness-marker {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  background-color: #ff6600;
+}
+/* line 2669, ../sass/rethink.scss */
+body.rethink nav.sub-context-menu {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  overflow: hidden;
+  display: block;
+}
+/* line 2675, ../sass/rethink.scss */
+body.rethink nav.sub-context-menu ul {
+  margin: 0;
+}
+/* line 2678, ../sass/rethink.scss */
+body.rethink nav.sub-context-menu ul li {
+  display: inline-block;
+}
+/* line 2681, ../sass/rethink.scss */
+body.rethink nav.sub-context-menu ul li p {
+  margin: 0;
+}
+/* line 2685, ../sass/rethink.scss */
+body.rethink nav.sub-context-menu ul li a {
+  padding: 4px 8px;
+  font-size: 16px;
+  font-weight: 300;
+}
+/* line 2694, ../sass/rethink.scss */
+body.rethink div.main-content {
+  margin: 0;
+  padding: 0;
+  float: right;
+}
+/* line 2700, ../sass/rethink.scss */
+body.rethink div.content-box {
+  /* overflow: hidden; */
+  overflow-y: scroll;
+}
+/* line 2711, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list li {
+  border: none;
+  position: relative;
+  margin: 0;
+}
+/* line 2716, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list li p {
+  margin-bottom: 0;
+}
+/* line 2720, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list li span.message-options {
+  display: block;
+  display: block;
+  position: absolute;
+  right: 10px;
+  top: 14px;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
+  -moz-transition: -moz-transform 0.5s, opacity 0.5s;
+  transition: transform 0.5s, opacity 0.5s;
+}
+/* line 2733, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list li span.message-options ul.messages {
+  padding: 3px 12px;
+  background-color: #414d63;
+  margin: 0;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
+}
+/* line 2745, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list li span.message-options ul.messages li {
+  display: inline-block;
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  display: inline-block;
+  font-size: 11px;
+  padding: 5px 6px 0;
+}
+/* line 2752, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list li span.message-options ul.messages li a {
+  color: #fff;
+  margin-right: 4px;
+  padding: 0;
+}
+/* line 2758, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list li span.message-options ul.messages li i {
+  margin-right: 2px;
+}
+/* line 2763, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list li span.message-options ul.messages li:last-child {
+  border: none;
+}
+/* line 2770, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list li.reply:hover {
+  background-color: #e6e8ee;
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -ms-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
+}
+/* line 2775, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list li.reply:hover span.message {
+  background-color: transparent;
+}
+/* line 2779, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list li.reply:hover span.message-options {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+/* line 2785, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list li span.message {
+  background-color: #eff0f4;
+  color: #444;
+  display: inline-block;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+}
+/* line 2793, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list li.unread {
+  border-left: 4px solid #e44c43;
+}
+/* line 2798, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list div.tagline {
+  position: relative;
+}
+/* line 2801, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list div.tagline hr {
+  border-top: 1px solid #ddd;
+  border-bottom: none;
+}
+/* line 2808, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list div.tagline span.date-tag {
+  background-color: #eff0f4;
+  font-size: 12px;
+  color: #666;
+  padding: 2px 4px;
+  font-weight: 400;
+  display: inline-block;
+}
+/* line 2817, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list div.tagline span.older {
+  font-size: 11px;
+  color: #666;
+  padding: 2px 10px;
+  background-color: #eff0f4;
+  position: absolute;
+  left: 55px;
+  bottom: -8px;
+}
+/* line 2827, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list div.tagline span.tag {
+  font-size: 10px;
+  color: #009cff;
+  padding: 4px 8px;
+  border-bottom: 1px solid #009cff;
+  background-color: transparent;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin-left: 16px;
+  font-weight: 400;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+}
+/* line 2842, ../sass/rethink.scss */
+body.rethink div.content-box.user ul.activity-list div.tagline i.fa-bookmark {
+  position: absolute;
+  color: #009cff;
+  font-size: 18px;
+  bottom: -17px;
+}
+/* line 2856, ../sass/rethink.scss */
+body.rethink div.content-box.user span.message {
+  background-color: #fff;
+  padding: 6px 8px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+}
+/* line 2863, ../sass/rethink.scss */
+body.rethink div.content-box.user div.contact-avatar {
+  width: 32px;
+  height: 32px;
+  margin-top: 2px;
+}
+/* line 2869, ../sass/rethink.scss */
+body.rethink div.content-box.user div.filetransfer {
+  padding-left: 52px;
+}
+/* line 2873, ../sass/rethink.scss */
+body.rethink div.content-box.user span.chat {
+  display: block;
+}
+/* line 2879, ../sass/rethink.scss */
+body.rethink div.sidebar {
+  position: fixed;
+}
+/* line 2882, ../sass/rethink.scss */
+body.rethink div.sidebar footer {
+  position: absolute;
+  bottom: 6px;
+  width: 100%;
+  font-size: 9px;
+  color: #fff;
+  padding: 4px;
+  padding-left: 24px;
+  background-color: #3d495f;
+  border-top: rgba(255, 255, 255, 0.8);
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+}
+/* line 2897, ../sass/rethink.scss */
+body.rethink .ink-shade {
+  z-index: 500;
+  background-color: #eff0f4;
+}
+/* line 2902, ../sass/rethink.scss */
+body.rethink .ink-modal {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+/* line 2906, ../sass/rethink.scss */
+body.rethink div.contacts-add {
+  background-color: #eff0f4;
+  position: relative;
+}
+/* line 2910, ../sass/rethink.scss */
+body.rethink div.contacts-add h3 {
+  color: #898e95;
+  font-size: 18px;
+  margin-bottom: 0;
+  padding-left: 26px;
+}
+/* line 2917, ../sass/rethink.scss */
+body.rethink div.contacts-add span.close {
+  position: absolute;
+  top: -10px;
+  right: 16px;
+}
+/* line 2923, ../sass/rethink.scss */
+body.rethink div.contacts-add ul.contactlist {
+  border-right: 1px solid #ddd;
+}
+/* line 2927, ../sass/rethink.scss */
+body.rethink div.contacts-add ul.contactlist li {
+  background: none transparent;
+}
+/* line 2930, ../sass/rethink.scss */
+body.rethink div.contacts-add ul.contactlist li:hover {
+  background: none transparent;
+}
+/* line 2934, ../sass/rethink.scss */
+body.rethink div.contacts-add ul.contactlist li h4.contact-name a {
+  color: #666;
+}
+/* line 2937, ../sass/rethink.scss */
+body.rethink div.contacts-add ul.contactlist li h4.contact-name a:hover {
+  color: #444;
+}
+/* line 2943, ../sass/rethink.scss */
+body.rethink div.contacts-add ul.contactlist li.search-bar {
+  margin-top: 0;
+}
+/* line 2947, ../sass/rethink.scss */
+body.rethink div.contacts-add ul.contactlist li.search-bar form input.search:focus {
+  background: #ffffff none repeat scroll 0 0;
+  border: 1px solid #dddddd;
+}

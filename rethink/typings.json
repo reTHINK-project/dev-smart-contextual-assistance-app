@@ -1,7 +1,0 @@
-{
-  "globalDependencies": {
-    "es6-shim": "registry:dt/es6-shim",
-    "jquery": "registry:dt/jquery"
-  },
-  "dependencies": {}
-}

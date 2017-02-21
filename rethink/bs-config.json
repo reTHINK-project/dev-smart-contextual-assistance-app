@@ -1,0 +1,16 @@
+{
+  "open": false,
+  "port": 8080,
+  "ghostMode": false,
+  "codeSync": false,
+  "https": {
+    "key": "rethink-certificate.key",
+    "cert": "rethink-certificate.cert"
+  },
+  "server": {
+    "baseDir": "src",
+    "routes": {
+      "/node_modules": "node_modules"
+    }
+  }
+}

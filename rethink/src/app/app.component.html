@@ -1,0 +1,41 @@
+<!-- container -->
+<div class="container-fluid">
+    
+  <div class="row">
+
+      <!-- pusher -->
+      <div class="mp-pusher wrapper {{contextOpened ? 'mp-pushed' : ''}}" (click)='onClickOutside($event)' id="mp-pusher">
+          <!-- <nav context-menu></nav> -->
+
+          <!-- scroller -->
+          <div class="scroller">
+
+              <!-- scroller-inner -->
+              <div class="scroller-inner">
+                    <header class="all-100 half-padding">
+                        <ul context-breadcrumb onOpenContext="onOpenContext($event)"></ul>
+                        <h1 class="small-logo push-left"><img src="../assets/img/rethinklogo2.png"></h1>
+                        <ul my-self *ngIf="myIdentity" [model]="myIdentity"></ul>
+                    </header>
+
+                    <!-- Router Outlet -->
+                    <router-outlet></router-outlet>
+
+                    <!-- Loading spinner when wait for the auth and app be ready -->
+                    <div class="all-100 main-content">
+                        <div class="content-panel all-100">
+                            <span>Loading {{status}}</span>
+                        </div>
+                    </div>
+
+              </div>
+              <!-- /scroller-inner -->
+          </div>
+          <!-- /scroller -->
+      </div>
+
+  </div>
+      <!-- /pusher -->
+</div>
+<!-- /container -->
+
