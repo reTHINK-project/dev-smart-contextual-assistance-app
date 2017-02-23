@@ -38,7 +38,7 @@ var AddUserComponent = (function () {
                 _this.clean();
             }, 200);
         }).catch(function (error) {
-            console.log('Error Inviting');
+            console.log('Error Inviting', error);
         });
     };
     AddUserComponent.prototype.clean = function () {

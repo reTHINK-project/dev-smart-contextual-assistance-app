@@ -11,14 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 // Core
 var core_1 = require('@angular/core');
 var Subject_1 = require('rxjs/Subject');
-var initialUsers = [
-    { guid: 'id1', locale: '', domain: '', userURL: '', identifiers: '', cn: 'Rita Coelho', idp: 'google.com', status: 'online', avatar: 'img/avatar.jpg', username: 'openidtest20@gmail.com', unread: 1 },
-    { guid: 'id2', locale: '', domain: '', userURL: '', identifiers: '', cn: 'Diogo Reis', idp: 'google.com', status: 'away', avatar: 'img/avatar-2.jpg', username: 'openidtest10@gmail.com', unread: 0 },
-    { guid: 'id3', locale: '', domain: '', userURL: '', identifiers: '', cn: 'Rodrigo Castro', idp: 'google.com', status: 'offline', avatar: 'img/avatar-3.jpg', username: 'openidtest10@gmail.com', unread: 1 },
-    { guid: 'id4', locale: '', domain: '', userURL: '', identifiers: '', cn: 'Martim Almeida', idp: 'google.com', status: 'online', avatar: 'img/avatar-4.jpg', username: 'openidtest20@gmail.com', unread: 5 },
-    { guid: 'id5', locale: '', domain: '', userURL: 'user://gmail.com/openidtest20', identifiers: '', idp: 'google.com', cn: 'open id test 20', status: 'online', avatar: 'img/avatar.jpg', username: 'openidtest20@gmail.com', unread: 1 },
-    { guid: 'id6', locale: '', domain: '', userURL: 'user://gmail.com/openidtest10', identifiers: '', idp: 'google.com', cn: 'open id test 10', status: 'away', avatar: 'img/avatar-2.jpg', username: 'openidtest10@gmail.com', unread: 2 },
-];
+require('rxjs/add/operator/map');
+require('rxjs/add/operator/scan');
+require('rxjs/add/operator/publishReplay');
+// Interfaces
+var models_1 = require('../models/models');
 // Services
 var storage_service_1 = require('./storage.service');
 var rethink_service_1 = require('./rethink/rethink.service');
@@ -33,17 +30,30 @@ var ContactService = (function () {
         // stored in `users`)
         this._updates = new Subject_1.Subject();
         this._newUser = new Subject_1.Subject();
+        var users;
+        this._userList;
+        if (this.localStorage.hasObject('contacts')) {
+            users = this.localStorage.getObject('contacts');
+            console.log('[Contacts Service -  constructor] - ', users);
+            this._userList = new Map();
+        }
+        else {
+            this._userList = new Map();
+        }
         this._users = this._updates
             .scan(function (users, operation) {
             return operation(users);
-        }, initialUsers)
+        }, users)
             .publishReplay(1)
             .refCount();
-        this._updates.subscribe({
-            next: function (users) { return console.log('List of users:', users); }
-        });
         this._create.map(function (user) {
+            var _this = this;
             return function (users) {
+                if (!_this._userList.has(user.userURL)) {
+                    _this._userList.set(user.userURL, new models_1.User(user));
+                    _this.localStorage.setObject('contacts', _this._userList.toJSON());
+                }
+                console.log('[contact service - users]: - ', users, user);
                 return users.concat(user);
             };
         }).subscribe(this._updates);
@@ -60,6 +70,7 @@ var ContactService = (function () {
         return this._users;
     };
     ContactService.prototype.getUser = function (userURL) {
+        this._userList.get(userURL);
         console.log('Get User includes:', userURL);
     };
     ContactService = __decorate([

@@ -1,6 +1,6 @@
 import { Component, OnInit, HostBinding, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 // Services
 import { RethinkService } from '../../services/services';
@@ -19,9 +19,9 @@ export class ContextualCommUsersComponent implements OnInit {
 
   @Output() contactClick = new EventEmitter()
   @Output() contactAdd = new EventEmitter()
-  @Input() model:User[];
+  @Input() model:Observable<User[]>;
 
-  private contactsFilter:User[];
+  private contactsFilter:Observable<User[]>;
 
   constructor(private route: ActivatedRoute, private appService:RethinkService) {}
 
@@ -29,7 +29,9 @@ export class ContextualCommUsersComponent implements OnInit {
   ngOnInit() {
 
     console.log('[contextualCommUsers - ngOnInit]', this.model);
-    this.filter('');
+    this.model.subscribe((users:User[]) => {
+      this.filter('');
+    });
 
   }
 
@@ -43,8 +45,10 @@ export class ContextualCommUsersComponent implements OnInit {
 
   filter(value: string) {
 
-    this.contactsFilter = this.model.filter((user:User) => {
+    this.contactsFilter = this.model.map((users:User[]) => {
+      return users.filter((user:User) => {
         return user.cn.includes(value);
+      })
     });
 
   }

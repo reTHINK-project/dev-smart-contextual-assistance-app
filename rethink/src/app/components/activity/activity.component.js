@@ -18,9 +18,9 @@ var ActivityComponent = (function () {
     ActivityComponent.prototype.ngOnInit = function () {
     };
     ActivityComponent.prototype.ngAfterViewInit = function () {
-        if (this.message.user.status === 'offline') {
-            this.hostClass = 'half-padding offline';
-        }
+        /*    if (this.message.user.status === 'offline') {
+              this.hostClass = 'half-padding offline'
+            }*/
     };
     __decorate([
         core_1.HostBinding('class'), 

@@ -24,7 +24,6 @@ var contextualCommActivity_component_1 = require('../contextualCommActivity/cont
 var chatCommunication_component_1 = require('../../components/rethink/communication/chatCommunication.component');
 // Services
 var authGuard_service_1 = require('../../services/authGuard.service');
-var contextUser_resolver_1 = require('../../services/contextUser.resolver');
 var contextualComm_resolver_1 = require('../../services/contextualComm.resolver');
 var ContextualCommModule = (function () {
     function ContextualCommModule() {
@@ -48,7 +47,6 @@ var ContextualCommModule = (function () {
             ],
             providers: [
                 authGuard_service_1.AuthGuard,
-                contextUser_resolver_1.ContextUserResolver,
                 contextualComm_resolver_1.ContextualCommResolver
             ]
         }), 

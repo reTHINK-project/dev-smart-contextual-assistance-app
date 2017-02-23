@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var BehaviorSubject_1 = require('rxjs/BehaviorSubject');
 // Services
 var storage_service_1 = require('../storage.service');
 var contact_service_1 = require('../contact.service');
@@ -17,20 +18,19 @@ var HypertyResource_1 = require('../../models/rethink/HypertyResource');
 var models_1 = require('../../models/models');
 var ContextService = (function () {
     function ContextService(localStorage, contactService, messageService) {
-        // this.contactService.newUser.subscribe((user:User) => this.updateContextUsers(user));
-        // this.messageService.newMessage.subscribe((message:Message) => this.updateContextMessages(message));
         this.localStorage = localStorage;
         this.contactService = contactService;
         this.messageService = messageService;
-        // activities: [Activity] = [
-        //   { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'Lorem ipsum dolor sit amet, vix eu exerci efficiantur, antiopam indoctum usu et. Vis te quot' },
-        //   { contact: this.contacts[3], type: 'video-call', status: 'failed', date: 'at 12:32' },
-        //   { contact: this.contacts[2], type: 'audio-call', status: 'ok', date: 'yesterday, at 14:30', duration: 6 },
-        //   { contact: this.contacts[2], type: 'audio-call', status: 'failed', date: 'Yesterday, at 14:30' },
-        //   { contact: this.contacts[0], type: 'file-share', status: 'ok', date: 'at 14:30' }
-        // ]
         this.cxtTrigger = new Set();
         this.cxtList = new Map();
+        this._contextualComm = new BehaviorSubject_1.BehaviorSubject({});
+        this.contextualCommObs = this._contextualComm.scan(function (context) {
+            console.log('[Context Service scan] - context', context);
+            return context;
+        });
+        this.contextualCommObs.subscribe(function (context) {
+            console.log('[Context Service scan] - contextualCommObs', context);
+        });
     }
     ContextService.prototype.getActiveContext = function (v) {
         return this.localStorage.hasObject(v) ? this.localStorage.getObject(v) : null;
@@ -103,6 +103,7 @@ var ContextService = (function () {
                     context.parent = parent;
                 // Update the localStorage context
                 _this.localStorage.setObject(context.name, context);
+                _this._contextualComm.next(context);
                 resolve(context);
             });
         });
@@ -144,6 +145,7 @@ var ContextService = (function () {
         var context = this.activeContext;
         context.messages.push(message);
         this.localStorage.setObject(contextName, context);
+        this._contextualComm.next(context);
         console.log('[Context Update messages]', contextName, context);
     };
     ContextService.prototype.updateContextUsers = function (user) {
@@ -152,6 +154,7 @@ var ContextService = (function () {
         var context = this.activeContext;
         context.users.push(user);
         this.localStorage.setObject(contextName, context);
+        this._contextualComm.next(context);
         console.log('[Context Update contacts]', contextName, context);
     };
     ContextService.prototype.getContextByName = function (name) {
@@ -160,8 +163,10 @@ var ContextService = (function () {
             var context;
             if (_this.localStorage.hasObject(name)) {
                 context = _this.localStorage.getObject(name);
+                console.log('[context service - getContextByName] - ', name, context);
                 // TODO: Solve the problem of active context
                 _this.activeContext = context;
+                _this._contextualComm.next(context);
                 resolve(context);
             }
             else {
@@ -192,6 +197,9 @@ var ContextService = (function () {
     };
     ContextService.prototype.getContextMessages = function (context) {
         return this.messageService.messageList;
+    };
+    ContextService.prototype.contextualComm = function () {
+        return this.contextualCommObs;
     };
     ContextService = __decorate([
         core_1.Injectable(), 

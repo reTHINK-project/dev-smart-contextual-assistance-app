@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var Subject_1 = require('rxjs/Subject');
 var BehaviorSubject_1 = require('rxjs/BehaviorSubject');
+require('rxjs/add/operator/combineLatest');
 // Services
 var rethink_service_1 = require('./rethink/rethink.service');
 var storage_service_1 = require('./storage.service');

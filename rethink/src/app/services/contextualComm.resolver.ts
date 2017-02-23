@@ -20,11 +20,11 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
     private contextService: ContextService
     ) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<ContextualComm> | Promise<ContextualComm> | ContextualComm {
+  resolve(route: ActivatedRouteSnapshot):Promise<ContextualComm> {
 
     return new Promise((resolve, reject) => {
 
-      let context = route.params['context'] 
+      let context = route.params['trigger'] 
       let task = route.params['id'];
       let user = route.params['user'];
       let name = context;

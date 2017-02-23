@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
+var BehaviorSubject_1 = require('rxjs/BehaviorSubject');
 // Services
 var services_1 = require('../../services/services');
 var add_user_component_1 = require('../user/add-user.component');
@@ -23,6 +24,7 @@ var ContextualCommComponent = (function () {
         this.contextService = contextService;
         this.contactService = contactService;
         this.hostClass = 'context-view';
+        this.users = new BehaviorSubject_1.BehaviorSubject([]);
     }
     // Load data ones componet is ready
     ContextualCommComponent.prototype.ngOnInit = function () {
@@ -31,8 +33,15 @@ var ContextualCommComponent = (function () {
         this.route.data
             .subscribe(function (data) {
             console.log('Resolved context:', data.context);
-            _this.users = data.context.users;
+            _this.users.next(data.context.users);
             // console.log('Resolved users:', data.users);
+        });
+        this.contextService.contextualComm().subscribe(function (contextualComm) {
+            console.log('[ContextualComm Component - update] - ', contextualComm);
+            _this.users.next(contextualComm.users);
+        });
+        this.users.subscribe(function (users) {
+            console.log('UPDATE USERS: ', users);
         });
     };
     ContextualCommComponent.prototype.onContactClick = function (user) {

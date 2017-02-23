@@ -15,11 +15,14 @@ var ContextualDataService = (function () {
     function ContextualDataService(contextService) {
         this.contextService = contextService;
     }
-    ContextualDataService.prototype.getMessages = function () {
-        return this.contextService.getContextMessages('work');
+    /*    getContext(context:string):Observable<ContextualComm> {
+          return this.contextService.getContextByName(context);
+        }*/
+    ContextualDataService.prototype.getMessages = function (context) {
+        return this.contextService.getContextMessages(context);
     };
-    ContextualDataService.prototype.getUsers = function () {
-        return this.contextService.getContextUsers('work');
+    ContextualDataService.prototype.getUsers = function (context) {
+        return this.contextService.getContextUsers(context);
     };
     ContextualDataService = __decorate([
         core_1.Injectable(), 

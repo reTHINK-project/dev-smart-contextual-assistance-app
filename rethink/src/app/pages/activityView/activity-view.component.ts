@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, HostBinding, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
@@ -10,33 +10,28 @@ import { Message, ContextualComm } from '../../models/models';
 
 @Component({
   moduleId: module.id,
-  selector: 'activity-view',
+  selector: 'ul[activity-view]',
   templateUrl: './activity-view.component.html'
 })
 export class ActivityViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list'
+
   private context: any;
 
+  @Input()
   private messages:Observable<Message[]>;
+
   private chatActive: boolean = false;
 
   constructor( 
     private router: Router,
-    private route: ActivatedRoute,
-    private chatService: ChatService,
-    private messageService: MessageService) {
+    private route: ActivatedRoute) {
 
   }
 
   // Load data ones componet is ready
   ngOnInit() {
-
-    // Subscribe to route params
-/*    this.route.params.subscribe(params => {
-      console.log('[Activity View - onInit]', params);
-    });*/
-
-    this.messages = this.messageService.messageList;
 
   }
 
@@ -45,15 +40,6 @@ export class ActivityViewComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    
-  }
-
-  onMessage(message:string) {
-
-    console.log("Message:", message);
-    this.chatService.send(message).then((message:any) => {
-      console.log('[Activity View - onMessage] - message sent', message);
-    })
     
   }
 

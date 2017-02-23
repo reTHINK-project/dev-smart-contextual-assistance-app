@@ -1,6 +1,8 @@
 import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 
 // Services
 import { RethinkService, ChatService, ContextService, MessageService, ContactService } from '../../services/services';
@@ -24,7 +26,7 @@ export class ContextualCommComponent implements OnInit {
 
   @ViewChild(AddUserComponent) addView:AddUserComponent;
 
-  private users:User[];
+  private users:Subject<User[]> = new BehaviorSubject([]);
 
   constructor(
     private router: Router,
@@ -44,9 +46,18 @@ export class ContextualCommComponent implements OnInit {
       .subscribe((data: { context: ContextualComm, users: User[] }) => {
         console.log('Resolved context:', data.context);
 
-        this.users = data.context.users
+        this.users.next(data.context.users);
         // console.log('Resolved users:', data.users);
       });
+
+    this.contextService.contextualComm().subscribe((contextualComm:ContextualComm) => {
+      console.log('[ContextualComm Component - update] - ', contextualComm);
+      this.users.next(contextualComm.users);
+    })
+
+    this.users.subscribe((users:User[]) => {
+      console.log('UPDATE USERS: ', users);
+    });
 
   }
 

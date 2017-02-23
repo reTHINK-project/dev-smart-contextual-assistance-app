@@ -21,7 +21,6 @@ import { ChatCommunicationComponent } from '../../components/rethink/communicati
 
 // Services
 import { AuthGuard } from '../../services/authGuard.service'
-import { ContextUserResolver } from '../../services/contextUser.resolver';
 import { ContextualCommResolver } from '../../services/contextualComm.resolver';
 
 @NgModule({
@@ -43,7 +42,6 @@ import { ContextualCommResolver } from '../../services/contextualComm.resolver';
   ],
   providers: [
     AuthGuard,
-    ContextUserResolver,
     ContextualCommResolver
   ]
 })

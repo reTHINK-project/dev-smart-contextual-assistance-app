@@ -10,42 +10,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
-// Services
-var services_1 = require('../../services/services');
+var Observable_1 = require('rxjs/Observable');
 var ActivityViewComponent = (function () {
-    function ActivityViewComponent(router, route, chatService, messageService) {
+    function ActivityViewComponent(router, route) {
         this.router = router;
         this.route = route;
-        this.chatService = chatService;
-        this.messageService = messageService;
+        this.hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list';
         this.chatActive = false;
     }
     // Load data ones componet is ready
     ActivityViewComponent.prototype.ngOnInit = function () {
-        // Subscribe to route params
-        /*    this.route.params.subscribe(params => {
-              console.log('[Activity View - onInit]', params);
-            });*/
-        this.messages = this.messageService.messageList;
     };
     ActivityViewComponent.prototype.ngAfterViewInit = function () {
         console.log('[Activity View  - AfterViewInit]');
     };
     ActivityViewComponent.prototype.ngOnDestroy = function () {
     };
-    ActivityViewComponent.prototype.onMessage = function (message) {
-        console.log("Message:", message);
-        this.chatService.send(message).then(function (message) {
-            console.log('[Activity View - onMessage] - message sent', message);
-        });
-    };
+    __decorate([
+        core_1.HostBinding('class'), 
+        __metadata('design:type', Object)
+    ], ActivityViewComponent.prototype, "hostClass", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Observable_1.Observable)
+    ], ActivityViewComponent.prototype, "messages", void 0);
     ActivityViewComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'activity-view',
+            selector: 'ul[activity-view]',
             templateUrl: './activity-view.component.html'
         }), 
-        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, services_1.ChatService, services_1.MessageService])
+        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute])
     ], ActivityViewComponent);
     return ActivityViewComponent;
 }());

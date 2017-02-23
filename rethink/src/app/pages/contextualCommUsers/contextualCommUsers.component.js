@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
+var Observable_1 = require('rxjs/Observable');
 // Services
 var services_1 = require('../../services/services');
 var ContextualCommUsersComponent = (function () {
@@ -22,8 +23,11 @@ var ContextualCommUsersComponent = (function () {
     }
     // Load data ones componet is ready
     ContextualCommUsersComponent.prototype.ngOnInit = function () {
+        var _this = this;
         console.log('[contextualCommUsers - ngOnInit]', this.model);
-        this.filter('');
+        this.model.subscribe(function (users) {
+            _this.filter('');
+        });
     };
     ContextualCommUsersComponent.prototype.onContactClick = function (model) {
         console.log('aaa', model);
@@ -32,8 +36,10 @@ var ContextualCommUsersComponent = (function () {
         this.filter(event.target.value);
     };
     ContextualCommUsersComponent.prototype.filter = function (value) {
-        this.contactsFilter = this.model.filter(function (user) {
-            return user.cn.includes(value);
+        this.contactsFilter = this.model.map(function (users) {
+            return users.filter(function (user) {
+                return user.cn.includes(value);
+            });
         });
     };
     __decorate([
@@ -50,7 +56,7 @@ var ContextualCommUsersComponent = (function () {
     ], ContextualCommUsersComponent.prototype, "contactAdd", void 0);
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', Array)
+        __metadata('design:type', Observable_1.Observable)
     ], ContextualCommUsersComponent.prototype, "model", void 0);
     ContextualCommUsersComponent = __decorate([
         core_1.Component({

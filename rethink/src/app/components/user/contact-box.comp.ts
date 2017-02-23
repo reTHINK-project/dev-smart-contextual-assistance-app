@@ -1,5 +1,5 @@
 import { Component, Input, Output, OnInit, HostBinding, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 import { User } from '../../models/models';
 

@@ -17,19 +17,14 @@ import { ContextualCommTrigger, ContextualComm, User, Message } from '../../mode
 @Injectable()
 export class ContextService {
 
-  // activities: [Activity] = [
-  //   { contact: this.contacts[1], type: 'message', status: 'ok', date: '20/07/2014, 15:36', message: 'Lorem ipsum dolor sit amet, vix eu exerci efficiantur, antiopam indoctum usu et. Vis te quot' },
-  //   { contact: this.contacts[3], type: 'video-call', status: 'failed', date: 'at 12:32' },
-  //   { contact: this.contacts[2], type: 'audio-call', status: 'ok', date: 'yesterday, at 14:30', duration: 6 },
-  //   { contact: this.contacts[2], type: 'audio-call', status: 'failed', date: 'Yesterday, at 14:30' },
-  //   { contact: this.contacts[0], type: 'file-share', status: 'ok', date: 'at 14:30' }
-  // ]
-
   private cxtTrigger:Set<ContextualCommTrigger> = new Set<ContextualCommTrigger>();
   private cxtList:Map<string, ContextualComm> = new Map<string, ContextualComm>();
 
   private activeContextTrigger: ContextualCommTrigger;
   private activeContext: ContextualComm;
+
+  private _contextualComm:Subject<ContextualComm> = new BehaviorSubject({});
+  private contextualCommObs:Observable<ContextualComm>;
 
   private contextPath: string;
   private taskPath: string
@@ -60,8 +55,14 @@ export class ContextService {
     private messageService: MessageService
   ) {
 
-    // this.contactService.newUser.subscribe((user:User) => this.updateContextUsers(user));
-    // this.messageService.newMessage.subscribe((message:Message) => this.updateContextMessages(message));
+    this.contextualCommObs = this._contextualComm.scan((context:ContextualComm) => {
+      console.log('[Context Service scan] - context', context);
+      return context;
+    });
+
+    this.contextualCommObs.subscribe((context:ContextualComm) => {
+      console.log('[Context Service scan] - contextualCommObs', context);
+    })
 
   }
 
@@ -121,6 +122,7 @@ export class ContextService {
         // Update the localStorage context
         this.localStorage.setObject(context.name, context);
 
+        this._contextualComm.next(context);
         resolve(context);
 
       });
@@ -175,6 +177,8 @@ export class ContextService {
     context.messages.push(message);
     this.localStorage.setObject(contextName, context);
 
+    this._contextualComm.next(context);
+
     console.log('[Context Update messages]', contextName, context);
   }
 
@@ -184,6 +188,8 @@ export class ContextService {
     let context:ContextualComm = this.activeContext
     context.users.push(user);
     this.localStorage.setObject(contextName, context);
+
+    this._contextualComm.next(context);
 
     console.log('[Context Update contacts]', contextName, context);
   }
@@ -195,10 +201,13 @@ export class ContextService {
       let context:ContextualComm;
 
       if (this.localStorage.hasObject(name)) {
-        context = this.localStorage.getObject(name);
+        context = this.localStorage.getObject(name) as ContextualComm;
+
+        console.log('[context service - getContextByName] - ', name, context);
 
         // TODO: Solve the problem of active context
         this.activeContext = context;
+        this._contextualComm.next(context);
         resolve(context);
       } else {
         reject('No context found');
@@ -238,6 +247,10 @@ export class ContextService {
 
   getContextMessages(context:String):Observable<Message[]> {
     return this.messageService.messageList;
+  }
+
+  contextualComm():Observable<ContextualComm> {
+    return this.contextualCommObs;
   }
 
 }

@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable'
 
 // Interfaces
-import { User, Message } from '../models/models';
+import { ContextualComm, User, Message } from '../models/models';
 
 // Services
 import { LocalStorage } from './storage.service';
@@ -17,14 +17,16 @@ export class ContextualDataService {
 
     constructor(private contextService:ContextService) {}
 
+/*    getContext(context:string):Observable<ContextualComm> {
+      return this.contextService.getContextByName(context);
+    }*/
 
-
-    getMessages():Observable<Message[]> {
-      return this.contextService.getContextMessages('work');
+    getMessages(context:string):Observable<Message[]> {
+      return this.contextService.getContextMessages(context);
     }
 
-    getUsers():Observable<User[]> {
-      return this.contextService.getContextUsers('work');
+    getUsers(context:string):Observable<User[]> {
+      return this.contextService.getContextUsers(context);
     }
 
     

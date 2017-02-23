@@ -20,9 +20,9 @@ export class ActivityComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
 
-    if (this.message.user.status === 'offline') {
+/*    if (this.message.user.status === 'offline') {
       this.hostClass = 'half-padding offline'
-    }
+    }*/
 
   }
 

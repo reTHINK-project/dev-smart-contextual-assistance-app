@@ -10,17 +10,12 @@ export class AuthGuard implements CanActivate {
 
   constructor(private rethinkService: RethinkService, private chatService:ChatService, private router: Router) {}
   
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>|Promise<boolean>|boolean {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):Promise<boolean> {
 
     return new Promise((resolve) => {
 
       this.rethinkService.status.subscribe({
-        next: (value) => {
-          console.log('CAN ACTIVATE? ', value);
-          if (value) {
-            resolve(value);
-          }
-        }
+        next: (value) => { if (value) { resolve(value); } }
       });
 
     })

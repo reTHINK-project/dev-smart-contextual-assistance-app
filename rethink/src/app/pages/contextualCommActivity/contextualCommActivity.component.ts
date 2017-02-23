@@ -1,21 +1,29 @@
 import { Component, OnInit, Input, HostBinding, Renderer, ElementRef, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 // Models
-import { Message } from '../../models/models';
+import { Message, ContextualComm } from '../../models/models';
+
+// Services
+import { ChatService } from '../../services/rethink/chat.service';
+import { ContextService } from '../../services/rethink/context.service';
 
 @Component({
   moduleId: module.id,
-  selector: 'ul[context-activity-list]',
+  selector: 'context-activity-list',
   templateUrl: './contextualCommActivity.component.html'
 })
-export class ContextualCommActivityComponent implements OnInit, AfterViewInit {
+export class ContextualCommActivityComponent implements OnInit {
   @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list'
 
-  @Input() messages:Observable<Message[]>;
+  private messages:Subject<Message[]> = new BehaviorSubject([]);
 
   constructor(
+    private chatService: ChatService,
+    private contextService: ContextService,
     private el: ElementRef
   ){}
 
@@ -24,15 +32,13 @@ export class ContextualCommActivityComponent implements OnInit, AfterViewInit {
 
     console.log('[ContextualCommActivityComponent - ngOnInit]');
 
-    this.messages.subscribe((messages:Message[]) => {
-      console.log('[Contextual Comm Activity - new messsage] - message:', messages);
+    this.contextService.contextualComm().subscribe((contextualComm:ContextualComm) => {
+      console.log('[ContextualCommActivity Component - update] - ', contextualComm);
+      this.messages.next(contextualComm.messages);
+
       this.updateView();
     })
 
-  }
-
-  ngAfterViewInit() {
-    this.updateView();
   }
 
   updateView(): void {
@@ -58,6 +64,14 @@ export class ContextualCommActivityComponent implements OnInit, AfterViewInit {
   scrollToBottom(): void {
     let scrollPane: any = this.el.nativeElement;
     scrollPane.scrollTop = scrollPane.scrollHeight;
+  }
+
+  onMessage(message:string) {
+
+    this.chatService.send(message).then((message:any) => {
+      console.log('[Activity View - onMessage] - message sent', message);
+    })
+    
   }
 
 }

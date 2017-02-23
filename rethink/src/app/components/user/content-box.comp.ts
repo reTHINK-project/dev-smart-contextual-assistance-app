@@ -1,6 +1,7 @@
 import { Component, Input, Output, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef, Renderer, HostBinding, EventEmitter, ElementRef } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
 import { User, Message } from '../../models/models';
 

@@ -45,8 +45,13 @@ var ChatService = (function () {
     };
     ChatService.prototype.prepareHyperty = function () {
         var _this = this;
+        console.log('[Chat Service - prepareHyperty]');
+        this.chatGroupManager.onResume(function (chatController) {
+            console.log('[Chat Service - prepareHyperty] - onResume: ', chatController);
+            _this.chatController = chatController;
+        });
         this.chatGroupManager.onInvitation(function (event) {
-            console.log('[onInvitation]', event);
+            console.log('[Chat Service - prepareHyperty] - onInvitation', event);
             _this.contactService.addUser(new models_1.User(event.identity.userProfile));
             _this.join(event.url).then(function (a) {
                 console.log(a);
@@ -57,21 +62,27 @@ var ChatService = (function () {
                 _this._onInvitation(event);
         });
         this.chatController.onUserAdded(function (user) {
+            console.log('[Chat Service - prepareHyperty] - onUserAdded', user);
+            var current;
             if (user.hasOwnProperty('data')) {
-                var data = user.data;
-                _this.contactService.addUser(data);
-                if (_this._onUserAdded)
-                    _this._onUserAdded(data);
+                current = new models_1.User(user.data);
             }
             else {
-                _this.contactService.addUser(user);
-                if (_this._onUserAdded)
-                    _this._onUserAdded(user);
+                current = new models_1.User(user);
             }
+            _this.contextService.updateContextUsers(current);
+            if (_this._onUserAdded)
+                _this._onUserAdded(current);
         });
         this.chatController.onMessage(function (message) {
             console.log('[Chat Service - onMessage]', message);
-            _this.messageService.reciveMessag(message);
+            var msg = {
+                type: 'message',
+                message: message.value.message,
+                user: message.identity.userProfile.username
+            };
+            var currentMessage = new models_1.Message(msg);
+            _this.contextService.updateContextMessages(currentMessage);
         });
     };
     ChatService.prototype.create = function (name, users, domains) {
@@ -109,18 +120,24 @@ var ChatService = (function () {
                 console.log('[Invite Chat]', result);
                 resolve(_this.chatController);
             }).catch(function (reason) {
-                console.error('Error:', reason);
+                console.error('Error on invite:', reason);
             });
         });
     };
     ChatService.prototype.send = function (message) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            console.log('Send message: ', _this.chatController);
-            _this.chatController.send(message).then(function (message) {
-                console.log('[Chat Service - onMessage]', message);
-                _this.messageService.addMessage(message);
-                resolve(message);
+            console.log('Send message: ', _this.chatController, message);
+            _this.chatController.send(message).then(function (result) {
+                var msg = {
+                    type: 'message',
+                    message: result.value.message,
+                    user: result.identity.userProfile.username
+                };
+                var currentMessage = new models_1.Message(msg);
+                console.log('[Chat Service - onMessage]', message, result, currentMessage);
+                _this.contextService.updateContextMessages(currentMessage);
+                resolve(currentMessage);
             }).catch(reject);
         });
     };

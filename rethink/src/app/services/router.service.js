@@ -10,12 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
-var Rx_1 = require('rxjs/Rx');
+var Subject_1 = require('rxjs/Subject');
+require('rxjs/add/operator/take');
 var RouterService = (function () {
     function RouterService(router) {
         var _this = this;
         this.router = router;
-        this.paths = new Rx_1.Subject();
+        this.paths = new Subject_1.Subject();
         // this.paths.take(2)
         this.breadcrumb = this.paths.take(2);
         // Subscribe to route params

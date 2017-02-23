@@ -45,7 +45,7 @@ export class User implements UserIdentity {
 export class Message {
   type: string;
   message: string;
-  user: User;
+  user: string;
   date: Date;
 
   constructor(obj: any) {

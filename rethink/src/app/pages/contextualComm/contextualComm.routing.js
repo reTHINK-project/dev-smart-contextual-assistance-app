@@ -14,24 +14,24 @@ var router_1 = require('@angular/router');
 var authGuard_service_1 = require('../../services/authGuard.service');
 var contextualComm_resolver_1 = require('../../services/contextualComm.resolver');
 var contextualComm_component_1 = require('./contextualComm.component');
+var contextualCommActivity_component_1 = require('../contextualCommActivity/contextualCommActivity.component');
 // TODO: Optimize the Resolve Context
 var contextualCommRoutes = [
     {
-        path: 'context/:context',
+        path: ':trigger',
         component: contextualComm_component_1.ContextualCommComponent,
         canActivate: [
             authGuard_service_1.AuthGuard
         ],
         resolve: {
             context: contextualComm_resolver_1.ContextualCommResolver
-        } /*,
+        },
         children: [
-          {
-            path: ':context',
-            component: ActivityViewComponent,
-          }// ,
-          // ...userRoutes
-        ]*/
+            {
+                path: '',
+                component: contextualCommActivity_component_1.ContextualCommActivityComponent,
+            } // ,
+        ]
     } /*,
     {
       path: ':context/:id',

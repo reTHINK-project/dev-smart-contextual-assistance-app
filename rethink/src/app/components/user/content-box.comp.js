@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var Rx_1 = require('rxjs/Rx');
+var Observable_1 = require('rxjs/Observable');
 var ContentBox = (function () {
     function ContentBox(cd, renderer, el) {
         this.cd = cd;
@@ -55,7 +55,7 @@ var ContentBox = (function () {
     ], ContentBox.prototype, "hostClass", void 0);
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', Rx_1.Observable)
+        __metadata('design:type', Observable_1.Observable)
     ], ContentBox.prototype, "messages", void 0);
     ContentBox = __decorate([
         core_1.Component({

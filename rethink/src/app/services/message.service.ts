@@ -3,6 +3,7 @@ import { Injectable, Input } from '@angular/core';
 import { Subject  } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import 'rxjs/add/operator/combineLatest';
 
 // Services
 import { RethinkService } from './rethink/rethink.service';

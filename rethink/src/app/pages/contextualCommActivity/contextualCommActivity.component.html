@@ -1,5 +1,10 @@
-<li class="half-padding" *ngFor="let activity of messages | async" [ngSwitch]="activity.type">
-  <chat-event *ngSwitchCase="'message'" [activity]="activity"></chat-event>
-  <file-event *ngSwitchCase="'file'" [activity]="activity"></file-event>
-  <span *ngSwitchDefault>other</span>
-</li>
+<!--<div *ngIf="haveNotification && owner" role="alert" notification-box [model]='owner' (accept-call)="onAcceptCall()" (reject-call)="onRejectCall()"></div>-->
+
+<h3 class="padding">Recent Activity</h3>
+
+<ul activity-view [messages]="messages"></ul>
+
+<chat-view (onMessage)="onMessage($event)"></chat-view>
+
+<!--<div file-share-list></div>
+<div context-sender [active]="chatActive" (on-message)="onMessage($event)"></div>-->

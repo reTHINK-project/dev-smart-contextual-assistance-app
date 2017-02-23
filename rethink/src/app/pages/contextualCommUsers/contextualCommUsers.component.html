@@ -7,7 +7,7 @@
 </li>
 
 <!-- List of ContactComponent -->
-<li *ngFor="let contact of contactsFilter" (click)="contactClick.emit(contact)">
+<li *ngFor="let contact of contactsFilter | async" (click)="contactClick.emit(contact)">
     <user-identity *ngIf="contact"  [model]=contact></user-identity>
 </li>
 

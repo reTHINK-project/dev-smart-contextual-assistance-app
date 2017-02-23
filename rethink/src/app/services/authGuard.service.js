@@ -22,12 +22,9 @@ var AuthGuard = (function () {
         var _this = this;
         return new Promise(function (resolve) {
             _this.rethinkService.status.subscribe({
-                next: function (value) {
-                    console.log('CAN ACTIVATE? ', value);
-                    if (value) {
-                        resolve(value);
-                    }
-                }
+                next: function (value) { if (value) {
+                    resolve(value);
+                } }
             });
         });
     };

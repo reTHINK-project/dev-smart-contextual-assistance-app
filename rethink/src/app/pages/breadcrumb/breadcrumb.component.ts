@@ -1,6 +1,6 @@
 import { Component, Input, Output, HostBinding, EventEmitter, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 import { RouterService } from '../../services/router.service';
 

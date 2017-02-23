@@ -62,8 +62,15 @@ export class ChatService {
 
   prepareHyperty() {
 
+    console.log('[Chat Service - prepareHyperty]');
+
+    this.chatGroupManager.onResume((chatController:any) => {
+      console.log('[Chat Service - prepareHyperty] - onResume: ', chatController);
+      this.chatController = chatController;
+    });
+
     this.chatGroupManager.onInvitation((event:any) => {
-      console.log('[onInvitation]', event);
+      console.log('[Chat Service - prepareHyperty] - onInvitation', event);
 
       this.contactService.addUser(new User(event.identity.userProfile));
 
@@ -78,23 +85,31 @@ export class ChatService {
 
     this.chatController.onUserAdded((user:any) => {
 
+      console.log('[Chat Service - prepareHyperty] - onUserAdded', user);
+      let current:User;
+
       if (user.hasOwnProperty('data')) {
-        let data = user.data;
-        this.contactService.addUser(data);
-        if(this._onUserAdded) this._onUserAdded(data);
-
+        current = new User(user.data);
       } else {
-        this.contactService.addUser(user);
-
-        if(this._onUserAdded) this._onUserAdded(user);
+        current = new User(user);
       }
+
+      this.contextService.updateContextUsers(current);
+      if(this._onUserAdded) this._onUserAdded(current);
 
     })
 
     this.chatController.onMessage((message: any) => {
       console.log('[Chat Service - onMessage]', message);
 
-      this.messageService.reciveMessag(message);
+      let msg = {
+        type: 'message',
+        message: message.value.message,
+        user: message.identity.userProfile.username
+      };
+
+      let currentMessage = new Message(msg);
+      this.contextService.updateContextMessages(currentMessage);
 
     })
 
@@ -149,7 +164,7 @@ export class ChatService {
         console.log('[Invite Chat]', result);
         resolve(this.chatController)
       }).catch((reason:any) => {
-        console.error('Error:', reason);
+        console.error('Error on invite:', reason);
       })
 
     })
@@ -160,13 +175,20 @@ export class ChatService {
 
     return new Promise<any>((resolve, reject) => {
 
-      console.log('Send message: ', this.chatController);
+      console.log('Send message: ', this.chatController, message);
 
-      this.chatController.send(message).then((message:Message) => {
-        console.log('[Chat Service - onMessage]', message);
+      this.chatController.send(message).then((result:any) => {
 
-        this.messageService.addMessage(message);
-        resolve(message);
+        let msg = {
+          type: 'message',
+          message: result.value.message,
+          user: result.identity.userProfile.username
+        };
+
+        let currentMessage = new Message(msg);
+        console.log('[Chat Service - onMessage]', message, result, currentMessage);
+        this.contextService.updateContextMessages(currentMessage);
+        resolve(currentMessage);
       }).catch(reject);
 
     })

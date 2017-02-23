@@ -51,7 +51,7 @@ export class AddUserComponent implements OnInit {
       }, 200);
       
     }).catch((error) => {
-      console.log('Error Inviting');
+      console.log('Error Inviting', error);
     })
   }
   

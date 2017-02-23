@@ -23,7 +23,7 @@ var ContextualCommResolver = (function () {
     ContextualCommResolver.prototype.resolve = function (route) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            var context = route.params['context'];
+            var context = route.params['trigger'];
             var task = route.params['id'];
             var user = route.params['user'];
             var name = context;
