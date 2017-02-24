@@ -55,7 +55,7 @@ export class ContextService {
     private messageService: MessageService
   ) {
 
-    this.contextualCommObs = this._contextualComm.scan((context:ContextualComm) => {
+    this.contextualCommObs = this._contextualComm.map((context:ContextualComm) => {
       console.log('[Context Service scan] - context', context);
       return context;
     });
@@ -98,8 +98,15 @@ export class ContextService {
           this.activeContext = context;
 
           context.users = dataObject.data.participants.map((item:any) => {
-            this.contactService.addUser(item);
-            return new User(item);
+
+            let currentUser:User = this.contactService.getUser(item.userURL);
+            if (!currentUser) {
+              currentUser = new User(item);
+              this.contactService.addUser(currentUser);
+              console.log('[Context Service - update users] - create new user: ', currentUser);
+            }
+
+            return currentUser;
           });
 
           // Set this context to the context triggers;
@@ -172,6 +179,9 @@ export class ContextService {
 
   updateContextMessages(message:Message) {
     console.log('Active Context:', this.activeContext);
+
+    let user = this.contactService.getUser(message.user);
+
     let contextName = this.activeContext.name;
     let context:ContextualComm = this.activeContext
     context.messages.push(message);
@@ -187,7 +197,9 @@ export class ContextService {
     let contextName = this.activeContext.name;
     let context:ContextualComm = this.activeContext
     context.users.push(user);
+
     this.localStorage.setObject(contextName, context);
+    this.contactService.addUser(user);
 
     this._contextualComm.next(context);
 

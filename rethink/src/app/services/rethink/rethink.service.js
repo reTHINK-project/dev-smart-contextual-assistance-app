@@ -12,8 +12,10 @@ var core_1 = require('@angular/core');
 var BehaviorSubject_1 = require('rxjs/BehaviorSubject');
 var runtime_browser_1 = require('runtime-browser');
 var models_1 = require('../../models/models');
+var contact_service_1 = require('../contact.service');
 var RethinkService = (function () {
-    function RethinkService() {
+    function RethinkService(contactService) {
+        this.contactService = contactService;
         this.domain = 'localhost';
         this.runtimeURL = 'https://catalogue.' + this.domain + '/.well-known/runtime/Runtime';
         this.config = { domain: this.domain, runtimeURL: this.runtimeURL, development: true };
@@ -50,7 +52,7 @@ var RethinkService = (function () {
     RethinkService.prototype.getHyperty = function (url) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.runtime.requireHyperty(url).then(function (hyperty) {
+            _this.runtime.requireHyperty(url, true).then(function (hyperty) {
                 console.log('[Hyperty Loaded]', hyperty);
                 resolve(hyperty);
             }).catch(function (reason) {
@@ -67,6 +69,7 @@ var RethinkService = (function () {
             hyperty.instance.identityManager.discoverUserRegistered().then(function (user) {
                 var myUser = new models_1.User(user);
                 _this.setCurrentUser = myUser;
+                _this.contactService.addUser(myUser);
                 console.info('Getting the registed user', myUser);
                 resolve(myUser);
             }).catch(function (reason) {
@@ -77,7 +80,7 @@ var RethinkService = (function () {
     };
     RethinkService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [contact_service_1.ContactService])
     ], RethinkService);
     return RethinkService;
 }());

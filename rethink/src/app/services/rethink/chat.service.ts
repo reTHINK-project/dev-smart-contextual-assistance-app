@@ -46,6 +46,7 @@ export class ChatService {
         .then((hyperty: any) => {
           this.chatGroupManager = hyperty.instance;
           this.hyperty = hyperty
+          this.prepareHyperty();
           resolve(this.hyperty);
         })
         .catch((reason) => {
@@ -62,7 +63,7 @@ export class ChatService {
 
   prepareHyperty() {
 
-    console.log('[Chat Service - prepareHyperty]');
+    console.log('[Chat Service - prepareHyperty]', this.chatGroupManager.onResume);
 
     this.chatGroupManager.onResume((chatController:any) => {
       console.log('[Chat Service - prepareHyperty] - onResume: ', chatController);
@@ -83,15 +84,18 @@ export class ChatService {
       if (this._onInvitation) this._onInvitation(event);
     })
 
+  }
+
+  prepareController() {
     this.chatController.onUserAdded((user:any) => {
 
       console.log('[Chat Service - prepareHyperty] - onUserAdded', user);
       let current:User;
 
       if (user.hasOwnProperty('data')) {
-        current = new User(user.data);
+        current = this.contactService.getUser(user.data.userURL) || new User(user.data);
       } else {
-        current = new User(user);
+        current = this.contactService.getUser(user.userURL) || new User(user);
       }
 
       this.contextService.updateContextUsers(current);
@@ -105,7 +109,7 @@ export class ChatService {
       let msg = {
         type: 'message',
         message: message.value.message,
-        user: message.identity.userProfile.username
+        user: this.contactService.getUser(message.identity.userProfile.userURL)
       };
 
       let currentMessage = new Message(msg);
@@ -123,7 +127,7 @@ export class ChatService {
         this.chatController = chatController;
         console.log('[Chat Created]', chatController)
 
-        this.prepareHyperty();
+        this.prepareController();
 
         resolve(chatController);
       }).catch((reason: any) => {
@@ -145,7 +149,7 @@ export class ChatService {
         let chatName:string = chatController.dataObject.data.name;
 
         this.contextService.create(chatName, chatController.dataObject).then((result:any) => {
-          this.prepareHyperty();
+          this.prepareController();
           resolve(this.chatController)
         })
       })
@@ -182,7 +186,7 @@ export class ChatService {
         let msg = {
           type: 'message',
           message: result.value.message,
-          user: result.identity.userProfile.username
+          user: this.contactService.getUser(result.identity.userProfile.userURL)
         };
 
         let currentMessage = new Message(msg);

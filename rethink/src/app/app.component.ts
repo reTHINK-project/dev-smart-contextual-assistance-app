@@ -5,7 +5,7 @@ import { Router, CanActivate, ActivatedRoute, NavigationExtras } from '@angular/
 import { User } from './models/models';
 
 // Services
-import { RethinkService, ChatService, ContextService } from './services/services';
+import { RethinkService, ChatService, ContextService, ContactService } from './services/services';
 
 @Component({
   moduleId: module.id,
@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private contactService: ContactService,
     private rethinkService: RethinkService,
     private chatService: ChatService) {
 
@@ -51,8 +52,9 @@ export class AppComponent implements OnInit {
         this.rethinkService.progress.error(error);
       })
       .then((user: any) => {
-        this.myIdentity = user;
-        this.rethinkService.setCurrentUser = user;
+
+        this.myIdentity = this.contactService.getUser(user.userURL);
+
         this.rethinkService.progress.next('The app is ready to be used');
         this.rethinkService.progress.complete();
         this.rethinkService.status.next(true);

@@ -18,11 +18,10 @@ require('rxjs/add/operator/publishReplay');
 var models_1 = require('../models/models');
 // Services
 var storage_service_1 = require('./storage.service');
-var rethink_service_1 = require('./rethink/rethink.service');
 var ContactService = (function () {
-    function ContactService(localStorage, rethinkService) {
+    function ContactService(localStorage) {
+        var _this = this;
         this.localStorage = localStorage;
-        this.rethinkService = rethinkService;
         // action streams
         this._create = new Subject_1.Subject();
         // `updates` receives _operations_ to be applied to our `users`
@@ -30,36 +29,53 @@ var ContactService = (function () {
         // stored in `users`)
         this._updates = new Subject_1.Subject();
         this._newUser = new Subject_1.Subject();
-        var users;
-        this._userList;
         if (this.localStorage.hasObject('contacts')) {
-            users = this.localStorage.getObject('contacts');
-            console.log('[Contacts Service -  constructor] - ', users);
-            this._userList = new Map();
+            var mapObj = this.localStorage.getObject('contacts');
+            console.log('[Contacts Service -  constructor] - ', mapObj);
+            this._userList = this.objToStrMap(mapObj);
         }
         else {
             this._userList = new Map();
         }
         this._users = this._updates
-            .scan(function (users, operation) {
-            return operation(users);
-        }, users)
+            .scan(function (users, user) {
+            console.log('[Contact Service - scan] - ', users);
+            return users.concat(user);
+        }, [])
             .publishReplay(1)
             .refCount();
         this._create.map(function (user) {
-            var _this = this;
-            return function (users) {
-                if (!_this._userList.has(user.userURL)) {
-                    _this._userList.set(user.userURL, new models_1.User(user));
-                    _this.localStorage.setObject('contacts', _this._userList.toJSON());
-                }
-                console.log('[contact service - users]: - ', users, user);
-                return users.concat(user);
-            };
+            if (!_this._userList.has(user.userURL)) {
+                _this._userList.set(user.userURL, new models_1.User(user));
+                _this.localStorage.setObject('contacts', _this.strMapToObj(_this._userList));
+            }
+            return user;
         }).subscribe(this._updates);
         this._newUser.subscribe(this._create);
     }
+    ContactService.prototype.strMapToObj = function (strMap) {
+        var obj = Object.create(null);
+        console.log(strMap);
+        for (var _i = 0, _a = strMap.entries(); _i < _a.length; _i++) {
+            var _b = _a[_i], k = _b[0], v = _b[1];
+            console.log('KEY:', k, v);
+            // We don’t escape the key '__proto__'
+            // which can cause problems on older engines
+            obj[k] = v;
+        }
+        console.log(obj);
+        return obj;
+    };
+    ContactService.prototype.objToStrMap = function (obj) {
+        var strMap = new Map();
+        for (var _i = 0, _a = Object.keys(obj); _i < _a.length; _i++) {
+            var k = _a[_i];
+            strMap.set(k, obj[k]);
+        }
+        return strMap;
+    };
     ContactService.prototype.addUser = function (user) {
+        console.log('AQUI:', user);
         this._newUser.next(user);
     };
     ContactService.prototype.updateUser = function (user, property, value) {
@@ -70,12 +86,13 @@ var ContactService = (function () {
         return this._users;
     };
     ContactService.prototype.getUser = function (userURL) {
-        this._userList.get(userURL);
         console.log('Get User includes:', userURL);
+        console.log('user list:', this._userList);
+        return this._userList.get(userURL);
     };
     ContactService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [storage_service_1.LocalStorage, rethink_service_1.RethinkService])
+        __metadata('design:paramtypes', [storage_service_1.LocalStorage])
     ], ContactService);
     return ContactService;
 }());

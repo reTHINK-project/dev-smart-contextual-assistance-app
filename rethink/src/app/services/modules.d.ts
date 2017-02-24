@@ -1,5 +1,5 @@
 interface Runtime {
-  requireHyperty(hypertyURL: string): Promise<any>
+  requireHyperty(hypertyURL: string, reuse: boolean): Promise<any>
 }
 
 interface Rethink {

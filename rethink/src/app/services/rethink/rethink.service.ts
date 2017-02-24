@@ -5,6 +5,8 @@ import rethink from 'runtime-browser';
 
 import { User } from '../../models/models';
 
+import { ContactService } from '../contact.service';
+
 @Injectable()
 export class RethinkService {
 
@@ -28,6 +30,9 @@ export class RethinkService {
     return this.currentUser;
   }
 
+  constructor(
+    private contactService:ContactService) {}
+
   loadRuntime() {
 
     return new Promise((resolve, reject) => {
@@ -49,7 +54,7 @@ export class RethinkService {
 
     return new Promise((resolve, reject) => {
 
-      this.runtime.requireHyperty(url).then((hyperty: any) => {
+      this.runtime.requireHyperty(url, true).then((hyperty: any) => {
         console.log('[Hyperty Loaded]', hyperty)
         resolve(hyperty);
       }).catch((reason: any) => {
@@ -72,6 +77,7 @@ export class RethinkService {
 
         let myUser = new User(user);
         this.setCurrentUser = myUser;
+        this.contactService.addUser(myUser);
 
         console.info('Getting the registed user', myUser);
 

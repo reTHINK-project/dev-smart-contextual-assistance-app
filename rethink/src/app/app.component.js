@@ -13,10 +13,11 @@ var router_1 = require('@angular/router');
 // Services
 var services_1 = require('./services/services');
 var AppComponent = (function () {
-    function AppComponent(router, route, rethinkService, chatService) {
+    function AppComponent(router, route, contactService, rethinkService, chatService) {
         var _this = this;
         this.router = router;
         this.route = route;
+        this.contactService = contactService;
         this.rethinkService = rethinkService;
         this.chatService = chatService;
         this.ready = false;
@@ -43,8 +44,7 @@ var AppComponent = (function () {
             _this.rethinkService.progress.error(error);
         })
             .then(function (user) {
-            _this.myIdentity = user;
-            _this.rethinkService.setCurrentUser = user;
+            _this.myIdentity = _this.contactService.getUser(user.userURL);
             _this.rethinkService.progress.next('The app is ready to be used');
             _this.rethinkService.progress.complete();
             _this.rethinkService.status.next(true);
@@ -60,7 +60,7 @@ var AppComponent = (function () {
             selector: 'rethink-app',
             templateUrl: './app.component.html'
         }), 
-        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, services_1.RethinkService, services_1.ChatService])
+        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, services_1.ContactService, services_1.RethinkService, services_1.ChatService])
     ], AppComponent);
     return AppComponent;
 }());

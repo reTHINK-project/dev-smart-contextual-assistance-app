@@ -24,7 +24,7 @@ var ContextService = (function () {
         this.cxtTrigger = new Set();
         this.cxtList = new Map();
         this._contextualComm = new BehaviorSubject_1.BehaviorSubject({});
-        this.contextualCommObs = this._contextualComm.scan(function (context) {
+        this.contextualCommObs = this._contextualComm.map(function (context) {
             console.log('[Context Service scan] - context', context);
             return context;
         });
@@ -85,8 +85,13 @@ var ContextService = (function () {
                     // Set the active context
                     _this.activeContext = context;
                     context.users = dataObject.data.participants.map(function (item) {
-                        _this.contactService.addUser(item);
-                        return new models_1.User(item);
+                        var currentUser = _this.contactService.getUser(item.userURL);
+                        if (!currentUser) {
+                            currentUser = new models_1.User(item);
+                            _this.contactService.addUser(currentUser);
+                            console.log('[Context Service - update users] - create new user: ', currentUser);
+                        }
+                        return currentUser;
                     });
                     // Set this context to the context triggers;
                     contextTrigger.trigger.push(context);
@@ -141,6 +146,7 @@ var ContextService = (function () {
     };
     ContextService.prototype.updateContextMessages = function (message) {
         console.log('Active Context:', this.activeContext);
+        var user = this.contactService.getUser(message.user);
         var contextName = this.activeContext.name;
         var context = this.activeContext;
         context.messages.push(message);
@@ -154,6 +160,7 @@ var ContextService = (function () {
         var context = this.activeContext;
         context.users.push(user);
         this.localStorage.setObject(contextName, context);
+        this.contactService.addUser(user);
         this._contextualComm.next(context);
         console.log('[Context Update contacts]', contextName, context);
     };

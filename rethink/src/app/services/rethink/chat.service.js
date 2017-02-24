@@ -31,6 +31,7 @@ var ChatService = (function () {
                     .then(function (hyperty) {
                     _this.chatGroupManager = hyperty.instance;
                     _this.hyperty = hyperty;
+                    _this.prepareHyperty();
                     resolve(_this.hyperty);
                 })
                     .catch(function (reason) {
@@ -45,7 +46,7 @@ var ChatService = (function () {
     };
     ChatService.prototype.prepareHyperty = function () {
         var _this = this;
-        console.log('[Chat Service - prepareHyperty]');
+        console.log('[Chat Service - prepareHyperty]', this.chatGroupManager.onResume);
         this.chatGroupManager.onResume(function (chatController) {
             console.log('[Chat Service - prepareHyperty] - onResume: ', chatController);
             _this.chatController = chatController;
@@ -61,14 +62,17 @@ var ChatService = (function () {
             if (_this._onInvitation)
                 _this._onInvitation(event);
         });
+    };
+    ChatService.prototype.prepareController = function () {
+        var _this = this;
         this.chatController.onUserAdded(function (user) {
             console.log('[Chat Service - prepareHyperty] - onUserAdded', user);
             var current;
             if (user.hasOwnProperty('data')) {
-                current = new models_1.User(user.data);
+                current = _this.contactService.getUser(user.data.userURL) || new models_1.User(user.data);
             }
             else {
-                current = new models_1.User(user);
+                current = _this.contactService.getUser(user.userURL) || new models_1.User(user);
             }
             _this.contextService.updateContextUsers(current);
             if (_this._onUserAdded)
@@ -79,7 +83,7 @@ var ChatService = (function () {
             var msg = {
                 type: 'message',
                 message: message.value.message,
-                user: message.identity.userProfile.username
+                user: _this.contactService.getUser(message.identity.userProfile.userURL)
             };
             var currentMessage = new models_1.Message(msg);
             _this.contextService.updateContextMessages(currentMessage);
@@ -91,7 +95,7 @@ var ChatService = (function () {
             _this.chatGroupManager.create(name, users, domains).then(function (chatController) {
                 _this.chatController = chatController;
                 console.log('[Chat Created]', chatController);
-                _this.prepareHyperty();
+                _this.prepareController();
                 resolve(chatController);
             }).catch(function (reason) {
                 reject(reason);
@@ -106,7 +110,7 @@ var ChatService = (function () {
                 console.log('[Joined Chat]', chatController);
                 var chatName = chatController.dataObject.data.name;
                 _this.contextService.create(chatName, chatController.dataObject).then(function (result) {
-                    _this.prepareHyperty();
+                    _this.prepareController();
                     resolve(_this.chatController);
                 });
             });
@@ -132,7 +136,7 @@ var ChatService = (function () {
                 var msg = {
                     type: 'message',
                     message: result.value.message,
-                    user: result.identity.userProfile.username
+                    user: _this.contactService.getUser(result.identity.userProfile.userURL)
                 };
                 var currentMessage = new models_1.Message(msg);
                 console.log('[Chat Service - onMessage]', message, result, currentMessage);
