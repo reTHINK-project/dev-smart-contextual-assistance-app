@@ -9,22 +9,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
 var Observable_1 = require('rxjs/Observable');
 var ActivityViewComponent = (function () {
-    function ActivityViewComponent(router, route) {
-        this.router = router;
-        this.route = route;
+    function ActivityViewComponent(el) {
+        this.el = el;
         this.hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list';
         this.chatActive = false;
     }
-    // Load data ones componet is ready
-    ActivityViewComponent.prototype.ngOnInit = function () {
+    ActivityViewComponent.prototype.ngOnChanges = function (changes) {
+        console.log('CHANGES:', changes);
+        this.updateView();
     };
-    ActivityViewComponent.prototype.ngAfterViewInit = function () {
-        console.log('[Activity View  - AfterViewInit]');
+    ActivityViewComponent.prototype.updateView = function () {
+        var _this = this;
+        var scrollPane = this.el.nativeElement;
+        var parentEl = scrollPane.offsetParent;
+        var top = scrollPane.offsetTop;
+        var parentElHeight = parentEl.offsetHeight;
+        console.log('scrollPane: ', scrollPane);
+        console.log('parentElHeigh:', parentElHeight);
+        // TODO: replace the number for the sender box height;
+        var height = parentElHeight - (top + 62);
+        scrollPane.style.height = height + 'px';
+        // TODO: Check if exits other way to wait the dom have the last item added and remove this setTimeout
+        setTimeout(function () {
+            _this.scrollToBottom();
+        });
     };
-    ActivityViewComponent.prototype.ngOnDestroy = function () {
+    ActivityViewComponent.prototype.scrollToBottom = function () {
+        var scrollPane = this.el.nativeElement;
+        console.log('scrollPane: ', scrollPane);
+        console.log('parentElHeigh:', scrollPane.scrollHeight, scrollPane.offsetHeight);
+        scrollPane.scrollTop = scrollPane.scrollHeight;
     };
     __decorate([
         core_1.HostBinding('class'), 
@@ -40,7 +56,7 @@ var ActivityViewComponent = (function () {
             selector: 'ul[activity-view]',
             templateUrl: './activity-view.component.html'
         }), 
-        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute])
+        __metadata('design:paramtypes', [core_1.ElementRef])
     ], ActivityViewComponent);
     return ActivityViewComponent;
 }());

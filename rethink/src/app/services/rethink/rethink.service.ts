@@ -77,6 +77,7 @@ export class RethinkService {
 
         let myUser = new User(user);
         this.setCurrentUser = myUser;
+        this.contactService.sessionUser = myUser;
         this.contactService.addUser(myUser);
 
         console.info('Getting the registed user', myUser);

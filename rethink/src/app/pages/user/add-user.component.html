@@ -43,7 +43,7 @@
                     <form class="all-100 invite" #inviteForm="ngForm" (submit)="submitEvent(inviteForm.value)">
 
                         <div class="form-group">
-                            <input type="email" [disabled]="busy" [(ngModel)]="model.email" ngControl="email" name="email" 
+                            <input type="text" [disabled]="busy" [(ngModel)]="model.email" ngControl="email" name="email" 
                             class="quarter-padding" placeholder="someone@mail.com" required>
                         </div>
 

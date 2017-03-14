@@ -6,26 +6,18 @@ import { HomeComponent } from './pages/home/home.component';
 import { ContextualCommComponent } from './pages/contextualComm/contextualComm.component';
 
 // Services
+import { AuthGuard } from './services/authGuard.service';
 import { ContextualCommResolver } from './services/contextualComm.resolver';
 import { ContextualCommModule } from './pages/contextualComm/contextualComm.module';
 
 const routes: Routes = [
-  // { path: '', redirectTo: '/home', pathMatch: 'full'},
   { 
-    path: 'home',
-    component: HomeComponent
-  }// ,
-  // { 
-    // path: 'context',
-    // component: ContextualCommComponent
-    /*resolve: {
-      data: ContextualCommResolver
-    },
-    children: [
-      ...ContextualCommRouting
-    ]*/
-  // }
-  // { path: 'detail/:id', component: HeroDetailComponent }
+    path: '',
+    component: HomeComponent,
+    canActivate: [
+      AuthGuard
+    ]
+  }
 ];
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],

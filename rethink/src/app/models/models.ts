@@ -45,7 +45,7 @@ export class User implements UserIdentity {
 export class Message {
   type: string;
   message: string;
-  user: string;
+  user: User;
   date: Date;
 
   constructor(obj: any) {
@@ -109,6 +109,6 @@ export class ContextualCommTrigger {
       this.contextResource = contextResource
       this.values = values || []
       this.trigger = trigger || [];
-  }
+  } 
 
 }

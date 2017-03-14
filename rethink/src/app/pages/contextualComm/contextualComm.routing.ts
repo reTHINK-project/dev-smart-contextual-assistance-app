@@ -15,7 +15,7 @@ import { userRoutes } from '../user/user.routing';
 // TODO: Optimize the Resolve Context
 const contextualCommRoutes: Routes = [
   {
-    path: ':trigger',
+    path: 'context/:trigger',
     component: ContextualCommComponent,
     canActivate: [
       AuthGuard

@@ -18,7 +18,7 @@ var contextualCommActivity_component_1 = require('../contextualCommActivity/cont
 // TODO: Optimize the Resolve Context
 var contextualCommRoutes = [
     {
-        path: ':trigger',
+        path: 'context/:trigger',
         component: contextualComm_component_1.ContextualCommComponent,
         canActivate: [
             authGuard_service_1.AuthGuard

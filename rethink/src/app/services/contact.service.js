@@ -14,6 +14,8 @@ var Subject_1 = require('rxjs/Subject');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/scan');
 require('rxjs/add/operator/publishReplay');
+// utils
+var utils_1 = require('../utils/utils');
 // Interfaces
 var models_1 = require('../models/models');
 // Services
@@ -29,53 +31,44 @@ var ContactService = (function () {
         // stored in `users`)
         this._updates = new Subject_1.Subject();
         this._newUser = new Subject_1.Subject();
+        var anonimous = new models_1.User({});
         if (this.localStorage.hasObject('contacts')) {
             var mapObj = this.localStorage.getObject('contacts');
-            console.log('[Contacts Service -  constructor] - ', mapObj);
-            this._userList = this.objToStrMap(mapObj);
+            this._userList = utils_1.objToStrMap(mapObj);
         }
         else {
             this._userList = new Map();
         }
         this._users = this._updates
             .scan(function (users, user) {
-            console.log('[Contact Service - scan] - ', users);
             return users.concat(user);
         }, [])
             .publishReplay(1)
             .refCount();
         this._create.map(function (user) {
+            console.log('[Contact Service] - create user:', user);
             if (!_this._userList.has(user.userURL)) {
-                _this._userList.set(user.userURL, new models_1.User(user));
-                _this.localStorage.setObject('contacts', _this.strMapToObj(_this._userList));
+                _this._userList.set(user.userURL, user);
+                _this.localStorage.setObject('contacts', utils_1.strMapToObj(_this._userList));
+            }
+            else {
+                user = _this._userList.get(user.userURL);
             }
             return user;
         }).subscribe(this._updates);
         this._newUser.subscribe(this._create);
     }
-    ContactService.prototype.strMapToObj = function (strMap) {
-        var obj = Object.create(null);
-        console.log(strMap);
-        for (var _i = 0, _a = strMap.entries(); _i < _a.length; _i++) {
-            var _b = _a[_i], k = _b[0], v = _b[1];
-            console.log('KEY:', k, v);
-            // We don’t escape the key '__proto__'
-            // which can cause problems on older engines
-            obj[k] = v;
-        }
-        console.log(obj);
-        return obj;
-    };
-    ContactService.prototype.objToStrMap = function (obj) {
-        var strMap = new Map();
-        for (var _i = 0, _a = Object.keys(obj); _i < _a.length; _i++) {
-            var k = _a[_i];
-            strMap.set(k, obj[k]);
-        }
-        return strMap;
-    };
+    Object.defineProperty(ContactService.prototype, "sessionUser", {
+        get: function () {
+            return this._sessionUser;
+        },
+        set: function (user) {
+            this._sessionUser = user;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ContactService.prototype.addUser = function (user) {
-        console.log('AQUI:', user);
         this._newUser.next(user);
     };
     ContactService.prototype.updateUser = function (user, property, value) {
@@ -86,8 +79,7 @@ var ContactService = (function () {
         return this._users;
     };
     ContactService.prototype.getUser = function (userURL) {
-        console.log('Get User includes:', userURL);
-        console.log('user list:', this._userList);
+        console.log('[Contact Service - get user: ', this._userList, userURL);
         return this._userList.get(userURL);
     };
     ContactService = __decorate([

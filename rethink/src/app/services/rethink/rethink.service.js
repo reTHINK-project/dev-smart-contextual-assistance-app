@@ -69,6 +69,7 @@ var RethinkService = (function () {
             hyperty.instance.identityManager.discoverUserRegistered().then(function (user) {
                 var myUser = new models_1.User(user);
                 _this.setCurrentUser = myUser;
+                _this.contactService.sessionUser = myUser;
                 _this.contactService.addUser(myUser);
                 console.info('Getting the registed user', myUser);
                 resolve(myUser);

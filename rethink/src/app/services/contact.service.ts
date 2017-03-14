@@ -8,6 +8,9 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/scan';
 import 'rxjs/add/operator/publishReplay';
 
+// utils
+import { objToStrMap, strMapToObj } from '../utils/utils';
+
 // Interfaces
 import { User } from '../models/models';
 
@@ -17,6 +20,8 @@ import { ContextService } from './rethink/context.service';
 
 @Injectable()
 export class ContactService {
+
+  private _sessionUser:User;
 
   private _userList:Map<string, User>;
 
@@ -34,10 +39,11 @@ export class ContactService {
 
   constructor(private localStorage: LocalStorage) {
 
+    let anonimous:User = new User({});
+
     if (this.localStorage.hasObject('contacts')) {
       let mapObj = this.localStorage.getObject('contacts');
-      console.log('[Contacts Service -  constructor] - ', mapObj);
-      this._userList = this.objToStrMap(mapObj);
+      this._userList = objToStrMap(mapObj);
     } else {
       this._userList = new Map();
     }
@@ -45,7 +51,6 @@ export class ContactService {
     this._users = this._updates
       // watch the updates and accumulate operations on the users
       .scan((users: User[], user:User) => {
-        console.log('[Contact Service - scan] - ', users);
         return users.concat(user);
       }, [])
     // make sure we can share the most recent list of users across anyone
@@ -55,39 +60,31 @@ export class ContactService {
     .refCount();
 
     this._create.map((user:User) => {
+
+      console.log('[Contact Service] - create user:', user)
+
       if (!this._userList.has(user.userURL)) {
-        this._userList.set(user.userURL, new User(user));
-        this.localStorage.setObject('contacts', this.strMapToObj(this._userList));
+        this._userList.set(user.userURL, user);
+        this.localStorage.setObject('contacts', strMapToObj(this._userList));
+      } else {
+        user = this._userList.get(user.userURL);
       }
+
       return user;
     }).subscribe(this._updates);
 
     this._newUser.subscribe(this._create)
   }
 
-  strMapToObj(strMap:any) {
-    let obj = Object.create(null);
-    console.log(strMap);
-    for (let [k,v] of strMap.entries()) {
-      console.log('KEY:', k, v);
-      // We don’t escape the key '__proto__'
-      // which can cause problems on older engines
-      obj[k] = v;
-    }
-    console.log(obj);
-    return obj;
+  set sessionUser(user:User) {
+    this._sessionUser = user;
   }
 
-  objToStrMap(obj:any) {
-    let strMap = new Map();
-    for (let k of Object.keys(obj)) {
-        strMap.set(k, obj[k]);
-    }
-    return strMap;
+  get sessionUser():User {
+    return this._sessionUser;
   }
 
   addUser(user:User):void {
-    console.log('AQUI:', user);
     this._newUser.next(user);
   }
 
@@ -104,8 +101,7 @@ export class ContactService {
   }
 
   getUser(userURL:string):User {
-    console.log('Get User includes:', userURL);
-    console.log('user list:', this._userList);
+    console.log('[Contact Service - get user: ', this._userList, userURL);
     return this._userList.get(userURL);
   }
 

@@ -10,6 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var BehaviorSubject_1 = require('rxjs/BehaviorSubject');
+// utils
+var utils_1 = require('../../utils/utils');
 // Services
 var storage_service_1 = require('../storage.service');
 var contact_service_1 = require('../contact.service');
@@ -18,18 +20,37 @@ var HypertyResource_1 = require('../../models/rethink/HypertyResource');
 var models_1 = require('../../models/models');
 var ContextService = (function () {
     function ContextService(localStorage, contactService, messageService) {
+        var _this = this;
         this.localStorage = localStorage;
         this.contactService = contactService;
         this.messageService = messageService;
-        this.cxtTrigger = new Set();
+        this.cxtTrigger = new Map();
         this.cxtList = new Map();
         this._contextualComm = new BehaviorSubject_1.BehaviorSubject({});
-        this.contextualCommObs = this._contextualComm.map(function (context) {
-            console.log('[Context Service scan] - context', context);
+        if (this.localStorage.hasObject('context-triggers')) {
+            var mapObj = this.localStorage.getObject('context-triggers');
+            this.cxtTrigger = utils_1.objToStrMap(mapObj);
+        }
+        else {
+            this.cxtTrigger = new Map();
+        }
+        if (this.localStorage.hasObject('contexts')) {
+            var mapObj = this.localStorage.getObject('contexts');
+            this.cxtList = utils_1.objToStrMap(mapObj);
+        }
+        else {
+            this.cxtList = new Map();
+        }
+        this.contextualCommObs = this._contextualComm.scan(function (context) {
+            /*      let mapped = context.users.filter((user:User) => {
+                    console.log('FILTER Current:', user.userURL, this.contactService.sessionUser.userURL);
+                    return user.userURL !== this.contactService.sessionUser.userURL;
+                  })
+            
+                  console.log('MAPPED:', mapped);*/
+            console.log('[ContextService - contextualComm] - scan', context.url, context);
+            _this.updateContexts(context.url, context);
             return context;
-        });
-        this.contextualCommObs.subscribe(function (context) {
-            console.log('[Context Service scan] - contextualCommObs', context);
         });
     }
     ContextService.prototype.getActiveContext = function (v) {
@@ -68,11 +89,12 @@ var ContextService = (function () {
         // TODO Add the dataObject on Rx.Observable (stream);
         // TODO add a Stream to look on changes for dataObject changes;
         return new Promise(function (resolve, reject) {
-            _this.createContextTrigger(_this.contextPath).then(function (contextTrigger) {
+            _this.createContextTrigger(name).then(function (contextTrigger) {
                 // TODO Create the verification to reuse a context, because at this moment we can't reuse a communication or connection dataObject;
                 var context;
-                if (!_this.localStorage.hasObject(dataObject.data.name)) {
-                    console.info('[Create a new context: ]', dataObject.data.name);
+                console.info('[Context Trigger] - existing: ', _this.cxtList.has(dataObject.url), contextTrigger);
+                if (!_this.cxtList.has(dataObject.url)) {
+                    console.info('[Create a new context: ]', dataObject);
                     context = new models_1.ContextualComm({
                         url: dataObject.url,
                         name: dataObject.data.name,
@@ -84,30 +106,30 @@ var ContextService = (function () {
                     context.communication = communication;
                     // Set the active context
                     _this.activeContext = context;
-                    context.users = dataObject.data.participants.map(function (item) {
-                        var currentUser = _this.contactService.getUser(item.userURL);
-                        if (!currentUser) {
-                            currentUser = new models_1.User(item);
-                            _this.contactService.addUser(currentUser);
-                            console.log('[Context Service - update users] - create new user: ', currentUser);
-                        }
-                        return currentUser;
-                    });
-                    // Set this context to the context triggers;
-                    contextTrigger.trigger.push(context);
                 }
                 else {
-                    console.info('[Get the context to localStorage: ]', dataObject.data.name);
-                    context = _this.localStorage.getObject(dataObject.data.name);
+                    console.info('[Get the context to localStorage: ]', dataObject.data);
+                    context = _this.cxtList.get(dataObject.data.url);
                 }
-                console.info('[Active Context: ]', context);
                 _this.activeContext = context;
+                context.users = dataObject.data.participants.map(function (item) {
+                    console.log('MAP:', item);
+                    var currentUser = _this.contactService.getUser(item.userURL);
+                    if (!currentUser) {
+                        currentUser = new models_1.User(item);
+                        _this.contactService.addUser(currentUser);
+                        console.log('[Context Service - update users] - create new user: ', currentUser);
+                    }
+                    return currentUser;
+                });
                 context.url = dataObject.url,
                     context.communication = (dataObject.data);
                 if (parent)
                     context.parent = parent;
-                // Update the localStorage context
-                _this.localStorage.setObject(context.name, context);
+                contextTrigger.trigger.push(context);
+                _this.updateContextTrigger(contextTrigger.contextName, contextTrigger);
+                _this.updateContexts(context.url, context);
+                console.info('[Active Context - ContextualComm]', context);
                 _this._contextualComm.next(context);
                 resolve(context);
             });
@@ -117,49 +139,65 @@ var ContextService = (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             console.log('[Contextual Comm Trigger Service - Get Localstorage] ', name);
-            if (!_this.localStorage.hasObject('trigger-' + name)) {
+            var contextualCommTriggerName = 'trigger-' + name;
+            var contextTrigger;
+            if (!_this.cxtTrigger.has(contextualCommTriggerName)) {
                 console.info('[Create a new ContextualTrigger]', name, parent);
                 var contextName = name;
                 var contextScheme = 'context';
                 var contextResource = [HypertyResource_1.HypertyResourceType.video, HypertyResource_1.HypertyResourceType.audio, HypertyResource_1.HypertyResourceType.chat];
-                var contextTrigger = new models_1.ContextualCommTrigger(null, contextName, contextScheme, contextResource);
+                contextTrigger = new models_1.ContextualCommTrigger(null, contextName, contextScheme, contextResource);
                 /*let contextValue:ContextValues = {
                   name: 'location',
                   unit: 'rad',
                   value: 0,
                   sum: 0
                 }*/
-                // Update the localStorage contextTrigger
-                _this.localStorage.setObject('trigger-' + contextTrigger.contextName, contextTrigger);
                 // Set the active context trigger;
                 _this.activeContextTrigger = contextTrigger;
-                _this.cxtTrigger.add(contextTrigger);
                 // Resolve the context trigger
                 resolve(contextTrigger);
             }
             else {
                 console.info('[Get the exist ContextualTrigger]', name);
-                var contextualCommTrigger = _this.localStorage.getObject('trigger-' + name);
-                resolve(contextualCommTrigger);
+                contextTrigger = _this.cxtTrigger.get(contextualCommTriggerName);
+                resolve(contextTrigger);
             }
+            _this.updateContextTrigger(contextualCommTriggerName, contextTrigger);
         });
     };
+    ContextService.prototype.updateContextTrigger = function (name, contextTrigger) {
+        var contextTriggerName;
+        if (name.includes('trigger')) {
+            contextTriggerName = name;
+        }
+        else {
+            contextTriggerName = 'trigger-' + name;
+        }
+        this.cxtTrigger.set(contextTriggerName, contextTrigger);
+        this.localStorage.setObject('context-triggers', utils_1.strMapToObj(this.cxtTrigger));
+    };
+    ContextService.prototype.updateContexts = function (url, context) {
+        this.cxtList.set(url, context);
+        this.localStorage.setObject('contexts', utils_1.strMapToObj(this.cxtList));
+    };
     ContextService.prototype.updateContextMessages = function (message) {
-        console.log('Active Context:', this.activeContext);
-        var user = this.contactService.getUser(message.user);
-        var contextName = this.activeContext.name;
+        console.log('[Context Service - Update Context Message:', message);
+        console.log('[Context Service - Active Context:', this.activeContext);
+        var contextName = this.activeContext.url;
         var context = this.activeContext;
         context.messages.push(message);
-        this.localStorage.setObject(contextName, context);
         this._contextualComm.next(context);
         console.log('[Context Update messages]', contextName, context);
     };
     ContextService.prototype.updateContextUsers = function (user) {
-        console.log('Active Context:', this.activeContext);
-        var contextName = this.activeContext.name;
+        console.log('[Context Service - Update Context User:', user);
+        console.log('[Context Service - Active Context:', this.activeContext);
+        var contextName = this.activeContext.url;
         var context = this.activeContext;
-        context.users.push(user);
-        this.localStorage.setObject(contextName, context);
+        // TODO: this should be replaced by a map or observable;
+        context.addUser(user);
+        // Update the contact list
         this.contactService.addUser(user);
         this._contextualComm.next(context);
         console.log('[Context Update contacts]', contextName, context);
@@ -168,17 +206,16 @@ var ContextService = (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             var context;
-            if (_this.localStorage.hasObject(name)) {
-                context = _this.localStorage.getObject(name);
-                console.log('[context service - getContextByName] - ', name, context);
-                // TODO: Solve the problem of active context
-                _this.activeContext = context;
-                _this._contextualComm.next(context);
-                resolve(context);
-            }
-            else {
-                reject('No context found');
-            }
+            _this.cxtList.forEach(function (context) {
+                if (context.name === name) {
+                    console.log('[context service - getContextByName] - ', name, context);
+                    // TODO: Solve the problem of active context
+                    _this.activeContext = context;
+                    _this._contextualComm.next(context);
+                    return resolve(context);
+                }
+            });
+            reject('No context found');
         });
     };
     ContextService.prototype.getContextByResource = function (resource) {

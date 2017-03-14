@@ -45,6 +45,7 @@ var ContextualCommResolver = (function () {
                 console.info('Getting the current Context ', name, contextualComm);
                 resolve(contextualComm);
             }).catch(function (error) {
+                console.error('error:', error);
                 console.info('Creating the context ', name, context, ' chat group');
                 _this.chatService.create(name, participants, domains).then(function (chatController) {
                     console.log('Create chat service for all my contacts', chatController);

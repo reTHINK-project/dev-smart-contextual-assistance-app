@@ -26,6 +26,7 @@ var ChatService = (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.hypertyURL = 'hyperty-catalogue://catalogue.' + _this.appService.domain + '/.well-known/hyperty/GroupChatManager';
+            console.log('[Chat Service - getHyperty] - ', _this.chatGroupManager);
             if (!_this.chatGroupManager) {
                 _this.appService.getHyperty(_this.hypertyURL)
                     .then(function (hyperty) {
@@ -46,16 +47,21 @@ var ChatService = (function () {
     };
     ChatService.prototype.prepareHyperty = function () {
         var _this = this;
-        console.log('[Chat Service - prepareHyperty]', this.chatGroupManager.onResume);
+        console.log('[Chat Service - prepareHyperty]', this.chatGroupManager);
         this.chatGroupManager.onResume(function (chatController) {
             console.log('[Chat Service - prepareHyperty] - onResume: ', chatController);
             _this.chatController = chatController;
+            _this.prepareController();
         });
         this.chatGroupManager.onInvitation(function (event) {
             console.log('[Chat Service - prepareHyperty] - onInvitation', event);
-            _this.contactService.addUser(new models_1.User(event.identity.userProfile));
+            var currentUser = _this.contactService.getUser(event.identity.userProfile.userURL);
+            if (!currentUser) {
+                currentUser = new models_1.User(event.identity.userProfile);
+                _this.contactService.addUser(currentUser);
+            }
             _this.join(event.url).then(function (a) {
-                console.log(a);
+                _this.prepareController();
             }).catch(function (reason) {
                 console.log(reason);
             });
@@ -65,28 +71,39 @@ var ChatService = (function () {
     };
     ChatService.prototype.prepareController = function () {
         var _this = this;
+        console.log('[Chat Service - prepareController]', this.chatController);
         this.chatController.onUserAdded(function (user) {
-            console.log('[Chat Service - prepareHyperty] - onUserAdded', user);
+            console.log('[Chat Service - prepareController] - onUserAdded', user);
             var current;
             if (user.hasOwnProperty('data')) {
-                current = _this.contactService.getUser(user.data.userURL) || new models_1.User(user.data);
+                current = _this.contactService.getUser(user.data.userURL);
             }
             else {
-                current = _this.contactService.getUser(user.userURL) || new models_1.User(user);
+                current = _this.contactService.getUser(user.userURL);
+            }
+            console.log('[Chat Service - prepareController] - current user:', current);
+            if (!current) {
+                current = new models_1.User(user);
             }
             _this.contextService.updateContextUsers(current);
-            if (_this._onUserAdded)
-                _this._onUserAdded(current);
+            // if(this._onUserAdded) this._onUserAdded(current);
         });
         this.chatController.onMessage(function (message) {
             console.log('[Chat Service - onMessage]', message);
-            var msg = {
-                type: 'message',
-                message: message.value.message,
-                user: _this.contactService.getUser(message.identity.userProfile.userURL)
-            };
-            var currentMessage = new models_1.Message(msg);
-            _this.contextService.updateContextMessages(currentMessage);
+            var user = _this.contactService.getUser(message.identity.userProfile.userURL);
+            console.log('[Chat Service] - user:', user, message.identity.userProfile.userURL);
+            if (user) {
+                var msg = {
+                    type: 'message',
+                    message: message.value.message,
+                    user: user
+                };
+                var currentMessage = new models_1.Message(msg);
+                _this.contextService.updateContextMessages(currentMessage);
+            }
+            else {
+                console.info('The message was rejected because the user ' + message.identity.userProfile.userURL + ' is unknown');
+            }
         });
     };
     ChatService.prototype.create = function (name, users, domains) {
@@ -95,6 +112,7 @@ var ChatService = (function () {
             _this.chatGroupManager.create(name, users, domains).then(function (chatController) {
                 _this.chatController = chatController;
                 console.log('[Chat Created]', chatController);
+                _this.prepareHyperty();
                 _this.prepareController();
                 resolve(chatController);
             }).catch(function (reason) {
@@ -110,6 +128,7 @@ var ChatService = (function () {
                 console.log('[Joined Chat]', chatController);
                 var chatName = chatController.dataObject.data.name;
                 _this.contextService.create(chatName, chatController.dataObject).then(function (result) {
+                    _this.prepareHyperty();
                     _this.prepareController();
                     resolve(_this.chatController);
                 });
@@ -133,13 +152,15 @@ var ChatService = (function () {
         return new Promise(function (resolve, reject) {
             console.log('Send message: ', _this.chatController, message);
             _this.chatController.send(message).then(function (result) {
+                console.log('[Chat Service - Sended Message]', message);
+                var user = _this.contactService.getUser(result.identity.userProfile.userURL);
+                console.log('[Chat Service] - user:', user, result.identity.userProfile.userURL);
                 var msg = {
                     type: 'message',
                     message: result.value.message,
-                    user: _this.contactService.getUser(result.identity.userProfile.userURL)
+                    user: user
                 };
                 var currentMessage = new models_1.Message(msg);
-                console.log('[Chat Service - onMessage]', message, result, currentMessage);
                 _this.contextService.updateContextMessages(currentMessage);
                 resolve(currentMessage);
             }).catch(reject);

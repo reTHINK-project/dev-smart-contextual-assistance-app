@@ -52,6 +52,7 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
         console.info('Getting the current Context ', name, contextualComm);
         resolve(contextualComm);
       }).catch((error) => {
+        console.error('error:', error);
         console.info('Creating the context ', name, context, ' chat group');
         this.chatService.create(name, participants, domains).then((chatController: any) => {
           console.log('Create chat service for all my contacts', chatController);
