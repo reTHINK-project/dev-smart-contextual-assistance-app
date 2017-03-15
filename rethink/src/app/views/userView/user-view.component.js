@@ -44,7 +44,7 @@ var UserViewComponent = (function () {
     };
     UserViewComponent.prototype.onCloseEvent = function () {
         console.log('Close:');
-        //history.back();
+        history.back();
     };
     __decorate([
         core_1.HostBinding('class'), 

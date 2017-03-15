@@ -63,7 +63,7 @@ export class UserViewComponent implements OnInit {
 
   onCloseEvent() {
     console.log('Close:');
-    //history.back();
+    history.back();
   }
 
 }
