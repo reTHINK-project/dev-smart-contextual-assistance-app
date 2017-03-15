@@ -22,12 +22,14 @@ var ContextualCommResolver = (function () {
     }
     ContextualCommResolver.prototype.resolve = function (route) {
         var _this = this;
-        var context = route.params['trigger'];
-        var task = route.params['id'];
-        var user = route.params['user'];
-        console.log('[ContextualCommResolver - resolve] - ', route);
-        console.log('[ContextualCommResolver - resolve] - ', 'Context: ', context, 'Task: ', task, 'User: ', user);
         return new Promise(function (resolve, reject) {
+            var context = route.params['trigger'];
+            var task = route.params['id'];
+            var user = route.params['user'];
+            var participants = [];
+            var domains = [];
+            console.log('[ContextualCommResolver - resolve] - ', route);
+            console.log('[ContextualCommResolver - resolve] - ', 'Context: ', context, 'Task: ', task, 'User: ', user);
             var name = context;
             _this.contextService.setContextPath = context;
             if (task) {
@@ -38,9 +40,8 @@ var ContextualCommResolver = (function () {
             if (user) {
                 name = user;
                 context = route.parent.params['trigger'];
+                participants.push(name);
             }
-            var participants = [];
-            var domains = [];
             _this.contextService.getContextByName(name).then(function (contextualComm) {
                 console.info('[ContextualCommResolver - resolve] - Getting the current Context ', name, contextualComm);
                 resolve(contextualComm);

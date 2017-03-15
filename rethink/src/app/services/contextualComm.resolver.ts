@@ -22,14 +22,17 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
 
   resolve(route: ActivatedRouteSnapshot):Promise<ContextualComm> {
 
-    let context = route.params['trigger']
-    let task = route.params['id'];
-    let user = route.params['user'];
-
-    console.log('[ContextualCommResolver - resolve] - ', route);
-    console.log('[ContextualCommResolver - resolve] - ', 'Context: ', context,  'Task: ', task,  'User: ', user);
-
     return new Promise((resolve, reject) => {
+
+      let context = route.params['trigger']
+      let task = route.params['id'];
+      let user = route.params['user'];
+
+      let participants:any = [];
+      let domains:any =  [];
+
+      console.log('[ContextualCommResolver - resolve] - ', route);
+      console.log('[ContextualCommResolver - resolve] - ', 'Context: ', context,  'Task: ', task,  'User: ', user);
 
       let name = context;
       this.contextService.setContextPath = context;
@@ -43,10 +46,8 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
       if (user) {
         name = user;
         context = route.parent.params['trigger'];
+        participants.push(name);
       }
-
-      let participants:any = [];
-      let domains:any =  [];
 
       this.contextService.getContextByName(name).then((contextualComm:ContextualComm) => {
         console.info('[ContextualCommResolver - resolve] - Getting the current Context ', name, contextualComm);
