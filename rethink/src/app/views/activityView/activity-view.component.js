@@ -18,7 +18,7 @@ var ActivityViewComponent = (function () {
     function ActivityViewComponent(chatService, contextService) {
         this.chatService = chatService;
         this.contextService = contextService;
-        this.hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list';
+        this.hostClass = '';
         this.messages = new BehaviorSubject_1.BehaviorSubject([]);
         this.chatActive = false;
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
@@ -26,6 +26,9 @@ export class UserViewComponent implements OnInit {
   @Output() videoEvent = new EventEmitter();
   //@Output() closeEvent = new EventEmitter();
 
+  @ViewChild(ContextualCommActivityComponent)
+  private contextualCommActivityComponent: ContextualCommActivityComponent;
+
   private user:User;
   private messages:Subject<Message[]> = new BehaviorSubject([]);
 
@@ -43,6 +46,7 @@ export class UserViewComponent implements OnInit {
       this.user = data.user;
 
       this.messages.next(data.context.messages);
+      this.contextualCommActivityComponent.updateView();
     });
 
   }

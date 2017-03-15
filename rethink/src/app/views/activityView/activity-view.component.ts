@@ -20,7 +20,7 @@ import { Message, ContextualComm } from '../../models/models';
 })
 export class ActivityViewComponent implements OnInit {
 
-  @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list'
+  @HostBinding('class') hostClass = ''
 
   @ViewChild(ContextualCommActivityComponent)
   private contextualCommActivityComponent: ContextualCommActivityComponent;

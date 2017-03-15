@@ -13,6 +13,8 @@ var router_1 = require('@angular/router');
 var BehaviorSubject_1 = require('rxjs/BehaviorSubject');
 // Services
 var services_1 = require('../../services/services');
+// Components
+var contextualCommActivity_component_1 = require('../contextualCommActivity/contextualCommActivity.component');
 var UserViewComponent = (function () {
     function UserViewComponent(router, route, chatService) {
         this.router = router;
@@ -30,6 +32,7 @@ var UserViewComponent = (function () {
             console.log('Resolve data Context: ', data.context);
             _this.user = data.user;
             _this.messages.next(data.context.messages);
+            _this.contextualCommActivityComponent.updateView();
         });
     };
     UserViewComponent.prototype.ngOnDestroy = function () {
@@ -58,6 +61,10 @@ var UserViewComponent = (function () {
         core_1.Output(), 
         __metadata('design:type', Object)
     ], UserViewComponent.prototype, "videoEvent", void 0);
+    __decorate([
+        core_1.ViewChild(contextualCommActivity_component_1.ContextualCommActivityComponent), 
+        __metadata('design:type', contextualCommActivity_component_1.ContextualCommActivityComponent)
+    ], UserViewComponent.prototype, "contextualCommActivityComponent", void 0);
     UserViewComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
