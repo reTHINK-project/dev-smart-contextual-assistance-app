@@ -5,17 +5,17 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../../services/authGuard.service';
 
 import { ContextualCommResolver } from '../../services/contextualComm.resolver';
+import { UserResolver } from '../../services/user.resolver';
 
 import { ContextualCommComponent } from './contextualComm.component'
 import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component';
 import { ActivityViewComponent } from '../activityView/activity-view.component';
-
-import { userRoutes } from '../user/user.routing';
+import { UserViewComponent } from '../userView/user-view.component';
 
 // TODO: Optimize the Resolve Context
 const contextualCommRoutes: Routes = [
   {
-    path: 'context/:trigger',
+    path: ':trigger',
     component: ContextualCommComponent,
     canActivate: [
       AuthGuard
@@ -26,22 +26,21 @@ const contextualCommRoutes: Routes = [
     children: [
       {
         path: '',
-        component: ContextualCommActivityComponent,
-      }// ,
-      // ...userRoutes
-    ]
-  }/*,
-  {
-    path: ':context/:id',
-    component: ContextualCommComponent,
-    children:[
-      {
-        path: '',
-        component: ActivityViewComponent
+        component: ActivityViewComponent,
+        resolve: {
+          context: ContextualCommResolver
+        },
       },
-      ...userRoutes
+      {
+        path: ':user',
+        component: UserViewComponent,
+        resolve: {
+          user: UserResolver,
+          context: ContextualCommResolver
+        }
+      } 
     ]
-  }*/
+  }
 ];
 
 @NgModule({

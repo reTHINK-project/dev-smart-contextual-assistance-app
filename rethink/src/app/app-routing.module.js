@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
-var home_component_1 = require('./pages/home/home.component');
+var home_component_1 = require('./views/home/home.component');
 // Services
 var authGuard_service_1 = require('./services/authGuard.service');
 var routes = [

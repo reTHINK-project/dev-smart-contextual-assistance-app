@@ -22,31 +22,31 @@ var ContextualCommResolver = (function () {
     }
     ContextualCommResolver.prototype.resolve = function (route) {
         var _this = this;
+        var context = route.params['trigger'];
+        var task = route.params['id'];
+        var user = route.params['user'];
+        console.log('[ContextualCommResolver - resolve] - ', route);
+        console.log('[ContextualCommResolver - resolve] - ', 'Context: ', context, 'Task: ', task, 'User: ', user);
         return new Promise(function (resolve, reject) {
-            var context = route.params['trigger'];
-            var task = route.params['id'];
-            var user = route.params['user'];
             var name = context;
-            if (context) {
-                _this.contextService.setContextPath = context;
-            }
+            _this.contextService.setContextPath = context;
             if (task) {
                 _this.contextService.setTaskPath = task;
                 name = task;
-                context = _this.contextService.getContextPath;
+                context = route.parent.params['trigger'];
             }
             if (user) {
                 name = user;
-                context = _this.contextService.getContextPath;
+                context = route.parent.params['trigger'];
             }
             var participants = [];
             var domains = [];
             _this.contextService.getContextByName(name).then(function (contextualComm) {
-                console.info('Getting the current Context ', name, contextualComm);
+                console.info('[ContextualCommResolver - resolve] - Getting the current Context ', name, contextualComm);
                 resolve(contextualComm);
             }).catch(function (error) {
                 console.error('error:', error);
-                console.info('Creating the context ', name, context, ' chat group');
+                console.info('[ContextualCommResolver - resolve] - Creating the context ', name, context, ' chat group');
                 _this.chatService.create(name, participants, domains).then(function (chatController) {
                     console.log('Create chat service for all my contacts', chatController);
                     return _this.contextService.create(name, chatController.dataObject, context);

@@ -105,4 +105,15 @@ export class ContactService {
     return this._userList.get(userURL);
   }
 
+  getByUserName(username:string):User {
+    console.log('[Contact Service - get user: ', this._userList, username);
+
+    let user:User;
+    this._userList.forEach((value:User) => {
+      if (value.username === username) { user = value; }
+    })
+
+    return user;
+  }
+
 }

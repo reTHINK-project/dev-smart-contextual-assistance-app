@@ -1,9 +1,11 @@
-import { Component, OnInit, HostBinding, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, HostBinding, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 // Services
-import { ChatService, MessageService } from '../../services/services';
+import { ChatService } from '../../services/services';
 
 // Models
 import { Message, User, ContextualComm } from '../../models/models';
@@ -15,9 +17,9 @@ import { ChatCommunicationComponent } from '../../components/rethink/communicati
 @Component({
   moduleId: module.id,
   selector: 'div[contact-box]',
-  templateUrl: './user.component.html'
+  templateUrl: './user-view.component.html'
 })
-export class UserComponent implements OnInit {
+export class UserViewComponent implements OnInit {
 
   @HostBinding('class') hostClass = '';
   @Output() audioEvent = new EventEmitter();
@@ -25,35 +27,36 @@ export class UserComponent implements OnInit {
   //@Output() closeEvent = new EventEmitter();
 
   private user:User;
-  private messages:Observable<Message[]>;
-
-  chatActive: boolean = true;
+  private messages:Subject<Message[]> = new BehaviorSubject([]);
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private chatService: ChatService,
-    private messageService: MessageService ) {
+    private chatService: ChatService) {
   }
 
   ngOnInit() {
 
-    this.messages = this.messageService.messageList;
-
-    this.route.data.forEach((data: { user: User }) => {
+    this.route.data.forEach((data: { user: User, context: ContextualComm }) => {
       console.log('Resolve data User: ', data.user);
-
+      console.log('Resolve data Context: ', data.context);
       this.user = data.user;
-      
+
+      this.messages.next(data.context.messages);
     });
 
+  }
+
+  ngOnDestroy() {
+    console.log('[User View - onMessage] - OnDestroy', this.messages);
+    this.messages.unsubscribe();
   }
 
   onMessage(message:string) {
 
     console.log("Message:", message);
     this.chatService.send(message).then((message:any) => {
-      console.log('[Activity View - onMessage] - message sent', message);
+      console.log('[User View - onMessage] - message sent', message);
     })
     
   }

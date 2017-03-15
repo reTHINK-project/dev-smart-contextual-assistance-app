@@ -22,38 +22,38 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
 
   resolve(route: ActivatedRouteSnapshot):Promise<ContextualComm> {
 
+    let context = route.params['trigger']
+    let task = route.params['id'];
+    let user = route.params['user'];
+
+    console.log('[ContextualCommResolver - resolve] - ', route);
+    console.log('[ContextualCommResolver - resolve] - ', 'Context: ', context,  'Task: ', task,  'User: ', user);
+
     return new Promise((resolve, reject) => {
 
-      let context = route.params['trigger'] 
-      let task = route.params['id'];
-      let user = route.params['user'];
       let name = context;
-
-      if (context) {
-        this.contextService.setContextPath = context;
-      }
+      this.contextService.setContextPath = context;
 
       if (task) {
         this.contextService.setTaskPath = task;
-
         name = task;
-        context = this.contextService.getContextPath;
+        context = route.parent.params['trigger'];
       }
 
       if (user) {
         name = user;
-        context = this.contextService.getContextPath;
+        context = route.parent.params['trigger'];
       }
 
       let participants:any = [];
       let domains:any =  [];
 
       this.contextService.getContextByName(name).then((contextualComm:ContextualComm) => {
-        console.info('Getting the current Context ', name, contextualComm);
+        console.info('[ContextualCommResolver - resolve] - Getting the current Context ', name, contextualComm);
         resolve(contextualComm);
       }).catch((error) => {
         console.error('error:', error);
-        console.info('Creating the context ', name, context, ' chat group');
+        console.info('[ContextualCommResolver - resolve] - Creating the context ', name, context, ' chat group');
         this.chatService.create(name, participants, domains).then((chatController: any) => {
           console.log('Create chat service for all my contacts', chatController);
           return this.contextService.create(name, chatController.dataObject, context)

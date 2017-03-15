@@ -10,7 +10,7 @@ import { User, ContextualComm } from '../models/models';
 import { ContactService, RethinkService, ChatService, ContextService, MessageService } from './services';
 
 @Injectable()
-export class UserResolver implements Resolve<User[]> {
+export class UserResolver implements Resolve<User> {
 
   constructor(
     private rethinkService: RethinkService,
@@ -19,12 +19,17 @@ export class UserResolver implements Resolve<User[]> {
     private contextService: ContextService,
     private contactService: ContactService,
     private router: Router) {}
+  
+  resolve(route: ActivatedRouteSnapshot):Promise<User> {
 
-  resolve(route: ActivatedRouteSnapshot):User[] {
+    return new Promise((resolve, reject) => {
+      let selectedUser = route.params['user'];
+      console.log(selectedUser);
+      let user:User = this.contactService.getByUserName(selectedUser);
 
-    console.log('AQUI: User Resolver', this.router);
-
-    return [];
+      if (user) resolve(user);
+      else reject('no user found');
+    })
 
     /*let userURL:string = route.params['user'];
 

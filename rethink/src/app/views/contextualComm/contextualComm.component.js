@@ -13,7 +13,7 @@ var router_1 = require('@angular/router');
 var BehaviorSubject_1 = require('rxjs/BehaviorSubject');
 // Services
 var services_1 = require('../../services/services');
-var add_user_component_1 = require('../user/add-user.component');
+var add_user_component_1 = require('../userView/add-user.component');
 var ContextualCommComponent = (function () {
     function ContextualCommComponent(router, route, chatService, appService, messageService, contextService, contactService) {
         this.router = router;
@@ -42,17 +42,8 @@ var ContextualCommComponent = (function () {
         });
     };
     ContextualCommComponent.prototype.onContactClick = function (user) {
-        console.log('(contact-click)', user);
-        var context = this.contextService.getContextPath;
-        var task = this.contextService.getTaskPath;
-        var path = [];
-        path.push(context);
-        if (task) {
-            path.push(task);
-        }
-        path.push('user');
-        path.push(encodeURI(user.guid));
-        this.router.navigate(path);
+        console.log('(contact-click)', user, this.router);
+        this.router.navigate([this.router.url, user.username]);
     };
     ContextualCommComponent.prototype.onContactAdd = function () {
         this.addView.toogle();

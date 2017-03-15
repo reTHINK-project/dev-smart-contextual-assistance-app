@@ -1,0 +1,11 @@
+<!--<li class="half-padding" *ngFor="let activity of messages | async" [ngSwitch]="activity.type">
+  <chat-event *ngSwitchCase="'message'" [activity]="activity"></chat-event>
+  <file-event *ngSwitchCase="'file'" [activity]="activity"></file-event>
+  <span *ngSwitchDefault>other</span>
+</li>-->
+
+<h3 class="padding">Recent Activity</h3>
+
+<ul context-activity-list [messages]="messages"></ul>
+
+<chat-view (onMessage)="onMessage($event)"></chat-view>

@@ -22,8 +22,16 @@ var UserResolver = (function () {
         this.router = router;
     }
     UserResolver.prototype.resolve = function (route) {
-        console.log('AQUI: User Resolver', this.router);
-        return [];
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var selectedUser = route.params['user'];
+            console.log(selectedUser);
+            var user = _this.contactService.getByUserName(selectedUser);
+            if (user)
+                resolve(user);
+            else
+                reject('no user found');
+        });
         /*let userURL:string = route.params['user'];
     
         console.log('[User] Resolve: ', userURL, route );

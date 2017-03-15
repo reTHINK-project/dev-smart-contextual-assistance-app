@@ -13,7 +13,7 @@ import { Message, User, ContextualComm } from '../../models/models';
 
 // Components
 import { ContextualCommUsersComponent } from '../contextualCommUsers/contextualCommUsers.component'
-import { AddUserComponent } from '../user/add-user.component';
+import { AddUserComponent } from '../userView/add-user.component';
 
 @Component({
   moduleId: module.id,
@@ -58,20 +58,9 @@ export class ContextualCommComponent implements OnInit {
   }
 
   onContactClick(user: User) {
-    console.log('(contact-click)', user)
+    console.log('(contact-click)', user, this.router);
 
-    let context = this.contextService.getContextPath;
-    let task = this.contextService.getTaskPath;
-    let path:string[] = [];
-
-    path.push(context);
-    if (task) {
-      path.push(task);
-    }
-    path.push('user');
-    path.push(encodeURI(user.guid));
-
-    this.router.navigate(path);
+    this.router.navigate([this.router.url, user.username]);
 
   }
 

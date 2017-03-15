@@ -83,6 +83,16 @@ var ContactService = (function () {
         console.log('[Contact Service - get user: ', this._userList, userURL);
         return this._userList.get(userURL);
     };
+    ContactService.prototype.getByUserName = function (username) {
+        console.log('[Contact Service - get user: ', this._userList, username);
+        var user;
+        this._userList.forEach(function (value) {
+            if (value.username === username) {
+                user = value;
+            }
+        });
+        return user;
+    };
     ContactService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [storage_service_1.LocalStorage])

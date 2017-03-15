@@ -9,54 +9,48 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var Observable_1 = require('rxjs/Observable');
+var BehaviorSubject_1 = require('rxjs/BehaviorSubject');
+// Components
+var contextualCommActivity_component_1 = require('../contextualCommActivity/contextualCommActivity.component');
+// Services
+var services_1 = require('../../services/services');
 var ActivityViewComponent = (function () {
-    function ActivityViewComponent(el) {
-        this.el = el;
+    function ActivityViewComponent(chatService, contextService) {
+        this.chatService = chatService;
+        this.contextService = contextService;
         this.hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list';
+        this.messages = new BehaviorSubject_1.BehaviorSubject([]);
         this.chatActive = false;
     }
-    ActivityViewComponent.prototype.ngOnChanges = function (changes) {
-        console.log('CHANGES:', changes);
-        this.updateView();
-    };
-    ActivityViewComponent.prototype.updateView = function () {
+    // Load data ones componet is ready
+    ActivityViewComponent.prototype.ngOnInit = function () {
         var _this = this;
-        var scrollPane = this.el.nativeElement;
-        var parentEl = scrollPane.offsetParent;
-        var top = scrollPane.offsetTop;
-        var parentElHeight = parentEl.offsetHeight;
-        console.log('scrollPane: ', scrollPane);
-        console.log('parentElHeigh:', parentElHeight);
-        // TODO: replace the number for the sender box height;
-        var height = parentElHeight - (top + 62);
-        scrollPane.style.height = height + 'px';
-        // TODO: Check if exits other way to wait the dom have the last item added and remove this setTimeout
-        setTimeout(function () {
-            _this.scrollToBottom();
+        this.contextService.contextualComm().subscribe(function (contextualComm) {
+            console.log('[ContextualCommActivity Component - update] - ', contextualComm);
+            _this.messages.next(contextualComm.messages);
+            _this.contextualCommActivityComponent.updateView();
         });
     };
-    ActivityViewComponent.prototype.scrollToBottom = function () {
-        var scrollPane = this.el.nativeElement;
-        console.log('scrollPane: ', scrollPane);
-        console.log('parentElHeigh:', scrollPane.scrollHeight, scrollPane.offsetHeight);
-        scrollPane.scrollTop = scrollPane.scrollHeight;
+    ActivityViewComponent.prototype.onMessage = function (message) {
+        this.chatService.send(message).then(function (message) {
+            console.log('[Activity View - onMessage] - message sent', message);
+        });
     };
     __decorate([
         core_1.HostBinding('class'), 
         __metadata('design:type', Object)
     ], ActivityViewComponent.prototype, "hostClass", void 0);
     __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Observable_1.Observable)
-    ], ActivityViewComponent.prototype, "messages", void 0);
+        core_1.ViewChild(contextualCommActivity_component_1.ContextualCommActivityComponent), 
+        __metadata('design:type', contextualCommActivity_component_1.ContextualCommActivityComponent)
+    ], ActivityViewComponent.prototype, "contextualCommActivityComponent", void 0);
     ActivityViewComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'ul[activity-view]',
+            selector: 'activity-view',
             templateUrl: './activity-view.component.html'
         }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
+        __metadata('design:paramtypes', [services_1.ChatService, services_1.ContextService])
     ], ActivityViewComponent);
     return ActivityViewComponent;
 }());

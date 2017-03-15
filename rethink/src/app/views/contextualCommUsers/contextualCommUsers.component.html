@@ -6,6 +6,10 @@
     </form>
 </li>
 
+
+<!--<a routerLink="context/work" routerLinkActive="active">work</a>
+<a routerLink="context/team1" routerLinkActive="active">team1</a>-->
+
 <!-- List of ContactComponent -->
 <li *ngFor="let contact of contactsFilter | async" (click)="contactClick.emit(contact)">
     <user-identity *ngIf="contact"  [model]=contact></user-identity>

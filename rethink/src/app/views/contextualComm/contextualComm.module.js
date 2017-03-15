@@ -11,19 +11,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
 var common_1 = require('@angular/common');
-var user_component_1 = require('../user/user.component');
 var contextualComm_routing_1 = require('./contextualComm.routing');
 // Generic Components
 var chatEvent_component_1 = require('../../components/rethink/hypertyResource/chat/chatEvent.component');
 var fileEvent_component_1 = require('../../components/rethink/hypertyResource/file/fileEvent.component');
-// Components
+// Components views
+var user_view_component_1 = require('../userView/user-view.component');
+var activity_view_component_1 = require('../activityView/activity-view.component');
 var activity_component_1 = require('../../components/activity/activity.component');
 var activitylist_component_1 = require('../../components/activity/activitylist.component');
-var activity_view_component_1 = require('../activityView/activity-view.component');
 var contextualCommActivity_component_1 = require('../contextualCommActivity/contextualCommActivity.component');
 var chatCommunication_component_1 = require('../../components/rethink/communication/chatCommunication.component');
 // Services
 var authGuard_service_1 = require('../../services/authGuard.service');
+var user_resolver_1 = require('../../services/user.resolver');
 var contextualComm_resolver_1 = require('../../services/contextualComm.resolver');
 var ContextualCommModule = (function () {
     function ContextualCommModule() {
@@ -41,12 +42,13 @@ var ContextualCommModule = (function () {
                 activity_view_component_1.ActivityViewComponent,
                 activitylist_component_1.ActivityListComponent,
                 activity_component_1.ActivityComponent,
-                user_component_1.UserComponent,
+                user_view_component_1.UserViewComponent,
                 chatEvent_component_1.ChatEventComponent,
                 fileEvent_component_1.FileEventComponent
             ],
             providers: [
                 authGuard_service_1.AuthGuard,
+                user_resolver_1.UserResolver,
                 contextualComm_resolver_1.ContextualCommResolver
             ]
         }), 

@@ -10,58 +10,63 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
+var BehaviorSubject_1 = require('rxjs/BehaviorSubject');
 // Services
 var services_1 = require('../../services/services');
-var UserComponent = (function () {
-    function UserComponent(router, route, chatService, messageService) {
+var UserViewComponent = (function () {
+    function UserViewComponent(router, route, chatService) {
         this.router = router;
         this.route = route;
         this.chatService = chatService;
-        this.messageService = messageService;
         this.hostClass = '';
         this.audioEvent = new core_1.EventEmitter();
         this.videoEvent = new core_1.EventEmitter();
-        this.chatActive = true;
+        this.messages = new BehaviorSubject_1.BehaviorSubject([]);
     }
-    UserComponent.prototype.ngOnInit = function () {
+    UserViewComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.messages = this.messageService.messageList;
         this.route.data.forEach(function (data) {
             console.log('Resolve data User: ', data.user);
+            console.log('Resolve data Context: ', data.context);
             _this.user = data.user;
+            _this.messages.next(data.context.messages);
         });
     };
-    UserComponent.prototype.onMessage = function (message) {
+    UserViewComponent.prototype.ngOnDestroy = function () {
+        console.log('[User View - onMessage] - OnDestroy', this.messages);
+        this.messages.unsubscribe();
+    };
+    UserViewComponent.prototype.onMessage = function (message) {
         console.log("Message:", message);
         this.chatService.send(message).then(function (message) {
-            console.log('[Activity View - onMessage] - message sent', message);
+            console.log('[User View - onMessage] - message sent', message);
         });
     };
-    UserComponent.prototype.onCloseEvent = function () {
+    UserViewComponent.prototype.onCloseEvent = function () {
         console.log('Close:');
         //history.back();
     };
     __decorate([
         core_1.HostBinding('class'), 
         __metadata('design:type', Object)
-    ], UserComponent.prototype, "hostClass", void 0);
+    ], UserViewComponent.prototype, "hostClass", void 0);
     __decorate([
         core_1.Output(), 
         __metadata('design:type', Object)
-    ], UserComponent.prototype, "audioEvent", void 0);
+    ], UserViewComponent.prototype, "audioEvent", void 0);
     __decorate([
         core_1.Output(), 
         __metadata('design:type', Object)
-    ], UserComponent.prototype, "videoEvent", void 0);
-    UserComponent = __decorate([
+    ], UserViewComponent.prototype, "videoEvent", void 0);
+    UserViewComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'div[contact-box]',
-            templateUrl: './user.component.html'
+            templateUrl: './user-view.component.html'
         }), 
-        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, services_1.ChatService, services_1.MessageService])
-    ], UserComponent);
-    return UserComponent;
+        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, services_1.ChatService])
+    ], UserViewComponent);
+    return UserViewComponent;
 }());
-exports.UserComponent = UserComponent;
-//# sourceMappingURL=user.component.js.map
+exports.UserViewComponent = UserViewComponent;
+//# sourceMappingURL=user-view.component.js.map

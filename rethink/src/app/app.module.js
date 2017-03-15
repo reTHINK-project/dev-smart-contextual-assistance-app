@@ -14,16 +14,16 @@ var forms_1 = require('@angular/forms');
 var ng_bootstrap_1 = require('@ng-bootstrap/ng-bootstrap');
 // routing
 var app_routing_module_1 = require('./app-routing.module');
-var contextualComm_module_1 = require('./pages/contextualComm/contextualComm.module');
+var contextualComm_module_1 = require('./views/contextualComm/contextualComm.module');
 // components
 var app_component_1 = require('./app.component');
-var home_component_1 = require('./pages/home/home.component');
-var contextualComm_component_1 = require('./pages/contextualComm/contextualComm.component');
-var contextualCommUsers_component_1 = require('./pages/contextualCommUsers/contextualCommUsers.component');
+var home_component_1 = require('./views/home/home.component');
+var contextualComm_component_1 = require('./views/contextualComm/contextualComm.component');
+var contextualCommUsers_component_1 = require('./views/contextualCommUsers/contextualCommUsers.component');
 var userIdentity_component_1 = require('./components/rethink/userIdentity/userIdentity.component');
-var breadcrumb_component_1 = require('./pages/breadcrumb/breadcrumb.component');
+var breadcrumb_component_1 = require('./views/breadcrumb/breadcrumb.component');
 var my_self_component_1 = require('./components/mySelf/my-self.component');
-var add_user_component_1 = require('./pages/user/add-user.component');
+var add_user_component_1 = require('./views/userView/add-user.component');
 // Services
 var services_1 = require('./services/services');
 var AppModule = (function () {
