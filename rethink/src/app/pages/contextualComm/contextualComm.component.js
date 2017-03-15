@@ -37,11 +37,8 @@ var ContextualCommComponent = (function () {
             // console.log('Resolved users:', data.users);
         });
         this.contextService.contextualComm().subscribe(function (contextualComm) {
-            console.log('[ContextualComm Component - update] - ', contextualComm);
+            console.log('[ContextualComm Component - update] - ', contextualComm, contextualComm.users);
             _this.users.next(contextualComm.users);
-        });
-        this.users.subscribe(function (users) {
-            console.log('UPDATE USERS: ', users);
         });
     };
     ContextualCommComponent.prototype.onContactClick = function (user) {

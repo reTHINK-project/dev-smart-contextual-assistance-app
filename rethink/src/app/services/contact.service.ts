@@ -23,7 +23,7 @@ export class ContactService {
 
   private _sessionUser:User;
 
-  private _userList:Map<string, User>;
+  private _userList:Map<string, User> = new Map<string, User>();
 
   private _users:Observable<User[]>;
   
@@ -43,9 +43,9 @@ export class ContactService {
 
     if (this.localStorage.hasObject('contacts')) {
       let mapObj = this.localStorage.getObject('contacts');
-      this._userList = objToStrMap(mapObj);
-    } else {
-      this._userList = new Map();
+      for (let k of Object.keys(mapObj)) {
+        this._userList.set(k, new User(mapObj[k]));
+      }
     }
 
     this._users = this._updates

@@ -76,13 +76,7 @@ export class ChatService {
 
     this.chatGroupManager.onInvitation((event:any) => {
       console.log('[Chat Service - prepareHyperty] - onInvitation', event);
-
-      let currentUser:User = this.contactService.getUser(event.identity.userProfile.userURL);
-      if (!currentUser) {
-        currentUser = new User(event.identity.userProfile);
-        this.contactService.addUser(currentUser);
-      }
-
+      
       this.join(event.url).then(a => {
         this.prepareController();
       }).catch(reason => {
@@ -113,8 +107,7 @@ export class ChatService {
 
       if (!current) { current = new User(user); }
 
-      this.contextService.updateContextUsers(current);
-      // if(this._onUserAdded) this._onUserAdded(current);
+      this.contextService.updateContextUsers(current, this.chatController.dataObject.url);
 
     })
 

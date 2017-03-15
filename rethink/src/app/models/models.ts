@@ -66,8 +66,8 @@ export class ContextualComm {
   url:string;
   communication:Communication | Connection;
 
-  users:Array<User>;
-  messages:Array<Message>;
+  users:User[];
+  messages:Message[];
 
   constructor(obj: any) {
     this.name              = obj && obj.name;
@@ -77,13 +77,24 @@ export class ContextualComm {
     this.contexts          = obj && obj.contexts      || [];
     this.users             = obj && obj.users         || [];
     this.messages          = obj && obj.messages      || [];
+
+    console.log('[Models - ContextualComm] - constructor: ', this.users);
+
+    this.users = this.users.map((user) => {
+      return new User(user);
+    })
   }
 
   addUser(user:User) {
-    this.users.push(user);
+    console.log('[Models - ContextualComm] - addUser: ', this.users.indexOf(user));
+    if (this.users.indexOf(user) === -1) {
+      this.users.push(user);
+    }
+
   }
 
   addMessage(message:any) {
+    console.log('[Models - ContextualComm] - addMessage: ', this.messages, message);
     this.messages.push(message);
   }
 

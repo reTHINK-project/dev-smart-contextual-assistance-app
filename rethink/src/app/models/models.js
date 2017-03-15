@@ -35,11 +35,19 @@ var ContextualComm = (function () {
         this.contexts = obj && obj.contexts || [];
         this.users = obj && obj.users || [];
         this.messages = obj && obj.messages || [];
+        console.log('[Models - ContextualComm] - constructor: ', this.users);
+        this.users = this.users.map(function (user) {
+            return new User(user);
+        });
     }
     ContextualComm.prototype.addUser = function (user) {
-        this.users.push(user);
+        console.log('[Models - ContextualComm] - addUser: ', this.users.indexOf(user));
+        if (this.users.indexOf(user) === -1) {
+            this.users.push(user);
+        }
     };
     ContextualComm.prototype.addMessage = function (message) {
+        console.log('[Models - ContextualComm] - addMessage: ', this.messages, message);
         this.messages.push(message);
     };
     return ContextualComm;

@@ -59,20 +59,19 @@ export class ContextService {
 
     if (this.localStorage.hasObject('context-triggers')) {
       let mapObj = this.localStorage.getObject('context-triggers');
-      this.cxtTrigger = objToStrMap(mapObj);
-    } else {
-      this.cxtTrigger = new Map();
+      for (let k of Object.keys(mapObj)) {
+        this.cxtTrigger.set(k, mapObj[k]);
+      }
     }
 
     if (this.localStorage.hasObject('contexts')) {
       let mapObj = this.localStorage.getObject('contexts');
-      this.cxtList = objToStrMap(mapObj);
-    } else {
-      this.cxtList = new Map();
+      for (let k of Object.keys(mapObj)) {
+        this.cxtList.set(k, new ContextualComm(mapObj[k]));
+      }
     }
-    
 
-    this.contextualCommObs = this._contextualComm.scan((context:ContextualComm) => {
+    this.contextualCommObs = this._contextualComm.map((context:ContextualComm) => {
 
 /*      let mapped = context.users.filter((user:User) => {
         console.log('FILTER Current:', user.userURL, this.contactService.sessionUser.userURL);
@@ -80,7 +79,18 @@ export class ContextService {
       })
 
       console.log('MAPPED:', mapped);*/
-      console.log('[ContextService - contextualComm] - scan', context.url, context);
+
+      context.users = context.users.map((user:User) => {
+        return this.contactService.getUser(user.userURL);
+      });
+
+      context.messages = context.messages.map((message:Message) => {
+        let currentMessage = new Message(message);
+        currentMessage.user = this.contactService.getUser(currentMessage.user.userURL);
+        return currentMessage;
+      })
+      
+      console.log('[Context Service - contextualComm] - scan', context.url, context);
       this.updateContexts(context.url, context);
 
       return context;
@@ -117,17 +127,12 @@ export class ContextService {
           // set the communication to the Context
           context.communication = communication;
 
-          // Set the active context
-          this.activeContext = context;
-
         } else {
           console.info('[Get the context to localStorage: ]', dataObject.data);
           context = this.cxtList.get(dataObject.data.url) as ContextualComm;
         }
 
-        this.activeContext = context;
-
-        context.users = dataObject.data.participants.map((item:any) => {
+        dataObject.data.participants.forEach((item:any) => {
           console.log('MAP:', item);
           let currentUser:User = this.contactService.getUser(item.userURL);
           if (!currentUser) {
@@ -136,7 +141,7 @@ export class ContextService {
             console.log('[Context Service - update users] - create new user: ', currentUser);
           }
 
-          return currentUser;
+          context.addUser(currentUser);
         });
 
         context.url = dataObject.url,
@@ -150,6 +155,7 @@ export class ContextService {
         this.updateContexts(context.url, context);
 
         console.info('[Active Context - ContextualComm]', context);
+        this.activeContext = context;
         this._contextualComm.next(context);
         resolve(context);
 
@@ -228,9 +234,13 @@ export class ContextService {
     console.log('[Context Update messages]', contextName, context);
   }
 
-  updateContextUsers(user:User) {
+  updateContextUsers(user:User, url:string) {
     console.log('[Context Service - Update Context User:', user);
     console.log('[Context Service - Active Context:', this.activeContext);
+
+    if (url) {
+      this.activeContext = this.cxtList.get(url);
+    }
 
     let contextName = this.activeContext.url;
     let context:ContextualComm = this.activeContext
@@ -249,16 +259,18 @@ export class ContextService {
 
     return new Promise<ContextualComm>((resolve, reject) => {
 
-      let context:ContextualComm;
+      let currentContext:ContextualComm;
 
       this.cxtList.forEach((context:ContextualComm) => {
 
         if (context.name === name) {
-          console.log('[context service - getContextByName] - ', name, context);
           // TODO: Solve the problem of active context
-          this.activeContext = context;
+          currentContext = context as ContextualComm;
+          this.activeContext = currentContext;
+
+          console.log('[context service - getContextByName] - ', name, currentContext);
           this._contextualComm.next(context);
-          return resolve(context);
+          return resolve(currentContext);
         }
 
       })

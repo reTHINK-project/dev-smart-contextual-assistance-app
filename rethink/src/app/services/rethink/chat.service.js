@@ -55,11 +55,6 @@ var ChatService = (function () {
         });
         this.chatGroupManager.onInvitation(function (event) {
             console.log('[Chat Service - prepareHyperty] - onInvitation', event);
-            var currentUser = _this.contactService.getUser(event.identity.userProfile.userURL);
-            if (!currentUser) {
-                currentUser = new models_1.User(event.identity.userProfile);
-                _this.contactService.addUser(currentUser);
-            }
             _this.join(event.url).then(function (a) {
                 _this.prepareController();
             }).catch(function (reason) {
@@ -85,8 +80,7 @@ var ChatService = (function () {
             if (!current) {
                 current = new models_1.User(user);
             }
-            _this.contextService.updateContextUsers(current);
-            // if(this._onUserAdded) this._onUserAdded(current);
+            _this.contextService.updateContextUsers(current, _this.chatController.dataObject.url);
         });
         this.chatController.onMessage(function (message) {
             console.log('[Chat Service - onMessage]', message);

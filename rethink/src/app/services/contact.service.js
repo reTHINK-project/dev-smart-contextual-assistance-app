@@ -24,6 +24,7 @@ var ContactService = (function () {
     function ContactService(localStorage) {
         var _this = this;
         this.localStorage = localStorage;
+        this._userList = new Map();
         // action streams
         this._create = new Subject_1.Subject();
         // `updates` receives _operations_ to be applied to our `users`
@@ -34,10 +35,10 @@ var ContactService = (function () {
         var anonimous = new models_1.User({});
         if (this.localStorage.hasObject('contacts')) {
             var mapObj = this.localStorage.getObject('contacts');
-            this._userList = utils_1.objToStrMap(mapObj);
-        }
-        else {
-            this._userList = new Map();
+            for (var _i = 0, _a = Object.keys(mapObj); _i < _a.length; _i++) {
+                var k = _a[_i];
+                this._userList.set(k, new models_1.User(mapObj[k]));
+            }
         }
         this._users = this._updates
             .scan(function (users, user) {

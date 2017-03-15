@@ -29,26 +29,34 @@ var ContextService = (function () {
         this._contextualComm = new BehaviorSubject_1.BehaviorSubject({});
         if (this.localStorage.hasObject('context-triggers')) {
             var mapObj = this.localStorage.getObject('context-triggers');
-            this.cxtTrigger = utils_1.objToStrMap(mapObj);
-        }
-        else {
-            this.cxtTrigger = new Map();
+            for (var _i = 0, _a = Object.keys(mapObj); _i < _a.length; _i++) {
+                var k = _a[_i];
+                this.cxtTrigger.set(k, mapObj[k]);
+            }
         }
         if (this.localStorage.hasObject('contexts')) {
             var mapObj = this.localStorage.getObject('contexts');
-            this.cxtList = utils_1.objToStrMap(mapObj);
+            for (var _b = 0, _c = Object.keys(mapObj); _b < _c.length; _b++) {
+                var k = _c[_b];
+                this.cxtList.set(k, new models_1.ContextualComm(mapObj[k]));
+            }
         }
-        else {
-            this.cxtList = new Map();
-        }
-        this.contextualCommObs = this._contextualComm.scan(function (context) {
+        this.contextualCommObs = this._contextualComm.map(function (context) {
             /*      let mapped = context.users.filter((user:User) => {
                     console.log('FILTER Current:', user.userURL, this.contactService.sessionUser.userURL);
                     return user.userURL !== this.contactService.sessionUser.userURL;
                   })
             
                   console.log('MAPPED:', mapped);*/
-            console.log('[ContextService - contextualComm] - scan', context.url, context);
+            context.users = context.users.map(function (user) {
+                return _this.contactService.getUser(user.userURL);
+            });
+            context.messages = context.messages.map(function (message) {
+                var currentMessage = new models_1.Message(message);
+                currentMessage.user = _this.contactService.getUser(currentMessage.user.userURL);
+                return currentMessage;
+            });
+            console.log('[Context Service - contextualComm] - scan', context.url, context);
             _this.updateContexts(context.url, context);
             return context;
         });
@@ -104,15 +112,12 @@ var ContextService = (function () {
                     communication.resources = [HypertyResource_1.HypertyResourceType.chat];
                     // set the communication to the Context
                     context.communication = communication;
-                    // Set the active context
-                    _this.activeContext = context;
                 }
                 else {
                     console.info('[Get the context to localStorage: ]', dataObject.data);
                     context = _this.cxtList.get(dataObject.data.url);
                 }
-                _this.activeContext = context;
-                context.users = dataObject.data.participants.map(function (item) {
+                dataObject.data.participants.forEach(function (item) {
                     console.log('MAP:', item);
                     var currentUser = _this.contactService.getUser(item.userURL);
                     if (!currentUser) {
@@ -120,7 +125,7 @@ var ContextService = (function () {
                         _this.contactService.addUser(currentUser);
                         console.log('[Context Service - update users] - create new user: ', currentUser);
                     }
-                    return currentUser;
+                    context.addUser(currentUser);
                 });
                 context.url = dataObject.url,
                     context.communication = (dataObject.data);
@@ -130,6 +135,7 @@ var ContextService = (function () {
                 _this.updateContextTrigger(contextTrigger.contextName, contextTrigger);
                 _this.updateContexts(context.url, context);
                 console.info('[Active Context - ContextualComm]', context);
+                _this.activeContext = context;
                 _this._contextualComm.next(context);
                 resolve(context);
             });
@@ -190,9 +196,12 @@ var ContextService = (function () {
         this._contextualComm.next(context);
         console.log('[Context Update messages]', contextName, context);
     };
-    ContextService.prototype.updateContextUsers = function (user) {
+    ContextService.prototype.updateContextUsers = function (user, url) {
         console.log('[Context Service - Update Context User:', user);
         console.log('[Context Service - Active Context:', this.activeContext);
+        if (url) {
+            this.activeContext = this.cxtList.get(url);
+        }
         var contextName = this.activeContext.url;
         var context = this.activeContext;
         // TODO: this should be replaced by a map or observable;
@@ -205,14 +214,15 @@ var ContextService = (function () {
     ContextService.prototype.getContextByName = function (name) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            var context;
+            var currentContext;
             _this.cxtList.forEach(function (context) {
                 if (context.name === name) {
-                    console.log('[context service - getContextByName] - ', name, context);
                     // TODO: Solve the problem of active context
-                    _this.activeContext = context;
+                    currentContext = context;
+                    _this.activeContext = currentContext;
+                    console.log('[context service - getContextByName] - ', name, currentContext);
                     _this._contextualComm.next(context);
-                    return resolve(context);
+                    return resolve(currentContext);
                 }
             });
             reject('No context found');

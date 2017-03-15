@@ -51,13 +51,9 @@ export class ContextualCommComponent implements OnInit {
       });
 
     this.contextService.contextualComm().subscribe((contextualComm:ContextualComm) => {
-      console.log('[ContextualComm Component - update] - ', contextualComm);
+      console.log('[ContextualComm Component - update] - ', contextualComm, contextualComm.users);
       this.users.next(contextualComm.users);
     })
-
-    this.users.subscribe((users:User[]) => {
-      console.log('UPDATE USERS: ', users);
-    });
 
   }
 
