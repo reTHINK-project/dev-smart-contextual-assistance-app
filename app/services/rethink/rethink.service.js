@@ -16,7 +16,7 @@ var contact_service_1 = require('../contact.service');
 var RethinkService = (function () {
     function RethinkService(contactService) {
         this.contactService = contactService;
-        this.domain = 'localhost';
+        this.domain = 'hysmart.rethink.ptinovacao.pt';
         this.runtimeURL = 'https://catalogue.' + this.domain + '/.well-known/runtime/Runtime';
         this.config = { domain: this.domain, runtimeURL: this.runtimeURL, development: true };
         this.progress = new BehaviorSubject_1.BehaviorSubject('');
@@ -80,7 +80,7 @@ var RethinkService = (function () {
         });
     };
     RethinkService = __decorate([
-        core_1.Injectable(), 
+        core_1.Injectable(),
         __metadata('design:paramtypes', [contact_service_1.ContactService])
     ], RethinkService);
     return RethinkService;
