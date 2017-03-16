@@ -44,6 +44,7 @@ var ContextualCommResolver = (function () {
             }
             _this.contextService.getContextByName(name).then(function (contextualComm) {
                 console.info('[ContextualCommResolver - resolve] - Getting the current Context ', name, contextualComm);
+                _this.chatService.setActiveController(contextualComm.url);
                 resolve(contextualComm);
             }).catch(function (error) {
                 console.error('error:', error);
@@ -55,6 +56,7 @@ var ContextualCommResolver = (function () {
                     console.log('Error creating the context: ', error);
                     reject(error);
                 }).then(function (contextualComm) {
+                    _this.chatService.setActiveController(contextualComm.url);
                     resolve(contextualComm);
                 });
             });

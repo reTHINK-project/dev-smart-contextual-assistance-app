@@ -9,7 +9,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var BehaviorSubject_1 = require('rxjs/BehaviorSubject');
+var Subject_1 = require('rxjs/Subject');
+require('rxjs/add/operator/filter');
 // utils
 var utils_1 = require('../../utils/utils');
 // Services
@@ -26,7 +27,11 @@ var ContextService = (function () {
         this.messageService = messageService;
         this.cxtTrigger = new Map();
         this.cxtList = new Map();
-        this._contextualComm = new BehaviorSubject_1.BehaviorSubject({});
+        // `updates` receives _operations_ to be applied to our `messages`
+        // it's a way we can perform changes on *all* messages (that are currently 
+        // stored in `messages`)
+        this._contextualCommUpdates = new Subject_1.Subject();
+        this._contextualComm = new Subject_1.Subject();
         if (this.localStorage.hasObject('context-triggers')) {
             var mapObj = this.localStorage.getObject('context-triggers');
             for (var _i = 0, _a = Object.keys(mapObj); _i < _a.length; _i++) {
@@ -34,32 +39,37 @@ var ContextService = (function () {
                 this.cxtTrigger.set(k, mapObj[k]);
             }
         }
+        var contextList = [];
         if (this.localStorage.hasObject('contexts')) {
             var mapObj = this.localStorage.getObject('contexts');
             for (var _b = 0, _c = Object.keys(mapObj); _b < _c.length; _b++) {
                 var k = _c[_b];
-                this.cxtList.set(k, new models_1.ContextualComm(mapObj[k]));
+                var currentContext = new models_1.ContextualComm(mapObj[k]);
+                contextList.push(currentContext);
+                this.cxtList.set(k, currentContext);
             }
         }
-        this.contextualCommObs = this._contextualComm.map(function (context) {
-            /*      let mapped = context.users.filter((user:User) => {
-                    console.log('FILTER Current:', user.userURL, this.contactService.sessionUser.userURL);
-                    return user.userURL !== this.contactService.sessionUser.userURL;
-                  })
-            
-                  console.log('MAPPED:', mapped);*/
+        this._contextualCommList = this._contextualCommUpdates.scan(function (contextualCommList, context) {
+            contextualCommList.set(context.url, context);
+            return contextualCommList;
+        }, this.cxtList)
+            .publishReplay(1)
+            .refCount();
+        this._contextualComm.map(function (context) {
             context.users = context.users.map(function (user) {
+                console.log('[Context Service - contextualComm] - typeof: ', user instanceof models_1.User);
                 return _this.contactService.getUser(user.userURL);
             });
             context.messages = context.messages.map(function (message) {
                 var currentMessage = new models_1.Message(message);
+                console.log('[Context Service - contextualComm] - typeof: ', currentMessage.user instanceof models_1.User);
                 currentMessage.user = _this.contactService.getUser(currentMessage.user.userURL);
                 return currentMessage;
             });
             console.log('[Context Service - contextualComm] - scan', context.url, context);
             _this.updateContexts(context.url, context);
             return context;
-        });
+        }).subscribe(this._contextualCommUpdates);
     }
     ContextService.prototype.getActiveContext = function (v) {
         return this.localStorage.hasObject(v) ? this.localStorage.getObject(v) : null;
@@ -187,29 +197,23 @@ var ContextService = (function () {
         this.cxtList.set(url, context);
         this.localStorage.setObject('contexts', utils_1.strMapToObj(this.cxtList));
     };
-    ContextService.prototype.updateContextMessages = function (message) {
-        console.log('[Context Service - Update Context Message:', message);
-        console.log('[Context Service - Active Context:', this.activeContext);
-        var contextName = this.activeContext.url;
-        var context = this.activeContext;
-        context.messages.push(message);
+    ContextService.prototype.updateContextMessages = function (message, url) {
+        console.log('[Context Service - Update Context Message:', message, url);
+        console.log('[Context Service - Active Context:', this.activeContext, this.cxtList.get(url));
+        var context = this.cxtList.get(url);
+        context.addMessage(message);
         this._contextualComm.next(context);
-        console.log('[Context Update messages]', contextName, context);
+        console.log('[Context Service - update messages]', context.name, context.url, context);
     };
     ContextService.prototype.updateContextUsers = function (user, url) {
-        console.log('[Context Service - Update Context User:', user);
-        console.log('[Context Service - Active Context:', this.activeContext);
-        if (url) {
-            this.activeContext = this.cxtList.get(url);
-        }
-        var contextName = this.activeContext.url;
-        var context = this.activeContext;
-        // TODO: this should be replaced by a map or observable;
+        console.log('[Context Service - Update Context User:', user, url);
+        console.log('[Context Service - Active Context:', this.activeContext, this.cxtList.get(url));
+        var context = this.cxtList.get(url);
         context.addUser(user);
         // Update the contact list
         this.contactService.addUser(user);
-        this._contextualComm.next(context);
-        console.log('[Context Update contacts]', contextName, context);
+        // this._contextualComm.next(context);
+        console.log('[Context Service - Update contacts]', context.name, context.url, context);
     };
     ContextService.prototype.getContextByName = function (name) {
         var _this = this;
@@ -253,7 +257,7 @@ var ContextService = (function () {
         return this.messageService.messageList;
     };
     ContextService.prototype.contextualComm = function () {
-        return this.contextualCommObs;
+        return this._contextualComm;
     };
     ContextService = __decorate([
         core_1.Injectable(), 

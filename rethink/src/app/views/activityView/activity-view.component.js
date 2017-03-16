@@ -9,13 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
 var BehaviorSubject_1 = require('rxjs/BehaviorSubject');
 // Components
 var contextualCommActivity_component_1 = require('../contextualCommActivity/contextualCommActivity.component');
 // Services
 var services_1 = require('../../services/services');
 var ActivityViewComponent = (function () {
-    function ActivityViewComponent(chatService, contextService) {
+    function ActivityViewComponent(route, chatService, contextService) {
+        this.route = route;
         this.chatService = chatService;
         this.contextService = contextService;
         this.hostClass = '';
@@ -25,6 +27,10 @@ var ActivityViewComponent = (function () {
     // Load data ones componet is ready
     ActivityViewComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.route.data.forEach(function (data) {
+            console.log('Resolve data Context: ', data.context);
+            _this.messages.next(data.context.messages);
+        });
         this.contextService.contextualComm().subscribe(function (contextualComm) {
             console.log('[ContextualCommActivity Component - update] - ', contextualComm);
             _this.messages.next(contextualComm.messages);
@@ -50,7 +56,7 @@ var ActivityViewComponent = (function () {
             selector: 'activity-view',
             templateUrl: './activity-view.component.html'
         }), 
-        __metadata('design:paramtypes', [services_1.ChatService, services_1.ContextService])
+        __metadata('design:paramtypes', [router_1.ActivatedRoute, services_1.ChatService, services_1.ContextService])
     ], ActivityViewComponent);
     return ActivityViewComponent;
 }());

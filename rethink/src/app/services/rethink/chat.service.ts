@@ -4,23 +4,21 @@ import { Injectable } from '@angular/core';
 
 // Services
 import { RethinkService } from './rethink.service';
-import { MessageService } from '../message.service';
 import { ContactService } from '../contact.service';
 import { ContextService } from '../rethink/context.service';
 
-import { User, Message, ContextualComm } from '../../models/models';
+import { User, Message } from '../../models/models';
 
 @Injectable()
 export class ChatService {
 
-  chatController: any;
+  controllerList:Map<string, object> = new Map<string, object>();
+  chatControllerActive: any;
 
   hyperty: any;
   hypertyURL: string;
 
   chatGroupManager: any;
-
-  contextualComm:ContextualComm;
 
   private runtime: any
   private _onUserAdded:Function
@@ -30,10 +28,20 @@ export class ChatService {
   constructor(
     private appService: RethinkService,
     private contextService: ContextService,
-    private contactService: ContactService,
-    private messageService: MessageService
+    private contactService: ContactService
   ) {
   }
+
+  private _updateControllersList(dataObjectURL:string, chatController:any) {
+
+    this.controllerList.set(dataObjectURL, chatController);
+    this.prepareController(chatController);
+
+  }
+
+  setActiveController(dataObjectURL:string):void {
+    this.chatControllerActive = this.controllerList.get(dataObjectURL);
+  } 
 
   getHyperty() {
 
@@ -69,16 +77,17 @@ export class ChatService {
 
     this.chatGroupManager.onResume((chatController:any) => {
       console.log('[Chat Service - prepareHyperty] - onResume: ', chatController);
-      this.chatController = chatController;
 
-      this.prepareController();
+      let dataObjectURL = chatController.dataObject.url;
+      this._updateControllersList(dataObjectURL, chatController);
+      this.setActiveController(dataObjectURL);
     });
 
     this.chatGroupManager.onInvitation((event:any) => {
       console.log('[Chat Service - prepareHyperty] - onInvitation', event);
       
       this.join(event.url).then(a => {
-        this.prepareController();
+
       }).catch(reason => {
         console.log(reason);
       })
@@ -88,13 +97,14 @@ export class ChatService {
 
   }
 
-  prepareController() {
+  prepareController(chatController:any) {
 
-    console.log('[Chat Service - prepareController]', this.chatController);
+    console.log('[Chat Service - prepareController]', chatController);
 
-    this.chatController.onUserAdded((user:any) => {
+    chatController.onUserAdded((user:any) => {
+      let dataObjectURL = chatController.dataObject.url;
 
-      console.log('[Chat Service - prepareController] - onUserAdded', user);
+      console.log('[Chat Service - prepareController] - onUserAdded', user, dataObjectURL);
       let current:User;
 
       if (user.hasOwnProperty('data')) {
@@ -103,18 +113,18 @@ export class ChatService {
         current = this.contactService.getUser(user.userURL);
       }
 
-      console.log('[Chat Service - prepareController] - current user:', current);
-
       if (!current) { current = new User(user); }
-
-      this.contextService.updateContextUsers(current, this.chatController.dataObject.url);
-
+      console.log('[Chat Service - prepareController] - current user:', current);
+      this.contextService.updateContextUsers(current, dataObjectURL);
     })
 
-    this.chatController.onMessage((message: any) => {
-      console.log('[Chat Service - onMessage]', message);
+
+    chatController.onMessage((message: any) => {
+
+      let dataObjectURL = chatController.dataObject.url;
       let user:User = this.contactService.getUser(message.identity.userProfile.userURL);
-      console.log('[Chat Service] - user:', user, message.identity.userProfile.userURL);
+
+      console.log('[Chat Service - prepareController] - onMessage', dataObjectURL, message, chatController);
 
       if (user) {
         let msg = {
@@ -124,7 +134,7 @@ export class ChatService {
         };
 
         let currentMessage = new Message(msg);
-        this.contextService.updateContextMessages(currentMessage);
+        this.contextService.updateContextMessages(currentMessage, dataObjectURL);
       } else {
         console.info('The message was rejected because the user ' + message.identity.userProfile.userURL + ' is unknown');
       }
@@ -137,11 +147,12 @@ export class ChatService {
     return new Promise((resolve, reject) => {
 
       this.chatGroupManager.create(name, users, domains).then((chatController: any) => {
-        this.chatController = chatController;
+
+        this._updateControllersList(chatController.dataObject.url, chatController);
+
         console.log('[Chat Created]', chatController)
 
         this.prepareHyperty();
-        this.prepareController();
 
         resolve(chatController);
       }).catch((reason: any) => {
@@ -157,16 +168,16 @@ export class ChatService {
     return new Promise((resolve, reject) => {
 
       this.chatGroupManager.join(resource).then((chatController: any) => {
-        this.chatController = chatController
+
+        this._updateControllersList(chatController.dataObject.url, chatController);
         console.log('[Joined Chat]', chatController)
 
         let chatName:string = chatController.dataObject.data.name;
 
         this.contextService.create(chatName, chatController.dataObject).then((result:any) => {
           this.prepareHyperty();
-          this.prepareController();
 
-          resolve(this.chatController)
+          resolve(chatController)
         })
       })
 
@@ -180,9 +191,9 @@ export class ChatService {
 
       console.log('[Invite]', listOfEmails, ' - ', listOfDomains);
 
-      this.chatController.addUser(listOfEmails, listOfDomains).then((result: any) => {
+      this.chatControllerActive.addUser(listOfEmails, listOfDomains).then((result: any) => {
         console.log('[Invite Chat]', result);
-        resolve(this.chatController)
+        resolve(this.chatControllerActive)
       }).catch((reason:any) => {
         console.error('Error on invite:', reason);
       })
@@ -195,11 +206,11 @@ export class ChatService {
 
     return new Promise<any>((resolve, reject) => {
 
-      console.log('Send message: ', this.chatController, message);
+      console.log('Send message: ', this.chatControllerActive, message);
 
-      this.chatController.send(message).then((result:any) => {
+      this.chatControllerActive.send(message).then((result:any) => {
 
-        console.log('[Chat Service - Sended Message]', message);
+        console.log('[Chat Service - Sended Message]', message, result, this.chatControllerActive);
         let user:User = this.contactService.getUser(result.identity.userProfile.userURL);
         console.log('[Chat Service] - user:', user, result.identity.userProfile.userURL);
 
@@ -210,7 +221,7 @@ export class ChatService {
         };
 
         let currentMessage = new Message(msg);
-        this.contextService.updateContextMessages(currentMessage);
+        this.contextService.updateContextMessages(currentMessage, this.chatControllerActive.dataObject.url);
         resolve(currentMessage);
       }).catch(reject);
 

@@ -2,7 +2,6 @@ import { Injectable, Output, EventEmitter } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import rethink from 'runtime-browser';
-
 import { User } from '../../models/models';
 
 import { ContactService } from '../contact.service';

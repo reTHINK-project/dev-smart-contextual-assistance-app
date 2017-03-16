@@ -3,6 +3,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
+import 'rxjs/add/operator/filter';
+
 // utils
 import { objToStrMap, strMapToObj } from '../../utils/utils';
 
@@ -25,7 +27,15 @@ export class ContextService {
   private activeContextTrigger: ContextualCommTrigger;
   private activeContext: ContextualComm;
 
-  private _contextualComm:Subject<ContextualComm> = new BehaviorSubject({});
+  private _contextualCommList:Observable<Map<string, ContextualComm>>;
+  
+  // `updates` receives _operations_ to be applied to our `messages`
+  // it's a way we can perform changes on *all* messages (that are currently 
+  // stored in `messages`)
+  private _contextualCommUpdates: Subject<any> = new Subject<any>();
+
+  private _contextualComm:Subject<ContextualComm> = new Subject<ContextualComm>();
+
   private contextualCommObs:Observable<ContextualComm>;
 
   private contextPath: string;
@@ -64,28 +74,34 @@ export class ContextService {
       }
     }
 
+    let contextList:ContextualComm[] = [];
     if (this.localStorage.hasObject('contexts')) {
       let mapObj = this.localStorage.getObject('contexts');
       for (let k of Object.keys(mapObj)) {
-        this.cxtList.set(k, new ContextualComm(mapObj[k]));
+        let currentContext = new ContextualComm(mapObj[k]);
+        contextList.push(currentContext);
+        this.cxtList.set(k, currentContext);
       }
     }
 
-    this.contextualCommObs = this._contextualComm.map((context:ContextualComm) => {
+    this._contextualCommList = this._contextualCommUpdates.scan((contextualCommList:Map<string, ContextualComm>, context:ContextualComm) => {
+      contextualCommList.set(context.url, context);
+      return contextualCommList;
+    }, this.cxtList)
+    .publishReplay(1)
+    .refCount();
 
-/*      let mapped = context.users.filter((user:User) => {
-        console.log('FILTER Current:', user.userURL, this.contactService.sessionUser.userURL);
-        return user.userURL !== this.contactService.sessionUser.userURL;
-      })
 
-      console.log('MAPPED:', mapped);*/
+    this._contextualComm.map((context:ContextualComm) => {
 
       context.users = context.users.map((user:User) => {
+        console.log('[Context Service - contextualComm] - typeof: ', user instanceof User);
         return this.contactService.getUser(user.userURL);
       });
 
       context.messages = context.messages.map((message:Message) => {
         let currentMessage = new Message(message);
+        console.log('[Context Service - contextualComm] - typeof: ', currentMessage.user instanceof User);
         currentMessage.user = this.contactService.getUser(currentMessage.user.userURL);
         return currentMessage;
       })
@@ -94,7 +110,7 @@ export class ContextService {
       this.updateContexts(context.url, context);
 
       return context;
-    });
+    }).subscribe(this._contextualCommUpdates);
 
   }
 
@@ -222,37 +238,30 @@ export class ContextService {
     this.localStorage.setObject('contexts', strMapToObj(this.cxtList));
   }
 
-  updateContextMessages(message:Message) {
-    console.log('[Context Service - Update Context Message:', message);
-    console.log('[Context Service - Active Context:', this.activeContext);
+  updateContextMessages(message:Message, url:string) {
+    console.log('[Context Service - Update Context Message:', message, url);
+    console.log('[Context Service - Active Context:', this.activeContext, this.cxtList.get(url));
 
-    let contextName = this.activeContext.url;
-    let context:ContextualComm = this.activeContext
-    context.messages.push(message);
+    let context:ContextualComm = this.cxtList.get(url);
+    context.addMessage(message);
 
     this._contextualComm.next(context);
-    console.log('[Context Update messages]', contextName, context);
+
+    console.log('[Context Service - update messages]', context.name, context.url, context);
   }
 
   updateContextUsers(user:User, url:string) {
-    console.log('[Context Service - Update Context User:', user);
-    console.log('[Context Service - Active Context:', this.activeContext);
+    console.log('[Context Service - Update Context User:', user, url);
+    console.log('[Context Service - Active Context:', this.activeContext, this.cxtList.get(url));
 
-    if (url) {
-      this.activeContext = this.cxtList.get(url);
-    }
-
-    let contextName = this.activeContext.url;
-    let context:ContextualComm = this.activeContext
-
-    // TODO: this should be replaced by a map or observable;
+    let context:ContextualComm = this.cxtList.get(url);
     context.addUser(user);
 
     // Update the contact list
     this.contactService.addUser(user);
 
-    this._contextualComm.next(context);
-    console.log('[Context Update contacts]', contextName, context);
+    // this._contextualComm.next(context);
+    console.log('[Context Service - Update contacts]', context.name, context.url, context);
   }
 
   getContextByName(name:string):Promise<ContextualComm> {
@@ -314,7 +323,7 @@ export class ContextService {
   }
 
   contextualComm():Observable<ContextualComm> {
-    return this.contextualCommObs;
+    return this._contextualComm;
   }
 
 }
