@@ -47,8 +47,10 @@ export class Message {
   message: string;
   user: User;
   date: Date;
+  unread: boolean;
 
   constructor(obj: any) {
+    this.unread           = false;
     this.type             = obj && obj.type;
     this.message          = obj && obj.message;
     this.user             = obj && obj.user;
@@ -93,7 +95,7 @@ export class ContextualComm {
 
   }
 
-  addMessage(message:any) {
+  addMessage(message:Message) {
     console.log('[Models - ContextualComm] - addMessage: ', this.messages, message);
     this.messages.push(message);
   }

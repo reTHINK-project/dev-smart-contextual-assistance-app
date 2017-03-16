@@ -31,6 +31,7 @@ export class ActivityViewComponent implements OnInit {
   private chatActive: boolean = false;
 
   constructor(
+    private route: ActivatedRoute,
     private chatService: ChatService,
     private contextService: ContextService) {
 
@@ -38,6 +39,11 @@ export class ActivityViewComponent implements OnInit {
 
   // Load data ones componet is ready
   ngOnInit() {
+
+    this.route.data.forEach((data: { context: ContextualComm }) => {
+      console.log('Resolve data Context: ', data.context);
+      this.messages.next(data.context.messages);
+    });
 
     this.contextService.contextualComm().subscribe((contextualComm:ContextualComm) => {
       console.log('[ContextualCommActivity Component - update] - ', contextualComm);
