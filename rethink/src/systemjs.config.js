@@ -6,7 +6,8 @@
   System.config({
     paths: {
       // paths serve as alias
-      'npm:': 'node_modules/'
+      'npm:': 'dev-smart-contextual-assistance-app/rethink/node_modules/',
+      "*": "*.js" // should load all libraries with .js appended
     },
     // map tells the System loader where to look for things
     map: {
@@ -22,7 +23,7 @@
       '@angular/http': 'npm:@angular/http/bundles/http.umd.js',
       '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
       '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
-      
+
       // bootstrap bundle
       '@ng-bootstrap/ng-bootstrap': 'npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js',
 
@@ -34,6 +35,9 @@
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
+      '.': {
+           defaultJSExtensions: 'js'
+       },
       app: {
         defaultExtension: 'js'
       },
