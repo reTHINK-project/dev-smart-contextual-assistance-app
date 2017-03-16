@@ -16,9 +16,10 @@ var services_1 = require('../../services/services');
 // Components
 var contextualCommActivity_component_1 = require('../contextualCommActivity/contextualCommActivity.component');
 var UserViewComponent = (function () {
-    function UserViewComponent(router, route, chatService) {
+    function UserViewComponent(router, route, contextService, chatService) {
         this.router = router;
         this.route = route;
+        this.contextService = contextService;
         this.chatService = chatService;
         this.hostClass = '';
         this.audioEvent = new core_1.EventEmitter();
@@ -32,12 +33,16 @@ var UserViewComponent = (function () {
             console.log('Resolve data Context: ', data.context);
             _this.user = data.user;
             _this.messages.next(data.context.messages);
+        });
+        this.contextService.contextualComm().subscribe(function (contextualComm) {
+            console.log('[ContextualCommActivity Component - update] - ', contextualComm);
+            _this.messages.next(contextualComm.messages);
             _this.contextualCommActivityComponent.updateView();
         });
     };
     UserViewComponent.prototype.ngOnDestroy = function () {
         console.log('[User View - onMessage] - OnDestroy', this.messages);
-        this.messages.unsubscribe();
+        // this.messages.unsubscribe();
     };
     UserViewComponent.prototype.onMessage = function (message) {
         console.log("Message:", message);
@@ -71,7 +76,7 @@ var UserViewComponent = (function () {
             selector: 'div[contact-box]',
             templateUrl: './user-view.component.html'
         }), 
-        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, services_1.ChatService])
+        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, services_1.ContextService, services_1.ChatService])
     ], UserViewComponent);
     return UserViewComponent;
 }());

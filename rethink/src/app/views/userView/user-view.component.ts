@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 // Services
-import { ChatService } from '../../services/services';
+import { ChatService, ContextService } from '../../services/services';
 
 // Models
 import { Message, User, ContextualComm } from '../../models/models';
@@ -35,6 +35,7 @@ export class UserViewComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private contextService: ContextService,
     private chatService: ChatService) {
   }
 
@@ -46,14 +47,20 @@ export class UserViewComponent implements OnInit {
       this.user = data.user;
 
       this.messages.next(data.context.messages);
-      this.contextualCommActivityComponent.updateView();
     });
+
+    this.contextService.contextualComm().subscribe((contextualComm:ContextualComm) => {
+      console.log('[ContextualCommActivity Component - update] - ', contextualComm);
+      this.messages.next(contextualComm.messages);
+
+      this.contextualCommActivityComponent.updateView();
+    })
 
   }
 
   ngOnDestroy() {
     console.log('[User View - onMessage] - OnDestroy', this.messages);
-    this.messages.unsubscribe();
+    // this.messages.unsubscribe();
   }
 
   onMessage(message:string) {
