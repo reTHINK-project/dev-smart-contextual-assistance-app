@@ -10,7 +10,7 @@ import { ContactService } from '../contact.service';
 @Injectable()
 export class RethinkService {
 
-  domain = 'localhost';
+  domain = 'hysmart.rethink.ptinovacao.pt';
   runtimeURL = 'https://catalogue.' + this.domain + '/.well-known/runtime/Runtime';
   config = {domain: this.domain, runtimeURL: this.runtimeURL, development: true }
 
