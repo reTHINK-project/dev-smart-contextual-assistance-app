@@ -6,7 +6,7 @@
   System.config({
     paths: {
       // paths serve as alias
-      'npm:': 'dev-smart-contextual-assistance-app/rethink/node_modules/',
+      'npm:': 'node_modules/',
       "*": "*.js" // should load all libraries with .js appended
     },
     // map tells the System loader where to look for things
