@@ -1,6 +1,6 @@
-var history = require('connecthistoryapifallback');
+var history = require('connect-history-api-fallback');
 
-var config = {
+module.exports = {
   open: false,
   ghostMode: false,
   codeSync: false,
@@ -23,6 +23,3 @@ var config = {
     ]
   }
 };
-
-
-module.exports = config; 
