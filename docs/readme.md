@@ -40,6 +40,7 @@ The Application uses ContextName, ContextScheme and ContextResource defined by C
 
 ### [GUI Studies](gui-sketches.md)
 
+### [Implementation with Angular 2.0](angular.md)
 
 ### User Journey
 
