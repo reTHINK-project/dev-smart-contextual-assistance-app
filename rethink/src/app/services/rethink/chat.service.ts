@@ -12,7 +12,7 @@ import { User, Message } from '../../models/models';
 @Injectable()
 export class ChatService {
 
-  controllerList:Map<string, object> = new Map<string, object>();
+  controllerList:Map<string, any> = new Map<string, any>();
   chatControllerActive: any;
 
   hyperty: any;
