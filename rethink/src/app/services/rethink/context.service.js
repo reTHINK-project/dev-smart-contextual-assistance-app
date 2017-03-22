@@ -19,10 +19,12 @@ var contact_service_1 = require('../contact.service');
 var message_service_1 = require('../message.service');
 var HypertyResource_1 = require('../../models/rethink/HypertyResource');
 var models_1 = require('../../models/models');
+var rethink_service_1 = require("./rethink.service");
 var ContextService = (function () {
-    function ContextService(localStorage, contactService, messageService) {
+    function ContextService(localStorage, rethinkService, contactService, messageService) {
         var _this = this;
         this.localStorage = localStorage;
+        this.rethinkService = rethinkService;
         this.contactService = contactService;
         this.messageService = messageService;
         this.cxtTrigger = new Map();
@@ -60,6 +62,8 @@ var ContextService = (function () {
             context.users = context.users.map(function (user) {
                 console.log('[Context Service - contextualComm] - typeof: ', user instanceof models_1.User);
                 return _this.contactService.getUser(user.userURL);
+            }).filter(function (user) {
+                return user.userURL !== _this.rethinkService.getCurrentUser.userURL;
             });
             context.messages = context.messages.map(function (message) {
                 var currentMessage = new models_1.Message(message);
@@ -272,7 +276,7 @@ var ContextService = (function () {
     };
     ContextService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [storage_service_1.LocalStorage, contact_service_1.ContactService, message_service_1.MessageService])
+        __metadata('design:paramtypes', [storage_service_1.LocalStorage, rethink_service_1.RethinkService, contact_service_1.ContactService, message_service_1.MessageService])
     ], ContextService);
     return ContextService;
 }());

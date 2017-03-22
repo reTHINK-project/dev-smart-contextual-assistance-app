@@ -17,6 +17,7 @@ import { MessageService } from '../message.service'
 import { Communication } from '../../models/rethink/Communication'
 import { HypertyResourceType } from '../../models/rethink/HypertyResource'
 import { ContextualCommTrigger, ContextualComm, User, Message } from '../../models/models'
+import { RethinkService } from "./rethink.service";
 
 @Injectable()
 export class ContextService {
@@ -69,6 +70,7 @@ export class ContextService {
 
   constructor(
     private localStorage:LocalStorage,
+    private rethinkService: RethinkService,
     private contactService: ContactService,
     private messageService: MessageService
   ) {
@@ -103,6 +105,8 @@ export class ContextService {
       context.users = context.users.map((user:User) => {
         console.log('[Context Service - contextualComm] - typeof: ', user instanceof User);
         return this.contactService.getUser(user.userURL);
+      }).filter((user:User) => {
+        return user.userURL !== this.rethinkService.getCurrentUser.userURL;
       });
 
       context.messages = context.messages.map((message:Message) => {
