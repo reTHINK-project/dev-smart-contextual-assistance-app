@@ -24,8 +24,10 @@ var ChatService = (function () {
     ChatService.prototype._updateControllersList = function (dataObjectURL, chatController) {
         this.controllerList.set(dataObjectURL, chatController);
         this.prepareController(chatController);
+        this.chatControllerActive = this.controllerList.get(dataObjectURL);
     };
     ChatService.prototype.setActiveController = function (dataObjectURL) {
+        console.log('[Chat Service] - setActiveController: ', dataObjectURL, this.controllerList, this.controllerList.get(dataObjectURL));
         this.chatControllerActive = this.controllerList.get(dataObjectURL);
     };
     ChatService.prototype.getHyperty = function () {
@@ -54,11 +56,12 @@ var ChatService = (function () {
     ChatService.prototype.prepareHyperty = function () {
         var _this = this;
         console.log('[Chat Service - prepareHyperty]', this.chatGroupManager);
-        this.chatGroupManager.onResume(function (chatController) {
-            console.log('[Chat Service - prepareHyperty] - onResume: ', chatController);
-            var dataObjectURL = chatController.dataObject.url;
-            _this._updateControllersList(dataObjectURL, chatController);
-            _this.setActiveController(dataObjectURL);
+        this.chatGroupManager.onResume(function (controllers) {
+            console.log('[Chat Service - prepareHyperty] - onResume: ', controllers);
+            Object.keys(controllers).forEach(function (url) {
+                _this.controllerList.set(url, controllers[url]);
+                _this._updateControllersList(url, controllers[url]);
+            });
         });
         this.chatGroupManager.onInvitation(function (event) {
             console.log('[Chat Service - prepareHyperty] - onInvitation', event);
@@ -138,6 +141,7 @@ var ChatService = (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             console.log('[Invite]', listOfEmails, ' - ', listOfDomains);
+            console.log('[Chat Service - invite]: ', _this.chatControllerActive);
             _this.chatControllerActive.addUser(listOfEmails, listOfDomains).then(function (result) {
                 console.log('[Invite Chat]', result);
                 resolve(_this.chatControllerActive);

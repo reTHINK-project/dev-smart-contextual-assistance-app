@@ -37,9 +37,12 @@ export class ChatService {
     this.controllerList.set(dataObjectURL, chatController);
     this.prepareController(chatController);
 
+    this.chatControllerActive = this.controllerList.get(dataObjectURL);
+
   }
 
   setActiveController(dataObjectURL:string):void {
+    console.log('[Chat Service] - setActiveController: ', dataObjectURL, this.controllerList, this.controllerList.get(dataObjectURL));
     this.chatControllerActive = this.controllerList.get(dataObjectURL);
   } 
 
@@ -75,12 +78,16 @@ export class ChatService {
 
     console.log('[Chat Service - prepareHyperty]', this.chatGroupManager);
 
-    this.chatGroupManager.onResume((chatController:any) => {
-      console.log('[Chat Service - prepareHyperty] - onResume: ', chatController);
+    this.chatGroupManager.onResume((controllers:any) => {
+      console.log('[Chat Service - prepareHyperty] - onResume: ', controllers);
 
-      let dataObjectURL = chatController.dataObject.url;
-      this._updateControllersList(dataObjectURL, chatController);
-      this.setActiveController(dataObjectURL);
+      Object.keys(controllers).forEach((url:string) => {
+
+        this.controllerList.set(url, controllers[url]);        
+        this._updateControllersList(url, controllers[url]);
+
+      })
+
     });
 
     this.chatGroupManager.onInvitation((event:any) => {
@@ -190,6 +197,7 @@ export class ChatService {
     return new Promise((resolve, reject) => {
 
       console.log('[Invite]', listOfEmails, ' - ', listOfDomains);
+      console.log('[Chat Service - invite]: ', this.chatControllerActive);
 
       this.chatControllerActive.addUser(listOfEmails, listOfDomains).then((result: any) => {
         console.log('[Invite Chat]', result);

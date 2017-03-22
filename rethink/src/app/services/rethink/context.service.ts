@@ -25,7 +25,7 @@ export class ContextService {
   private cxtList:Map<string, ContextualComm> = new Map<string, ContextualComm>();
 
   private activeContextTrigger: ContextualCommTrigger;
-  private activeContext: ContextualComm;
+  private currentActiveContext: ContextualComm;
 
   private _contextualCommList:Observable<Map<string, ContextualComm>>;
   
@@ -36,13 +36,19 @@ export class ContextService {
 
   private _contextualComm:Subject<ContextualComm> = new Subject<ContextualComm>();
 
-  private contextualCommObs:Observable<ContextualComm>;
+  private contextualCommObs:Subject<ContextualComm> = new Subject<ContextualComm>();
 
   private contextPath: string;
   private taskPath: string
 
   public getActiveContext(v: string): ContextualComm {
     return this.localStorage.hasObject(v) ? this.localStorage.getObject(v) as ContextualComm : null;
+  }
+
+  public set activeContext(value:string) {
+    console.log('[Context Service] - setActiveContext: ', value, this.cxtList.get(value));
+    this.currentActiveContext = this.cxtList.get(value);
+    this.contextualCommObs.next(this.currentActiveContext);
   }
 
   public set setContextPath(v: string) {
@@ -106,8 +112,12 @@ export class ContextService {
         return currentMessage;
       })
       
-      console.log('[Context Service - contextualComm] - scan', context.url, context);
+      console.log('[Context Service - contextualComm] - map', context.url, context);
       this.updateContexts(context.url, context);
+
+      if (this.currentActiveContext.url === context.url) {
+        this.contextualCommObs.next(context);
+      }
 
       return context;
     }).subscribe(this._contextualCommUpdates);
@@ -115,7 +125,6 @@ export class ContextService {
   }
 
   create(name: string, dataObject: any, parent?: any) {
-
 
     // TODO Add the dataObject on Rx.Observable (stream);
     // TODO add a Stream to look on changes for dataObject changes;
@@ -171,7 +180,7 @@ export class ContextService {
         this.updateContexts(context.url, context);
 
         console.info('[Active Context - ContextualComm]', context);
-        this.activeContext = context;
+
         this._contextualComm.next(context);
         resolve(context);
 
@@ -260,7 +269,8 @@ export class ContextService {
     // Update the contact list
     this.contactService.addUser(user);
 
-    // this._contextualComm.next(context);
+    this._contextualComm.next(context);
+
     console.log('[Context Service - Update contacts]', context.name, context.url, context);
   }
 
@@ -275,7 +285,6 @@ export class ContextService {
         if (context.name === name) {
           // TODO: Solve the problem of active context
           currentContext = context as ContextualComm;
-          this.activeContext = currentContext;
 
           console.log('[context service - getContextByName] - ', name, currentContext);
           this._contextualComm.next(context);
@@ -323,7 +332,7 @@ export class ContextService {
   }
 
   contextualComm():Observable<ContextualComm> {
-    return this._contextualComm;
+    return this.contextualCommObs;
   }
 
 }

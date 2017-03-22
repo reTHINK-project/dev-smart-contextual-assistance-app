@@ -32,6 +32,7 @@ var ContextService = (function () {
         // stored in `messages`)
         this._contextualCommUpdates = new Subject_1.Subject();
         this._contextualComm = new Subject_1.Subject();
+        this.contextualCommObs = new Subject_1.Subject();
         if (this.localStorage.hasObject('context-triggers')) {
             var mapObj = this.localStorage.getObject('context-triggers');
             for (var _i = 0, _a = Object.keys(mapObj); _i < _a.length; _i++) {
@@ -66,14 +67,26 @@ var ContextService = (function () {
                 currentMessage.user = _this.contactService.getUser(currentMessage.user.userURL);
                 return currentMessage;
             });
-            console.log('[Context Service - contextualComm] - scan', context.url, context);
+            console.log('[Context Service - contextualComm] - map', context.url, context);
             _this.updateContexts(context.url, context);
+            if (_this.currentActiveContext.url === context.url) {
+                _this.contextualCommObs.next(context);
+            }
             return context;
         }).subscribe(this._contextualCommUpdates);
     }
     ContextService.prototype.getActiveContext = function (v) {
         return this.localStorage.hasObject(v) ? this.localStorage.getObject(v) : null;
     };
+    Object.defineProperty(ContextService.prototype, "activeContext", {
+        set: function (value) {
+            console.log('[Context Service] - setActiveContext: ', value, this.cxtList.get(value));
+            this.currentActiveContext = this.cxtList.get(value);
+            this.contextualCommObs.next(this.currentActiveContext);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ContextService.prototype, "setContextPath", {
         set: function (v) {
             this.contextPath = v;
@@ -145,7 +158,6 @@ var ContextService = (function () {
                 _this.updateContextTrigger(contextTrigger.contextName, contextTrigger);
                 _this.updateContexts(context.url, context);
                 console.info('[Active Context - ContextualComm]', context);
-                _this.activeContext = context;
                 _this._contextualComm.next(context);
                 resolve(context);
             });
@@ -212,7 +224,7 @@ var ContextService = (function () {
         context.addUser(user);
         // Update the contact list
         this.contactService.addUser(user);
-        // this._contextualComm.next(context);
+        this._contextualComm.next(context);
         console.log('[Context Service - Update contacts]', context.name, context.url, context);
     };
     ContextService.prototype.getContextByName = function (name) {
@@ -223,7 +235,6 @@ var ContextService = (function () {
                 if (context.name === name) {
                     // TODO: Solve the problem of active context
                     currentContext = context;
-                    _this.activeContext = currentContext;
                     console.log('[context service - getContextByName] - ', name, currentContext);
                     _this._contextualComm.next(context);
                     return resolve(currentContext);
@@ -257,7 +268,7 @@ var ContextService = (function () {
         return this.messageService.messageList;
     };
     ContextService.prototype.contextualComm = function () {
-        return this._contextualComm;
+        return this.contextualCommObs;
     };
     ContextService = __decorate([
         core_1.Injectable(), 
