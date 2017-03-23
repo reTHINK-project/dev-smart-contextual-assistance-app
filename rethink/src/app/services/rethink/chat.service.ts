@@ -116,11 +116,12 @@ export class ChatService {
 
       if (user.hasOwnProperty('data')) {
         current = this.contactService.getUser(user.data.userURL);
+        if (!current) { current = new User(user.data); }
       } else {
         current = this.contactService.getUser(user.userURL);
+        if (!current) { current = new User(user); }
       }
 
-      if (!current) { current = new User(user); }
       console.log('[Chat Service - prepareController] - current user:', current);
       this.contextService.updateContextUsers(current, dataObjectURL);
     })

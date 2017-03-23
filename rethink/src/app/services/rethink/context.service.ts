@@ -93,6 +93,9 @@ export class ContextService {
     }
 
     this._contextualCommList = this._contextualCommUpdates.scan((contextualCommList:Map<string, ContextualComm>, context:ContextualComm) => {
+
+      console.log('SCAN CONTEXT UPDATES:', context);
+
       contextualCommList.set(context.url, context);
       return contextualCommList;
     }, this.cxtList)
@@ -119,12 +122,10 @@ export class ContextService {
       console.log('[Context Service - contextualComm] - map', context.url, context);
       this.updateContexts(context.url, context);
 
-      if (this.currentActiveContext.url === context.url) {
-        this.contextualCommObs.next(context);
-      }
-
       return context;
     }).subscribe(this._contextualCommUpdates);
+
+    this._contextualComm.subscribe(this.contextualCommObs);
 
   }
 

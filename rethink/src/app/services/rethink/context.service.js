@@ -53,6 +53,7 @@ var ContextService = (function () {
             }
         }
         this._contextualCommList = this._contextualCommUpdates.scan(function (contextualCommList, context) {
+            console.log('SCAN CONTEXT UPDATES:', context);
             contextualCommList.set(context.url, context);
             return contextualCommList;
         }, this.cxtList)
@@ -73,11 +74,9 @@ var ContextService = (function () {
             });
             console.log('[Context Service - contextualComm] - map', context.url, context);
             _this.updateContexts(context.url, context);
-            if (_this.currentActiveContext.url === context.url) {
-                _this.contextualCommObs.next(context);
-            }
             return context;
         }).subscribe(this._contextualCommUpdates);
+        this._contextualComm.subscribe(this.contextualCommObs);
     }
     ContextService.prototype.getActiveContext = function (v) {
         return this.localStorage.hasObject(v) ? this.localStorage.getObject(v) : null;

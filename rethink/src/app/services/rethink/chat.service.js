@@ -82,12 +82,15 @@ var ChatService = (function () {
             var current;
             if (user.hasOwnProperty('data')) {
                 current = _this.contactService.getUser(user.data.userURL);
+                if (!current) {
+                    current = new models_1.User(user.data);
+                }
             }
             else {
                 current = _this.contactService.getUser(user.userURL);
-            }
-            if (!current) {
-                current = new models_1.User(user);
+                if (!current) {
+                    current = new models_1.User(user);
+                }
             }
             console.log('[Chat Service - prepareController] - current user:', current);
             _this.contextService.updateContextUsers(current, dataObjectURL);
