@@ -13,7 +13,7 @@ var router_1 = require("@angular/router");
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 // Services
 var services_1 = require("../../services/services");
-var add_user_component_1 = require("../userView/add-user.component");
+var add_user_component_1 = require("../contextualCommUsers/add-user.component");
 var ContextualCommComponent = (function () {
     function ContextualCommComponent(router, route, chatService, appService, messageService, contextService, contactService) {
         this.router = router;

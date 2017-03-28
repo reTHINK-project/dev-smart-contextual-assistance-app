@@ -1447,7 +1447,7 @@ body.rethink ul.activity-list li div.contact-avatar span.status.offline i {
 body.rethink div.audio-call, body.rethink div.video-call {
   min-height: 320px;
   height: 100%;
-  background-image: url("../img/audio-bk.jpg");
+  background-image: url("../img/audio-bk.png");
   background-size: cover;
   position: relative;
 }
@@ -1468,6 +1468,7 @@ body.rethink div.audio-call div.contactbox, body.rethink div.video-call div.cont
   background: transparent;
   border: none;
   padding-top: 48px;
+  margin: 0 auto;
 }
 /* line 1541, ../sass/rethink.scss */
 body.rethink div.audio-call div.contactbox div.contact-avatar, body.rethink div.video-call div.contactbox div.contact-avatar {

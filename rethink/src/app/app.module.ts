@@ -18,7 +18,7 @@ import { ContextualCommUsersComponent } from './views/contextualCommUsers/contex
 import { UserIdentityComponent } from './components/rethink/userIdentity/userIdentity.component'
 import { ContextBreadcrumbComponent } from './views/breadcrumb/breadcrumb.component';
 import { MySelfComponent } from './components/mySelf/my-self.component';
-import { AddUserComponent } from './views/userView/add-user.component';
+import { AddUserComponent } from './views/contextualCommUsers/add-user.component';
 
 // Services
 import { servicesInjectables } from './services/services';

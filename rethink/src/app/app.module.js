@@ -20,7 +20,7 @@ var contextualCommUsers_component_1 = require("./views/contextualCommUsers/conte
 var userIdentity_component_1 = require("./components/rethink/userIdentity/userIdentity.component");
 var breadcrumb_component_1 = require("./views/breadcrumb/breadcrumb.component");
 var my_self_component_1 = require("./components/mySelf/my-self.component");
-var add_user_component_1 = require("./views/userView/add-user.component");
+var add_user_component_1 = require("./views/contextualCommUsers/add-user.component");
 // Services
 var services_1 = require("./services/services");
 var AppModule = (function () {

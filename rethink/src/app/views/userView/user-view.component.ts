@@ -1,6 +1,7 @@
 import { Component, OnInit, HostBinding, ViewChild, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
@@ -16,18 +17,17 @@ import { ChatCommunicationComponent } from '../../components/rethink/communicati
 
 @Component({
   moduleId: module.id,
-  selector: 'div[contact-box]',
+  selector: 'div[user-view]',
   templateUrl: './user-view.component.html'
 })
 export class UserViewComponent implements OnInit {
 
   @HostBinding('class') hostClass = '';
-  @Output() audioEvent = new EventEmitter();
-  @Output() videoEvent = new EventEmitter();
-  //@Output() closeEvent = new EventEmitter();
 
   @ViewChild(ContextualCommActivityComponent)
   private contextualCommActivityComponent: ContextualCommActivityComponent;
+
+  private action:string;
 
   private user:User;
   private messages:Subject<Message[]> = new BehaviorSubject([]);
@@ -40,6 +40,13 @@ export class UserViewComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.route
+      .queryParams
+      .subscribe(params => {
+        console.log('Params Action:', params['action']);
+        this.action = params['action'];
+      });
 
     this.route.data.forEach((data: { user: User, context: ContextualComm }) => {
       console.log('Resolve data User: ', data.user);
@@ -73,7 +80,6 @@ export class UserViewComponent implements OnInit {
   }
 
   onCloseEvent() {
-    console.log('Close:');
     history.back();
   }
 

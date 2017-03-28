@@ -13,7 +13,7 @@ import { Message, User, ContextualComm } from '../../models/models';
 
 // Components
 import { ContextualCommUsersComponent } from '../contextualCommUsers/contextualCommUsers.component'
-import { AddUserComponent } from '../userView/add-user.component';
+import { AddUserComponent } from '../contextualCommUsers/add-user.component';
 
 @Component({
   moduleId: module.id,

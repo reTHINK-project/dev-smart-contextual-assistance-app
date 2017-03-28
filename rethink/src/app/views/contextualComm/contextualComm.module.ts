@@ -5,6 +5,12 @@ import { CommonModule }   from '@angular/common';
 import { ContextualCommRoutingModule } from './contextualComm.routing';
 
 // Generic Components
+import { ContactBoxComponent } from '../../components/user/contact-box.component';
+
+import { ChatCommunicationComponent } from '../../components/rethink/communication/chatCommunication.component'
+import { AudioCommunicationComponent } from '../../components/rethink/communication/audioCommunication.component';
+import { VideoCommunicationComponent } from '../../components/rethink/communication/videoCommunication.component';
+
 import { ChatEventComponent } from '../../components/rethink/hypertyResource/chat/chatEvent.component';
 import { FileEventComponent } from '../../components/rethink/hypertyResource/file/fileEvent.component';
 
@@ -17,7 +23,6 @@ import { ContextualCommComponent } from './contextualComm.component';
 import { ActivityComponent } from '../../components/activity/activity.component';
 import { ActivityListComponent } from '../../components/activity/activitylist.component';
 import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component'
-import { ChatCommunicationComponent } from '../../components/rethink/communication/chatCommunication.component'
 
 // Services
 import { AuthGuard } from '../../services/authGuard.service'
@@ -37,7 +42,11 @@ import { ContextualCommResolver } from '../../services/contextualComm.resolver';
     ActivityListComponent,
     ActivityComponent,
     UserViewComponent,
+    
+    AudioCommunicationComponent,
+    VideoCommunicationComponent,
 
+    ContactBoxComponent,
     ChatEventComponent,
     FileEventComponent
   ],

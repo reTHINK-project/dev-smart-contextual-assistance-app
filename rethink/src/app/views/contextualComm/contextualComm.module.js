@@ -10,6 +10,10 @@ var forms_1 = require("@angular/forms");
 var common_1 = require("@angular/common");
 var contextualComm_routing_1 = require("./contextualComm.routing");
 // Generic Components
+var contact_box_component_1 = require("../../components/user/contact-box.component");
+var chatCommunication_component_1 = require("../../components/rethink/communication/chatCommunication.component");
+var audioCommunication_component_1 = require("../../components/rethink/communication/audioCommunication.component");
+var videoCommunication_component_1 = require("../../components/rethink/communication/videoCommunication.component");
 var chatEvent_component_1 = require("../../components/rethink/hypertyResource/chat/chatEvent.component");
 var fileEvent_component_1 = require("../../components/rethink/hypertyResource/file/fileEvent.component");
 // Components views
@@ -18,7 +22,6 @@ var activity_view_component_1 = require("../activityView/activity-view.component
 var activity_component_1 = require("../../components/activity/activity.component");
 var activitylist_component_1 = require("../../components/activity/activitylist.component");
 var contextualCommActivity_component_1 = require("../contextualCommActivity/contextualCommActivity.component");
-var chatCommunication_component_1 = require("../../components/rethink/communication/chatCommunication.component");
 // Services
 var authGuard_service_1 = require("../../services/authGuard.service");
 var user_resolver_1 = require("../../services/user.resolver");
@@ -42,6 +45,9 @@ ContextualCommModule = __decorate([
             activitylist_component_1.ActivityListComponent,
             activity_component_1.ActivityComponent,
             user_view_component_1.UserViewComponent,
+            audioCommunication_component_1.AudioCommunicationComponent,
+            videoCommunication_component_1.VideoCommunicationComponent,
+            contact_box_component_1.ContactBoxComponent,
             chatEvent_component_1.ChatEventComponent,
             fileEvent_component_1.FileEventComponent
         ],

@@ -22,12 +22,16 @@ var UserViewComponent = (function () {
         this.contextService = contextService;
         this.chatService = chatService;
         this.hostClass = '';
-        this.audioEvent = new core_1.EventEmitter();
-        this.videoEvent = new core_1.EventEmitter();
         this.messages = new BehaviorSubject_1.BehaviorSubject([]);
     }
     UserViewComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.route
+            .queryParams
+            .subscribe(function (params) {
+            console.log('Params Action:', params['action']);
+            _this.action = params['action'];
+        });
         this.route.data.forEach(function (data) {
             console.log('Resolve data User: ', data.user);
             console.log('Resolve data Context: ', data.context);
@@ -51,7 +55,6 @@ var UserViewComponent = (function () {
         });
     };
     UserViewComponent.prototype.onCloseEvent = function () {
-        console.log('Close:');
         history.back();
     };
     return UserViewComponent;
@@ -61,21 +64,13 @@ __decorate([
     __metadata("design:type", Object)
 ], UserViewComponent.prototype, "hostClass", void 0);
 __decorate([
-    core_1.Output(),
-    __metadata("design:type", Object)
-], UserViewComponent.prototype, "audioEvent", void 0);
-__decorate([
-    core_1.Output(),
-    __metadata("design:type", Object)
-], UserViewComponent.prototype, "videoEvent", void 0);
-__decorate([
     core_1.ViewChild(contextualCommActivity_component_1.ContextualCommActivityComponent),
     __metadata("design:type", contextualCommActivity_component_1.ContextualCommActivityComponent)
 ], UserViewComponent.prototype, "contextualCommActivityComponent", void 0);
 UserViewComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
-        selector: 'div[contact-box]',
+        selector: 'div[user-view]',
         templateUrl: './user-view.component.html'
     }),
     __metadata("design:paramtypes", [router_1.Router,

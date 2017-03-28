@@ -9,36 +9,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var models_1 = require("../../models/models");
-var VideoContactBox = (function () {
-    function VideoContactBox() {
+var models_1 = require("../../../models/models");
+var VideoCommunicationComponent = (function () {
+    function VideoCommunicationComponent() {
         this.hostClass = 'video-call all-100';
     }
-    VideoContactBox.prototype.ngOnInit = function () {
+    VideoCommunicationComponent.prototype.ngOnInit = function () {
     };
-    return VideoContactBox;
+    return VideoCommunicationComponent;
 }());
 __decorate([
     core_1.HostBinding('class'),
     __metadata("design:type", Object)
-], VideoContactBox.prototype, "hostClass", void 0);
+], VideoCommunicationComponent.prototype, "hostClass", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], VideoCommunicationComponent.prototype, "myStream", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], VideoCommunicationComponent.prototype, "otherStream", void 0);
 __decorate([
     core_1.Input(),
     __metadata("design:type", models_1.User)
-], VideoContactBox.prototype, "model", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Object)
-], VideoContactBox.prototype, "myStream", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Object)
-], VideoContactBox.prototype, "otherStream", void 0);
-VideoContactBox = __decorate([
+], VideoCommunicationComponent.prototype, "user", void 0);
+VideoCommunicationComponent = __decorate([
     core_1.Component({
-        selector: 'div[video-contact-box]',
-        templateUrl: 'comp/user/video-contact-box.comp.html'
+        moduleId: module.id,
+        selector: 'div[video-view]',
+        templateUrl: './videoCommunication.component.html'
     })
-], VideoContactBox);
-exports.VideoContactBox = VideoContactBox;
-//# sourceMappingURL=video-contact-box.comp.js.map
+], VideoCommunicationComponent);
+exports.VideoCommunicationComponent = VideoCommunicationComponent;
+//# sourceMappingURL=videoCommunication.component.js.map
