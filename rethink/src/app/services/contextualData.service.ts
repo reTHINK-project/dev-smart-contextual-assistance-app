@@ -5,17 +5,20 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable'
 
 // Interfaces
-import { ContextualComm, User, Message } from '../models/models';
+import { ContextualCommTrigger, ContextualComm, User, Message } from '../models/models';
 
 // Services
 import { LocalStorage } from './storage.service';
 import { RethinkService } from './rethink/rethink.service';
 import { ContextService } from './rethink/context.service';
+import { ChatService } from './rethink/chat.service';
 
 @Injectable()
 export class ContextualDataService {
 
-    constructor(private contextService:ContextService) {}
+    constructor(
+      private chatService:ChatService,
+      private contextService:ContextService) {}
 
 /*    getContext(context:string):Observable<ContextualComm> {
       return this.contextService.getContextByName(context);
@@ -29,5 +32,4 @@ export class ContextualDataService {
       return this.contextService.getContextUsers(context);
     }
 
-    
 }

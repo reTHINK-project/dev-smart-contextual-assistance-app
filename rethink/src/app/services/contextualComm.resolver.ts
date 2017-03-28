@@ -44,9 +44,9 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
       }
 
       if (user) {
-        name = user;
+        name = user
         context = route.parent.params['trigger'];
-        participants.push(name);
+        participants.push(user);
       }
 
       this.contextService.getContextByName(name).then((contextualComm:ContextualComm) => {
@@ -58,7 +58,13 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
         resolve(contextualComm);
       }).catch((error) => {
         console.error('error:', error);
+
+        if (user) {
+          name = this.rethinkService.getCurrentUser.username;
+        }
+
         console.info('[ContextualCommResolver - resolve] - Creating the context ', name, context, ' chat group');
+
         this.chatService.create(name, participants, domains).then((chatController: any) => {
           console.log('Create chat service for all my contacts', chatController);
           return this.contextService.create(name, chatController.dataObject, context)

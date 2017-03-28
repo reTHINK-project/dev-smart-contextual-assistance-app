@@ -8,10 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 // Services
-var services_1 = require('./services/services');
+var services_1 = require("./services/services");
 var AppComponent = (function () {
     function AppComponent(router, route, contactService, rethinkService, chatService) {
         var _this = this;
@@ -54,15 +54,19 @@ var AppComponent = (function () {
     };
     AppComponent.prototype.onClickOutside = function () {
     };
-    AppComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'rethink-app',
-            templateUrl: './app.component.html'
-        }), 
-        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, services_1.ContactService, services_1.RethinkService, services_1.ChatService])
-    ], AppComponent);
     return AppComponent;
 }());
+AppComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'rethink-app',
+        templateUrl: './app.component.html'
+    }),
+    __metadata("design:paramtypes", [router_1.Router,
+        router_1.ActivatedRoute,
+        services_1.ContactService,
+        services_1.RethinkService,
+        services_1.ChatService])
+], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map

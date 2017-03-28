@@ -8,10 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 // Service
-var services_1 = require('./services');
+var services_1 = require("./services");
 var ContextualCommResolver = (function () {
     function ContextualCommResolver(router, chatService, messageService, rethinkService, contextService) {
         this.router = router;
@@ -40,7 +40,7 @@ var ContextualCommResolver = (function () {
             if (user) {
                 name = user;
                 context = route.parent.params['trigger'];
-                participants.push(name);
+                participants.push(user);
             }
             _this.contextService.getContextByName(name).then(function (contextualComm) {
                 console.info('[ContextualCommResolver - resolve] - Getting the current Context ', name, contextualComm);
@@ -49,6 +49,9 @@ var ContextualCommResolver = (function () {
                 resolve(contextualComm);
             }).catch(function (error) {
                 console.error('error:', error);
+                if (user) {
+                    name = _this.rethinkService.getCurrentUser.username;
+                }
                 console.info('[ContextualCommResolver - resolve] - Creating the context ', name, context, ' chat group');
                 _this.chatService.create(name, participants, domains).then(function (chatController) {
                     console.log('Create chat service for all my contacts', chatController);
@@ -64,11 +67,15 @@ var ContextualCommResolver = (function () {
             });
         });
     };
-    ContextualCommResolver = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [router_1.Router, services_1.ChatService, services_1.MessageService, services_1.RethinkService, services_1.ContextService])
-    ], ContextualCommResolver);
     return ContextualCommResolver;
 }());
+ContextualCommResolver = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [router_1.Router,
+        services_1.ChatService,
+        services_1.MessageService,
+        services_1.RethinkService,
+        services_1.ContextService])
+], ContextualCommResolver);
 exports.ContextualCommResolver = ContextualCommResolver;
 //# sourceMappingURL=contextualComm.resolver.js.map

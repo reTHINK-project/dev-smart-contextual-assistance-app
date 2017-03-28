@@ -8,23 +8,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var ContextMenuComponent = (function () {
     function ContextMenuComponent() {
         this.hostClass = 'mp-menu';
     }
-    __decorate([
-        core_1.HostBinding('class'), 
-        __metadata('design:type', Object)
-    ], ContextMenuComponent.prototype, "hostClass", void 0);
-    ContextMenuComponent = __decorate([
-        core_1.Component({
-            selector: 'nav[context-menu]',
-            templateUrl: 'comp/context/menu.comp.html'
-        }), 
-        __metadata('design:paramtypes', [])
-    ], ContextMenuComponent);
     return ContextMenuComponent;
 }());
+__decorate([
+    core_1.HostBinding('class'),
+    __metadata("design:type", Object)
+], ContextMenuComponent.prototype, "hostClass", void 0);
+ContextMenuComponent = __decorate([
+    core_1.Component({
+        selector: 'nav[context-menu]',
+        templateUrl: 'comp/context/menu.comp.html'
+    })
+], ContextMenuComponent);
 exports.ContextMenuComponent = ContextMenuComponent;
 //# sourceMappingURL=menu.comp.js.map

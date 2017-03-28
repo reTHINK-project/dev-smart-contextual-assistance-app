@@ -8,12 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 // Services
-var rethink_service_1 = require('./rethink.service');
-var contact_service_1 = require('../contact.service');
-var context_service_1 = require('../rethink/context.service');
-var models_1 = require('../../models/models');
+var rethink_service_1 = require("./rethink.service");
+var contact_service_1 = require("../contact.service");
+var context_service_1 = require("../rethink/context.service");
+var models_1 = require("../../models/models");
 var ChatService = (function () {
     function ChatService(appService, contextService, contactService) {
         this.appService = appService;
@@ -96,9 +96,9 @@ var ChatService = (function () {
             _this.contextService.updateContextUsers(current, dataObjectURL);
         });
         chatController.onMessage(function (message) {
+            console.log('[Chat Service - prepareController] - onMessage', message, _this.chatControllerActive);
             var dataObjectURL = chatController.dataObject.url;
             var user = _this.contactService.getUser(message.identity.userProfile.userURL);
-            console.log('[Chat Service - prepareController] - onMessage', dataObjectURL, message, chatController);
             if (user) {
                 var msg = {
                     type: 'message',
@@ -130,11 +130,9 @@ var ChatService = (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.chatGroupManager.join(resource).then(function (chatController) {
-                _this._updateControllersList(chatController.dataObject.url, chatController);
-                console.log('[Joined Chat]', chatController);
-                var chatName = chatController.dataObject.data.name;
-                _this.contextService.create(chatName, chatController.dataObject).then(function (result) {
-                    _this.prepareHyperty();
+                var dataObject = chatController.dataObject;
+                _this._updateControllersList(dataObject.url, chatController);
+                _this.verifyOrCreateContextualComm(dataObject).then(function (result) {
                     resolve(chatController);
                 });
             });
@@ -179,11 +177,37 @@ var ChatService = (function () {
     ChatService.prototype.onUserAdded = function (callback) {
         this._onUserAdded = callback;
     };
-    ChatService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [rethink_service_1.RethinkService, context_service_1.ContextService, contact_service_1.ContactService])
-    ], ChatService);
+    ChatService.prototype.verifyOrCreateContextualComm = function (dataObject) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var resource = dataObject.data.url;
+            var participants = [];
+            var domains = [];
+            var contextTrigger = _this.contextService.activeContextTrigger;
+            var name = dataObject.data.name;
+            console.log('[Chat Service] - verifyOrCreateContextualComm: ', dataObject);
+            _this.contextService.getContextByResource(resource).then(function (contextualComm) {
+                console.info('[ContextualCommResolver - resolve] - Getting the current Context ', name, contextualComm);
+                resolve(contextualComm);
+            }).catch(function (error) {
+                console.error('error:', error);
+                console.info('[ContextualCommResolver - resolve] - Creating the context ', name, contextTrigger, ' chat group');
+                _this.contextService.create(name, dataObject, contextTrigger).then(function (contextualComm) {
+                    resolve(contextualComm);
+                }).catch(function (error) {
+                    console.log('Error creating the context: ', error);
+                    reject(error);
+                });
+            });
+        });
+    };
     return ChatService;
 }());
+ChatService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [rethink_service_1.RethinkService,
+        context_service_1.ContextService,
+        contact_service_1.ContactService])
+], ChatService);
 exports.ChatService = ChatService;
 //# sourceMappingURL=chat.service.js.map

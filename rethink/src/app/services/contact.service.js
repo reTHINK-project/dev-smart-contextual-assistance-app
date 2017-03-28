@@ -9,17 +9,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 // Core
-var core_1 = require('@angular/core');
-var Subject_1 = require('rxjs/Subject');
-require('rxjs/add/operator/map');
-require('rxjs/add/operator/scan');
-require('rxjs/add/operator/publishReplay');
+var core_1 = require("@angular/core");
+var Subject_1 = require("rxjs/Subject");
+require("rxjs/add/operator/map");
+require("rxjs/add/operator/scan");
+require("rxjs/add/operator/publishReplay");
 // utils
-var utils_1 = require('../utils/utils');
+var utils_1 = require("../utils/utils");
 // Interfaces
-var models_1 = require('../models/models');
+var models_1 = require("../models/models");
 // Services
-var storage_service_1 = require('./storage.service');
+var storage_service_1 = require("./storage.service");
 var ContactService = (function () {
     function ContactService(localStorage) {
         var _this = this;
@@ -93,11 +93,11 @@ var ContactService = (function () {
         });
         return user;
     };
-    ContactService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [storage_service_1.LocalStorage])
-    ], ContactService);
     return ContactService;
 }());
+ContactService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [storage_service_1.LocalStorage])
+], ContactService);
 exports.ContactService = ContactService;
 //# sourceMappingURL=contact.service.js.map

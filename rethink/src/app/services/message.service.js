@@ -8,16 +8,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var Subject_1 = require('rxjs/Subject');
-var BehaviorSubject_1 = require('rxjs/BehaviorSubject');
-require('rxjs/add/operator/combineLatest');
+var core_1 = require("@angular/core");
+var Subject_1 = require("rxjs/Subject");
+var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
+require("rxjs/add/operator/combineLatest");
 // Services
-var rethink_service_1 = require('./rethink/rethink.service');
-var storage_service_1 = require('./storage.service');
-var contact_service_1 = require('./contact.service');
+var rethink_service_1 = require("./rethink/rethink.service");
+var storage_service_1 = require("./storage.service");
+var contact_service_1 = require("./contact.service");
 // Interfaces
-var models_1 = require('../models/models');
+var models_1 = require("../models/models");
 var MessageService = (function () {
     function MessageService(appService, localStorage, contactService) {
         this.appService = appService;
@@ -72,11 +72,13 @@ var MessageService = (function () {
         });
         this.newMessage.next(newMessage);
     };
-    MessageService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [rethink_service_1.RethinkService, storage_service_1.LocalStorage, contact_service_1.ContactService])
-    ], MessageService);
     return MessageService;
 }());
+MessageService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [rethink_service_1.RethinkService,
+        storage_service_1.LocalStorage,
+        contact_service_1.ContactService])
+], MessageService);
 exports.MessageService = MessageService;
 //# sourceMappingURL=message.service.js.map

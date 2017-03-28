@@ -8,23 +8,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var FileShareListComponent = (function () {
     function FileShareListComponent() {
         this.hostClass = 'all-25 large-35 xlarge-35 hide-medium hide-small hide-tiny';
     }
-    __decorate([
-        core_1.HostBinding('class'), 
-        __metadata('design:type', Object)
-    ], FileShareListComponent.prototype, "hostClass", void 0);
-    FileShareListComponent = __decorate([
-        core_1.Component({
-            selector: 'div[file-share-list]',
-            templateUrl: 'comp/fileshare/filesharelist.comp.html'
-        }), 
-        __metadata('design:paramtypes', [])
-    ], FileShareListComponent);
     return FileShareListComponent;
 }());
+__decorate([
+    core_1.HostBinding('class'),
+    __metadata("design:type", Object)
+], FileShareListComponent.prototype, "hostClass", void 0);
+FileShareListComponent = __decorate([
+    core_1.Component({
+        selector: 'div[file-share-list]',
+        templateUrl: 'comp/fileshare/filesharelist.comp.html'
+    })
+], FileShareListComponent);
 exports.FileShareListComponent = FileShareListComponent;
 //# sourceMappingURL=filesharelist.comp.js.map

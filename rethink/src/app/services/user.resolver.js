@@ -8,10 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 // Service
-var services_1 = require('./services');
+var services_1 = require("./services");
 var UserResolver = (function () {
     function UserResolver(rethinkService, chatService, messageService, contextService, contactService, router) {
         this.rethinkService = rethinkService;
@@ -68,11 +68,16 @@ var UserResolver = (function () {
         });
     */
     };
-    UserResolver = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [services_1.RethinkService, services_1.ChatService, services_1.MessageService, services_1.ContextService, services_1.ContactService, router_1.Router])
-    ], UserResolver);
     return UserResolver;
 }());
+UserResolver = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [services_1.RethinkService,
+        services_1.ChatService,
+        services_1.MessageService,
+        services_1.ContextService,
+        services_1.ContactService,
+        router_1.Router])
+], UserResolver);
 exports.UserResolver = UserResolver;
 //# sourceMappingURL=user.resolver.js.map

@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var Observable_1 = require('rxjs/Observable');
+var core_1 = require("@angular/core");
+var Observable_1 = require("rxjs/Observable");
 var ActivityListComponent = (function () {
     function ActivityListComponent(el) {
         this.el = el;
@@ -42,23 +42,23 @@ var ActivityListComponent = (function () {
         var scrollPane = this.el.nativeElement;
         scrollPane.scrollTop = scrollPane.scrollHeight;
     };
-    __decorate([
-        core_1.HostBinding('class'), 
-        __metadata('design:type', Object)
-    ], ActivityListComponent.prototype, "hostClass", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Observable_1.Observable)
-    ], ActivityListComponent.prototype, "messages", void 0);
-    ActivityListComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'ul[activity-list]',
-            templateUrl: './activitylist.component.html'
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], ActivityListComponent);
     return ActivityListComponent;
 }());
+__decorate([
+    core_1.HostBinding('class'),
+    __metadata("design:type", Object)
+], ActivityListComponent.prototype, "hostClass", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Observable_1.Observable)
+], ActivityListComponent.prototype, "messages", void 0);
+ActivityListComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'ul[activity-list]',
+        templateUrl: './activitylist.component.html'
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], ActivityListComponent);
 exports.ActivityListComponent = ActivityListComponent;
 //# sourceMappingURL=activitylist.component.js.map

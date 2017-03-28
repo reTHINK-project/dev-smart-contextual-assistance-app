@@ -7,7 +7,7 @@ import { RethinkService } from './rethink.service';
 import { ContactService } from '../contact.service';
 import { ContextService } from '../rethink/context.service';
 
-import { User, Message } from '../../models/models';
+import { ContextualComm, User, Message } from '../../models/models';
 
 @Injectable()
 export class ChatService {
@@ -129,10 +129,10 @@ export class ChatService {
 
     chatController.onMessage((message: any) => {
 
+      console.log('[Chat Service - prepareController] - onMessage', message, this.chatControllerActive);
+
       let dataObjectURL = chatController.dataObject.url;
       let user:User = this.contactService.getUser(message.identity.userProfile.userURL);
-
-      console.log('[Chat Service - prepareController] - onMessage', dataObjectURL, message, chatController);
 
       if (user) {
         let msg = {
@@ -177,19 +177,17 @@ export class ChatService {
 
       this.chatGroupManager.join(resource).then((chatController: any) => {
 
-        this._updateControllersList(chatController.dataObject.url, chatController);
-        console.log('[Joined Chat]', chatController)
+        let dataObject = chatController.dataObject;
 
-        let chatName:string = chatController.dataObject.data.name;
+        this._updateControllersList(dataObject.url, chatController);
 
-        this.contextService.create(chatName, chatController.dataObject).then((result:any) => {
-          this.prepareHyperty();
+        this.verifyOrCreateContextualComm(dataObject).then((result) => {
+          resolve(chatController);
+        });
 
-          resolve(chatController)
-        })
-      })
+      });
 
-    })
+    });
 
   }
 
@@ -245,6 +243,36 @@ export class ChatService {
 
   onUserAdded(callback: Function) {
     this._onUserAdded = callback;
+  }
+
+
+  verifyOrCreateContextualComm(dataObject:any):Promise<ContextualComm> {
+
+    return new Promise((resolve, reject) => {
+
+      let resource = dataObject.data.url;
+      let participants:any = [];
+      let domains:any = [];
+      let contextTrigger = this.contextService.activeContextTrigger;
+      let name = dataObject.data.name;
+
+      console.log('[Chat Service] - verifyOrCreateContextualComm: ', dataObject);
+      
+      this.contextService.getContextByResource(resource).then((contextualComm:ContextualComm) => {
+        console.info('[ContextualCommResolver - resolve] - Getting the current Context ', name, contextualComm);
+        resolve(contextualComm);
+      }).catch((error) => {
+        console.error('error:', error);
+        console.info('[ContextualCommResolver - resolve] - Creating the context ', name, contextTrigger, ' chat group');
+        this.contextService.create(name, dataObject, contextTrigger).then((contextualComm:ContextualComm) => {
+          resolve(contextualComm);
+        }).catch((error) => {
+          console.log('Error creating the context: ', error);
+          reject(error);
+        })
+      })
+    });
+
   }
 
 }

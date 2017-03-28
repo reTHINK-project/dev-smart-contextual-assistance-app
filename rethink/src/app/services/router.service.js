@@ -8,10 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var Subject_1 = require('rxjs/Subject');
-require('rxjs/add/operator/take');
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var Subject_1 = require("rxjs/Subject");
+require("rxjs/add/operator/take");
 var RouterService = (function () {
     function RouterService(router) {
         var _this = this;
@@ -35,11 +35,11 @@ var RouterService = (function () {
             this.generateBreadcrumbTrail(url.substr(0, url.lastIndexOf('/'))); //Find last '/' and add everything before it as a parent route
         }
     };
-    RouterService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [router_1.Router])
-    ], RouterService);
     return RouterService;
 }());
+RouterService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [router_1.Router])
+], RouterService);
 exports.RouterService = RouterService;
 //# sourceMappingURL=router.service.js.map

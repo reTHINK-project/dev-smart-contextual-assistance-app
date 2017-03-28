@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var models_1 = require('../../models/models');
+var core_1 = require("@angular/core");
+var models_1 = require("../../models/models");
 var ActivityComponent = (function () {
     function ActivityComponent(cd) {
         this.cd = cd;
@@ -22,23 +22,23 @@ var ActivityComponent = (function () {
               this.hostClass = 'half-padding offline'
             }*/
     };
-    __decorate([
-        core_1.HostBinding('class'), 
-        __metadata('design:type', Object)
-    ], ActivityComponent.prototype, "hostClass", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', models_1.Message)
-    ], ActivityComponent.prototype, "message", void 0);
-    ActivityComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'li[activity]',
-            templateUrl: './activity.component.html'
-        }), 
-        __metadata('design:paramtypes', [core_1.ChangeDetectorRef])
-    ], ActivityComponent);
     return ActivityComponent;
 }());
+__decorate([
+    core_1.HostBinding('class'),
+    __metadata("design:type", Object)
+], ActivityComponent.prototype, "hostClass", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", models_1.Message)
+], ActivityComponent.prototype, "message", void 0);
+ActivityComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'li[activity]',
+        templateUrl: './activity.component.html'
+    }),
+    __metadata("design:paramtypes", [core_1.ChangeDetectorRef])
+], ActivityComponent);
 exports.ActivityComponent = ActivityComponent;
 //# sourceMappingURL=activity.component.js.map

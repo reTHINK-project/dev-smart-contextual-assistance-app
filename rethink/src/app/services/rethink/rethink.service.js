@@ -8,11 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var BehaviorSubject_1 = require('rxjs/BehaviorSubject');
-var runtime_browser_1 = require('runtime-browser');
-var models_1 = require('../../models/models');
-var contact_service_1 = require('../contact.service');
+var core_1 = require("@angular/core");
+var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
+var runtime_browser_1 = require("runtime-browser");
+var models_1 = require("../../models/models");
+var contact_service_1 = require("../contact.service");
 var RethinkService = (function () {
     function RethinkService(contactService) {
         this.contactService = contactService;
@@ -79,11 +79,11 @@ var RethinkService = (function () {
             });
         });
     };
-    RethinkService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [contact_service_1.ContactService])
-    ], RethinkService);
     return RethinkService;
 }());
+RethinkService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [contact_service_1.ContactService])
+], RethinkService);
 exports.RethinkService = RethinkService;
 //# sourceMappingURL=rethink.service.js.map

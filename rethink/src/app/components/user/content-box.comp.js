@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var Observable_1 = require('rxjs/Observable');
+var core_1 = require("@angular/core");
+var Observable_1 = require("rxjs/Observable");
 var ContentBox = (function () {
     function ContentBox(cd, renderer, el) {
         this.cd = cd;
@@ -49,22 +49,24 @@ var ContentBox = (function () {
         var scrollPane = this.el.nativeElement;
         scrollPane.scrollTop = scrollPane.scrollHeight;
     };
-    __decorate([
-        core_1.HostBinding('class'), 
-        __metadata('design:type', Object)
-    ], ContentBox.prototype, "hostClass", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Observable_1.Observable)
-    ], ContentBox.prototype, "messages", void 0);
-    ContentBox = __decorate([
-        core_1.Component({
-            selector: 'div[content-box]',
-            templateUrl: 'comp/user/content-box.comp.html'
-        }), 
-        __metadata('design:paramtypes', [core_1.ChangeDetectorRef, core_1.Renderer, core_1.ElementRef])
-    ], ContentBox);
     return ContentBox;
 }());
+__decorate([
+    core_1.HostBinding('class'),
+    __metadata("design:type", Object)
+], ContentBox.prototype, "hostClass", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Observable_1.Observable)
+], ContentBox.prototype, "messages", void 0);
+ContentBox = __decorate([
+    core_1.Component({
+        selector: 'div[content-box]',
+        templateUrl: 'comp/user/content-box.comp.html'
+    }),
+    __metadata("design:paramtypes", [core_1.ChangeDetectorRef,
+        core_1.Renderer,
+        core_1.ElementRef])
+], ContentBox);
 exports.ContentBox = ContentBox;
 //# sourceMappingURL=content-box.comp.js.map

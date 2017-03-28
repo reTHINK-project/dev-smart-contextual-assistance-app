@@ -8,38 +8,37 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var models_1 = require('../../models/models');
+var core_1 = require("@angular/core");
+var models_1 = require("../../models/models");
 var VideoContactBox = (function () {
     function VideoContactBox() {
         this.hostClass = 'video-call all-100';
     }
     VideoContactBox.prototype.ngOnInit = function () {
     };
-    __decorate([
-        core_1.HostBinding('class'), 
-        __metadata('design:type', Object)
-    ], VideoContactBox.prototype, "hostClass", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', models_1.User)
-    ], VideoContactBox.prototype, "model", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], VideoContactBox.prototype, "myStream", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], VideoContactBox.prototype, "otherStream", void 0);
-    VideoContactBox = __decorate([
-        core_1.Component({
-            selector: 'div[video-contact-box]',
-            templateUrl: 'comp/user/video-contact-box.comp.html'
-        }), 
-        __metadata('design:paramtypes', [])
-    ], VideoContactBox);
     return VideoContactBox;
 }());
+__decorate([
+    core_1.HostBinding('class'),
+    __metadata("design:type", Object)
+], VideoContactBox.prototype, "hostClass", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", models_1.User)
+], VideoContactBox.prototype, "model", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], VideoContactBox.prototype, "myStream", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], VideoContactBox.prototype, "otherStream", void 0);
+VideoContactBox = __decorate([
+    core_1.Component({
+        selector: 'div[video-contact-box]',
+        templateUrl: 'comp/user/video-contact-box.comp.html'
+    })
+], VideoContactBox);
 exports.VideoContactBox = VideoContactBox;
 //# sourceMappingURL=video-contact-box.comp.js.map

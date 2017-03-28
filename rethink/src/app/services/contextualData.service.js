@@ -9,10 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 // Core
-var core_1 = require('@angular/core');
-var context_service_1 = require('./rethink/context.service');
+var core_1 = require("@angular/core");
+var context_service_1 = require("./rethink/context.service");
+var chat_service_1 = require("./rethink/chat.service");
 var ContextualDataService = (function () {
-    function ContextualDataService(contextService) {
+    function ContextualDataService(chatService, contextService) {
+        this.chatService = chatService;
         this.contextService = contextService;
     }
     /*    getContext(context:string):Observable<ContextualComm> {
@@ -24,11 +26,12 @@ var ContextualDataService = (function () {
     ContextualDataService.prototype.getUsers = function (context) {
         return this.contextService.getContextUsers(context);
     };
-    ContextualDataService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [context_service_1.ContextService])
-    ], ContextualDataService);
     return ContextualDataService;
 }());
+ContextualDataService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [chat_service_1.ChatService,
+        context_service_1.ContextService])
+], ContextualDataService);
 exports.ContextualDataService = ContextualDataService;
 //# sourceMappingURL=contextualData.service.js.map

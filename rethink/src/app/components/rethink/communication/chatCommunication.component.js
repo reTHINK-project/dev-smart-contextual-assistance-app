@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var ChatCommunicationComponent = (function () {
     function ChatCommunicationComponent() {
         this.hostClass = 'message-sender all-75 medium-70 xlarge-80 hide-small hide-tiny push-right';
@@ -25,27 +25,26 @@ var ChatCommunicationComponent = (function () {
     ChatCommunicationComponent.prototype.clean = function () {
         this.model.message = '';
     };
-    __decorate([
-        core_1.HostBinding('class'), 
-        __metadata('design:type', Object)
-    ], ChatCommunicationComponent.prototype, "hostClass", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], ChatCommunicationComponent.prototype, "active", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', Object)
-    ], ChatCommunicationComponent.prototype, "onMessage", void 0);
-    ChatCommunicationComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'chat-view',
-            templateUrl: './chatCommunication.component.html'
-        }), 
-        __metadata('design:paramtypes', [])
-    ], ChatCommunicationComponent);
     return ChatCommunicationComponent;
 }());
+__decorate([
+    core_1.HostBinding('class'),
+    __metadata("design:type", Object)
+], ChatCommunicationComponent.prototype, "hostClass", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], ChatCommunicationComponent.prototype, "active", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], ChatCommunicationComponent.prototype, "onMessage", void 0);
+ChatCommunicationComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'chat-view',
+        templateUrl: './chatCommunication.component.html'
+    })
+], ChatCommunicationComponent);
 exports.ChatCommunicationComponent = ChatCommunicationComponent;
 //# sourceMappingURL=chatCommunication.component.js.map

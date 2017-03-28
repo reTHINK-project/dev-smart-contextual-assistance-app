@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var models_1 = require('../../models/models');
+var core_1 = require("@angular/core");
+var models_1 = require("../../models/models");
 var NotificationBox = (function () {
     function NotificationBox() {
         this.hostClass = 'alert alert-info';
@@ -18,30 +18,29 @@ var NotificationBox = (function () {
     }
     NotificationBox.prototype.ngOnInit = function () {
     };
-    __decorate([
-        core_1.HostBinding('class'), 
-        __metadata('design:type', Object)
-    ], NotificationBox.prototype, "hostClass", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', models_1.User)
-    ], NotificationBox.prototype, "model", void 0);
-    __decorate([
-        core_1.Output('accept-call'), 
-        __metadata('design:type', Object)
-    ], NotificationBox.prototype, "acceptCall", void 0);
-    __decorate([
-        core_1.Output('reject-call'), 
-        __metadata('design:type', Object)
-    ], NotificationBox.prototype, "rejectCall", void 0);
-    NotificationBox = __decorate([
-        core_1.Component({
-            selector: 'div[notification-box]',
-            templateUrl: 'comp/user/notification.comp.html'
-        }), 
-        __metadata('design:paramtypes', [])
-    ], NotificationBox);
     return NotificationBox;
 }());
+__decorate([
+    core_1.HostBinding('class'),
+    __metadata("design:type", Object)
+], NotificationBox.prototype, "hostClass", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", models_1.User)
+], NotificationBox.prototype, "model", void 0);
+__decorate([
+    core_1.Output('accept-call'),
+    __metadata("design:type", Object)
+], NotificationBox.prototype, "acceptCall", void 0);
+__decorate([
+    core_1.Output('reject-call'),
+    __metadata("design:type", Object)
+], NotificationBox.prototype, "rejectCall", void 0);
+NotificationBox = __decorate([
+    core_1.Component({
+        selector: 'div[notification-box]',
+        templateUrl: 'comp/user/notification.comp.html'
+    })
+], NotificationBox);
 exports.NotificationBox = NotificationBox;
 //# sourceMappingURL=notification.comp.js.map

@@ -1,4 +1,5 @@
 "use strict";
+var HypertyResourceType;
 (function (HypertyResourceType) {
     HypertyResourceType[HypertyResourceType["chat"] = 0] = "chat";
     HypertyResourceType[HypertyResourceType["audio"] = 1] = "audio";
@@ -19,12 +20,11 @@
     HypertyResourceType[HypertyResourceType["power"] = 16] = "power";
     HypertyResourceType[HypertyResourceType["user_activity_context"] = 17] = "user_activity_context";
     HypertyResourceType[HypertyResourceType["user_communication_context"] = 18] = "user_communication_context";
-})(exports.HypertyResourceType || (exports.HypertyResourceType = {}));
-var HypertyResourceType = exports.HypertyResourceType;
+})(HypertyResourceType = exports.HypertyResourceType || (exports.HypertyResourceType = {}));
+var direction;
 (function (direction) {
     direction[direction["in"] = 0] = "in";
     direction[direction["out"] = 1] = "out";
     direction[direction["inout"] = 2] = "inout";
-})(exports.direction || (exports.direction = {}));
-var direction = exports.direction;
+})(direction = exports.direction || (exports.direction = {}));
 //# sourceMappingURL=HypertyResource.js.map

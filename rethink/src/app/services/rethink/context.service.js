@@ -8,17 +8,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var Subject_1 = require('rxjs/Subject');
-require('rxjs/add/operator/filter');
+var core_1 = require("@angular/core");
+var Subject_1 = require("rxjs/Subject");
+require("rxjs/add/operator/filter");
 // utils
-var utils_1 = require('../../utils/utils');
+var utils_1 = require("../../utils/utils");
 // Services
-var storage_service_1 = require('../storage.service');
-var contact_service_1 = require('../contact.service');
-var message_service_1 = require('../message.service');
-var HypertyResource_1 = require('../../models/rethink/HypertyResource');
-var models_1 = require('../../models/models');
+var storage_service_1 = require("../storage.service");
+var contact_service_1 = require("../contact.service");
+var message_service_1 = require("../message.service");
+var HypertyResource_1 = require("../../models/rethink/HypertyResource");
+var models_1 = require("../../models/models");
 var rethink_service_1 = require("./rethink.service");
 var ContextService = (function () {
     function ContextService(localStorage, rethinkService, contactService, messageService) {
@@ -52,14 +52,7 @@ var ContextService = (function () {
                 this.cxtList.set(k, currentContext);
             }
         }
-        this._contextualCommList = this._contextualCommUpdates.scan(function (contextualCommList, context) {
-            console.log('SCAN CONTEXT UPDATES:', context);
-            contextualCommList.set(context.url, context);
-            return contextualCommList;
-        }, this.cxtList)
-            .publishReplay(1)
-            .refCount();
-        this._contextualComm.map(function (context) {
+        this._contextualCommList = this._contextualCommUpdates.map(function (context) {
             context.users = context.users.map(function (user) {
                 console.log('[Context Service - contextualComm] - typeof: ', user instanceof models_1.User);
                 return _this.contactService.getUser(user.userURL);
@@ -75,8 +68,23 @@ var ContextService = (function () {
             console.log('[Context Service - contextualComm] - map', context.url, context);
             _this.updateContexts(context.url, context);
             return context;
-        }).subscribe(this._contextualCommUpdates);
-        this._contextualComm.subscribe(this.contextualCommObs);
+        }).scan(function (contextualCommList, context) {
+            console.log('SCAN CONTEXT UPDATES:', context, _this.currentActiveContext);
+            if (_this.currentActiveContext && _this.currentActiveContext.url === context.url) {
+                _this.contextualCommObs.next(context);
+            }
+            contextualCommList.set(context.url, context);
+            return contextualCommList;
+        }, this.cxtList)
+            .publishReplay(1)
+            .refCount();
+        this._contextualComm.subscribe(this._contextualCommUpdates);
+        // TODO: this should be changed because it can not update the contextualCommObs, 
+        // because is the active contextualComm
+        // this._contextualComm.subscribe(this.contextualCommObs);
+        this._contextualCommList.subscribe(function (list) {
+            console.log('LIST:', list);
+        });
     }
     ContextService.prototype.getActiveContext = function (v) {
         return this.localStorage.hasObject(v) ? this.localStorage.getObject(v) : null;
@@ -85,7 +93,7 @@ var ContextService = (function () {
         set: function (value) {
             console.log('[Context Service] - setActiveContext: ', value, this.cxtList.get(value));
             this.currentActiveContext = this.cxtList.get(value);
-            this.contextualCommObs.next(this.currentActiveContext);
+            this._contextualComm.next(this.currentActiveContext);
         },
         enumerable: true,
         configurable: true
@@ -151,6 +159,7 @@ var ContextService = (function () {
                         _this.contactService.addUser(currentUser);
                         console.log('[Context Service - update users] - create new user: ', currentUser);
                     }
+                    console.log('CONTEXT:', context);
                     context.addUser(currentUser);
                 });
                 context.url = dataObject.url,
@@ -173,28 +182,19 @@ var ContextService = (function () {
             var contextualCommTriggerName = 'trigger-' + name;
             var contextTrigger;
             if (!_this.cxtTrigger.has(contextualCommTriggerName)) {
-                console.info('[Create a new ContextualTrigger]', name, parent);
+                console.info('[Create a new ContextualTrigger]', name);
                 var contextName = name;
                 var contextScheme = 'context';
                 var contextResource = [HypertyResource_1.HypertyResourceType.video, HypertyResource_1.HypertyResourceType.audio, HypertyResource_1.HypertyResourceType.chat];
                 contextTrigger = new models_1.ContextualCommTrigger(null, contextName, contextScheme, contextResource);
-                /*let contextValue:ContextValues = {
-                  name: 'location',
-                  unit: 'rad',
-                  value: 0,
-                  sum: 0
-                }*/
-                // Set the active context trigger;
-                _this.activeContextTrigger = contextTrigger;
-                // Resolve the context trigger
-                resolve(contextTrigger);
             }
             else {
                 console.info('[Get the exist ContextualTrigger]', name);
                 contextTrigger = _this.cxtTrigger.get(contextualCommTriggerName);
-                resolve(contextTrigger);
             }
+            _this.activeContextTrigger = contextTrigger;
             _this.updateContextTrigger(contextualCommTriggerName, contextTrigger);
+            resolve(contextTrigger);
         });
     };
     ContextService.prototype.updateContextTrigger = function (name, contextTrigger) {
@@ -214,7 +214,7 @@ var ContextService = (function () {
     };
     ContextService.prototype.updateContextMessages = function (message, url) {
         console.log('[Context Service - Update Context Message:', message, url);
-        console.log('[Context Service - Active Context:', this.activeContext, this.cxtList.get(url));
+        console.log('[Context Service - Active Context:', this.cxtList.get(url));
         var context = this.cxtList.get(url);
         context.addMessage(message);
         this._contextualComm.next(context);
@@ -222,7 +222,7 @@ var ContextService = (function () {
     };
     ContextService.prototype.updateContextUsers = function (user, url) {
         console.log('[Context Service - Update Context User:', user, url);
-        console.log('[Context Service - Active Context:', this.activeContext, this.cxtList.get(url));
+        console.log('[Context Service - Active Context:', this.cxtList.get(url));
         var context = this.cxtList.get(url);
         context.addUser(user);
         // Update the contact list
@@ -247,17 +247,15 @@ var ContextService = (function () {
         });
     };
     ContextService.prototype.getContextByResource = function (resource) {
-        // TODO: Optimize this promise to handle with multiple contacts
+        var _this = this;
         return new Promise(function (resolve, reject) {
-            /*      let context = this.sourceContextsList.filter((context) => {
-                    if(context.url.indexOf(resource) !== -1) return true
-                  })
-            
-                  if (context.length === 1) {
-                    resolve(context[0])
-                  } else {
-                    reject('Context not found');
-                  }*/
+            var currentContext = _this.cxtList.get(resource);
+            if (currentContext) {
+                resolve(currentContext);
+            }
+            else {
+                reject('No context found');
+            }
         });
     };
     ContextService.prototype.getContextUsers = function (context) {
@@ -273,11 +271,14 @@ var ContextService = (function () {
     ContextService.prototype.contextualComm = function () {
         return this.contextualCommObs;
     };
-    ContextService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [storage_service_1.LocalStorage, rethink_service_1.RethinkService, contact_service_1.ContactService, message_service_1.MessageService])
-    ], ContextService);
     return ContextService;
 }());
+ContextService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [storage_service_1.LocalStorage,
+        rethink_service_1.RethinkService,
+        contact_service_1.ContactService,
+        message_service_1.MessageService])
+], ContextService);
 exports.ContextService = ContextService;
 //# sourceMappingURL=context.service.js.map

@@ -8,13 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var BehaviorSubject_1 = require('rxjs/BehaviorSubject');
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 // Services
-var services_1 = require('../../services/services');
+var services_1 = require("../../services/services");
 // Components
-var contextualCommActivity_component_1 = require('../contextualCommActivity/contextualCommActivity.component');
+var contextualCommActivity_component_1 = require("../contextualCommActivity/contextualCommActivity.component");
 var UserViewComponent = (function () {
     function UserViewComponent(router, route, contextService, chatService) {
         this.router = router;
@@ -54,31 +54,34 @@ var UserViewComponent = (function () {
         console.log('Close:');
         history.back();
     };
-    __decorate([
-        core_1.HostBinding('class'), 
-        __metadata('design:type', Object)
-    ], UserViewComponent.prototype, "hostClass", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', Object)
-    ], UserViewComponent.prototype, "audioEvent", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', Object)
-    ], UserViewComponent.prototype, "videoEvent", void 0);
-    __decorate([
-        core_1.ViewChild(contextualCommActivity_component_1.ContextualCommActivityComponent), 
-        __metadata('design:type', contextualCommActivity_component_1.ContextualCommActivityComponent)
-    ], UserViewComponent.prototype, "contextualCommActivityComponent", void 0);
-    UserViewComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'div[contact-box]',
-            templateUrl: './user-view.component.html'
-        }), 
-        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, services_1.ContextService, services_1.ChatService])
-    ], UserViewComponent);
     return UserViewComponent;
 }());
+__decorate([
+    core_1.HostBinding('class'),
+    __metadata("design:type", Object)
+], UserViewComponent.prototype, "hostClass", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], UserViewComponent.prototype, "audioEvent", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], UserViewComponent.prototype, "videoEvent", void 0);
+__decorate([
+    core_1.ViewChild(contextualCommActivity_component_1.ContextualCommActivityComponent),
+    __metadata("design:type", contextualCommActivity_component_1.ContextualCommActivityComponent)
+], UserViewComponent.prototype, "contextualCommActivityComponent", void 0);
+UserViewComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'div[contact-box]',
+        templateUrl: './user-view.component.html'
+    }),
+    __metadata("design:paramtypes", [router_1.Router,
+        router_1.ActivatedRoute,
+        services_1.ContextService,
+        services_1.ChatService])
+], UserViewComponent);
 exports.UserViewComponent = UserViewComponent;
 //# sourceMappingURL=user-view.component.js.map
