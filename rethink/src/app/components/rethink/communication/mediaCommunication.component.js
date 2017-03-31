@@ -13,67 +13,73 @@ var core_1 = require("@angular/core");
 var models_1 = require("../../../models/models");
 // Services
 var services_1 = require("../../../services/services");
-var VideoCommunicationComponent = (function () {
-    function VideoCommunicationComponent(contactService, connectorService) {
+var MediaCommunicationComponent = (function () {
+    function MediaCommunicationComponent(contactService, connectorService) {
         var _this = this;
         this.contactService = contactService;
         this.connectorService = connectorService;
-        this.hostClass = 'video-call all-100';
+        this.hostClass = 'all-100';
         this.incomingCall = false;
-        this.connectorService.mode = 'video';
         this.connectorService.onInvitation(function (videoController, identity) {
             _this.incomingCall = true;
             _this.invitationUser = _this.contactService.getUser(identity.userURL);
         });
-        this.connectorService.onAddStream(function (streamURL) {
-            console.log('[Audio Communication Component] - onAddStream: ', streamURL);
-            if (!_this.myStream) {
-                _this.myStream = streamURL;
-            }
-            ;
-            _this.stream = streamURL;
+        if (this.mode === 'video') {
+            this.connectorService.getLocalStream().subscribe(function (stream) {
+                _this.myStream = stream;
+            });
+        }
+        this.connectorService.getRemoteStream().subscribe(function (stream) {
+            _this.stream = stream;
         });
     }
-    VideoCommunicationComponent.prototype.ngOnInit = function () {
+    MediaCommunicationComponent.prototype.ngOnInit = function () {
+        this.connectorService.mode = this.mode;
         this.videoCallTo(this.user);
     };
-    VideoCommunicationComponent.prototype.videoCallTo = function (user) {
+    MediaCommunicationComponent.prototype.videoCallTo = function (user) {
+        var _this = this;
         var options = { video: true, audio: true };
         this.connectorService.connect(user.username, options, user.userURL, 'localhost')
             .then(function (controller) {
-            console.log('[Audio Communication Component] - audio Call To', controller);
+            controller.dataObjectReporter.data.mode = _this.mode;
+            console.log('[Media Communication Component] - ' + _this.mode + ' Call To', controller);
         }).catch(function (reason) {
             console.error(reason);
         });
     };
-    VideoCommunicationComponent.prototype.onCall = function () {
-        console.log('[AudioCommunicationComponent ] - OnCall Click: ', this.user);
+    MediaCommunicationComponent.prototype.onCall = function () {
+        console.log('[MediaCommunicationComponent ] - OnCall Click: ', this.user);
     };
-    VideoCommunicationComponent.prototype.onHangup = function () {
+    MediaCommunicationComponent.prototype.onHangup = function () {
     };
-    VideoCommunicationComponent.prototype.onMute = function () {
+    MediaCommunicationComponent.prototype.onMute = function () {
     };
-    VideoCommunicationComponent.prototype.onVolume = function () {
+    MediaCommunicationComponent.prototype.onVolume = function () {
     };
-    return VideoCommunicationComponent;
+    return MediaCommunicationComponent;
 }());
 __decorate([
     core_1.HostBinding('class'),
     __metadata("design:type", Object)
-], VideoCommunicationComponent.prototype, "hostClass", void 0);
+], MediaCommunicationComponent.prototype, "hostClass", void 0);
 __decorate([
     core_1.Input(),
     __metadata("design:type", models_1.User)
-], VideoCommunicationComponent.prototype, "user", void 0);
-VideoCommunicationComponent = __decorate([
+], MediaCommunicationComponent.prototype, "user", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], MediaCommunicationComponent.prototype, "mode", void 0);
+MediaCommunicationComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
-        selector: 'div[video-view]',
-        templateUrl: './videoCommunication.component.html',
-        styleUrls: ['./videoCommunication.component.css']
+        selector: 'div[media-view]',
+        templateUrl: './mediaCommunication.component.html',
+        styleUrls: ['./mediaCommunication.component.css']
     }),
     __metadata("design:paramtypes", [services_1.ContactService,
         services_1.ConnectorService])
-], VideoCommunicationComponent);
-exports.VideoCommunicationComponent = VideoCommunicationComponent;
-//# sourceMappingURL=videoCommunication.component.js.map
+], MediaCommunicationComponent);
+exports.MediaCommunicationComponent = MediaCommunicationComponent;
+//# sourceMappingURL=mediaCommunication.component.js.map

@@ -14,3 +14,16 @@ export function objToStrMap(obj:any) {
 
     return strMap;
 }
+
+export function getUserMedia(constraints:any) {
+
+  return new Promise((resolve, reject) => {
+
+    navigator.mediaDevices.getUserMedia(constraints)
+      .then((mediaStream:MediaStream) => {
+        resolve(mediaStream);
+      })/*.catch((reason:any) => {
+        reject(reason);
+      });*/
+  });
+}

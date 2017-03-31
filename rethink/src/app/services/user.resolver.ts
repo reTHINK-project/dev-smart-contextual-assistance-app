@@ -23,7 +23,7 @@ export class UserResolver implements Resolve<User> {
   resolve(route: ActivatedRouteSnapshot):Promise<User> {
 
     return new Promise((resolve, reject) => {
-      let selectedUser = route.params['user'];
+      let selectedUser = decodeURIComponent(route.params['user']);
       console.log(selectedUser);
       let user:User = this.contactService.getByUserName(selectedUser);
 

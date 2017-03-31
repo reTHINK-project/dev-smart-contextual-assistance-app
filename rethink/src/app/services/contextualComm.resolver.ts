@@ -44,7 +44,11 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
       }
 
       if (user) {
-        name = user
+        let currentUser:User = this.rethinkService.getCurrentUser;
+        if (currentUser.username !== user) {
+          name = currentUser.username;
+        }
+
         context = route.parent.params['trigger'];
         participants.push(user);
       }
@@ -58,10 +62,6 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
         resolve(contextualComm);
       }).catch((error) => {
         console.error('error:', error);
-
-        if (user) {
-          name = this.rethinkService.getCurrentUser.username;
-        }
 
         console.info('[ContextualCommResolver - resolve] - Creating the context ', name, context, ' chat group');
 
@@ -81,7 +81,7 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
         })
       })
 
-    })
+    });
 
   }
 

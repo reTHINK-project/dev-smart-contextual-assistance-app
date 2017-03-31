@@ -22,11 +22,9 @@
 
 </div>-->
 
-<div [ngSwitch]="action">
-  <div audio-view *ngSwitchCase="'audio'" [user]="user"></div>
-  <div video-view *ngSwitchCase="'video'" [user]="user"></div>
-  <div contact-box *ngSwitchDefault [user]="user" (closeEvent)="onCloseEvent()"></div>
-</div>
+
+<div media-view *ngIf="action === 'video' || action === 'audio'" [mode]="action" [user]="user"></div>
+<div contact-box *ngIf="!action" [user]="user" (closeEvent)="onCloseEvent()"></div>
 
 <ul context-activity-list [messages]="messages"></ul>
 

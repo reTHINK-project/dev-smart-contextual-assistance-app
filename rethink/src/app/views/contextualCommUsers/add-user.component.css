@@ -32,4 +32,5 @@
   display: flex;
   height: auto;
   flex-direction: column;
+  opacity: 1;
 }

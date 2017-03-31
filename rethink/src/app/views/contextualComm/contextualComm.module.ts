@@ -8,8 +8,7 @@ import { ContextualCommRoutingModule } from './contextualComm.routing';
 import { ContactBoxComponent } from '../../components/user/contact-box.component';
 
 import { ChatCommunicationComponent } from '../../components/rethink/communication/chatCommunication.component'
-import { AudioCommunicationComponent } from '../../components/rethink/communication/audioCommunication.component';
-import { VideoCommunicationComponent } from '../../components/rethink/communication/videoCommunication.component';
+import { MediaCommunicationComponent } from '../../components/rethink/communication/mediaCommunication.component';
 
 import { ChatEventComponent } from '../../components/rethink/hypertyResource/chat/chatEvent.component';
 import { FileEventComponent } from '../../components/rethink/hypertyResource/file/fileEvent.component';
@@ -37,14 +36,13 @@ import { ContextualCommResolver } from '../../services/contextualComm.resolver';
   ],
   declarations: [
     ContextualCommActivityComponent,
-    ChatCommunicationComponent,
     ActivityViewComponent,
     ActivityListComponent,
     ActivityComponent,
     UserViewComponent,
     
-    AudioCommunicationComponent,
-    VideoCommunicationComponent,
+    ChatCommunicationComponent,
+    MediaCommunicationComponent,
 
     ContactBoxComponent,
     ChatEventComponent,

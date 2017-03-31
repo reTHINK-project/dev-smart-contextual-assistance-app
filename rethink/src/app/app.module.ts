@@ -7,6 +7,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // routing
 import { AppRoutingModule } from './app-routing.module';
 
+import { NotificationComponent } from './components/notification/notification.component';
+
 import { ContextualCommModule } from './views/contextualComm/contextualComm.module';
 
 // components
@@ -37,6 +39,7 @@ import { servicesInjectables } from './services/services';
     HomeComponent,
     MySelfComponent,
     AddUserComponent,
+    NotificationComponent,
     UserIdentityComponent,
     ContextualCommComponent,
     ContextBreadcrumbComponent,

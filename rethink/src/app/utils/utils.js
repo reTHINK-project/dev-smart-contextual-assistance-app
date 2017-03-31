@@ -16,4 +16,15 @@ function objToStrMap(obj) {
     return strMap;
 }
 exports.objToStrMap = objToStrMap;
+function getUserMedia(constraints) {
+    return new Promise(function (resolve, reject) {
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then(function (mediaStream) {
+            resolve(mediaStream);
+        }); /*.catch((reason:any) => {
+          reject(reason);
+        });*/
+    });
+}
+exports.getUserMedia = getUserMedia;
 //# sourceMappingURL=utils.js.map

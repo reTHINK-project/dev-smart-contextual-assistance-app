@@ -16,9 +16,10 @@ var services_1 = require("../../services/services");
 // Components
 var contextualCommActivity_component_1 = require("../contextualCommActivity/contextualCommActivity.component");
 var UserViewComponent = (function () {
-    function UserViewComponent(router, route, contextService, chatService) {
+    function UserViewComponent(router, route, contactService, contextService, chatService) {
         this.router = router;
         this.route = route;
+        this.contactService = contactService;
         this.contextService = contextService;
         this.chatService = chatService;
         this.hostClass = '';
@@ -54,6 +55,12 @@ var UserViewComponent = (function () {
             console.log('[User View - onMessage] - message sent', message);
         });
     };
+    UserViewComponent.prototype.onAcceptCall = function () {
+        console.log('[User View] - onAcceptCall');
+    };
+    UserViewComponent.prototype.onRejectCall = function () {
+        console.log('[User View] - onRejectCall');
+    };
     UserViewComponent.prototype.onCloseEvent = function () {
         history.back();
     };
@@ -75,6 +82,7 @@ UserViewComponent = __decorate([
     }),
     __metadata("design:paramtypes", [router_1.Router,
         router_1.ActivatedRoute,
+        services_1.ContactService,
         services_1.ContextService,
         services_1.ChatService])
 ], UserViewComponent);

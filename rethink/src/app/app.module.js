@@ -11,6 +11,7 @@ var forms_1 = require("@angular/forms");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 // routing
 var app_routing_module_1 = require("./app-routing.module");
+var notification_component_1 = require("./components/notification/notification.component");
 var contextualComm_module_1 = require("./views/contextualComm/contextualComm.module");
 // components
 var app_component_1 = require("./app.component");
@@ -42,6 +43,7 @@ AppModule = __decorate([
             home_component_1.HomeComponent,
             my_self_component_1.MySelfComponent,
             add_user_component_1.AddUserComponent,
+            notification_component_1.NotificationComponent,
             userIdentity_component_1.UserIdentityComponent,
             contextualComm_component_1.ContextualCommComponent,
             breadcrumb_component_1.ContextBreadcrumbComponent,

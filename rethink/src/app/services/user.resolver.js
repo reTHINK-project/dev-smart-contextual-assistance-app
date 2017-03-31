@@ -24,7 +24,7 @@ var UserResolver = (function () {
     UserResolver.prototype.resolve = function (route) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            var selectedUser = route.params['user'];
+            var selectedUser = decodeURIComponent(route.params['user']);
             console.log(selectedUser);
             var user = _this.contactService.getByUserName(selectedUser);
             if (user)

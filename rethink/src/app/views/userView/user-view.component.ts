@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 // Services
-import { ChatService, ContextService } from '../../services/services';
+import { ContactService, ConnectorService, ChatService, ContextService } from '../../services/services';
 
 // Models
 import { Message, User, ContextualComm } from '../../models/models';
@@ -35,6 +35,7 @@ export class UserViewComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private contactService: ContactService,
     private contextService: ContextService,
     private chatService: ChatService) {
   }
@@ -77,6 +78,14 @@ export class UserViewComponent implements OnInit {
       console.log('[User View - onMessage] - message sent', message);
     })
     
+  }
+
+  onAcceptCall() {
+    console.log('[User View] - onAcceptCall');
+  }
+
+  onRejectCall() {
+    console.log('[User View] - onRejectCall');
   }
 
   onCloseEvent() {

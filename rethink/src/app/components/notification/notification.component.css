@@ -1,0 +1,9 @@
+:host .actions {
+    position: absolute;
+    right: 3.25rem;
+    margin-top: -0.20rem;
+}
+
+:host .notifications {
+    position: relative;
+}

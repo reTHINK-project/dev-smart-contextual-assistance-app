@@ -38,7 +38,10 @@ var ContextualCommResolver = (function () {
                 context = route.parent.params['trigger'];
             }
             if (user) {
-                name = user;
+                var currentUser = _this.rethinkService.getCurrentUser;
+                if (currentUser.username !== user) {
+                    name = currentUser.username;
+                }
                 context = route.parent.params['trigger'];
                 participants.push(user);
             }
@@ -49,9 +52,6 @@ var ContextualCommResolver = (function () {
                 resolve(contextualComm);
             }).catch(function (error) {
                 console.error('error:', error);
-                if (user) {
-                    name = _this.rethinkService.getCurrentUser.username;
-                }
                 console.info('[ContextualCommResolver - resolve] - Creating the context ', name, context, ' chat group');
                 _this.chatService.create(name, participants, domains).then(function (chatController) {
                     console.log('Create chat service for all my contacts', chatController);

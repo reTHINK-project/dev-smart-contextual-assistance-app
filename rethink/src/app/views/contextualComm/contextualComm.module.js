@@ -12,8 +12,7 @@ var contextualComm_routing_1 = require("./contextualComm.routing");
 // Generic Components
 var contact_box_component_1 = require("../../components/user/contact-box.component");
 var chatCommunication_component_1 = require("../../components/rethink/communication/chatCommunication.component");
-var audioCommunication_component_1 = require("../../components/rethink/communication/audioCommunication.component");
-var videoCommunication_component_1 = require("../../components/rethink/communication/videoCommunication.component");
+var mediaCommunication_component_1 = require("../../components/rethink/communication/mediaCommunication.component");
 var chatEvent_component_1 = require("../../components/rethink/hypertyResource/chat/chatEvent.component");
 var fileEvent_component_1 = require("../../components/rethink/hypertyResource/file/fileEvent.component");
 // Components views
@@ -40,13 +39,12 @@ ContextualCommModule = __decorate([
         ],
         declarations: [
             contextualCommActivity_component_1.ContextualCommActivityComponent,
-            chatCommunication_component_1.ChatCommunicationComponent,
             activity_view_component_1.ActivityViewComponent,
             activitylist_component_1.ActivityListComponent,
             activity_component_1.ActivityComponent,
             user_view_component_1.UserViewComponent,
-            audioCommunication_component_1.AudioCommunicationComponent,
-            videoCommunication_component_1.VideoCommunicationComponent,
+            chatCommunication_component_1.ChatCommunicationComponent,
+            mediaCommunication_component_1.MediaCommunicationComponent,
             contact_box_component_1.ContactBoxComponent,
             chatEvent_component_1.ChatEventComponent,
             fileEvent_component_1.FileEventComponent

@@ -5,7 +5,7 @@ import { Router, CanActivate, ActivatedRoute, NavigationExtras } from '@angular/
 import { User } from './models/models';
 
 // Services
-import { RethinkService, ChatService, ContextService, ContactService } from './services/services';
+import { RethinkService, ConnectorService, ChatService, ContextService, ContactService } from './services/services';
 
 @Component({
   moduleId: module.id,
@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
     private route: ActivatedRoute,
     private contactService: ContactService,
     private rethinkService: RethinkService,
+    private connectorService: ConnectorService,
     private chatService: ChatService) {
 
     this.rethinkService.progress.subscribe({
@@ -40,6 +41,14 @@ export class AppComponent implements OnInit {
       .then((runtime) => {
         this.rethinkService.progress.next('Loading chat service');
         return this.chatService.getHyperty()
+      }, (error) => {
+        console.log('Error: ', error);
+        this.rethinkService.progress.error(error);
+        return null;
+      })
+      .then((hyperty) => {
+        this.rethinkService.progress.next('Loading connector service');
+        return this.connectorService.getHyperty()
       }, (error) => {
         console.log('Error: ', error);
         this.rethinkService.progress.error(error);

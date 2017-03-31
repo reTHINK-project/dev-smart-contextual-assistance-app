@@ -13,12 +13,13 @@ var router_1 = require("@angular/router");
 // Services
 var services_1 = require("./services/services");
 var AppComponent = (function () {
-    function AppComponent(router, route, contactService, rethinkService, chatService) {
+    function AppComponent(router, route, contactService, rethinkService, connectorService, chatService) {
         var _this = this;
         this.router = router;
         this.route = route;
         this.contactService = contactService;
         this.rethinkService = rethinkService;
+        this.connectorService = connectorService;
         this.chatService = chatService;
         this.ready = false;
         this.rethinkService.progress.subscribe({
@@ -32,6 +33,14 @@ var AppComponent = (function () {
             .then(function (runtime) {
             _this.rethinkService.progress.next('Loading chat service');
             return _this.chatService.getHyperty();
+        }, function (error) {
+            console.log('Error: ', error);
+            _this.rethinkService.progress.error(error);
+            return null;
+        })
+            .then(function (hyperty) {
+            _this.rethinkService.progress.next('Loading connector service');
+            return _this.connectorService.getHyperty();
         }, function (error) {
             console.log('Error: ', error);
             _this.rethinkService.progress.error(error);
@@ -66,6 +75,7 @@ AppComponent = __decorate([
         router_1.ActivatedRoute,
         services_1.ContactService,
         services_1.RethinkService,
+        services_1.ConnectorService,
         services_1.ChatService])
 ], AppComponent);
 exports.AppComponent = AppComponent;
