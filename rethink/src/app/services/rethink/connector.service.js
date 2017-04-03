@@ -19,8 +19,10 @@ var contact_service_1 = require("../contact.service");
 var app_models_1 = require("../../models/app.models");
 var notification_service_1 = require("../notification.service");
 var Subject_1 = require("rxjs/Subject");
+var ReplaySubject_1 = require("rxjs/ReplaySubject");
 var ConnectorService = (function () {
     function ConnectorService(router, route, sanitizer, contactService, notificationService, appService) {
+        var _this = this;
         this.router = router;
         this.route = route;
         this.sanitizer = sanitizer;
@@ -28,9 +30,26 @@ var ConnectorService = (function () {
         this.notificationService = notificationService;
         this.appService = appService;
         this.hypertyURL = 'hyperty-catalogue://catalogue.' + this.appService.domain + '/.well-known/hyperty/Connector';
+        this.controllers = {};
+        this.callInProgress = false;
+        this._webrtcMode = 'offer';
         this._localStream = new Subject_1.Subject();
-        this._remoteStream = new Subject_1.Subject();
+        this._remoteStream = new ReplaySubject_1.ReplaySubject();
+        this.route.queryParams.subscribe(function (params) {
+            console.log('[Connector Service] - query params changes:', params['action'], _this.mode, _this.callInProgress);
+            // check if was a call in progress
+            if (!_this.callInProgress) {
+                _this.acceptCall();
+            }
+        });
     }
+    Object.defineProperty(ConnectorService.prototype, "connectorMode", {
+        get: function () {
+            return this._webrtcMode;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ConnectorService.prototype, "mode", {
         get: function () {
             return this._mode;
@@ -63,93 +82,116 @@ var ConnectorService = (function () {
             }
         });
     };
-    ConnectorService.prototype.prepareHyperty = function () {
+    ConnectorService.prototype.acceptCall = function () {
         var _this = this;
-        this.hypertyVideo.onInvitation(function (controller, identity) {
-            console.log('ON onInvitation: ', controller, identity);
-            _this.mode = controller.dataObjectObserver.data.mode;
-            console.log('[Connector Service] - user: ', _this, identity, _this.contactService.getUser(identity.userURL));
-            _this.controller = controller;
-            var currUser = _this.contactService.getUser(identity.userURL);
-            _this.notificationService.addNotification(app_models_1.AlertType.QUESTION, {
-                user: currUser,
-                message: 'New call is incomming from ' + currUser.username,
-                action: _this._mode
-            }, function (alert) {
-                _this._notificationResponse.apply(_this, [controller, alert, currUser]);
-            });
-            _this.prepareController(controller);
-            if (_this._onInvitation)
-                _this._onInvitation(controller, identity);
-        });
-    };
-    ConnectorService.prototype.prepareController = function (controller) {
-        var _this = this;
-        controller.onAddStream(function (event) {
-            console.log('[Connector Service - Add Stream] - Local Stream:', event);
-            _this._localStream.next(event.stream);
-        });
-        controller.onAddRemoteStream(function (stream) {
-            console.log('[Connector Service - Add Stream] - Remote Stream:', stream);
-            _this._remoteStream.next(stream);
-        });
-        /*    controller.onDisconnect(function(identity) {
-              disconnecting();
-            });*/
-    };
-    ConnectorService.prototype._notificationResponse = function (controller, response, user) {
-        var _this = this;
-        console.log('[Connector Service] - notification response: ', response, this);
-        if (response) {
+        if (this.controllers && this.controllers.hasOwnProperty('answer') && this._webrtcMode === 'answer') {
             var options = { video: true, audio: true };
-            return utils_1.getUserMedia(options).then(function (mediaStream) {
-                _this._remoteStream.next(mediaStream);
-                return _this.controller.accept(mediaStream);
-            })
-                .then(function (accepted) {
-                console.log('[Connector Service] - accept response:', accepted, _this.mode);
-                var navigationExtras = {
-                    queryParams: { 'action': _this.mode }
-                };
-                console.log('[Connector Service] - ', _this.router, _this.router.url, encodeURIComponent(user.username));
-                if (_this.router.url.includes(encodeURIComponent(user.username))) {
-                    _this.router.navigate([_this.router.url], navigationExtras);
-                }
-                else {
-                    _this.router.navigate([_this.router.url, decodeURIComponent(user.username)], navigationExtras);
+            utils_1.getUserMedia(options).then(function (mediaStream) {
+                return _this.controllers[_this._webrtcMode].accept(mediaStream);
+            }).then(function (accepted) {
+                _this.callInProgress = true;
+                console.log('[Connector Service] - accept response:', _this.mode);
+                if (_this.mode === 'audio') {
+                    _this.controllers[_this._webrtcMode].disableVideo();
                 }
             }).catch(function (reason) {
                 console.error(reason);
             });
         }
     };
+    ConnectorService.prototype.prepareHyperty = function () {
+        var _this = this;
+        this.hypertyVideo.onInvitation(function (controller, identity) {
+            var url = controller.dataObjectObserver.url;
+            _this.mode = controller.dataObjectObserver.data.mode;
+            _this._webrtcMode = 'answer';
+            _this.prepareController(controller);
+            var currUser = _this.contactService.getUser(identity.userURL);
+            _this.notificationService.addNotification(app_models_1.AlertType.QUESTION, {
+                user: currUser,
+                message: 'New call is incomming from ' + currUser.username,
+                action: _this._mode
+            }, function (alert) {
+                _this._notificationResponse(controller, alert, currUser);
+            });
+        });
+    };
+    ConnectorService.prototype._notificationResponse = function (controller, response, user) {
+        console.log('[Connector Service] - notification response: ', response, this);
+        if (response) {
+            var remoteUser = this.contactService.getUser(controller.dataObjectObserver.data.name);
+            var navigationExtras = {
+                queryParams: { 'action': this.mode }
+            };
+            if (this.router.url.includes(encodeURIComponent(user.username))) {
+                this.router.navigate([this.router.url], navigationExtras);
+            }
+            else {
+                this.router.navigate([this.router.url, decodeURIComponent(user.username)], navigationExtras);
+            }
+        }
+        else {
+            controller.decline();
+        }
+    };
     ConnectorService.prototype.connect = function (userURL, options, name, domain) {
         var _this = this;
+        this._webrtcMode = 'offer';
         return utils_1.getUserMedia(options).then(function (mediaStream) {
-            _this._localStream.next(mediaStream);
             return _this.hypertyVideo.connect(userURL, mediaStream, name, domain);
         }).then(function (controller) {
             console.log('[Connector Service] - connect:', controller);
+            var url = controller.dataObjectReporter.url;
+            _this.callInProgress = true;
             _this.prepareController(controller);
             return controller;
         }).catch(function (reason) {
             console.error('reason:', reason);
         });
     };
-    ConnectorService.prototype.onInvitation = function (callback) {
-        this._onInvitation = callback;
+    ConnectorService.prototype.prepareController = function (controller) {
+        var _this = this;
+        console.log('[Connector Service - Prepare Controller] - mode: ' + this._webrtcMode + ' Controllers: ', this.controllers);
+        this.controllers[this._webrtcMode] = controller;
+        controller.onAddStream(function (event) {
+            console.log('[Connector Service - Add Stream] - Remote Stream:', event);
+            _this._remoteStream.next(event.stream);
+            if (_this.mode === 'audio') {
+                controller.disableVideo();
+            }
+        });
+        controller.onDisconnect(function (identity) {
+            console.log('[Connector Service - onDisconnect] - onDisconnect:', identity);
+        });
     };
     ConnectorService.prototype.getRemoteStream = function () {
         var _this = this;
         return this._remoteStream.map(function (stream) {
             return _this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(stream));
-        });
+        }).publishReplay(1).refCount();
     };
     ConnectorService.prototype.getLocalStream = function () {
         var _this = this;
         return this._localStream.map(function (stream) {
             return _this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(stream));
-        });
+        }).publishReplay(1).refCount();
+    };
+    ConnectorService.prototype.enableVideo = function () {
+        this.controllers[this._webrtcMode].disableVideo(true);
+    };
+    ConnectorService.prototype.disableVideo = function () {
+        this.controllers[this._webrtcMode].disableVideo(false);
+    };
+    ConnectorService.prototype.disableAudio = function () {
+        this.controllers[this._webrtcMode].disableAudio();
+    };
+    ConnectorService.prototype.mute = function () {
+        this.controllers[this._webrtcMode].mute();
+    };
+    ConnectorService.prototype.hangup = function () {
+        this.callInProgress = false;
+        this.controllers[this._webrtcMode].disconnect();
+        console.log('[Connector Service - hangup]: ', this.router);
     };
     return ConnectorService;
 }());

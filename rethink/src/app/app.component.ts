@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
     this.rethinkService.progress.next('Loading runtime');
     return this.rethinkService.loadRuntime()
       .then((runtime) => {

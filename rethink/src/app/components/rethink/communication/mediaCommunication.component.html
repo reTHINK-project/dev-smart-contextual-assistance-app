@@ -1,7 +1,7 @@
 <div class="{{mode}}-call ">
 
 	<video *ngIf="stream" class="video-wall" [src]="stream" autoplay controls></video>
-	<video *ngIf="myStream" class="video-wall" [src]="myStream" muted></video>
+	<video *ngIf="myStream" class="video-wall" [src]="myStream" autoplay muted></video>
 
 	<div class="contact-me align-center half-horizontal-padding">
 
@@ -10,14 +10,18 @@
 		</span>
 
 		<span *ngIf="mode === 'audio'"  class="action audio push-center">
-			<a href="javascript:;" [routerLink]="" [queryParams]="{ action: 'audio' }" (click)="onCall()"><i class="fa fa-video-camera"></i></a>
+			<a href="javascript:;" [routerLink]="" [queryParams]="{ action: 'video' }" (click)="enableVideo()"><i class="fa fa-video-camera"></i></a>
 		</span>
 
 		<span *ngIf="mode === 'video'" class="action audio push-center">
-			<a href="javascript:;" [routerLink]="" [queryParams]="{ action: 'video' }" (click)="onCall()"><i class="fa fa-phone"></i></a>
+			<a href="javascript:;" [routerLink]="" [queryParams]="{ action: 'audio' }" (click)="disableVideo()"><i class="fa fa-phone"></i></a>
 		</span>
 
-		<span class="action video hangup push-center">
+		<span *ngIf="mode === 'audio'" class="action audio hangup push-center">
+			<a href="javascript:;" (click)="onHangup()"><i class="fa fa-phone"></i></a>
+		</span>
+
+		<span *ngIf="mode === 'video'" class="action video hangup push-center">
 			<a href="javascript:;" (click)="onHangup()"><i class="fa fa-video-camera"></i></a>
 		</span>
 

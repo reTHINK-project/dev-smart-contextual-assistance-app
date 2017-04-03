@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="assets/css/rethink.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/ink.min.css" />
     <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Polyfill(s) for older browsers -->
     <script src="node_modules/core-js/client/shim.min.js"></script>
@@ -19,7 +19,14 @@
 
     <script src="systemjs.config.js"></script>
     <script>
-      System.import('main').catch(function(err){ console.error(err); });
+
+      localStorage.clear();
+      indexedDB.deleteDatabase('cache').onsuccess = (evn) => {
+
+        System.import('main').catch(function(err){ console.error(err); });
+
+      };
+
     </script>
   </head>
 

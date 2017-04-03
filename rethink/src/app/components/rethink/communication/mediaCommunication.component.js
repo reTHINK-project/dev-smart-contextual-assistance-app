@@ -9,53 +9,79 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 // Models
 var models_1 = require("../../../models/models");
 // Services
 var services_1 = require("../../../services/services");
 var MediaCommunicationComponent = (function () {
-    function MediaCommunicationComponent(contactService, connectorService) {
-        var _this = this;
+    function MediaCommunicationComponent(route, contactService, connectorService) {
+        this.route = route;
         this.contactService = contactService;
         this.connectorService = connectorService;
         this.hostClass = 'all-100';
-        this.incomingCall = false;
-        this.connectorService.onInvitation(function (videoController, identity) {
-            _this.incomingCall = true;
-            _this.invitationUser = _this.contactService.getUser(identity.userURL);
+        this.streamingActive = false;
+    }
+    MediaCommunicationComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.route
+            .queryParams
+            .subscribe(function (params) {
+            console.log('[Media Communication Component] - Params Action:', params['action']);
+            _this.connectorService.mode = params['action'];
+            _this.mode = params['action'];
+            console.log('[Media Communication Component] - connection mode: ', _this.connectorService.connectorMode, _this.streamingActive);
+            if (_this.connectorService.connectorMode !== 'answer' && !_this.streamingActive) {
+                _this.callTo(_this.user);
+            }
+            else if (_this.streamingActive && _this.mode === 'video') {
+                _this.connectorService.enableVideo();
+            }
         });
         if (this.mode === 'video') {
             this.connectorService.getLocalStream().subscribe(function (stream) {
+                console.log('[Media Communication Component] - get local stream: ', stream);
                 _this.myStream = stream;
             });
         }
         this.connectorService.getRemoteStream().subscribe(function (stream) {
+            console.log('[Media Communication Component] - get remote stream: ', stream);
             _this.stream = stream;
+            _this.streamingActive = true;
         });
-    }
-    MediaCommunicationComponent.prototype.ngOnInit = function () {
-        this.connectorService.mode = this.mode;
-        this.videoCallTo(this.user);
+        console.log('[Media Communication Component] - Params Action:', this.mode);
     };
-    MediaCommunicationComponent.prototype.videoCallTo = function (user) {
+    MediaCommunicationComponent.prototype.ngOnDestroy = function () {
+        this.streamingActive = false;
+    };
+    MediaCommunicationComponent.prototype.callTo = function (user) {
         var _this = this;
         var options = { video: true, audio: true };
+        console.log('[Media Communication Component] - ' + this.mode + ' Call To', user);
         this.connectorService.connect(user.username, options, user.userURL, 'localhost')
             .then(function (controller) {
             controller.dataObjectReporter.data.mode = _this.mode;
-            console.log('[Media Communication Component] - ' + _this.mode + ' Call To', controller);
+            _this.streamingActive = true;
+            console.log('[Media Communication Component] - called');
         }).catch(function (reason) {
             console.error(reason);
         });
     };
-    MediaCommunicationComponent.prototype.onCall = function () {
-        console.log('[MediaCommunicationComponent ] - OnCall Click: ', this.user);
+    MediaCommunicationComponent.prototype.enableVideo = function () {
+        this.connectorService.disableVideo();
+    };
+    MediaCommunicationComponent.prototype.disableVideo = function () {
+        this.connectorService.disableVideo();
     };
     MediaCommunicationComponent.prototype.onHangup = function () {
+        this.streamingActive = false;
+        this.connectorService.hangup();
     };
     MediaCommunicationComponent.prototype.onMute = function () {
+        this.connectorService.mute();
     };
     MediaCommunicationComponent.prototype.onVolume = function () {
+        this.connectorService.disableAudio();
     };
     return MediaCommunicationComponent;
 }());
@@ -78,7 +104,8 @@ MediaCommunicationComponent = __decorate([
         templateUrl: './mediaCommunication.component.html',
         styleUrls: ['./mediaCommunication.component.css']
     }),
-    __metadata("design:paramtypes", [services_1.ContactService,
+    __metadata("design:paramtypes", [router_1.ActivatedRoute,
+        services_1.ContactService,
         services_1.ConnectorService])
 ], MediaCommunicationComponent);
 exports.MediaCommunicationComponent = MediaCommunicationComponent;
