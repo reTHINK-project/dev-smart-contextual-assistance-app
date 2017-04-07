@@ -1,13 +1,12 @@
 import { Injectable }             from '@angular/core';
 import { Router, Resolve,
          ActivatedRouteSnapshot } from '@angular/router';
-import { Observable }             from 'rxjs/Observable';
 
 // Model
-import { ContextualComm, User } from './../models/models';
+import { ContextualComm } from './../models/models';
 
 // Service
-import { ContextService, MessageService, ChatService, RethinkService } from './services';
+import { ContextService, ChatService, RethinkService } from './services';
 
 @Injectable()
 export class ContextualCommResolver implements Resolve<ContextualComm> {
@@ -15,21 +14,20 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
   constructor(
     private router: Router,
     private chatService: ChatService,
-    private messageService: MessageService,
     private rethinkService: RethinkService,
     private contextService: ContextService
     ) {}
 
-  resolve(route: ActivatedRouteSnapshot):Promise<ContextualComm> {
+  resolve(route: ActivatedRouteSnapshot): Promise<ContextualComm> {
 
     return new Promise((resolve, reject) => {
 
-      let context = route.params['trigger']
+      let context = route.params['trigger'];
       let task = route.params['id'];
       let user = route.params['user'];
 
-      let participants:any = [];
-      let domains:any =  [];
+      let participants: any = [];
+      let domains: any =  [];
 
       console.log('[ContextualCommResolver - resolve] - ', route);
       console.log('[ContextualCommResolver - resolve] - ', 'Context: ', context,  'Task: ', task,  'User: ', user);
@@ -44,13 +42,14 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
       }
 
       if (user) {
-        name = user + '-' + this.rethinkService.getCurrentUser.username;
+        name = this.rethinkService.getCurrentUser.username + '-' + user;
         context = route.parent.params['trigger'];
-        participants.push(user);
       }
 
-      this.contextService.getContextByName(name).then((contextualComm:ContextualComm) => {
-        console.info('[ContextualCommResolver - resolve] - Getting the current Context ', name, contextualComm);
+      console.info('[ContextualCommResolver - resolve] - Getting the current Context ', name, context);
+
+      this.contextService.getContextByName(name).then((contextualComm: ContextualComm) => {
+        console.info('[ContextualCommResolver - resolve] - current context ', name, contextualComm);
 
         this.contextService.activeContext = contextualComm.url;
         this.chatService.setActiveController(contextualComm.url);
@@ -59,29 +58,23 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
       }).catch((error) => {
         console.error('error:', error);
 
-        // let currentUser:User = this.rethinkService.getCurrentUser;
-        // if (currentUser.username !== user) {
         if (user) {
           name = this.rethinkService.getCurrentUser.username + '-' + user;
+          participants.push(user);
         }
 
         console.info('[ContextualCommResolver - resolve] - Creating the context ', name, context, ' chat group');
 
         this.chatService.create(name, participants, domains).then((chatController: any) => {
           console.log('Create chat service for all my contacts', chatController);
-          return this.contextService.create(name, chatController.dataObject, context)
+          return this.contextService.create(name, chatController.dataObject, context);
         }, (error) => {
           console.log('Error creating the context: ', error);
           reject(error);
-        }).then((contextualComm:ContextualComm) => {
-
-          this.contextService.activeContext = contextualComm.url;
-
-          this.chatService.setActiveController(contextualComm.url);
-
+        }).then((contextualComm: ContextualComm) => {
           resolve(contextualComm);
-        })
-      })
+        });
+      });
 
     });
 

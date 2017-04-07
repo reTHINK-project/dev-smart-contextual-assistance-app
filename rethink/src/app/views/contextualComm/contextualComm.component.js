@@ -13,14 +13,14 @@ var router_1 = require("@angular/router");
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 // Services
 var services_1 = require("../../services/services");
+// Components
 var add_user_component_1 = require("../contextualCommUsers/add-user.component");
 var ContextualCommComponent = (function () {
-    function ContextualCommComponent(router, route, chatService, appService, messageService, contextService, contactService) {
+    function ContextualCommComponent(router, route, chatService, appService, contextService, contactService) {
         this.router = router;
         this.route = route;
         this.chatService = chatService;
         this.appService = appService;
-        this.messageService = messageService;
         this.contextService = contextService;
         this.contactService = contactService;
         this.hostClass = 'context-view';
@@ -75,7 +75,6 @@ ContextualCommComponent = __decorate([
         router_1.ActivatedRoute,
         services_1.ChatService,
         services_1.RethinkService,
-        services_1.MessageService,
         services_1.ContextService,
         services_1.ContactService])
 ], ContextualCommComponent);

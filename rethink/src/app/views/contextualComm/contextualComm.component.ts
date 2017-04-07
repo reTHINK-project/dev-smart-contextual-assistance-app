@@ -1,18 +1,16 @@
 import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 
 // Services
-import { RethinkService, ChatService, ContextService, MessageService, ContactService } from '../../services/services';
+import { RethinkService, ChatService, ContextService, ContactService } from '../../services/services';
 
 // Models
-import { Message, User, ContextualComm } from '../../models/models';
+import { User, ContextualComm } from '../../models/models';
 
 
 // Components
-import { ContextualCommUsersComponent } from '../contextualCommUsers/contextualCommUsers.component'
 import { AddUserComponent } from '../contextualCommUsers/add-user.component';
 
 @Component({
@@ -33,7 +31,6 @@ export class ContextualCommComponent implements OnInit {
     private route: ActivatedRoute,
     private chatService: ChatService,
     private appService: RethinkService,
-    private messageService: MessageService,
     private contextService: ContextService,
     private contactService: ContactService) {}
 

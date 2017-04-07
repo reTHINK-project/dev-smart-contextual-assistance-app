@@ -102,7 +102,6 @@ var ConnectorService = (function () {
     ConnectorService.prototype.prepareHyperty = function () {
         var _this = this;
         this.hypertyVideo.onInvitation(function (controller, identity) {
-            var url = controller.dataObjectObserver.url;
             _this.mode = controller.dataObjectObserver.data.mode;
             _this._webrtcMode = 'answer';
             _this.prepareController(controller);
@@ -119,7 +118,6 @@ var ConnectorService = (function () {
     ConnectorService.prototype._notificationResponse = function (controller, response, user) {
         console.log('[Connector Service] - notification response: ', response, this);
         if (response) {
-            var remoteUser = this.contactService.getUser(controller.dataObjectObserver.data.name);
             var navigationExtras = {
                 queryParams: { 'action': this.mode }
             };
@@ -141,7 +139,6 @@ var ConnectorService = (function () {
             return _this.hypertyVideo.connect(userURL, mediaStream, name, domain);
         }).then(function (controller) {
             console.log('[Connector Service] - connect:', controller);
-            var url = controller.dataObjectReporter.url;
             _this.callInProgress = true;
             _this.prepareController(controller);
             return controller;

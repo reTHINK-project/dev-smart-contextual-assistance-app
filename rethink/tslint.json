@@ -4,7 +4,7 @@
   ],
   "rules": {
     "directive-selector": [true, "attribute", "sg", "camelCase"],
-    "component-selector": [true, "element", "sg", "kebab-case"],
+    "component-selector": false,
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
     "use-host-property-decorator": true,
@@ -51,7 +51,6 @@
     "no-console": [
       true,
       "debug",
-      "info",
       "time",
       "timeEnd",
       "trace"
@@ -63,7 +62,7 @@
     "no-empty": false,
     "no-eval": true,
     "no-inferrable-types": true,
-    "no-shadowed-variable": true,
+    "no-shadowed-variable": false,
     "no-string-literal": false,
     "no-switch-case-fall-through": true,
     "no-trailing-whitespace": true,

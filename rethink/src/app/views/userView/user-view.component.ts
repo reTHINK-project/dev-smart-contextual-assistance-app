@@ -67,13 +67,13 @@ export class UserViewComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    console.log('[User View - onMessage] - OnDestroy', this.messages);
-    // this.messages.unsubscribe();
+    console.log('[User View] - OnDestroy', this.messages);
+    this.messages.unsubscribe();
   }
 
   onMessage(message:string) {
 
-    console.log("Message:", message);
+    console.log("[User View - onMessage] - Message:", message, this.chatService.chatControllerActive);
     this.chatService.send(message).then((message:any) => {
       console.log('[User View - onMessage] - message sent', message);
     })

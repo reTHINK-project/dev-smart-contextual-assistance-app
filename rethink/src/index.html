@@ -19,14 +19,7 @@
 
     <script src="systemjs.config.js"></script>
     <script>
-
-      localStorage.clear();
-      indexedDB.deleteDatabase('cache').onsuccess = (evn) => {
-
-        System.import('main').catch(function(err){ console.error(err); });
-
-      };
-
+      System.import('main').catch(function(err){ console.error(err); });
     </script>
   </head>
 

@@ -16,21 +16,19 @@ var utils_1 = require("../../utils/utils");
 // Services
 var storage_service_1 = require("../storage.service");
 var contact_service_1 = require("../contact.service");
-var message_service_1 = require("../message.service");
 var HypertyResource_1 = require("../../models/rethink/HypertyResource");
 var models_1 = require("../../models/models");
 var rethink_service_1 = require("./rethink.service");
 var ContextService = (function () {
-    function ContextService(localStorage, rethinkService, contactService, messageService) {
+    function ContextService(localStorage, rethinkService, contactService) {
         var _this = this;
         this.localStorage = localStorage;
         this.rethinkService = rethinkService;
         this.contactService = contactService;
-        this.messageService = messageService;
         this.cxtTrigger = new Map();
         this.cxtList = new Map();
         // `updates` receives _operations_ to be applied to our `messages`
-        // it's a way we can perform changes on *all* messages (that are currently 
+        // it's a way we can perform changes on *all* messages (that are currently
         // stored in `messages`)
         this._contextualCommUpdates = new Subject_1.Subject();
         this._contextualComm = new Subject_1.Subject();
@@ -53,8 +51,9 @@ var ContextService = (function () {
             }
         }
         this._contextualCommList = this._contextualCommUpdates.map(function (context) {
-            context.users = context.users.map(function (user) {
-                console.log('[Context Service - contextualComm] - typeof: ', user instanceof models_1.User);
+            context.users = context.users.filter(function (user) {
+                return user instanceof models_1.User;
+            }).map(function (user) {
                 return _this.contactService.getUser(user.userURL);
             }).filter(function (user) {
                 return user.userURL !== _this.rethinkService.getCurrentUser.userURL;
@@ -79,7 +78,7 @@ var ContextService = (function () {
             .publishReplay(1)
             .refCount();
         this._contextualComm.subscribe(this._contextualCommUpdates);
-        // TODO: this should be changed because it can not update the contextualCommObs, 
+        // TODO: this should be changed because it can not update the contextualCommObs,
         // because is the active contextualComm
         // this._contextualComm.subscribe(this.contextualCommObs);
         this._contextualCommList.subscribe(function (list) {
@@ -151,21 +150,23 @@ var ContextService = (function () {
                     console.info('[Get the context to localStorage: ]', dataObject.data);
                     context = _this.cxtList.get(dataObject.data.url);
                 }
-                dataObject.data.participants.forEach(function (item) {
-                    console.log('MAP:', item);
-                    var currentUser = _this.contactService.getUser(item.userURL);
+                var participants = dataObject.data.participants || {};
+                Object.keys(participants).forEach(function (item) {
+                    console.log('MAP:', item, participants[item]);
+                    var currentUser = _this.contactService.getUser(item);
                     if (!currentUser) {
-                        currentUser = new models_1.User(item);
+                        currentUser = new models_1.User(participants[item].identity);
                         _this.contactService.addUser(currentUser);
                         console.log('[Context Service - update users] - create new user: ', currentUser);
                     }
                     console.log('CONTEXT:', context);
                     context.addUser(currentUser);
                 });
-                context.url = dataObject.url,
-                    context.communication = (dataObject.data);
-                if (parent)
+                context.url = dataObject.url;
+                context.communication = (dataObject.data);
+                if (parent) {
                     context.parent = parent;
+                }
                 contextTrigger.trigger.push(context);
                 _this.updateContextTrigger(contextTrigger.contextName, contextTrigger);
                 _this.updateContexts(context.url, context);
@@ -235,10 +236,11 @@ var ContextService = (function () {
         return new Promise(function (resolve, reject) {
             var currentContext;
             _this.cxtList.forEach(function (context) {
+                console.log('[Context Service] - getting Context By Name: ', context, context.name, name);
                 if (context.name === name) {
                     // TODO: Solve the problem of active context
                     currentContext = context;
-                    console.log('[context service - getContextByName] - ', name, currentContext);
+                    console.log('[context service] - found', name, currentContext);
                     _this._contextualComm.next(context);
                     return resolve(currentContext);
                 }
@@ -265,9 +267,6 @@ var ContextService = (function () {
         });
         return this.contactService.getUsers();
     };
-    ContextService.prototype.getContextMessages = function (context) {
-        return this.messageService.messageList;
-    };
     ContextService.prototype.contextualComm = function () {
         return this.contextualCommObs;
     };
@@ -277,8 +276,7 @@ ContextService = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [storage_service_1.LocalStorage,
         rethink_service_1.RethinkService,
-        contact_service_1.ContactService,
-        message_service_1.MessageService])
+        contact_service_1.ContactService])
 ], ContextService);
 exports.ContextService = ContextService;
 //# sourceMappingURL=context.service.js.map

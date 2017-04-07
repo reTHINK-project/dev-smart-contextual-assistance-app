@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var router_1 = require("@angular/router");
 var core_1 = require("@angular/core");
 // Services
 var rethink_service_1 = require("./rethink.service");
@@ -15,11 +16,28 @@ var contact_service_1 = require("../contact.service");
 var context_service_1 = require("../rethink/context.service");
 var models_1 = require("../../models/models");
 var ChatService = (function () {
-    function ChatService(appService, contextService, contactService) {
-        this.appService = appService;
+    function ChatService(router, route, rethinkService, contextService, contactService) {
+        var _this = this;
+        this.router = router;
+        this.route = route;
+        this.rethinkService = rethinkService;
         this.contextService = contextService;
         this.contactService = contactService;
         this.controllerList = new Map();
+        this.route.params.subscribe(function (params) {
+            var selected = params['trigger'] || route.params['id'];
+            console.log('[Chat Service] - route changes:', selected);
+            if (route.params['user']) {
+                selected = _this.rethinkService.getCurrentUser.username + '-' + route.params['user'];
+            }
+            if (selected) {
+                console.log('[Chat Service] - route selected:', selected);
+                _this.contextService.getContextByName(selected).then(function (contextualComm) {
+                    var dataObjectURL = contextualComm.url;
+                    _this.chatControllerActive = _this.controllerList.get(dataObjectURL);
+                });
+            }
+        });
     }
     ChatService.prototype._updateControllersList = function (dataObjectURL, chatController) {
         this.controllerList.set(dataObjectURL, chatController);
@@ -33,10 +51,10 @@ var ChatService = (function () {
     ChatService.prototype.getHyperty = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.hypertyURL = 'hyperty-catalogue://catalogue.' + _this.appService.domain + '/.well-known/hyperty/GroupChatManager';
+            _this.hypertyURL = 'hyperty-catalogue://catalogue.' + _this.rethinkService.domain + '/.well-known/hyperty/GroupChatManager';
             console.log('[Chat Service - getHyperty] - ', _this.chatGroupManager);
             if (!_this.chatGroupManager) {
-                _this.appService.getHyperty(_this.hypertyURL)
+                _this.rethinkService.getHyperty(_this.hypertyURL)
                     .then(function (hyperty) {
                     _this.chatGroupManager = hyperty.instance;
                     _this.hyperty = hyperty;
@@ -56,8 +74,15 @@ var ChatService = (function () {
     ChatService.prototype.prepareHyperty = function () {
         var _this = this;
         console.log('[Chat Service - prepareHyperty]', this.chatGroupManager);
-        this.chatGroupManager.onResume(function (controllers) {
-            console.log('[Chat Service - prepareHyperty] - onResume: ', controllers);
+        this.chatGroupManager.onResumeReporter(function (controllers) {
+            console.log('[Chat Service - prepareHyperty] - onResume reporters: ', controllers);
+            Object.keys(controllers).forEach(function (url) {
+                _this.controllerList.set(url, controllers[url]);
+                _this._updateControllersList(url, controllers[url]);
+            });
+        });
+        this.chatGroupManager.onResumeObserver(function (controllers) {
+            console.log('[Chat Service - prepareHyperty] - onResume observers: ', controllers);
             Object.keys(controllers).forEach(function (url) {
                 _this.controllerList.set(url, controllers[url]);
                 _this._updateControllersList(url, controllers[url]);
@@ -69,8 +94,9 @@ var ChatService = (function () {
             }).catch(function (reason) {
                 console.log(reason);
             });
-            if (_this._onInvitation)
+            if (_this._onInvitation) {
                 _this._onInvitation(event);
+            }
         });
     };
     ChatService.prototype.prepareController = function (chatController) {
@@ -81,9 +107,9 @@ var ChatService = (function () {
             console.log('[Chat Service - prepareController] - onUserAdded', user, dataObjectURL);
             var current;
             if (user.hasOwnProperty('data')) {
-                current = _this.contactService.getUser(user.data.userURL);
+                current = _this.contactService.getUser(user.data.identity.userURL);
                 if (!current) {
-                    current = new models_1.User(user.data);
+                    current = new models_1.User(user.data.identity);
                 }
             }
             else {
@@ -154,7 +180,7 @@ var ChatService = (function () {
     ChatService.prototype.send = function (message) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            console.log('Send message: ', _this.chatControllerActive, message);
+            console.log('[Chat Service - Send Message]', _this.chatControllerActive, message);
             _this.chatControllerActive.send(message).then(function (result) {
                 console.log('[Chat Service - Sended Message]', message, result, _this.chatControllerActive);
                 var user = _this.contactService.getUser(result.identity.userProfile.userURL);
@@ -181,8 +207,6 @@ var ChatService = (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             var resource = dataObject.data.url;
-            var participants = [];
-            var domains = [];
             var contextTrigger = _this.contextService.activeContextTrigger;
             var name = dataObject.data.name;
             console.log('[Chat Service] - verifyOrCreateContextualComm: ', dataObject);
@@ -205,7 +229,9 @@ var ChatService = (function () {
 }());
 ChatService = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [rethink_service_1.RethinkService,
+    __metadata("design:paramtypes", [router_1.Router,
+        router_1.ActivatedRoute,
+        rethink_service_1.RethinkService,
         context_service_1.ContextService,
         contact_service_1.ContactService])
 ], ChatService);

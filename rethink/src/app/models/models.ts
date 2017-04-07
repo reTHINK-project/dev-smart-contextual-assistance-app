@@ -1,8 +1,6 @@
-import {List,Record} from 'immutable';
-
 // Rethink Interfaces
-import { HypertyResource, HypertyResourceType } from './rethink/HypertyResource';
-import { Communication, CommunictionStatus } from './rethink/Communication';
+import { HypertyResourceType } from './rethink/HypertyResource';
+import { Communication } from './rethink/Communication';
 import { Connection } from './rethink/Connection';
 import { ContextValue } from './rethink/Context';
 import { UserIdentity } from './rethink/UserIdentity';
@@ -60,16 +58,16 @@ export class Message {
 
 export class ContextualComm {
 
-  name:string;
-  description:string;
-  parent:string;
+  name: string;
+  description: string;
+  parent: string;
 
-  contexts:string[];
-  url:string;
-  communication:Communication | Connection;
+  contexts: string[];
+  url: string;
+  communication: Communication | Connection;
 
-  users:User[];
-  messages:Message[];
+  users: User[];
+  messages: Message[];
 
   constructor(obj: any) {
     this.name              = obj && obj.name;
@@ -84,10 +82,11 @@ export class ContextualComm {
 
     this.users = this.users.map((user) => {
       return new User(user);
-    })
+    });
+
   }
 
-  addUser(user:User) {
+  addUser(user: User) {
     console.log('[Models - ContextualComm] - addUser: ', this.users.indexOf(user));
     if (this.users.indexOf(user) === -1) {
       this.users.push(user);
@@ -95,7 +94,7 @@ export class ContextualComm {
 
   }
 
-  addMessage(message:Message) {
+  addMessage(message: Message) {
     console.log('[Models - ContextualComm] - addMessage: ', this.messages, message);
     this.messages.push(message);
   }
@@ -104,24 +103,24 @@ export class ContextualComm {
 
 export class ContextualCommTrigger {
 
-  contextName:string;
-  contextScheme:string;
+  contextName: string;
+  contextScheme: string;
   contextResource: HypertyResourceType[];
   values: ContextValue[];
 
   trigger: ContextualComm[];
 
   constructor(trigger: ContextualComm[],
-    name?: string, 
+    name?: string,
     contextScheme?: string,
     contextResource?: HypertyResourceType[],
     values?: ContextValue[]) {
 
-      this.contextName = name
-      this.contextScheme = contextScheme
-      this.contextResource = contextResource
-      this.values = values || []
+      this.contextName = name;
+      this.contextScheme = contextScheme;
+      this.contextResource = contextResource;
+      this.values = values || [];
       this.trigger = trigger || [];
-  } 
+  };
 
 }

@@ -46,11 +46,11 @@ var UserViewComponent = (function () {
         });
     };
     UserViewComponent.prototype.ngOnDestroy = function () {
-        console.log('[User View - onMessage] - OnDestroy', this.messages);
-        // this.messages.unsubscribe();
+        console.log('[User View] - OnDestroy', this.messages);
+        this.messages.unsubscribe();
     };
     UserViewComponent.prototype.onMessage = function (message) {
-        console.log("Message:", message);
+        console.log("[User View - onMessage] - Message:", message, this.chatService.chatControllerActive);
         this.chatService.send(message).then(function (message) {
             console.log('[User View - onMessage] - message sent', message);
         });

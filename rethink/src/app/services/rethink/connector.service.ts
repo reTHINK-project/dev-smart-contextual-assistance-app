@@ -1,5 +1,5 @@
-import { Injectable, EventEmitter, Output } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
+import { Injectable } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 
 // Utils
@@ -13,39 +13,37 @@ import { IAlert, AlertType } from '../../models/app.models';
 import { User } from '../../models/models';
 import { NotificationService } from '../notification.service';
 
-import { Subject } from "rxjs/Subject";
-import { Observable } from "rxjs/Observable";
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 @Injectable()
 export class ConnectorService {
 
-  private hypertyURL = 'hyperty-catalogue://catalogue.' + this.appService.domain + '/.well-known/hyperty/Connector'
-  private runtime: any;
-  private _onInvitation: any;
-  private controllers:any = {};
-  private hyperty: any
-  private hypertyVideo: any
+  private hypertyURL = 'hyperty-catalogue://catalogue.' + this.appService.domain + '/.well-known/hyperty/Connector';
+  private controllers: any = {};
+  private hyperty: any;
+  private hypertyVideo: any;
 
-  private callInProgress:boolean = false;
-  private _webrtcMode:string = 'offer';
+  private callInProgress = false;
+  private _webrtcMode = 'offer';
   public get connectorMode(): string {
-		return this._webrtcMode;
-	}
+    return this._webrtcMode;
+  }
 
-  private _localStream:Subject<MediaStream> = new Subject();
-  private _remoteStream:ReplaySubject<MediaStream> = new ReplaySubject();
+  private _localStream: Subject<MediaStream> = new Subject();
+  private _remoteStream: ReplaySubject<MediaStream> = new ReplaySubject();
 
-  private _mode:string;
+  private _mode: string;
 
-	public get mode(): string {
-		return this._mode;
-	}
+  public get mode(): string {
+    return this._mode;
+  }
 
-	public set mode(value: string) {
+  public set mode(value: string) {
     console.log('[Connector Service] - set mode: ', value);
-		this._mode = value;
-	}
+    this._mode = value;
+  }
 
   constructor(
     private router: Router,
@@ -73,34 +71,34 @@ export class ConnectorService {
         this.appService.getHyperty(this.hypertyURL)
         .then((hyperty: any) => {
           this.hypertyVideo = hyperty.instance;
-          this.hyperty = hyperty
+          this.hyperty = hyperty;
           this.prepareHyperty();
           resolve(this.hyperty);
         })
         .catch((reason) => {
           console.error(reason);
           reject(reason);
-        })
+        });
       } else {
         resolve(this.hyperty);
       }
 
-    })
+    });
   }
 
   acceptCall() {
 
-    if (this.controllers && this.controllers.hasOwnProperty('answer') && this._webrtcMode === 'answer'){
+    if (this.controllers && this.controllers.hasOwnProperty('answer') && this._webrtcMode === 'answer') {
 
       let options = {video: true, audio: true};
 
-      getUserMedia(options).then((mediaStream:MediaStream) => {
+      getUserMedia(options).then((mediaStream: MediaStream) => {
         return this.controllers[this._webrtcMode].accept(mediaStream);
       }).then((accepted) => {
         this.callInProgress = true;
         console.log('[Connector Service] - accept response:', this.mode);
 
-      if (this.mode === 'audio'){
+      if (this.mode === 'audio') {
         this.controllers[this._webrtcMode].disableVideo();
       }
 
@@ -114,20 +112,19 @@ export class ConnectorService {
 
   prepareHyperty() {
 
-    this.hypertyVideo.onInvitation((controller:any, identity:any) => {
+    this.hypertyVideo.onInvitation((controller: any, identity: any) => {
 
-      let url = controller.dataObjectObserver.url;
       this.mode = controller.dataObjectObserver.data.mode;
       this._webrtcMode = 'answer';
       this.prepareController(controller);
 
-      let currUser:User = this.contactService.getUser(identity.userURL);
+      let currUser: User = this.contactService.getUser(identity.userURL);
 
       this.notificationService.addNotification(AlertType.QUESTION, {
         user: currUser,
         message: 'New call is incomming from ' + currUser.username,
         action: this._mode
-      }, (alert:IAlert) => {
+      }, (alert: IAlert) => {
         this._notificationResponse(controller, alert, currUser);
       });
 
@@ -135,13 +132,11 @@ export class ConnectorService {
 
   }
 
-  private _notificationResponse(controller:any, response:IAlert, user:User) {
+  private _notificationResponse(controller: any, response: IAlert, user: User) {
 
     console.log('[Connector Service] - notification response: ', response, this);
 
     if (response) {
-
-      let remoteUser = this.contactService.getUser(controller.dataObjectObserver.data.name);
 
       let navigationExtras: NavigationExtras = {
         queryParams: { 'action': this.mode }
@@ -158,56 +153,55 @@ export class ConnectorService {
 
   }
 
-  connect(userURL:string, options:any, name:string, domain:string) {
+  connect(userURL: string, options: any, name: string, domain: string) {
 
     this._webrtcMode = 'offer';
 
-    return getUserMedia(options).then((mediaStream:MediaStream) => {
-      return this.hypertyVideo.connect(userURL, mediaStream, name, domain)
-    }).then((controller:any) => {
+    return getUserMedia(options).then((mediaStream: MediaStream) => {
+      return this.hypertyVideo.connect(userURL, mediaStream, name, domain);
+    }).then((controller: any) => {
       console.log('[Connector Service] - connect:', controller);
-      let url = controller.dataObjectReporter.url;
 
       this.callInProgress = true;
 
       this.prepareController(controller);
 
       return controller;
-    }).catch((reason:any) => {
+    }).catch((reason: any) => {
       console.error('reason:', reason);
-    })
+    });
 
   }
 
-  prepareController(controller:any) {
-    
+  prepareController(controller: any) {
+
     console.log('[Connector Service - Prepare Controller] - mode: ' + this._webrtcMode + ' Controllers: ', this.controllers);
     this.controllers[this._webrtcMode] = controller;
 
-    controller.onAddStream((event:any) => {
+    controller.onAddStream((event: any) => {
       console.log('[Connector Service - Add Stream] - Remote Stream:', event);
       this._remoteStream.next(event.stream);
 
-      if (this.mode === 'audio'){
+      if (this.mode === 'audio') {
         controller.disableVideo();
       }
 
     });
 
-    controller.onDisconnect((identity:any) => {
+    controller.onDisconnect((identity: any) => {
       console.log('[Connector Service - onDisconnect] - onDisconnect:', identity);
-    })
+    });
 
   }
 
-  getRemoteStream():Observable<SafeUrl> {
-    return this._remoteStream.map((stream:MediaStream) => {
+  getRemoteStream(): Observable<SafeUrl> {
+    return this._remoteStream.map((stream: MediaStream) => {
       return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(stream));
     }).publishReplay(1).refCount();
   }
 
-  getLocalStream():Observable<SafeUrl> {
-    return this._localStream.map((stream:MediaStream) => {
+  getLocalStream(): Observable<SafeUrl> {
+    return this._localStream.map((stream: MediaStream) => {
       return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(stream));
     }).publishReplay(1).refCount();
   }

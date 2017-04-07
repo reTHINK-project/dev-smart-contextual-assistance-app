@@ -22,7 +22,6 @@ var ActivityViewComponent = (function () {
         this.contextService = contextService;
         this.hostClass = '';
         this.messages = new BehaviorSubject_1.BehaviorSubject([]);
-        this.chatActive = false;
     }
     // Load data ones componet is ready
     ActivityViewComponent.prototype.ngOnInit = function () {
@@ -38,6 +37,7 @@ var ActivityViewComponent = (function () {
         });
     };
     ActivityViewComponent.prototype.onMessage = function (message) {
+        console.log('[Activity View - onMessage] - Message:', message, this.chatService.chatControllerActive);
         this.chatService.send(message).then(function (message) {
             console.log('[Activity View - onMessage] - message sent', message);
         });

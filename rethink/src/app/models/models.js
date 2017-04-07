@@ -62,6 +62,7 @@ var ContextualCommTrigger = (function () {
         this.values = values || [];
         this.trigger = trigger || [];
     }
+    ;
     return ContextualCommTrigger;
 }());
 exports.ContextualCommTrigger = ContextualCommTrigger;

@@ -13,10 +13,9 @@ var router_1 = require("@angular/router");
 // Service
 var services_1 = require("./services");
 var ContextualCommResolver = (function () {
-    function ContextualCommResolver(router, chatService, messageService, rethinkService, contextService) {
+    function ContextualCommResolver(router, chatService, rethinkService, contextService) {
         this.router = router;
         this.chatService = chatService;
-        this.messageService = messageService;
         this.rethinkService = rethinkService;
         this.contextService = contextService;
     }
@@ -38,21 +37,20 @@ var ContextualCommResolver = (function () {
                 context = route.parent.params['trigger'];
             }
             if (user) {
-                name = user + '-' + _this.rethinkService.getCurrentUser.username;
+                name = _this.rethinkService.getCurrentUser.username + '-' + user;
                 context = route.parent.params['trigger'];
-                participants.push(user);
             }
+            console.info('[ContextualCommResolver - resolve] - Getting the current Context ', name, context);
             _this.contextService.getContextByName(name).then(function (contextualComm) {
-                console.info('[ContextualCommResolver - resolve] - Getting the current Context ', name, contextualComm);
+                console.info('[ContextualCommResolver - resolve] - current context ', name, contextualComm);
                 _this.contextService.activeContext = contextualComm.url;
                 _this.chatService.setActiveController(contextualComm.url);
                 resolve(contextualComm);
             }).catch(function (error) {
                 console.error('error:', error);
-                // let currentUser:User = this.rethinkService.getCurrentUser;
-                // if (currentUser.username !== user) {
                 if (user) {
                     name = _this.rethinkService.getCurrentUser.username + '-' + user;
+                    participants.push(user);
                 }
                 console.info('[ContextualCommResolver - resolve] - Creating the context ', name, context, ' chat group');
                 _this.chatService.create(name, participants, domains).then(function (chatController) {
@@ -62,8 +60,6 @@ var ContextualCommResolver = (function () {
                     console.log('Error creating the context: ', error);
                     reject(error);
                 }).then(function (contextualComm) {
-                    _this.contextService.activeContext = contextualComm.url;
-                    _this.chatService.setActiveController(contextualComm.url);
                     resolve(contextualComm);
                 });
             });
@@ -75,7 +71,6 @@ ContextualCommResolver = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [router_1.Router,
         services_1.ChatService,
-        services_1.MessageService,
         services_1.RethinkService,
         services_1.ContextService])
 ], ContextualCommResolver);

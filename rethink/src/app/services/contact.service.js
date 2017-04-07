@@ -32,7 +32,6 @@ var ContactService = (function () {
         // stored in `users`)
         this._updates = new Subject_1.Subject();
         this._newUser = new Subject_1.Subject();
-        var anonimous = new models_1.User({});
         if (this.localStorage.hasObject('contacts')) {
             var mapObj = this.localStorage.getObject('contacts');
             for (var _i = 0, _a = Object.keys(mapObj); _i < _a.length; _i++) {
@@ -70,6 +69,7 @@ var ContactService = (function () {
         configurable: true
     });
     ContactService.prototype.addUser = function (user) {
+        console.log('[Contact Service - AddUser] - ', user);
         this._newUser.next(user);
     };
     ContactService.prototype.updateUser = function (user, property, value) {
