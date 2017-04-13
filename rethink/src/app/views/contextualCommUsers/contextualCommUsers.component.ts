@@ -46,7 +46,6 @@ export class ContextualCommUsersComponent implements OnInit {
   filter(value: string) {
 
     this.contactsFilter = this.model.map((users: User[]) => {
-      console.log('AQUI:', users);
       return users.filter((user: User) => {
         return user.cn.includes(value);
       });

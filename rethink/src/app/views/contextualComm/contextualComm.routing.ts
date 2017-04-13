@@ -7,8 +7,7 @@ import { AuthGuard } from '../../services/authGuard.service';
 import { ContextualCommResolver } from '../../services/contextualComm.resolver';
 import { UserResolver } from '../../services/user.resolver';
 
-import { ContextualCommComponent } from './contextualComm.component'
-import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component';
+import { ContextualCommComponent } from './contextualComm.component';
 import { ActivityViewComponent } from '../activityView/activity-view.component';
 import { UserViewComponent } from '../userView/user-view.component';
 
@@ -38,7 +37,7 @@ const contextualCommRoutes: Routes = [
           user: UserResolver,
           context: ContextualCommResolver
         }
-      } 
+      }
     ]
   }
 ];

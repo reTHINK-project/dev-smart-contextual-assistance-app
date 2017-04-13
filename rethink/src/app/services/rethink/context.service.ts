@@ -295,6 +295,24 @@ export class ContextService {
 
       this.cxtList.forEach((context: ContextualComm) => {
 
+        // TODO: this should be removed, because at this moment
+        // we do not have any way to destinguish from me-<other-user> or <other-user>-me
+        // and the dataObjectURL should be the same
+        if (name.indexOf('-') !== -1) {
+          let users = name.split('-');
+          let user1 = users[0];
+          let user2 = users[1];
+
+          let variation1 = user1 + '-' + user2;
+          let variation2 = user2 + '-' + user1;
+
+          if (context.name === variation1) {
+            name = variation1;
+          } else if (context.name === variation2) {
+            name = variation2;
+          }
+        }
+
         console.log('[Context Service] - getting Context By Name: ', context, context.name, name);
 
         if (context.name === name) {

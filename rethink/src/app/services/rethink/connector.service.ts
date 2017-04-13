@@ -110,9 +110,13 @@ export class ConnectorService {
 
   }
 
+
+
   prepareHyperty() {
 
     this.hypertyVideo.onInvitation((controller: any, identity: any) => {
+
+      console.log('[Connector Service] - on Invitation:', controller, identity);
 
       this.mode = controller.dataObjectObserver.data.mode;
       this._webrtcMode = 'answer';

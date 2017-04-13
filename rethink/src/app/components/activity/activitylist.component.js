@@ -27,7 +27,7 @@ var ActivityListComponent = (function () {
     ActivityListComponent.prototype.ngOnInit = function () {
     };
     ActivityListComponent.prototype.ngOnDestroy = function () {
-        this.msgObs.unsubscribe();
+        // this.msgObs.unsubscribe();
     };
     ActivityListComponent.prototype.updateView = function () {
         var scrollPane = this.el.nativeElement;

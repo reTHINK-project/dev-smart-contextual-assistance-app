@@ -102,6 +102,7 @@ var ConnectorService = (function () {
     ConnectorService.prototype.prepareHyperty = function () {
         var _this = this;
         this.hypertyVideo.onInvitation(function (controller, identity) {
+            console.log('[Connector Service] - on Invitation:', controller, identity);
             _this.mode = controller.dataObjectObserver.data.mode;
             _this._webrtcMode = 'answer';
             _this.prepareController(controller);

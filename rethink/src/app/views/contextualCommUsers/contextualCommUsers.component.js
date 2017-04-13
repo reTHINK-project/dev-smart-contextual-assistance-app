@@ -37,7 +37,6 @@ var ContextualCommUsersComponent = (function () {
     };
     ContextualCommUsersComponent.prototype.filter = function (value) {
         this.contactsFilter = this.model.map(function (users) {
-            console.log('AQUI:', users);
             return users.filter(function (user) {
                 return user.cn.includes(value);
             });

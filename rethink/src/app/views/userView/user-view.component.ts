@@ -1,36 +1,33 @@
-import { Component, OnInit, HostBinding, ViewChild, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { Component, OnInit, OnDestroy, HostBinding, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 // Services
-import { ContactService, ConnectorService, ChatService, ContextService } from '../../services/services';
+import { ContactService, ChatService, ContextService } from '../../services/services';
 
 // Models
 import { Message, User, ContextualComm } from '../../models/models';
 
 // Components
-import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component'
-import { ChatCommunicationComponent } from '../../components/rethink/communication/chatCommunication.component'
+import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component';
 
 @Component({
   moduleId: module.id,
   selector: 'div[user-view]',
   templateUrl: './user-view.component.html'
 })
-export class UserViewComponent implements OnInit {
+export class UserViewComponent implements OnInit, OnDestroy {
 
   @HostBinding('class') hostClass = '';
 
   @ViewChild(ContextualCommActivityComponent)
   private contextualCommActivityComponent: ContextualCommActivityComponent;
 
-  private action:string;
+  private action: string;
 
-  private user:User;
-  private messages:Subject<Message[]> = new BehaviorSubject([]);
+  private user: User;
+  private messages: Subject<Message[]> = new BehaviorSubject([]);
 
   constructor(
     private router: Router,
@@ -57,27 +54,27 @@ export class UserViewComponent implements OnInit {
       this.messages.next(data.context.messages);
     });
 
-    this.contextService.contextualComm().subscribe((contextualComm:ContextualComm) => {
+    this.contextService.contextualComm().subscribe((contextualComm: ContextualComm) => {
       console.log('[ContextualCommActivity Component - update] - ', contextualComm);
       this.messages.next(contextualComm.messages);
 
       this.contextualCommActivityComponent.updateView();
-    })
+    });
 
   }
 
   ngOnDestroy() {
     console.log('[User View] - OnDestroy', this.messages);
-    this.messages.unsubscribe();
+    // this.messages.unsubscribe();
   }
 
-  onMessage(message:string) {
+  onMessage(message: string) {
 
-    console.log("[User View - onMessage] - Message:", message, this.chatService.chatControllerActive);
-    this.chatService.send(message).then((message:any) => {
+    console.log('[User View - onMessage] - Message:', message, this.chatService.chatControllerActive);
+    this.chatService.send(message).then((message: any) => {
       console.log('[User View - onMessage] - message sent', message);
-    })
-    
+    });
+
   }
 
   onAcceptCall() {
