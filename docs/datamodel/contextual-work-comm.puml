@@ -1,4 +1,4 @@
-@startuml "work-context-design.png"
+@startuml "contextual-work-comm.png"
 
 Package WorkContext {
 
