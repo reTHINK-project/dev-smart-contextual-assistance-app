@@ -12,17 +12,17 @@ import { Message } from '../../models/models';
 })
 export class ActivityListComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list'
+  @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list';
 
-  @Input() messages:Observable<Array<Message>>
+  @Input() messages: Observable<Array<Message>>;
 
-  private msgObs:Subscription;
+  private msgObs: Subscription;
 
-  constructor(private el: ElementRef){}
+  constructor(private el: ElementRef) {}
 
   ngAfterViewInit() {
 
- 	  this.msgObs = this.messages.subscribe((messages: Array<Message>) => {
+    this.msgObs = this.messages.subscribe((messages: Array<Message>) => {
        console.log('[Activity List - Restore old messages]', messages);
        this.scrollToBottom();
     });
@@ -36,7 +36,7 @@ export class ActivityListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.msgObs.unsubscribe();
+    // this.msgObs.unsubscribe();
   }
 
   updateView(): void {

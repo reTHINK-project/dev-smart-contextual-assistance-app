@@ -40,16 +40,18 @@ var NotificationService = (function () {
         var currAlert = this.alerts[index];
         currAlert.message.reply = true;
         console.log('[Notification Service - accept] :', currAlert);
-        if (currAlert.callback)
+        if (currAlert.callback) {
             currAlert.callback(currAlert);
+        }
     };
     NotificationService.prototype.reject = function (alert) {
         var index = this.alerts.indexOf(alert);
         var currAlert = this.alerts[index];
         currAlert.message.reply = false;
         console.log('[Notification Service - reject] :', alert);
-        if (currAlert.callback)
+        if (currAlert.callback) {
             currAlert.callback(currAlert.message.reply);
+        }
     };
     return NotificationService;
 }());

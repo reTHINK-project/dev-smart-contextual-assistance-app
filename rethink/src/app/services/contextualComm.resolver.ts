@@ -52,7 +52,7 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
         console.info('[ContextualCommResolver - resolve] - current context ', name, contextualComm);
 
         this.contextService.activeContext = contextualComm.url;
-        this.chatService.setActiveController(contextualComm.url);
+        this.chatService.activeDataObjectURL = contextualComm.url;
 
         resolve(contextualComm);
       }).catch((error) => {
@@ -72,6 +72,10 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
           console.log('Error creating the context: ', error);
           reject(error);
         }).then((contextualComm: ContextualComm) => {
+
+          this.contextService.activeContext = contextualComm.url;
+          this.chatService.activeDataObjectURL = contextualComm.url;
+
           resolve(contextualComm);
         });
       });

@@ -17,36 +17,43 @@ var context_service_1 = require("../rethink/context.service");
 var models_1 = require("../../models/models");
 var ChatService = (function () {
     function ChatService(router, route, rethinkService, contextService, contactService) {
-        var _this = this;
+        // this.route.params.subscribe((params) => {
         this.router = router;
         this.route = route;
         this.rethinkService = rethinkService;
         this.contextService = contextService;
         this.contactService = contactService;
         this.controllerList = new Map();
-        this.route.params.subscribe(function (params) {
-            var selected = params['trigger'] || route.params['id'];
-            console.log('[Chat Service] - route changes:', selected);
-            if (route.params['user']) {
-                selected = _this.rethinkService.getCurrentUser.username + '-' + route.params['user'];
-            }
-            if (selected) {
-                console.log('[Chat Service] - route selected:', selected);
-                _this.contextService.getContextByName(selected).then(function (contextualComm) {
-                    var dataObjectURL = contextualComm.url;
-                    _this.chatControllerActive = _this.controllerList.get(dataObjectURL);
-                });
-            }
-        });
+        //   let selected = params['trigger'] || route.params['id'];
+        //   console.log('[Chat Service] - route changes:', selected);
+        //   if (route.params['user']) {
+        //     selected = this.rethinkService.getCurrentUser.username + '-' + route.params['user'];
+        //   }
+        //   if (selected) {
+        //     console.log('[Chat Service] - route selected:', selected);
+        //     this.contextService.getContextByName(selected).then((contextualComm: ContextualComm) => {
+        //       let dataObjectURL = contextualComm.url;
+        //       this.chatControllerActive = this.controllerList.get(dataObjectURL);
+        //     });
+        //   }
+        // });
     }
+    Object.defineProperty(ChatService.prototype, "activeDataObjectURL", {
+        get: function () {
+            return this._activeDataObjectURL;
+        },
+        set: function (value) {
+            console.log('[Chat Service] - active controller:', value, this.controllerList);
+            this._activeDataObjectURL = value;
+            this.chatControllerActive = this.controllerList.get(value);
+            console.info('[Chat Service] - active controller: ', this.chatControllerActive);
+        },
+        enumerable: true,
+        configurable: true
+    });
     ChatService.prototype._updateControllersList = function (dataObjectURL, chatController) {
         this.controllerList.set(dataObjectURL, chatController);
         this.prepareController(chatController);
-        this.chatControllerActive = this.controllerList.get(dataObjectURL);
-    };
-    ChatService.prototype.setActiveController = function (dataObjectURL) {
-        console.log('[Chat Service] - setActiveController: ', dataObjectURL, this.controllerList, this.controllerList.get(dataObjectURL));
-        this.chatControllerActive = this.controllerList.get(dataObjectURL);
     };
     ChatService.prototype.getHyperty = function () {
         var _this = this;
@@ -211,11 +218,11 @@ var ChatService = (function () {
             var name = dataObject.data.name;
             console.log('[Chat Service] - verifyOrCreateContextualComm: ', dataObject);
             _this.contextService.getContextByResource(resource).then(function (contextualComm) {
-                console.info('[ContextualCommResolver - resolve] - Getting the current Context ', name, contextualComm);
+                console.info('[Chat Service] - Getting the current Context ', name, contextualComm);
                 resolve(contextualComm);
             }).catch(function (error) {
                 console.error('error:', error);
-                console.info('[ContextualCommResolver - resolve] - Creating the context ', name, contextTrigger, ' chat group');
+                console.info('[Chat Service] - Creating the context ', name, contextTrigger, ' chat group');
                 _this.contextService.create(name, dataObject, contextTrigger).then(function (contextualComm) {
                     resolve(contextualComm);
                 }).catch(function (error) {

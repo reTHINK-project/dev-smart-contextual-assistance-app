@@ -236,6 +236,22 @@ var ContextService = (function () {
         return new Promise(function (resolve, reject) {
             var currentContext;
             _this.cxtList.forEach(function (context) {
+                // TODO: this should be removed, because at this moment
+                // we do not have any way to destinguish from me-<other-user> or <other-user>-me
+                // and the dataObjectURL should be the same
+                if (name.indexOf('-') !== -1) {
+                    var users = name.split('-');
+                    var user1 = users[0];
+                    var user2 = users[1];
+                    var variation1 = user1 + '-' + user2;
+                    var variation2 = user2 + '-' + user1;
+                    if (context.name === variation1) {
+                        name = variation1;
+                    }
+                    else if (context.name === variation2) {
+                        name = variation2;
+                    }
+                }
                 console.log('[Context Service] - getting Context By Name: ', context, context.name, name);
                 if (context.name === name) {
                     // TODO: Solve the problem of active context
