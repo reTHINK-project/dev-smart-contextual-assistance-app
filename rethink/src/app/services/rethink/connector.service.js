@@ -20,6 +20,7 @@ var app_models_1 = require("../../models/app.models");
 var notification_service_1 = require("../notification.service");
 var Subject_1 = require("rxjs/Subject");
 var ReplaySubject_1 = require("rxjs/ReplaySubject");
+var STATUS = { INPROGRESS: 'in-progress', END: 'end' };
 var ConnectorService = (function () {
     function ConnectorService(router, route, sanitizer, contactService, notificationService, appService) {
         var _this = this;
@@ -35,9 +36,9 @@ var ConnectorService = (function () {
         this._webrtcMode = 'offer';
         this._localStream = new Subject_1.Subject();
         this._remoteStream = new ReplaySubject_1.ReplaySubject();
-        this.route.queryParams.subscribe(function (params) {
+        this._connectorStatus = new Subject_1.Subject();
+        this.paramsSubscription = this.route.queryParams.subscribe(function (params) {
             console.log('[Connector Service] - query params changes:', params['action'], _this.mode, _this.callInProgress);
-            // check if was a call in progress
             if (!_this.callInProgress) {
                 _this.acceptCall();
             }
@@ -90,6 +91,7 @@ var ConnectorService = (function () {
                 return _this.controllers[_this._webrtcMode].accept(mediaStream);
             }).then(function (accepted) {
                 _this.callInProgress = true;
+                _this._connectorStatus.next(STATUS.INPROGRESS);
                 console.log('[Connector Service] - accept response:', _this.mode);
                 if (_this.mode === 'audio') {
                     _this.controllers[_this._webrtcMode].disableVideo();
@@ -160,6 +162,13 @@ var ConnectorService = (function () {
         });
         controller.onDisconnect(function (identity) {
             console.log('[Connector Service - onDisconnect] - onDisconnect:', identity);
+            var navigationExtras = {
+                queryParams: {},
+                relativeTo: _this.route
+            };
+            _this.router.navigate([], navigationExtras);
+            _this.paramsSubscription.unsubscribe();
+            _this._connectorStatus.next(STATUS.END);
         });
     };
     ConnectorService.prototype.getRemoteStream = function () {
@@ -173,6 +182,9 @@ var ConnectorService = (function () {
         return this._localStream.map(function (stream) {
             return _this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(stream));
         }).publishReplay(1).refCount();
+    };
+    ConnectorService.prototype.connectorStatus = function () {
+        return this._connectorStatus;
     };
     ConnectorService.prototype.enableVideo = function () {
         this.controllers[this._webrtcMode].disableVideo(true);
@@ -189,6 +201,7 @@ var ConnectorService = (function () {
     ConnectorService.prototype.hangup = function () {
         this.callInProgress = false;
         this.controllers[this._webrtcMode].disconnect();
+        this._connectorStatus.next(STATUS.END);
         console.log('[Connector Service - hangup]: ', this.router);
     };
     return ConnectorService;

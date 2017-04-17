@@ -16,28 +16,14 @@ var models_1 = require("../../../models/models");
 var services_1 = require("../../../services/services");
 var MediaCommunicationComponent = (function () {
     function MediaCommunicationComponent(route, contactService, connectorService) {
+        var _this = this;
         this.route = route;
         this.contactService = contactService;
         this.connectorService = connectorService;
         this.hostClass = 'all-100';
         this.streamingActive = false;
-    }
-    MediaCommunicationComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.route
-            .queryParams
-            .subscribe(function (params) {
-            console.log('[Media Communication Component] - Params Action:', params['action']);
-            _this.connectorService.mode = params['action'];
-            _this.mode = params['action'];
-            console.log('[Media Communication Component] - connection mode: ', _this.connectorService.connectorMode, _this.streamingActive);
-            if (_this.connectorService.connectorMode !== 'answer' && !_this.streamingActive) {
-                _this.callTo(_this.user);
-            }
-            else if (_this.streamingActive && _this.mode === 'video') {
-                _this.connectorService.enableVideo();
-            }
-        });
+        console.log('[Media Communication Component] - Constructor:', this.route.queryParams);
+        this.streamingActive = false;
         if (this.mode === 'video') {
             this.connectorService.getLocalStream().subscribe(function (stream) {
                 console.log('[Media Communication Component] - get local stream: ', stream);
@@ -49,19 +35,50 @@ var MediaCommunicationComponent = (function () {
             _this.stream = stream;
             _this.streamingActive = true;
         });
+        this.connectorService.connectorStatus().subscribe(function (status) {
+            console.log('[Media Communication Component] -  connector status: ', status);
+            if (status === 'end') {
+                _this.reset();
+            }
+        });
         console.log('[Media Communication Component] - Params Action:', this.mode);
+    }
+    MediaCommunicationComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.subscription = this.route.queryParams.subscribe(function (queryParam) {
+            console.log('[Media Communication Component] - Params Action:', queryParam['action']);
+            _this.mode = queryParam['action'];
+            _this.connectorService.mode = queryParam['action'];
+            return queryParam['action'];
+        });
+        console.log('[Media Communication Component] - ngOnInit:', this.mode);
+        if (this.mode) {
+            console.log('[Media Communication Component] - connection mode: ', this.connectorService.connectorMode, this.streamingActive);
+            if (this.connectorService.connectorMode !== 'answer' && !this.streamingActive) {
+                this.callTo(this.user);
+            }
+            else if (this.streamingActive && this.mode === 'video') {
+                this.connectorService.enableVideo();
+            }
+        }
     };
     MediaCommunicationComponent.prototype.ngOnDestroy = function () {
+        this.reset();
+    };
+    MediaCommunicationComponent.prototype.reset = function () {
+        this.subscription.unsubscribe();
         this.streamingActive = false;
+        this.stream = null;
     };
     MediaCommunicationComponent.prototype.callTo = function (user) {
         var _this = this;
         var options = { video: true, audio: true };
-        console.log('[Media Communication Component] - ' + this.mode + ' Call To', user);
+        console.log('[Media Communication Component] - ' + this.mode + ' call To', user);
         this.connectorService.connect(user.username, options, user.userURL, 'localhost')
             .then(function (controller) {
             controller.dataObjectReporter.data.mode = _this.mode;
             _this.streamingActive = true;
+            _this.duration = new Date();
             console.log('[Media Communication Component] - called');
         }).catch(function (reason) {
             console.error(reason);
@@ -74,7 +91,7 @@ var MediaCommunicationComponent = (function () {
         this.connectorService.disableVideo();
     };
     MediaCommunicationComponent.prototype.onHangup = function () {
-        this.streamingActive = false;
+        this.reset();
         this.connectorService.hangup();
     };
     MediaCommunicationComponent.prototype.onMute = function () {

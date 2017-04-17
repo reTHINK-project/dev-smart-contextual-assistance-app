@@ -1,11 +1,10 @@
-import { Component, Input, Output, OnInit, HostBinding, EventEmitter } from '@angular/core';
+import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/core';
 
-import { IAlert, AlertType } from '../../models/app.models';
+import { IAlert } from '../../models/app.models';
 
-import { NotificationService } from '../../services/notification.service';
+import { NotificationService } from '../../services/services';
 
 import { User } from '../../models/models';
-import { Observable } from "rxjs/Observable";
 
 @Component({
   moduleId: module.id,
@@ -14,27 +13,27 @@ import { Observable } from "rxjs/Observable";
   styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent {
-  @HostBinding('class') hostClass = 'notification-view'
+  @HostBinding('class') hostClass = 'notification-view';
 
-  @Input() user:User
+  @Input() user: User;
 
-  private alerts:IAlert[] = [];
+  private alerts: IAlert[] = [];
 
-  @Output('onAcceptCall') onAcceptClick = new EventEmitter()
-  @Output('onRejectCall') onRejectClick = new EventEmitter()
+  @Output('onAcceptCall') onAcceptClick = new EventEmitter();
+  @Output('onRejectCall') onRejectClick = new EventEmitter();
 
-  constructor(private notificationService:NotificationService) {
+  constructor(private notificationService: NotificationService) {
 
-    this.notificationService.notification.subscribe((alert:IAlert) => {
+    this.notificationService.notification.subscribe((alert: IAlert) => {
       console.log('[Notification Component] - new notification', alert);
       this.showAlert(alert);
     });
 
   }
 
-  showAlert(alert:IAlert) {
+  showAlert(alert: IAlert) {
     console.log('[Notification Component] - showAlert', alert);
-    this.alerts.push(alert)
+    this.alerts.push(alert);
   }
 
   closeAlert(alert: IAlert) {

@@ -21,8 +21,6 @@
   </div>
 
 </div>-->
-
-
 <div media-view *ngIf="action === 'video' || action === 'audio'" [mode]="action" [user]="user"></div>
 <div contact-box *ngIf="!action" [user]="user" (closeEvent)="onCloseEvent()"></div>
 

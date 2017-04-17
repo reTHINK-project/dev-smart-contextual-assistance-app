@@ -21,7 +21,6 @@ var AppComponent = (function () {
         this.rethinkService = rethinkService;
         this.connectorService = connectorService;
         this.chatService = chatService;
-        this.ready = false;
         this.rethinkService.progress.subscribe({
             next: function (v) { return _this.status = v; }
         });

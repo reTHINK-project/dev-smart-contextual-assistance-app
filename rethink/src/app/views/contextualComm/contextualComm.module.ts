@@ -7,7 +7,7 @@ import { ContextualCommRoutingModule } from './contextualComm.routing';
 // Generic Components
 import { ContactBoxComponent } from '../../components/user/contact-box.component';
 
-import { ChatCommunicationComponent } from '../../components/rethink/communication/chatCommunication.component'
+import { ChatCommunicationComponent } from '../../components/rethink/communication/chatCommunication.component';
 import { MediaCommunicationComponent } from '../../components/rethink/communication/mediaCommunication.component';
 
 import { ChatEventComponent } from '../../components/rethink/hypertyResource/chat/chatEvent.component';
@@ -18,15 +18,16 @@ import { UserViewComponent } from '../userView/user-view.component';
 import { ActivityViewComponent } from '../activityView/activity-view.component';
 
 // Components
-import { ContextualCommComponent } from './contextualComm.component';
 import { ActivityComponent } from '../../components/activity/activity.component';
 import { ActivityListComponent } from '../../components/activity/activitylist.component';
-import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component'
+import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component';
 
 // Services
-import { AuthGuard } from '../../services/authGuard.service'
-import { UserResolver } from '../../services/user.resolver';
-import { ContextualCommResolver } from '../../services/contextualComm.resolver';
+import {
+  AuthGuard,
+  UserResolver,
+  ContextService,
+  ContextualCommResolver } from '../../services/services';
 
 @NgModule({
   imports: [
@@ -40,7 +41,7 @@ import { ContextualCommResolver } from '../../services/contextualComm.resolver';
     ActivityListComponent,
     ActivityComponent,
     UserViewComponent,
-    
+
     ChatCommunicationComponent,
     MediaCommunicationComponent,
 
@@ -51,6 +52,7 @@ import { ContextualCommResolver } from '../../services/contextualComm.resolver';
   providers: [
     AuthGuard,
     UserResolver,
+    ContextService,
     ContextualCommResolver
   ]
 })

@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var router_service_1 = require("../../services/router.service");
+var services_1 = require("../../services/services");
 var ContextBreadcrumbComponent = (function () {
     function ContextBreadcrumbComponent(routerService) {
         this.routerService = routerService;
@@ -35,7 +35,7 @@ ContextBreadcrumbComponent = __decorate([
         selector: 'ul[context-breadcrumb]',
         templateUrl: './breadcrumb.component.html'
     }),
-    __metadata("design:paramtypes", [router_service_1.RouterService])
+    __metadata("design:paramtypes", [services_1.RouterService])
 ], ContextBreadcrumbComponent);
 exports.ContextBreadcrumbComponent = ContextBreadcrumbComponent;
 //# sourceMappingURL=breadcrumb.component.js.map

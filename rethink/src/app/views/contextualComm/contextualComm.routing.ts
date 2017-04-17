@@ -2,7 +2,7 @@ import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // Components
-import { AuthGuard } from '../../services/authGuard.service';
+import { AuthGuard } from '../../services/services';
 
 import { ContextualCommResolver } from '../../services/contextualComm.resolver';
 import { UserResolver } from '../../services/user.resolver';

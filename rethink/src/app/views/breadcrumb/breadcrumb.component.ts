@@ -1,8 +1,7 @@
-import { Component, Input, Output, HostBinding, EventEmitter, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Component, Output, HostBinding, EventEmitter, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { RouterService } from '../../services/router.service';
+import { RouterService } from '../../services/services';
 
 @Component({
   moduleId: module.id,
@@ -10,13 +9,13 @@ import { RouterService } from '../../services/router.service';
   templateUrl: './breadcrumb.component.html'
 })
 export class ContextBreadcrumbComponent implements OnInit {
-  @HostBinding('class') hostClass = 'contactlist all-45'
+  @HostBinding('class') hostClass = 'contactlist all-45';
 
   @Output() openContext = new EventEmitter();
 
-  private breadcrumb:Observable<Array<any>>;
+  private breadcrumb: Observable<Array<any>>;
 
-  constructor(private routerService:RouterService){}
+  constructor(private routerService: RouterService) {}
 
   ngOnInit() {
     this.breadcrumb = this.routerService.breadcrumb;

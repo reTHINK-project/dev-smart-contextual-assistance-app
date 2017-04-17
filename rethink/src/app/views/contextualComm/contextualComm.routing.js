@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 // Components
-var authGuard_service_1 = require("../../services/authGuard.service");
+var services_1 = require("../../services/services");
 var contextualComm_resolver_1 = require("../../services/contextualComm.resolver");
 var user_resolver_1 = require("../../services/user.resolver");
 var contextualComm_component_1 = require("./contextualComm.component");
@@ -20,7 +20,7 @@ var contextualCommRoutes = [
         path: ':trigger',
         component: contextualComm_component_1.ContextualCommComponent,
         canActivate: [
-            authGuard_service_1.AuthGuard
+            services_1.AuthGuard
         ],
         resolve: {
             context: contextualComm_resolver_1.ContextualCommResolver

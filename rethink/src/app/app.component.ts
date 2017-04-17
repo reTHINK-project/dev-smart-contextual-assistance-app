@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, CanActivate, ActivatedRoute, NavigationExtras } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 // Models
 import { User } from './models/models';
 
 // Services
-import { RethinkService, ConnectorService, ChatService, ContextService, ContactService } from './services/services';
+import { RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
 
 @Component({
   moduleId: module.id,
@@ -15,10 +15,9 @@ import { RethinkService, ConnectorService, ChatService, ContextService, ContactS
 
 export class AppComponent implements OnInit {
 
-  private status:String;
-  private ready:boolean = false;
+  private status: String;
 
-  private myIdentity:User;
+  private myIdentity: User;
 
   constructor(
     private router: Router,
@@ -40,7 +39,7 @@ export class AppComponent implements OnInit {
     return this.rethinkService.loadRuntime()
       .then((runtime) => {
         this.rethinkService.progress.next('Loading chat service');
-        return this.chatService.getHyperty()
+        return this.chatService.getHyperty();
       }, (error) => {
         console.log('Error: ', error);
         this.rethinkService.progress.error(error);
@@ -48,7 +47,7 @@ export class AppComponent implements OnInit {
       })
       .then((hyperty) => {
         this.rethinkService.progress.next('Loading connector service');
-        return this.connectorService.getHyperty()
+        return this.connectorService.getHyperty();
       }, (error) => {
         console.log('Error: ', error);
         this.rethinkService.progress.error(error);
@@ -56,7 +55,7 @@ export class AppComponent implements OnInit {
       })
       .then((hyperty) => {
         this.rethinkService.progress.next('Getting your identity');
-        return this.rethinkService.getIdentity(hyperty)
+        return this.rethinkService.getIdentity(hyperty);
       }, (error) => {
         this.rethinkService.progress.error(error);
       })
@@ -67,7 +66,7 @@ export class AppComponent implements OnInit {
         this.rethinkService.progress.next('The app is ready to be used');
         this.rethinkService.progress.complete();
         this.rethinkService.status.next(true);
-      })
+      });
 
   }
 

@@ -11,6 +11,7 @@ import { Message, User, ContextualComm } from '../../models/models';
 
 // Components
 import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   moduleId: module.id,
@@ -25,6 +26,7 @@ export class UserViewComponent implements OnInit, OnDestroy {
   private contextualCommActivityComponent: ContextualCommActivityComponent;
 
   private action: string;
+  private subscription: Subscription;
 
   private user: User;
   private messages: Subject<Message[]> = new BehaviorSubject([]);
@@ -35,16 +37,17 @@ export class UserViewComponent implements OnInit, OnDestroy {
     private contactService: ContactService,
     private contextService: ContextService,
     private chatService: ChatService) {
-  }
 
-  ngOnInit() {
-
-    this.route
+    this.subscription = this.route
       .queryParams
       .subscribe(params => {
         console.log('Params Action:', params['action']);
         this.action = params['action'];
       });
+
+  }
+
+  ngOnInit() {
 
     this.route.data.forEach((data: { user: User, context: ContextualComm }) => {
       console.log('Resolve data User: ', data.user);

@@ -18,13 +18,12 @@ var fileEvent_component_1 = require("../../components/rethink/hypertyResource/fi
 // Components views
 var user_view_component_1 = require("../userView/user-view.component");
 var activity_view_component_1 = require("../activityView/activity-view.component");
+// Components
 var activity_component_1 = require("../../components/activity/activity.component");
 var activitylist_component_1 = require("../../components/activity/activitylist.component");
 var contextualCommActivity_component_1 = require("../contextualCommActivity/contextualCommActivity.component");
 // Services
-var authGuard_service_1 = require("../../services/authGuard.service");
-var user_resolver_1 = require("../../services/user.resolver");
-var contextualComm_resolver_1 = require("../../services/contextualComm.resolver");
+var services_1 = require("../../services/services");
 var ContextualCommModule = (function () {
     function ContextualCommModule() {
     }
@@ -50,9 +49,10 @@ ContextualCommModule = __decorate([
             fileEvent_component_1.FileEventComponent
         ],
         providers: [
-            authGuard_service_1.AuthGuard,
-            user_resolver_1.UserResolver,
-            contextualComm_resolver_1.ContextualCommResolver
+            services_1.AuthGuard,
+            services_1.UserResolver,
+            services_1.ContextService,
+            services_1.ContextualCommResolver
         ]
     })
 ], ContextualCommModule);

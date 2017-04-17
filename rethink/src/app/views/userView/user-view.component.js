@@ -17,6 +17,7 @@ var services_1 = require("../../services/services");
 var contextualCommActivity_component_1 = require("../contextualCommActivity/contextualCommActivity.component");
 var UserViewComponent = (function () {
     function UserViewComponent(router, route, contactService, contextService, chatService) {
+        var _this = this;
         this.router = router;
         this.route = route;
         this.contactService = contactService;
@@ -24,15 +25,15 @@ var UserViewComponent = (function () {
         this.chatService = chatService;
         this.hostClass = '';
         this.messages = new BehaviorSubject_1.BehaviorSubject([]);
-    }
-    UserViewComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.route
+        this.subscription = this.route
             .queryParams
             .subscribe(function (params) {
             console.log('Params Action:', params['action']);
             _this.action = params['action'];
         });
+    }
+    UserViewComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.route.data.forEach(function (data) {
             console.log('Resolve data User: ', data.user);
             console.log('Resolve data Context: ', data.context);

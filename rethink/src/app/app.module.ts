@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MomentModule, AddPipe, DurationPipe } from 'angular2-moment';
 
 // routing
 import { AppRoutingModule } from './app-routing.module';
@@ -17,7 +18,7 @@ import { HomeComponent } from './views/home/home.component';
 import { ContextualCommComponent } from './views/contextualComm/contextualComm.component';
 
 import { ContextualCommUsersComponent } from './views/contextualCommUsers/contextualCommUsers.component';
-import { UserIdentityComponent } from './components/rethink/userIdentity/userIdentity.component'
+import { UserIdentityComponent } from './components/rethink/userIdentity/userIdentity.component';
 import { ContextBreadcrumbComponent } from './views/breadcrumb/breadcrumb.component';
 import { MySelfComponent } from './components/mySelf/my-self.component';
 import { AddUserComponent } from './views/contextualCommUsers/add-user.component';
@@ -28,6 +29,7 @@ import { servicesInjectables } from './services/services';
 @NgModule({
   imports: [
     FormsModule,
+    MomentModule,
     BrowserModule,
     ContextualCommModule,
     NgbModule.forRoot(),

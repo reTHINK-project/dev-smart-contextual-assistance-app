@@ -65,7 +65,6 @@ var RethinkService = (function () {
         var _this = this;
         console.log('[Get my Identity]:', hyperty);
         return new Promise(function (resolve, reject) {
-            var hypertyURL = hyperty.runtimeHypertyURL;
             hyperty.instance.identityManager.discoverUserRegistered().then(function (user) {
                 var myUser = new models_1.User(user);
                 _this.setCurrentUser = myUser;

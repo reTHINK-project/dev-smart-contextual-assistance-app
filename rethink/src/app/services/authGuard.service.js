@@ -23,6 +23,7 @@ var AuthGuard = (function () {
         return new Promise(function (resolve) {
             _this.rethinkService.status.subscribe({
                 next: function (value) { if (value) {
+                    console.log('CAN ACTIVATE:', value);
                     resolve(value);
                 } }
             });
@@ -32,7 +33,9 @@ var AuthGuard = (function () {
 }());
 AuthGuard = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [rethink_service_1.RethinkService, chat_service_1.ChatService, router_1.Router])
+    __metadata("design:paramtypes", [rethink_service_1.RethinkService,
+        chat_service_1.ChatService,
+        router_1.Router])
 ], AuthGuard);
 exports.AuthGuard = AuthGuard;
 //# sourceMappingURL=authGuard.service.js.map

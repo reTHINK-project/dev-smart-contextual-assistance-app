@@ -15,7 +15,10 @@ import { NotificationService } from '../notification.service';
 
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
+
+const STATUS = { INPROGRESS: 'in-progress', END: 'end'};
 
 @Injectable()
 export class ConnectorService {
@@ -25,6 +28,8 @@ export class ConnectorService {
   private hyperty: any;
   private hypertyVideo: any;
 
+  private paramsSubscription: Subscription;
+
   private callInProgress = false;
   private _webrtcMode = 'offer';
   public get connectorMode(): string {
@@ -33,6 +38,8 @@ export class ConnectorService {
 
   private _localStream: Subject<MediaStream> = new Subject();
   private _remoteStream: ReplaySubject<MediaStream> = new ReplaySubject();
+
+  private _connectorStatus: Subject<string> = new Subject<string>();
 
   private _mode: string;
 
@@ -53,10 +60,9 @@ export class ConnectorService {
     private notificationService: NotificationService,
     private appService: RethinkService) {
 
-      this.route.queryParams.subscribe(params => {
+      this.paramsSubscription = this.route.queryParams.subscribe(params => {
         console.log('[Connector Service] - query params changes:', params['action'], this.mode, this.callInProgress);
 
-        // check if was a call in progress
         if (!this.callInProgress) { this.acceptCall(); }
       });
 
@@ -96,6 +102,9 @@ export class ConnectorService {
         return this.controllers[this._webrtcMode].accept(mediaStream);
       }).then((accepted) => {
         this.callInProgress = true;
+
+        this._connectorStatus.next(STATUS.INPROGRESS);
+
         console.log('[Connector Service] - accept response:', this.mode);
 
       if (this.mode === 'audio') {
@@ -109,8 +118,6 @@ export class ConnectorService {
     }
 
   }
-
-
 
   prepareHyperty() {
 
@@ -194,6 +201,15 @@ export class ConnectorService {
 
     controller.onDisconnect((identity: any) => {
       console.log('[Connector Service - onDisconnect] - onDisconnect:', identity);
+
+      let navigationExtras: NavigationExtras = {
+        queryParams: {},
+        relativeTo: this.route
+      };
+
+      this.router.navigate([], navigationExtras);
+      this.paramsSubscription.unsubscribe();
+      this._connectorStatus.next(STATUS.END);
     });
 
   }
@@ -208,6 +224,11 @@ export class ConnectorService {
     return this._localStream.map((stream: MediaStream) => {
       return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(stream));
     }).publishReplay(1).refCount();
+  }
+
+
+  connectorStatus(): Subject<string> {
+    return this._connectorStatus;
   }
 
   enableVideo() {
@@ -229,6 +250,8 @@ export class ConnectorService {
   hangup() {
     this.callInProgress = false;
     this.controllers[this._webrtcMode].disconnect();
+    this._connectorStatus.next(STATUS.END);
+
     console.log('[Connector Service - hangup]: ', this.router);
   }
 

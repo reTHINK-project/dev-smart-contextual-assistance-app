@@ -29,6 +29,8 @@
 
       // other libraries
       'rxjs':                      'npm:rxjs',
+      'moment':                    'npm:moment',
+      'angular2-moment':           'npm:angular2-moment',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
 
       'runtime-browser': 'npm:runtime-browser/bin'
@@ -42,6 +44,14 @@
         defaultExtension: 'js'
       },
       rxjs: {
+        defaultExtension: 'js'
+      },
+      moment: {
+        main: 'moment.js',
+        defaultExtension: 'js'
+      },
+      'angular2-moment': {
+        main: './index.js',
         defaultExtension: 'js'
       },
       'runtime-browser': { main: 'rethink.js', defaultExtension: 'js' },

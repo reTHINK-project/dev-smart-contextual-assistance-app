@@ -6,7 +6,8 @@ import { Router, Resolve,
 import { User } from '../models/models';
 
 // Service
-import { ContactService, RethinkService, ChatService, ContextService } from './services';
+import { ContactService } from './contact.service';
+import { RethinkService, ChatService, ContextService } from './services';
 
 @Injectable()
 export class UserResolver implements Resolve<User> {

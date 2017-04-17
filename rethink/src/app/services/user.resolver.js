@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 // Service
+var contact_service_1 = require("./contact.service");
 var services_1 = require("./services");
 var UserResolver = (function () {
     function UserResolver(rethinkService, chatService, contextService, contactService, router) {
@@ -41,7 +42,7 @@ UserResolver = __decorate([
     __metadata("design:paramtypes", [services_1.RethinkService,
         services_1.ChatService,
         services_1.ContextService,
-        services_1.ContactService,
+        contact_service_1.ContactService,
         router_1.Router])
 ], UserResolver);
 exports.UserResolver = UserResolver;

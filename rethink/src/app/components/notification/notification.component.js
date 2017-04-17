@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var notification_service_1 = require("../../services/notification.service");
+var services_1 = require("../../services/services");
 var models_1 = require("../../models/models");
 var NotificationComponent = (function () {
     function NotificationComponent(notificationService) {
@@ -71,7 +71,7 @@ NotificationComponent = __decorate([
         templateUrl: './notification.component.html',
         styleUrls: ['./notification.component.css']
     }),
-    __metadata("design:paramtypes", [notification_service_1.NotificationService])
+    __metadata("design:paramtypes", [services_1.NotificationService])
 ], NotificationComponent);
 exports.NotificationComponent = NotificationComponent;
 //# sourceMappingURL=notification.component.js.map

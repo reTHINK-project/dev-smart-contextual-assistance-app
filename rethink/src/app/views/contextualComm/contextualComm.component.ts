@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 
 // Services
-import { RethinkService, ChatService, ContextService, ContactService } from '../../services/services';
+import { ContactService, RethinkService, ChatService, ContextService } from '../../services/services';
 
 // Models
 import { User, ContextualComm } from '../../models/models';
@@ -22,9 +22,9 @@ export class ContextualCommComponent implements OnInit {
 
   @HostBinding('class') hostClass = 'context-view';
 
-  @ViewChild(AddUserComponent) addView:AddUserComponent;
+  @ViewChild(AddUserComponent) addView: AddUserComponent;
 
-  private users:Subject<User[]> = new BehaviorSubject([]);
+  private users: Subject<User[]> = new BehaviorSubject([]);
 
   constructor(
     private router: Router,
@@ -47,10 +47,10 @@ export class ContextualCommComponent implements OnInit {
         // console.log('Resolved users:', data.users);
       });
 
-    this.contextService.contextualComm().subscribe((contextualComm:ContextualComm) => {
+    this.contextService.contextualComm().subscribe((contextualComm: ContextualComm) => {
       console.log('[ContextualComm Component - update] - ', contextualComm, contextualComm.users);
       this.users.next(contextualComm.users);
-    })
+    });
 
   }
 
@@ -68,7 +68,7 @@ export class ContextualCommComponent implements OnInit {
     this.addView.toogle();
   }
 
-  onInviteEvent(value:any) {
+  onInviteEvent(value: any) {
     console.log('Invite some one: ', value);
   }
 
