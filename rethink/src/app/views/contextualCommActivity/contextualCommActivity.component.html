@@ -1,5 +1,5 @@
-<li class="half-padding" *ngFor="let activity of messages | async" [ngSwitch]="activity.type">
-  <chat-event *ngSwitchCase="'message'" [activity]="activity"></chat-event>
-  <file-event *ngSwitchCase="'file'" [activity]="activity"></file-event>
+<li class="half-padding" *ngFor="let message of messages | async" [ngSwitch]="message.type">
+  <chat-event *ngSwitchCase="'message'" [message]="message"></chat-event>
+  <file-event *ngSwitchCase="'file'" [message]="message"></file-event>
   <span *ngSwitchDefault>other</span>
 </li>

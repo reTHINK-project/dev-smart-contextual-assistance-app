@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MomentModule, AddPipe, DurationPipe } from 'angular2-moment';
 
 // routing
 import { AppRoutingModule } from './app-routing.module';
@@ -29,7 +28,6 @@ import { servicesInjectables } from './services/services';
 @NgModule({
   imports: [
     FormsModule,
-    MomentModule,
     BrowserModule,
     ContextualCommModule,
     NgbModule.forRoot(),

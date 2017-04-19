@@ -45,10 +45,10 @@ export class Message {
   message: string;
   user: User;
   date: Date;
-  unread: boolean;
+  isRead: boolean;
 
   constructor(obj: any) {
-    this.unread           = false;
+    this.isRead           = false;
     this.type             = obj && obj.type;
     this.message          = obj && obj.message;
     this.user             = obj && obj.user;

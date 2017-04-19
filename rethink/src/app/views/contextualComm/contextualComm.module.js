@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var common_1 = require("@angular/common");
+var angular2_moment_1 = require("angular2-moment");
 var contextualComm_routing_1 = require("./contextualComm.routing");
 // Generic Components
 var contact_box_component_1 = require("../../components/user/contact-box.component");
@@ -19,8 +20,6 @@ var fileEvent_component_1 = require("../../components/rethink/hypertyResource/fi
 var user_view_component_1 = require("../userView/user-view.component");
 var activity_view_component_1 = require("../activityView/activity-view.component");
 // Components
-var activity_component_1 = require("../../components/activity/activity.component");
-var activitylist_component_1 = require("../../components/activity/activitylist.component");
 var contextualCommActivity_component_1 = require("../contextualCommActivity/contextualCommActivity.component");
 // Services
 var services_1 = require("../../services/services");
@@ -32,6 +31,7 @@ var ContextualCommModule = (function () {
 ContextualCommModule = __decorate([
     core_1.NgModule({
         imports: [
+            angular2_moment_1.MomentModule,
             common_1.CommonModule,
             forms_1.FormsModule,
             contextualComm_routing_1.ContextualCommRoutingModule
@@ -39,8 +39,6 @@ ContextualCommModule = __decorate([
         declarations: [
             contextualCommActivity_component_1.ContextualCommActivityComponent,
             activity_view_component_1.ActivityViewComponent,
-            activitylist_component_1.ActivityListComponent,
-            activity_component_1.ActivityComponent,
             user_view_component_1.UserViewComponent,
             chatCommunication_component_1.ChatCommunicationComponent,
             mediaCommunication_component_1.MediaCommunicationComponent,

@@ -2,6 +2,8 @@ import { NgModule }       from '@angular/core';
 import { FormsModule }    from '@angular/forms';
 import { CommonModule }   from '@angular/common';
 
+import { MomentModule } from 'angular2-moment';
+
 import { ContextualCommRoutingModule } from './contextualComm.routing';
 
 // Generic Components
@@ -18,8 +20,6 @@ import { UserViewComponent } from '../userView/user-view.component';
 import { ActivityViewComponent } from '../activityView/activity-view.component';
 
 // Components
-import { ActivityComponent } from '../../components/activity/activity.component';
-import { ActivityListComponent } from '../../components/activity/activitylist.component';
 import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component';
 
 // Services
@@ -31,6 +31,7 @@ import {
 
 @NgModule({
   imports: [
+    MomentModule,
     CommonModule,
     FormsModule,
     ContextualCommRoutingModule
@@ -38,8 +39,6 @@ import {
   declarations: [
     ContextualCommActivityComponent,
     ActivityViewComponent,
-    ActivityListComponent,
-    ActivityComponent,
     UserViewComponent,
 
     ChatCommunicationComponent,

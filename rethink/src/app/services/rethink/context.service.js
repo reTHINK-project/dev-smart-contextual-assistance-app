@@ -60,18 +60,36 @@ var ContextService = (function () {
             });
             context.messages = context.messages.map(function (message) {
                 var currentMessage = new models_1.Message(message);
-                console.log('[Context Service - contextualComm] - typeof: ', currentMessage.user instanceof models_1.User);
+                console.log('[Context Service - contextualCommUpdates] - typeof: ', currentMessage.user instanceof models_1.User);
                 currentMessage.user = _this.contactService.getUser(currentMessage.user.userURL);
-                return currentMessage;
+                return message;
             });
-            console.log('[Context Service - contextualComm] - map', context.url, context);
-            _this.updateContexts(context.url, context);
+            console.log('[Context Service - contextualCommUpdates] - map', context.url, context);
             return context;
         }).scan(function (contextualCommList, context) {
-            console.log('SCAN CONTEXT UPDATES:', context, _this.currentActiveContext);
+            console.log('[Context Service - contextualCommUpdates] - scan', context, _this.currentActiveContext);
             if (_this.currentActiveContext && _this.currentActiveContext.url === context.url) {
+                context.messages = context.messages.map(function (message) {
+                    message.isRead = true;
+                    message.user.unread = 0;
+                    return message;
+                });
                 _this.contextualCommObs.next(context);
             }
+            else {
+                var count_1 = 0;
+                context.messages.forEach(function (message) {
+                    var currentUser;
+                    if (message.user.userURL !== _this.rethinkService.getCurrentUser.userURL) {
+                        currentUser = _this.contactService.getUser(message.user.userURL);
+                        if (message.isRead === false) {
+                            count_1++;
+                        }
+                        currentUser.unread = count_1;
+                    }
+                });
+            }
+            _this.updateContexts(context.url, context);
             contextualCommList.set(context.url, context);
             return contextualCommList;
         }, this.cxtList)

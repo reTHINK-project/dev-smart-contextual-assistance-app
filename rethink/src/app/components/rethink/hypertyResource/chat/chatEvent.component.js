@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var models_1 = require("../../../../models/models");
 var ChatEventComponent = (function () {
     function ChatEventComponent() {
     }
@@ -18,8 +19,8 @@ var ChatEventComponent = (function () {
 }());
 __decorate([
     core_1.Input(),
-    __metadata("design:type", Object)
-], ChatEventComponent.prototype, "activity", void 0);
+    __metadata("design:type", models_1.Message)
+], ChatEventComponent.prototype, "message", void 0);
 ChatEventComponent = __decorate([
     core_1.Component({
         moduleId: module.id,

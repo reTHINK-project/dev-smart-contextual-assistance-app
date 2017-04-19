@@ -102,23 +102,44 @@ export class ContextService {
 
       context.messages = context.messages.map((message: Message) => {
         let currentMessage = new Message(message);
-        console.log('[Context Service - contextualComm] - typeof: ', currentMessage.user instanceof User);
+        console.log('[Context Service - contextualCommUpdates] - typeof: ', currentMessage.user instanceof User);
         currentMessage.user = this.contactService.getUser(currentMessage.user.userURL);
-        return currentMessage;
+        return message;
       });
 
-      console.log('[Context Service - contextualComm] - map', context.url, context);
-      this.updateContexts(context.url, context);
+      console.log('[Context Service - contextualCommUpdates] - map', context.url, context);
 
       return context;
     }).scan((contextualCommList: Map<string, ContextualComm>, context: ContextualComm) => {
 
-      console.log('SCAN CONTEXT UPDATES:', context, this.currentActiveContext);
+      console.log('[Context Service - contextualCommUpdates] - scan', context, this.currentActiveContext);
 
       if (this.currentActiveContext && this.currentActiveContext.url === context.url) {
+
+        context.messages = context.messages.map((message: Message) => {
+          message.isRead = true;
+          message.user.unread = 0;
+          return message;
+        });
+
         this.contextualCommObs.next(context);
+      } else {
+
+        let count = 0;
+
+        context.messages.forEach((message: Message) => {
+          let currentUser;
+          if (message.user.userURL !== this.rethinkService.getCurrentUser.userURL) {
+            currentUser = this.contactService.getUser(message.user.userURL);
+            if (message.isRead === false) { count++; }
+            currentUser.unread = count;
+          }
+
+        });
+
       }
 
+      this.updateContexts(context.url, context);
       contextualCommList.set(context.url, context);
       return contextualCommList;
     }, this.cxtList)

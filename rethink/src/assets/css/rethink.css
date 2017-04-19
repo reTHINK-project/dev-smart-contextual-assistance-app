@@ -2061,7 +2061,7 @@ body.rethink ul.contactlist li:hover div.pointer, body.rethink ul.contactlist li
 /* line 2082, ../sass/rethink.scss */
 body.rethink ul.contactlist li div.alert {
   position: absolute;
-  top: 18px;
+  top: 0px;
   right: 32px;
 }
 /* line 2087, ../sass/rethink.scss */
@@ -2078,8 +2078,8 @@ body.rethink ul.contactlist li div.alert span.new-message {
   color: #f8f8f8;
   font-weight: 400;
   position: absolute;
-  top: -6px;
-  right: -2px;
+  top: 8px;
+  right: 16px;
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
   -ms-border-radius: 30px;
@@ -2243,7 +2243,7 @@ body.rethink ul.contactlist li.user-area span.status a:hover {
 body.rethink ul.contactlist li div.pointer {
   position: absolute;
   right: 16px;
-  top: 19px;
+  top: 12px;
   padding: 2px 4px;
   transform: scale(0.8, 0.8) translate3d(0, 0, 0);
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);

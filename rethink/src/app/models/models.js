@@ -18,7 +18,7 @@ var User = (function () {
 exports.User = User;
 var Message = (function () {
     function Message(obj) {
-        this.unread = false;
+        this.isRead = false;
         this.type = obj && obj.type;
         this.message = obj && obj.message;
         this.user = obj && obj.user;

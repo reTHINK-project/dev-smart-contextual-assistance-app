@@ -9,7 +9,6 @@ var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var forms_1 = require("@angular/forms");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
-var angular2_moment_1 = require("angular2-moment");
 // routing
 var app_routing_module_1 = require("./app-routing.module");
 var notification_component_1 = require("./components/notification/notification.component");
@@ -34,7 +33,6 @@ AppModule = __decorate([
     core_1.NgModule({
         imports: [
             forms_1.FormsModule,
-            angular2_moment_1.MomentModule,
             platform_browser_1.BrowserModule,
             contextualComm_module_1.ContextualCommModule,
             ng_bootstrap_1.NgbModule.forRoot(),
