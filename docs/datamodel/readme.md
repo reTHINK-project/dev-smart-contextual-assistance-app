@@ -17,3 +17,42 @@ As shown in the picture below, the ContextualCommWork class uses Context objects
 
 
 ![Work Context model](work-context.png)
+
+### Convention names
+
+The following conventions should be used by the App creating the Context and Communication Data Objects used:
+
+1. All object names have an App prefix: `sca`  
+
+2. Composite contexts and associated communication objects names are defined as `sca-<level1-context-name>-<level2-context-name>`. For example, a context communication for  "wp3" WorkTask inside a "rethink" Work, would be `sca-rethink-wp3`
+
+2. Atomic contexts and associated communication objects names are defined as `sca-<level1-context-name>-<level2-context-name>..?<userId1>&<userId2>`. For example, a context communication for vsilva@boldint.com e and pchainho@gmail inside "wp3" WorkTask and "rethink" Work, would be `sca-rethink-wp3?vsilva@boldint.com&pchainho@gmail.com`
+
+### Use Cases
+*to be moved to a separated page dedicated to technical use cases?*
+
+#### creation of new Contextual Comm
+
+Before the creation of a new Contextual Comm the App will perform the following steps:
+
+1. check locally if there is already an Contextual Comm with the same name.
+
+2. otherwise, check with the Domain Registry if there are already Context and Communication with the same name. This step will imply a new Hyperty to query the DR (extend/reuse extending Discovery Hyperty from Quobis?), and can be skipped in the initial version.
+
+3. if no Objects were found with the same name in 1) and 2), the object can be created.
+
+#### invitation to join a new Contextual Comm
+
+Before accepting the invitation to join a new Contextual Comm the App will check locally if there is already an Contextual Comm with the same name. If not, the invitation can be accepted.
+
+#### invitation to join a Context or Communication from a different App
+
+When invited to join a Context or Communication which name is not compliant with conventions defined above, this means the invitation is coming from a different App.
+
+For the initial version:
+
+1. App will check locally if there is already an Contextual Comm with the same name.
+
+2. if not, the App creates a new top level Contextual Comm with prefix `nonsca`
+
+Future versions can ask the user where to create the new Contextual Comm, giving suggestion where to create, taking account contexts where the users sending the invitation, is already present.
