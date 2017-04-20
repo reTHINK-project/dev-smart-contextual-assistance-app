@@ -21,6 +21,7 @@ var AppComponent = (function () {
         this.rethinkService = rethinkService;
         this.connectorService = connectorService;
         this.chatService = chatService;
+        this.contextOpened = false;
         this.rethinkService.progress.subscribe({
             next: function (v) { return _this.status = v; }
         });
@@ -58,9 +59,13 @@ var AppComponent = (function () {
             _this.rethinkService.status.next(true);
         });
     };
-    AppComponent.prototype.onOpenContext = function () {
+    AppComponent.prototype.onOpenContext = function (event) {
+        this.contextOpened = !this.contextOpened;
     };
-    AppComponent.prototype.onClickOutside = function () {
+    AppComponent.prototype.onClickOutside = function (event) {
+        if (event.srcElement.id === 'mp-pusher') {
+            this.contextOpened = false;
+        }
     };
     return AppComponent;
 }());

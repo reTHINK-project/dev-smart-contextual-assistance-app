@@ -9,5 +9,11 @@
     "**/*.map": {"when": "$(basename).map"}
   },
 "eslint.enable": false,
-"vsicons.presets.angular": true
+"vsicons.presets.angular": true,
+"window.zoomLevel": 0,
+"vsicons.projectDetection.disableDetect": true,
+"workbench.colorTheme": "Visual Studio Dark",
+"workbench.iconTheme": "vscode-icons",
+"editor.minimap.enabled": true,
+"editor.tabSize": 2
 }

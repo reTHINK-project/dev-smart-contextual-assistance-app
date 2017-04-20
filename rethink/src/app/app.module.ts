@@ -10,6 +10,11 @@ import { AppRoutingModule } from './app-routing.module';
 // Utils
 import { CustomUtils } from './utils/CustomUtils';
 
+// TO ORGANIZE
+import { ContextMenuComponent } from './views/contextualCommMenu/contextMenu.component';
+import { AddContextualCommComponent } from './views/contextualCommMenu/add-contextualComm.component';
+
+
 // components
 import { AppComponent } from './app.component';
 import { HomeComponent } from './views/home/home.component';
@@ -40,9 +45,11 @@ import { servicesInjectables } from './services/services';
     HomeComponent,
     MySelfComponent,
     AddUserComponent,
+    ContextMenuComponent,
     NotificationComponent,
     UserIdentityComponent,
     ContextualCommComponent,
+    AddContextualCommComponent,
     ContextBreadcrumbComponent,
     ContextualCommUsersComponent
   ],

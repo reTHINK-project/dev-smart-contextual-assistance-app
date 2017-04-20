@@ -7,7 +7,7 @@
 
       <!-- pusher -->
       <div class="mp-pusher wrapper {{contextOpened ? 'mp-pushed' : ''}}" (click)='onClickOutside($event)' id="mp-pusher">
-          <!-- <nav context-menu></nav> -->
+          <nav context-menu></nav>
 
           <!-- scroller -->
           <div class="scroller">
@@ -15,7 +15,8 @@
               <!-- scroller-inner -->
               <div class="scroller-inner">
                     <header class="all-100 half-padding">
-                        <ul context-breadcrumb onOpenContext="onOpenContext($event)"></ul>
+                        <!-- TODO optimize the openContextMenu process, should be only on the 3 dots -->
+                        <ul context-breadcrumb (click)="onOpenContext($event)"></ul>
                         <h1 class="small-logo push-left"><img src="../assets/img/rethinklogo2.png"></h1>
                         <ul my-self *ngIf="myIdentity" [model]="myIdentity"></ul>
                     </header>

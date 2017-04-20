@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   private status: String;
 
   private myIdentity: User;
+  private contextOpened = false;
 
   constructor(
     private router: Router,
@@ -70,12 +71,14 @@ export class AppComponent implements OnInit {
 
   }
 
-  onOpenContext() {
-
+  onOpenContext(event: Event) {
+    this.contextOpened = !this.contextOpened;
   }
 
-  onClickOutside() {
-
-  }
+  onClickOutside(event: Event) {
+    if (event.srcElement.id === 'mp-pusher') {
+      this.contextOpened = false;
+    }
+}
 
 }

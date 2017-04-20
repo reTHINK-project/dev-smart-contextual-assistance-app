@@ -42,10 +42,10 @@ var ContextualCommComponent = (function () {
         });
     };
     ContextualCommComponent.prototype.onContactAdd = function () {
-        this.addView.toogle();
+        this.addUserComponent.toogle();
     };
     ContextualCommComponent.prototype.onCloseEvent = function () {
-        this.addView.toogle();
+        this.addUserComponent.toogle();
     };
     ContextualCommComponent.prototype.onInviteEvent = function (value) {
         console.log('Invite some one: ', value);
@@ -59,7 +59,7 @@ __decorate([
 __decorate([
     core_1.ViewChild(add_user_component_1.AddUserComponent),
     __metadata("design:type", add_user_component_1.AddUserComponent)
-], ContextualCommComponent.prototype, "addView", void 0);
+], ContextualCommComponent.prototype, "addUserComponent", void 0);
 ContextualCommComponent = __decorate([
     core_1.Component({
         moduleId: module.id,

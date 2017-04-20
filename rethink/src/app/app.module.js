@@ -13,6 +13,9 @@ var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var app_routing_module_1 = require("./app-routing.module");
 // Utils
 var CustomUtils_1 = require("./utils/CustomUtils");
+// TO ORGANIZE
+var contextMenu_component_1 = require("./views/contextualCommMenu/contextMenu.component");
+var add_contextualComm_component_1 = require("./views/contextualCommMenu/add-contextualComm.component");
 // components
 var app_component_1 = require("./app.component");
 var home_component_1 = require("./views/home/home.component");
@@ -45,9 +48,11 @@ AppModule = __decorate([
             home_component_1.HomeComponent,
             my_self_component_1.MySelfComponent,
             add_user_component_1.AddUserComponent,
+            contextMenu_component_1.ContextMenuComponent,
             notification_component_1.NotificationComponent,
             userIdentity_component_1.UserIdentityComponent,
             contextualComm_component_1.ContextualCommComponent,
+            add_contextualComm_component_1.AddContextualCommComponent,
             breadcrumb_component_1.ContextBreadcrumbComponent,
             contextualCommUsers_component_1.ContextualCommUsersComponent
         ],

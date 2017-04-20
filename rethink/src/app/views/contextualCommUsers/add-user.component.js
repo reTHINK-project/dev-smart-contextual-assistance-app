@@ -12,6 +12,7 @@ var core_1 = require("@angular/core");
 // Services
 var services_1 = require("../../services/services");
 var AddUserComponent = (function () {
+    // private contactList: Observable<User[]>;
     function AddUserComponent(chatService, contactService) {
         this.chatService = chatService;
         this.contactService = contactService;
@@ -65,7 +66,7 @@ __decorate([
 ], AddUserComponent.prototype, "hostClass", void 0);
 __decorate([
     core_1.HostBinding('class.visible'),
-    __metadata("design:type", Boolean)
+    __metadata("design:type", Object)
 ], AddUserComponent.prototype, "status", void 0);
 __decorate([
     core_1.Output(),
@@ -81,7 +82,7 @@ __decorate([
 ], AddUserComponent.prototype, "contactClick", void 0);
 __decorate([
     core_1.Input(),
-    __metadata("design:type", Boolean)
+    __metadata("design:type", Object)
 ], AddUserComponent.prototype, "busy", void 0);
 AddUserComponent = __decorate([
     core_1.Component({

@@ -9,26 +9,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var ContextBreadCrumbComponent = (function () {
-    function ContextBreadCrumbComponent() {
-        this.hostClass = 'contactlist all-45';
-        this.openContext = new core_1.EventEmitter();
+var ContextMenuComponent = (function () {
+    function ContextMenuComponent() {
+        this.hostClass = 'mp-menu';
     }
-    return ContextBreadCrumbComponent;
+    return ContextMenuComponent;
 }());
 __decorate([
     core_1.HostBinding('class'),
     __metadata("design:type", Object)
-], ContextBreadCrumbComponent.prototype, "hostClass", void 0);
-__decorate([
-    core_1.Output('open-context'),
-    __metadata("design:type", Object)
-], ContextBreadCrumbComponent.prototype, "openContext", void 0);
-ContextBreadCrumbComponent = __decorate([
+], ContextMenuComponent.prototype, "hostClass", void 0);
+ContextMenuComponent = __decorate([
     core_1.Component({
-        selector: 'ul[context-breadcrumb]',
-        templateUrl: 'comp/context/breadcrumb.comp.html'
+        moduleId: module.id,
+        selector: 'nav[context-menu]',
+        templateUrl: './contextMenu.component.html'
     })
-], ContextBreadCrumbComponent);
-exports.ContextBreadCrumbComponent = ContextBreadCrumbComponent;
-//# sourceMappingURL=breadcrumb.comp.js.map
+], ContextMenuComponent);
+exports.ContextMenuComponent = ContextMenuComponent;
+//# sourceMappingURL=contextMenu.component.js.map

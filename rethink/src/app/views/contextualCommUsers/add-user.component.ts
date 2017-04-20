@@ -1,13 +1,8 @@
-import { Component, HostBinding, Output, Input, OnInit, ElementRef, EventEmitter } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Component, HostBinding, Output, Input, OnInit, EventEmitter } from '@angular/core';
 
 // Services
 import { ContactService, ChatService } from '../../services/services';
 
-// Models
-import { User } from '../../models/models';
-  
 @Component({
   moduleId: module.id,
   selector: 'add-user-view',
@@ -16,7 +11,7 @@ import { User } from '../../models/models';
 })
 export class AddUserComponent implements OnInit {
   @HostBinding('class') hostClass = 'add-user-view fade';
-  @HostBinding('class.visible') status:boolean = false ;
+  @HostBinding('class.visible') status = false ;
 
   @Output() closeEvent = new EventEmitter();
   @Output() inviteEvent = new EventEmitter();
@@ -24,9 +19,9 @@ export class AddUserComponent implements OnInit {
 
   model = <any>{email: '', domain: ''};
 
-  @Input() busy: boolean = false;
+  @Input() busy = false;
 
-  private contactList:Observable<User[]>;
+  // private contactList: Observable<User[]>;
 
   constructor(
     private chatService: ChatService,
@@ -49,12 +44,13 @@ export class AddUserComponent implements OnInit {
         this.busy = false;
         this.clean();
       }, 200);
-      
+
     }).catch((error) => {
       console.log('Error Inviting', error);
-    })
+    });
+
   }
-  
+
   clean() {
     this.model.email = '';
     this.model.domain = '';
@@ -67,7 +63,7 @@ export class AddUserComponent implements OnInit {
   hide() {
     this.status = false;
   }
-  
+
   toogle() {
     this.status = !this.status;
   }

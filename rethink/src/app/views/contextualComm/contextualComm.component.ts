@@ -22,7 +22,7 @@ export class ContextualCommComponent implements OnInit {
 
   @HostBinding('class') hostClass = 'context-view';
 
-  @ViewChild(AddUserComponent) addView: AddUserComponent;
+  @ViewChild(AddUserComponent) addUserComponent: AddUserComponent;
 
   private users: Subject<User[]> = new BehaviorSubject([]);
 
@@ -55,11 +55,11 @@ export class ContextualCommComponent implements OnInit {
   }
 
   onContactAdd() {
-    this.addView.toogle();
+    this.addUserComponent.toogle();
   }
 
   onCloseEvent() {
-    this.addView.toogle();
+    this.addUserComponent.toogle();
   }
 
   onInviteEvent(value: any) {
