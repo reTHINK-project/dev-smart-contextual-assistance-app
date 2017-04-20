@@ -21,6 +21,8 @@ var user_view_component_1 = require("../userView/user-view.component");
 var activity_view_component_1 = require("../activityView/activity-view.component");
 // Components
 var contextualCommActivity_component_1 = require("../contextualCommActivity/contextualCommActivity.component");
+// Custom Pipes
+var pipes_1 = require("../../pipes/pipes");
 // Services
 var services_1 = require("../../services/services");
 var ContextualCommModule = (function () {
@@ -31,6 +33,7 @@ var ContextualCommModule = (function () {
 ContextualCommModule = __decorate([
     core_1.NgModule({
         imports: [
+            pipes_1.PipesModule,
             angular2_moment_1.MomentModule,
             common_1.CommonModule,
             forms_1.FormsModule,

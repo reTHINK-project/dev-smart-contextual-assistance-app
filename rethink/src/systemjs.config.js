@@ -31,6 +31,7 @@
       'rxjs':                      'npm:rxjs',
       'moment':                    'npm:moment',
       'angular2-moment':           'npm:angular2-moment',
+      'moment-duration-format':    'npm:moment-duration-format/lib',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
 
       'runtime-browser': 'npm:runtime-browser/bin'
@@ -48,6 +49,10 @@
       },
       moment: {
         main: 'moment.js',
+        defaultExtension: 'js'
+      },
+      'moment-duration-format': {
+        main: 'moment-duration-format.js',
         defaultExtension: 'js'
       },
       'angular2-moment': {

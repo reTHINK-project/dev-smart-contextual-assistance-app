@@ -54,12 +54,6 @@ export class ContextualCommComponent implements OnInit {
 
   }
 
-/*  onContactClick(user: User) {
-    console.log('(contact-click)', user, this.router);
-
-    this.router.navigate([this.router.url, user.username]);
-  }*/
-
   onContactAdd() {
     this.addView.toogle();
   }

@@ -7,13 +7,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // routing
 import { AppRoutingModule } from './app-routing.module';
 
-import { NotificationComponent } from './components/notification/notification.component';
-
-import { ContextualCommModule } from './views/contextualComm/contextualComm.module';
+// Utils
+import { CustomUtils } from './utils/CustomUtils';
 
 // components
 import { AppComponent } from './app.component';
 import { HomeComponent } from './views/home/home.component';
+import { ContextualCommModule } from './views/contextualComm/contextualComm.module';
+import { NotificationComponent } from './components/notification/notification.component';
 import { ContextualCommComponent } from './views/contextualComm/contextualComm.component';
 
 import { ContextualCommUsersComponent } from './views/contextualCommUsers/contextualCommUsers.component';
@@ -47,6 +48,7 @@ import { servicesInjectables } from './services/services';
   ],
 
   providers: [
+    CustomUtils,
     servicesInjectables
   ],
 

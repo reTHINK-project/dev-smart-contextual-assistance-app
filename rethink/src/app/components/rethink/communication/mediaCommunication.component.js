@@ -33,7 +33,7 @@ var MediaCommunicationComponent = (function () {
         this.connectorService.getRemoteStream().subscribe(function (stream) {
             console.log('[Media Communication Component] - get remote stream: ', stream);
             _this.stream = stream;
-            _this.streamingActive = true;
+            _this.duration = new Date();
         });
         this.connectorService.connectorStatus().subscribe(function (status) {
             console.log('[Media Communication Component] -  connector status: ', status);
@@ -78,7 +78,6 @@ var MediaCommunicationComponent = (function () {
             .then(function (controller) {
             controller.dataObjectReporter.data.mode = _this.mode;
             _this.streamingActive = true;
-            _this.duration = new Date();
             console.log('[Media Communication Component] - called');
         }).catch(function (reason) {
             console.error(reason);

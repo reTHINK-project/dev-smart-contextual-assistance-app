@@ -41,11 +41,6 @@ var ContextualCommComponent = (function () {
             _this.users.next(contextualComm.users);
         });
     };
-    /*  onContactClick(user: User) {
-        console.log('(contact-click)', user, this.router);
-    
-        this.router.navigate([this.router.url, user.username]);
-      }*/
     ContextualCommComponent.prototype.onContactAdd = function () {
         this.addView.toogle();
     };

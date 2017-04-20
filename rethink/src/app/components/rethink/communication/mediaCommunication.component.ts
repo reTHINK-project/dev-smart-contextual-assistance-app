@@ -48,7 +48,7 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
     this.connectorService.getRemoteStream().subscribe((stream) => {
       console.log('[Media Communication Component] - get remote stream: ', stream);
       this.stream = stream;
-      this.streamingActive = true;
+      this.duration = new Date();
     });
 
     this.connectorService.connectorStatus().subscribe((status: string) => {
@@ -110,7 +110,6 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
       .then((controller) => {
         controller.dataObjectReporter.data.mode = this.mode;
         this.streamingActive = true;
-        this.duration = new Date();
         console.log('[Media Communication Component] - called');
       }).catch(function(reason) {
         console.error(reason);

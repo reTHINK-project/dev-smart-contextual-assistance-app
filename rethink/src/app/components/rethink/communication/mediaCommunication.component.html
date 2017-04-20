@@ -25,7 +25,7 @@
 			<a href="javascript:;" (click)="onHangup()"><i class="fa fa-video-camera"></i></a>
 		</span>
 
-		<span class="counter">{{duration}}</span>
+		<span class="counter">{{duration | amTimeElapsed}}</span>
 
 		<span class="action volume push-right">
 			<a href="javascript:;" (click)="onVolume()"><i class="fa fa-volume-up"></i></a>

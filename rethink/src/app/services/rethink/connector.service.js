@@ -124,11 +124,11 @@ var ConnectorService = (function () {
             var navigationExtras = {
                 queryParams: { 'action': this.mode }
             };
-            if (this.router.url.includes(encodeURIComponent(user.username))) {
+            if (this.router.url.includes(user.username)) {
                 this.router.navigate([this.router.url], navigationExtras);
             }
             else {
-                this.router.navigate([this.router.url, decodeURIComponent(user.username)], navigationExtras);
+                this.router.navigate([this.router.url, user.username], navigationExtras);
             }
         }
         else {
@@ -202,6 +202,7 @@ var ConnectorService = (function () {
         this.callInProgress = false;
         this.controllers[this._webrtcMode].disconnect();
         this._connectorStatus.next(STATUS.END);
+        this._remoteStream = new ReplaySubject_1.ReplaySubject();
         console.log('[Connector Service - hangup]: ', this.router);
     };
     return ConnectorService;

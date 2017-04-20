@@ -22,6 +22,9 @@ import { ActivityViewComponent } from '../activityView/activity-view.component';
 // Components
 import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component';
 
+// Custom Pipes
+import { PipesModule } from '../../pipes/pipes';
+
 // Services
 import {
   AuthGuard,
@@ -31,6 +34,7 @@ import {
 
 @NgModule({
   imports: [
+    PipesModule,
     MomentModule,
     CommonModule,
     FormsModule,

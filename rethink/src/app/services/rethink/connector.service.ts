@@ -153,10 +153,10 @@ export class ConnectorService {
         queryParams: { 'action': this.mode }
       };
 
-      if (this.router.url.includes(encodeURIComponent(user.username))) {
+      if (this.router.url.includes(user.username)) {
         this.router.navigate([this.router.url], navigationExtras);
       } else {
-        this.router.navigate([this.router.url, decodeURIComponent(user.username)], navigationExtras);
+        this.router.navigate([this.router.url, user.username], navigationExtras);
       }
     } else {
       controller.decline();
@@ -251,6 +251,7 @@ export class ConnectorService {
     this.callInProgress = false;
     this.controllers[this._webrtcMode].disconnect();
     this._connectorStatus.next(STATUS.END);
+    this._remoteStream = new ReplaySubject();
 
     console.log('[Connector Service - hangup]: ', this.router);
   }

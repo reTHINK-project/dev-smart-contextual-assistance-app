@@ -1,5 +1,4 @@
-import { Component, Input, Output, OnInit, HostBinding, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/core';
 
 import { User } from '../../models/models';
 
@@ -11,7 +10,7 @@ import { User } from '../../models/models';
 export class ContactBoxComponent {
   @HostBinding('class') hostClass = 'contactbox padding all-100 small'
 
-  @Input() user:User;
+  @Input() user: User;
   @Output() closeEvent = new EventEmitter();
 
   onCloseClick() {
