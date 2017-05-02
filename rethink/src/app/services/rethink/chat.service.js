@@ -135,7 +135,7 @@ var ChatService = (function () {
             if (user) {
                 var msg = {
                     type: 'message',
-                    message: message.value.message,
+                    message: message.value.content,
                     user: user
                 };
                 var currentMessage = new models_1.Message(msg);
@@ -194,7 +194,7 @@ var ChatService = (function () {
                 console.log('[Chat Service] - user:', user, result.identity.userProfile.userURL);
                 var msg = {
                     type: 'message',
-                    message: result.value.message,
+                    message: result.value.content,
                     user: user
                 };
                 var currentMessage = new models_1.Message(msg);

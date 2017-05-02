@@ -179,7 +179,7 @@ export class ChatService {
       if (user) {
         let msg = {
           type: 'message',
-          message: message.value.message,
+          message: message.value.content,
           user: user
         };
 
@@ -265,7 +265,7 @@ export class ChatService {
 
         let msg = {
           type: 'message',
-          message: result.value.message,
+          message: result.value.content,
           user: user
         };
 
