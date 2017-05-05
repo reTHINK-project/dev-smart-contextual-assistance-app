@@ -9,8 +9,8 @@ import { User } from '../../models/models';
 })
 export class MySelfComponent implements OnInit {
 
-  @Input() model:User;
-  @HostBinding('class') hostClass = 'push-right contactlist'
+  @Input() model: User;
+  @HostBinding('class') hostClass = 'push-right contactlist';
 
   constructor() {}
 

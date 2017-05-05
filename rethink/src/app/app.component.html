@@ -16,7 +16,7 @@
               <div class="scroller-inner">
                     <header class="all-100 half-padding">
                         <!-- TODO optimize the openContextMenu process, should be only on the 3 dots -->
-                        <ul context-breadcrumb (click)="onOpenContext($event)"></ul>
+                        <ul context-breadcrumb (openContext)="onOpenContext($event)"></ul>
                         <h1 class="small-logo push-left"><img src="../assets/img/rethinklogo2.png"></h1>
                         <ul my-self *ngIf="myIdentity" [model]="myIdentity"></ul>
                     </header>

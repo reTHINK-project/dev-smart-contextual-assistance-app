@@ -1,0 +1,50 @@
+.custom-modal {
+
+  background: #eff0f4;
+  opacity: 0;
+
+}
+
+.custom-modal .modal-header {
+  padding: 2em 0;
+}
+
+.custom-modal .modal-header,
+.custom-modal .modal-footer {
+  border: none;
+}
+
+.custom-modal .modal-title {
+  font-weight: 300;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.custom-modal .modal-dialog {
+
+  max-width: none;
+  margin: auto 0;
+  overflow: hidden;
+
+}
+
+.custom-modal .close {
+  width: 38px;
+  height: 36px;
+
+  border: 1px solid #000;
+  border-radius: 30px;
+}
+
+.custom-modal .modal-content {
+
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+  height: auto;
+  max-width: 90%;
+  margin: 0 auto;
+  border: none;
+  background: none;
+
+}

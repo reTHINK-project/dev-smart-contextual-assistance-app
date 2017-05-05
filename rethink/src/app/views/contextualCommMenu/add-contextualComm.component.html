@@ -1,24 +1,65 @@
-<template #content let-c="close" let-d="dismiss">
+<ng-template #content let-c="close" let-d="dismiss">
 
-  <div class="modal-header">
-    <h4 class="modal-title">Modal title</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
+  <div class="row justify-content-md-center">
+    <div class="col-6">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <form class="context">
+
+          <div class="form-group">
+            <label for="contextName">Context Name</label>
+            <input type="text" class="form-control" id="contextName" aria-describedby="nameHelp" placeholder="Context name" required>
+            <small id="nameHelp" class="form-text text-muted">Enter the context name you want create.</small>
+          </div>
+
+          <fieldset class="form-group">
+            <label>Select the main context</label>
+
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optionsRadios" id="optionWork" value="work">
+                Work
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optionsRadios" id="optionSchool" value="school">
+                School
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optionsRadios" id="optionHome" value="home">
+                Home
+              </label>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="c('Close click')">Close</button>
+        <button type="button" class="btn btn-success">Save changes</button>
+      </div>
+
+    </div>
   </div>
-  <div class="modal-body">
-    <p>One fine body&hellip;</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-  </div>
-</template>
+
+</ng-template>
 
 <!--<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
 
 <hr>
 -->
-<pre>{{closeResult}}</pre>
+<!-- <pre>{{closeResult}}</pre> -->
 
 <li class="half-padding options" (click)="open(content)">
   <span class="add-user"><a hre="javascript:;">+</a></span>

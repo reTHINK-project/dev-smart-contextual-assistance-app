@@ -21,7 +21,7 @@ export class ContextualCommUsersComponent implements OnInit {
   @Output() contactAdd = new EventEmitter();
   @Input() model: Observable<User[]>;
 
-  private contactsFilter: Observable<User[]>;
+  contactsFilter: Observable<User[]>;
 
   constructor(private route: ActivatedRoute, private appService: RethinkService) {}
 

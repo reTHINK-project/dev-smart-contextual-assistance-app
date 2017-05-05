@@ -14,11 +14,12 @@ var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var AddContextualCommComponent = (function () {
     function AddContextualCommComponent(modalService) {
         this.modalService = modalService;
+        this.title = 'Add New context';
     }
     AddContextualCommComponent.prototype.ngOnInit = function () { };
     AddContextualCommComponent.prototype.open = function (content) {
         var _this = this;
-        this.modalService.open(content).result.then(function (result) {
+        this.modalService.open(content, { windowClass: 'custom-modal' }).result.then(function (result) {
             _this.closeResult = "Closed with: " + result;
         }, function (reason) {
             _this.closeResult = "Dismissed " + _this.getDismissReason(reason);
@@ -41,7 +42,8 @@ AddContextualCommComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
         selector: 'add-contextualComm-view',
-        templateUrl: './add-contextualComm.component.html'
+        templateUrl: './add-contextualComm.component.html',
+        styleUrls: ['./add-contextualComm.component.css']
     }),
     __metadata("design:paramtypes", [ng_bootstrap_1.NgbModal])
 ], AddContextualCommComponent);

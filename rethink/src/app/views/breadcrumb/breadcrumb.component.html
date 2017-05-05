@@ -5,6 +5,7 @@
   <span *ngFor="let item of breadcrumb | async; let $last = last;">
     <h3 class="quarter-horizontal-space level-1 hide-small hide-tiny">
       <a *ngIf="!$last" routerLink="/{{item}}" routerLinkActive="active">{{item.replace('/', '').substr(item.lastIndexOf('/'))}}</a>
+
       <!-- TODO apply an PIPE here to replace the address -->
       <span *ngIf="$last">{{item.replace('/', '').substr(item.lastIndexOf('/'))}}</span>
     </h3>
