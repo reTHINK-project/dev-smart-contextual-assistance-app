@@ -54,14 +54,6 @@ export class ContextualCommComponent implements OnInit {
 
   }
 
-  onContactAdd() {
-    this.addUserComponent.toogle();
-  }
-
-  onCloseEvent() {
-    this.addUserComponent.toogle();
-  }
-
   onInviteEvent(value: any) {
     console.log('Invite some one: ', value);
   }

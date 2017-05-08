@@ -1,4 +1,4 @@
-<div id="add" class="ink-modal fade visible" data-trigger="#myModalTrigger4" data-width="60%" data-height="auto" role="dialog" aria-hidden="true" aria-labelled-by="">
+<!--<div id="add" class="ink-modal fade" data-trigger="#myModalTrigger4" data-width="60%" data-height="auto" role="dialog" aria-hidden="true" aria-labelled-by="">
     <div class="modal-body contacts-add" id="modalContent" style="flex: 1 1 0%;">
         <div class="align-left all-100">
             <div class="all-100 padding">
@@ -12,7 +12,6 @@
                 <h4 class="half-padding">add user</h4>
                 <li class="search-bar invite half-padding">
                     <form class="all-100 filter">
-                        <span class="fa fa-search"></span>
                         <span class="fa fa-search"></span>
                         <input type="text" value="" placeholder="" id="search-field3" class="search push-left">
                     </form>
@@ -69,4 +68,98 @@
             </ul>
         </div>
     </div>
-</div>
+</div>-->
+
+<ng-template #addUserContent let-c="close" let-d="dismiss">
+
+  <div class="row justify-content-md-center add-user-view fade {{ready ? 'visible' : ''}}">
+    <div class="col-12">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body row">
+
+        <div class="col-sm-12 col-md-6 divider-right">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addUserTitle">Add User</h5>
+          </div>
+
+          <form class="list">
+
+            <div class="form-group">
+              <div class="input-group">
+                <input type="text" class="form-control" value="" placeholder="Search users" id="search-field3"/>
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <ul class="contactlist">
+                <li *ngFor="let user of contactList | async" (click)="contactClick.emit(user)">
+                    <div class="contact-avatar push-left">
+                        <img src="{{user.avatar}}">
+                        <span class="status {{user.status}}"><i class="fa fa-circle"></i></span>
+                    </div>
+                    <div class="all-70">
+                        <h4 class="contact-name"><a href="javascript:;" class="">{{user.cn}}</a></h4>
+                    </div>
+                    <div class="pointer">
+                        <span class="action chat"><i class="fa fa-angle-right"></i></span>
+                    </div>
+                </li>
+              </ul>
+            </div>
+
+          </form>
+
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+          <div class="modal-header">
+            <h5 class="modal-title" id="inviteUserTitle">Invite Users</h5>
+          </div>
+
+          <form class="invite" #inviteForm (submit)="submitEvent(inviteForm.value)">
+            
+            <div class="form-group">
+              <input type="text" [disabled]="busy" [(ngModel)]="model.email" ngControl="email" name="email" 
+              class="quarter-padding" placeholder="someone@mail.com" required>
+            </div>
+
+            <div class="form-group">
+              <input type="text" [disabled]="busy" [(ngModel)]="model.domain" ngControl="domain" name="domain" 
+                class="quarter-padding" placeholder="some.domain.com" required>
+            </div>
+
+            <div class="progress" [style.display]="!busy ? 'none' : 'block'">
+              <div class="progress-bar progress-bar-striped active" role="progressbar" 
+              aria-valuenow="100" aria-valuemin="0" 
+              aria-valuemax="100" 
+              style="width: 100%">
+                <span class="sr-only">Inviting</span>
+              </div>
+            </div>
+
+            <div class="fx-login-submit">
+              <button class="" [disabled]="busy" type="submit">Invite</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</ng-template>
+
+
+<!-- Add contact button -->
+<li class="half-padding options" (click)="open(addUserContent)">
+    <span class="add-user"><a hre="#">+</a></span>
+    <span class="add-text"> Add Contact</span>
+</li>

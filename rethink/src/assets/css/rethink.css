@@ -510,7 +510,7 @@ body.rethink div.container-fluid {
 
 /* line 484, ../sass/rethink.scss */
 body.rethink div.container-fluid .menu-trigger {
-  position: relative;
+  padding: 0 .2rem;
 }
 /* line 505, ../sass/rethink.scss */
 body.rethink div.container-fluid .mp-pusher {
@@ -1909,6 +1909,12 @@ body.rethink li.options span.add-text {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
   opacity: 0.8;
 }
+
+/*body.rethink .add-user-view .contactlist {
+  max-height: 12em;
+  overflow-y: scroll;
+}*/
+
 /* line 1936, ../sass/rethink.scss */
 body.rethink ul.contactlist {
   overflow: hidden;
@@ -2585,6 +2591,7 @@ body.rethink .notification-view {
   right: 0;
   z-index: 999;
   padding: 1% 20%;
+  display: none;
 }
 
 /* line 2599, ../sass/rethink.scss */

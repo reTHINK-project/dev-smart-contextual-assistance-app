@@ -12,7 +12,7 @@
 "vsicons.presets.angular": true,
 "window.zoomLevel": 0,
 "vsicons.projectDetection.disableDetect": true,
-"workbench.colorTheme": "Visual Studio Dark",
+"workbench.colorTheme": "Sublime Material Theme - Dark",
 "workbench.iconTheme": "vscode-icons",
 "editor.minimap.enabled": true,
 "editor.tabSize": 2
