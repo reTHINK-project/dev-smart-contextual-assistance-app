@@ -9,23 +9,44 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+// Bootstrap
+var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 // Services
 var services_1 = require("../../services/services");
 var AddUserComponent = (function () {
-    // private contactList: Observable<User[]>;
-    function AddUserComponent(chatService, contactService) {
+    function AddUserComponent(modalService, chatService, contactService) {
+        this.modalService = modalService;
         this.chatService = chatService;
         this.contactService = contactService;
-        this.hostClass = 'add-user-view fade';
-        this.status = false;
         this.closeEvent = new core_1.EventEmitter();
         this.inviteEvent = new core_1.EventEmitter();
         this.contactClick = new core_1.EventEmitter();
         this.model = { email: '', domain: '' };
         this.busy = false;
+        this.ready = false;
     }
     AddUserComponent.prototype.ngOnInit = function () {
-        // this.contactList = this.contactService.getAllContacts();
+        this.contactList = this.contactService.getUsers();
+    };
+    AddUserComponent.prototype.open = function (content) {
+        var _this = this;
+        this.ready = true;
+        this.modalService.open(content, { backdrop: false, windowClass: 'custom-modal' }).result.then(function (result) {
+            _this.closeResult = "Closed with: " + result;
+        }, function (reason) {
+            _this.closeResult = "Dismissed " + _this.getDismissReason(reason);
+        });
+    };
+    AddUserComponent.prototype.getDismissReason = function (reason) {
+        if (reason === ng_bootstrap_1.ModalDismissReasons.ESC) {
+            return 'by pressing ESC';
+        }
+        else if (reason === ng_bootstrap_1.ModalDismissReasons.BACKDROP_CLICK) {
+            return 'by clicking on a backdrop';
+        }
+        else {
+            return "with: " + reason;
+        }
     };
     AddUserComponent.prototype.submitEvent = function () {
         // this.inviteEvent.emit( JSON.parse(JSON.stringify(this.model)) );
@@ -46,28 +67,8 @@ var AddUserComponent = (function () {
         this.model.email = '';
         this.model.domain = '';
     };
-    AddUserComponent.prototype.show = function () {
-        this.status = true;
-    };
-    AddUserComponent.prototype.hide = function () {
-        this.status = false;
-    };
-    AddUserComponent.prototype.toogle = function () {
-        this.status = !this.status;
-    };
-    AddUserComponent.prototype.close = function () {
-        this.status = false;
-    };
     return AddUserComponent;
 }());
-__decorate([
-    core_1.HostBinding('class'),
-    __metadata("design:type", Object)
-], AddUserComponent.prototype, "hostClass", void 0);
-__decorate([
-    core_1.HostBinding('class.visible'),
-    __metadata("design:type", Object)
-], AddUserComponent.prototype, "status", void 0);
 __decorate([
     core_1.Output(),
     __metadata("design:type", Object)
@@ -88,10 +89,10 @@ AddUserComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
         selector: 'add-user-view',
-        templateUrl: './add-user.component.html',
-        styleUrls: ['./add-user.component.css']
+        templateUrl: './add-user.component.html'
     }),
-    __metadata("design:paramtypes", [services_1.ChatService,
+    __metadata("design:paramtypes", [ng_bootstrap_1.NgbModal,
+        services_1.ChatService,
         services_1.ContactService])
 ], AddUserComponent);
 exports.AddUserComponent = AddUserComponent;

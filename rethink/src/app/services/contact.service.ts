@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/scan';
@@ -23,7 +24,7 @@ export class ContactService {
 
   private _userList: Map<string, User> = new Map<string, User>();
 
-  private _users: Observable<User[]>;
+  private _users: BehaviorSubject<User[]> = new BehaviorSubject([]);
 
     // action streams
   private _create: Subject<User> = new Subject<User>();
@@ -40,14 +41,23 @@ export class ContactService {
     if (this.localStorage.hasObject('contacts')) {
       let mapObj = this.localStorage.getObject('contacts');
       for (let k of Object.keys(mapObj)) {
-        this._userList.set(k, new User(mapObj[k]));
+        let currentUser: User = new User(mapObj[k]);
+        this._userList.set(k, currentUser);
+        this._users.next([currentUser]);
       }
     }
 
-    this._users = this._updates
+    this._users.scan((users: User[], user: User[]) => {
+      return users.concat(user);
+    })
+    .publishReplay(1)
+    .refCount();
+
+    this._updates
       // watch the updates and accumulate operations on the users
       .scan((users: User[], user: User) => {
-        return users.concat(user);
+        console.log('Users:', users);
+        return users.push(user);
       }, [])
     // make sure we can share the most recent list of users across anyone
     // who's interested in subscribing and cache the last known list of

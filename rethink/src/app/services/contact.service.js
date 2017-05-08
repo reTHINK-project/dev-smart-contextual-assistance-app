@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 // Core
 var core_1 = require("@angular/core");
 var Subject_1 = require("rxjs/Subject");
+var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 require("rxjs/add/operator/map");
 require("rxjs/add/operator/scan");
 require("rxjs/add/operator/publishReplay");
@@ -25,6 +26,7 @@ var ContactService = (function () {
         var _this = this;
         this.localStorage = localStorage;
         this._userList = new Map();
+        this._users = new BehaviorSubject_1.BehaviorSubject([]);
         // action streams
         this._create = new Subject_1.Subject();
         // `updates` receives _operations_ to be applied to our `users`
@@ -36,12 +38,20 @@ var ContactService = (function () {
             var mapObj = this.localStorage.getObject('contacts');
             for (var _i = 0, _a = Object.keys(mapObj); _i < _a.length; _i++) {
                 var k = _a[_i];
-                this._userList.set(k, new models_1.User(mapObj[k]));
+                var currentUser = new models_1.User(mapObj[k]);
+                this._userList.set(k, currentUser);
+                this._users.next([currentUser]);
             }
         }
-        this._users = this._updates
-            .scan(function (users, user) {
+        this._users.scan(function (users, user) {
             return users.concat(user);
+        })
+            .publishReplay(1)
+            .refCount();
+        this._updates
+            .scan(function (users, user) {
+            console.log('Users:', users);
+            return users.push(user);
         }, [])
             .publishReplay(1)
             .refCount();

@@ -1,17 +1,19 @@
-import { Component, HostBinding, Output, Input, OnInit, EventEmitter } from '@angular/core';
+import { Component, Output, Input, OnInit, EventEmitter } from '@angular/core';
+
+// Bootstrap
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 // Services
 import { ContactService, ChatService } from '../../services/services';
+import { Observable } from 'rxjs/Observable';
+import { User } from '../../models/models';
 
 @Component({
   moduleId: module.id,
   selector: 'add-user-view',
-  templateUrl: './add-user.component.html',
-  styleUrls: ['./add-user.component.css']
+  templateUrl: './add-user.component.html'
 })
 export class AddUserComponent implements OnInit {
-  @HostBinding('class') hostClass = 'add-user-view fade';
-  @HostBinding('class.visible') status = false ;
 
   @Output() closeEvent = new EventEmitter();
   @Output() inviteEvent = new EventEmitter();
@@ -21,17 +23,43 @@ export class AddUserComponent implements OnInit {
 
   @Input() busy = false;
 
-  // private contactList: Observable<User[]>;
+  ready = false;
+
+  private closeResult: string;
+
+  contactList: Observable<User[]>;
 
   constructor(
+    private modalService: NgbModal,
     private chatService: ChatService,
     private contactService: ContactService) {
   }
 
   ngOnInit() {
-    // this.contactList = this.contactService.getAllContacts();
+    this.contactList = this.contactService.getUsers();
   }
 
+  open(content: any) {
+
+    this.ready = true;
+
+    this.modalService.open(content, {backdrop: false, windowClass: 'custom-modal'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+
+  }
+
+  private getDismissReason(reason: any): string {
+      if (reason === ModalDismissReasons.ESC) {
+          return 'by pressing ESC';
+      } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+          return 'by clicking on a backdrop';
+      } else {
+          return  `with: ${reason}`;
+      }
+  }
 
   submitEvent() {
     // this.inviteEvent.emit( JSON.parse(JSON.stringify(this.model)) );
@@ -54,22 +82,6 @@ export class AddUserComponent implements OnInit {
   clean() {
     this.model.email = '';
     this.model.domain = '';
-  }
-
-  show() {
-    this.status = true;
-  }
-
-  hide() {
-    this.status = false;
-  }
-
-  toogle() {
-    this.status = !this.status;
-  }
-
-  close() {
-    this.status = false;
   }
 
 }

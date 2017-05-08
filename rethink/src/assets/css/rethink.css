@@ -1909,6 +1909,12 @@ body.rethink li.options span.add-text {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
   opacity: 0.8;
 }
+
+/*body.rethink .add-user-view .contactlist {
+  max-height: 12em;
+  overflow-y: scroll;
+}*/
+
 /* line 1936, ../sass/rethink.scss */
 body.rethink ul.contactlist {
   overflow: hidden;

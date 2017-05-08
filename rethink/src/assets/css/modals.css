@@ -5,6 +5,44 @@
 
 }
 
+.custom-modal .divider-left,
+.custom-modal .divider-right {
+  position: relative;
+}
+
+.custom-modal .divider-right::after,
+.custom-modal .divider-left::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  bottom: 0;
+}
+
+.custom-modal .divider-right::after {
+  border-right: 1px solid #ddd;
+  right: 0;
+}
+
+.custom-modal .divider-left::before {
+  border-left: 1px solid #ddd;
+  left: 0;
+}
+
+.custom-modal .fade {
+  -webkit-transition: opacity 300ms;
+  -moz-transition: opacity 300ms;
+  -o-transition: opacity 300ms;
+  transition: opacity 300ms;
+
+  filter: alpha(Opacity=0);
+  opacity: 0;
+}
+
+.custom-modal .visible {
+  opacity: 1;
+  z-index: 500;
+}
+
 .custom-modal .modal-header {
   padding: 2em 0;
 }

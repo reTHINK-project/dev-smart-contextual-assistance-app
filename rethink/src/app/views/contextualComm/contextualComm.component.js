@@ -41,12 +41,6 @@ var ContextualCommComponent = (function () {
             _this.users.next(contextualComm.users);
         });
     };
-    ContextualCommComponent.prototype.onContactAdd = function () {
-        this.addUserComponent.toogle();
-    };
-    ContextualCommComponent.prototype.onCloseEvent = function () {
-        this.addUserComponent.toogle();
-    };
     ContextualCommComponent.prototype.onInviteEvent = function (value) {
         console.log('Invite some one: ', value);
     };
