@@ -5,33 +5,28 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/filter';
 
 // utils
-import { strMapToObj } from '../../utils/utils';
+import { strMapToObj } from '../utils/utils';
 
 // Services
-import { LocalStorage } from '../storage.service';
-import { ContactService } from '../contact.service';
+import { LocalStorage } from './storage.service';
+import { ContactService } from './contact.service';
+import { ContextualCommTriggerService } from './contextualCommTrigger.service';
 
 // Interfaces
-import { Communication } from '../../models/rethink/Communication';
-import { HypertyResourceType } from '../../models/rethink/HypertyResource';
-import { ContextualCommTrigger, ContextualComm, User, Message } from '../../models/models';
-import { RethinkService } from './rethink.service';
+import { ContextualCommTrigger, ContextualComm, User, Message } from '../models/models';
+import { HypertyResourceType } from '../models/rethink/HypertyResource';
+import { Communication } from '../models/rethink/Communication';
+import { RethinkService } from './rethink/rethink.service';
 
 @Injectable()
-export class ContextService {
+export class ContextualCommService {
 
-  public activeContextTrigger: ContextualCommTrigger;
-
-  private cxtTrigger: Map<string, ContextualCommTrigger> = new Map<string, ContextualCommTrigger>();
   private cxtList: Map<string, ContextualComm> = new Map<string, ContextualComm>();
 
   private currentActiveContext: ContextualComm;
 
   private _contextualCommList: Observable<Map<string, ContextualComm>>;
 
-  // `updates` receives _operations_ to be applied to our `messages`
-  // it's a way we can perform changes on *all* messages (that are currently
-  // stored in `messages`)
   private _contextualCommUpdates: Subject<any> = new Subject<any>();
 
   private _contextualComm: Subject<ContextualComm> = new Subject<ContextualComm>();
@@ -70,22 +65,14 @@ export class ContextService {
   constructor(
     private localStorage: LocalStorage,
     private rethinkService: RethinkService,
-    private contactService: ContactService
+    private contactService: ContactService,
+    private contextualCommTriggerService: ContextualCommTriggerService
   ) {
 
-    if (this.localStorage.hasObject('context-triggers')) {
-      let mapObj = this.localStorage.getObject('context-triggers');
-      for (let k of Object.keys(mapObj)) {
-        this.cxtTrigger.set(k, mapObj[k]);
-      }
-    }
-
-    let contextList: ContextualComm[] = [];
     if (this.localStorage.hasObject('contexts')) {
       let mapObj = this.localStorage.getObject('contexts');
       for (let k of Object.keys(mapObj)) {
         let currentContext = new ContextualComm(mapObj[k]);
-        contextList.push(currentContext);
         this.cxtList.set(k, currentContext);
       }
     }
@@ -148,6 +135,14 @@ export class ContextService {
 
     this._contextualComm.subscribe(this._contextualCommUpdates);
 
+
+    // this._contextualCommTriggerList = this._contextualCommTrigger
+    //   .scan((triggersList: ContextualCommTrigger[], trigger: ContextualCommTrigger) => {
+    //     console.log('Contextual Comm Triggers:', triggersList, trigger);
+
+    //     return triggersList;
+    //   }, this.cxtTrigger).subscribe(this._contextualCommTriggerList)
+
     // TODO: this should be changed because it can not update the contextualCommObs,
     // because is the active contextualComm
     // this._contextualComm.subscribe(this.contextualCommObs);
@@ -164,7 +159,7 @@ export class ContextService {
     // TODO add a Stream to look on changes for dataObject changes;
     return new Promise<ContextualComm>((resolve, reject) => {
 
-      this.createContextTrigger(name).then((contextTrigger: ContextualCommTrigger) => {
+      this.contextualCommTriggerService.createContextTrigger(name).then((contextTrigger: ContextualCommTrigger) => {
 
         // TODO Create the verification to reuse a context, because at this moment we can't reuse a communication or connection dataObject;
         let context: ContextualComm;
@@ -213,7 +208,7 @@ export class ContextService {
         if (parent) { context.parent = parent; }
 
         contextTrigger.trigger.push(context);
-        this.updateContextTrigger(contextTrigger.contextName, contextTrigger);
+        this.contextualCommTriggerService.updateContextTrigger(contextTrigger.contextName, contextTrigger);
         this.updateContexts(context.url, context);
 
         console.info('[Active Context - ContextualComm]', context);
@@ -224,56 +219,6 @@ export class ContextService {
       });
     });
 
-  }
-
-  createContextTrigger(name: string) {
-
-    return new Promise<ContextualCommTrigger>((resolve, reject) => {
-      console.log('[Contextual Comm Trigger Service - Get Localstorage] ', name);
-
-      let contextualCommTriggerName = 'trigger-' + name;
-      let contextTrigger: ContextualCommTrigger;
-
-      if (!this.cxtTrigger.has(contextualCommTriggerName)) {
-        console.info('[Create a new ContextualTrigger]', name);
-
-        let contextName = name;
-        let contextScheme = 'context';
-        let contextResource = [HypertyResourceType.video, HypertyResourceType.audio, HypertyResourceType.chat];
-
-        contextTrigger = new ContextualCommTrigger(null, contextName, contextScheme, contextResource);
-
-        /*let contextValue:ContextValues = {
-          name: 'location',
-          unit: 'rad',
-          value: 0,
-          sum: 0
-        }*/
-
-      } else {
-        console.info('[Get the exist ContextualTrigger]', name);
-        contextTrigger = <ContextualCommTrigger> this.cxtTrigger.get(contextualCommTriggerName) as ContextualCommTrigger;
-      }
-
-      this.activeContextTrigger = contextTrigger;
-      this.updateContextTrigger(contextualCommTriggerName, contextTrigger);
-
-      resolve(contextTrigger);
-    });
-
-  }
-
-  updateContextTrigger(name: string, contextTrigger: ContextualCommTrigger) {
-
-    let contextTriggerName: string;
-    if (name.includes('trigger')) {
-      contextTriggerName = name;
-    } else {
-      contextTriggerName = 'trigger-' + name;
-    }
-
-    this.cxtTrigger.set(contextTriggerName, contextTrigger);
-    this.localStorage.setObject('context-triggers', strMapToObj(this.cxtTrigger));
   }
 
   updateContexts(url: string, context: ContextualComm) {
@@ -378,6 +323,10 @@ export class ContextService {
 
     return this.contactService.getUsers();
   }
+
+  // getContextualComms(): Observable<ContextualCommTrigger> {
+  //   return this._contextualCommList;
+  // }
 
   contextualComm(): Observable<ContextualComm> {
     return this.contextualCommObs;

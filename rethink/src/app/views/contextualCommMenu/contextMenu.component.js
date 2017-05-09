@@ -9,10 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var services_1 = require("../../services/services");
 var ContextMenuComponent = (function () {
-    function ContextMenuComponent() {
+    function ContextMenuComponent(contextualCommService, contextualCommTriggerService) {
+        this.contextualCommService = contextualCommService;
+        this.contextualCommTriggerService = contextualCommTriggerService;
         this.hostClass = 'mp-menu';
+        this.contextualCommTrigger = this.contextualCommTriggerService.getContextualCommTriggers();
     }
+    ContextMenuComponent.prototype.beforeChange = function ($event) {
+        if ($event.panelId === 'form' && $event.nextState === false) {
+            $event.preventDefault();
+        }
+    };
+    ;
     return ContextMenuComponent;
 }());
 __decorate([
@@ -24,7 +34,9 @@ ContextMenuComponent = __decorate([
         moduleId: module.id,
         selector: 'nav[context-menu]',
         templateUrl: './contextMenu.component.html'
-    })
+    }),
+    __metadata("design:paramtypes", [services_1.ContextualCommService,
+        services_1.ContextualCommTriggerService])
 ], ContextMenuComponent);
 exports.ContextMenuComponent = ContextMenuComponent;
 //# sourceMappingURL=contextMenu.component.js.map

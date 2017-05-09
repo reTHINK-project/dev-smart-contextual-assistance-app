@@ -55,12 +55,8 @@ var ContextualComm = (function () {
 }());
 exports.ContextualComm = ContextualComm;
 var ContextualCommTrigger = (function () {
-    function ContextualCommTrigger(trigger, name, contextScheme, contextResource, values) {
-        this.contextName = name;
-        this.contextScheme = contextScheme;
-        this.contextResource = contextResource;
-        this.values = values || [];
-        this.trigger = trigger || [];
+    function ContextualCommTrigger(value) {
+        Object.assign(this, value);
     }
     ;
     return ContextualCommTrigger;

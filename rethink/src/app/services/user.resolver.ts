@@ -7,7 +7,7 @@ import { User } from '../models/models';
 
 // Service
 import { ContactService } from './contact.service';
-import { RethinkService, ChatService, ContextService } from './services';
+import { RethinkService, ChatService, ContextualCommService } from './services';
 
 @Injectable()
 export class UserResolver implements Resolve<User> {
@@ -15,7 +15,7 @@ export class UserResolver implements Resolve<User> {
   constructor(
     private rethinkService: RethinkService,
     private chatService: ChatService,
-    private contextService: ContextService,
+    private ContextualCommService: ContextualCommService,
     private contactService: ContactService,
     private router: Router) {}
 

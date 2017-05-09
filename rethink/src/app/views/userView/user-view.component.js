@@ -16,12 +16,12 @@ var services_1 = require("../../services/services");
 // Components
 var contextualCommActivity_component_1 = require("../contextualCommActivity/contextualCommActivity.component");
 var UserViewComponent = (function () {
-    function UserViewComponent(router, route, contactService, contextService, chatService) {
+    function UserViewComponent(router, route, contactService, ContextualCommService, chatService) {
         var _this = this;
         this.router = router;
         this.route = route;
         this.contactService = contactService;
-        this.contextService = contextService;
+        this.ContextualCommService = ContextualCommService;
         this.chatService = chatService;
         this.hostClass = '';
         this.messages = new BehaviorSubject_1.BehaviorSubject([]);
@@ -40,7 +40,7 @@ var UserViewComponent = (function () {
             _this.user = data.user;
             _this.messages.next(data.context.messages);
         });
-        this.contextService.contextualComm().subscribe(function (contextualComm) {
+        this.ContextualCommService.contextualComm().subscribe(function (contextualComm) {
             console.log('[ContextualCommActivity Component - update] - ', contextualComm);
             _this.messages.next(contextualComm.messages);
             _this.contextualCommActivityComponent.updateView();
@@ -86,7 +86,7 @@ UserViewComponent = __decorate([
     __metadata("design:paramtypes", [router_1.Router,
         router_1.ActivatedRoute,
         services_1.ContactService,
-        services_1.ContextService,
+        services_1.ContextualCommService,
         services_1.ChatService])
 ], UserViewComponent);
 exports.UserViewComponent = UserViewComponent;

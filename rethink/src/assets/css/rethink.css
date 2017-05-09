@@ -38,6 +38,7 @@ body.rethink ul.context-menu h2, body.rethink ul.context-menu h3, body.rethink u
   color: #fff;
   font-size: 80%;
 }
+
 /* line 98, ../sass/rethink.scss */
 body.rethink ul.context-menu li:hover {
   cursor: pointer;

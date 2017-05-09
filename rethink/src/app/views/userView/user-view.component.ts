@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 
 // Services
-import { ContactService, ChatService, ContextService } from '../../services/services';
+import { ContactService, ChatService, ContextualCommService } from '../../services/services';
 
 // Models
 import { Message, User, ContextualComm } from '../../models/models';
@@ -35,7 +35,7 @@ export class UserViewComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private contactService: ContactService,
-    private contextService: ContextService,
+    private ContextualCommService: ContextualCommService,
     private chatService: ChatService) {
 
     this.subscription = this.route
@@ -57,7 +57,7 @@ export class UserViewComponent implements OnInit, OnDestroy {
       this.messages.next(data.context.messages);
     });
 
-    this.contextService.contextualComm().subscribe((contextualComm: ContextualComm) => {
+    this.ContextualCommService.contextualComm().subscribe((contextualComm: ContextualComm) => {
       console.log('[ContextualCommActivity Component - update] - ', contextualComm);
       this.messages.next(contextualComm.messages);
 

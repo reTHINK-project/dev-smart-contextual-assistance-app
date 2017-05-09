@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 
 // Services
-import { ContactService, RethinkService, ChatService, ContextService } from '../../services/services';
+import { ContactService, RethinkService, ChatService, ContextualCommService } from '../../services/services';
 
 // Models
 import { User, ContextualComm } from '../../models/models';
@@ -31,7 +31,7 @@ export class ContextualCommComponent implements OnInit {
     private route: ActivatedRoute,
     private chatService: ChatService,
     private appService: RethinkService,
-    private contextService: ContextService,
+    private ContextualCommService: ContextualCommService,
     private contactService: ContactService) {}
 
   // Load data ones componet is ready
@@ -47,7 +47,7 @@ export class ContextualCommComponent implements OnInit {
         // console.log('Resolved users:', data.users);
       });
 
-    this.contextService.contextualComm().subscribe((contextualComm: ContextualComm) => {
+    this.ContextualCommService.contextualComm().subscribe((contextualComm: ContextualComm) => {
       console.log('[ContextualComm Component - update] - ', contextualComm, contextualComm.users);
       this.users.next(contextualComm.users);
     });

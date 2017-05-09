@@ -4,13 +4,15 @@ var connector_service_1 = require("./rethink/connector.service");
 exports.ConnectorService = connector_service_1.ConnectorService;
 var rethink_service_1 = require("./rethink/rethink.service");
 exports.RethinkService = rethink_service_1.RethinkService;
-var context_service_1 = require("./rethink/context.service");
-exports.ContextService = context_service_1.ContextService;
 var chat_service_1 = require("./rethink/chat.service");
 exports.ChatService = chat_service_1.ChatService;
 // Services
+var contextualCommTrigger_service_1 = require("./contextualCommTrigger.service");
+exports.ContextualCommTriggerService = contextualCommTrigger_service_1.ContextualCommTriggerService;
 var contextualComm_resolver_1 = require("./contextualComm.resolver");
 exports.ContextualCommResolver = contextualComm_resolver_1.ContextualCommResolver;
+var contextualComm_service_1 = require("./contextualComm.service");
+exports.ContextualCommService = contextualComm_service_1.ContextualCommService;
 var notification_service_1 = require("./notification.service");
 exports.NotificationService = notification_service_1.NotificationService;
 var contact_service_1 = require("./contact.service");
@@ -30,6 +32,7 @@ exports.servicesInjectables = [
     rethink_service_1.RethinkService,
     contact_service_1.ContactService,
     connector_service_1.ConnectorService,
-    notification_service_1.NotificationService
+    notification_service_1.NotificationService,
+    contextualCommTrigger_service_1.ContextualCommTriggerService
 ];
 //# sourceMappingURL=services.js.map

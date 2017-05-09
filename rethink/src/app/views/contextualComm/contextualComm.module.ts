@@ -29,7 +29,7 @@ import { PipesModule } from '../../pipes/pipes';
 import {
   AuthGuard,
   UserResolver,
-  ContextService,
+  ContextualCommService,
   ContextualCommResolver } from '../../services/services';
 
 @NgModule({
@@ -55,7 +55,7 @@ import {
   providers: [
     AuthGuard,
     UserResolver,
-    ContextService,
+    ContextualCommService,
     ContextualCommResolver
   ]
 })

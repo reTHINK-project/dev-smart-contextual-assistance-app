@@ -52,7 +52,7 @@ ContextualCommModule = __decorate([
         providers: [
             services_1.AuthGuard,
             services_1.UserResolver,
-            services_1.ContextService,
+            services_1.ContextualCommService,
             services_1.ContextualCommResolver
         ]
     })

@@ -16,10 +16,10 @@ var contextualCommActivity_component_1 = require("../contextualCommActivity/cont
 // Services
 var services_1 = require("../../services/services");
 var ActivityViewComponent = (function () {
-    function ActivityViewComponent(route, chatService, contextService) {
+    function ActivityViewComponent(route, chatService, ContextualCommService) {
         this.route = route;
         this.chatService = chatService;
-        this.contextService = contextService;
+        this.ContextualCommService = ContextualCommService;
         this.hostClass = '';
         this.messages = new BehaviorSubject_1.BehaviorSubject([]);
     }
@@ -30,7 +30,7 @@ var ActivityViewComponent = (function () {
             console.log('Resolve data Context: ', data.context);
             _this.messages.next(data.context.messages);
         });
-        this.contextService.contextualComm().subscribe(function (contextualComm) {
+        this.ContextualCommService.contextualComm().subscribe(function (contextualComm) {
             console.log('[ContextualCommActivity Component - update] - ', contextualComm);
             _this.messages.next(contextualComm.messages);
             _this.contextualCommActivityComponent.updateView();
@@ -60,7 +60,7 @@ ActivityViewComponent = __decorate([
     }),
     __metadata("design:paramtypes", [router_1.ActivatedRoute,
         services_1.ChatService,
-        services_1.ContextService])
+        services_1.ContextualCommService])
 ], ActivityViewComponent);
 exports.ActivityViewComponent = ActivityViewComponent;
 //# sourceMappingURL=activity-view.component.js.map

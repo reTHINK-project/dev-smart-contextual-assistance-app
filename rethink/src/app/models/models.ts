@@ -110,17 +110,10 @@ export class ContextualCommTrigger {
 
   trigger: ContextualComm[];
 
-  constructor(trigger: ContextualComm[],
-    name?: string,
-    contextScheme?: string,
-    contextResource?: HypertyResourceType[],
-    values?: ContextValue[]) {
+  constructor(value: ContextualCommTrigger) {
 
-      this.contextName = name;
-      this.contextScheme = contextScheme;
-      this.contextResource = contextResource;
-      this.values = values || [];
-      this.trigger = trigger || [];
+    Object.assign(this, value);
+
   };
 
 }

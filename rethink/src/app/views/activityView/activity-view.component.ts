@@ -7,7 +7,7 @@ import { Subject } from 'rxjs/Subject';
 import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component';
 
 // Services
-import { ChatService, ContextService } from '../../services/services';
+import { ChatService, ContextualCommService } from '../../services/services';
 
 // Models
 import { Message, ContextualComm } from '../../models/models';
@@ -24,12 +24,12 @@ export class ActivityViewComponent implements OnInit {
   @ViewChild(ContextualCommActivityComponent)
   private contextualCommActivityComponent: ContextualCommActivityComponent;
 
-  private messages: Subject<Message[]> = new BehaviorSubject([]);
+  messages: Subject<Message[]> = new BehaviorSubject([]);
 
   constructor(
     private route: ActivatedRoute,
     private chatService: ChatService,
-    private contextService: ContextService) {
+    private ContextualCommService: ContextualCommService) {
 
   }
 
@@ -41,7 +41,7 @@ export class ActivityViewComponent implements OnInit {
       this.messages.next(data.context.messages);
     });
 
-    this.contextService.contextualComm().subscribe((contextualComm: ContextualComm) => {
+    this.ContextualCommService.contextualComm().subscribe((contextualComm: ContextualComm) => {
       console.log('[ContextualCommActivity Component - update] - ', contextualComm);
       this.messages.next(contextualComm.messages);
 

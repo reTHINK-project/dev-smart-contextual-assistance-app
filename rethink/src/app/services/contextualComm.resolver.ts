@@ -5,8 +5,10 @@ import { Router, Resolve,
 // Model
 import { ContextualComm } from './../models/models';
 
+import { ContextualCommService } from './contextualComm.service';
+
 // Service
-import { ContextService, ChatService, RethinkService } from './services';
+import { ChatService, RethinkService } from './services';
 
 @Injectable()
 export class ContextualCommResolver implements Resolve<ContextualComm> {
@@ -15,7 +17,7 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
     private router: Router,
     private chatService: ChatService,
     private rethinkService: RethinkService,
-    private contextService: ContextService
+    private ContextualCommService: ContextualCommService
     ) {}
 
   resolve(route: ActivatedRouteSnapshot): Promise<ContextualComm> {
@@ -33,10 +35,10 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
       console.log('[ContextualCommResolver - resolve] - ', 'Context: ', context,  'Task: ', task,  'User: ', user);
 
       let name = context;
-      this.contextService.setContextPath = context;
+      this.ContextualCommService.setContextPath = context;
 
       if (task) {
-        this.contextService.setTaskPath = task;
+        this.ContextualCommService.setTaskPath = task;
         name = task;
         context = route.parent.params['trigger'];
       }
@@ -48,10 +50,10 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
 
       console.info('[ContextualCommResolver - resolve] - Getting the current Context ', name, context);
 
-      this.contextService.getContextByName(name).then((contextualComm: ContextualComm) => {
+      this.ContextualCommService.getContextByName(name).then((contextualComm: ContextualComm) => {
         console.info('[ContextualCommResolver - resolve] - current context ', name, contextualComm);
 
-        this.contextService.activeContext = contextualComm.url;
+        this.ContextualCommService.activeContext = contextualComm.url;
         this.chatService.activeDataObjectURL = contextualComm.url;
 
         resolve(contextualComm);
@@ -67,13 +69,13 @@ export class ContextualCommResolver implements Resolve<ContextualComm> {
 
         this.chatService.create(name, participants, domains).then((chatController: any) => {
           console.log('Create chat service for all my contacts', chatController);
-          return this.contextService.create(name, chatController.dataObject, context);
+          return this.ContextualCommService.create(name, chatController.dataObject, context);
         }, (error) => {
           console.log('Error creating the context: ', error);
           reject(error);
         }).then((contextualComm: ContextualComm) => {
 
-          this.contextService.activeContext = contextualComm.url;
+          this.ContextualCommService.activeContext = contextualComm.url;
           this.chatService.activeDataObjectURL = contextualComm.url;
 
           resolve(contextualComm);
