@@ -22,8 +22,8 @@
 		<ngb-panel *ngFor="let trigger of contextualCommTrigger | async">
 
 			<ng-template ngbPanelTitle>
-				<span class="fa fa-angle-up push-right"></span>
-				<span class="title"><i class="fa fa-briefcase"></i>{{trigger.contextName}}</span>
+				<span class="fa fa-angle-down push-right"></span>
+				<span class="title"><i class="fa fa-{{trigger.icon}}"></i>{{trigger.contextName}}</span>
 			</ng-template>
 
 			<ng-template ngbPanelContent>

@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 // Bootstrap
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { ContextualCommTriggerService } from '../../services/contextualCommTrigger.service';
+import { ContextualCommTrigger } from '../../models/models';
 
 @Component({
     moduleId: module.id,
@@ -13,18 +16,29 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 export class AddContextualCommComponent implements OnInit {
 
   private closeResult: string;
+
+  model: any = {};
+
+  contextualCommTriggers: Observable<ContextualCommTrigger[]>;
+
   title = 'Add New context';
 
-  constructor(private modalService: NgbModal) {}
+  constructor(
+    private modalService: NgbModal,
+    // private contextualCommService: ContextualCommService,
+    private contextualCommTriggerService: ContextualCommTriggerService) {
+    this.contextualCommTriggers = this.contextualCommTriggerService.getContextualCommTriggers();
+    }
 
   ngOnInit() { }
 
   open(content: any) {
 
       this.modalService.open(content, {windowClass: 'custom-modal'}).result.then((result) => {
-          this.closeResult = `Closed with: ${result}`;
+        console.log('AQUI:', result);
+        this.closeResult = `Closed with: ${result}`;
       }, (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       });
   }
 
@@ -36,6 +50,10 @@ export class AddContextualCommComponent implements OnInit {
       } else {
           return  `with: ${reason}`;
       }
+  }
+
+  submitEvent(value: any) {
+    console.log('Submit:', model);
   }
 
 }

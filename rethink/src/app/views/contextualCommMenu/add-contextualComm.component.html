@@ -12,35 +12,32 @@
 
       <div class="modal-body">
 
-        <form class="context">
+        <form class="context" #createContext (submit)="submitEvent(createContext.value)">
 
           <div class="form-group">
             <label for="contextName">Context Name</label>
-            <input type="text" class="form-control" id="contextName" aria-describedby="nameHelp" placeholder="Context name" required>
+            <input 
+              [(ngModel)]="model.name"
+              ngControl="contextName"
+              name="contextName"
+              type="text"
+              class="form-control" 
+              id="contextName" 
+              aria-describedby="nameHelp" 
+              placeholder="Context name" required>
             <small id="nameHelp" class="form-text text-muted">Enter the context name you want create.</small>
           </div>
 
           <fieldset class="form-group">
             <label>Select the main context</label>
 
-            <div class="form-check">
+            <div class="form-check" *ngFor="let trigger of contextualCommTriggers | async">
               <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="optionsRadios" id="optionWork" value="work">
-                Work
+                <input type="radio" class="form-check-input" name="optionsRadios" id="option{{trigger.contextName}}" value="{{trigger.contextName}}">
+                {{trigger.contextName}}
               </label>
             </div>
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="optionsRadios" id="optionSchool" value="school">
-                School
-              </label>
-            </div>
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="optionsRadios" id="optionHome" value="home">
-                Home
-              </label>
-            </div>
+
           </fieldset>
         </form>
       </div>
@@ -54,12 +51,6 @@
   </div>
 
 </ng-template>
-
-<!--<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
-
-<hr>
--->
-<!-- <pre>{{closeResult}}</pre> -->
 
 <a href="javascript:;" class="add-button" (click)="open(content)">
   <span class="add-user"><a href="javascript:;">+</a></span>

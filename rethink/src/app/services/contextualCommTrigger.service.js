@@ -24,12 +24,29 @@ var ContextualCommTriggerService = (function () {
         this._contextualCommTriggerUpdate = new Subject_1.Subject();
         this._contextualCommTrigger = new Subject_1.Subject();
         // Temporary data for initial contexts;
-        this.workContext = {
+        this.work = {
             contextName: 'Work',
             contextResource: [HypertyResource_1.HypertyResourceType.audio, HypertyResource_1.HypertyResourceType.video, HypertyResource_1.HypertyResourceType.chat],
             contextScheme: '',
             values: [],
-            trigger: []
+            trigger: [],
+            icon: 'briefcase'
+        };
+        this.fitness = {
+            contextName: 'Fitness',
+            contextResource: [HypertyResource_1.HypertyResourceType.audio, HypertyResource_1.HypertyResourceType.video, HypertyResource_1.HypertyResourceType.chat],
+            contextScheme: '',
+            values: [],
+            trigger: [],
+            icon: 'heartbeat'
+        };
+        this.school = {
+            contextName: 'School',
+            contextResource: [HypertyResource_1.HypertyResourceType.audio, HypertyResource_1.HypertyResourceType.video, HypertyResource_1.HypertyResourceType.chat],
+            contextScheme: '',
+            values: [],
+            trigger: [],
+            icon: 'heart'
         };
         this._contextualCommTriggerList = this._contextualCommTriggerUpdate
             .scan(function (triggers, trigger) {
@@ -58,6 +75,9 @@ var ContextualCommTriggerService = (function () {
             }
         }
         else {
+            this._contextualCommTrigger.next(this.work);
+            this._contextualCommTrigger.next(this.fitness);
+            this._contextualCommTrigger.next(this.school);
         }
     }
     ContextualCommTriggerService.prototype.createContextTrigger = function (name) {

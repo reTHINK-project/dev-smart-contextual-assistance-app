@@ -11,15 +11,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 // Bootstrap
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
+var contextualCommTrigger_service_1 = require("../../services/contextualCommTrigger.service");
 var AddContextualCommComponent = (function () {
-    function AddContextualCommComponent(modalService) {
+    function AddContextualCommComponent(modalService, 
+        // private contextualCommService: ContextualCommService,
+        contextualCommTriggerService) {
         this.modalService = modalService;
+        this.contextualCommTriggerService = contextualCommTriggerService;
+        this.model = {};
         this.title = 'Add New context';
+        this.contextualCommTriggers = this.contextualCommTriggerService.getContextualCommTriggers();
     }
     AddContextualCommComponent.prototype.ngOnInit = function () { };
     AddContextualCommComponent.prototype.open = function (content) {
         var _this = this;
         this.modalService.open(content, { windowClass: 'custom-modal' }).result.then(function (result) {
+            console.log('AQUI:', result);
             _this.closeResult = "Closed with: " + result;
         }, function (reason) {
             _this.closeResult = "Dismissed " + _this.getDismissReason(reason);
@@ -36,6 +43,9 @@ var AddContextualCommComponent = (function () {
             return "with: " + reason;
         }
     };
+    AddContextualCommComponent.prototype.submitEvent = function (value) {
+        console.log('Submit:', model);
+    };
     return AddContextualCommComponent;
 }());
 AddContextualCommComponent = __decorate([
@@ -45,7 +55,8 @@ AddContextualCommComponent = __decorate([
         templateUrl: './add-contextualComm.component.html',
         styleUrls: ['./add-contextualComm.component.css']
     }),
-    __metadata("design:paramtypes", [ng_bootstrap_1.NgbModal])
+    __metadata("design:paramtypes", [ng_bootstrap_1.NgbModal,
+        contextualCommTrigger_service_1.ContextualCommTriggerService])
 ], AddContextualCommComponent);
 exports.AddContextualCommComponent = AddContextualCommComponent;
 //# sourceMappingURL=add-contextualComm.component.js.map

@@ -24,12 +24,31 @@ export class ContextualCommTriggerService {
   private _contextualCommTrigger: Subject<ContextualCommTrigger> = new Subject<ContextualCommTrigger>();
 
   // Temporary data for initial contexts;
-  private workContext: ContextualCommTrigger = {
+  private work: ContextualCommTrigger = {
     contextName: 'Work',
     contextResource: [HypertyResourceType.audio, HypertyResourceType.video, HypertyResourceType.chat],
     contextScheme: '',
     values: [],
-    trigger: []
+    trigger: [],
+    icon: 'briefcase'
+  };
+
+  private fitness: ContextualCommTrigger = {
+    contextName: 'Fitness',
+    contextResource: [HypertyResourceType.audio, HypertyResourceType.video, HypertyResourceType.chat],
+    contextScheme: '',
+    values: [],
+    trigger: [],
+    icon: 'heartbeat'
+  };
+
+  private school: ContextualCommTrigger = {
+    contextName: 'School',
+    contextResource: [HypertyResourceType.audio, HypertyResourceType.video, HypertyResourceType.chat],
+    contextScheme: '',
+    values: [],
+    trigger: [],
+    icon: 'heart'
   };
 
   constructor(
@@ -67,7 +86,13 @@ export class ContextualCommTriggerService {
         this._contextualCommTrigger.next(currentTrigger);
       }
     } else {
-      // this.cxtTrigger.set('work', workContext);
+      this._contextualCommTrigger.next(this.work);
+      this._contextualCommTrigger.next(this.fitness);
+      this._contextualCommTrigger.next(this.school);
+
+      // this.cxtTrigger.set(this.work.contextName, this.work);
+      // this.cxtTrigger.set(this.fitness.contextName, this.fitness);
+      // this.cxtTrigger.set(this.school.contextName, this.school);
     }
 
   }

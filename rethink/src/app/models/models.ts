@@ -110,6 +110,8 @@ export class ContextualCommTrigger {
 
   trigger: ContextualComm[];
 
+  icon?: string;
+
   constructor(value: ContextualCommTrigger) {
 
     Object.assign(this, value);

@@ -15,21 +15,26 @@
 
 /* New style for search */
 
-.context-menu .card:first-child:hover {
-  background: none;
+.context-menu .card-header:first-child {
+  padding: .75em 0;
+  display: none;
 }
 
-.context-menu .card:first-child .search-bar {
+.context-menu .card-header + .card-block {
+  padding: .75em;
+}
+
+.context-menu .search-bar {
   background-color: transparent;
   overflow: visible;
   margin: 0;
 }
 
-.context-menu .card:first-child .search-bar form {
+.context-menu .search-bar form {
   margin: 0;
 }
 
-.context-menu .card:first-child .search-bar input.search {
+.context-menu .search-bar input.search {
   border: none;
   height: 34px;
   margin-top: 3px;
@@ -46,13 +51,13 @@
   border-radius: 4px;
 }
 
-.context-menu .card:first-child .search-bar input.search i.fa-search {
+.context-menu .search-bar input.search i.fa-search {
   position: absolute;
   left: 4px;
   top: 4px;
 }
 
-.context-menu .card:first-child .search-bar input.search:focus {
+.context-menu .search-bar input.search:focus {
   background-color: rgba(0, 0, 0, 0.15);
   height: 34px;
   display: inline-block;
@@ -63,12 +68,18 @@
 
 
 /* New style for contexts */
-.context-menu .card {
+
+.context-menu .card-header {
   padding: .75em;
+  cursor: pointer;
 }
 
-.context-menu .card:hover {
+.context-menu .card-header:hover {
   background-color: rgba(0, 0, 0, 0.15);
+}
+
+.context-menu .card-header > a {
+  display: block;
 }
 
 .context-menu .card-header,
@@ -84,14 +95,30 @@
   padding-right: 8px;
 }
 
+/* Should handle with the active */
+.context-menu .card-header.active .fa-angle-down {
 
+}
+
+
+
+/* TODO this should be removed */
+.context-menu #ngb-panel-2-header i,
+.context-menu #ngb-panel-2-header .title {
+  color: #ff932d;
+}
+
+/* TODO this should be removed */
+.context-menu #ngb-panel-3-header i,
+.context-menu #ngb-panel-3-header .title {
+  color: #3bb7f5;
+}
+
+
+/* Context Menus contents of each context */
 .context-menu .card-block {
   padding: 0;
 }
-
-/*.context-menu .card-block ul {
-
-}*/
 
 .context-menu .card-block .sub-level {
   display: block;
