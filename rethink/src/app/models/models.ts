@@ -1,7 +1,6 @@
 // Rethink Interfaces
 import { HypertyResourceType } from './rethink/HypertyResource';
 import { Communication } from './rethink/Communication';
-import { Connection } from './rethink/Connection';
 import { ContextValue } from './rethink/Context';
 import { UserIdentity } from './rethink/UserIdentity';
 
@@ -58,26 +57,37 @@ export class Message {
 
 export class ContextualComm {
 
-  name: string;
-  description: string;
-  parent: string;
-
-  contexts: string[];
   url: string;
-  communication: Communication | Connection;
+  name: string;
+  description?: string;
 
-  users: User[];
-  messages: Message[];
+  // TODO this should not be optional
+  communication?: Communication;
+  context?: string;
+
+  messages?: Message[];
+  files?: HypertyResourceType[];
+  photos?: HypertyResourceType[];
+  audios?: HypertyResourceType[];
+  videos?: HypertyResourceType[];
+
+  parent?: ContextualComm;
+  contexts?: ContextualComm[];
+  users?: User[];
 
   constructor(obj: any) {
+    this.url               = obj && obj.url;
     this.name              = obj && obj.name;
     this.description       = obj && obj.description;
-    this.parent            = obj && obj.parent;
-    this.url               = obj && obj.url;
+
+    this.communication     = obj && obj.communication;
+    this.context           = obj && obj.context;
+
     this.contexts          = obj && obj.contexts      || [];
     this.users             = obj && obj.users         || [];
     this.messages          = obj && obj.messages      || [];
 
+    this.parent            = obj && obj.parent;
     console.log('[Models - ContextualComm] - constructor: ', this.users);
 
     this.users = this.users.map((user) => {

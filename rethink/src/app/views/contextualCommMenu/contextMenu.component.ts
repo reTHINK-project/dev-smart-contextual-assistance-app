@@ -3,9 +3,9 @@ import { Observable } from 'rxjs/Observable';
 
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 
-import { ContextualCommTrigger } from '../../models/models';
+import { ContextualComm } from '../../models/models';
 
-import { ContextualCommTriggerService, ContextualCommService } from '../../services/services';
+import { ContextualCommService } from '../../services/services';
 
 @Component({
   moduleId: module.id,
@@ -15,14 +15,13 @@ import { ContextualCommTriggerService, ContextualCommService } from '../../servi
 export class ContextMenuComponent {
   @HostBinding('class') hostClass = 'mp-menu';
 
-  contextualCommTrigger: Observable<ContextualCommTrigger[]>;
+  contextualComm: Observable<ContextualComm[]>;
 
   constructor(
-    private contextualCommService: ContextualCommService,
-    private contextualCommTriggerService: ContextualCommTriggerService
+    private contextualCommService: ContextualCommService
   ) {
 
-    this.contextualCommTrigger = this.contextualCommTriggerService.getContextualCommTriggers();
+    this.contextualComm = this.contextualCommService.getContextualComms();
 
   }
 

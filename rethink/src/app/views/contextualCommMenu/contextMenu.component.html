@@ -19,18 +19,18 @@
 
 		</ngb-panel>
 
-		<ngb-panel *ngFor="let trigger of contextualCommTrigger | async">
+		<ngb-panel *ngFor="let context of contextualComm | async">
 
 			<ng-template ngbPanelTitle>
 				<span class="fa fa-angle-down push-right"></span>
-				<span class="title"><i class="fa fa-{{trigger.icon}}"></i>{{trigger.contextName}}</span>
+				<span class="title"><i class="fa fa-{{context.icon}}"></i>{{context.name}}</span>
 			</ng-template>
 
 			<ng-template ngbPanelContent>
 
 				<ul>
-						<li *ngFor="let context of trigger.trigger">
-							<a class="sub-level" routerLink="{{trigger.contextName}}/{{context.name}}" routerLinkActive="active">{{context.name}}</a>
+						<li *ngFor="let sub of context.contexts.values() ">
+							<a class="sub-level" routerLink="{{context.name}}/{{sub.name}}" routerLinkActive="active">{{sub.name}}</a>
 						</li>
 				</ul>
 

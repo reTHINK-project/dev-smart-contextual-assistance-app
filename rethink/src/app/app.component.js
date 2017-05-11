@@ -13,12 +13,13 @@ var router_1 = require("@angular/router");
 // Services
 var services_1 = require("./services/services");
 var AppComponent = (function () {
-    function AppComponent(router, route, contactService, rethinkService, connectorService, chatService) {
+    function AppComponent(router, route, contactService, rethinkService, contextualCommService, connectorService, chatService) {
         var _this = this;
         this.router = router;
         this.route = route;
         this.contactService = contactService;
         this.rethinkService = rethinkService;
+        this.contextualCommService = contextualCommService;
         this.connectorService = connectorService;
         this.chatService = chatService;
         this.contextOpened = false;
@@ -79,6 +80,7 @@ AppComponent = __decorate([
         router_1.ActivatedRoute,
         services_1.ContactService,
         services_1.RethinkService,
+        services_1.ContextualCommService,
         services_1.ConnectorService,
         services_1.ChatService])
 ], AppComponent);

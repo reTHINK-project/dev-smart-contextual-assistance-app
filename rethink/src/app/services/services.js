@@ -9,6 +9,8 @@ exports.ChatService = chat_service_1.ChatService;
 // Services
 var contextualCommTrigger_service_1 = require("./contextualCommTrigger.service");
 exports.ContextualCommTriggerService = contextualCommTrigger_service_1.ContextualCommTriggerService;
+var contextualCommData_service_1 = require("./contextualCommData.service");
+exports.ContextualCommDataService = contextualCommData_service_1.ContextualCommDataService;
 var contextualComm_resolver_1 = require("./contextualComm.resolver");
 exports.ContextualCommResolver = contextualComm_resolver_1.ContextualCommResolver;
 var contextualComm_service_1 = require("./contextualComm.service");

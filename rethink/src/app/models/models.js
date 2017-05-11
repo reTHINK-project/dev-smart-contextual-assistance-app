@@ -29,13 +29,15 @@ var Message = (function () {
 exports.Message = Message;
 var ContextualComm = (function () {
     function ContextualComm(obj) {
+        this.url = obj && obj.url;
         this.name = obj && obj.name;
         this.description = obj && obj.description;
-        this.parent = obj && obj.parent;
-        this.url = obj && obj.url;
+        this.communication = obj && obj.communication;
+        this.context = obj && obj.context;
         this.contexts = obj && obj.contexts || [];
         this.users = obj && obj.users || [];
         this.messages = obj && obj.messages || [];
+        this.parent = obj && obj.parent;
         console.log('[Models - ContextualComm] - constructor: ', this.users);
         this.users = this.users.map(function (user) {
             return new User(user);

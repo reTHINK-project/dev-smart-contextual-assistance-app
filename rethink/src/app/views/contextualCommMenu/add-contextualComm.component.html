@@ -1,7 +1,7 @@
 <ng-template #content let-c="close" let-d="dismiss">
 
-  <div class="row justify-content-md-center">
-    <div class="col-6">
+  <div class="row justify-content-center">
+    <div class="col-8">
 
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
@@ -10,43 +10,50 @@
         </button>
       </div>
 
-      <div class="modal-body">
+      <form class="context" #createContext="ngForm" (ngSubmit)="submitForm(createContext.value)" (submit)="c('success')">
 
-        <form class="context" #createContext (submit)="submitEvent(createContext.value)">
+        <div class="modal-body">
 
-          <div class="form-group">
+          <div class="form-group {{ name.errors ? 'has-danger' : 'has-success' }}">
             <label for="contextName">Context Name</label>
-            <input 
-              [(ngModel)]="model.name"
-              ngControl="contextName"
-              name="contextName"
-              type="text"
-              class="form-control" 
-              id="contextName" 
-              aria-describedby="nameHelp" 
-              placeholder="Context name" required>
+    
+            <input type="text" id="name" class="form-control {{ name.errors ? 'form-control-danger' : 'form-control-success' }}"
+               required minlength="4" maxlength="24"
+               aria-describedby="nameHelp" placeholder="Context name" 
+               name="name" [(ngModel)]="model.name"
+               #name="ngModel">
+
+            <!-- <div class="form-control-feedback">Success! You've done it.</div> -->
+
+            <div *ngIf="name.errors" class="form-control-feedback">
+              <span [hidden]="!name.errors.required">Name is required</span>
+              <span [hidden]="!name.errors.minlength">Name must be at least 4 characters long.</span>
+              <span [hidden]="!name.errors.maxlength">Name cannot be more than 24 characters long.</span>
+            </div>
+  
             <small id="nameHelp" class="form-text text-muted">Enter the context name you want create.</small>
+
           </div>
 
-          <fieldset class="form-group">
+          <div class="form-group {{ parent.errors ? 'has-danger' : 'has-success' }}">
             <label>Select the main context</label>
+            <select class="form-control" name="parent" id="parent" #parent="ngModel" [(ngModel)]="model.parent">
+              <option *ngFor="let context of contextualComms | async; let i = index" value="{{context.url}}">{{context.name}}</option>
+            </select>
 
-            <div class="form-check" *ngFor="let trigger of contextualCommTriggers | async">
-              <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="optionsRadios" id="option{{trigger.contextName}}" value="{{trigger.contextName}}">
-                {{trigger.contextName}}
-              </label>
+            <div *ngIf="parent.errors" class="form-control-feedback">
+              <span [hidden]="!parent.errors.required">Main context is required</span>
             </div>
 
-          </fieldset>
-        </form>
-      </div>
+          </div>
+        </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="c('Close click')">Close</button>
-        <button type="button" class="btn btn-success">Save changes</button>
-      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="c('Close click')">Close</button>
+          <button type="submit" class="btn btn-success" [disabled]="!createContext.form.valid">Save changes</button>
+        </div>
 
+      </form>
     </div>
   </div>
 

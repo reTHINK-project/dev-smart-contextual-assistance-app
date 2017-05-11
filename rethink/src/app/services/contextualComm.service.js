@@ -22,6 +22,32 @@ var models_1 = require("../models/models");
 var HypertyResource_1 = require("../models/rethink/HypertyResource");
 var rethink_service_1 = require("./rethink/rethink.service");
 var ContextualCommService = (function () {
+    /*  private work: ContextualComm = {
+        name: 'Work',
+        contextResource: [HypertyResourceType.audio, HypertyResourceType.video, HypertyResourceType.chat],
+        contextScheme: '',
+        values: [],
+        trigger: [],
+        icon: 'briefcase'
+      };
+    
+      private fitness: ContextualComm = {
+        contextName: 'Fitness',
+        contextResource: [HypertyResourceType.audio, HypertyResourceType.video, HypertyResourceType.chat],
+        contextScheme: '',
+        values: [],
+        trigger: [],
+        icon: 'heartbeat'
+      };
+    
+      private school: ContextualComm = {
+        contextName: 'School',
+        contextResource: [HypertyResourceType.audio, HypertyResourceType.video, HypertyResourceType.chat],
+        contextScheme: '',
+        values: [],
+        trigger: [],
+        icon: 'heart'
+      };*/
     function ContextualCommService(localStorage, rethinkService, contactService, contextualCommTriggerService) {
         var _this = this;
         this.localStorage = localStorage;
@@ -32,14 +58,6 @@ var ContextualCommService = (function () {
         this._contextualCommUpdates = new Subject_1.Subject();
         this._contextualComm = new Subject_1.Subject();
         this.contextualCommObs = new Subject_1.Subject();
-        if (this.localStorage.hasObject('contexts')) {
-            var mapObj = this.localStorage.getObject('contexts');
-            for (var _i = 0, _a = Object.keys(mapObj); _i < _a.length; _i++) {
-                var k = _a[_i];
-                var currentContext = new models_1.ContextualComm(mapObj[k]);
-                this.cxtList.set(k, currentContext);
-            }
-        }
         this._contextualCommList = this._contextualCommUpdates.map(function (context) {
             context.users = context.users.filter(function (user) {
                 return user instanceof models_1.User;
@@ -80,23 +98,29 @@ var ContextualCommService = (function () {
                 });
             }
             _this.updateContexts(context.url, context);
-            contextualCommList.set(context.url, context);
-            return contextualCommList;
-        }, this.cxtList)
+            if (contextualCommList.indexOf(context) === -1) {
+                return contextualCommList.concat(context);
+            }
+            else {
+                return contextualCommList;
+            }
+        }, [])
             .publishReplay(1)
             .refCount();
         this._contextualComm.subscribe(this._contextualCommUpdates);
-        // this._contextualCommTriggerList = this._contextualCommTrigger
-        //   .scan((triggersList: ContextualCommTrigger[], trigger: ContextualCommTrigger) => {
-        //     console.log('Contextual Comm Triggers:', triggersList, trigger);
-        //     return triggersList;
-        //   }, this.cxtTrigger).subscribe(this._contextualCommTriggerList)
-        // TODO: this should be changed because it can not update the contextualCommObs,
-        // because is the active contextualComm
-        // this._contextualComm.subscribe(this.contextualCommObs);
+        // TODO: check why we need this, HOT something
         this._contextualCommList.subscribe(function (list) {
             console.log('LIST:', list);
         });
+        if (this.localStorage.hasObject('contexts')) {
+            var mapObj = this.localStorage.getObject('contexts');
+            for (var _i = 0, _a = Object.keys(mapObj); _i < _a.length; _i++) {
+                var k = _a[_i];
+                var currentContext = new models_1.ContextualComm(mapObj[k]);
+                this.cxtList.set(k, currentContext);
+                this._contextualComm.next(currentContext);
+            }
+        }
     }
     ContextualCommService.prototype.getActiveContext = function (v) {
         return this.localStorage.hasObject(v) ? this.localStorage.getObject(v) : null;
@@ -138,56 +162,64 @@ var ContextualCommService = (function () {
         enumerable: true,
         configurable: true
     });
-    ContextualCommService.prototype.create = function (name, dataObject, parent) {
+    ContextualCommService.prototype.create = function (name, dataObject, parentDataObjectURL) {
         var _this = this;
-        // TODO Add the dataObject on Rx.Observable (stream);
-        // TODO add a Stream to look on changes for dataObject changes;
         return new Promise(function (resolve, reject) {
-            _this.contextualCommTriggerService.createContextTrigger(name).then(function (contextTrigger) {
-                // TODO Create the verification to reuse a context, because at this moment we can't reuse a communication or connection dataObject;
-                var context;
-                console.info('[Context Trigger] - existing: ', _this.cxtList.has(dataObject.url), contextTrigger);
-                if (!_this.cxtList.has(dataObject.url)) {
-                    console.info('[Create a new context: ]', dataObject);
-                    context = new models_1.ContextualComm({
-                        url: dataObject.url,
-                        name: dataObject.data.name,
-                        description: 'Description of the context',
-                    });
-                    var communication = (dataObject.data);
-                    communication.resources = [HypertyResource_1.HypertyResourceType.chat];
-                    // set the communication to the Context
-                    context.communication = communication;
-                }
-                else {
-                    console.info('[Get the context to localStorage: ]', dataObject.data);
-                    context = _this.cxtList.get(dataObject.data.url);
-                }
-                var participants = dataObject.data.participants || {};
-                Object.keys(participants).forEach(function (item) {
-                    console.log('MAP:', item, participants[item]);
-                    var currentUser = _this.contactService.getUser(item);
-                    if (!currentUser) {
-                        currentUser = new models_1.User(participants[item].identity);
-                        _this.contactService.addUser(currentUser);
-                        console.log('[Context Service - update users] - create new user: ', currentUser);
-                    }
-                    console.log('CONTEXT:', context);
-                    context.addUser(currentUser);
+            var parentContextualComm = _this.cxtList.get(parentDataObjectURL);
+            var newContextURL = dataObject.url;
+            var context;
+            console.log('AQUI:', parentContextualComm);
+            if (parentContextualComm) {
+                var hasChild = parentContextualComm.contexts.find(function (context) {
+                    return context && context.url === newContextURL;
                 });
-                context.url = dataObject.url;
-                context.communication = (dataObject.data);
-                if (parent) {
-                    context.parent = parent;
+                if (!hasChild) {
+                    // Create new ContextualComm
+                    context = _this.createContextualComm(dataObject, parentContextualComm);
+                    // Add the current ContextualComm to his parent;
+                    parentContextualComm.contexts.push(context);
+                    _this.updateContexts(parentContextualComm.url, parentContextualComm);
+                    _this._contextualComm.next(parentContextualComm);
+                    resolve(parentContextualComm);
                 }
-                contextTrigger.trigger.push(context);
-                _this.contextualCommTriggerService.updateContextTrigger(contextTrigger.contextName, contextTrigger);
-                _this.updateContexts(context.url, context);
-                console.info('[Active Context - ContextualComm]', context);
-                _this._contextualComm.next(context);
-                resolve(context);
-            });
+            }
+            else {
+                if (!_this.cxtList.has(newContextURL)) {
+                    // Create new ContextualComm
+                    context = _this.createContextualComm(dataObject);
+                    _this.updateContexts(context.url, context);
+                    _this._contextualComm.next(context);
+                    resolve(context);
+                }
+            }
         });
+    };
+    ContextualCommService.prototype.createContextualComm = function (dataObject, parent) {
+        var _this = this;
+        var data = JSON.parse(JSON.stringify(dataObject.data));
+        var metadata = JSON.parse(JSON.stringify(dataObject.metadata));
+        var contextualComm = new models_1.ContextualComm({
+            url: metadata.url,
+            name: metadata.name,
+            description: metadata.description || '',
+            parent: parent ? parent.url : ''
+        });
+        var participants = data.participants || {};
+        Object.keys(participants).forEach(function (item) {
+            console.log('MAP:', item, participants[item]);
+            var currentUser = _this.contactService.getUser(item);
+            if (!currentUser) {
+                currentUser = new models_1.User(participants[item].identity);
+                _this.contactService.addUser(currentUser);
+                console.log('[Context Service - update users] - create new user: ', currentUser);
+            }
+            contextualComm.addUser(currentUser);
+        });
+        var communication = (data);
+        communication.resources = [HypertyResource_1.HypertyResourceType.chat];
+        contextualComm.communication = communication;
+        console.log('[Context Service - createContextualComm] - New ContextualComm:', contextualComm);
+        return contextualComm;
     };
     ContextualCommService.prototype.updateContexts = function (url, context) {
         this.cxtList.set(url, context);
@@ -263,11 +295,11 @@ var ContextualCommService = (function () {
         });
         return this.contactService.getUsers();
     };
-    // getContextualComms(): Observable<ContextualCommTrigger> {
-    //   return this._contextualCommList;
-    // }
     ContextualCommService.prototype.contextualComm = function () {
         return this.contextualCommObs;
+    };
+    ContextualCommService.prototype.getContextualComms = function () {
+        return this._contextualCommList;
     };
     return ContextualCommService;
 }());

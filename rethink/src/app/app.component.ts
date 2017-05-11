@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { User } from './models/models';
 
 // Services
-import { RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
+import { ContextualCommService, RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
 
 @Component({
   moduleId: module.id,
@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
     private route: ActivatedRoute,
     private contactService: ContactService,
     private rethinkService: RethinkService,
+    private contextualCommService: ContextualCommService,
     private connectorService: ConnectorService,
     private chatService: ChatService) {
 
@@ -67,6 +68,7 @@ export class AppComponent implements OnInit {
         this.rethinkService.progress.next('The app is ready to be used');
         this.rethinkService.progress.complete();
         this.rethinkService.status.next(true);
+
       });
 
   }
@@ -79,6 +81,6 @@ export class AppComponent implements OnInit {
     if (event.srcElement.id === 'mp-pusher') {
       this.contextOpened = false;
     }
-}
+  }
 
 }

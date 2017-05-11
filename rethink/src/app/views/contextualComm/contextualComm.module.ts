@@ -30,7 +30,7 @@ import {
   AuthGuard,
   UserResolver,
   ContextualCommService,
-  ContextualCommResolver } from '../../services/services';
+  ContextualCommResolver, ContextualCommDataService } from '../../services/services';
 
 @NgModule({
   imports: [
@@ -56,7 +56,8 @@ import {
     AuthGuard,
     UserResolver,
     ContextualCommService,
-    ContextualCommResolver
+    ContextualCommResolver,
+    ContextualCommDataService
   ]
 })
 export class ContextualCommModule {}

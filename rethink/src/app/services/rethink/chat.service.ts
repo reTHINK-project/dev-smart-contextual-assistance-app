@@ -40,8 +40,8 @@ export class ChatService {
     private router: Router,
     private route: ActivatedRoute,
     private rethinkService: RethinkService,
-    private ContextualCommService: ContextualCommService,
-    private ContextualCommServiceTrigger: ContextualCommTriggerService,
+    private contextualCommService: ContextualCommService,
+    private contextualCommServiceTrigger: ContextualCommTriggerService,
     private contactService: ContactService
   ) {
 
@@ -59,7 +59,7 @@ export class ChatService {
 
     //     console.log('[Chat Service] - route selected:', selected);
 
-    //     this.ContextualCommService.getContextByName(selected).then((contextualComm: ContextualComm) => {
+    //     this.contextualCommService.getContextByName(selected).then((contextualComm: ContextualComm) => {
     //       let dataObjectURL = contextualComm.url;
     //       this.chatControllerActive = this.controllerList.get(dataObjectURL);
     //     });
@@ -167,7 +167,7 @@ export class ChatService {
       }
 
       console.log('[Chat Service - prepareController] - current user:', current);
-      this.ContextualCommService.updateContextUsers(current, dataObjectURL);
+      this.contextualCommService.updateContextUsers(current, dataObjectURL);
     });
 
 
@@ -186,7 +186,7 @@ export class ChatService {
         };
 
         let currentMessage = new Message(msg);
-        this.ContextualCommService.updateContextMessages(currentMessage, dataObjectURL);
+        this.contextualCommService.updateContextMessages(currentMessage, dataObjectURL);
       } else {
         console.info('The message was rejected because the user ' + message.identity.userProfile.userURL + ' is unknown');
       }
@@ -272,7 +272,7 @@ export class ChatService {
         };
 
         let currentMessage = new Message(msg);
-        this.ContextualCommService.updateContextMessages(currentMessage, this.chatControllerActive.dataObject.url);
+        this.contextualCommService.updateContextMessages(currentMessage, this.chatControllerActive.dataObject.url);
         resolve(currentMessage);
       }).catch(reject);
 
@@ -295,18 +295,17 @@ export class ChatService {
     return new Promise((resolve, reject) => {
 
       let resource = dataObject.data.url;
-      let contextTrigger = this.ContextualCommServiceTrigger.activeContextTrigger;
       let name = dataObject.data.name;
 
       console.log('[Chat Service] - verifyOrCreateContextualComm: ', dataObject);
 
-      this.ContextualCommService.getContextByResource(resource).then((contextualComm: ContextualComm) => {
+      this.contextualCommService.getContextByResource(resource).then((contextualComm: ContextualComm) => {
         console.info('[Chat Service] - Getting the current Context ', name, contextualComm);
         resolve(contextualComm);
       }).catch((error) => {
         console.error('error:', error);
-        console.info('[Chat Service] - Creating the context ', name, contextTrigger, ' chat group');
-        this.ContextualCommService.create(name, dataObject, contextTrigger).then((contextualComm: ContextualComm) => {
+        console.info('[Chat Service] - Creating the context ', name, ' chat group');
+        this.contextualCommService.create(name, dataObject).then((contextualComm: ContextualComm) => {
           resolve(contextualComm);
         }).catch((error) => {
           console.log('Error creating the context: ', error);

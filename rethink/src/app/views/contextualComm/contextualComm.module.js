@@ -53,7 +53,8 @@ ContextualCommModule = __decorate([
             services_1.AuthGuard,
             services_1.UserResolver,
             services_1.ContextualCommService,
-            services_1.ContextualCommResolver
+            services_1.ContextualCommResolver,
+            services_1.ContextualCommDataService
         ]
     })
 ], ContextualCommModule);

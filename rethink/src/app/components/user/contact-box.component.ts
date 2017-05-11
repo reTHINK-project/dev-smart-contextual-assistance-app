@@ -8,7 +8,7 @@ import { User } from '../../models/models';
   templateUrl: './contact-box.component.html'
 })
 export class ContactBoxComponent {
-  @HostBinding('class') hostClass = 'contactbox padding all-100 small'
+  @HostBinding('class') hostClass = 'contactbox padding all-100 small';
 
   @Input() user: User;
   @Output() closeEvent = new EventEmitter();

@@ -13,7 +13,7 @@ import { ContactService } from './contact.service';
 import { ContextualCommTriggerService } from './contextualCommTrigger.service';
 
 // Interfaces
-import { ContextualCommTrigger, ContextualComm, User, Message } from '../models/models';
+import { ContextualComm, User, Message } from '../models/models';
 import { HypertyResourceType } from '../models/rethink/HypertyResource';
 import { Communication } from '../models/rethink/Communication';
 import { RethinkService } from './rethink/rethink.service';
@@ -25,7 +25,7 @@ export class ContextualCommService {
 
   private currentActiveContext: ContextualComm;
 
-  private _contextualCommList: Observable<Map<string, ContextualComm>>;
+  private _contextualCommList: Observable<ContextualComm[]>;
 
   private _contextualCommUpdates: Subject<any> = new Subject<any>();
 
@@ -62,20 +62,39 @@ export class ContextualCommService {
     return this.taskPath;
   }
 
+/*  private work: ContextualComm = {
+    name: 'Work',
+    contextResource: [HypertyResourceType.audio, HypertyResourceType.video, HypertyResourceType.chat],
+    contextScheme: '',
+    values: [],
+    trigger: [],
+    icon: 'briefcase'
+  };
+
+  private fitness: ContextualComm = {
+    contextName: 'Fitness',
+    contextResource: [HypertyResourceType.audio, HypertyResourceType.video, HypertyResourceType.chat],
+    contextScheme: '',
+    values: [],
+    trigger: [],
+    icon: 'heartbeat'
+  };
+
+  private school: ContextualComm = {
+    contextName: 'School',
+    contextResource: [HypertyResourceType.audio, HypertyResourceType.video, HypertyResourceType.chat],
+    contextScheme: '',
+    values: [],
+    trigger: [],
+    icon: 'heart'
+  };*/
+
   constructor(
     private localStorage: LocalStorage,
     private rethinkService: RethinkService,
     private contactService: ContactService,
     private contextualCommTriggerService: ContextualCommTriggerService
   ) {
-
-    if (this.localStorage.hasObject('contexts')) {
-      let mapObj = this.localStorage.getObject('contexts');
-      for (let k of Object.keys(mapObj)) {
-        let currentContext = new ContextualComm(mapObj[k]);
-        this.cxtList.set(k, currentContext);
-      }
-    }
 
     this._contextualCommList = this._contextualCommUpdates.map((context: ContextualComm) => {
 
@@ -97,7 +116,7 @@ export class ContextualCommService {
       console.log('[Context Service - contextualCommUpdates] - map', context.url, context);
 
       return context;
-    }).scan((contextualCommList: Map<string, ContextualComm>, context: ContextualComm) => {
+    }).scan((contextualCommList: ContextualComm[], context: ContextualComm) => {
 
       console.log('[Context Service - contextualCommUpdates] - scan', context, this.currentActiveContext);
 
@@ -127,98 +146,113 @@ export class ContextualCommService {
       }
 
       this.updateContexts(context.url, context);
-      contextualCommList.set(context.url, context);
-      return contextualCommList;
-    }, this.cxtList)
+
+      if (contextualCommList.indexOf(context) === -1) {
+        return contextualCommList.concat(context);
+      } else {
+        return contextualCommList;
+      }
+
+    }, [])
     .publishReplay(1)
     .refCount();
 
     this._contextualComm.subscribe(this._contextualCommUpdates);
 
-
-    // this._contextualCommTriggerList = this._contextualCommTrigger
-    //   .scan((triggersList: ContextualCommTrigger[], trigger: ContextualCommTrigger) => {
-    //     console.log('Contextual Comm Triggers:', triggersList, trigger);
-
-    //     return triggersList;
-    //   }, this.cxtTrigger).subscribe(this._contextualCommTriggerList)
-
-    // TODO: this should be changed because it can not update the contextualCommObs,
-    // because is the active contextualComm
-    // this._contextualComm.subscribe(this.contextualCommObs);
-
+    // TODO: check why we need this, HOT something
     this._contextualCommList.subscribe((list: any) => {
       console.log('LIST:', list);
     });
 
+    if (this.localStorage.hasObject('contexts')) {
+      let mapObj = this.localStorage.getObject('contexts');
+      for (let k of Object.keys(mapObj)) {
+        let currentContext = new ContextualComm(mapObj[k]);
+        this.cxtList.set(k, currentContext);
+        this._contextualComm.next(currentContext);
+      }
+    }
+
   }
 
-  create(name: string, dataObject: any, parent?: any) {
+  create(name: string, dataObject: any, parentDataObjectURL?: string) {
 
-    // TODO Add the dataObject on Rx.Observable (stream);
-    // TODO add a Stream to look on changes for dataObject changes;
     return new Promise<ContextualComm>((resolve, reject) => {
 
-      this.contextualCommTriggerService.createContextTrigger(name).then((contextTrigger: ContextualCommTrigger) => {
+      let parentContextualComm: ContextualComm = this.cxtList.get(parentDataObjectURL);
+      let newContextURL: string =  dataObject.url;
+      let context: ContextualComm;
 
-        // TODO Create the verification to reuse a context, because at this moment we can't reuse a communication or connection dataObject;
-        let context: ContextualComm;
+      console.log('AQUI:', parentContextualComm);
 
-        console.info('[Context Trigger] - existing: ', this.cxtList.has(dataObject.url), contextTrigger);
+      if (parentContextualComm) {
 
-        if (!this.cxtList.has(dataObject.url)) {
-          console.info('[Create a new context: ]', dataObject);
-
-          context = new ContextualComm({
-            url: dataObject.url,
-            name: dataObject.data.name,
-            description: 'Description of the context',
-          });
-
-          let communication: Communication = <Communication>(dataObject.data);
-          communication.resources = [HypertyResourceType.chat];
-
-          // set the communication to the Context
-          context.communication = communication;
-
-        } else {
-          console.info('[Get the context to localStorage: ]', dataObject.data);
-          context = this.cxtList.get(dataObject.data.url) as ContextualComm;
-        }
-
-        let participants = dataObject.data.participants || {};
-        Object.keys(participants).forEach((item: any) => {
-          console.log('MAP:', item, participants[item]);
-          let currentUser: User = this.contactService.getUser(item);
-          if (!currentUser) {
-            currentUser = new User(participants[item].identity);
-            this.contactService.addUser(currentUser);
-            console.log('[Context Service - update users] - create new user: ', currentUser);
-          }
-
-          console.log('CONTEXT:', context);
-
-          context.addUser(currentUser);
+        let hasChild = parentContextualComm.contexts.find((context: ContextualComm) => {
+          return context && context.url === newContextURL;
         });
 
-        context.url = dataObject.url;
+        if (!hasChild) {
 
-        context.communication = <Communication>(dataObject.data);
+          // Create new ContextualComm
+          context = this.createContextualComm(dataObject, parentContextualComm);
 
-        if (parent) { context.parent = parent; }
+          // Add the current ContextualComm to his parent;
+          parentContextualComm.contexts.push(context);
 
-        contextTrigger.trigger.push(context);
-        this.contextualCommTriggerService.updateContextTrigger(contextTrigger.contextName, contextTrigger);
-        this.updateContexts(context.url, context);
+          this.updateContexts(parentContextualComm.url, parentContextualComm);
+          this._contextualComm.next(parentContextualComm);
+          resolve(parentContextualComm);
+        }
 
-        console.info('[Active Context - ContextualComm]', context);
+      } else {
 
-        this._contextualComm.next(context);
-        resolve(context);
+        if (!this.cxtList.has(newContextURL)) {
 
-      });
+          // Create new ContextualComm
+          context = this.createContextualComm(dataObject);
+
+          this.updateContexts(context.url, context);
+          this._contextualComm.next(context);
+          resolve(context);
+        }
+
+      }
+
+    });
+  }
+
+  createContextualComm(dataObject: any, parent?: ContextualComm): ContextualComm {
+
+    let data: any = JSON.parse(JSON.stringify(dataObject.data));
+    let metadata: any = JSON.parse(JSON.stringify(dataObject.metadata));
+
+    let contextualComm = new ContextualComm({
+      url: metadata.url,
+      name: metadata.name,
+      description: metadata.description || '',
+      parent: parent ? parent.url : ''
     });
 
+    let participants = data.participants || {};
+    Object.keys(participants).forEach((item: any) => {
+      console.log('MAP:', item, participants[item]);
+      let currentUser: User = this.contactService.getUser(item);
+      if (!currentUser) {
+        currentUser = new User(participants[item].identity);
+        this.contactService.addUser(currentUser);
+        console.log('[Context Service - update users] - create new user: ', currentUser);
+      }
+
+      contextualComm.addUser(currentUser);
+    });
+
+    let communication: Communication = <Communication>(data);
+    communication.resources = [HypertyResourceType.chat];
+    contextualComm.communication = communication;
+
+    console.log('[Context Service - createContextualComm] - New ContextualComm:', contextualComm);
+
+    return contextualComm;
   }
 
   updateContexts(url: string, context: ContextualComm) {
@@ -324,12 +358,13 @@ export class ContextualCommService {
     return this.contactService.getUsers();
   }
 
-  // getContextualComms(): Observable<ContextualCommTrigger> {
-  //   return this._contextualCommList;
-  // }
 
   contextualComm(): Observable<ContextualComm> {
     return this.contextualCommObs;
+  }
+
+  getContextualComms(): Observable<ContextualComm[]> {
+    return this._contextualCommList;
   }
 
 }

@@ -11,11 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var services_1 = require("../../services/services");
 var ContextMenuComponent = (function () {
-    function ContextMenuComponent(contextualCommService, contextualCommTriggerService) {
+    function ContextMenuComponent(contextualCommService) {
         this.contextualCommService = contextualCommService;
-        this.contextualCommTriggerService = contextualCommTriggerService;
         this.hostClass = 'mp-menu';
-        this.contextualCommTrigger = this.contextualCommTriggerService.getContextualCommTriggers();
+        this.contextualComm = this.contextualCommService.getContextualComms();
     }
     ContextMenuComponent.prototype.beforeChange = function ($event) {
         if ($event.panelId === 'form' && $event.nextState === false) {
@@ -35,8 +34,7 @@ ContextMenuComponent = __decorate([
         selector: 'nav[context-menu]',
         templateUrl: './contextMenu.component.html'
     }),
-    __metadata("design:paramtypes", [services_1.ContextualCommService,
-        services_1.ContextualCommTriggerService])
+    __metadata("design:paramtypes", [services_1.ContextualCommService])
 ], ContextMenuComponent);
 exports.ContextMenuComponent = ContextMenuComponent;
 //# sourceMappingURL=contextMenu.component.js.map

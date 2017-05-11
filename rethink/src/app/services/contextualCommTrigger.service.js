@@ -18,36 +18,20 @@ var storage_service_1 = require("./storage.service");
 var HypertyResource_1 = require("../models/rethink/HypertyResource");
 var models_1 = require("../models/models");
 var ContextualCommTriggerService = (function () {
+    // Temporary data for initial contexts;
+    // private work: ContextualCommTrigger = {
+    //   contextName: 'Work',
+    //   contextResource: [HypertyResourceType.audio, HypertyResourceType.video, HypertyResourceType.chat],
+    //   contextScheme: '',
+    //   values: [],
+    //   trigger: [],
+    //   icon: 'briefcase'
+    // };
     function ContextualCommTriggerService(localStorage) {
         this.localStorage = localStorage;
         this.cxtTrigger = new Map();
         this._contextualCommTriggerUpdate = new Subject_1.Subject();
         this._contextualCommTrigger = new Subject_1.Subject();
-        // Temporary data for initial contexts;
-        this.work = {
-            contextName: 'Work',
-            contextResource: [HypertyResource_1.HypertyResourceType.audio, HypertyResource_1.HypertyResourceType.video, HypertyResource_1.HypertyResourceType.chat],
-            contextScheme: '',
-            values: [],
-            trigger: [],
-            icon: 'briefcase'
-        };
-        this.fitness = {
-            contextName: 'Fitness',
-            contextResource: [HypertyResource_1.HypertyResourceType.audio, HypertyResource_1.HypertyResourceType.video, HypertyResource_1.HypertyResourceType.chat],
-            contextScheme: '',
-            values: [],
-            trigger: [],
-            icon: 'heartbeat'
-        };
-        this.school = {
-            contextName: 'School',
-            contextResource: [HypertyResource_1.HypertyResourceType.audio, HypertyResource_1.HypertyResourceType.video, HypertyResource_1.HypertyResourceType.chat],
-            contextScheme: '',
-            values: [],
-            trigger: [],
-            icon: 'heart'
-        };
         this._contextualCommTriggerList = this._contextualCommTriggerUpdate
             .scan(function (triggers, trigger) {
             console.log('[ContextualCommTriggerService - scan] - ', triggers, trigger);
@@ -75,9 +59,6 @@ var ContextualCommTriggerService = (function () {
             }
         }
         else {
-            this._contextualCommTrigger.next(this.work);
-            this._contextualCommTrigger.next(this.fitness);
-            this._contextualCommTrigger.next(this.school);
         }
     }
     ContextualCommTriggerService.prototype.createContextTrigger = function (name) {

@@ -11,16 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 // Bootstrap
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
-var contextualCommTrigger_service_1 = require("../../services/contextualCommTrigger.service");
+// Serives
+var contextualCommData_service_1 = require("../../services/contextualCommData.service");
 var AddContextualCommComponent = (function () {
-    function AddContextualCommComponent(modalService, 
-        // private contextualCommService: ContextualCommService,
-        contextualCommTriggerService) {
+    function AddContextualCommComponent(modalService, contextualCommDataService) {
         this.modalService = modalService;
-        this.contextualCommTriggerService = contextualCommTriggerService;
+        this.contextualCommDataService = contextualCommDataService;
         this.model = {};
         this.title = 'Add New context';
-        this.contextualCommTriggers = this.contextualCommTriggerService.getContextualCommTriggers();
+        this.contextualComms = this.contextualCommDataService.getContexts();
     }
     AddContextualCommComponent.prototype.ngOnInit = function () { };
     AddContextualCommComponent.prototype.open = function (content) {
@@ -43,8 +42,9 @@ var AddContextualCommComponent = (function () {
             return "with: " + reason;
         }
     };
-    AddContextualCommComponent.prototype.submitEvent = function (value) {
-        console.log('Submit:', model);
+    AddContextualCommComponent.prototype.submitForm = function (value) {
+        this.contextualCommDataService.createContext(value.name, value.parent);
+        console.log('Submit:', value);
     };
     return AddContextualCommComponent;
 }());
@@ -56,7 +56,7 @@ AddContextualCommComponent = __decorate([
         styleUrls: ['./add-contextualComm.component.css']
     }),
     __metadata("design:paramtypes", [ng_bootstrap_1.NgbModal,
-        contextualCommTrigger_service_1.ContextualCommTriggerService])
+        contextualCommData_service_1.ContextualCommDataService])
 ], AddContextualCommComponent);
 exports.AddContextualCommComponent = AddContextualCommComponent;
 //# sourceMappingURL=add-contextualComm.component.js.map

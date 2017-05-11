@@ -3,8 +3,10 @@ import { Observable } from 'rxjs/Observable';
 
 // Bootstrap
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { ContextualCommTriggerService } from '../../services/contextualCommTrigger.service';
-import { ContextualCommTrigger } from '../../models/models';
+
+// Serives
+import { ContextualCommDataService } from '../../services/contextualCommData.service';
+import { ContextualComm } from '../../models/models';
 
 @Component({
     moduleId: module.id,
@@ -19,15 +21,16 @@ export class AddContextualCommComponent implements OnInit {
 
   model: any = {};
 
-  contextualCommTriggers: Observable<ContextualCommTrigger[]>;
+  contextualComms: Observable<ContextualComm[]>;
 
   title = 'Add New context';
 
   constructor(
     private modalService: NgbModal,
-    // private contextualCommService: ContextualCommService,
-    private contextualCommTriggerService: ContextualCommTriggerService) {
-    this.contextualCommTriggers = this.contextualCommTriggerService.getContextualCommTriggers();
+    private contextualCommDataService: ContextualCommDataService) {
+
+      this.contextualComms = this.contextualCommDataService.getContexts();
+
     }
 
   ngOnInit() { }
@@ -52,8 +55,11 @@ export class AddContextualCommComponent implements OnInit {
       }
   }
 
-  submitEvent(value: any) {
-    console.log('Submit:', model);
+  submitForm(value: any) {
+
+    this.contextualCommDataService.createContext(value.name, value.parent);
+
+    console.log('Submit:', value);
   }
 
 }

@@ -5,6 +5,7 @@ import { ChatService } from './rethink/chat.service';
 
 // Services
 import { ContextualCommTriggerService } from './contextualCommTrigger.service';
+import { ContextualCommDataService } from './contextualCommData.service';
 import { ContextualCommResolver } from './contextualComm.resolver';
 import { ContextualCommService } from './contextualComm.service';
 import { NotificationService } from './notification.service';
@@ -26,6 +27,7 @@ export {
   NotificationService,
   ContextualCommService,
   ContextualCommResolver,
+  ContextualCommDataService,
   ContextualCommTriggerService
 };
 
