@@ -23,8 +23,9 @@ var ContextualCommActivityComponent = (function () {
     };
     ContextualCommActivityComponent.prototype.updateView = function () {
         var _this = this;
-        if (!this._canUpdateView())
+        if (!this._canUpdateView()) {
             return;
+        }
         console.log('Can Update the view:', this._canUpdateView());
         var scrollPane = this.el.nativeElement;
         var parentEl = scrollPane.offsetParent;

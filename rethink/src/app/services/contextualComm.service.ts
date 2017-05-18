@@ -43,7 +43,6 @@ export class ContextualCommService {
   public set activeContext(value: string) {
     console.log('[Context Service] - setActiveContext: ', value, this.cxtList.get(value));
     this.currentActiveContext = this.cxtList.get(value);
-    this._contextualComm.next(this.currentActiveContext);
   }
 
   public set setContextPath(v: string) {
@@ -61,33 +60,6 @@ export class ContextualCommService {
   public get getTaskPath(): string {
     return this.taskPath;
   }
-
-/*  private work: ContextualComm = {
-    name: 'Work',
-    contextResource: [HypertyResourceType.audio, HypertyResourceType.video, HypertyResourceType.chat],
-    contextScheme: '',
-    values: [],
-    trigger: [],
-    icon: 'briefcase'
-  };
-
-  private fitness: ContextualComm = {
-    contextName: 'Fitness',
-    contextResource: [HypertyResourceType.audio, HypertyResourceType.video, HypertyResourceType.chat],
-    contextScheme: '',
-    values: [],
-    trigger: [],
-    icon: 'heartbeat'
-  };
-
-  private school: ContextualComm = {
-    contextName: 'School',
-    contextResource: [HypertyResourceType.audio, HypertyResourceType.video, HypertyResourceType.chat],
-    contextScheme: '',
-    values: [],
-    trigger: [],
-    icon: 'heart'
-  };*/
 
   constructor(
     private localStorage: LocalStorage,
@@ -175,15 +147,24 @@ export class ContextualCommService {
 
   }
 
-  create(name: string, dataObject: any, parentDataObjectURL?: string) {
+  _filterByName(id: string): ContextualComm {
+    let found: ContextualComm;
+    this.cxtList.forEach((context: ContextualComm) => {
+      console.log('[Contextual Comm Service] - ', context.id, id);
+      if (!found) { found = context.id === id ? context : null; }
+    });
+    return found;
+  }
+
+  create(name: string, dataObject: any, parentNameId?: string) {
 
     return new Promise<ContextualComm>((resolve, reject) => {
 
-      let parentContextualComm: ContextualComm = this.cxtList.get(parentDataObjectURL);
+      let parentContextualComm: ContextualComm = this._filterByName(parentNameId);
       let newContextURL: string =  dataObject.url;
       let context: ContextualComm;
 
-      console.log('AQUI:', parentContextualComm);
+      console.log('[Contextual Comm Service] -  create: ', name, parentContextualComm, parentNameId, newContextURL);
 
       if (parentContextualComm) {
 
@@ -194,14 +175,14 @@ export class ContextualCommService {
         if (!hasChild) {
 
           // Create new ContextualComm
-          context = this.createContextualComm(dataObject, parentContextualComm);
+          let current: ContextualComm = this.createContextualComm(name, dataObject, parentContextualComm);
 
           // Add the current ContextualComm to his parent;
-          parentContextualComm.contexts.push(context);
+          parentContextualComm.contexts.push(current);
+
+          context = current;
 
           this.updateContexts(parentContextualComm.url, parentContextualComm);
-          this._contextualComm.next(parentContextualComm);
-          resolve(parentContextualComm);
         }
 
       } else {
@@ -209,29 +190,35 @@ export class ContextualCommService {
         if (!this.cxtList.has(newContextURL)) {
 
           // Create new ContextualComm
-          context = this.createContextualComm(dataObject);
+          let current: ContextualComm = this.createContextualComm(name, dataObject);
+          context = current;
 
           this.updateContexts(context.url, context);
-          this._contextualComm.next(context);
-          resolve(context);
         }
 
       }
 
+      this._contextualComm.next(context);
+      resolve(context);
+
     });
   }
 
-  createContextualComm(dataObject: any, parent?: ContextualComm): ContextualComm {
+  private createContextualComm(name: string, dataObject: any, parent?: ContextualComm): ContextualComm {
 
     let data: any = JSON.parse(JSON.stringify(dataObject.data));
     let metadata: any = JSON.parse(JSON.stringify(dataObject.metadata));
 
+    console.log('[Contextual Comm Service] -  createContextualComm: ', name, data, metadata, parent, dataObject);
+
     let contextualComm = new ContextualComm({
+      name: name,
       url: metadata.url,
-      name: metadata.name,
-      description: metadata.description || '',
-      parent: parent ? parent.url : ''
+      id: metadata.name,
+      parent: parent ? parent.url : '',
+      description: metadata.description || ''
     });
+
 
     let participants = data.participants || {};
     Object.keys(participants).forEach((item: any) => {

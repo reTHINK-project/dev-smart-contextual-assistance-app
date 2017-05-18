@@ -16,12 +16,11 @@ var services_1 = require("../../services/services");
 // Components
 var add_user_component_1 = require("../contextualCommUsers/add-user.component");
 var ContextualCommComponent = (function () {
-    function ContextualCommComponent(router, route, chatService, appService, ContextualCommService, contactService) {
+    function ContextualCommComponent(router, route, appService, contextualCommService, contactService) {
         this.router = router;
         this.route = route;
-        this.chatService = chatService;
         this.appService = appService;
-        this.ContextualCommService = ContextualCommService;
+        this.contextualCommService = contextualCommService;
         this.contactService = contactService;
         this.hostClass = 'context-view';
         this.users = new BehaviorSubject_1.BehaviorSubject([]);
@@ -36,13 +35,17 @@ var ContextualCommComponent = (function () {
             _this.users.next(data.context.users);
             // console.log('Resolved users:', data.users);
         });
-        this.ContextualCommService.contextualComm().subscribe(function (contextualComm) {
+        this.contextualCommService.contextualComm().subscribe(function (contextualComm) {
             console.log('[ContextualComm Component - update] - ', contextualComm, contextualComm.users);
             _this.users.next(contextualComm.users);
         });
     };
     ContextualCommComponent.prototype.onInviteEvent = function (value) {
         console.log('Invite some one: ', value);
+    };
+    ContextualCommComponent.prototype.onCloseEvent = function () {
+    };
+    ContextualCommComponent.prototype.onContactClick = function () {
     };
     return ContextualCommComponent;
 }());
@@ -62,7 +65,6 @@ ContextualCommComponent = __decorate([
     }),
     __metadata("design:paramtypes", [router_1.Router,
         router_1.ActivatedRoute,
-        services_1.ChatService,
         services_1.RethinkService,
         services_1.ContextualCommService,
         services_1.ContactService])

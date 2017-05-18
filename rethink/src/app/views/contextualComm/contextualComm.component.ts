@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 
 // Services
-import { ContactService, RethinkService, ChatService, ContextualCommService } from '../../services/services';
+import { ContactService, RethinkService, ContextualCommService } from '../../services/services';
 
 // Models
 import { User, ContextualComm } from '../../models/models';
@@ -24,14 +24,13 @@ export class ContextualCommComponent implements OnInit {
 
   @ViewChild(AddUserComponent) addUserComponent: AddUserComponent;
 
-  private users: Subject<User[]> = new BehaviorSubject([]);
+  users: Subject<User[]> = new BehaviorSubject([]);
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private chatService: ChatService,
     private appService: RethinkService,
-    private ContextualCommService: ContextualCommService,
+    private contextualCommService: ContextualCommService,
     private contactService: ContactService) {}
 
   // Load data ones componet is ready
@@ -47,7 +46,7 @@ export class ContextualCommComponent implements OnInit {
         // console.log('Resolved users:', data.users);
       });
 
-    this.ContextualCommService.contextualComm().subscribe((contextualComm: ContextualComm) => {
+    this.contextualCommService.contextualComm().subscribe((contextualComm: ContextualComm) => {
       console.log('[ContextualComm Component - update] - ', contextualComm, contextualComm.users);
       this.users.next(contextualComm.users);
     });
@@ -56,6 +55,14 @@ export class ContextualCommComponent implements OnInit {
 
   onInviteEvent(value: any) {
     console.log('Invite some one: ', value);
+  }
+
+  onCloseEvent() {
+
+  }
+
+  onContactClick() {
+
   }
 
 

@@ -22,32 +22,6 @@ var models_1 = require("../models/models");
 var HypertyResource_1 = require("../models/rethink/HypertyResource");
 var rethink_service_1 = require("./rethink/rethink.service");
 var ContextualCommService = (function () {
-    /*  private work: ContextualComm = {
-        name: 'Work',
-        contextResource: [HypertyResourceType.audio, HypertyResourceType.video, HypertyResourceType.chat],
-        contextScheme: '',
-        values: [],
-        trigger: [],
-        icon: 'briefcase'
-      };
-    
-      private fitness: ContextualComm = {
-        contextName: 'Fitness',
-        contextResource: [HypertyResourceType.audio, HypertyResourceType.video, HypertyResourceType.chat],
-        contextScheme: '',
-        values: [],
-        trigger: [],
-        icon: 'heartbeat'
-      };
-    
-      private school: ContextualComm = {
-        contextName: 'School',
-        contextResource: [HypertyResourceType.audio, HypertyResourceType.video, HypertyResourceType.chat],
-        contextScheme: '',
-        values: [],
-        trigger: [],
-        icon: 'heart'
-      };*/
     function ContextualCommService(localStorage, rethinkService, contactService, contextualCommTriggerService) {
         var _this = this;
         this.localStorage = localStorage;
@@ -129,7 +103,6 @@ var ContextualCommService = (function () {
         set: function (value) {
             console.log('[Context Service] - setActiveContext: ', value, this.cxtList.get(value));
             this.currentActiveContext = this.cxtList.get(value);
-            this._contextualComm.next(this.currentActiveContext);
         },
         enumerable: true,
         configurable: true
@@ -162,47 +135,59 @@ var ContextualCommService = (function () {
         enumerable: true,
         configurable: true
     });
-    ContextualCommService.prototype.create = function (name, dataObject, parentDataObjectURL) {
+    ContextualCommService.prototype._filterByName = function (id) {
+        var found;
+        this.cxtList.forEach(function (context) {
+            console.log('[Contextual Comm Service] - ', context.id, id);
+            if (!found) {
+                found = context.id === id ? context : null;
+            }
+        });
+        return found;
+    };
+    ContextualCommService.prototype.create = function (name, dataObject, parentNameId) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            var parentContextualComm = _this.cxtList.get(parentDataObjectURL);
+            var parentContextualComm = _this._filterByName(parentNameId);
             var newContextURL = dataObject.url;
             var context;
-            console.log('AQUI:', parentContextualComm);
+            console.log('[Contextual Comm Service] -  create: ', name, parentContextualComm, parentNameId, newContextURL);
             if (parentContextualComm) {
                 var hasChild = parentContextualComm.contexts.find(function (context) {
                     return context && context.url === newContextURL;
                 });
                 if (!hasChild) {
                     // Create new ContextualComm
-                    context = _this.createContextualComm(dataObject, parentContextualComm);
+                    var current = _this.createContextualComm(name, dataObject, parentContextualComm);
                     // Add the current ContextualComm to his parent;
-                    parentContextualComm.contexts.push(context);
+                    parentContextualComm.contexts.push(current);
+                    context = current;
                     _this.updateContexts(parentContextualComm.url, parentContextualComm);
-                    _this._contextualComm.next(parentContextualComm);
-                    resolve(parentContextualComm);
                 }
             }
             else {
                 if (!_this.cxtList.has(newContextURL)) {
                     // Create new ContextualComm
-                    context = _this.createContextualComm(dataObject);
+                    var current = _this.createContextualComm(name, dataObject);
+                    context = current;
                     _this.updateContexts(context.url, context);
-                    _this._contextualComm.next(context);
-                    resolve(context);
                 }
             }
+            _this._contextualComm.next(context);
+            resolve(context);
         });
     };
-    ContextualCommService.prototype.createContextualComm = function (dataObject, parent) {
+    ContextualCommService.prototype.createContextualComm = function (name, dataObject, parent) {
         var _this = this;
         var data = JSON.parse(JSON.stringify(dataObject.data));
         var metadata = JSON.parse(JSON.stringify(dataObject.metadata));
+        console.log('[Contextual Comm Service] -  createContextualComm: ', name, data, metadata, parent, dataObject);
         var contextualComm = new models_1.ContextualComm({
+            name: name,
             url: metadata.url,
-            name: metadata.name,
-            description: metadata.description || '',
-            parent: parent ? parent.url : ''
+            id: metadata.name,
+            parent: parent ? parent.url : '',
+            description: metadata.description || ''
         });
         var participants = data.participants || {};
         Object.keys(participants).forEach(function (item) {

@@ -29,8 +29,9 @@ var Message = (function () {
 exports.Message = Message;
 var ContextualComm = (function () {
     function ContextualComm(obj) {
+        this.id = obj && String(obj.id).toLowerCase();
         this.url = obj && obj.url;
-        this.name = obj && obj.name;
+        this.name = obj && String(obj.name).toLowerCase();
         this.description = obj && obj.description;
         this.communication = obj && obj.communication;
         this.context = obj && obj.context;

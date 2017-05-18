@@ -23,14 +23,14 @@
 
 			<ng-template ngbPanelTitle>
 				<span class="fa fa-angle-down push-right"></span>
-				<span class="title"><i class="fa fa-{{context.icon}}"></i>{{context.name}}</span>
+				<span class="title"><i class="fa fa-{{context.icon ? context.icon : 'briefcase'}}"></i>{{context.name}}</span>
 			</ng-template>
 
 			<ng-template ngbPanelContent>
 
 				<ul>
-						<li *ngFor="let sub of context.contexts.values() ">
-							<a class="sub-level" routerLink="{{context.name}}/{{sub.name}}" routerLinkActive="active">{{sub.name}}</a>
+						<li *ngFor="let sub of context.contexts">
+							<a class="sub-level" routerLink="{{context.name | lowercase}}/{{sub.name | lowercase}}" routerLinkActive="active">{{sub.name}}</a>
 						</li>
 				</ul>
 

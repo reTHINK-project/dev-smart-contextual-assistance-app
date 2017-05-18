@@ -56,9 +56,7 @@ export class AddContextualCommComponent implements OnInit {
   }
 
   submitForm(value: any) {
-
     this.contextualCommDataService.createContext(value.name, value.parent);
-
     console.log('Submit:', value);
   }
 

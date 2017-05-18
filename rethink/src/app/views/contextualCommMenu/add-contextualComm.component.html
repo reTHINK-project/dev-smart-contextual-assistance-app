@@ -38,7 +38,7 @@
           <div class="form-group {{ parent.errors ? 'has-danger' : 'has-success' }}">
             <label>Select the main context</label>
             <select class="form-control" name="parent" id="parent" #parent="ngModel" [(ngModel)]="model.parent">
-              <option *ngFor="let context of contextualComms | async; let i = index" value="{{context.url}}">{{context.name}}</option>
+              <option *ngFor="let context of contextualComms | async; let i = index" value="{{context.id}}">{{context.name}}</option>
             </select>
 
             <div *ngIf="parent.errors" class="form-control-feedback">

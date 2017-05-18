@@ -24,7 +24,7 @@ export class ContextualCommActivityComponent implements OnChanges, AfterContentI
 
   updateView(): void {
 
-    if (!this._canUpdateView()) return;
+    if (!this._canUpdateView()) { return; }
 
     console.log('Can Update the view:', this._canUpdateView())
 

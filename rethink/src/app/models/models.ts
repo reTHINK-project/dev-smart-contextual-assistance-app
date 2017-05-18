@@ -57,6 +57,7 @@ export class Message {
 
 export class ContextualComm {
 
+  id: string;
   url: string;
   name: string;
   description?: string;
@@ -71,13 +72,15 @@ export class ContextualComm {
   audios?: HypertyResourceType[];
   videos?: HypertyResourceType[];
 
-  parent?: ContextualComm;
+  parent?: string;
   contexts?: ContextualComm[];
   users?: User[];
+  icon?: string;
 
   constructor(obj: any) {
+    this.id                = obj && String(obj.id).toLowerCase();
     this.url               = obj && obj.url;
-    this.name              = obj && obj.name;
+    this.name              = obj && String(obj.name).toLowerCase();
     this.description       = obj && obj.description;
 
     this.communication     = obj && obj.communication;

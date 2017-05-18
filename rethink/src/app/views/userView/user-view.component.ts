@@ -24,12 +24,11 @@ export class UserViewComponent implements OnInit, OnDestroy {
 
   @ViewChild(ContextualCommActivityComponent)
   private contextualCommActivityComponent: ContextualCommActivityComponent;
-
-  private action: string;
   private subscription: Subscription;
 
-  private user: User;
-  private messages: Subject<Message[]> = new BehaviorSubject([]);
+  action: string;
+  user: User;
+  messages: Subject<Message[]> = new BehaviorSubject([]);
 
   constructor(
     private router: Router,
@@ -69,15 +68,6 @@ export class UserViewComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     console.log('[User View] - OnDestroy', this.messages);
     // this.messages.unsubscribe();
-  }
-
-  onMessage(message: string) {
-
-    console.log('[User View - onMessage] - Message:', message, this.chatService.chatControllerActive);
-    this.chatService.send(message).then((message: any) => {
-      console.log('[User View - onMessage] - message sent', message);
-    });
-
   }
 
   onAcceptCall() {

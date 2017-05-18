@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 // Models
-import { User } from './models/models';
+import { User, ContextualComm } from './models/models';
 
 // Services
-import { ContextualCommService, RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
+import { ContextualCommDataService } from './services/contextualCommData.service';
+import { RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
 
 @Component({
   moduleId: module.id,
@@ -25,7 +26,7 @@ export class AppComponent implements OnInit {
     private route: ActivatedRoute,
     private contactService: ContactService,
     private rethinkService: RethinkService,
-    private contextualCommService: ContextualCommService,
+    private contextualCommDataService: ContextualCommDataService,
     private connectorService: ConnectorService,
     private chatService: ChatService) {
 
@@ -38,7 +39,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
 
     this.rethinkService.progress.next('Loading runtime');
-    return this.rethinkService.loadRuntime()
+
+    this.rethinkService.loadRuntime()
       .then((runtime) => {
         this.rethinkService.progress.next('Loading chat service');
         return this.chatService.getHyperty();
@@ -71,6 +73,51 @@ export class AppComponent implements OnInit {
 
       });
 
+      // Prepare the chat service to recive invitations
+      this.chatService.onInvitation((event: any) => {
+        console.log('[Chat Communication View - onInvitation] - event:', event);
+
+        let metadata = event.value;
+        let name = metadata.name;
+        let names = name.split('-');
+        let parentContext = names[0] + '-' + names[1];
+        let currentContext = names[2];
+        let foundDataObjects: any = [];
+
+        let error = (reason) => {
+          console.log('Error:', reason);
+        }
+
+        this.chatService.discovery().discoverDataObjectsPerName(parentContext).then((discoveredDataObject: any) => {
+
+          let current: any = discoveredDataObject.sort((h1: any, h2: any) => {
+            return h1.lastModified < h2.lastModified;
+          })[0];
+
+          return Promise.all([
+            this.chatService.join(current.url),
+            this.chatService.join(event.url)]);
+        }, error)
+        .then((dataObjects: any) => {
+          foundDataObjects = dataObjects;
+          console.log('[App Component] - ', dataObjects, parentContext, currentContext);
+
+          if (parentContext.indexOf('-') !== -1) {
+            parentContext = parentContext.substr(parentContext.indexOf('-') + 1);
+          }
+
+          // TODO: need to be more optimised, because we can have 3 levels
+          // create the parent context;
+          console.log('[App Component - Join the parent context: ', parentContext, dataObjects[0]);
+          return this.contextualCommDataService.joinContext(parentContext, dataObjects[0]);
+        }, error).then((parentContext: ContextualComm) => {
+          console.log('[App Component] - parent context created: ', parentContext);
+          return this.contextualCommDataService.joinContext(currentContext, foundDataObjects[1], parentContext.id);
+        }, error).then((currentContext: ContextualComm) => {
+          console.log('[App Component] - current context created: ', currentContext);
+        });
+
+      });
   }
 
   onOpenContext(event: Event) {

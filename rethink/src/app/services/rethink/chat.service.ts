@@ -5,9 +5,8 @@ import { Injectable } from '@angular/core';
 import { RethinkService } from './rethink.service';
 import { ContactService } from '../contact.service';
 import { ContextualCommService } from '../contextualComm.service';
-import { ContextualCommTriggerService } from '../contextualCommTrigger.service';
 
-import { ContextualComm, User, Message } from '../../models/models';
+import { User, Message } from '../../models/models';
 
 @Injectable()
 export class ChatService {
@@ -23,6 +22,8 @@ export class ChatService {
 
   private _onUserAdded: Function;
   private _onInvitation: Function;
+  private _onMessage: Function;
+  private _discovery: any;
 
   private _activeDataObjectURL: string;
   public get activeDataObjectURL(): string {
@@ -41,34 +42,8 @@ export class ChatService {
     private route: ActivatedRoute,
     private rethinkService: RethinkService,
     private contextualCommService: ContextualCommService,
-    private contextualCommServiceTrigger: ContextualCommTriggerService,
     private contactService: ContactService
-  ) {
-
-    // this.route.params.subscribe((params) => {
-
-    //   let selected = params['trigger'] || route.params['id'];
-
-    //   console.log('[Chat Service] - route changes:', selected);
-
-    //   if (route.params['user']) {
-    //     selected = this.rethinkService.getCurrentUser.username + '-' + route.params['user'];
-    //   }
-
-    //   if (selected) {
-
-    //     console.log('[Chat Service] - route selected:', selected);
-
-    //     this.contextualCommService.getContextByName(selected).then((contextualComm: ContextualComm) => {
-    //       let dataObjectURL = contextualComm.url;
-    //       this.chatControllerActive = this.controllerList.get(dataObjectURL);
-    //     });
-
-    //   }
-
-    // });
-
-  }
+  ) {}
 
   private _updateControllersList(dataObjectURL: string, chatController: any) {
 
@@ -89,6 +64,7 @@ export class ChatService {
         this.rethinkService.getHyperty(this.hypertyURL)
         .then((hyperty: any) => {
           this.chatGroupManager = hyperty.instance;
+          this._discovery = this.chatGroupManager.discovery;
           this.hyperty = hyperty;
           this.prepareHyperty();
           resolve(this.hyperty);
@@ -134,16 +110,8 @@ export class ChatService {
     });
 
     this.chatGroupManager.onInvitation((event: any) => {
-      console.log('[Chat Service - prepareHyperty] - onInvitation', event);
-
-      this.join(event.url).then(a => {
-
-      }).catch(reason => {
-        console.log(reason);
-      });
-
+      console.log('[Chat Service - prepareHyperty] - onInvitation', event, this._onInvitation);
       if (this._onInvitation) { this._onInvitation(event); }
-
     });
 
   }
@@ -215,19 +183,27 @@ export class ChatService {
 
   }
 
-  join(resource: string) {
+  /**
+   *
+   *
+   * @param {object} event
+   * @returns {*}
+   *
+   * @memberof ChatService
+   */
+  join(url: any): any {
 
     return new Promise((resolve, reject) => {
 
-      this.chatGroupManager.join(resource).then((chatController: any) => {
+      console.log('[Chat Service - Join] - event: ', event);
+
+      this.chatGroupManager.join(url).then((chatController: any) => {
 
         let dataObject = chatController.dataObject;
 
         this._updateControllersList(dataObject.url, chatController);
 
-        this.verifyOrCreateContextualComm(dataObject).then((result) => {
-          resolve(chatController);
-        });
+        resolve(dataObject);
 
       });
 
@@ -280,8 +256,12 @@ export class ChatService {
 
   }
 
+  discovery() {
+    return this._discovery;
+  }
+
   onInvitation(callback: Function) {
-    // this.hypertyChat.onInvitation(callback);
+    console.log('AQUI:', callback);
     this._onInvitation = callback;
   }
 
@@ -289,31 +269,8 @@ export class ChatService {
     this._onUserAdded = callback;
   }
 
-
-  verifyOrCreateContextualComm(dataObject: any): Promise<ContextualComm> {
-
-    return new Promise((resolve, reject) => {
-
-      let resource = dataObject.data.url;
-      let name = dataObject.data.name;
-
-      console.log('[Chat Service] - verifyOrCreateContextualComm: ', dataObject);
-
-      this.contextualCommService.getContextByResource(resource).then((contextualComm: ContextualComm) => {
-        console.info('[Chat Service] - Getting the current Context ', name, contextualComm);
-        resolve(contextualComm);
-      }).catch((error) => {
-        console.error('error:', error);
-        console.info('[Chat Service] - Creating the context ', name, ' chat group');
-        this.contextualCommService.create(name, dataObject).then((contextualComm: ContextualComm) => {
-          resolve(contextualComm);
-        }).catch((error) => {
-          console.log('Error creating the context: ', error);
-          reject(error);
-        });
-      });
-    });
-
+  onMessage(callback: Function) {
+    this._onMessage = callback;
   }
 
 }

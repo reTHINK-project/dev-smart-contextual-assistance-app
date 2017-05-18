@@ -50,13 +50,4 @@ export class ActivityViewComponent implements OnInit {
 
   }
 
-  onMessage(message: string) {
-
-    console.log('[Activity View - onMessage] - Message:', message, this.chatService.chatControllerActive);
-    this.chatService.send(message).then((message: any) => {
-      console.log('[Activity View - onMessage] - message sent', message);
-    });
-
-  }
-
 }

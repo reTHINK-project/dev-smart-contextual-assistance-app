@@ -2,7 +2,7 @@
 <!-- bootstrap: col-xs-4 col-md-4 col-lg-2 sidebar hide-small hide-tiny -->
 <!-- all-25 medium-30 xlarge-20 sidebar hide-small hide-tiny -->
 <div class="all-25 medium-30 xlarge-20 sidebar hide-small hide-tiny">
-    <ul context-user-view [model]="users" (contactAdd)="onContactAdd()"></ul>
+    <ul context-user-view [model]="users"></ul>
 
     <footer class="alt-foot">
         Copyright 2016 © Altice Labs - All rights reserved
@@ -19,7 +19,5 @@
         <div file-share-list></div> -->
     </div>
 </div>
-
-<add-user-view (closeEvent)="onCloseEvent()" (inviteEvent)="onInviteEvent($event)" (contactClick)="onContactClick($event)" ></add-user-view>
 
 <div context-sender></div>

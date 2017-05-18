@@ -36,12 +36,6 @@ var ActivityViewComponent = (function () {
             _this.contextualCommActivityComponent.updateView();
         });
     };
-    ActivityViewComponent.prototype.onMessage = function (message) {
-        console.log('[Activity View - onMessage] - Message:', message, this.chatService.chatControllerActive);
-        this.chatService.send(message).then(function (message) {
-            console.log('[Activity View - onMessage] - message sent', message);
-        });
-    };
     return ActivityViewComponent;
 }());
 __decorate([

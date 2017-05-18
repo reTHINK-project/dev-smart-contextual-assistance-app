@@ -9,7 +9,7 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 // Components
 var services_1 = require("../../services/services");
-var contextualComm_resolver_1 = require("../../services/contextualComm.resolver");
+var contextualCommData_resolver_1 = require("../../services/contextualCommData.resolver");
 var user_resolver_1 = require("../../services/user.resolver");
 var contextualComm_component_1 = require("./contextualComm.component");
 var activity_view_component_1 = require("../activityView/activity-view.component");
@@ -17,29 +17,35 @@ var user_view_component_1 = require("../userView/user-view.component");
 // TODO: Optimize the Resolve Context
 var contextualCommRoutes = [
     {
-        path: ':trigger',
+        path: ':context',
         component: contextualComm_component_1.ContextualCommComponent,
-        canActivate: [
-            services_1.AuthGuard
-        ],
+        canActivate: [services_1.AuthGuard],
         resolve: {
-            context: contextualComm_resolver_1.ContextualCommResolver
+            context: contextualCommData_resolver_1.ContextualCommDataResolver
         },
         children: [
             {
                 path: '',
                 component: activity_view_component_1.ActivityViewComponent,
                 resolve: {
-                    context: contextualComm_resolver_1.ContextualCommResolver
-                },
+                    context: contextualCommData_resolver_1.ContextualCommDataResolver
+                }
             },
             {
-                path: ':user',
-                component: user_view_component_1.UserViewComponent,
+                path: ':task',
+                component: activity_view_component_1.ActivityViewComponent,
                 resolve: {
-                    user: user_resolver_1.UserResolver,
-                    context: contextualComm_resolver_1.ContextualCommResolver
-                }
+                    context: contextualCommData_resolver_1.ContextualCommDataResolver
+                },
+                children: [
+                    {
+                        path: ':user',
+                        component: user_view_component_1.UserViewComponent,
+                        resolve: {
+                            user: user_resolver_1.UserResolver
+                        }
+                    }
+                ]
             }
         ]
     }

@@ -50,12 +50,6 @@ var UserViewComponent = (function () {
         console.log('[User View] - OnDestroy', this.messages);
         // this.messages.unsubscribe();
     };
-    UserViewComponent.prototype.onMessage = function (message) {
-        console.log('[User View - onMessage] - Message:', message, this.chatService.chatControllerActive);
-        this.chatService.send(message).then(function (message) {
-            console.log('[User View - onMessage] - message sent', message);
-        });
-    };
     UserViewComponent.prototype.onAcceptCall = function () {
         console.log('[User View] - onAcceptCall');
     };

@@ -20,7 +20,7 @@
   display: none;
 }
 
-.context-menu .card-header + .card-block {
+.context-menu .card-header:first-child + .card-block {
   padding: .75em;
 }
 

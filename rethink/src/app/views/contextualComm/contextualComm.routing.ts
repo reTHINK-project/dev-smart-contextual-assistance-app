@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 // Components
 import { AuthGuard } from '../../services/services';
 
-import { ContextualCommResolver } from '../../services/contextualComm.resolver';
+import { ContextualCommDataResolver } from '../../services/contextualCommData.resolver';
 import { UserResolver } from '../../services/user.resolver';
 
 import { ContextualCommComponent } from './contextualComm.component';
@@ -14,29 +14,36 @@ import { UserViewComponent } from '../userView/user-view.component';
 // TODO: Optimize the Resolve Context
 const contextualCommRoutes: Routes = [
   {
-    path: ':trigger',
+    path: ':context',
     component: ContextualCommComponent,
-    canActivate: [
-      AuthGuard
-    ],
+    canActivate: [ AuthGuard ],
     resolve: {
-      context: ContextualCommResolver
+      context: ContextualCommDataResolver
     },
     children: [
       {
         path: '',
         component: ActivityViewComponent,
         resolve: {
-          context: ContextualCommResolver
-        },
+          context: ContextualCommDataResolver
+        }
       },
       {
-        path: ':user',
-        component: UserViewComponent,
+        path: ':task',
+        component: ActivityViewComponent,
         resolve: {
-          user: UserResolver,
-          context: ContextualCommResolver
-        }
+          context: ContextualCommDataResolver
+        },
+        children: [
+          {
+            path: ':user',
+            component: UserViewComponent,
+            resolve: {
+              user: UserResolver
+              // context: UserContextualCommResolver
+            }
+          }
+        ]
       }
     ]
   }

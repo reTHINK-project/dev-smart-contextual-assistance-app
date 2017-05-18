@@ -14,31 +14,15 @@ var core_1 = require("@angular/core");
 var rethink_service_1 = require("./rethink.service");
 var contact_service_1 = require("../contact.service");
 var contextualComm_service_1 = require("../contextualComm.service");
-var contextualCommTrigger_service_1 = require("../contextualCommTrigger.service");
 var models_1 = require("../../models/models");
 var ChatService = (function () {
-    function ChatService(router, route, rethinkService, contextualCommService, contextualCommServiceTrigger, contactService) {
-        // this.route.params.subscribe((params) => {
+    function ChatService(router, route, rethinkService, contextualCommService, contactService) {
         this.router = router;
         this.route = route;
         this.rethinkService = rethinkService;
         this.contextualCommService = contextualCommService;
-        this.contextualCommServiceTrigger = contextualCommServiceTrigger;
         this.contactService = contactService;
         this.controllerList = new Map();
-        //   let selected = params['trigger'] || route.params['id'];
-        //   console.log('[Chat Service] - route changes:', selected);
-        //   if (route.params['user']) {
-        //     selected = this.rethinkService.getCurrentUser.username + '-' + route.params['user'];
-        //   }
-        //   if (selected) {
-        //     console.log('[Chat Service] - route selected:', selected);
-        //     this.contextualCommService.getContextByName(selected).then((contextualComm: ContextualComm) => {
-        //       let dataObjectURL = contextualComm.url;
-        //       this.chatControllerActive = this.controllerList.get(dataObjectURL);
-        //     });
-        //   }
-        // });
     }
     Object.defineProperty(ChatService.prototype, "activeDataObjectURL", {
         get: function () {
@@ -66,6 +50,7 @@ var ChatService = (function () {
                 _this.rethinkService.getHyperty(_this.hypertyURL)
                     .then(function (hyperty) {
                     _this.chatGroupManager = hyperty.instance;
+                    _this._discovery = _this.chatGroupManager.discovery;
                     _this.hyperty = hyperty;
                     _this.prepareHyperty();
                     resolve(_this.hyperty);
@@ -98,11 +83,7 @@ var ChatService = (function () {
             });
         });
         this.chatGroupManager.onInvitation(function (event) {
-            console.log('[Chat Service - prepareHyperty] - onInvitation', event);
-            _this.join(event.url).then(function (a) {
-            }).catch(function (reason) {
-                console.log(reason);
-            });
+            console.log('[Chat Service - prepareHyperty] - onInvitation', event, _this._onInvitation);
             if (_this._onInvitation) {
                 _this._onInvitation(event);
             }
@@ -161,15 +142,22 @@ var ChatService = (function () {
             });
         });
     };
-    ChatService.prototype.join = function (resource) {
+    /**
+     *
+     *
+     * @param {object} event
+     * @returns {*}
+     *
+     * @memberof ChatService
+     */
+    ChatService.prototype.join = function (url) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.chatGroupManager.join(resource).then(function (chatController) {
+            console.log('[Chat Service - Join] - event: ', event);
+            _this.chatGroupManager.join(url).then(function (chatController) {
                 var dataObject = chatController.dataObject;
                 _this._updateControllersList(dataObject.url, chatController);
-                _this.verifyOrCreateContextualComm(dataObject).then(function (result) {
-                    resolve(chatController);
-                });
+                resolve(dataObject);
             });
         });
     };
@@ -205,33 +193,18 @@ var ChatService = (function () {
             }).catch(reject);
         });
     };
+    ChatService.prototype.discovery = function () {
+        return this._discovery;
+    };
     ChatService.prototype.onInvitation = function (callback) {
-        // this.hypertyChat.onInvitation(callback);
+        console.log('AQUI:', callback);
         this._onInvitation = callback;
     };
     ChatService.prototype.onUserAdded = function (callback) {
         this._onUserAdded = callback;
     };
-    ChatService.prototype.verifyOrCreateContextualComm = function (dataObject) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            var resource = dataObject.data.url;
-            var name = dataObject.data.name;
-            console.log('[Chat Service] - verifyOrCreateContextualComm: ', dataObject);
-            _this.contextualCommService.getContextByResource(resource).then(function (contextualComm) {
-                console.info('[Chat Service] - Getting the current Context ', name, contextualComm);
-                resolve(contextualComm);
-            }).catch(function (error) {
-                console.error('error:', error);
-                console.info('[Chat Service] - Creating the context ', name, ' chat group');
-                _this.contextualCommService.create(name, dataObject).then(function (contextualComm) {
-                    resolve(contextualComm);
-                }).catch(function (error) {
-                    console.log('Error creating the context: ', error);
-                    reject(error);
-                });
-            });
-        });
+    ChatService.prototype.onMessage = function (callback) {
+        this._onMessage = callback;
     };
     return ChatService;
 }());
@@ -241,7 +214,6 @@ ChatService = __decorate([
         router_1.ActivatedRoute,
         rethink_service_1.RethinkService,
         contextualComm_service_1.ContextualCommService,
-        contextualCommTrigger_service_1.ContextualCommTriggerService,
         contact_service_1.ContactService])
 ], ChatService);
 exports.ChatService = ChatService;

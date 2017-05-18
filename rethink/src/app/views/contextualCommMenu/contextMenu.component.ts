@@ -5,7 +5,7 @@ import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 
 import { ContextualComm } from '../../models/models';
 
-import { ContextualCommService } from '../../services/services';
+import { ContextualCommDataService } from '../../services/services';
 
 @Component({
   moduleId: module.id,
@@ -18,10 +18,10 @@ export class ContextMenuComponent {
   contextualComm: Observable<ContextualComm[]>;
 
   constructor(
-    private contextualCommService: ContextualCommService
+    private contextualCommDataService: ContextualCommDataService
   ) {
 
-    this.contextualComm = this.contextualCommService.getContextualComms();
+    this.contextualComm = this.contextualCommDataService.getContexts();
 
   }
 

@@ -11,15 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 // Services
+var contextualCommData_service_1 = require("./services/contextualCommData.service");
 var services_1 = require("./services/services");
 var AppComponent = (function () {
-    function AppComponent(router, route, contactService, rethinkService, contextualCommService, connectorService, chatService) {
+    function AppComponent(router, route, contactService, rethinkService, contextualCommDataService, connectorService, chatService) {
         var _this = this;
         this.router = router;
         this.route = route;
         this.contactService = contactService;
         this.rethinkService = rethinkService;
-        this.contextualCommService = contextualCommService;
+        this.contextualCommDataService = contextualCommDataService;
         this.connectorService = connectorService;
         this.chatService = chatService;
         this.contextOpened = false;
@@ -30,7 +31,7 @@ var AppComponent = (function () {
     AppComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.rethinkService.progress.next('Loading runtime');
-        return this.rethinkService.loadRuntime()
+        this.rethinkService.loadRuntime()
             .then(function (runtime) {
             _this.rethinkService.progress.next('Loading chat service');
             return _this.chatService.getHyperty();
@@ -59,6 +60,44 @@ var AppComponent = (function () {
             _this.rethinkService.progress.complete();
             _this.rethinkService.status.next(true);
         });
+        // Prepare the chat service to recive invitations
+        this.chatService.onInvitation(function (event) {
+            console.log('[Chat Communication View - onInvitation] - event:', event);
+            var metadata = event.value;
+            var name = metadata.name;
+            var names = name.split('-');
+            var parentContext = names[0] + '-' + names[1];
+            var currentContext = names[2];
+            var foundDataObjects = [];
+            var error = function (reason) {
+                console.log('Error:', reason);
+            };
+            _this.chatService.discovery().discoverDataObjectsPerName(parentContext).then(function (discoveredDataObject) {
+                var current = discoveredDataObject.sort(function (h1, h2) {
+                    return h1.lastModified < h2.lastModified;
+                })[0];
+                return Promise.all([
+                    _this.chatService.join(current.url),
+                    _this.chatService.join(event.url)
+                ]);
+            }, error)
+                .then(function (dataObjects) {
+                foundDataObjects = dataObjects;
+                console.log('[App Component] - ', dataObjects, parentContext, currentContext);
+                if (parentContext.indexOf('-') !== -1) {
+                    parentContext = parentContext.substr(parentContext.indexOf('-') + 1);
+                }
+                // TODO: need to be more optimised, because we can have 3 levels
+                // create the parent context;
+                console.log('[App Component - Join the parent context: ', parentContext, dataObjects[0]);
+                return _this.contextualCommDataService.joinContext(parentContext, dataObjects[0]);
+            }, error).then(function (parentContext) {
+                console.log('[App Component] - parent context created: ', parentContext);
+                return _this.contextualCommDataService.joinContext(currentContext, foundDataObjects[1], parentContext.id);
+            }, error).then(function (currentContext) {
+                console.log('[App Component] - current context created: ', currentContext);
+            });
+        });
     };
     AppComponent.prototype.onOpenContext = function (event) {
         this.contextOpened = !this.contextOpened;
@@ -80,7 +119,7 @@ AppComponent = __decorate([
         router_1.ActivatedRoute,
         services_1.ContactService,
         services_1.RethinkService,
-        services_1.ContextualCommService,
+        contextualCommData_service_1.ContextualCommDataService,
         services_1.ConnectorService,
         services_1.ChatService])
 ], AppComponent);
