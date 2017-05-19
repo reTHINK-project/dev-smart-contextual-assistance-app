@@ -145,7 +145,7 @@ var ContextualCommService = (function () {
         });
         return found;
     };
-    ContextualCommService.prototype.create = function (name, dataObject, parentNameId) {
+    ContextualCommService.prototype.create = function (name, dataObject, parentNameId, contextInfo) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             var parentContextualComm = _this._filterByName(parentNameId);
@@ -158,7 +158,7 @@ var ContextualCommService = (function () {
                 });
                 if (!hasChild) {
                     // Create new ContextualComm
-                    var current = _this.createContextualComm(name, dataObject, parentContextualComm);
+                    var current = _this.createContextualComm(name, dataObject, parentContextualComm, contextInfo);
                     // Add the current ContextualComm to his parent;
                     parentContextualComm.contexts.push(current);
                     context = current;
@@ -168,7 +168,7 @@ var ContextualCommService = (function () {
             else {
                 if (!_this.cxtList.has(newContextURL)) {
                     // Create new ContextualComm
-                    var current = _this.createContextualComm(name, dataObject);
+                    var current = _this.createContextualComm(name, dataObject, undefined, contextInfo);
                     context = current;
                     _this.updateContexts(context.url, context);
                 }
@@ -177,12 +177,13 @@ var ContextualCommService = (function () {
             resolve(context);
         });
     };
-    ContextualCommService.prototype.createContextualComm = function (name, dataObject, parent) {
+    ContextualCommService.prototype.createContextualComm = function (name, dataObject, parent, contextInfo) {
         var _this = this;
         var data = JSON.parse(JSON.stringify(dataObject.data));
         var metadata = JSON.parse(JSON.stringify(dataObject.metadata));
         console.log('[Contextual Comm Service] -  createContextualComm: ', name, data, metadata, parent, dataObject);
         var contextualComm = new models_1.ContextualComm({
+            icon: contextInfo.icon,
             name: name,
             url: metadata.url,
             id: metadata.name,

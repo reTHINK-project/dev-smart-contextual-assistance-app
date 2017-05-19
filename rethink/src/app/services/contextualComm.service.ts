@@ -156,7 +156,7 @@ export class ContextualCommService {
     return found;
   }
 
-  create(name: string, dataObject: any, parentNameId?: string) {
+  create(name: string, dataObject: any, parentNameId?: string, contextInfo?: string) {
 
     return new Promise<ContextualComm>((resolve, reject) => {
 
@@ -175,7 +175,7 @@ export class ContextualCommService {
         if (!hasChild) {
 
           // Create new ContextualComm
-          let current: ContextualComm = this.createContextualComm(name, dataObject, parentContextualComm);
+          let current: ContextualComm = this.createContextualComm(name, dataObject, parentContextualComm, contextInfo);
 
           // Add the current ContextualComm to his parent;
           parentContextualComm.contexts.push(current);
@@ -190,7 +190,7 @@ export class ContextualCommService {
         if (!this.cxtList.has(newContextURL)) {
 
           // Create new ContextualComm
-          let current: ContextualComm = this.createContextualComm(name, dataObject);
+          let current: ContextualComm = this.createContextualComm(name, dataObject, undefined, contextInfo);
           context = current;
 
           this.updateContexts(context.url, context);
@@ -204,7 +204,7 @@ export class ContextualCommService {
     });
   }
 
-  private createContextualComm(name: string, dataObject: any, parent?: ContextualComm): ContextualComm {
+  private createContextualComm(name: string, dataObject: any, parent?: ContextualComm, contextInfo?: any): ContextualComm {
 
     let data: any = JSON.parse(JSON.stringify(dataObject.data));
     let metadata: any = JSON.parse(JSON.stringify(dataObject.metadata));
@@ -212,6 +212,7 @@ export class ContextualCommService {
     console.log('[Contextual Comm Service] -  createContextualComm: ', name, data, metadata, parent, dataObject);
 
     let contextualComm = new ContextualComm({
+      icon: contextInfo.icon,
       name: name,
       url: metadata.url,
       id: metadata.name,

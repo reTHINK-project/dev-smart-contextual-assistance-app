@@ -12,27 +12,33 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var Subject_1 = require("rxjs/Subject");
 require("rxjs/add/operator/take");
+require("rxjs/add/operator/bufferCount");
 var RouterService = (function () {
     function RouterService(router) {
         var _this = this;
         this.router = router;
         this.paths = new Subject_1.Subject();
+        console.log('[Breadcrumb] - ', this.router);
         // this.paths.take(2)
         this.breadcrumb = this.paths.take(2);
         // Subscribe to route params
         this._urls = new Array();
         this.router.events.subscribe(function (navigation) {
+            console.log('[Breadcrumb] - ', navigation);
             _this._urls.length = 0; //Fastest way to clear out array
             if (navigation instanceof router_1.NavigationEnd) {
                 _this.generateBreadcrumbTrail(navigation.urlAfterRedirects ? navigation.urlAfterRedirects : navigation.url);
+                console.log('[Breadcrumb] - ', _this.router, _this._urls);
                 _this.paths.next(_this._urls);
             }
         });
     }
     RouterService.prototype.generateBreadcrumbTrail = function (url) {
-        this._urls.unshift(decodeURIComponent(url)); //Add url to beginning of array (since the url is being recursively broken down from full url to its parent)
+        // Add url to beginning of array (since the url is being recursively broken down from full url to its parent)
+        this._urls.unshift(decodeURIComponent(url));
         if (url.lastIndexOf('/') > 0) {
-            this.generateBreadcrumbTrail(url.substr(0, url.lastIndexOf('/'))); //Find last '/' and add everything before it as a parent route
+            // Find last '/' and add everything before it as a parent route
+            this.generateBreadcrumbTrail(url.substr(0, url.lastIndexOf('/')));
         }
     };
     return RouterService;

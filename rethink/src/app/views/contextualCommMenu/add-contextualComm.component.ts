@@ -21,6 +21,20 @@ export class AddContextualCommComponent implements OnInit {
 
   model: any = {};
 
+  icons: string[] = [
+    'comments',
+    'briefcase',
+    'heart',
+    'heartbeat',
+    'film',
+    'camera',
+    'futbol-o',
+    'gamepad',
+    'graduation-cap',
+    'cogs',
+    'users'
+  ];
+
   contextualComms: Observable<ContextualComm[]>;
 
   title = 'Add New context';
@@ -28,6 +42,8 @@ export class AddContextualCommComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private contextualCommDataService: ContextualCommDataService) {
+
+      this.model.icon = this.icons[0];
 
       this.contextualComms = this.contextualCommDataService.getContexts();
 
@@ -37,12 +53,13 @@ export class AddContextualCommComponent implements OnInit {
 
   open(content: any) {
 
-      this.modalService.open(content, {windowClass: 'custom-modal'}).result.then((result) => {
-        console.log('AQUI:', result);
-        this.closeResult = `Closed with: ${result}`;
-      }, (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      });
+    this.modalService.open(content, {windowClass: 'custom-modal'}).result.then((result) => {
+      console.log('AQUI:', result);
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+
   }
 
   private getDismissReason(reason: any): string {
@@ -56,8 +73,12 @@ export class AddContextualCommComponent implements OnInit {
   }
 
   submitForm(value: any) {
-    this.contextualCommDataService.createContext(value.name, value.parent);
     console.log('Submit:', value);
+    this.contextualCommDataService.createContext(value.name, value.parent, value);
+    this.clean();
   }
 
+  clean() {
+    this.model = {};
+  }
 }

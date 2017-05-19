@@ -38,6 +38,7 @@ var ContextualComm = (function () {
         this.contexts = obj && obj.contexts || [];
         this.users = obj && obj.users || [];
         this.messages = obj && obj.messages || [];
+        this.icon = obj && obj.icon || '';
         this.parent = obj && obj.parent;
         console.log('[Models - ContextualComm] - constructor: ', this.users);
         this.users = this.users.map(function (user) {

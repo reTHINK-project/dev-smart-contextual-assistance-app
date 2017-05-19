@@ -23,6 +23,7 @@ var AppComponent = (function () {
         this.contextualCommDataService = contextualCommDataService;
         this.connectorService = connectorService;
         this.chatService = chatService;
+        this.ready = false;
         this.contextOpened = false;
         this.rethinkService.progress.subscribe({
             next: function (v) { return _this.status = v; }
@@ -59,6 +60,7 @@ var AppComponent = (function () {
             _this.rethinkService.progress.next('The app is ready to be used');
             _this.rethinkService.progress.complete();
             _this.rethinkService.status.next(true);
+            _this.ready = true;
         });
         // Prepare the chat service to recive invitations
         this.chatService.onInvitation(function (event) {

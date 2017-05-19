@@ -13,14 +13,20 @@ var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 var runtime_browser_1 = require("runtime-browser");
 var models_1 = require("../../models/models");
 var contact_service_1 = require("../contact.service");
+var storage_service_1 = require("../storage.service");
 var RethinkService = (function () {
-    function RethinkService(contactService) {
+    function RethinkService(localstorage, contactService) {
+        this.localstorage = localstorage;
         this.contactService = contactService;
         this.domain = 'localhost';
         this.runtimeURL = 'https://catalogue.' + this.domain + '/.well-known/runtime/Runtime';
         this.config = { domain: this.domain, runtimeURL: this.runtimeURL, development: true };
         this.progress = new BehaviorSubject_1.BehaviorSubject('');
         this.status = new BehaviorSubject_1.BehaviorSubject(false);
+        if (this.localstorage.hasObject('me')) {
+            var me = this.localstorage.get('me');
+            this.setCurrentUser = new models_1.User(me);
+        }
     }
     Object.defineProperty(RethinkService.prototype, "setCurrentUser", {
         set: function (v) {
@@ -71,6 +77,7 @@ var RethinkService = (function () {
                 _this.contactService.sessionUser = myUser;
                 _this.contactService.addUser(myUser);
                 console.info('Getting the registed user', myUser);
+                _this.localstorage.setObject('me', myUser);
                 resolve(myUser);
             }).catch(function (reason) {
                 console.info('Error getting the register user, using fake information', reason);
@@ -82,7 +89,8 @@ var RethinkService = (function () {
 }());
 RethinkService = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [contact_service_1.ContactService])
+    __metadata("design:paramtypes", [storage_service_1.LocalStorage,
+        contact_service_1.ContactService])
 ], RethinkService);
 exports.RethinkService = RethinkService;
 //# sourceMappingURL=rethink.service.js.map

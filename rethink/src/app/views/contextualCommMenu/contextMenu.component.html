@@ -9,7 +9,7 @@
 			<ng-template ngbPanelContent>
 				<div class="search-bar">
 
-					<form class="all-100 filter">
+					<form class="filter">
 						<span class="fa fa-search"></span>
 						<input type="text" value="" placeholder="type a team's name" id="search-field" class="search push-left">
 					</form>
@@ -19,11 +19,11 @@
 
 		</ngb-panel>
 
-		<ngb-panel *ngFor="let context of contextualComm | async">
+		<ngb-panel id="panel-{{i}}" *ngFor="let context of contextualComm | async; let i = index;">
 
 			<ng-template ngbPanelTitle>
-				<span class="fa fa-angle-down push-right"></span>
-				<span class="title"><i class="fa fa-{{context.icon ? context.icon : 'briefcase'}}"></i>{{context.name}}</span>
+				<span class="fa fa-angle-down float-right"></span>
+				<span class="title"><i class="fa fa-{{context.icon}}"></i>{{context.name}}</span>
 			</ng-template>
 
 			<ng-template ngbPanelContent>

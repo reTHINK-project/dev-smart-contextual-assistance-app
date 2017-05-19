@@ -26,7 +26,6 @@ export class ContextMenuComponent {
   }
 
   public beforeChange($event: NgbPanelChangeEvent) {
-
     if ($event.panelId === 'form' && $event.nextState === false) {
       $event.preventDefault();
     }

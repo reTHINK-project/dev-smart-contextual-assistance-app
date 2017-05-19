@@ -17,7 +17,7 @@ var ContextualCommDataService = (function () {
         this.chatService = chatService;
         this.contextualCommService = contextualCommService;
     }
-    ContextualCommDataService.prototype.createContext = function (name, parentNameId) {
+    ContextualCommDataService.prototype.createContext = function (name, parentNameId, contextInfo) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.contextualCommService.getContextByName(name)
@@ -34,7 +34,7 @@ var ContextualCommDataService = (function () {
                 _this.chatService.create(normalizedName, [], []).then(function (controller) {
                     console.info('[Application Component] - communication objects was created successfully: ', controller);
                     console.info('[Application Component] - creating new contexts: ', controller, parentNameId);
-                    return _this.contextualCommService.create(name, controller.dataObject, parentNameId);
+                    return _this.contextualCommService.create(name, controller.dataObject, parentNameId, contextInfo);
                 }).then(function (context) {
                     console.info('[Application Component] -  ContextualComm created: ', context);
                     resolve(context);

@@ -16,9 +16,10 @@ import { RethinkService, ConnectorService, ChatService, ContactService } from '.
 
 export class AppComponent implements OnInit {
 
-  private status: String;
+  ready = false;
+  myIdentity: User;
+  status: string;
 
-  private myIdentity: User;
   private contextOpened = false;
 
   constructor(
@@ -31,7 +32,7 @@ export class AppComponent implements OnInit {
     private chatService: ChatService) {
 
     this.rethinkService.progress.subscribe({
-      next: (v) => this.status = v
+      next: (v: string) => this.status = v
     });
 
   }
@@ -70,6 +71,7 @@ export class AppComponent implements OnInit {
         this.rethinkService.progress.next('The app is ready to be used');
         this.rethinkService.progress.complete();
         this.rethinkService.status.next(true);
+        this.ready = true;
 
       });
 
@@ -84,9 +86,9 @@ export class AppComponent implements OnInit {
         let currentContext = names[2];
         let foundDataObjects: any = [];
 
-        let error = (reason) => {
+        let error = (reason: any) => {
           console.log('Error:', reason);
-        }
+        };
 
         this.chatService.discovery().discoverDataObjectsPerName(parentContext).then((discoveredDataObject: any) => {
 

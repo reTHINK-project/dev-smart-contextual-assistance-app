@@ -5,6 +5,7 @@ import rethink from 'runtime-browser';
 import { User } from '../../models/models';
 
 import { ContactService } from '../contact.service';
+import { LocalStorage } from '../storage.service';
 
 @Injectable()
 export class RethinkService {
@@ -30,7 +31,15 @@ export class RethinkService {
   }
 
   constructor(
-    private contactService: ContactService) {}
+    private localstorage: LocalStorage,
+    private contactService: ContactService) {
+
+      if (this.localstorage.hasObject('me') ) {
+        let me = this.localstorage.get('me');
+        this.setCurrentUser = new User(me);
+      }
+
+  }
 
   loadRuntime() {
 
@@ -79,6 +88,8 @@ export class RethinkService {
         this.contactService.addUser(myUser);
 
         console.info('Getting the registed user', myUser);
+
+         this.localstorage.setObject('me', myUser);
 
         resolve(myUser);
       }).catch((reason: any) => {

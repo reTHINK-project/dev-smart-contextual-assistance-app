@@ -19,7 +19,7 @@ export class ContextualCommDataService {
 
   }
 
-  createContext(name: string, parentNameId?: string): Promise<ContextualComm> {
+  createContext(name: string, parentNameId?: string, contextInfo?: any): Promise<ContextualComm> {
 
     return new Promise((resolve, reject) => {
 
@@ -44,7 +44,7 @@ export class ContextualCommDataService {
           console.info('[Application Component] - communication objects was created successfully: ', controller);
           console.info('[Application Component] - creating new contexts: ', controller, parentNameId);
 
-          return this.contextualCommService.create(name, controller.dataObject, parentNameId);
+          return this.contextualCommService.create(name, controller.dataObject, parentNameId, contextInfo);
         }).then((context: ContextualComm) => {
           console.info('[Application Component] -  ContextualComm created: ', context);
           resolve(context);

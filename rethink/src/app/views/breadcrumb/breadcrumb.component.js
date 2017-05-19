@@ -9,14 +9,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+require("rxjs/add/operator/pairwise");
 var services_1 = require("../../services/services");
 var ContextBreadcrumbComponent = (function () {
-    function ContextBreadcrumbComponent(routerService) {
+    function ContextBreadcrumbComponent(router, routerService) {
+        this.router = router;
         this.routerService = routerService;
-        this.hostClass = 'contactlist all-45';
+        this.hostClass = 'rethink-breadcrumb';
         this.openContext = new core_1.EventEmitter();
+        console.log('[Breadcrumb] - ');
     }
     ContextBreadcrumbComponent.prototype.ngOnInit = function () {
+        console.log('[Breadcrumb] - ', this.routerService.breadcrumb);
         this.breadcrumb = this.routerService.breadcrumb;
     };
     return ContextBreadcrumbComponent;
@@ -35,7 +40,8 @@ ContextBreadcrumbComponent = __decorate([
         selector: 'ul[context-breadcrumb]',
         templateUrl: './breadcrumb.component.html'
     }),
-    __metadata("design:paramtypes", [services_1.RouterService])
+    __metadata("design:paramtypes", [router_1.Router,
+        services_1.RouterService])
 ], ContextBreadcrumbComponent);
 exports.ContextBreadcrumbComponent = ContextBreadcrumbComponent;
 //# sourceMappingURL=breadcrumb.component.js.map

@@ -1,4 +1,18 @@
 
+/* Header */
+
+body.rethink .header {
+  padding: .75em;
+  background: #364258;
+  position: fixed;
+  width: 100%;
+  z-index: 500;
+
+  overflow: hidden;
+  margin-bottom: 0;
+  height: 60px;
+}
+
 /* Add Button from context menu and contacts list */
 
 body.rethink .add-button {

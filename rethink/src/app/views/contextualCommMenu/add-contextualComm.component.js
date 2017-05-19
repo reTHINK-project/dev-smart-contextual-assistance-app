@@ -18,7 +18,21 @@ var AddContextualCommComponent = (function () {
         this.modalService = modalService;
         this.contextualCommDataService = contextualCommDataService;
         this.model = {};
+        this.icons = [
+            'comments',
+            'briefcase',
+            'heart',
+            'heartbeat',
+            'film',
+            'camera',
+            'futbol-o',
+            'gamepad',
+            'graduation-cap',
+            'cogs',
+            'users'
+        ];
         this.title = 'Add New context';
+        this.model.icon = this.icons[0];
         this.contextualComms = this.contextualCommDataService.getContexts();
     }
     AddContextualCommComponent.prototype.ngOnInit = function () { };
@@ -43,8 +57,12 @@ var AddContextualCommComponent = (function () {
         }
     };
     AddContextualCommComponent.prototype.submitForm = function (value) {
-        this.contextualCommDataService.createContext(value.name, value.parent);
         console.log('Submit:', value);
+        this.contextualCommDataService.createContext(value.name, value.parent, value);
+        this.clean();
+    };
+    AddContextualCommComponent.prototype.clean = function () {
+        this.model = {};
     };
     return AddContextualCommComponent;
 }());

@@ -72,6 +72,8 @@
 .context-menu .card-header {
   padding: .75em;
   cursor: pointer;
+
+  transition: all 150ms ease-in-out;
 }
 
 .context-menu .card-header:hover {
@@ -96,8 +98,8 @@
 }
 
 /* Should handle with the active */
-.context-menu .card-header.active .fa-angle-down {
-
+.context-menu .card-header.active + .card-block {
+  opacity: 1;
 }
 
 
@@ -129,6 +131,8 @@
   position: relative;
   color: rgba(255, 255, 255, 0.8);
   margin: 0;
+
+  transition: all 150ms ease-in-out;
 }
 
 .context-menu .card-block .sub-level:focus {

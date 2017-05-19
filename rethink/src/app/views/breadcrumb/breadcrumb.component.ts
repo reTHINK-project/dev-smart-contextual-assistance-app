@@ -1,5 +1,8 @@
 import { Component, Output, HostBinding, EventEmitter, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
+
+import 'rxjs/add/operator/pairwise';
 
 import { RouterService } from '../../services/services';
 
@@ -9,15 +12,21 @@ import { RouterService } from '../../services/services';
   templateUrl: './breadcrumb.component.html'
 })
 export class ContextBreadcrumbComponent implements OnInit {
-  @HostBinding('class') hostClass = 'contactlist all-45';
+  @HostBinding('class') hostClass = 'rethink-breadcrumb';
 
   @Output() openContext = new EventEmitter();
 
-  private breadcrumb: Observable<Array<any>>;
+  breadcrumb: Observable<Array<any>>;
 
-  constructor(private routerService: RouterService) {}
+  constructor(
+    private router: Router,
+    private routerService: RouterService) {
+    console.log('[Breadcrumb] - ');
+  }
 
   ngOnInit() {
+    console.log('[Breadcrumb] - ', this.routerService.breadcrumb);
+
     this.breadcrumb = this.routerService.breadcrumb;
   }
 

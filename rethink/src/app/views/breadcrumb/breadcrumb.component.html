@@ -1,14 +1,21 @@
-<li class="context-name quarter-padding" >
+<li class="breadcrumb-trigger">
   <a href="javascript:;" class="menu-trigger" (click)="openContext.emit($event)">
     <i class="fa fa-ellipsis-v"></i>
   </a>
-  <span *ngFor="let item of breadcrumb | async; let $last = last;">
-    <h3 class="quarter-horizontal-space level-1 hide-small hide-tiny">
-      <a *ngIf="!$last" routerLink="/{{item}}" routerLinkActive="active">{{item.replace('/', '').substr(item.lastIndexOf('/'))}}</a>
+</li>
 
-      <!-- TODO apply an PIPE here to replace the address -->
-      <span *ngIf="$last">{{item.replace('/', '').substr(item.lastIndexOf('/'))}}</span>
-    </h3>
-    <span *ngIf="!$last" class="fa fa-lock"></span>
-  </span>
+<li class="breadcrumb-path" *ngFor="let item of breadcrumb | async; let i = index; let $last = last;" [class.first]="i===0">
+  <h3 class="level-{{i}}">
+
+    <a *ngIf="!$last" routerLink="{{item}}" routerLinkActive="active">
+      <!--<span *ngIf="!$last" class="fa fa-lock"></span>-->
+      {{item.replace('/', '').substr(item.lastIndexOf('/'))}}
+    </a>
+
+    <!-- TODO apply an PIPE here to replace the address -->
+    <span class="name" *ngIf="$last">
+      <!--<span *ngIf="!$last" class="fa fa-lock"></span>-->
+      {{item.replace('/', '').substr(item.lastIndexOf('/'))}}
+    </span>
+  </h3>
 </li>

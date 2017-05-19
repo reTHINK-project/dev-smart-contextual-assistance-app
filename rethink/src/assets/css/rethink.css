@@ -509,10 +509,6 @@ body.rethink div.container-fluid {
   overflow: hidden;
 }
 
-/* line 484, ../sass/rethink.scss */
-body.rethink div.container-fluid .menu-trigger {
-  padding: 0 .2rem;
-}
 /* line 505, ../sass/rethink.scss */
 body.rethink div.container-fluid .mp-pusher {
   position: relative;
@@ -738,13 +734,7 @@ body.rethink.work div.nav-bk {
 body.rethink.work div.context-icon span.marker.work {
   display: block;
 }
-/* line 802, ../sass/rethink.scss */
-body.rethink.work header {
-  background-color: #364258;
-  position: fixed;
-  width: 100%;
-  z-index: 500;
-}
+
 /* line 809, ../sass/rethink.scss */
 body.rethink.work .fa-lightbulb-o {
   color: #414d63;
@@ -1112,13 +1102,7 @@ body.rethink h1.big-logo {
   width: 100px;
   margin: 0 auto;
 }
-/* line 1167, ../sass/rethink.scss */
-body.rethink header {
-  overflow: hidden;
-  display: block;
-  margin-bottom: 0;
-  height: 60px;
-}
+
 /* line 1176, ../sass/rethink.scss */
 body.rethink header h1.small-logo {
   display: block;
