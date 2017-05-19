@@ -183,7 +183,7 @@ var ContextualCommService = (function () {
         var metadata = JSON.parse(JSON.stringify(dataObject.metadata));
         console.log('[Contextual Comm Service] -  createContextualComm: ', name, data, metadata, parent, dataObject);
         var contextualComm = new models_1.ContextualComm({
-            icon: contextInfo.icon,
+            icon: contextInfo ? contextInfo.icon : '',
             name: name,
             url: metadata.url,
             id: metadata.name,

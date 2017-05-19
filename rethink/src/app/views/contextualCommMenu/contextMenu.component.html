@@ -19,7 +19,7 @@
 
 		</ngb-panel>
 
-		<ngb-panel id="panel-{{i}}" *ngFor="let context of contextualComm | async; let i = index;">
+		<ngb-panel *ngFor="let context of contextualComm | async; let i = index;">
 
 			<ng-template ngbPanelTitle>
 				<span class="fa fa-angle-down float-right"></span>

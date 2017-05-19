@@ -35,13 +35,18 @@ var ContextualCommDataResolver = (function () {
                 name = task;
             }
             ;
+            console.log('[ContextualCommData - resolver] - ', name);
             _this.contextualCommDataService.getContext(name).subscribe({
                 next: function (contextualComm) {
+                    console.log('[ContextualCommData - resolver] - found: ', contextualComm);
                     _this.contextualCommService.activeContext = contextualComm.url;
                     _this.chatService.activeDataObjectURL = contextualComm.url;
                     resolve(contextualComm);
                 },
-                error: function (reason) { return reject(reason); }
+                error: function (reason) {
+                    console.log('[ContextualCommData - Resolver] - ', reason);
+                    reject(reason);
+                }
             });
         });
     };

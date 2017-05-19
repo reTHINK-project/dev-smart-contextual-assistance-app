@@ -93,8 +93,10 @@ export class ContextualCommDataService {
   }
 
   getContext(name: string): Observable<ContextualComm> {
+    console.log('[ContextualCommDataService] -  getContext:', name);
+
     return this.contextualCommService.getContextualComms()
-      .map(contexts => contexts.filter(context => context.name === name)[0]);
+      .map(contexts => contexts.filter(context => context.name === name)[0])
   }
 
   getTasks(url: string): Observable<ContextualComm[]> {

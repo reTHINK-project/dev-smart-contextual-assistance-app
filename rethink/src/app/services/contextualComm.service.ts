@@ -212,7 +212,7 @@ export class ContextualCommService {
     console.log('[Contextual Comm Service] -  createContextualComm: ', name, data, metadata, parent, dataObject);
 
     let contextualComm = new ContextualComm({
-      icon: contextInfo.icon,
+      icon: contextInfo ? contextInfo.icon : '',
       name: name,
       url: metadata.url,
       id: metadata.name,

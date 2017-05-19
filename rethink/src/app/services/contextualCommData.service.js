@@ -71,6 +71,7 @@ var ContextualCommDataService = (function () {
             .map(function (contexts) { return contexts.filter(function (context) { return context.parent === ''; }); });
     };
     ContextualCommDataService.prototype.getContext = function (name) {
+        console.log('[ContextualCommDataService] -  getContext:', name);
         return this.contextualCommService.getContextualComms()
             .map(function (contexts) { return contexts.filter(function (context) { return context.name === name; })[0]; });
     };
