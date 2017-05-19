@@ -68,13 +68,13 @@ var AppComponent = (function () {
             _this.rethinkService.progress.complete();
             _this.rethinkService.status.next(true);
             _this.ready = true;
-            _this.contextualCommDataService.getContexts().subscribe(function (contexts) {
-                console.log('[App Component - check contexts] - contexts: ', contexts);
-                if (contexts.length === 0) {
-                    _this.triggerActionService.trigger(app_models_1.TriggerActions.OpenContextMenu);
-                    _this.triggerActionService.trigger(app_models_1.TriggerActions.OpenContextMenuCreator);
-                }
-            });
+            // this.contextualCommDataService.getContexts().subscribe((contexts: ContextualComm[]) => {
+            //   console.log('[App Component - check contexts] - contexts: ', contexts);
+            //   if (contexts.length === 0) {
+            //     this.triggerActionService.trigger(TriggerActions.OpenContextMenu);
+            //     this.triggerActionService.trigger(TriggerActions.OpenContextMenuCreator);
+            //   }
+            // });
         });
         // Prepare the chat service to recive invitations
         this.chatService.onInvitation(function (event) {

@@ -8,9 +8,16 @@ body.rethink .header {
   width: 100%;
   z-index: 500;
 
+  top: 0;
+
   overflow: hidden;
   margin-bottom: 0;
   height: 60px;
+}
+
+/* Main Content */
+body.rethink .content-panel {
+  margin-top: 60px;
 }
 
 /* Add Button from context menu and contacts list */

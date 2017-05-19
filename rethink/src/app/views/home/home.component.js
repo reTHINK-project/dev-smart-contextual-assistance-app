@@ -10,16 +10,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var app_models_1 = require("../../models/app.models");
 // Services
 var services_1 = require("../../services/services");
+var contextualCommData_service_1 = require("../../services/contextualCommData.service");
 var HomeComponent = (function () {
-    function HomeComponent(route, rethinkService) {
+    function HomeComponent(route, triggerActionService, contextualCommDataService, rethinkService) {
         this.route = route;
+        this.triggerActionService = triggerActionService;
+        this.contextualCommDataService = contextualCommDataService;
         this.rethinkService = rethinkService;
-        this.show = false;
     }
     // Load data ones componet is ready
     HomeComponent.prototype.ngOnInit = function () {
+        this.contextualComms = this.contextualCommDataService.getContexts();
+    };
+    HomeComponent.prototype.onCreateEvent = function () {
+        this.triggerActionService.trigger(app_models_1.TriggerActions.OpenContextMenuCreator);
     };
     return HomeComponent;
 }());
@@ -29,7 +36,10 @@ HomeComponent = __decorate([
         selector: 'home-view',
         templateUrl: './home.component.html'
     }),
-    __metadata("design:paramtypes", [router_1.ActivatedRoute, services_1.RethinkService])
+    __metadata("design:paramtypes", [router_1.ActivatedRoute,
+        services_1.TriggerActionService,
+        contextualCommData_service_1.ContextualCommDataService,
+        services_1.RethinkService])
 ], HomeComponent);
 exports.HomeComponent = HomeComponent;
 //# sourceMappingURL=home.component.js.map

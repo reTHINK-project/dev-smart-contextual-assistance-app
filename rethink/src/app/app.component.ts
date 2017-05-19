@@ -83,15 +83,15 @@ export class AppComponent implements OnInit {
         this.rethinkService.status.next(true);
         this.ready = true;
 
-        this.contextualCommDataService.getContexts().subscribe((contexts: ContextualComm[]) => {
-          console.log('[App Component - check contexts] - contexts: ', contexts);
+        // this.contextualCommDataService.getContexts().subscribe((contexts: ContextualComm[]) => {
+        //   console.log('[App Component - check contexts] - contexts: ', contexts);
 
-          if (contexts.length === 0) {
-            this.triggerActionService.trigger(TriggerActions.OpenContextMenu);
-            this.triggerActionService.trigger(TriggerActions.OpenContextMenuCreator);
-          }
+        //   if (contexts.length === 0) {
+        //     this.triggerActionService.trigger(TriggerActions.OpenContextMenu);
+        //     this.triggerActionService.trigger(TriggerActions.OpenContextMenuCreator);
+        //   }
 
-        });
+        // });
 
       });
 

@@ -1,8 +1,15 @@
-import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { Observable } from 'rxjs/Observable';
+
+// Models
+import { ContextualComm } from '../../models/models';
+import { TriggerActions } from '../../models/app.models';
+
 // Services
-import { RethinkService } from '../../services/services';
+import { TriggerActionService, RethinkService } from '../../services/services';
+import { ContextualCommDataService } from '../../services/contextualCommData.service';
 
 @Component({
   moduleId: module.id,
@@ -11,17 +18,25 @@ import { RethinkService } from '../../services/services';
 })
 export class HomeComponent implements OnInit {
 
-  private context:string;
-  private show:Boolean = false;
-  private status: String;
+  contextualComms: Observable<ContextualComm[]>;
 
-  constructor(private route: ActivatedRoute, private rethinkService:RethinkService) {
+  constructor(
+    private route: ActivatedRoute,
+    private triggerActionService: TriggerActionService,
+    private contextualCommDataService: ContextualCommDataService,
+    private rethinkService: RethinkService) {
 
   }
 
   // Load data ones componet is ready
   ngOnInit() {
 
+    this.contextualComms = this.contextualCommDataService.getContexts();
+
+  }
+
+  onCreateEvent() {
+    this.triggerActionService.trigger(TriggerActions.OpenContextMenuCreator);
   }
 
 }

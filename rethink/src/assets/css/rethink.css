@@ -2612,10 +2612,7 @@ body.rethink ul.tabs-nav li.active a {
 body.rethink ul.tabs-nav li.active a i {
   color: #fff;
 }
-/* line 2633, ../sass/rethink.scss */
-body.rethink .content-panel {
-  margin-top: 60px;
-}
+
 /* line 2636, ../sass/rethink.scss */
 body.rethink .content-panel h3 {
   color: #898e95;
@@ -2675,12 +2672,7 @@ body.rethink nav.sub-context-menu ul li a {
   font-size: 16px;
   font-weight: 300;
 }
-/* line 2694, ../sass/rethink.scss */
-body.rethink div.main-content {
-  margin: 0;
-  padding: 0;
-  float: right;
-}
+
 /* line 2700, ../sass/rethink.scss */
 body.rethink div.content-box {
   /* overflow: hidden; */
