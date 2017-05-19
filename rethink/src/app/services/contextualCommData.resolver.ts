@@ -32,16 +32,10 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
       if (context) {name = context; };
       if (task) { name = task; };
 
-      console.log('[ContextualCommData - resolver] - ', name);
-
       this.contextualCommDataService.getContext(name).subscribe({
         next: contextualComm => {
-
-          console.log('[ContextualCommData - resolver] - found: ' , contextualComm);
-
           this.contextualCommService.activeContext = contextualComm.url;
           this.chatService.activeDataObjectURL = contextualComm.url;
-
           resolve(contextualComm);
         },
         error: reason => {

@@ -18,22 +18,17 @@ export class RouterService {
   constructor(
     private router: Router) {
 
-    console.log('[Breadcrumb] - ', this.router);
-
     // this.paths.take(2)
     this.breadcrumb = this.paths.take(2);
 
-        // Subscribe to route params
+    // Subscribe to route params
     this._urls = new Array();
     this.router.events.subscribe((navigation: NavigationEnd) => {
 
-      console.log('[Breadcrumb] - ', navigation);
+      this._urls.length = 0; // Fastest way to clear out array
 
-      this._urls.length = 0; //Fastest way to clear out array
       if (navigation instanceof NavigationEnd) {
         this.generateBreadcrumbTrail(navigation.urlAfterRedirects ? navigation.urlAfterRedirects : navigation.url);
-
-        console.log('[Breadcrumb] - ', this.router, this._urls);
         this.paths.next(this._urls);
       }
     });

@@ -3,10 +3,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 // Models
 import { User, ContextualComm } from './models/models';
+import { TriggerActions } from './models/app.models';
 
 // Services
 import { ContextualCommDataService } from './services/contextualCommData.service';
-import { RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
+import { TriggerActionService, RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
 
 @Component({
   moduleId: module.id,
@@ -27,12 +28,21 @@ export class AppComponent implements OnInit {
     private route: ActivatedRoute,
     private contactService: ContactService,
     private rethinkService: RethinkService,
+    private triggerActionService: TriggerActionService,
     private contextualCommDataService: ContextualCommDataService,
     private connectorService: ConnectorService,
     private chatService: ChatService) {
 
     this.rethinkService.progress.subscribe({
       next: (v: string) => this.status = v
+    });
+
+    this.triggerActionService.action().subscribe((action: TriggerActions) => {
+
+      if (action === TriggerActions.OpenContextMenu) {
+        this.onOpenContext();
+      }
+
     });
 
   }
@@ -72,6 +82,16 @@ export class AppComponent implements OnInit {
         this.rethinkService.progress.complete();
         this.rethinkService.status.next(true);
         this.ready = true;
+
+        this.contextualCommDataService.getContexts().subscribe((contexts: ContextualComm[]) => {
+          console.log('[App Component - check contexts] - contexts: ', contexts);
+
+          if (contexts.length === 0) {
+            this.triggerActionService.trigger(TriggerActions.OpenContextMenu);
+            this.triggerActionService.trigger(TriggerActions.OpenContextMenuCreator);
+          }
+
+        });
 
       });
 
@@ -122,7 +142,7 @@ export class AppComponent implements OnInit {
       });
   }
 
-  onOpenContext(event: Event) {
+  onOpenContext(event?: Event) {
     this.contextOpened = !this.contextOpened;
   }
 

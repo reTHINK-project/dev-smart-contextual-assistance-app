@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
+import 'rxjs/add/observable/empty';
 import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/isEmpty';
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/defaultIfEmpty';
 
 // utils
 import { strMapToObj } from '../utils/utils';
@@ -68,7 +72,8 @@ export class ContextualCommService {
     private contextualCommTriggerService: ContextualCommTriggerService
   ) {
 
-    this._contextualCommList = this._contextualCommUpdates.map((context: ContextualComm) => {
+    this._contextualCommList = this._contextualCommUpdates
+    .map((context: ContextualComm) => {
 
       context.users = context.users.filter((user: User) => {
         return user instanceof User;
@@ -126,8 +131,10 @@ export class ContextualCommService {
       }
 
     }, [])
+    .startWith([])
     .publishReplay(1)
-    .refCount();
+    .refCount()
+    .defaultIfEmpty('asdasdsa');
 
     this._contextualComm.subscribe(this._contextualCommUpdates);
 

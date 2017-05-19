@@ -197,7 +197,6 @@ var ChatService = (function () {
         return this._discovery;
     };
     ChatService.prototype.onInvitation = function (callback) {
-        console.log('AQUI:', callback);
         this._onInvitation = callback;
     };
     ChatService.prototype.onUserAdded = function (callback) {

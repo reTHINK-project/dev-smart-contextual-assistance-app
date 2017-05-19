@@ -9,12 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-require("rxjs/add/operator/elementAt");
+require("rxjs/add/observable/empty");
+require("rxjs/add/operator/filter");
+require("rxjs/add/operator/isEmpty");
+require("rxjs/add/operator/defaultIfEmpty");
+var app_models_1 = require("../models/app.models");
 var contextualComm_service_1 = require("./contextualComm.service");
 var chat_service_1 = require("./rethink/chat.service");
+var triggerAction_service_1 = require("./triggerAction.service");
 var ContextualCommDataService = (function () {
-    function ContextualCommDataService(chatService, contextualCommService) {
+    function ContextualCommDataService(chatService, triggerActionService, contextualCommService) {
         this.chatService = chatService;
+        this.triggerActionService = triggerActionService;
         this.contextualCommService = contextualCommService;
     }
     ContextualCommDataService.prototype.createContext = function (name, parentNameId, contextInfo) {
@@ -71,9 +77,17 @@ var ContextualCommDataService = (function () {
             .map(function (contexts) { return contexts.filter(function (context) { return context.parent === ''; }); });
     };
     ContextualCommDataService.prototype.getContext = function (name) {
-        console.log('[ContextualCommDataService] -  getContext:', name);
+        var _this = this;
         return this.contextualCommService.getContextualComms()
-            .map(function (contexts) { return contexts.filter(function (context) { return context.name === name; })[0]; });
+            .map(function (contexts) {
+            var found = contexts.filter(function (context) { return context.name === name; })[0];
+            if (!found) {
+                _this.triggerActionService.trigger(app_models_1.TriggerActions.OpenContextMenu);
+                _this.triggerActionService.trigger(app_models_1.TriggerActions.OpenContextMenuCreator);
+                throw new Error('Context not found');
+            }
+            return found;
+        });
     };
     ContextualCommDataService.prototype.getTasks = function (url) {
         return this.contextualCommService.getContextualComms().map(function (contexts) { return contexts.filter(function (context) { return context.parent === url; }); });
@@ -87,6 +101,7 @@ var ContextualCommDataService = (function () {
 ContextualCommDataService = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [chat_service_1.ChatService,
+        triggerAction_service_1.TriggerActionService,
         contextualComm_service_1.ContextualCommService])
 ], ContextualCommDataService);
 exports.ContextualCommDataService = ContextualCommDataService;

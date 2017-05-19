@@ -11,11 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 // Bootstrap
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
+// App Model
+var app_models_1 = require("../../models/app.models");
 // Serives
+var services_1 = require("../../services/services");
 var contextualCommData_service_1 = require("../../services/contextualCommData.service");
 var AddContextualCommComponent = (function () {
-    function AddContextualCommComponent(modalService, contextualCommDataService) {
+    function AddContextualCommComponent(rd, modalService, triggerActionService, contextualCommDataService) {
+        this.rd = rd;
         this.modalService = modalService;
+        this.triggerActionService = triggerActionService;
         this.contextualCommDataService = contextualCommDataService;
         this.model = {};
         this.icons = [
@@ -35,9 +40,17 @@ var AddContextualCommComponent = (function () {
         this.model.icon = this.icons[0];
         this.contextualComms = this.contextualCommDataService.getContexts();
     }
-    AddContextualCommComponent.prototype.ngOnInit = function () { };
+    AddContextualCommComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.triggerActionService.action().subscribe(function (action) {
+            if (action === app_models_1.TriggerActions.OpenContextMenu) {
+                _this.open(_this.el);
+            }
+        });
+    };
     AddContextualCommComponent.prototype.open = function (content) {
         var _this = this;
+        console.log('[AddContextualComm] - ', content);
         this.modalService.open(content, { windowClass: 'custom-modal' }).result.then(function (result) {
             console.log('AQUI:', result);
             _this.closeResult = "Closed with: " + result;
@@ -66,6 +79,10 @@ var AddContextualCommComponent = (function () {
     };
     return AddContextualCommComponent;
 }());
+__decorate([
+    core_1.ViewChild('content'),
+    __metadata("design:type", core_1.ElementRef)
+], AddContextualCommComponent.prototype, "el", void 0);
 AddContextualCommComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
@@ -73,7 +90,9 @@ AddContextualCommComponent = __decorate([
         templateUrl: './add-contextualComm.component.html',
         styleUrls: ['./add-contextualComm.component.css']
     }),
-    __metadata("design:paramtypes", [ng_bootstrap_1.NgbModal,
+    __metadata("design:paramtypes", [core_1.Renderer2,
+        ng_bootstrap_1.NgbModal,
+        services_1.TriggerActionService,
         contextualCommData_service_1.ContextualCommDataService])
 ], AddContextualCommComponent);
 exports.AddContextualCommComponent = AddContextualCommComponent;

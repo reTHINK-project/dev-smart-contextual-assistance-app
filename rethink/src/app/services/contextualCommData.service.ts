@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
+
 import { Observable } from 'rxjs/Observable';
 
-import 'rxjs/add/operator/elementAt';
+import 'rxjs/add/observable/empty';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/isEmpty';
+import 'rxjs/add/operator/defaultIfEmpty';
 
 import { ContextualComm } from '../models/models';
+import { TriggerActions } from '../models/app.models';
 
 import { ContextualCommService } from './contextualComm.service';
 import { ChatService } from './rethink/chat.service';
+import { TriggerActionService } from './triggerAction.service';
 
 
 @Injectable()
@@ -14,6 +20,7 @@ export class ContextualCommDataService {
 
   constructor(
     private chatService: ChatService,
+    private triggerActionService: TriggerActionService,
     private contextualCommService: ContextualCommService
   ) {
 
@@ -93,10 +100,18 @@ export class ContextualCommDataService {
   }
 
   getContext(name: string): Observable<ContextualComm> {
-    console.log('[ContextualCommDataService] -  getContext:', name);
-
     return this.contextualCommService.getContextualComms()
-      .map(contexts => contexts.filter(context => context.name === name)[0])
+      .map(contexts => {
+        let found = contexts.filter(context => context.name === name)[0];
+        if (!found) {
+
+          this.triggerActionService.trigger(TriggerActions.OpenContextMenu);
+          this.triggerActionService.trigger(TriggerActions.OpenContextMenuCreator);
+
+          throw new Error('Context not found');
+        }
+        return found;
+      });
   }
 
   getTasks(url: string): Observable<ContextualComm[]> {

@@ -10,7 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var Subject_1 = require("rxjs/Subject");
+require("rxjs/add/observable/empty");
 require("rxjs/add/operator/filter");
+require("rxjs/add/operator/isEmpty");
+require("rxjs/add/operator/startWith");
+require("rxjs/add/operator/defaultIfEmpty");
 // utils
 var utils_1 = require("../utils/utils");
 // Services
@@ -32,7 +36,8 @@ var ContextualCommService = (function () {
         this._contextualCommUpdates = new Subject_1.Subject();
         this._contextualComm = new Subject_1.Subject();
         this.contextualCommObs = new Subject_1.Subject();
-        this._contextualCommList = this._contextualCommUpdates.map(function (context) {
+        this._contextualCommList = this._contextualCommUpdates
+            .map(function (context) {
             context.users = context.users.filter(function (user) {
                 return user instanceof models_1.User;
             }).map(function (user) {
@@ -79,8 +84,10 @@ var ContextualCommService = (function () {
                 return contextualCommList;
             }
         }, [])
+            .startWith([])
             .publishReplay(1)
-            .refCount();
+            .refCount()
+            .defaultIfEmpty('asdasdsa');
         this._contextualComm.subscribe(this._contextualCommUpdates);
         // TODO: check why we need this, HOT something
         this._contextualCommList.subscribe(function (list) {

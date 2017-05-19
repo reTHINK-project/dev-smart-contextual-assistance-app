@@ -10,16 +10,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var app_models_1 = require("./models/app.models");
 // Services
 var contextualCommData_service_1 = require("./services/contextualCommData.service");
 var services_1 = require("./services/services");
 var AppComponent = (function () {
-    function AppComponent(router, route, contactService, rethinkService, contextualCommDataService, connectorService, chatService) {
+    function AppComponent(router, route, contactService, rethinkService, triggerActionService, contextualCommDataService, connectorService, chatService) {
         var _this = this;
         this.router = router;
         this.route = route;
         this.contactService = contactService;
         this.rethinkService = rethinkService;
+        this.triggerActionService = triggerActionService;
         this.contextualCommDataService = contextualCommDataService;
         this.connectorService = connectorService;
         this.chatService = chatService;
@@ -27,6 +29,11 @@ var AppComponent = (function () {
         this.contextOpened = false;
         this.rethinkService.progress.subscribe({
             next: function (v) { return _this.status = v; }
+        });
+        this.triggerActionService.action().subscribe(function (action) {
+            if (action === app_models_1.TriggerActions.OpenContextMenu) {
+                _this.onOpenContext();
+            }
         });
     }
     AppComponent.prototype.ngOnInit = function () {
@@ -61,6 +68,13 @@ var AppComponent = (function () {
             _this.rethinkService.progress.complete();
             _this.rethinkService.status.next(true);
             _this.ready = true;
+            _this.contextualCommDataService.getContexts().subscribe(function (contexts) {
+                console.log('[App Component - check contexts] - contexts: ', contexts);
+                if (contexts.length === 0) {
+                    _this.triggerActionService.trigger(app_models_1.TriggerActions.OpenContextMenu);
+                    _this.triggerActionService.trigger(app_models_1.TriggerActions.OpenContextMenuCreator);
+                }
+            });
         });
         // Prepare the chat service to recive invitations
         this.chatService.onInvitation(function (event) {
@@ -121,6 +135,7 @@ AppComponent = __decorate([
         router_1.ActivatedRoute,
         services_1.ContactService,
         services_1.RethinkService,
+        services_1.TriggerActionService,
         contextualCommData_service_1.ContextualCommDataService,
         services_1.ConnectorService,
         services_1.ChatService])

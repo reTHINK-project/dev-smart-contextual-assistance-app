@@ -35,10 +35,8 @@ var ContextualCommDataResolver = (function () {
                 name = task;
             }
             ;
-            console.log('[ContextualCommData - resolver] - ', name);
             _this.contextualCommDataService.getContext(name).subscribe({
                 next: function (contextualComm) {
-                    console.log('[ContextualCommData - resolver] - found: ', contextualComm);
                     _this.contextualCommService.activeContext = contextualComm.url;
                     _this.chatService.activeDataObjectURL = contextualComm.url;
                     resolve(contextualComm);

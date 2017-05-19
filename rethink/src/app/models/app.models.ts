@@ -22,3 +22,8 @@ export interface IAlert {
   message: IMessageAlert;
   callback?: Function;
 }
+
+export enum TriggerActions {
+  OpenContextMenu = <any>'open-context',
+  OpenContextMenuCreator = <any>'open-context-creation'
+};

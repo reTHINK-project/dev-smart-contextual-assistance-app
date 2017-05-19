@@ -261,7 +261,6 @@ export class ChatService {
   }
 
   onInvitation(callback: Function) {
-    console.log('AQUI:', callback);
     this._onInvitation = callback;
   }
 

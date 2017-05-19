@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 // Bootstrap
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
+// App Model
+import { TriggerActions } from '../../models/app.models';
+
 // Serives
+import { TriggerActionService } from '../../services/services';
 import { ContextualCommDataService } from '../../services/contextualCommData.service';
 import { ContextualComm } from '../../models/models';
 
@@ -39,8 +43,12 @@ export class AddContextualCommComponent implements OnInit {
 
   title = 'Add New context';
 
+  @ViewChild('content') el: ElementRef;
+
   constructor(
+    private rd: Renderer2,
     private modalService: NgbModal,
+    private triggerActionService: TriggerActionService,
     private contextualCommDataService: ContextualCommDataService) {
 
       this.model.icon = this.icons[0];
@@ -49,9 +57,19 @@ export class AddContextualCommComponent implements OnInit {
 
     }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+    this.triggerActionService.action().subscribe((action: TriggerActions) => {
+      if (action === TriggerActions.OpenContextMenu) {
+        this.open(this.el);
+      }
+    });
+
+  }
 
   open(content: any) {
+
+    console.log('[AddContextualComm] - ', content);
 
     this.modalService.open(content, {windowClass: 'custom-modal'}).result.then((result) => {
       console.log('AQUI:', result);

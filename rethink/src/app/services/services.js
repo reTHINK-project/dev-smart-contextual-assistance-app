@@ -15,6 +15,8 @@ var contextualCommData_resolver_1 = require("./contextualCommData.resolver");
 exports.ContextualCommDataResolver = contextualCommData_resolver_1.ContextualCommDataResolver;
 var contextualComm_service_1 = require("./contextualComm.service");
 exports.ContextualCommService = contextualComm_service_1.ContextualCommService;
+var triggerAction_service_1 = require("./triggerAction.service");
+exports.TriggerActionService = triggerAction_service_1.TriggerActionService;
 var notification_service_1 = require("./notification.service");
 exports.NotificationService = notification_service_1.NotificationService;
 var contact_service_1 = require("./contact.service");
@@ -35,6 +37,7 @@ exports.servicesInjectables = [
     contact_service_1.ContactService,
     connector_service_1.ConnectorService,
     notification_service_1.NotificationService,
+    triggerAction_service_1.TriggerActionService,
     contextualCommTrigger_service_1.ContextualCommTriggerService
 ];
 //# sourceMappingURL=services.js.map
