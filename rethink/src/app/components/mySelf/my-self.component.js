@@ -11,12 +11,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var models_1 = require("../../models/models");
+var userAvailability_service_1 = require("../../services/rethink/userAvailability.service");
 var MySelfComponent = (function () {
-    function MySelfComponent(config) {
+    function MySelfComponent(config, userAvailabilityService) {
+        this.userAvailabilityService = userAvailabilityService;
         this.hostClass = 'float-right';
         config.autoClose = false;
     }
     MySelfComponent.prototype.ngOnInit = function () {
+    };
+    MySelfComponent.prototype.onChangeEvent = function (status) {
+        console.log('[MySelfComponent] status changed:', status);
+        this.userAvailabilityService.setStatus(status);
     };
     return MySelfComponent;
 }());
@@ -34,7 +40,7 @@ MySelfComponent = __decorate([
         selector: 'my-self',
         templateUrl: './my-self.component.html'
     }),
-    __metadata("design:paramtypes", [ng_bootstrap_1.NgbDropdownConfig])
+    __metadata("design:paramtypes", [ng_bootstrap_1.NgbDropdownConfig, userAvailability_service_1.UserAvailabilityService])
 ], MySelfComponent);
 exports.MySelfComponent = MySelfComponent;
 //# sourceMappingURL=my-self.component.js.map

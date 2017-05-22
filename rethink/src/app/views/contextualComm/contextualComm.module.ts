@@ -25,12 +25,16 @@ import { ContextualCommActivityComponent } from '../contextualCommActivity/conte
 // Custom Pipes
 import { PipesModule } from '../../pipes/pipes';
 
+// reTHinK Services
+import { UserAvailabilityService } from '../../services/rethink/userAvailability.service';
+
 // Services
 import {
   AuthGuard,
   UserResolver,
   ContextualCommService,
-  ContextualCommDataResolver, ContextualCommDataService } from '../../services/services';
+  ContextualCommDataResolver,
+  ContextualCommDataService } from '../../services/services';
 
 @NgModule({
   imports: [
@@ -57,7 +61,8 @@ import {
     UserResolver,
     ContextualCommService,
     ContextualCommDataService,
-    ContextualCommDataResolver
+    ContextualCommDataResolver,
+    UserAvailabilityService
   ]
 })
 export class ContextualCommModule {}

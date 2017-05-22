@@ -23,6 +23,8 @@ var activity_view_component_1 = require("../activityView/activity-view.component
 var contextualCommActivity_component_1 = require("../contextualCommActivity/contextualCommActivity.component");
 // Custom Pipes
 var pipes_1 = require("../../pipes/pipes");
+// reTHinK Services
+var userAvailability_service_1 = require("../../services/rethink/userAvailability.service");
 // Services
 var services_1 = require("../../services/services");
 var ContextualCommModule = (function () {
@@ -54,7 +56,8 @@ ContextualCommModule = __decorate([
             services_1.UserResolver,
             services_1.ContextualCommService,
             services_1.ContextualCommDataService,
-            services_1.ContextualCommDataResolver
+            services_1.ContextualCommDataResolver,
+            userAvailability_service_1.UserAvailabilityService
         ]
     })
 ], ContextualCommModule);
