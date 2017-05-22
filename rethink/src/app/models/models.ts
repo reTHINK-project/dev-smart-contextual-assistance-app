@@ -27,7 +27,7 @@ export class User implements UserIdentity {
     this.avatar   = obj && obj.avatar;
     this.locale   = obj && obj.locale;
     this.userURL  = obj && obj.userURL;
-    this.status   = obj && obj.status   || 'online';
+    this.status   = obj && obj.status   || 'available';
     this.unread   = obj && obj.unread   || 0;
     this.domain   = obj && obj.domain   || 'hybroker.rethink.ptinovacao.pt';
 

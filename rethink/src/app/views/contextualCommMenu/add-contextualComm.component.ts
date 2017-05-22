@@ -60,9 +60,12 @@ export class AddContextualCommComponent implements OnInit {
   ngOnInit() {
 
     this.triggerActionService.action().subscribe((action: TriggerActions) => {
-      if (action === TriggerActions.OpenContextMenu) {
+
+      if (action === TriggerActions.OpenContextMenuCreator) {
         this.open(this.el);
       }
+
+
     });
 
   }

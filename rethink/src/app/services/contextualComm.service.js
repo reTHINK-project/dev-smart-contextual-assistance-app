@@ -38,18 +38,15 @@ var ContextualCommService = (function () {
         this.contextualCommObs = new Subject_1.Subject();
         this._contextualCommList = this._contextualCommUpdates
             .map(function (context) {
-            context.users = context.users.filter(function (user) {
-                return user instanceof models_1.User;
-            }).map(function (user) {
+            context.users = context.users.map(function (user) {
                 return _this.contactService.getUser(user.userURL);
             }).filter(function (user) {
                 return user.userURL !== _this.rethinkService.getCurrentUser.userURL;
             });
             context.messages = context.messages.map(function (message) {
                 var currentMessage = new models_1.Message(message);
-                console.log('[Context Service - contextualCommUpdates] - typeof: ', currentMessage.user instanceof models_1.User);
                 currentMessage.user = _this.contactService.getUser(currentMessage.user.userURL);
-                return message;
+                return currentMessage;
             });
             console.log('[Context Service - contextualCommUpdates] - map', context.url, context);
             return context;

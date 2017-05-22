@@ -39,6 +39,8 @@ export class AppComponent implements OnInit {
 
     this.triggerActionService.action().subscribe((action: TriggerActions) => {
 
+      console.log('[App Component - TriggerActionService] - action: ', action);
+
       if (action === TriggerActions.OpenContextMenu) {
         this.onOpenContext();
       }

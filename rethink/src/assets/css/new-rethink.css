@@ -10,7 +10,6 @@ body.rethink .header {
 
   top: 0;
 
-  overflow: hidden;
   margin-bottom: 0;
   height: 60px;
 }
@@ -18,6 +17,10 @@ body.rethink .header {
 /* Main Content */
 body.rethink .content-panel {
   margin-top: 60px;
+}
+
+body.rethink .main-content {
+  margin-left: 30%;
 }
 
 /* Add Button from context menu and contacts list */

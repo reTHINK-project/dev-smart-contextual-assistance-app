@@ -91,7 +91,14 @@ var ContactService = (function () {
     };
     ContactService.prototype.getUser = function (userURL) {
         console.log('[Contact Service - get user: ', this._userList, userURL);
-        return this._userList.get(userURL);
+        var currentUser = this._userList.get(userURL);
+        console.log('[Contact Service - instance of User: ', currentUser instanceof models_1.User);
+        if (currentUser instanceof models_1.User) {
+            return currentUser;
+        }
+        else {
+            return new models_1.User(currentUser);
+        }
     };
     ContactService.prototype.getByUserName = function (username) {
         console.log('[Contact Service - get user: ', this._userList, username);

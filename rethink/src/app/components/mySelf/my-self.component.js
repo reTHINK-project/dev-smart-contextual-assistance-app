@@ -9,10 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var models_1 = require("../../models/models");
 var MySelfComponent = (function () {
-    function MySelfComponent() {
-        this.hostClass = 'push-right contactlist';
+    function MySelfComponent(config) {
+        this.hostClass = 'float-right';
+        config.autoClose = false;
     }
     MySelfComponent.prototype.ngOnInit = function () {
     };
@@ -29,10 +31,10 @@ __decorate([
 MySelfComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
-        selector: 'ul[my-self]',
+        selector: 'my-self',
         templateUrl: './my-self.component.html'
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [ng_bootstrap_1.NgbDropdownConfig])
 ], MySelfComponent);
 exports.MySelfComponent = MySelfComponent;
 //# sourceMappingURL=my-self.component.js.map

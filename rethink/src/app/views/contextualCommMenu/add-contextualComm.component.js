@@ -43,7 +43,7 @@ var AddContextualCommComponent = (function () {
     AddContextualCommComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.triggerActionService.action().subscribe(function (action) {
-            if (action === app_models_1.TriggerActions.OpenContextMenu) {
+            if (action === app_models_1.TriggerActions.OpenContextMenuCreator) {
                 _this.open(_this.el);
             }
         });

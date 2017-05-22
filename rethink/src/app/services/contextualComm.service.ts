@@ -75,9 +75,7 @@ export class ContextualCommService {
     this._contextualCommList = this._contextualCommUpdates
     .map((context: ContextualComm) => {
 
-      context.users = context.users.filter((user: User) => {
-        return user instanceof User;
-      }).map((user: User) => {
+      context.users = context.users.map((user: User) => {
         return this.contactService.getUser(user.userURL);
       }).filter((user: User) => {
         return user.userURL !== this.rethinkService.getCurrentUser.userURL;
@@ -85,9 +83,8 @@ export class ContextualCommService {
 
       context.messages = context.messages.map((message: Message) => {
         let currentMessage = new Message(message);
-        console.log('[Context Service - contextualCommUpdates] - typeof: ', currentMessage.user instanceof User);
         currentMessage.user = this.contactService.getUser(currentMessage.user.userURL);
-        return message;
+        return currentMessage;
       });
 
       console.log('[Context Service - contextualCommUpdates] - map', context.url, context);

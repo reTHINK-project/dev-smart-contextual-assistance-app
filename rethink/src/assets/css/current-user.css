@@ -1,0 +1,87 @@
+.current-user {
+  cursor: pointer; 
+}
+
+.current-user .user-area {
+  color: #fff;
+}
+
+.current-user .user-status {
+  height: 38px;
+  width: 38px;
+  display: block;
+  position: relative;
+  margin-right: 12px;
+}
+
+.current-user .user-status .status {
+  padding: 0;
+  font-size: 16px;
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+}
+
+.current-user .user-status .status.available {
+  color: #32d167
+}
+
+.current-user .user-status .status.unavailable {
+  color: #e44c43
+}
+
+.current-user .user-status .status i {
+  padding: 0;
+}
+
+.current-user .user-area h3 {
+  color: #fff;
+  padding: 0px;
+  margin: 0;
+
+  font-size: 14px;
+
+  text-transform: none;
+
+  padding-right: 12px;
+}
+
+ /* Probably the dropdown-item-action should be in separated file, with css related with dropdown */
+.current-user .dropdown-item-action {
+  cursor: default;
+}
+
+.current-user .dropdown-item-action:hover,
+.current-user .dropdown-item-action:active {
+  color: inherit;
+  background: none;
+}
+
+
+/* All users status */
+.contact-avatar {
+  height: 38px;
+  width: 38px;
+  margin-top: 4px;
+  position: relative;
+}
+
+.contact-avatar .status {
+  padding: 0;
+  font-size: 16px;
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+}
+
+.contact-avatar .status.available {
+  color: #32d167
+}
+
+.contact-avatar .status.unavailable {
+  color: #e44c43
+}
+
+.contact-avatar .status i {
+  padding: 0;
+}

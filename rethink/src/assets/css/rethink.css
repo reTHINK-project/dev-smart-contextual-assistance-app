@@ -2284,26 +2284,7 @@ body.rethink ul.contactlist li div.contact-avatar img {
   border-radius: 50%;
   background-color: #fff;
 }
-/* line 2313, ../sass/rethink.scss */
-body.rethink span.status {
-  padding: 0;
-  font-size: 16px;
-  position: absolute;
-  right: -4px;
-  bottom: -4px;
-}
-/* line 2320, ../sass/rethink.scss */
-body.rethink span.status i {
-  padding: 0;
-}
-/* line 2325, ../sass/rethink.scss */
-body.rethink span.status.online i {
-  color: #32d167;
-}
-/* line 2331, ../sass/rethink.scss */
-body.rethink span.status.away i {
-  color: #e44c43;
-}
+
 /* line 2337, ../sass/rethink.scss */
 body.rethink span.status.offline i {
   color: #ccc;

@@ -109,7 +109,14 @@ export class ContactService {
 
   getUser(userURL: string): User {
     console.log('[Contact Service - get user: ', this._userList, userURL);
-    return this._userList.get(userURL);
+    let currentUser = this._userList.get(userURL);
+
+    console.log('[Contact Service - instance of User: ', currentUser instanceof User);
+    if (currentUser instanceof User) {
+      return currentUser;
+    } else {
+      return new User(currentUser);
+    }
   }
 
   getByUserName(username: string): User {

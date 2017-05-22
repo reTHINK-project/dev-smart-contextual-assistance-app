@@ -31,6 +31,7 @@ var AppComponent = (function () {
             next: function (v) { return _this.status = v; }
         });
         this.triggerActionService.action().subscribe(function (action) {
+            console.log('[App Component - TriggerActionService] - action: ', action);
             if (action === app_models_1.TriggerActions.OpenContextMenu) {
                 _this.onOpenContext();
             }
