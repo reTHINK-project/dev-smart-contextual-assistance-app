@@ -29,7 +29,7 @@ var ChatService = (function () {
             return this._activeDataObjectURL;
         },
         set: function (value) {
-            console.log('[Chat Service] - active controller:', value, this.controllerList);
+            console.log('[Chat Service] - setActiveController:', value, this.controllerList);
             this._activeDataObjectURL = value;
             this.chatControllerActive = this.controllerList.get(value);
             console.info('[Chat Service] - active controller: ', this.chatControllerActive);
@@ -94,7 +94,7 @@ var ChatService = (function () {
         console.log('[Chat Service - prepareController]', chatController);
         chatController.onUserAdded(function (user) {
             var dataObjectURL = chatController.dataObject.url;
-            console.log('[Chat Service - prepareController] - onUserAdded', user, dataObjectURL);
+            console.log('[Chat Service - prepareController] - onUserAdded', chatController, user, dataObjectURL);
             var current;
             if (user.hasOwnProperty('data')) {
                 current = _this.contactService.getUser(user.data.identity.userURL);

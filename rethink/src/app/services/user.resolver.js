@@ -27,6 +27,7 @@ var UserResolver = (function () {
             var selectedUser = decodeURIComponent(route.params['user']);
             console.log(selectedUser);
             var user = _this.contactService.getByUserName(selectedUser);
+            console.log('[User Resolver] - ', user);
             if (user) {
                 resolve(user);
             }

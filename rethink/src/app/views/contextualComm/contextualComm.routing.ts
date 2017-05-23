@@ -2,7 +2,7 @@ import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // Components
-import { AuthGuard } from '../../services/services';
+import { AuthGuard, ContextualCommActivateService } from '../../services/services';
 
 import { ContextualCommDataResolver } from '../../services/contextualCommData.resolver';
 import { UserResolver } from '../../services/user.resolver';
@@ -17,6 +17,7 @@ const contextualCommRoutes: Routes = [
     path: ':context',
     component: ContextualCommComponent,
     canActivate: [ AuthGuard ],
+    canActivateChild: [ ContextualCommActivateService ],
     resolve: {
       context: ContextualCommDataResolver
     },
@@ -34,16 +35,14 @@ const contextualCommRoutes: Routes = [
         resolve: {
           context: ContextualCommDataResolver
         },
-        children: [
-          {
-            path: ':user',
-            component: UserViewComponent,
-            resolve: {
-              user: UserResolver
-              // context: UserContextualCommResolver
-            }
-          }
-        ]
+      },
+      {
+        path: ':task/:user',
+        component: UserViewComponent,
+        resolve: {
+          user: UserResolver,
+          context: ContextualCommDataResolver
+        }
       }
     ]
   }

@@ -83,8 +83,7 @@ var ContextualCommService = (function () {
         }, [])
             .startWith([])
             .publishReplay(1)
-            .refCount()
-            .defaultIfEmpty('asdasdsa');
+            .refCount();
         this._contextualComm.subscribe(this._contextualCommUpdates);
         // TODO: check why we need this, HOT something
         this._contextualCommList.subscribe(function (list) {
@@ -100,10 +99,17 @@ var ContextualCommService = (function () {
             }
         }
     }
-    ContextualCommService.prototype.getActiveContext = function (v) {
-        return this.localStorage.hasObject(v) ? this.localStorage.getObject(v) : null;
-    };
-    Object.defineProperty(ContextualCommService.prototype, "activeContext", {
+    Object.defineProperty(ContextualCommService.prototype, "getActiveContext", {
+        // public getActiveContext(v: string): ContextualComm {
+        //   return this.localStorage.hasObject(v) ? this.localStorage.getObject(v) as ContextualComm : null;
+        // }
+        get: function () {
+            return this.currentActiveContext;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ContextualCommService.prototype, "setActiveContext", {
         set: function (value) {
             console.log('[Context Service] - setActiveContext: ', value, this.cxtList.get(value));
             this.currentActiveContext = this.cxtList.get(value);
@@ -225,13 +231,15 @@ var ContextualCommService = (function () {
     };
     ContextualCommService.prototype.updateContextUsers = function (user, url) {
         console.log('[Context Service - Update Context User:', user, url);
-        console.log('[Context Service - Active Context:', this.cxtList.get(url));
-        var context = this.cxtList.get(url);
-        context.addUser(user);
-        // Update the contact list
-        this.contactService.addUser(user);
-        this._contextualComm.next(context);
-        console.log('[Context Service - Update contacts]', context.name, context.url, context);
+        console.log('[Context Service - Active Context:', this.cxtList, this.cxtList.get(url));
+        if (this.cxtList.has(url)) {
+            var context = this.cxtList.get(url);
+            context.addUser(user);
+            // Update the contact list
+            this.contactService.addUser(user);
+            this._contextualComm.next(context);
+            console.log('[Context Service - Update contacts]', context.name, context.url, context);
+        }
     };
     ContextualCommService.prototype.getContextByName = function (name) {
         var _this = this;

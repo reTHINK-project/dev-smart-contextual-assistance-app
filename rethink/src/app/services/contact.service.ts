@@ -95,8 +95,8 @@ export class ContactService {
     this._newUser.next(user);
   }
 
-  updateUser(user: User, property: string, value: any) {
-
+  updateUser(user: User) {
+    this._updates.next(user);
   }
 
   removeUser() {
@@ -109,14 +109,7 @@ export class ContactService {
 
   getUser(userURL: string): User {
     console.log('[Contact Service - get user: ', this._userList, userURL);
-    let currentUser = this._userList.get(userURL);
-
-    console.log('[Contact Service - instance of User: ', currentUser instanceof User);
-    if (currentUser instanceof User) {
-      return currentUser;
-    } else {
-      return new User(currentUser);
-    }
+    return this._userList.get(userURL);
   }
 
   getByUserName(username: string): User {

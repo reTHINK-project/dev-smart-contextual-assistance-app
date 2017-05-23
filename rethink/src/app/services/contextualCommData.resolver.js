@@ -10,14 +10,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var app_models_1 = require("../models/app.models");
 // Service
 var contextualCommData_service_1 = require("./contextualCommData.service");
 var contextualComm_service_1 = require("./contextualComm.service");
-var services_1 = require("./services");
+var triggerAction_service_1 = require("./triggerAction.service");
+var contact_service_1 = require("./contact.service");
 var ContextualCommDataResolver = (function () {
-    function ContextualCommDataResolver(router, chatService, contextualCommService, contextualCommDataService) {
+    function ContextualCommDataResolver(router, contactService, triggerActionService, contextualCommService, contextualCommDataService) {
         this.router = router;
-        this.chatService = chatService;
+        this.contactService = contactService;
+        this.triggerActionService = triggerActionService;
         this.contextualCommService = contextualCommService;
         this.contextualCommDataService = contextualCommDataService;
     }
@@ -26,6 +29,7 @@ var ContextualCommDataResolver = (function () {
         return new Promise(function (resolve, reject) {
             var context = route.params['context'];
             var task = route.params['task'];
+            var user = route.params['user'];
             var name = '';
             if (context) {
                 name = context;
@@ -35,25 +39,40 @@ var ContextualCommDataResolver = (function () {
                 name = task;
             }
             ;
+            if (user) {
+                name = _this.contextualCommDataService.normalizeAtomicName(_this.atomicContextualComm(user));
+            }
+            ;
+            console.log('[ContextualCommData - Resolve] - normalized name:', name);
             _this.contextualCommDataService.getContext(name).subscribe({
-                next: function (contextualComm) {
-                    _this.contextualCommService.activeContext = contextualComm.url;
-                    _this.chatService.activeDataObjectURL = contextualComm.url;
-                    resolve(contextualComm);
-                },
+                next: function (contextualComm) { return resolve(contextualComm); },
                 error: function (reason) {
-                    console.log('[ContextualCommData - Resolver] - ', reason);
-                    reject(reason);
+                    console.log('[ContextualCommData - Resolve] - user:', user);
+                    if (user) {
+                        return _this.contextualCommDataService.createAtomicContext(user, name, task)
+                            .then(function (context) { return resolve(context); })
+                            .catch(function (reason) { return reject(reason); });
+                    }
+                    else {
+                        _this.triggerActionService.trigger(app_models_1.TriggerActions.OpenContextMenuCreator);
+                        reject(reason);
+                    }
                 }
             });
         });
+    };
+    ContextualCommDataResolver.prototype.atomicContextualComm = function (user) {
+        var currentUser = this.contactService.sessionUser.username;
+        var invitedUser = user;
+        return currentUser + '-' + invitedUser;
     };
     return ContextualCommDataResolver;
 }());
 ContextualCommDataResolver = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [router_1.Router,
-        services_1.ChatService,
+        contact_service_1.ContactService,
+        triggerAction_service_1.TriggerActionService,
         contextualComm_service_1.ContextualCommService,
         contextualCommData_service_1.ContextualCommDataService])
 ], ContextualCommDataResolver);

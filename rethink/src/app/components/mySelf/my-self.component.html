@@ -12,7 +12,7 @@
     <h6 class="dropdown-header">User Availability</h6>
     <div class="dropdown-item dropdown-item-action" href="#">
       <span>Availability:</span>
-      <div [(ngModel)]="model.status" class="btn-group-sm" ngbRadioGroup name="status">
+      <div (click)="onChangeEvent(this)" [(ngModel)]="model.status" class="btn-group-sm" ngbRadioGroup name="status">
         <label class="btn btn-secondary mb-0 {{ model.status === 'available' ? 'btn-success' : '' }}">
           <input type="radio" autocomplete="off" value="available">On
         </label>

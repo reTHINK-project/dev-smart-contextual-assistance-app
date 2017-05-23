@@ -31,7 +31,7 @@ export class ChatService {
   }
 
   public set activeDataObjectURL(value: string) {
-    console.log('[Chat Service] - active controller:', value, this.controllerList);
+    console.log('[Chat Service] - setActiveController:', value, this.controllerList);
     this._activeDataObjectURL = value;
     this.chatControllerActive = this.controllerList.get(value);
     console.info('[Chat Service] - active controller: ', this.chatControllerActive);
@@ -123,7 +123,7 @@ export class ChatService {
     chatController.onUserAdded((user: any) => {
       let dataObjectURL = chatController.dataObject.url;
 
-      console.log('[Chat Service - prepareController] - onUserAdded', user, dataObjectURL);
+      console.log('[Chat Service - prepareController] - onUserAdded', chatController, user, dataObjectURL);
       let current: User;
 
       if (user.hasOwnProperty('data')) {

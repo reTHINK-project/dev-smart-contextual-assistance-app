@@ -4,10 +4,10 @@
   </a>
 </li>
 
-<li class="breadcrumb-path" *ngFor="let item of breadcrumb | async; let i = index; let $last = last;" [class.first]="i===0">
+<li class="breadcrumb-path" *ngFor="let item of breadcrumb | async; let i = index; let $first = first; let $last = last; " [class.first]="$first" [class.last]="$last" >
   <h3 class="level-{{i}}">
 
-    <a *ngIf="!$last" routerLink="{{item}}" routerLinkActive="active">
+    <a class="name" *ngIf="!$last" routerLink="{{item}}" routerLinkActive="active">
       <!--<span *ngIf="!$last" class="fa fa-lock"></span>-->
       {{item.replace('/', '').substr(item.lastIndexOf('/'))}}
     </a>

@@ -54,7 +54,8 @@ ContextualCommModule = __decorate([
             services_1.UserResolver,
             services_1.ContextualCommService,
             services_1.ContextualCommDataService,
-            services_1.ContextualCommDataResolver
+            services_1.ContextualCommDataResolver,
+            services_1.ContextualCommActivateService
         ]
     })
 ], ContextualCommModule);

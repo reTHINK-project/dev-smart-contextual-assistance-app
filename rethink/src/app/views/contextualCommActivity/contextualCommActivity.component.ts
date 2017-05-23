@@ -26,7 +26,7 @@ export class ContextualCommActivityComponent implements OnChanges, AfterContentI
 
     if (!this._canUpdateView()) { return; }
 
-    console.log('Can Update the view:', this._canUpdateView())
+    console.log('Can Update the view:', this._canUpdateView());
 
     let scrollPane: any = this.el.nativeElement;
     let parentEl: any = scrollPane.offsetParent;

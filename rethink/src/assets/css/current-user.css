@@ -59,14 +59,20 @@
 
 
 /* All users status */
-.contact-avatar {
+
+.user-identity {
+
+}
+
+/* Avatar Section */
+.user-identity .contact-avatar {
   height: 38px;
   width: 38px;
   margin-top: 4px;
   position: relative;
 }
 
-.contact-avatar .status {
+.user-identity .contact-avatar .status {
   padding: 0;
   font-size: 16px;
   position: absolute;
@@ -74,14 +80,25 @@
   bottom: -4px;
 }
 
-.contact-avatar .status.available {
+.user-identity .contact-avatar .status.available {
   color: #32d167
 }
 
-.contact-avatar .status.unavailable {
+.user-identity .contact-avatar .status.unavailable {
   color: #e44c43
 }
 
-.contact-avatar .status i {
+.user-identity .contact-avatar .status i {
   padding: 0;
+}
+
+/* Name Section */
+.user-identity .contact-name {
+  color: rgba(255, 255, 255, 0.8);
+  padding: 12px 4px 0px 12px;
+  margin: 0;
+  display: block;
+  font-size: 0.938em;
+  text-transform: none;
+  text-decoration: none;
 }

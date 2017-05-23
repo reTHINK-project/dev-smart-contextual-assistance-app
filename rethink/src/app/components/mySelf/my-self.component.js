@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
+require("rxjs/add/observable/from");
 var models_1 = require("../../models/models");
 var MySelfComponent = (function () {
     function MySelfComponent(config) {
@@ -17,6 +18,9 @@ var MySelfComponent = (function () {
         config.autoClose = false;
     }
     MySelfComponent.prototype.ngOnInit = function () {
+    };
+    MySelfComponent.prototype.onChangeEvent = function (event) {
+        console.log('AQUI:', this.model.status, event);
     };
     return MySelfComponent;
 }());

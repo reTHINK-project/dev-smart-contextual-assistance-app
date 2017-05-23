@@ -108,6 +108,18 @@ export class AppComponent implements OnInit {
         let currentContext = names[2];
         let foundDataObjects: any = [];
 
+        let context = names[0] + '-' + names[1];
+        let task = names[2];
+        let user = names[3] + '-' + names[4];
+
+        if (task) {
+          parentContext = context;
+        }
+
+        if (user) {
+          parentContext = context + '-' + task;
+        }
+
         let error = (reason: any) => {
           console.log('Error:', reason);
         };

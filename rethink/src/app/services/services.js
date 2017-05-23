@@ -7,6 +7,8 @@ exports.RethinkService = rethink_service_1.RethinkService;
 var chat_service_1 = require("./rethink/chat.service");
 exports.ChatService = chat_service_1.ChatService;
 // Services
+var contextualCommActivate_service_1 = require("./contextualCommActivate.service");
+exports.ContextualCommActivateService = contextualCommActivate_service_1.ContextualCommActivateService;
 var contextualCommTrigger_service_1 = require("./contextualCommTrigger.service");
 exports.ContextualCommTriggerService = contextualCommTrigger_service_1.ContextualCommTriggerService;
 var contextualCommData_service_1 = require("./contextualCommData.service");

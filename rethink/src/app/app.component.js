@@ -86,6 +86,15 @@ var AppComponent = (function () {
             var parentContext = names[0] + '-' + names[1];
             var currentContext = names[2];
             var foundDataObjects = [];
+            var context = names[0] + '-' + names[1];
+            var task = names[2];
+            var user = names[3] + '-' + names[4];
+            if (task) {
+                parentContext = context;
+            }
+            if (user) {
+                parentContext = context + '-' + task;
+            }
             var error = function (reason) {
                 console.log('Error:', reason);
             };

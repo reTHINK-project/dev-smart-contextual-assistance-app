@@ -14,7 +14,8 @@ var Observable_1 = require("rxjs/Observable");
 // Services
 var services_1 = require("../../services/services");
 var ContextualCommUsersComponent = (function () {
-    function ContextualCommUsersComponent(route, appService) {
+    function ContextualCommUsersComponent(router, route, appService) {
+        this.router = router;
         this.route = route;
         this.appService = appService;
         this.hostClass = 'context-user-view contactlist all-100';
@@ -38,6 +39,7 @@ var ContextualCommUsersComponent = (function () {
     ContextualCommUsersComponent.prototype.filter = function (value) {
         this.contactsFilter = this.model.map(function (users) {
             return users.filter(function (user) {
+                console.log(user);
                 return user.cn.includes(value);
             });
         });
@@ -66,7 +68,9 @@ ContextualCommUsersComponent = __decorate([
         selector: 'ul[context-user-view]',
         templateUrl: './contextualCommUsers.component.html'
     }),
-    __metadata("design:paramtypes", [router_1.ActivatedRoute, services_1.RethinkService])
+    __metadata("design:paramtypes", [router_1.Router,
+        router_1.ActivatedRoute,
+        services_1.RethinkService])
 ], ContextualCommUsersComponent);
 exports.ContextualCommUsersComponent = ContextualCommUsersComponent;
 //# sourceMappingURL=contextualCommUsers.component.js.map

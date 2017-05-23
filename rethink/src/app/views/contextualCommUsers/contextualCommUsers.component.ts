@@ -1,5 +1,5 @@
 import { Component, OnInit, HostBinding, Input, Output, EventEmitter } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 // Services
@@ -23,12 +23,17 @@ export class ContextualCommUsersComponent implements OnInit {
 
   contactsFilter: Observable<User[]>;
 
-  constructor(private route: ActivatedRoute, private appService: RethinkService) {}
+  constructor(
+    public router: Router,
+    private route: ActivatedRoute,
+    private appService: RethinkService) {
+    }
 
   // Load data ones componet is ready
   ngOnInit() {
 
     console.log('[contextualCommUsers - ngOnInit]', this.model);
+
     this.model.subscribe((users: User[]) => {
       this.filter('');
     });
@@ -47,6 +52,7 @@ export class ContextualCommUsersComponent implements OnInit {
 
     this.contactsFilter = this.model.map((users: User[]) => {
       return users.filter((user: User) => {
+        console.log(user);
         return user.cn.includes(value);
       });
     });

@@ -26,6 +26,8 @@ export class UserResolver implements Resolve<User> {
       console.log(selectedUser);
       let user: User = this.contactService.getByUserName(selectedUser);
 
+      console.log('[User Resolver] - ', user);
+
       if (user) {
         resolve(user);
       } else {

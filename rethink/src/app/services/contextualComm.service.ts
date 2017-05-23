@@ -40,11 +40,15 @@ export class ContextualCommService {
   private contextPath: string;
   private taskPath: string;
 
-  public getActiveContext(v: string): ContextualComm {
-    return this.localStorage.hasObject(v) ? this.localStorage.getObject(v) as ContextualComm : null;
+  // public getActiveContext(v: string): ContextualComm {
+  //   return this.localStorage.hasObject(v) ? this.localStorage.getObject(v) as ContextualComm : null;
+  // }
+
+  public get getActiveContext(): ContextualComm {
+    return this.currentActiveContext;
   }
 
-  public set activeContext(value: string) {
+  public set setActiveContext(value: string) {
     console.log('[Context Service] - setActiveContext: ', value, this.cxtList.get(value));
     this.currentActiveContext = this.cxtList.get(value);
   }
@@ -130,8 +134,7 @@ export class ContextualCommService {
     }, [])
     .startWith([])
     .publishReplay(1)
-    .refCount()
-    .defaultIfEmpty('asdasdsa');
+    .refCount();
 
     this._contextualComm.subscribe(this._contextualCommUpdates);
 
@@ -266,17 +269,22 @@ export class ContextualCommService {
 
   updateContextUsers(user: User, url: string) {
     console.log('[Context Service - Update Context User:', user, url);
-    console.log('[Context Service - Active Context:', this.cxtList.get(url));
+    console.log('[Context Service - Active Context:', this.cxtList, this.cxtList.get(url));
 
-    let context: ContextualComm = this.cxtList.get(url);
-    context.addUser(user);
+    if (this.cxtList.has(url)) {
 
-    // Update the contact list
-    this.contactService.addUser(user);
+      let context: ContextualComm = this.cxtList.get(url);
+      context.addUser(user);
 
-    this._contextualComm.next(context);
+      // Update the contact list
+      this.contactService.addUser(user);
 
-    console.log('[Context Service - Update contacts]', context.name, context.url, context);
+      this._contextualComm.next(context);
+
+      console.log('[Context Service - Update contacts]', context.name, context.url, context);
+
+    }
+
   }
 
   getContextByName(name: string): Promise<ContextualComm> {

@@ -1,11 +1,11 @@
 <div class="contact-avatar push-left">
-    <img src="{{model.avatar}}">
+    <img src="{{model.avatar}}" class="rounded-circle">
     <span class="status {{model.status}}">
       <i class="fa fa-circle{{model.status==='offline'?'-o':''}}"></i>
     </span>
 </div>
 <div class="all-70">
-    <h4 class="contact-name"><a href="javascript:;">{{model.cn}}</a></h4>
+    <h4 class="contact-name">{{model.cn}}</h4>
 </div>
 <div *ngIf="model.unread" class="alert">
     <span class="new-message">{{model.unread}}</span>
