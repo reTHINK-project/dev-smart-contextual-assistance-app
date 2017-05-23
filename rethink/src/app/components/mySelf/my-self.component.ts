@@ -2,10 +2,10 @@ import { Component, OnInit, Input, HostBinding } from '@angular/core';
 
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 
 import { User } from '../../models/models';
+import { UserAvailabilityService } from '../../services/rethink/userAvailability.service';
 
 @Component({
     moduleId: module.id,
@@ -17,9 +17,7 @@ export class MySelfComponent implements OnInit {
   @Input() model: User;
   @HostBinding('class') hostClass = 'float-right';
 
-  constructor(
-    config: NgbDropdownConfig) {
-
+  constructor(config: NgbDropdownConfig, private userAvailabilityService: UserAvailabilityService) {
     config.autoClose = false;
 
   }
@@ -28,9 +26,10 @@ export class MySelfComponent implements OnInit {
 
   }
 
-  onChangeEvent(event: Event) {
+  onChangeEvent(status: string) {
+   console.log('[MySelfComponent] status changed:', status);
 
-    console.log('AQUI:', this.model.status, event);
+   this.userAvailabilityService.setStatus(status);
 
   }
 

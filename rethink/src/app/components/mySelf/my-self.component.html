@@ -14,10 +14,10 @@
       <span>Availability:</span>
       <div (click)="onChangeEvent(this)" [(ngModel)]="model.status" class="btn-group-sm" ngbRadioGroup name="status">
         <label class="btn btn-secondary mb-0 {{ model.status === 'available' ? 'btn-success' : '' }}">
-          <input type="radio" autocomplete="off" value="available">On
+          <input type="radio" autocomplete="off" value="available" (click)="onChangeEvent('available')">On
         </label>
         <label class="btn btn-secondary mb-0 {{ model.status === 'unavailable' ? 'btn-danger' : '' }}">
-          <input type="radio" autocomplete="off" value="unavailable">Off
+          <input type="radio" autocomplete="off" value="unavailable" (click)="onChangeEvent('unavailable')">Off
         </label>
       </div>
     </div>
