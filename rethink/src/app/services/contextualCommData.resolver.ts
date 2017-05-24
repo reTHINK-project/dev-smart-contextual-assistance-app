@@ -6,6 +6,8 @@ import { Router, Resolve,
 import { ContextualComm } from './../models/models';
 import { TriggerActions } from '../models/app.models';
 
+// Utils
+import { normalizeName } from '../utils/utils';
 
 // Service
 import { ContextualCommDataService } from './contextualCommData.service';
@@ -39,9 +41,11 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
         name = this.contextualCommDataService.normalizeAtomicName(this.atomicContextualComm(user));
       };
 
-      console.log('[ContextualCommData - Resolve] - normalized name:', name);
+      let normalizedName = normalizeName(name);
 
-      this.contextualCommDataService.getContext(name).subscribe({
+      console.log('[ContextualCommData - Resolve] - normalized name:', normalizedName);
+
+      this.contextualCommDataService.getContext(normalizedName.name).subscribe({
         next: contextualComm => resolve(contextualComm),
         error: reason => {
           console.log('[ContextualCommData - Resolve] - user:', user);

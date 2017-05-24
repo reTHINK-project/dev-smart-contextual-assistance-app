@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // Rethink Services
 var connector_service_1 = require("./rethink/connector.service");
 exports.ConnectorService = connector_service_1.ConnectorService;

@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var HypertyResourceType;
 (function (HypertyResourceType) {
     HypertyResourceType[HypertyResourceType["chat"] = 0] = "chat";

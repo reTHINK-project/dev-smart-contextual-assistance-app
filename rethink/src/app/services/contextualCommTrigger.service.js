@@ -8,6 +8,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __values = (this && this.__values) || function (o) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+    if (m) return m.call(o);
+    return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var Subject_1 = require("rxjs/Subject");
 // utils
@@ -50,16 +61,32 @@ var ContextualCommTriggerService = (function () {
         });
         if (this.localStorage.hasObject('context-triggers')) {
             var mapObj = this.localStorage.getObject('context-triggers');
-            for (var _i = 0, _a = Object.keys(mapObj); _i < _a.length; _i++) {
-                var k = _a[_i];
-                var currentTrigger = new models_1.ContextualCommTrigger(mapObj[k]);
-                console.log('[ContextualCommTriggerService - storage]', mapObj[k], currentTrigger);
-                this.cxtTrigger.set(k, currentTrigger);
-                this._contextualCommTrigger.next(currentTrigger);
+            try {
+                for (var _a = __values(Object.keys(mapObj)), _b = _a.next(); !_b.done; _b = _a.next()) {
+                    var k = _b.value;
+                    var currentTrigger = new models_1.ContextualCommTrigger(mapObj[k]);
+                    console.log('[ContextualCommTriggerService - storage]', mapObj[k], currentTrigger);
+                    this.cxtTrigger.set(k, currentTrigger);
+                    this._contextualCommTrigger.next(currentTrigger);
+                }
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                }
+                finally { if (e_1) throw e_1.error; }
             }
         }
         else {
+            // this._contextualCommTrigger.next(this.work);
+            // this._contextualCommTrigger.next(this.fitness);
+            // this._contextualCommTrigger.next(this.school);
+            // this.cxtTrigger.set(this.work.contextName, this.work);
+            // this.cxtTrigger.set(this.fitness.contextName, this.fitness);
+            // this.cxtTrigger.set(this.school.contextName, this.school);
         }
+        var e_1, _c;
     }
     ContextualCommTriggerService.prototype.createContextTrigger = function (name) {
         var _this = this;
@@ -77,6 +104,12 @@ var ContextualCommTriggerService = (function () {
                     trigger: []
                 };
                 contextTrigger = new models_1.ContextualCommTrigger(context);
+                /*let contextValue:ContextValues = {
+                  name: 'location',
+                  unit: 'rad',
+                  value: 0,
+                  sum: 0
+                }*/
             }
             else {
                 console.info('[Get the exist ContextualTrigger]', name);

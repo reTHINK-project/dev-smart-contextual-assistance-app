@@ -8,11 +8,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __values = (this && this.__values) || function (o) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+    if (m) return m.call(o);
+    return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var Subject_1 = require("rxjs/Subject");
 require("rxjs/add/observable/empty");
 require("rxjs/add/operator/filter");
 require("rxjs/add/operator/isEmpty");
+require("rxjs/add/operator/distinctUntilChanged");
 require("rxjs/add/operator/startWith");
 require("rxjs/add/operator/defaultIfEmpty");
 // utils
@@ -91,13 +103,23 @@ var ContextualCommService = (function () {
         });
         if (this.localStorage.hasObject('contexts')) {
             var mapObj = this.localStorage.getObject('contexts');
-            for (var _i = 0, _a = Object.keys(mapObj); _i < _a.length; _i++) {
-                var k = _a[_i];
-                var currentContext = new models_1.ContextualComm(mapObj[k]);
-                this.cxtList.set(k, currentContext);
-                this._contextualComm.next(currentContext);
+            try {
+                for (var _a = __values(Object.keys(mapObj)), _b = _a.next(); !_b.done; _b = _a.next()) {
+                    var k = _b.value;
+                    var currentContext = new models_1.ContextualComm(mapObj[k]);
+                    this.cxtList.set(k, currentContext);
+                    this._contextualComm.next(currentContext);
+                }
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                }
+                finally { if (e_1) throw e_1.error; }
             }
         }
+        var e_1, _c;
     }
     Object.defineProperty(ContextualCommService.prototype, "getActiveContext", {
         // public getActiveContext(v: string): ContextualComm {
@@ -232,14 +254,12 @@ var ContextualCommService = (function () {
     ContextualCommService.prototype.updateContextUsers = function (user, url) {
         console.log('[Context Service - Update Context User:', user, url);
         console.log('[Context Service - Active Context:', this.cxtList, this.cxtList.get(url));
-        if (this.cxtList.has(url)) {
-            var context = this.cxtList.get(url);
-            context.addUser(user);
-            // Update the contact list
-            this.contactService.addUser(user);
-            this._contextualComm.next(context);
-            console.log('[Context Service - Update contacts]', context.name, context.url, context);
-        }
+        var context = this.cxtList.get(url);
+        context.addUser(user);
+        // Update the contact list
+        this.contactService.addUser(user);
+        this._contextualComm.next(context);
+        console.log('[Context Service - Update contacts]', context.name, context.url, context);
     };
     ContextualCommService.prototype.getContextByName = function (name) {
         var _this = this;
@@ -294,10 +314,16 @@ var ContextualCommService = (function () {
         return this.contactService.getUsers();
     };
     ContextualCommService.prototype.contextualComm = function () {
-        return this.contextualCommObs;
+        return this.contextualCommObs.distinctUntilChanged();
     };
     ContextualCommService.prototype.getContextualComms = function () {
-        return this._contextualCommList;
+        // let all = [];
+        // for (let context of this.cxtList.values()) {
+        //   all.push(context);
+        // }
+        // let a = this._contextualCommList
+        // return Observable.from(this._contextualCommList);
+        return this._contextualCommList.distinctUntilChanged();
     };
     return ContextualCommService;
 }());

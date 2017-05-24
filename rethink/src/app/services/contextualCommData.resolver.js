@@ -8,9 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var app_models_1 = require("../models/app.models");
+// Utils
+var utils_1 = require("../utils/utils");
 // Service
 var contextualCommData_service_1 = require("./contextualCommData.service");
 var contextualComm_service_1 = require("./contextualComm.service");
@@ -43,8 +46,9 @@ var ContextualCommDataResolver = (function () {
                 name = _this.contextualCommDataService.normalizeAtomicName(_this.atomicContextualComm(user));
             }
             ;
-            console.log('[ContextualCommData - Resolve] - normalized name:', name);
-            _this.contextualCommDataService.getContext(name).subscribe({
+            var normalizedName = utils_1.normalizeName(name);
+            console.log('[ContextualCommData - Resolve] - normalized name:', normalizedName);
+            _this.contextualCommDataService.getContext(normalizedName.name).subscribe({
                 next: function (contextualComm) { return resolve(contextualComm); },
                 error: function (reason) {
                     console.log('[ContextualCommData - Resolve] - user:', user);

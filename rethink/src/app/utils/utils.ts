@@ -27,3 +27,45 @@ export function getUserMedia(constraints:any) {
       });*/
   });
 }
+
+export function normalizeName(name: string): any {
+
+  let prefix = 'sca';
+  let normalized = {};
+  let splited = [];
+
+  if (name.indexOf('-') !== -1) {
+    splited = name.split('-');
+  } else if (name.indexOf('/') !== -1) {
+    splited = name.split('/').slice(0, 1);
+  } else {
+    splited.push(prefix);
+    splited.push(name);
+  }
+
+  console.log('Splited: ', name, splited);
+
+  let context = splited[0] + '-' + splited[1];
+  let task = splited[2] ? splited[2] : null;
+  let user = splited[3] && splited[4] ?  splited[3] + '-' + splited[4] : null;
+
+  if (context) {
+    normalized['id'] = context;
+    normalized['name'] = splited[1];
+    normalized['parent'] = null;
+  }
+
+  if (task) {
+    normalized['id'] = context + '-' + task;
+    normalized['name'] = task;
+    normalized['parent'] = context;
+  }
+
+  if (user) {
+    normalized['id'] = context + '-' + task + '-' + user;
+    normalized['name'] = user;
+    normalized['parent'] = task;
+  }
+
+  return normalized;
+}

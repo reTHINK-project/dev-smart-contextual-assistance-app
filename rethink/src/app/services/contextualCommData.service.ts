@@ -3,11 +3,15 @@ import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 
+// Models
 import { ContextualComm } from '../models/models';
 
+// Utils
+import { normalizeName } from '../utils/utils';
+
+// Services
 import { ContextualCommService } from './contextualComm.service';
 import { ChatService } from './rethink/chat.service';
-
 
 @Injectable()
 export class ContextualCommDataService {
@@ -65,6 +69,8 @@ export class ContextualCommDataService {
 
     return new Promise((resolve, reject) => {
 
+      console.info('[ContextualCommData Service] - join: ', name, normalizeName(name));
+
       this.contextualCommService.getContextByName(name).then((context: ContextualComm) => {
 
         console.info('[ContextualCommData Service] - communication objects was created successfully: ', dataObject);
@@ -105,6 +111,12 @@ export class ContextualCommDataService {
 
     });
 
+  }
+
+  normalizeParentName(path: string) {
+    let splitedPath = path.split('/');
+    let parentName = this.appPrefix + splitedPath[1];
+    return parentName;
   }
 
   normalizeAtomicName(name: string) {

@@ -8,6 +8,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __values = (this && this.__values) || function (o) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+    if (m) return m.call(o);
+    return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 // Core
 var core_1 = require("@angular/core");
 var Subject_1 = require("rxjs/Subject");
@@ -36,11 +47,20 @@ var ContactService = (function () {
         this._newUser = new Subject_1.Subject();
         if (this.localStorage.hasObject('contacts')) {
             var mapObj = this.localStorage.getObject('contacts');
-            for (var _i = 0, _a = Object.keys(mapObj); _i < _a.length; _i++) {
-                var k = _a[_i];
-                var currentUser = new models_1.User(mapObj[k]);
-                this._userList.set(k, currentUser);
-                this._users.next([currentUser]);
+            try {
+                for (var _a = __values(Object.keys(mapObj)), _b = _a.next(); !_b.done; _b = _a.next()) {
+                    var k = _b.value;
+                    var currentUser = new models_1.User(mapObj[k]);
+                    this._userList.set(k, currentUser);
+                    this._users.next([currentUser]);
+                }
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                }
+                finally { if (e_1) throw e_1.error; }
             }
         }
         this._users.scan(function (users, user) {
@@ -67,6 +87,7 @@ var ContactService = (function () {
             return user;
         }).subscribe(this._updates);
         this._newUser.subscribe(this._create);
+        var e_1, _c;
     }
     Object.defineProperty(ContactService.prototype, "sessionUser", {
         get: function () {

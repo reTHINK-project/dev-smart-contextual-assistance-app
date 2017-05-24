@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // TODO Apply the Actions and Action Interfaces
 // TODO check here https://raw.githubusercontent.com/reTHINK-project/dev-service-framework/develop/schemas/json-schema/data-objects/Context.json
 var ContextUnitName;

@@ -8,9 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var app_models_1 = require("./models/app.models");
+// Utils
+var utils_1 = require("./utils/utils");
 // Services
 var contextualCommData_service_1 = require("./services/contextualCommData.service");
 var services_1 = require("./services/services");
@@ -69,60 +72,24 @@ var AppComponent = (function () {
             _this.rethinkService.progress.complete();
             _this.rethinkService.status.next(true);
             _this.ready = true;
-            // this.contextualCommDataService.getContexts().subscribe((contexts: ContextualComm[]) => {
-            //   console.log('[App Component - check contexts] - contexts: ', contexts);
-            //   if (contexts.length === 0) {
-            //     this.triggerActionService.trigger(TriggerActions.OpenContextMenu);
-            //     this.triggerActionService.trigger(TriggerActions.OpenContextMenuCreator);
-            //   }
-            // });
         });
         // Prepare the chat service to recive invitations
         this.chatService.onInvitation(function (event) {
             console.log('[Chat Communication View - onInvitation] - event:', event);
-            var metadata = event.value;
-            var name = metadata.name;
-            var names = name.split('-');
-            var parentContext = names[0] + '-' + names[1];
-            var currentContext = names[2];
-            var foundDataObjects = [];
-            var context = names[0] + '-' + names[1];
-            var task = names[2];
-            var user = names[3] + '-' + names[4];
-            if (task) {
-                parentContext = context;
-            }
-            if (user) {
-                parentContext = context + '-' + task;
-            }
             var error = function (reason) {
                 console.log('Error:', reason);
             };
-            _this.chatService.discovery().discoverDataObjectsPerName(parentContext).then(function (discoveredDataObject) {
-                var current = discoveredDataObject.sort(function (h1, h2) {
-                    return h1.lastModified < h2.lastModified;
-                })[0];
-                return Promise.all([
-                    _this.chatService.join(current.url),
-                    _this.chatService.join(event.url)
-                ]);
-            }, error)
-                .then(function (dataObjects) {
-                foundDataObjects = dataObjects;
-                console.log('[App Component] - ', dataObjects, parentContext, currentContext);
-                if (parentContext.indexOf('-') !== -1) {
-                    parentContext = parentContext.substr(parentContext.indexOf('-') + 1);
-                }
-                // TODO: need to be more optimised, because we can have 3 levels
-                // create the parent context;
-                console.log('[App Component - Join the parent context: ', parentContext, dataObjects[0]);
-                return _this.contextualCommDataService.joinContext(parentContext, dataObjects[0]);
-            }, error).then(function (parentContext) {
-                console.log('[App Component] - parent context created: ', parentContext);
-                return _this.contextualCommDataService.joinContext(currentContext, foundDataObjects[1], parentContext.id);
-            }, error).then(function (currentContext) {
+            _this.chatService.join(event.url)
+                .then(function (dataObject) {
+                var metadata = event.value;
+                var name = metadata.name;
+                console.log('[App Component - Join the parent context: ', name, dataObject);
+                var normalizedName = utils_1.normalizeName(name);
+                console.log('AQUI:', name, normalizedName);
+                return _this.contextualCommDataService.joinContext(normalizedName.name, dataObject, normalizedName.parent);
+            }).then(function (currentContext) {
                 console.log('[App Component] - current context created: ', currentContext);
-            });
+            }).catch(error);
         });
     };
     AppComponent.prototype.onOpenContext = function (event) {

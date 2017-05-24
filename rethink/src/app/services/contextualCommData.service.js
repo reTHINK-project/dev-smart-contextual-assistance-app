@@ -8,8 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+// Utils
+var utils_1 = require("../utils/utils");
+// Services
 var contextualComm_service_1 = require("./contextualComm.service");
 var chat_service_1 = require("./rethink/chat.service");
 var ContextualCommDataService = (function () {
@@ -49,6 +53,7 @@ var ContextualCommDataService = (function () {
     ContextualCommDataService.prototype.joinContext = function (name, dataObject, parentNameId) {
         var _this = this;
         return new Promise(function (resolve, reject) {
+            console.info('[ContextualCommData Service] - join: ', name, utils_1.normalizeName(name));
             _this.contextualCommService.getContextByName(name).then(function (context) {
                 console.info('[ContextualCommData Service] - communication objects was created successfully: ', dataObject);
                 console.info('[ContextualCommData Service] - creating new contexts: ', dataObject, parentNameId);
@@ -77,6 +82,11 @@ var ContextualCommDataService = (function () {
                 console.error('Reason:', reason);
             });
         });
+    };
+    ContextualCommDataService.prototype.normalizeParentName = function (path) {
+        var splitedPath = path.split('/');
+        var parentName = this.appPrefix + splitedPath[1];
+        return parentName;
     };
     ContextualCommDataService.prototype.normalizeAtomicName = function (name) {
         var activeContext = this.contextualCommService.getActiveContext;

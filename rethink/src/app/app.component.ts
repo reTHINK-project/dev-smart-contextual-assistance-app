@@ -5,6 +5,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { User, ContextualComm } from './models/models';
 import { TriggerActions } from './models/app.models';
 
+// Utils
+import { normalizeName } from './utils/utils';
+
 // Services
 import { ContextualCommDataService } from './services/contextualCommData.service';
 import { TriggerActionService, RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
@@ -85,75 +88,34 @@ export class AppComponent implements OnInit {
         this.rethinkService.status.next(true);
         this.ready = true;
 
-        // this.contextualCommDataService.getContexts().subscribe((contexts: ContextualComm[]) => {
-        //   console.log('[App Component - check contexts] - contexts: ', contexts);
-
-        //   if (contexts.length === 0) {
-        //     this.triggerActionService.trigger(TriggerActions.OpenContextMenu);
-        //     this.triggerActionService.trigger(TriggerActions.OpenContextMenuCreator);
-        //   }
-
-        // });
-
       });
 
       // Prepare the chat service to recive invitations
       this.chatService.onInvitation((event: any) => {
         console.log('[Chat Communication View - onInvitation] - event:', event);
 
-        let metadata = event.value;
-        let name = metadata.name;
-        let names = name.split('-');
-        let parentContext = names[0] + '-' + names[1];
-        let currentContext = names[2];
-        let foundDataObjects: any = [];
-
-        let context = names[0] + '-' + names[1];
-        let task = names[2];
-        let user = names[3] + '-' + names[4];
-
-        if (task) {
-          parentContext = context;
-        }
-
-        if (user) {
-          parentContext = context + '-' + task;
-        }
-
         let error = (reason: any) => {
           console.log('Error:', reason);
         };
 
-        this.chatService.discovery().discoverDataObjectsPerName(parentContext).then((discoveredDataObject: any) => {
+        this.chatService.join(event.url)
+        .then((dataObject: any) => {
 
-          let current: any = discoveredDataObject.sort((h1: any, h2: any) => {
-            return h1.lastModified < h2.lastModified;
-          })[0];
+          let metadata = event.value;
+          let name = metadata.name;
 
-          return Promise.all([
-            this.chatService.join(current.url),
-            this.chatService.join(event.url)]);
-        }, error)
-        .then((dataObjects: any) => {
-          foundDataObjects = dataObjects;
-          console.log('[App Component] - ', dataObjects, parentContext, currentContext);
+          console.log('[App Component - Join the parent context: ', name, dataObject);
 
-          if (parentContext.indexOf('-') !== -1) {
-            parentContext = parentContext.substr(parentContext.indexOf('-') + 1);
-          }
+          let normalizedName = normalizeName(name);
 
-          // TODO: need to be more optimised, because we can have 3 levels
-          // create the parent context;
-          console.log('[App Component - Join the parent context: ', parentContext, dataObjects[0]);
-          return this.contextualCommDataService.joinContext(parentContext, dataObjects[0]);
-        }, error).then((parentContext: ContextualComm) => {
-          console.log('[App Component] - parent context created: ', parentContext);
-          return this.contextualCommDataService.joinContext(currentContext, foundDataObjects[1], parentContext.id);
-        }, error).then((currentContext: ContextualComm) => {
+          console.log('AQUI:', name, normalizedName);
+
+          return this.contextualCommDataService.joinContext(normalizedName.name, dataObject, normalizedName.parent);
+        }).then((currentContext: ContextualComm) => {
           console.log('[App Component] - current context created: ', currentContext);
-        });
+        }).catch(error);
+    });
 
-      });
   }
 
   onOpenContext(event?: Event) {

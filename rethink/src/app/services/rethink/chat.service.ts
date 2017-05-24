@@ -13,7 +13,7 @@ export class ChatService {
 
   public chatControllerActive: any;
 
-  private controllerList: Map<string, any> = new Map<string, any>();
+  controllerList: Map<string, any> = new Map<string, any>();
 
   hyperty: any;
   hypertyURL: string;
@@ -47,8 +47,10 @@ export class ChatService {
 
   private _updateControllersList(dataObjectURL: string, chatController: any) {
 
-    this.controllerList.set(dataObjectURL, chatController);
     this.prepareController(chatController);
+
+    this.controllerList.set(dataObjectURL, chatController);
+    console.log('[Chat Service - Update Controller List] - ', chatController, this.controllerList);
 
   }
 
@@ -110,7 +112,6 @@ export class ChatService {
     });
 
     this.chatGroupManager.onInvitation((event: any) => {
-      console.log('[Chat Service - prepareHyperty] - onInvitation', event, this._onInvitation);
       if (this._onInvitation) { this._onInvitation(event); }
     });
 
@@ -160,6 +161,7 @@ export class ChatService {
       }
     });
 
+    // this._updateControllersList(chatController.dataObject.url, chatController);
   }
 
   create(name: string, users: string[], domains: string[]) {
@@ -211,16 +213,20 @@ export class ChatService {
 
   }
 
-  invite(listOfEmails: String[], listOfDomains: String[]) {
+  invite(dataObjectURL: string, listOfEmails: String[], listOfDomains: String[]) {
 
     return new Promise((resolve, reject) => {
 
       console.log('[Invite]', listOfEmails, ' - ', listOfDomains);
-      console.log('[Chat Service - invite]: ', this.chatControllerActive);
+      console.log('[Chat Service - invite]: ', this.controllerList, dataObjectURL, this.controllerList.get(dataObjectURL));
 
-      this.chatControllerActive.addUser(listOfEmails, listOfDomains).then((result: any) => {
+      let currentController = this.controllerList.get(dataObjectURL);
+
+      currentController.addUser(listOfEmails, listOfDomains).then((result: any) => {
         console.log('[Invite Chat]', result);
-        resolve(this.chatControllerActive);
+        console.log('[Chat Service] - Result: ', currentController);
+
+        resolve(currentController);
       }).catch((reason: any) => {
         console.error('Error on invite:', reason);
       });

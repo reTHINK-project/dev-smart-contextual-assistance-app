@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var AlertType;
 (function (AlertType) {
     AlertType[AlertType["SUCCESS"] = 'success'] = "SUCCESS";

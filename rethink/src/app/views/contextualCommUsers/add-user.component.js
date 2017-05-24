@@ -8,16 +8,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 // Bootstrap
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 // Services
+var contextualCommData_service_1 = require("../../services/contextualCommData.service");
 var services_1 = require("../../services/services");
 var AddUserComponent = (function () {
-    function AddUserComponent(modalService, chatService, contactService) {
+    function AddUserComponent(router, modalService, chatService, contactService, contextualCommDataService) {
+        this.router = router;
         this.modalService = modalService;
         this.chatService = chatService;
         this.contactService = contactService;
+        this.contextualCommDataService = contextualCommDataService;
         this.closeEvent = new core_1.EventEmitter();
         this.inviteEvent = new core_1.EventEmitter();
         this.contactClick = new core_1.EventEmitter();
@@ -52,15 +57,24 @@ var AddUserComponent = (function () {
         // this.inviteEvent.emit( JSON.parse(JSON.stringify(this.model)) );
         var _this = this;
         this.busy = true;
-        this.chatService.invite([this.model.email], [this.model.domain])
-            .then(function (chatController) {
-            console.log('[Users as joined with success]', chatController);
-            setTimeout(function () {
-                _this.busy = false;
-                _this.clean();
-            }, 200);
-        }).catch(function (error) {
-            console.log('Error Inviting', error);
+        var parentName = this.contextualCommDataService.normalizeParentName(this.router.url);
+        console.log('[Add User Component] - parent: ', parentName, this.chatService.activeDataObjectURL);
+        this.contextualCommDataService.getContextById(parentName)
+            .subscribe(function (context) {
+            var parentURL = context.url;
+            var currentURL = _this.chatService.activeDataObjectURL;
+            var parentChat = _this.chatService.invite(parentURL, [_this.model.email], [_this.model.domain]);
+            var currentChat = _this.chatService.invite(currentURL, [_this.model.email], [_this.model.domain]);
+            console.log('[Add User Component] - invite: ', parentChat, currentChat);
+            Promise.all([parentChat, currentChat]).then(function (chatController) {
+                console.log('[Users as joined with success]', chatController);
+                setTimeout(function () {
+                    _this.busy = false;
+                    _this.clean();
+                }, 200);
+            }).catch(function (error) {
+                console.log('Error Inviting', error);
+            });
         });
     };
     AddUserComponent.prototype.clean = function () {
@@ -91,9 +105,11 @@ AddUserComponent = __decorate([
         selector: 'add-user-view',
         templateUrl: './add-user.component.html'
     }),
-    __metadata("design:paramtypes", [ng_bootstrap_1.NgbModal,
+    __metadata("design:paramtypes", [router_1.Router,
+        ng_bootstrap_1.NgbModal,
         services_1.ChatService,
-        services_1.ContactService])
+        services_1.ContactService,
+        contextualCommData_service_1.ContextualCommDataService])
 ], AddUserComponent);
 exports.AddUserComponent = AddUserComponent;
 //# sourceMappingURL=add-user.component.js.map

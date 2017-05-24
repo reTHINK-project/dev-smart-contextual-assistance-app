@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var CommunictionStatus;
 (function (CommunictionStatus) {
     CommunictionStatus[CommunictionStatus["Open"] = 0] = "Open";

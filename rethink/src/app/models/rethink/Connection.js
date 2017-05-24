@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var RTCIceConnectionState;
 (function (RTCIceConnectionState) {
     RTCIceConnectionState[RTCIceConnectionState["new"] = 0] = "new";

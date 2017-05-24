@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/observable/empty';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/isEmpty';
+import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/defaultIfEmpty';
 
@@ -271,19 +272,16 @@ export class ContextualCommService {
     console.log('[Context Service - Update Context User:', user, url);
     console.log('[Context Service - Active Context:', this.cxtList, this.cxtList.get(url));
 
-    if (this.cxtList.has(url)) {
 
-      let context: ContextualComm = this.cxtList.get(url);
-      context.addUser(user);
+    let context: ContextualComm = this.cxtList.get(url);
+    context.addUser(user);
 
-      // Update the contact list
-      this.contactService.addUser(user);
+    // Update the contact list
+    this.contactService.addUser(user);
 
-      this._contextualComm.next(context);
+    this._contextualComm.next(context);
 
-      console.log('[Context Service - Update contacts]', context.name, context.url, context);
-
-    }
+    console.log('[Context Service - Update contacts]', context.name, context.url, context);
 
   }
 
@@ -360,11 +358,21 @@ export class ContextualCommService {
 
 
   contextualComm(): Observable<ContextualComm> {
-    return this.contextualCommObs;
+    return this.contextualCommObs.distinctUntilChanged();
   }
 
   getContextualComms(): Observable<ContextualComm[]> {
-    return this._contextualCommList;
+
+    // let all = [];
+    // for (let context of this.cxtList.values()) {
+    //   all.push(context);
+    // }
+
+    // let a = this._contextualCommList
+
+    // return Observable.from(this._contextualCommList);
+
+    return this._contextualCommList.distinctUntilChanged();
   }
 
 }

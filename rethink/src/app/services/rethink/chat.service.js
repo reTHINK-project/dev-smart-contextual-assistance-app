@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var router_1 = require("@angular/router");
 var core_1 = require("@angular/core");
 // Services
@@ -38,8 +39,9 @@ var ChatService = (function () {
         configurable: true
     });
     ChatService.prototype._updateControllersList = function (dataObjectURL, chatController) {
-        this.controllerList.set(dataObjectURL, chatController);
         this.prepareController(chatController);
+        this.controllerList.set(dataObjectURL, chatController);
+        console.log('[Chat Service - Update Controller List] - ', chatController, this.controllerList);
     };
     ChatService.prototype.getHyperty = function () {
         var _this = this;
@@ -83,7 +85,6 @@ var ChatService = (function () {
             });
         });
         this.chatGroupManager.onInvitation(function (event) {
-            console.log('[Chat Service - prepareHyperty] - onInvitation', event, _this._onInvitation);
             if (_this._onInvitation) {
                 _this._onInvitation(event);
             }
@@ -128,6 +129,7 @@ var ChatService = (function () {
                 console.info('The message was rejected because the user ' + message.identity.userProfile.userURL + ' is unknown');
             }
         });
+        // this._updateControllersList(chatController.dataObject.url, chatController);
     };
     ChatService.prototype.create = function (name, users, domains) {
         var _this = this;
@@ -161,14 +163,16 @@ var ChatService = (function () {
             });
         });
     };
-    ChatService.prototype.invite = function (listOfEmails, listOfDomains) {
+    ChatService.prototype.invite = function (dataObjectURL, listOfEmails, listOfDomains) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             console.log('[Invite]', listOfEmails, ' - ', listOfDomains);
-            console.log('[Chat Service - invite]: ', _this.chatControllerActive);
-            _this.chatControllerActive.addUser(listOfEmails, listOfDomains).then(function (result) {
+            console.log('[Chat Service - invite]: ', _this.controllerList, dataObjectURL, _this.controllerList.get(dataObjectURL));
+            var currentController = _this.controllerList.get(dataObjectURL);
+            currentController.addUser(listOfEmails, listOfDomains).then(function (result) {
                 console.log('[Invite Chat]', result);
-                resolve(_this.chatControllerActive);
+                console.log('[Chat Service] - Result: ', currentController);
+                resolve(currentController);
             }).catch(function (reason) {
                 console.error('Error on invite:', reason);
             });
