@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
@@ -7,23 +8,28 @@ import { Observable } from 'rxjs/Observable';
 import { ContextualComm } from '../models/models';
 
 // Utils
-import { normalizeName } from '../utils/utils';
+import { config } from '../config';
+import { normalizeName, normalizeFromURL } from '../utils/utils';
 
 // Services
 import { ContextualCommService } from './contextualComm.service';
 import { ChatService } from './rethink/chat.service';
+import { ContactService } from './contact.service';
 
 @Injectable()
 export class ContextualCommDataService {
 
-  private appPrefix = 'sca-';
+  private appPrefix = config.appPrefix;
+  private location: Location;
 
   constructor(
+    location: Location,
     private router: Router,
     private chatService: ChatService,
+    private contactService: ContactService,
     private contextualCommService: ContextualCommService
   ) {
-
+    this.location = location;
   }
 
   createContext(name: string, parentNameId?: string, contextInfo?: any): Promise<ContextualComm> {
@@ -38,7 +44,8 @@ export class ContextualCommDataService {
 
       }).catch((reason: any) => {
 
-        let normalizedName = this.appPrefix + name.toLowerCase();
+        // TODO: use the util normalizeName;
+        let normalizedName = this.appPrefix + '-' + name.toLowerCase();
         if (parentNameId) {
           normalizedName = parentNameId + '-' + name.toLowerCase();
         }
@@ -115,10 +122,15 @@ export class ContextualCommDataService {
 
   }
 
-  normalizeAtomicName(name: string) {
+  normalizeAtomicName(name: string): string {
 
     let activeContext = this.contextualCommService.getActiveContext;
-    return activeContext.id + '-' + name;
+    if (activeContext) {
+      return activeContext.id + '-' + name;
+    } else {
+      let path = this.location.path();
+      return normalizeFromURL(path, this.contactService.sessionUser.username);
+    }
 
   }
 

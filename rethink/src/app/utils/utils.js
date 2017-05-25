@@ -10,6 +10,7 @@ var __values = (this && this.__values) || function (o) {
     };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var config_1 = require("../config");
 function strMapToObj(strMap) {
     var obj = Object.create(null);
     strMap.forEach(function (v, k) {
@@ -49,7 +50,7 @@ function getUserMedia(constraints) {
 }
 exports.getUserMedia = getUserMedia;
 function normalizeName(name) {
-    var prefix = 'sca';
+    var prefix = config_1.config.appPrefix;
     var normalized = {};
     var splited = [];
     if (name.indexOf('-') !== -1) {
@@ -103,4 +104,18 @@ function splitConvetionName(name) {
     return result;
 }
 exports.splitConvetionName = splitConvetionName;
+function normalizeFromURL(path, username) {
+    var pathSplited = path.split('/');
+    pathSplited[0] = config_1.config.appPrefix;
+    if (path.includes('?')) {
+        path = path.substring(0, path.lastIndexOf('?'));
+    }
+    if (path.includes('@') && username) {
+        pathSplited.push(username);
+    }
+    var joined = pathSplited.join('-');
+    console.log('AQUI:', pathSplited, joined);
+    return joined;
+}
+exports.normalizeFromURL = normalizeFromURL;
 //# sourceMappingURL=utils.js.map

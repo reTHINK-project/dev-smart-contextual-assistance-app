@@ -10,18 +10,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
 var router_1 = require("@angular/router");
 // Utils
+var config_1 = require("../config");
 var utils_1 = require("../utils/utils");
 // Services
 var contextualComm_service_1 = require("./contextualComm.service");
 var chat_service_1 = require("./rethink/chat.service");
+var contact_service_1 = require("./contact.service");
 var ContextualCommDataService = (function () {
-    function ContextualCommDataService(router, chatService, contextualCommService) {
+    function ContextualCommDataService(location, router, chatService, contactService, contextualCommService) {
         this.router = router;
         this.chatService = chatService;
+        this.contactService = contactService;
         this.contextualCommService = contextualCommService;
-        this.appPrefix = 'sca-';
+        this.appPrefix = config_1.config.appPrefix;
+        this.location = location;
     }
     ContextualCommDataService.prototype.createContext = function (name, parentNameId, contextInfo) {
         var _this = this;
@@ -31,7 +36,8 @@ var ContextualCommDataService = (function () {
                 console.info('[ContextualCommData Service] - context found: ', context);
                 resolve(context);
             }).catch(function (reason) {
-                var normalizedName = _this.appPrefix + name.toLowerCase();
+                // TODO: use the util normalizeName;
+                var normalizedName = _this.appPrefix + '-' + name.toLowerCase();
                 if (parentNameId) {
                     normalizedName = parentNameId + '-' + name.toLowerCase();
                 }
@@ -86,7 +92,13 @@ var ContextualCommDataService = (function () {
     };
     ContextualCommDataService.prototype.normalizeAtomicName = function (name) {
         var activeContext = this.contextualCommService.getActiveContext;
-        return activeContext.id + '-' + name;
+        if (activeContext) {
+            return activeContext.id + '-' + name;
+        }
+        else {
+            var path = this.location.path();
+            return utils_1.normalizeFromURL(path, this.contactService.sessionUser.username);
+        }
     };
     /**
      *
@@ -163,8 +175,10 @@ var ContextualCommDataService = (function () {
 }());
 ContextualCommDataService = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [router_1.Router,
+    __metadata("design:paramtypes", [common_1.Location,
+        router_1.Router,
         chat_service_1.ChatService,
+        contact_service_1.ContactService,
         contextualComm_service_1.ContextualCommService])
 ], ContextualCommDataService);
 exports.ContextualCommDataService = ContextualCommDataService;

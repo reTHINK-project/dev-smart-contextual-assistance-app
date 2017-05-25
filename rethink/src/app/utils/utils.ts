@@ -1,3 +1,6 @@
+import { config } from '../config';
+
+
 export function strMapToObj(strMap: Map<string, any>) {
     let obj = Object.create(null);
     strMap.forEach((v: any, k: string) => {
@@ -30,7 +33,7 @@ export function getUserMedia(constraints: any) {
 
 export function normalizeName(name: string): any {
 
-  let prefix = 'sca';
+  let prefix = config.appPrefix;
   let normalized = {};
   let splited = [];
 
@@ -92,4 +95,22 @@ export function splitConvetionName(name: string): any {
   }
 
   return result;
+}
+
+export function normalizeFromURL(path: string, username: string): string {
+    let pathSplited = path.split('/');
+    pathSplited[0] = config.appPrefix;
+
+    if (path.includes('?')) {
+      path = path.substring(0, path.lastIndexOf('?'));
+    }
+
+    if (path.includes('@') && username) {
+      pathSplited.push(username);
+    }
+
+    let joined = pathSplited.join('-');
+
+    console.log('AQUI:', pathSplited, joined);
+    return joined;
 }
