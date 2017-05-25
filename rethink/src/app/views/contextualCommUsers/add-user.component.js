@@ -13,6 +13,8 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 // Bootstrap
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
+// Utils
+var utils_1 = require("../../utils/utils");
 // Services
 var contextualCommData_service_1 = require("../../services/contextualCommData.service");
 var services_1 = require("../../services/services");
@@ -57,9 +59,9 @@ var AddUserComponent = (function () {
         // this.inviteEvent.emit( JSON.parse(JSON.stringify(this.model)) );
         var _this = this;
         this.busy = true;
-        var parentName = this.contextualCommDataService.normalizeParentName(this.router.url);
-        console.log('[Add User Component] - parent: ', parentName, this.chatService.activeDataObjectURL);
-        this.contextualCommDataService.getContextById(parentName)
+        var normalizedName = utils_1.normalizeName(this.router.url);
+        console.log('[Add User Component] - parent: ', normalizedName, this.chatService.activeDataObjectURL);
+        this.contextualCommDataService.getContextById(normalizedName.parent)
             .subscribe(function (context) {
             var parentURL = context.url;
             var currentURL = _this.chatService.activeDataObjectURL;

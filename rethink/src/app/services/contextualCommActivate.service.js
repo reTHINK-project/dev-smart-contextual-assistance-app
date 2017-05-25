@@ -11,58 +11,78 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+require("rxjs/add/operator/takeLast");
+// Utils
+var utils_1 = require("../utils/utils");
 // Services
 var contact_service_1 = require("./contact.service");
 var contextualComm_service_1 = require("./contextualComm.service");
+var contextualCommData_service_1 = require("./contextualCommData.service");
 // Rethink Services
 var chat_service_1 = require("./rethink/chat.service");
 var rethink_service_1 = require("./rethink/rethink.service");
 var ContextualCommActivateService = (function () {
-    function ContextualCommActivateService(router, chatService, contactService, rethinkService, contextualCommService) {
+    function ContextualCommActivateService(router, chatService, contactService, rethinkService, contextualCommService, contextualCommDataService) {
         this.router = router;
         this.chatService = chatService;
         this.contactService = contactService;
         this.rethinkService = rethinkService;
         this.contextualCommService = contextualCommService;
+        this.contextualCommDataService = contextualCommDataService;
     }
     ContextualCommActivateService.prototype.canActivateChild = function (route, state) {
         var _this = this;
-        return new Promise(function (resolve) {
-            var context = route.params['context'];
-            var task = route.params['task'];
-            var user = route.params['user'];
-            var name = '';
-            if (context) {
-                name = context;
-            }
-            ;
-            if (task) {
-                name = task;
-            }
-            ;
-            if (user) {
-                name = _this.atomicContextualComm(user);
-            }
-            ;
+        return new Promise(function (resolve, reject) {
             _this.rethinkService.status.subscribe({
                 next: function (value) {
                     if (value) {
-                        _this.contextualCommService.getContextByName(name)
-                            .then(function (context) {
-                            console.log('[Can Activate Route] - ', context.url);
-                            _this.chatService.activeDataObjectURL = context.url;
-                            _this.contextualCommService.setActiveContext = context.url;
-                            console.log('[Can Activate Route] - ', context.url);
+                        var context = route.params['context'];
+                        var task = route.params['task'];
+                        var user_1 = route.params['user'];
+                        var name_1 = '';
+                        if (context) {
+                            name_1 = context;
+                        }
+                        ;
+                        if (task) {
+                            name_1 = task;
+                        }
+                        ;
+                        if (user_1) {
+                            name_1 = _this.contextualCommDataService.normalizeAtomicName(_this.atomicContextualComm(user_1));
+                        }
+                        ;
+                        var normalizedName_1 = utils_1.normalizeName(name_1);
+                        console.log('[ContextualCommData - Activate] - normalized name:', normalizedName_1);
+                        _this.contextualCommDataService.getContext(normalizedName_1.name).subscribe(function (context) {
+                            _this.activateContext(context);
                             resolve(true);
-                        })
-                            .catch(function (reason) {
-                            console.log('[Can Activate Route] - ', reason);
-                            resolve(true);
+                        }, function (reason) {
+                            if (user_1) {
+                                _this.contextualCommDataService.createAtomicContext(user_1, normalizedName_1.id, normalizedName_1.parent)
+                                    .then(function (context) {
+                                    _this.activateContext(context);
+                                    resolve(true);
+                                })
+                                    .catch(function (reason) {
+                                    console.log('[Can Not Activate Route] - ', reason);
+                                    reject(false);
+                                });
+                            }
+                            else {
+                                console.log('[Can Not Activate Route] - ', reason);
+                                reject(false);
+                            }
                         });
                     }
                 }
             });
         });
+    };
+    ContextualCommActivateService.prototype.activateContext = function (context) {
+        console.log('[Can Activate Route] - ', context.url);
+        this.chatService.activeDataObjectURL = context.url;
+        this.contextualCommService.setActiveContext = context.url;
     };
     ContextualCommActivateService.prototype.atomicContextualComm = function (user) {
         var currentUser = this.contactService.sessionUser.username;
@@ -77,7 +97,8 @@ ContextualCommActivateService = __decorate([
         chat_service_1.ChatService,
         contact_service_1.ContactService,
         rethink_service_1.RethinkService,
-        contextualComm_service_1.ContextualCommService])
+        contextualComm_service_1.ContextualCommService,
+        contextualCommData_service_1.ContextualCommDataService])
 ], ContextualCommActivateService);
 exports.ContextualCommActivateService = ContextualCommActivateService;
 //# sourceMappingURL=contextualCommActivate.service.js.map

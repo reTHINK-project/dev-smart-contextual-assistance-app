@@ -20,13 +20,13 @@ var __values = (this && this.__values) || function (o) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var Observable_1 = require("rxjs/Observable");
 var Subject_1 = require("rxjs/Subject");
-require("rxjs/add/observable/empty");
+// import 'rxjs/add/observable/empty';
+require("rxjs/add/observable/of");
 require("rxjs/add/operator/filter");
-require("rxjs/add/operator/isEmpty");
-require("rxjs/add/operator/distinctUntilChanged");
+// import 'rxjs/add/operator/distinctUntilChanged';
 require("rxjs/add/operator/startWith");
-require("rxjs/add/operator/defaultIfEmpty");
 // utils
 var utils_1 = require("../utils/utils");
 // Services
@@ -266,10 +266,7 @@ var ContextualCommService = (function () {
         return new Promise(function (resolve, reject) {
             var currentContext;
             _this.cxtList.forEach(function (context) {
-                // TODO: this should be removed, because at this moment
-                // we do not have any way to destinguish from me-<other-user> or <other-user>-me
-                // and the dataObjectURL should be the same
-                if (name.indexOf('-') !== -1) {
+                if (name.indexOf('-') !== -1 && name.includes('@')) {
                     var users = name.split('-');
                     var user1 = users[0];
                     var user2 = users[1];
@@ -314,16 +311,28 @@ var ContextualCommService = (function () {
         return this.contactService.getUsers();
     };
     ContextualCommService.prototype.contextualComm = function () {
-        return this.contextualCommObs.distinctUntilChanged();
+        return this.contextualCommObs;
     };
     ContextualCommService.prototype.getContextualComms = function () {
-        // let all = [];
-        // for (let context of this.cxtList.values()) {
-        //   all.push(context);
-        // }
-        // let a = this._contextualCommList
-        // return Observable.from(this._contextualCommList);
-        return this._contextualCommList.distinctUntilChanged();
+        return this._contextualCommList;
+    };
+    ContextualCommService.prototype.getContextualCommList = function () {
+        var all = [];
+        try {
+            for (var _a = __values(this.cxtList.values()), _b = _a.next(); !_b.done; _b = _a.next()) {
+                var cxt = _b.value;
+                all.push(cxt);
+            }
+        }
+        catch (e_2_1) { e_2 = { error: e_2_1 }; }
+        finally {
+            try {
+                if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+            }
+            finally { if (e_2) throw e_2.error; }
+        }
+        return Observable_1.Observable.of(all);
+        var e_2, _c;
     };
     return ContextualCommService;
 }());

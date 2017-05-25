@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var app_models_1 = require("../models/app.models");
 // Utils
 var utils_1 = require("../utils/utils");
 // Service
@@ -52,15 +51,14 @@ var ContextualCommDataResolver = (function () {
                 next: function (contextualComm) { return resolve(contextualComm); },
                 error: function (reason) {
                     console.log('[ContextualCommData - Resolve] - user:', user);
-                    if (user) {
-                        return _this.contextualCommDataService.createAtomicContext(user, name, task)
-                            .then(function (context) { return resolve(context); })
-                            .catch(function (reason) { return reject(reason); });
-                    }
-                    else {
-                        _this.triggerActionService.trigger(app_models_1.TriggerActions.OpenContextMenuCreator);
-                        reject(reason);
-                    }
+                    // if (user) {
+                    //   return this.contextualCommDataService.createAtomicContext(user, normalizedName.id, normalizedName.parent)
+                    //   .then(context => resolve(context))
+                    //   .catch(reason => reject(reason));
+                    // } else {
+                    //   this.triggerActionService.trigger(TriggerActions.OpenContextMenuCreator);
+                    //   reject(reason);
+                    // }
                 }
             });
         });

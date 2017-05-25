@@ -93,15 +93,17 @@ export class ContextualCommDataService {
 
     return new Promise((resolve, reject) => {
 
-      let normalizedName = name;
+      let normalizedName = normalizeName(name);
       let activeContext = this.contextualCommService.getActiveContext;
 
-      this.chatService.create(normalizedName, [username], []).then((controller: any) => {
+      console.log('[ContextualCommData Service] - normalizedName:', normalizedName);
+
+      this.chatService.create(normalizedName.id, [username], []).then((controller: any) => {
 
         console.info('[ContextualCommData Service] - communication objects was created successfully: ', controller);
         console.info('[ContextualCommData Service] - creating new contexts: ', controller, activeContext.id);
 
-        return this.contextualCommService.create(normalizedName, controller.dataObject, activeContext.id);
+        return this.contextualCommService.create(normalizedName.name, controller.dataObject, activeContext.id);
       }).then((context: ContextualComm) => {
         console.info('[ContextualCommData Service] -  ContextualComm created: ', context);
         resolve(context);
@@ -111,12 +113,6 @@ export class ContextualCommDataService {
 
     });
 
-  }
-
-  normalizeParentName(path: string) {
-    let splitedPath = path.split('/');
-    let parentName = this.appPrefix + splitedPath[1];
-    return parentName;
   }
 
   normalizeAtomicName(name: string) {
@@ -139,7 +135,7 @@ export class ContextualCommDataService {
   }
 
   getContext(name: string): Observable<ContextualComm> {
-    return this.contextualCommService.getContextualComms()
+    return this.contextualCommService.getContextualCommList()
       .map(contexts => {
         let found = contexts.filter(context => this.filterContextsByName(name, context))[0];
         console.log('[ContextualCommData Service] - found: ', found);
@@ -152,7 +148,7 @@ export class ContextualCommDataService {
   }
 
   getContextById(id: string): Observable<ContextualComm> {
-    return this.contextualCommService.getContextualComms()
+    return this.contextualCommService.getContextualCommList()
       .map(contexts => {
         let found = contexts.filter(context => this.filterContextsById(id, context))[0];
         if (!found) {
@@ -173,29 +169,13 @@ export class ContextualCommDataService {
   }
 
   private filterContextsById(id: string, context: ContextualComm) {
-
-    if (id.indexOf('-') !== -1) {
-      let users = id.split('-');
-      let user1 = users[0];
-      let user2 = users[1];
-
-      let variation1 = user1 + '-' + user2;
-      let variation2 = user2 + '-' + user1;
-
-      if (context.name === variation1) {
-        id = variation1;
-      } else if (context.name === variation2) {
-        id = variation2;
-      }
-    }
-
-    // console.log('[ContextualCommData Service] - getting Context By Name: ', context.id, id, context.id === id);
+    console.log('[ContextualCommData Service] - getting Context By Id: ', context.id, id, context.id === id);
     return context.id === id;
   }
 
   private filterContextsByName(name: string, context: ContextualComm) {
 
-    if (name.indexOf('-') !== -1) {
+    if (name.indexOf('-') !== -1 && name.includes('@')) {
       let users = name.split('-');
       let user1 = users[0];
       let user2 = users[1];

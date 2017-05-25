@@ -37,7 +37,8 @@ export function normalizeName(name: string): any {
   if (name.indexOf('-') !== -1) {
     splited = name.split('-');
   } else if (name.indexOf('/') !== -1) {
-    splited = name.split('/').slice(0, 1);
+    splited = name.split('/');
+    splited[0] = prefix;
   } else {
     splited.push(prefix);
     splited.push(name);
@@ -64,7 +65,7 @@ export function normalizeName(name: string): any {
   if (user) {
     normalized['id'] = context + '-' + task + '-' + user;
     normalized['name'] = user;
-    normalized['parent'] = task;
+    normalized['parent'] = context + '-' + task;
   }
 
   return normalized;

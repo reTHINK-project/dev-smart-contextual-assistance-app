@@ -49,14 +49,14 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
         next: contextualComm => resolve(contextualComm),
         error: reason => {
           console.log('[ContextualCommData - Resolve] - user:', user);
-          if (user) {
-            return this.contextualCommDataService.createAtomicContext(user, name, task)
-            .then(context => resolve(context))
-            .catch(reason => reject(reason));
-          } else {
-            this.triggerActionService.trigger(TriggerActions.OpenContextMenuCreator);
-            reject(reason);
-          }
+          // if (user) {
+          //   return this.contextualCommDataService.createAtomicContext(user, normalizedName.id, normalizedName.parent)
+          //   .then(context => resolve(context))
+          //   .catch(reason => reject(reason));
+          // } else {
+          //   this.triggerActionService.trigger(TriggerActions.OpenContextMenuCreator);
+          //   reject(reason);
+          // }
         }
       });
 

@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 // Bootstrap
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
+// Utils
+import { normalizeName } from '../../utils/utils';
+
 // Models
 import { ContextualComm } from '../../models/models';
 
@@ -72,11 +75,11 @@ export class AddUserComponent implements OnInit {
     // this.inviteEvent.emit( JSON.parse(JSON.stringify(this.model)) );
 
     this.busy = true;
-    let parentName = this.contextualCommDataService.normalizeParentName(this.router.url);
+    let normalizedName = normalizeName(this.router.url);
 
-     console.log('[Add User Component] - parent: ', parentName, this.chatService.activeDataObjectURL);
+     console.log('[Add User Component] - parent: ', normalizedName, this.chatService.activeDataObjectURL);
 
-    this.contextualCommDataService.getContextById(parentName)
+    this.contextualCommDataService.getContextById(normalizedName.parent)
     .subscribe((context: ContextualComm) => {
 
       let parentURL = context.url;

@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import 'rxjs/add/observable/empty';
+// import 'rxjs/add/observable/empty';
+import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/isEmpty';
-import 'rxjs/add/operator/distinctUntilChanged';
+// import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/defaultIfEmpty';
 
 // utils
 import { strMapToObj } from '../utils/utils';
@@ -293,10 +292,7 @@ export class ContextualCommService {
 
       this.cxtList.forEach((context: ContextualComm) => {
 
-        // TODO: this should be removed, because at this moment
-        // we do not have any way to destinguish from me-<other-user> or <other-user>-me
-        // and the dataObjectURL should be the same
-        if (name.indexOf('-') !== -1) {
+        if (name.indexOf('-') !== -1 && name.includes('@')) {
           let users = name.split('-');
           let user1 = users[0];
           let user2 = users[1];
@@ -358,21 +354,21 @@ export class ContextualCommService {
 
 
   contextualComm(): Observable<ContextualComm> {
-    return this.contextualCommObs.distinctUntilChanged();
+    return this.contextualCommObs;
   }
 
   getContextualComms(): Observable<ContextualComm[]> {
+    return this._contextualCommList;
+  }
 
-    // let all = [];
-    // for (let context of this.cxtList.values()) {
-    //   all.push(context);
-    // }
+  getContextualCommList(): Observable<ContextualComm[]> {
 
-    // let a = this._contextualCommList
+    let all = [];
+    for (let cxt of this.cxtList.values()) {
+      all.push(cxt);
+    }
 
-    // return Observable.from(this._contextualCommList);
-
-    return this._contextualCommList.distinctUntilChanged();
+    return Observable.of(all);
   }
 
 }

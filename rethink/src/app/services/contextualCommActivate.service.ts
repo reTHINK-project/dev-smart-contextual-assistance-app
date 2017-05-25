@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
+import 'rxjs/add/operator/takeLast';
+
 // Models
 import { ContextualComm } from '../models/models';
+
+// Utils
+import { normalizeName } from '../utils/utils';
 
 // Services
 import { ContactService } from './contact.service';
 import { ContextualCommService } from './contextualComm.service';
+import { ContextualCommDataService } from './contextualCommData.service';
 
 // Rethink Services
 import { ChatService } from './rethink/chat.service';
@@ -20,45 +26,56 @@ export class ContextualCommActivateService implements CanActivateChild {
     private chatService: ChatService,
     private contactService: ContactService,
     private rethinkService: RethinkService,
-    private contextualCommService: ContextualCommService
+    private contextualCommService: ContextualCommService,
+    private contextualCommDataService: ContextualCommDataService
   ) {}
 
   canActivateChild(
     route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
 
-    return new Promise((resolve) => {
-
-      let context = route.params['context'];
-      let task = route.params['task'];
-      let user = route.params['user'];
-      let name = '';
-
-      if (context) { name = context; };
-      if (task) { name = task; };
-      if (user) { name = this.atomicContextualComm(user); };
+    return new Promise((resolve, reject) => {
 
       this.rethinkService.status.subscribe({
         next: (value: boolean) => {
 
           if (value) {
 
-            this.contextualCommService.getContextByName(name)
-            .then((context: ContextualComm) => {
+            let context = route.params['context'];
+            let task = route.params['task'];
+            let user = route.params['user'];
+            let name = '';
 
-              console.log('[Can Activate Route] - ', context.url);
+            if (context) { name = context; };
+            if (task) { name = task; };
+            if (user) {
+              name = this.contextualCommDataService.normalizeAtomicName(this.atomicContextualComm(user));
+            };
 
-              this.chatService.activeDataObjectURL = context.url;
-              this.contextualCommService.setActiveContext = context.url;
+            let normalizedName = normalizeName(name);
 
-              console.log('[Can Activate Route] - ', context.url);
+            console.log('[ContextualCommData - Activate] - normalized name:', normalizedName);
 
-              resolve(true);
-            })
-            .catch((reason: any) => {
-              console.log('[Can Activate Route] - ', reason);
-              resolve(true);
+            this.contextualCommDataService.getContext(normalizedName.name).subscribe(
+              (context: ContextualComm) => {
+                this.activateContext(context);
+                resolve(true);
+            }, (reason: any) => {
+
+              if (user) {
+                this.contextualCommDataService.createAtomicContext(user, normalizedName.id, normalizedName.parent)
+                .then(context => {
+                  this.activateContext(context);
+                  resolve(true);
+                })
+                .catch(reason => {
+                  console.log('[Can Not Activate Route] - ', reason);
+                  reject(false);
+                });
+              } else {
+                console.log('[Can Not Activate Route] - ', reason);
+                reject(false);
+              }
             });
-
           }
 
         }
@@ -66,6 +83,12 @@ export class ContextualCommActivateService implements CanActivateChild {
 
     });
 
+  }
+
+  activateContext(context: ContextualComm) {
+    console.log('[Can Activate Route] - ', context.url);
+    this.chatService.activeDataObjectURL = context.url;
+    this.contextualCommService.setActiveContext = context.url;
   }
 
   atomicContextualComm(user: string): string {

@@ -69,12 +69,13 @@ var ContextualCommDataService = (function () {
     ContextualCommDataService.prototype.createAtomicContext = function (username, name, parentNameId) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            var normalizedName = name;
+            var normalizedName = utils_1.normalizeName(name);
             var activeContext = _this.contextualCommService.getActiveContext;
-            _this.chatService.create(normalizedName, [username], []).then(function (controller) {
+            console.log('[ContextualCommData Service] - normalizedName:', normalizedName);
+            _this.chatService.create(normalizedName.id, [username], []).then(function (controller) {
                 console.info('[ContextualCommData Service] - communication objects was created successfully: ', controller);
                 console.info('[ContextualCommData Service] - creating new contexts: ', controller, activeContext.id);
-                return _this.contextualCommService.create(normalizedName, controller.dataObject, activeContext.id);
+                return _this.contextualCommService.create(normalizedName.name, controller.dataObject, activeContext.id);
             }).then(function (context) {
                 console.info('[ContextualCommData Service] -  ContextualComm created: ', context);
                 resolve(context);
@@ -82,11 +83,6 @@ var ContextualCommDataService = (function () {
                 console.error('Reason:', reason);
             });
         });
-    };
-    ContextualCommDataService.prototype.normalizeParentName = function (path) {
-        var splitedPath = path.split('/');
-        var parentName = this.appPrefix + splitedPath[1];
-        return parentName;
     };
     ContextualCommDataService.prototype.normalizeAtomicName = function (name) {
         var activeContext = this.contextualCommService.getActiveContext;
@@ -105,7 +101,7 @@ var ContextualCommDataService = (function () {
     };
     ContextualCommDataService.prototype.getContext = function (name) {
         var _this = this;
-        return this.contextualCommService.getContextualComms()
+        return this.contextualCommService.getContextualCommList()
             .map(function (contexts) {
             var found = contexts.filter(function (context) { return _this.filterContextsByName(name, context); })[0];
             console.log('[ContextualCommData Service] - found: ', found);
@@ -117,7 +113,7 @@ var ContextualCommDataService = (function () {
     };
     ContextualCommDataService.prototype.getContextById = function (id) {
         var _this = this;
-        return this.contextualCommService.getContextualComms()
+        return this.contextualCommService.getContextualCommList()
             .map(function (contexts) {
             var found = contexts.filter(function (context) { return _this.filterContextsById(id, context); })[0];
             if (!found) {
@@ -134,24 +130,11 @@ var ContextualCommDataService = (function () {
             .map(function (contexts) { return contexts.filter(function (context) { return context.name === name; })[0].users; });
     };
     ContextualCommDataService.prototype.filterContextsById = function (id, context) {
-        if (id.indexOf('-') !== -1) {
-            var users = id.split('-');
-            var user1 = users[0];
-            var user2 = users[1];
-            var variation1 = user1 + '-' + user2;
-            var variation2 = user2 + '-' + user1;
-            if (context.name === variation1) {
-                id = variation1;
-            }
-            else if (context.name === variation2) {
-                id = variation2;
-            }
-        }
-        // console.log('[ContextualCommData Service] - getting Context By Name: ', context.id, id, context.id === id);
+        console.log('[ContextualCommData Service] - getting Context By Id: ', context.id, id, context.id === id);
         return context.id === id;
     };
     ContextualCommDataService.prototype.filterContextsByName = function (name, context) {
-        if (name.indexOf('-') !== -1) {
+        if (name.indexOf('-') !== -1 && name.includes('@')) {
             var users = name.split('-');
             var user1 = users[0];
             var user2 = users[1];
