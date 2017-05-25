@@ -1,0 +1,8 @@
+.notification-view {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: 1% 20%;
+  display: block;
+  z-index: 999;
+}

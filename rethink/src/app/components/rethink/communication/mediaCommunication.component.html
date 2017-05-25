@@ -18,11 +18,11 @@
 		</span>
 
 		<span *ngIf="mode === 'audio'" class="action audio hangup push-center">
-			<a href="javascript:;" [routerLink]="" [queryParams]="" (click)="onHangup()"><i class="fa fa-phone"></i></a>
+			<a href="javascript:;" [routerLink]="" [queryParams]="{}"><i class="fa fa-phone"></i></a>
 		</span>
 
 		<span *ngIf="mode === 'video'" class="action video hangup push-center">
-			<a href="javascript:;" (click)="onHangup()"><i class="fa fa-video-camera"></i></a>
+			<a href="javascript:;" [routerLink]="" [queryParams]="{}"><i class="fa fa-video-camera"></i></a>
 		</span>
 
 		<span class="counter">{{duration | amTimeElapsed}}</span>

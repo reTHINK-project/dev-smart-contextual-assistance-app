@@ -20,7 +20,7 @@ var NotificationService = (function () {
             console.log('[Notification Service] - new Notification: ', notification);
         });
     }
-    NotificationService.prototype.addNotification = function (type, message, callback) {
+    NotificationService.prototype.addNotification = function (type, message, metadata, callback) {
         if (callback === void 0) { callback = null; }
         var curr = this.alerts.length + 1;
         var alert = {
@@ -29,6 +29,7 @@ var NotificationService = (function () {
             message: {
                 message: 'notification message'
             },
+            metadata: metadata,
             callback: callback
         };
         Object.assign(alert.message, message);

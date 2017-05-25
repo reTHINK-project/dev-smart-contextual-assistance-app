@@ -20,6 +20,7 @@ export interface IAlert {
   id: number;
   type: AlertType;
   message: IMessageAlert;
+  metadata?: any;
   callback?: Function;
 }
 

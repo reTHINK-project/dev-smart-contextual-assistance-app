@@ -3,7 +3,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 
 // Utils
-import { getUserMedia } from '../../utils/utils';
+import { getUserMedia, splitConvetionName } from '../../utils/utils';
 
 // Services
 import { RethinkService } from './rethink.service';
@@ -125,6 +125,7 @@ export class ConnectorService {
 
       console.log('[Connector Service] - on Invitation:', controller, identity);
 
+      let metadata = controller.dataObjectObserver.metadata;
       this.mode = controller.dataObjectObserver.data.mode;
       this._webrtcMode = 'answer';
       this.prepareController(controller);
@@ -135,7 +136,7 @@ export class ConnectorService {
         user: currUser,
         message: 'New call is incomming from ' + currUser.username,
         action: this._mode
-      }, (alert: IAlert) => {
+      }, metadata, (alert: IAlert) => {
         this._notificationResponse(controller, alert, currUser);
       });
 
@@ -153,11 +154,19 @@ export class ConnectorService {
         queryParams: { 'action': this.mode }
       };
 
-      if (this.router.url.includes(user.username)) {
-        this.router.navigate([this.router.url], navigationExtras);
-      } else {
-        this.router.navigate([this.router.url, user.username], navigationExtras);
-      }
+      let metadata = response.metadata;
+
+      let paths: any = splitConvetionName(metadata.name);
+
+      console.log('[Connector Service] -  navigate to: ', paths);
+
+      this.router.navigate([paths.context, paths.task, paths.active], navigationExtras);
+
+      // if (this.router.url.includes(user.username)) {
+      //   this.router.navigate([this.router.url], navigationExtras);
+      // } else {
+      //   this.router.navigate([this.router.url, user.username], navigationExtras);
+      // }
     } else {
       controller.decline();
     }

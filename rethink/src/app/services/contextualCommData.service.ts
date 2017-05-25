@@ -134,6 +134,17 @@ export class ContextualCommDataService {
       .map(contexts => contexts.filter(context => context.parent === ''));
   }
 
+  getActiveContext(): ContextualComm {
+    let contextualComm: ContextualComm = this.contextualCommService.getActiveContext;
+
+    if (contextualComm) {
+      return contextualComm;
+    } else {
+      throw new Error('No Contextual Comm Active');
+    }
+
+  }
+
   getContext(name: string): Observable<ContextualComm> {
     return this.contextualCommService.getContextualCommList()
       .map(contexts => {

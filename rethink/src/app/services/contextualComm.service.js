@@ -22,10 +22,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var Observable_1 = require("rxjs/Observable");
 var Subject_1 = require("rxjs/Subject");
-// import 'rxjs/add/observable/empty';
 require("rxjs/add/observable/of");
 require("rxjs/add/operator/filter");
-// import 'rxjs/add/operator/distinctUntilChanged';
 require("rxjs/add/operator/startWith");
 // utils
 var utils_1 = require("../utils/utils");

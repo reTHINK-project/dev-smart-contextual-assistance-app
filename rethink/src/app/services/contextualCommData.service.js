@@ -99,6 +99,15 @@ var ContextualCommDataService = (function () {
         return this.contextualCommService.getContextualComms()
             .map(function (contexts) { return contexts.filter(function (context) { return context.parent === ''; }); });
     };
+    ContextualCommDataService.prototype.getActiveContext = function () {
+        var contextualComm = this.contextualCommService.getActiveContext;
+        if (contextualComm) {
+            return contextualComm;
+        }
+        else {
+            throw new Error('No Contextual Comm Active');
+        }
+    };
     ContextualCommDataService.prototype.getContext = function (name) {
         var _this = this;
         return this.contextualCommService.getContextualCommList()

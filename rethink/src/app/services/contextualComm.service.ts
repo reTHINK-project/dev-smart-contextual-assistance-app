@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-// import 'rxjs/add/observable/empty';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/filter';
-// import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/startWith';
 
 // utils

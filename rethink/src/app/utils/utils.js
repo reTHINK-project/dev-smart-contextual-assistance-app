@@ -42,9 +42,9 @@ function getUserMedia(constraints) {
         navigator.mediaDevices.getUserMedia(constraints)
             .then(function (mediaStream) {
             resolve(mediaStream);
-        }); /*.catch((reason:any) => {
-          reject(reason);
-        });*/
+        }).catch(function (reason) {
+            reject(reason);
+        });
     });
 }
 exports.getUserMedia = getUserMedia;
@@ -85,4 +85,22 @@ function normalizeName(name) {
     return normalized;
 }
 exports.normalizeName = normalizeName;
+function splitConvetionName(name) {
+    var splited = name.split('-');
+    var result = {};
+    if (splited[1]) {
+        result['context'] = splited[1];
+        result['active'] = splited[1];
+    }
+    if (splited[2]) {
+        result['task'] = splited[2];
+        result['active'] = splited[2];
+    }
+    if (splited[3] && splited[4]) {
+        result['user'] = splited[3] + '-' + splited[4];
+        result['active'] = splited[3];
+    }
+    return result;
+}
+exports.splitConvetionName = splitConvetionName;
 //# sourceMappingURL=utils.js.map

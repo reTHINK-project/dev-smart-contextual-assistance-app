@@ -2551,15 +2551,6 @@ body.rethink ul.tabs-nav {
   margin: 0;
 }
 
-body.rethink .notification-view {
-  position: absolute;
-  left: 0;
-  right: 0;
-  z-index: 999;
-  padding: 1% 20%;
-  display: none;
-}
-
 /* line 2599, ../sass/rethink.scss */
 body.rethink ul.tabs-nav li a {
   background: transparent;

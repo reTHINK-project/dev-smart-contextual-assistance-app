@@ -23,7 +23,7 @@ export class NotificationService {
 
   }
 
-  addNotification(type: AlertType, message: any, callback: Function = null) {
+  addNotification(type: AlertType, message: any, metadata: any, callback: Function = null) {
 
     let curr = this.alerts.length + 1;
     let alert: IAlert = {
@@ -32,6 +32,7 @@ export class NotificationService {
       message: {
         message: 'notification message'
       },
+      metadata: metadata,
       callback: callback
     };
 

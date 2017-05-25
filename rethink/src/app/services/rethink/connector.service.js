@@ -106,6 +106,7 @@ var ConnectorService = (function () {
         var _this = this;
         this.hypertyVideo.onInvitation(function (controller, identity) {
             console.log('[Connector Service] - on Invitation:', controller, identity);
+            var metadata = controller.dataObjectObserver.metadata;
             _this.mode = controller.dataObjectObserver.data.mode;
             _this._webrtcMode = 'answer';
             _this.prepareController(controller);
@@ -114,7 +115,7 @@ var ConnectorService = (function () {
                 user: currUser,
                 message: 'New call is incomming from ' + currUser.username,
                 action: _this._mode
-            }, function (alert) {
+            }, metadata, function (alert) {
                 _this._notificationResponse(controller, alert, currUser);
             });
         });
@@ -125,12 +126,15 @@ var ConnectorService = (function () {
             var navigationExtras = {
                 queryParams: { 'action': this.mode }
             };
-            if (this.router.url.includes(user.username)) {
-                this.router.navigate([this.router.url], navigationExtras);
-            }
-            else {
-                this.router.navigate([this.router.url, user.username], navigationExtras);
-            }
+            var metadata = response.metadata;
+            var paths = utils_1.splitConvetionName(metadata.name);
+            console.log('[Connector Service] -  navigate to: ', paths);
+            this.router.navigate([paths.context, paths.task, paths.active], navigationExtras);
+            // if (this.router.url.includes(user.username)) {
+            //   this.router.navigate([this.router.url], navigationExtras);
+            // } else {
+            //   this.router.navigate([this.router.url, user.username], navigationExtras);
+            // }
         }
         else {
             controller.decline();

@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { User } from '../../../models/models';
 
 // Services
+import { ContextualCommDataService } from '../../../services/contextualCommData.service';
 import { ContactService, ConnectorService } from '../../../services/services';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -20,9 +21,10 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
   @Input() user: User;
   @Input() mode: string;
 
-  private myStream: any;
-  private stream: any;
-  private duration: Date;
+  myStream: any;
+  stream: any;
+  duration: Date;
+
   private subscription: Subscription;
 
   private streamingActive = false;
@@ -31,6 +33,7 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private contactService: ContactService,
     private connectorService: ConnectorService,
+    private contextualCommDataService: ContextualCommDataService
   ) {
     console.log('[Media Communication Component] - Constructor:', this.route.queryParams);
 
@@ -91,6 +94,8 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log('[Media Communication] - ngOnDestroy');
+    this.onHangup();
     this.reset();
   }
 
@@ -104,9 +109,11 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
 
     let options = {video: true, audio: true};
 
-    console.log('[Media Communication Component] - ' + this.mode + ' call To', user);
+    let contextID = this.contextualCommDataService.getActiveContext().id;
 
-    this.connectorService.connect(user.username, options, user.userURL, 'localhost')
+    console.log('[Media Communication Component] - ' + this.mode + ' call To', user, contextID);
+
+    this.connectorService.connect(user.username, options, contextID, 'localhost')
       .then((controller) => {
         controller.dataObjectReporter.data.mode = this.mode;
         this.streamingActive = true;

@@ -14,13 +14,15 @@ var router_1 = require("@angular/router");
 // Models
 var models_1 = require("../../../models/models");
 // Services
+var contextualCommData_service_1 = require("../../../services/contextualCommData.service");
 var services_1 = require("../../../services/services");
 var MediaCommunicationComponent = (function () {
-    function MediaCommunicationComponent(route, contactService, connectorService) {
+    function MediaCommunicationComponent(route, contactService, connectorService, contextualCommDataService) {
         var _this = this;
         this.route = route;
         this.contactService = contactService;
         this.connectorService = connectorService;
+        this.contextualCommDataService = contextualCommDataService;
         this.hostClass = 'all-100';
         this.streamingActive = false;
         console.log('[Media Communication Component] - Constructor:', this.route.queryParams);
@@ -64,6 +66,8 @@ var MediaCommunicationComponent = (function () {
         }
     };
     MediaCommunicationComponent.prototype.ngOnDestroy = function () {
+        console.log('[Media Communication] - ngOnDestroy');
+        this.onHangup();
         this.reset();
     };
     MediaCommunicationComponent.prototype.reset = function () {
@@ -74,8 +78,9 @@ var MediaCommunicationComponent = (function () {
     MediaCommunicationComponent.prototype.callTo = function (user) {
         var _this = this;
         var options = { video: true, audio: true };
-        console.log('[Media Communication Component] - ' + this.mode + ' call To', user);
-        this.connectorService.connect(user.username, options, user.userURL, 'localhost')
+        var contextID = this.contextualCommDataService.getActiveContext().id;
+        console.log('[Media Communication Component] - ' + this.mode + ' call To', user, contextID);
+        this.connectorService.connect(user.username, options, contextID, 'localhost')
             .then(function (controller) {
             controller.dataObjectReporter.data.mode = _this.mode;
             _this.streamingActive = true;
@@ -123,7 +128,8 @@ MediaCommunicationComponent = __decorate([
     }),
     __metadata("design:paramtypes", [router_1.ActivatedRoute,
         services_1.ContactService,
-        services_1.ConnectorService])
+        services_1.ConnectorService,
+        contextualCommData_service_1.ContextualCommDataService])
 ], MediaCommunicationComponent);
 exports.MediaCommunicationComponent = MediaCommunicationComponent;
 //# sourceMappingURL=mediaCommunication.component.js.map

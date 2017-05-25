@@ -1,12 +1,12 @@
-export function strMapToObj(strMap:Map<string, any>) {
+export function strMapToObj(strMap: Map<string, any>) {
     let obj = Object.create(null);
-    strMap.forEach((v:any, k:string) => {
+    strMap.forEach((v: any, k: string) => {
         obj[k] = v;
-    })
+    });
     return obj;
 }
 
-export function objToStrMap(obj:any) {
+export function objToStrMap(obj: any) {
     let strMap = new Map();
     for (let k of Object.keys(obj)) {
         strMap.set(k, obj[k]);
@@ -15,16 +15,16 @@ export function objToStrMap(obj:any) {
     return strMap;
 }
 
-export function getUserMedia(constraints:any) {
+export function getUserMedia(constraints: any) {
 
   return new Promise((resolve, reject) => {
 
     navigator.mediaDevices.getUserMedia(constraints)
-      .then((mediaStream:MediaStream) => {
+      .then((mediaStream: MediaStream) => {
         resolve(mediaStream);
-      })/*.catch((reason:any) => {
+      }).catch((reason: any) => {
         reject(reason);
-      });*/
+      });
   });
 }
 
@@ -69,4 +69,27 @@ export function normalizeName(name: string): any {
   }
 
   return normalized;
+}
+
+export function splitConvetionName(name: string): any {
+
+  let splited = name.split('-');
+  let result = {};
+
+  if (splited[1]) {
+    result['context'] = splited[1];
+    result['active'] = splited[1];
+  }
+
+  if (splited[2]) {
+    result['task'] = splited[2];
+    result['active'] = splited[2];
+  }
+
+  if (splited[3] && splited[4]) {
+    result['user'] = splited[3] + '-' + splited[4];
+    result['active'] = splited[3];
+  }
+
+  return result;
 }
