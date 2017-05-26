@@ -13,7 +13,8 @@ var core_1 = require("@angular/core");
 var models_1 = require("../../models/models");
 var ContactBoxComponent = (function () {
     function ContactBoxComponent() {
-        this.hostClass = 'user-identity contactbox p-4 col-12';
+        // TODO: Use with the Bootstrap: user-identity contactbox p-4 col-12
+        this.hostClass = 'user-identity contactbox all-75 large-65 xlarge-65 medium-100';
         this.closeEvent = new core_1.EventEmitter();
     }
     ContactBoxComponent.prototype.onCloseClick = function () {

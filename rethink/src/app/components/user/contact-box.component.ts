@@ -8,7 +8,8 @@ import { User } from '../../models/models';
   templateUrl: './contact-box.component.html'
 })
 export class ContactBoxComponent {
-  @HostBinding('class') hostClass = 'user-identity contactbox p-4 col-12';
+  // TODO: Use with the Bootstrap: user-identity contactbox p-4 col-12
+  @HostBinding('class') hostClass = 'user-identity contactbox all-75 large-65 xlarge-65 medium-100';
 
   @Input() user: User;
   @Output() closeEvent = new EventEmitter();
