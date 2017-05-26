@@ -69,11 +69,11 @@ export class ContextualCommActivateService implements CanActivateChild {
                 })
                 .catch(reason => {
                   console.log('[Can Not Activate Route] - ', reason);
-                  reject(false);
+                  resolve(false);
                 });
               } else {
-                console.log('[Can Not Activate Route] - ', reason);
-                reject(false);
+                this.router.navigate(['/']);
+                resolve(false);
               }
             });
           }

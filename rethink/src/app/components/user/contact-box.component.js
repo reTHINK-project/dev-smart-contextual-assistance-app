@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 var models_1 = require("../../models/models");
 var ContactBoxComponent = (function () {
     function ContactBoxComponent() {
-        this.hostClass = 'contactbox padding all-100 small';
+        this.hostClass = 'user-identity contactbox p-4 col-12';
         this.closeEvent = new core_1.EventEmitter();
     }
     ContactBoxComponent.prototype.onCloseClick = function () {

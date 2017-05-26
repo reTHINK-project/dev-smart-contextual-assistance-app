@@ -20,7 +20,7 @@ var RouterService = (function () {
         this.router = router;
         this.paths = new Subject_1.Subject();
         // this.paths.take(2)
-        this.breadcrumb = this.paths.take(2);
+        this.breadcrumb = this.paths;
         // Subscribe to route params
         this._urls = new Array();
         this.router.events.subscribe(function (navigation) {

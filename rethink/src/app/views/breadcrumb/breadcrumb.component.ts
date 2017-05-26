@@ -27,7 +27,12 @@ export class ContextBreadcrumbComponent implements OnInit {
   ngOnInit() {
     console.log('[Breadcrumb] - ', this.routerService.breadcrumb);
 
-    this.breadcrumb = this.routerService.breadcrumb;
+    this.breadcrumb = this.routerService.breadcrumb.map((paths: string[]) => {
+      return paths.map((path: string) => {
+        if (path.indexOf('?') !== -1) { path = path.substring(0, path.indexOf('?')); }
+        return path;
+      });
+    });
   }
 
 }

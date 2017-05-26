@@ -613,9 +613,9 @@ body.rethink div.container-fluid .mp-level.mp-level-overlay.mp-level::before {
 }
 /* line 615, ../sass/rethink.scss */
 body.rethink div.container-fluid .mp-pusher, body.rethink div.container-fluid .mp-level {
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  transition: all 0.5s;
+  -webkit-transition: transform 0.5s;
+  -moz-transition: transform 0.5s;
+  transition: transform 0.5s;
 }
 /* line 623, ../sass/rethink.scss */
 body.rethink div.container-fluid .mp-overlap .mp-level.mp-level-open {

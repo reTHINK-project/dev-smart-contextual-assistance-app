@@ -23,7 +23,14 @@ var ContextBreadcrumbComponent = (function () {
     }
     ContextBreadcrumbComponent.prototype.ngOnInit = function () {
         console.log('[Breadcrumb] - ', this.routerService.breadcrumb);
-        this.breadcrumb = this.routerService.breadcrumb;
+        this.breadcrumb = this.routerService.breadcrumb.map(function (paths) {
+            return paths.map(function (path) {
+                if (path.indexOf('?') !== -1) {
+                    path = path.substring(0, path.indexOf('?'));
+                }
+                return path;
+            });
+        });
     };
     return ContextBreadcrumbComponent;
 }());

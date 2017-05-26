@@ -23,7 +23,7 @@ var ContextualCommComponent = (function () {
         this.appService = appService;
         this.contextualCommService = contextualCommService;
         this.contactService = contactService;
-        this.hostClass = 'context-view';
+        this.hostClass = 'context-view row no-gutters';
         this.users = new BehaviorSubject_1.BehaviorSubject([]);
     }
     // Load data ones componet is ready

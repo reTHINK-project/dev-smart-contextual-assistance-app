@@ -19,8 +19,22 @@ body.rethink .content-panel {
   margin-top: 60px;
 }
 
-body.rethink .main-content {
-  margin-left: 30%;
+/* TODO: Remove this.. this only work because the ink framework */
+@media screen and (max-width: 960px) and (min-width: 641px) {
+
+  body.rethink .context-view .main-content {
+    margin-left: 30%;
+  }
+
+}
+
+/* TODO: Remove this.. this only work because the ink framework */
+@media screen and (min-width: 1261px) {
+
+  body.rethink .context-view .main-content {
+    margin-left: 20%;
+  }
+
 }
 
 /* Add Button from context menu and contacts list */

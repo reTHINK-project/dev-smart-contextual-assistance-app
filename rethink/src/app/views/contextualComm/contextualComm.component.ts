@@ -20,7 +20,7 @@ import { AddUserComponent } from '../contextualCommUsers/add-user.component';
 })
 export class ContextualCommComponent implements OnInit {
 
-  @HostBinding('class') hostClass = 'context-view';
+  @HostBinding('class') hostClass = 'context-view row no-gutters';
 
   @ViewChild(AddUserComponent) addUserComponent: AddUserComponent;
 

@@ -1,8 +1,12 @@
 /* Accordion list from context menu */
 
-/*.context-menu {
-
-}*/
+.context-menu {
+  position: absolute;
+  top: 83px;
+  bottom: 97px;
+  overflow-y: auto;
+  width: 100%;
+}
 
 /* reset */
 .context-menu .card,

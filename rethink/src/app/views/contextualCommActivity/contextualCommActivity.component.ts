@@ -1,4 +1,4 @@
-import { Component, HostBinding, ElementRef, OnChanges, SimpleChange, AfterContentInit, Input } from '@angular/core';
+import { Component, HostBinding, HostListener, ElementRef, OnChanges, SimpleChange, AfterContentInit, Input } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Message } from '../../models/models';
 
@@ -8,9 +8,14 @@ import { Message } from '../../models/models';
   templateUrl: './contextualCommActivity.component.html'
 })
 export class ContextualCommActivityComponent implements OnChanges, AfterContentInit {
+
   @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list';
 
   @Input() messages: Subject<Message[]>;
+
+  @HostListener('window:resize', ['$event']) onResize(event: any) {
+    this.updateView();
+  }
 
   constructor(private el: ElementRef) {}
 

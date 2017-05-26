@@ -25,11 +25,13 @@ var ChatCommunicationComponent = (function () {
     };
     ChatCommunicationComponent.prototype.onSubmit = function () {
         var message = this.model.message;
-        console.log('[Chat Communication View - onMessage] - Message:', message, this.chatService.chatControllerActive);
-        this.chatService.send(message).then(function (message) {
-            console.log('[Activity View - onMessage] - message sent', message);
-        });
-        this.clean();
+        if (message) {
+            console.log('[Chat Communication View - onMessage] - Message:', message, this.chatService.chatControllerActive);
+            this.chatService.send(message).then(function (message) {
+                console.log('[Activity View - onMessage] - message sent', message);
+            });
+            this.clean();
+        }
     };
     ChatCommunicationComponent.prototype.onInvitation = function (event) {
         console.log('[Chat Communication View - onInvitation] - ', event);

@@ -16,6 +16,9 @@ var ContextualCommActivityComponent = (function () {
         this.el = el;
         this.hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list';
     }
+    ContextualCommActivityComponent.prototype.onResize = function (event) {
+        this.updateView();
+    };
     ContextualCommActivityComponent.prototype.ngOnChanges = function (changes) {
         console.log('CHANGES:', changes);
     };
@@ -62,6 +65,12 @@ __decorate([
     core_1.Input(),
     __metadata("design:type", Subject_1.Subject)
 ], ContextualCommActivityComponent.prototype, "messages", void 0);
+__decorate([
+    core_1.HostListener('window:resize', ['$event']),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ContextualCommActivityComponent.prototype, "onResize", null);
 ContextualCommActivityComponent = __decorate([
     core_1.Component({
         moduleId: module.id,

@@ -17,7 +17,11 @@ var routes = [
         component: home_component_1.HomeComponent,
         canActivate: [
             services_1.AuthGuard
-        ]
+        ],
+    },
+    {
+        path: '**',
+        redirectTo: ''
     }
 ];
 var AppRoutingModule = (function () {

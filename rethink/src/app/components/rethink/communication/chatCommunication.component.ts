@@ -29,12 +29,15 @@ export class ChatCommunicationComponent implements OnInit {
   onSubmit() {
     let message = this.model.message;
 
-    console.log('[Chat Communication View - onMessage] - Message:', message, this.chatService.chatControllerActive);
-    this.chatService.send(message).then((message: any) => {
-      console.log('[Activity View - onMessage] - message sent', message);
-    });
+    if (message) {
+      console.log('[Chat Communication View - onMessage] - Message:', message, this.chatService.chatControllerActive);
+      this.chatService.send(message).then((message: any) => {
+        console.log('[Activity View - onMessage] - message sent', message);
+      });
 
-    this.clean();
+      this.clean();
+    }
+
   }
 
   onInvitation(event: any) {

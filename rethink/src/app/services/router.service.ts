@@ -19,7 +19,7 @@ export class RouterService {
     private router: Router) {
 
     // this.paths.take(2)
-    this.breadcrumb = this.paths.take(2);
+    this.breadcrumb = this.paths;
 
     // Subscribe to route params
     this._urls = new Array();

@@ -66,12 +66,12 @@ var ContextualCommActivateService = (function () {
                                 })
                                     .catch(function (reason) {
                                     console.log('[Can Not Activate Route] - ', reason);
-                                    reject(false);
+                                    resolve(false);
                                 });
                             }
                             else {
-                                console.log('[Can Not Activate Route] - ', reason);
-                                reject(false);
+                                _this.router.navigate(['/']);
+                                resolve(false);
                             }
                         });
                     }
