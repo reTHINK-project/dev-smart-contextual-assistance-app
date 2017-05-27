@@ -1,0 +1,60 @@
+.rethink-breadcrumb {
+  padding: 0;
+  margin: 0;
+}
+
+.rethink-breadcrumb .menu-trigger {
+  padding: 0.5em 1em;
+  color: #fff;
+
+  background: #364258;
+  border-radius: 5px;
+}
+
+.rethink-breadcrumb .menu-trigger:hover {
+  background-color: rgba(0, 0, 0, 0.10);
+}
+
+.rethink-breadcrumb .breadcrumb-path,
+.rethink-breadcrumb .breadcrumb-trigger {
+  float: left;
+}
+
+.rethink-breadcrumb .breadcrumb-path h3 {
+  margin: 0;
+  line-height: normal;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #FFF;
+}
+
+.rethink-breadcrumb .breadcrumb-path h3 a {
+  color: inherit;
+  background: #364258;
+  border-radius: 5px;
+}
+
+.rethink-breadcrumb .breadcrumb-path h3 a:hover {
+  background-color: rgba(0, 0, 0, 0.10);
+}
+
+.rethink-breadcrumb .breadcrumb-path .fa {
+  padding-right: 7px;
+}
+
+.rethink-breadcrumb .breadcrumb-path.first h3 .name {
+  padding-left: 0;
+}
+
+.rethink-breadcrumb .breadcrumb-path h3 .name {
+  position: relative;
+  padding-left: 20px;
+  font-weight: normal;
+}
+
+.rethink-breadcrumb .breadcrumb-path:not(.first) h3 .name::before {
+  position: absolute;
+  content: '/';
+  left: 8px;
+  font-weight: 600;
+}

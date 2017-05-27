@@ -1,0 +1,63 @@
+
+/* Header */
+
+body.rethink .header {
+  padding: .75em;
+  background: #364258;
+  position: fixed;
+  width: 100%;
+  z-index: 500;
+
+  top: 0;
+
+  margin-bottom: 0;
+  height: 60px;
+}
+
+/* Main Content */
+body.rethink .content-panel {
+  margin-top: 60px;
+}
+
+/* TODO: Remove this.. this only work because the ink framework */
+@media screen and (max-width: 960px) and (min-width: 641px) {
+
+  body.rethink .context-view .main-content {
+    margin-left: 30%;
+  }
+
+}
+
+/* TODO: Remove this.. this only work because the ink framework */
+@media screen and (min-width: 1261px) {
+
+  body.rethink .context-view .main-content {
+    margin-left: 20%;
+  }
+
+}
+
+/* Add Button from context menu and contacts list */
+
+body.rethink .add-button {
+  position: absolute;
+  float: left;
+  width: 100%;
+  bottom: 40px;
+  padding: .75em 1em;
+}
+
+body.rethink .add-button:focus,
+body.rethink .add-button:hover {
+  outline: none;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+body.rethink .add-button .add-text {
+  color: #fff;
+  vertical-align: top;
+  line-height: 36px;
+  padding-left: 12px;
+  text-transform: uppercase;
+  font-weight: 400;
+}

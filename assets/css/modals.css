@@ -1,0 +1,88 @@
+.custom-modal {
+
+  background: #eff0f4;
+  opacity: 0;
+
+}
+
+.custom-modal .divider-left,
+.custom-modal .divider-right {
+  position: relative;
+}
+
+.custom-modal .divider-right::after,
+.custom-modal .divider-left::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  bottom: 0;
+}
+
+.custom-modal .divider-right::after {
+  border-right: 1px solid #ddd;
+  right: 0;
+}
+
+.custom-modal .divider-left::before {
+  border-left: 1px solid #ddd;
+  left: 0;
+}
+
+.custom-modal .fade {
+  -webkit-transition: opacity 300ms;
+  -moz-transition: opacity 300ms;
+  -o-transition: opacity 300ms;
+  transition: opacity 300ms;
+
+  filter: alpha(Opacity=0);
+  opacity: 0;
+}
+
+.custom-modal .visible {
+  opacity: 1;
+  z-index: 500;
+}
+
+.custom-modal .modal-header {
+  padding: 2em 0;
+}
+
+.custom-modal .modal-header,
+.custom-modal .modal-footer {
+  border: none;
+}
+
+.custom-modal .modal-title {
+  font-weight: 300;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.custom-modal .modal-dialog {
+
+  max-width: none;
+  margin: auto 0;
+  overflow: hidden;
+
+}
+
+.custom-modal .close {
+  width: 38px;
+  height: 36px;
+
+  border: 1px solid #000;
+  border-radius: 30px;
+}
+
+.custom-modal .modal-content {
+
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+  height: auto;
+  max-width: 90%;
+  margin: 0 auto;
+  border: none;
+  background: none;
+
+}
