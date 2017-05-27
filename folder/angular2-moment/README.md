@@ -126,7 +126,7 @@ Prints `Last updated: Yesterday at 14:00` (referenceTime is tomorrow)
 @Component({
   selector: 'app',
   template: `
-    Last updated: <time>{{myDate | amCalendar:{sameDay:'[Same Day at] h:mm A'} }}</time>
+    
   `
 })
 ```
