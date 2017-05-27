@@ -80,7 +80,7 @@ var MediaCommunicationComponent = (function () {
         var options = { video: true, audio: true };
         var contextID = this.contextualCommDataService.getActiveContext().id;
         console.log('[Media Communication Component] - ' + this.mode + ' call To', user, contextID);
-        this.connectorService.connect(user.username, options, contextID, 'localhost')
+        this.connectorService.connect(user.username, options, contextID, 'hysmart.rethink.ptinovacao.pt')
             .then(function (controller) {
             controller.dataObjectReporter.data.mode = _this.mode;
             _this.streamingActive = true;

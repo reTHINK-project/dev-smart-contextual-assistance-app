@@ -19,7 +19,7 @@ var RethinkService = (function () {
     function RethinkService(localstorage, contactService) {
         this.localstorage = localstorage;
         this.contactService = contactService;
-        this.domain = 'localhost';
+        this.domain = 'hysmart.rethink.ptinovacao.pt';
         this.runtimeURL = 'https://catalogue.' + this.domain + '/.well-known/runtime/Runtime';
         this.config = { domain: this.domain, runtimeURL: this.runtimeURL, development: true };
         this.progress = new BehaviorSubject_1.BehaviorSubject('');
