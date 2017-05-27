@@ -113,7 +113,7 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
 
     console.log('[Media Communication Component] - ' + this.mode + ' call To', user, contextID);
 
-    this.connectorService.connect(user.username, options, contextID, 'localhost')
+    this.connectorService.connect(user.username, options, contextID, 'hysmart.rethink.ptinovacao.pt')
       .then((controller) => {
         controller.dataObjectReporter.data.mode = this.mode;
         this.streamingActive = true;
