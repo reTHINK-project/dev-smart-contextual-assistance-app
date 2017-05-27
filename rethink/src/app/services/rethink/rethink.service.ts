@@ -4,13 +4,15 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import rethink from 'runtime-browser';
 import { User } from '../../models/models';
 
+import { config } from '../../config';
+
 import { ContactService } from '../contact.service';
 import { LocalStorage } from '../storage.service';
 
 @Injectable()
 export class RethinkService {
 
-  domain = 'localhost';
+  domain = config.domain;
   runtimeURL = 'https://catalogue.' + this.domain + '/.well-known/runtime/Runtime';
   config = {domain: this.domain, runtimeURL: this.runtimeURL, development: true };
 

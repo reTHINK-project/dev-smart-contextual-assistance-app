@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, HostBinding, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { config } from '../../../config';
+
 // Models
 import { User } from '../../../models/models';
 
@@ -113,7 +115,7 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
 
     console.log('[Media Communication Component] - ' + this.mode + ' call To', user, contextID);
 
-    this.connectorService.connect(user.username, options, contextID, 'localhost')
+    this.connectorService.connect(user.username, options, contextID, config.domain)
       .then((controller) => {
         controller.dataObjectReporter.data.mode = this.mode;
         this.streamingActive = true;

@@ -1,3 +1,4 @@
 export const config = {
-  appPrefix: 'sca'
+  appPrefix: 'sca',
+  domain: 'localhost'
 }
