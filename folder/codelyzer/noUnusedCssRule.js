@@ -15,7 +15,10 @@ var logger_1 = require("./util/logger");
 var ngVersion_1 = require("./util/ngVersion");
 var CssSelectorTokenizer = require('css-selector-tokenizer');
 var getSymbolName = function (t) {
-    var expr = t.expression;
+    var expr = t;
+    if (t.expression) {
+        expr = t.expression;
+    }
     if (t.expression && t.expression.name) {
         expr = t.expression.name;
     }
@@ -121,7 +124,9 @@ var ElementFilterVisitor = (function (_super) {
             var strategy = strategies[s];
             return !selectorTypes[s] || !strategy(ast);
         }) && (ast.children || [])
-            .every(function (c) { return ast instanceof compiler_1.ElementAst && _this.shouldVisit(c, strategies, selectorTypes); });
+            .every(function (c) { return ast instanceof compiler_1.ElementAst && _this.shouldVisit(c, strategies, selectorTypes)
+            || ast instanceof compiler_1.EmbeddedTemplateAst &&
+                (ast.children || []).every(function (c) { return _this.shouldVisit(c, strategies, selectorTypes); }); });
     };
     return ElementFilterVisitor;
 }(basicTemplateAstVisitor_1.BasicTemplateAstVisitor));
@@ -137,19 +142,33 @@ var Rule = (function (_super) {
     };
     return Rule;
 }(Lint.Rules.AbstractRule));
+Rule.metadata = {
+    ruleName: 'no-unused-css-rule',
+    type: 'maintainability',
+    description: "Disallows having an unused CSS rule in the component's stylesheet.",
+    options: null,
+    optionsDescription: "Not configurable.",
+    typescriptOnly: true,
+};
 Rule.FAILURE = 'The %s "%s" that you\'re trying to access does not exist in the class declaration.';
 exports.Rule = Rule;
 var UnusedCssVisitor = (function (_super) {
     __extends(UnusedCssVisitor, _super);
-    function UnusedCssVisitor() {
-        return _super.apply(this, arguments) || this;
+    function UnusedCssVisitor(sourceFile, originalOptions, context, style, templateStart) {
+        var _this = _super.call(this, sourceFile, originalOptions, context, style, templateStart) || this;
+        _this.style = style;
+        return _this;
     }
     UnusedCssVisitor.prototype.visitCssSelectorRule = function (ast) {
         var _this = this;
         try {
             var match = ast.selectors.some(function (s) { return _this.visitCssSelector(s); });
             if (!match) {
-                this.addFailure(this.createFailure(ast.start.offset, ast.end.offset - ast.start.offset, 'Unused styles'));
+                var start = ast.start.offset;
+                var end = ast.end.offset;
+                var length_1 = end - ast.start.offset + 1;
+                var fix = this.createFix(this.createReplacement(start, length_1, ''));
+                this.addFailure(this.createFailure(start, length_1, 'Unused styles', fix));
             }
         }
         catch (e) {

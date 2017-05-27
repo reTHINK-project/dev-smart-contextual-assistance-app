@@ -1,8 +1,10 @@
-import { Component, Input, Output, HostBinding, EventEmitter, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Component, Output, HostBinding, EventEmitter, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 
-import { RouterService } from '../../services/router.service';
+import 'rxjs/add/operator/pairwise';
+
+import { RouterService } from '../../services/services';
 
 @Component({
   moduleId: module.id,
@@ -10,16 +12,27 @@ import { RouterService } from '../../services/router.service';
   templateUrl: './breadcrumb.component.html'
 })
 export class ContextBreadcrumbComponent implements OnInit {
-  @HostBinding('class') hostClass = 'contactlist all-45'
+  @HostBinding('class') hostClass = 'rethink-breadcrumb';
 
   @Output() openContext = new EventEmitter();
 
-  private breadcrumb:Observable<Array<any>>;
+  breadcrumb: Observable<Array<any>>;
 
-  constructor(private routerService:RouterService){}
+  constructor(
+    private router: Router,
+    private routerService: RouterService) {
+    console.log('[Breadcrumb] - ');
+  }
 
   ngOnInit() {
-    this.breadcrumb = this.routerService.breadcrumb;
+    console.log('[Breadcrumb] - ', this.routerService.breadcrumb);
+
+    this.breadcrumb = this.routerService.breadcrumb.map((paths: string[]) => {
+      return paths.map((path: string) => {
+        if (path.indexOf('?') !== -1) { path = path.substring(0, path.indexOf('?')); }
+        return path;
+      });
+    });
   }
 
 }

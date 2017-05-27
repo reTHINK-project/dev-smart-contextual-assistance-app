@@ -1,7 +1,8 @@
-import { EventEmitter, OnInit, OnDestroy, Injector, Renderer, ElementRef, TemplateRef, ViewContainerRef, ComponentFactoryResolver, NgZone } from '@angular/core';
+import { EventEmitter, OnInit, OnDestroy, Injector, Renderer2, ElementRef, TemplateRef, ViewContainerRef, ComponentFactoryResolver, NgZone } from '@angular/core';
 import { NgbTooltipConfig } from './tooltip-config';
 export declare class NgbTooltipWindow {
     placement: 'top' | 'bottom' | 'left' | 'right';
+    id: string;
 }
 /**
  * A lightweight, extensible directive for fancy tooltip creation.
@@ -23,19 +24,20 @@ export declare class NgbTooltip implements OnInit, OnDestroy {
      */
     container: string;
     /**
-   * Emits an event when the tooltip is shown
-   */
+     * Emits an event when the tooltip is shown
+     */
     shown: EventEmitter<{}>;
     /**
      * Emits an event when the tooltip is hidden
      */
     hidden: EventEmitter<{}>;
     private _ngbTooltip;
+    private _ngbTooltipWindowId;
     private _popupService;
     private _windowRef;
     private _unregisterListenersFn;
     private _zoneSubscription;
-    constructor(_elementRef: ElementRef, _renderer: Renderer, injector: Injector, componentFactoryResolver: ComponentFactoryResolver, viewContainerRef: ViewContainerRef, config: NgbTooltipConfig, ngZone: NgZone);
+    constructor(_elementRef: ElementRef, _renderer: Renderer2, injector: Injector, componentFactoryResolver: ComponentFactoryResolver, viewContainerRef: ViewContainerRef, config: NgbTooltipConfig, ngZone: NgZone);
     /**
      * Content to be displayed as tooltip. If falsy, the tooltip won't open.
      */

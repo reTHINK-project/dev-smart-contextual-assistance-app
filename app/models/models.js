@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var User = (function () {
     function User(obj) {
         this.username = obj && obj.username;
@@ -6,7 +7,7 @@ var User = (function () {
         this.avatar = obj && obj.avatar;
         this.locale = obj && obj.locale;
         this.userURL = obj && obj.userURL;
-        this.status = obj && obj.status || 'online';
+        this.status = obj && obj.status || 'available';
         this.unread = obj && obj.unread || 0;
         this.domain = obj && obj.domain || 'hybroker.rethink.ptinovacao.pt';
         this.identifiers = '';
@@ -18,6 +19,7 @@ var User = (function () {
 exports.User = User;
 var Message = (function () {
     function Message(obj) {
+        this.isRead = false;
         this.type = obj && obj.type;
         this.message = obj && obj.message;
         this.user = obj && obj.user;
@@ -28,13 +30,17 @@ var Message = (function () {
 exports.Message = Message;
 var ContextualComm = (function () {
     function ContextualComm(obj) {
-        this.name = obj && obj.name;
-        this.description = obj && obj.description;
-        this.parent = obj && obj.parent;
+        this.id = obj && String(obj.id).toLowerCase();
         this.url = obj && obj.url;
+        this.name = obj && String(obj.name).toLowerCase();
+        this.description = obj && obj.description;
+        this.communication = obj && obj.communication;
+        this.context = obj && obj.context;
         this.contexts = obj && obj.contexts || [];
         this.users = obj && obj.users || [];
         this.messages = obj && obj.messages || [];
+        this.icon = obj && obj.icon || '';
+        this.parent = obj && obj.parent;
         console.log('[Models - ContextualComm] - constructor: ', this.users);
         this.users = this.users.map(function (user) {
             return new User(user);
@@ -54,13 +60,10 @@ var ContextualComm = (function () {
 }());
 exports.ContextualComm = ContextualComm;
 var ContextualCommTrigger = (function () {
-    function ContextualCommTrigger(trigger, name, contextScheme, contextResource, values) {
-        this.contextName = name;
-        this.contextScheme = contextScheme;
-        this.contextResource = contextResource;
-        this.values = values || [];
-        this.trigger = trigger || [];
+    function ContextualCommTrigger(value) {
+        Object.assign(this, value);
     }
+    ;
     return ContextualCommTrigger;
 }());
 exports.ContextualCommTrigger = ContextualCommTrigger;

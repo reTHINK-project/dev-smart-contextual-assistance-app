@@ -1,19 +1,17 @@
 import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 
 // Services
-import { RethinkService, ChatService, ContextService, MessageService, ContactService } from '../../services/services';
+import { ContactService, RethinkService, ContextualCommService } from '../../services/services';
 
 // Models
-import { Message, User, ContextualComm } from '../../models/models';
+import { User, ContextualComm } from '../../models/models';
 
 
 // Components
-import { ContextualCommUsersComponent } from '../contextualCommUsers/contextualCommUsers.component'
-import { AddUserComponent } from '../userView/add-user.component';
+import { AddUserComponent } from '../contextualCommUsers/add-user.component';
 
 @Component({
   moduleId: module.id,
@@ -22,19 +20,17 @@ import { AddUserComponent } from '../userView/add-user.component';
 })
 export class ContextualCommComponent implements OnInit {
 
-  @HostBinding('class') hostClass = 'context-view';
+  @HostBinding('class') hostClass = 'context-view row no-gutters';
 
-  @ViewChild(AddUserComponent) addView:AddUserComponent;
+  @ViewChild(AddUserComponent) addUserComponent: AddUserComponent;
 
-  private users:Subject<User[]> = new BehaviorSubject([]);
+  users: Subject<User[]> = new BehaviorSubject([]);
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private chatService: ChatService,
     private appService: RethinkService,
-    private messageService: MessageService,
-    private contextService: ContextService,
+    private contextualCommService: ContextualCommService,
     private contactService: ContactService) {}
 
   // Load data ones componet is ready
@@ -50,30 +46,23 @@ export class ContextualCommComponent implements OnInit {
         // console.log('Resolved users:', data.users);
       });
 
-    this.contextService.contextualComm().subscribe((contextualComm:ContextualComm) => {
+    this.contextualCommService.contextualComm().subscribe((contextualComm: ContextualComm) => {
       console.log('[ContextualComm Component - update] - ', contextualComm, contextualComm.users);
       this.users.next(contextualComm.users);
-    })
+    });
 
   }
 
-  onContactClick(user: User) {
-    console.log('(contact-click)', user, this.router);
-
-    this.router.navigate([this.router.url, user.username]);
-
-  }
-
-  onContactAdd() {
-    this.addView.toogle();
+  onInviteEvent(value: any) {
+    console.log('Invite some one: ', value);
   }
 
   onCloseEvent() {
-    this.addView.toogle();
+
   }
 
-  onInviteEvent(value:any) {
-    console.log('Invite some one: ', value);
+  onContactClick() {
+
   }
 
 

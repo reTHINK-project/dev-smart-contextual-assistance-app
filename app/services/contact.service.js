@@ -8,23 +8,36 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __values = (this && this.__values) || function (o) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+    if (m) return m.call(o);
+    return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 // Core
-var core_1 = require('@angular/core');
-var Subject_1 = require('rxjs/Subject');
-require('rxjs/add/operator/map');
-require('rxjs/add/operator/scan');
-require('rxjs/add/operator/publishReplay');
+var core_1 = require("@angular/core");
+var Subject_1 = require("rxjs/Subject");
+var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
+require("rxjs/add/operator/map");
+require("rxjs/add/operator/scan");
+require("rxjs/add/operator/publishReplay");
 // utils
-var utils_1 = require('../utils/utils');
+var utils_1 = require("../utils/utils");
 // Interfaces
-var models_1 = require('../models/models');
+var models_1 = require("../models/models");
 // Services
-var storage_service_1 = require('./storage.service');
+var storage_service_1 = require("./storage.service");
 var ContactService = (function () {
     function ContactService(localStorage) {
         var _this = this;
         this.localStorage = localStorage;
         this._userList = new Map();
+        this._users = new BehaviorSubject_1.BehaviorSubject([]);
         // action streams
         this._create = new Subject_1.Subject();
         // `updates` receives _operations_ to be applied to our `users`
@@ -32,17 +45,33 @@ var ContactService = (function () {
         // stored in `users`)
         this._updates = new Subject_1.Subject();
         this._newUser = new Subject_1.Subject();
-        var anonimous = new models_1.User({});
         if (this.localStorage.hasObject('contacts')) {
             var mapObj = this.localStorage.getObject('contacts');
-            for (var _i = 0, _a = Object.keys(mapObj); _i < _a.length; _i++) {
-                var k = _a[_i];
-                this._userList.set(k, new models_1.User(mapObj[k]));
+            try {
+                for (var _a = __values(Object.keys(mapObj)), _b = _a.next(); !_b.done; _b = _a.next()) {
+                    var k = _b.value;
+                    var currentUser = new models_1.User(mapObj[k]);
+                    this._userList.set(k, currentUser);
+                    this._users.next([currentUser]);
+                }
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                }
+                finally { if (e_1) throw e_1.error; }
             }
         }
-        this._users = this._updates
-            .scan(function (users, user) {
+        this._users.scan(function (users, user) {
             return users.concat(user);
+        })
+            .publishReplay(1)
+            .refCount();
+        this._updates
+            .scan(function (users, user) {
+            console.log('Users:', users);
+            return users.push(user);
         }, [])
             .publishReplay(1)
             .refCount();
@@ -58,6 +87,7 @@ var ContactService = (function () {
             return user;
         }).subscribe(this._updates);
         this._newUser.subscribe(this._create);
+        var e_1, _c;
     }
     Object.defineProperty(ContactService.prototype, "sessionUser", {
         get: function () {
@@ -70,9 +100,11 @@ var ContactService = (function () {
         configurable: true
     });
     ContactService.prototype.addUser = function (user) {
+        console.log('[Contact Service - AddUser] - ', user);
         this._newUser.next(user);
     };
-    ContactService.prototype.updateUser = function (user, property, value) {
+    ContactService.prototype.updateUser = function (user) {
+        this._updates.next(user);
     };
     ContactService.prototype.removeUser = function () {
     };
@@ -93,11 +125,11 @@ var ContactService = (function () {
         });
         return user;
     };
-    ContactService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [storage_service_1.LocalStorage])
-    ], ContactService);
     return ContactService;
 }());
+ContactService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [storage_service_1.LocalStorage])
+], ContactService);
 exports.ContactService = ContactService;
 //# sourceMappingURL=contact.service.js.map

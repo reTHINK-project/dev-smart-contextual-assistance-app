@@ -2,49 +2,48 @@
   "_args": [
     [
       {
-        "raw": "@angular/router@~3.4.0",
+        "raw": "@angular/router@^4.1.1",
         "scope": "@angular",
         "escapedName": "@angular%2frouter",
         "name": "@angular/router",
-        "rawSpec": "~3.4.0",
-        "spec": ">=3.4.0 <3.5.0",
+        "rawSpec": "^4.1.1",
+        "spec": ">=4.1.1 <5.0.0",
         "type": "range"
       },
       "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink"
     ]
   ],
-  "_from": "@angular/router@>=3.4.0 <3.5.0",
-  "_id": "@angular/router@3.4.9",
+  "_from": "@angular/router@>=4.1.1 <5.0.0",
+  "_id": "@angular/router@4.1.3",
   "_inCache": true,
-  "_installable": true,
   "_location": "/@angular/router",
   "_nodeVersion": "6.9.5",
   "_npmOperationalInternal": {
     "host": "packages-12-west.internal.npmjs.com",
-    "tmp": "tmp/router-3.4.9.tgz_1488439264225_0.9315597836393863"
+    "tmp": "tmp/router-4.1.3.tgz_1495061664530_0.9483020002953708"
   },
   "_npmUser": {
     "name": "angular",
     "email": "angular-core+npm@google.com"
   },
-  "_npmVersion": "3.10.10",
+  "_npmVersion": "4.5.0",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "@angular/router@~3.4.0",
+    "raw": "@angular/router@^4.1.1",
     "scope": "@angular",
     "escapedName": "@angular%2frouter",
     "name": "@angular/router",
-    "rawSpec": "~3.4.0",
-    "spec": ">=3.4.0 <3.5.0",
+    "rawSpec": "^4.1.1",
+    "spec": ">=4.1.1 <5.0.0",
     "type": "range"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/@angular/router/-/router-3.4.9.tgz",
-  "_shasum": "2525384124140fefae20bf661262b611f28ffc92",
+  "_resolved": "https://registry.npmjs.org/@angular/router/-/router-4.1.3.tgz",
+  "_shasum": "ddafd46ae7ccc8b1f74904ffb45f394e44625216",
   "_shrinkwrap": null,
-  "_spec": "@angular/router@~3.4.0",
+  "_spec": "@angular/router@^4.1.1",
   "_where": "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink",
   "author": {
     "name": "angular"
@@ -57,38 +56,39 @@
   "devDependencies": {},
   "directories": {},
   "dist": {
-    "shasum": "2525384124140fefae20bf661262b611f28ffc92",
-    "tarball": "https://registry.npmjs.org/@angular/router/-/router-3.4.9.tgz"
+    "shasum": "ddafd46ae7ccc8b1f74904ffb45f394e44625216",
+    "tarball": "https://registry.npmjs.org/@angular/router/-/router-4.1.3.tgz"
   },
+  "es2015": "./@angular/router.js",
   "homepage": "https://github.com/angular/angular/blob/master/modules/%40angular/router/README.md",
   "keywords": [
-    "angular2",
     "angular",
     "router"
   ],
   "license": "MIT",
-  "main": "bundles/router.umd.js",
+  "main": "./bundles/router.umd.js",
   "maintainers": [
     {
       "name": "angular",
       "email": "angular-core+npm@google.com"
     }
   ],
-  "module": "index.js",
+  "module": "./@angular/router.es5.js",
   "name": "@angular/router",
   "optionalDependencies": {},
   "peerDependencies": {
-    "@angular/core": "2.4.9",
-    "@angular/common": "2.4.9",
-    "@angular/platform-browser": "2.4.9",
+    "@angular/core": "4.1.3",
+    "@angular/common": "4.1.3",
+    "@angular/platform-browser": "4.1.3",
     "rxjs": "^5.0.1"
   },
-  "readme": "ERROR: No README data found!",
+  "readme": "Angular\n=======\n\nThe sources for this package are in the main [Angular](https://github.com/angular/angular) repo. Please file issues and pull requests against that repo.\n\nLicense: MIT\n",
+  "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/angular/angular.git"
   },
   "scripts": {},
-  "typings": "index.d.ts",
-  "version": "3.4.9"
+  "typings": "./router.d.ts",
+  "version": "4.1.3"
 }

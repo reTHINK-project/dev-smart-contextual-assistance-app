@@ -1,9 +1,9 @@
-<div class="contactbox padding all-100 small">
+<!--<div class="contactbox padding all-100 small">-->
 <!--  <div class="col-lg-65 col-md-100 text-center">
     <i *ngIf="!chatActive" class="fa fa-spinner fa-spin" aria-hidden="true"></i>
   </div>-->
 
-  <div class="col-lg-65 col-md-100">
+<!--  <div class="col-lg-65 col-md-100">
     <div class="push-right">
       <span class="close"><a href="javascript:;" (click)="onCloseEvent()"><i class="fa fa-close"></i></a></span>
     </div>
@@ -15,20 +15,15 @@
       <h4 class="contact-name push-left"><a class="" href="#">{{user.cn}}</a></h4>
     </div>
     <div class="contact-me">
-      <span class="action audio"><a href="javascript:;" (click)="audioEvent(user)"><i class="fa fa-phone"></i></a></span>
-      <span class="action video"><a href="javascript:;" (click)="videoEvent(user)"><i class="fa fa-video-camera"></i></a></span>
+      <span class="action audio"><a routerLink="{{user.username}}" [queryParams]="{ action: audio }"><i class="fa fa-phone"></i></a></span>
+      <span class="action video"><a routerLink="{{user.username}}" [queryParams]="{ action: video }"><i class="fa fa-video-camera"></i></a></span>
     </div>
   </div>
-</div>
+
+</div>-->
+<div media-view *ngIf="action === 'video' || action === 'audio'" [mode]="action" [user]="user"></div>
+<div contact-box *ngIf="!action" [user]="user" (closeEvent)="onCloseEvent()"></div>
 
 <ul context-activity-list [messages]="messages"></ul>
 
-<chat-view (onMessage)="onMessage($event)"></chat-view>
-
-<!-- <ul activity-list [messages]="messages"></ul> -->
-
-<!--<chat-view (onMessage)="onMessage($event)"></chat-view>-->
-
-<!--<div *ngIf="chatActive" file-share-list></div>
-<div *ngIf="chatActive" context-sender [active]="chatActive" (on-message)="onMessage($event)"></div>
--->
+<chat-view></chat-view>

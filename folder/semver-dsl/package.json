@@ -16,7 +16,6 @@
   "_from": "semver-dsl@>=1.0.1 <2.0.0",
   "_id": "semver-dsl@1.0.1",
   "_inCache": true,
-  "_installable": true,
   "_location": "/semver-dsl",
   "_nodeVersion": "7.5.0",
   "_npmOperationalInternal": {
@@ -78,7 +77,8 @@
   ],
   "name": "semver-dsl",
   "optionalDependencies": {},
-  "readme": "ERROR: No README data found!",
+  "readme": "[![Build Status](https://travis-ci.org/mgechev/semver-dsl.svg?branch=master)](https://travis-ci.org/mgechev/semver-dsl)\n\n# SemVer DSL\n\nA simple internal DSL which allows you to invoke different functionality depending on version match. Used in codelyzer for keeping the code compatible across different versions of the Angular compiler.\n\n# Demo\n\n```bash\n$ npm i semver-dsl --save\n```\n\n```ts\nimport {SemVerDSL} from 'semver-dsl';\n\nconst base = () => {};\nconst elseIf1 = () => {};\nconst elseIf2 = () => {};\nconst else = () => console.log('I will be invoked!');\n\nSemVerDSL('3.0.0')\n  .gt('3.2.1', base)\n  .elseIf.gt('3.0.1', elseIf1)\n  .elseIf.between('3.0.1', '3.1.8', elseIf2)\n  .else(else);\n```\n\nIn the example above will be invoked `else`.\n\n# API\n\n- `SemDSL(version: string)` - factory which accepts a version and returns an object.\n- `gte(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` properties.\n- `lte(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` properties.\n- `gt(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` properties.\n- `lt(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` properties.\n- `eq(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` properties.\n- `neq(version: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` and `else` properties.\n- `between(v1: string, v2: string, callback?: Function): ISemContextualDSL` - returns an object with `elseIf` properties.\n- `elseIf` - returns an object of type `ISemVerDSL` bound to the previous predicate.\n- `else` - invokes given callback if all of the previous conditions have failed.\n\n```ts\nexport interface ISemVerDSL {\n  gte(version: string, callback: Function): ISemContextualDSL;\n  lte(version: string, callback: Function): ISemContextualDSL;\n  gt(version: string, callback: Function): ISemContextualDSL;\n  lt(version: string, callback: Function): ISemContextualDSL;\n  eq(version: string, callback: Function): ISemContextualDSL;\n  neq(version: string, callback: Function): ISemContextualDSL;\n  between(v1: string, v2: string, callback: Function): ISemContextualDSL;\n}\n```\n\n```ts\nexport interface ISemVerContextBoundDSL {\n  elseIf: ISemVerDSL;\n  else(callback: Function): void;\n}\n```\n\n# License\n\nMIT\n",
+  "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mgechev/semver-dsl.git"

@@ -16,7 +16,6 @@
   "_from": "blob@0.0.4",
   "_id": "blob@0.0.4",
   "_inCache": true,
-  "_installable": true,
   "_location": "/blob",
   "_npmUser": {
     "name": "rase-",
@@ -67,7 +66,8 @@
   ],
   "name": "blob",
   "optionalDependencies": {},
-  "readme": "ERROR: No README data found!",
+  "readme": "Blob\n====\n\nA module that exports a constructor that uses window.Blob when available, and a BlobBuilder with any vendor prefix in other cases. If neither is available, it exports undefined.\n\nUsage:\n\n```javascript\nvar Blob = require('blob');\nvar b = new Blob(['hi', 'constructing', 'a', 'blob']);\n```\n\n## Licence\nMIT\n",
+  "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/rase-/blob.git"

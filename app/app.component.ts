@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, CanActivate, ActivatedRoute, NavigationExtras } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 // Models
-import { User } from './models/models';
+import { User, ContextualComm } from './models/models';
+import { TriggerActions } from './models/app.models';
+
+// Utils
+import { normalizeName } from './utils/utils';
 
 // Services
-import { RethinkService, ChatService, ContextService, ContactService } from './services/services';
+import { ContextualCommDataService } from './services/contextualCommData.service';
+import { TriggerActionService, RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
 
 @Component({
   moduleId: module.id,
@@ -15,31 +20,54 @@ import { RethinkService, ChatService, ContextService, ContactService } from './s
 
 export class AppComponent implements OnInit {
 
-  private status:String;
-  private ready:boolean = false;
+  ready = false;
+  myIdentity: User;
+  status: string;
 
-  private myIdentity:User;
+  private contextOpened = false;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private contactService: ContactService,
     private rethinkService: RethinkService,
+    private triggerActionService: TriggerActionService,
+    private contextualCommDataService: ContextualCommDataService,
+    private connectorService: ConnectorService,
     private chatService: ChatService) {
 
     this.rethinkService.progress.subscribe({
-      next: (v) => this.status = v
+      next: (v: string) => this.status = v
+    });
+
+    this.triggerActionService.action().subscribe((action: TriggerActions) => {
+
+      console.log('[App Component - TriggerActionService] - action: ', action);
+
+      if (action === TriggerActions.OpenContextMenu) {
+        this.onOpenContext();
+      }
+
     });
 
   }
 
   ngOnInit() {
-    
+
     this.rethinkService.progress.next('Loading runtime');
-    return this.rethinkService.loadRuntime()
+
+    this.rethinkService.loadRuntime()
       .then((runtime) => {
         this.rethinkService.progress.next('Loading chat service');
-        return this.chatService.getHyperty()
+        return this.chatService.getHyperty();
+      }, (error) => {
+        console.log('Error: ', error);
+        this.rethinkService.progress.error(error);
+        return null;
+      })
+      .then((hyperty) => {
+        this.rethinkService.progress.next('Loading connector service');
+        return this.connectorService.getHyperty();
       }, (error) => {
         console.log('Error: ', error);
         this.rethinkService.progress.error(error);
@@ -47,7 +75,7 @@ export class AppComponent implements OnInit {
       })
       .then((hyperty) => {
         this.rethinkService.progress.next('Getting your identity');
-        return this.rethinkService.getIdentity(hyperty)
+        return this.rethinkService.getIdentity(hyperty);
       }, (error) => {
         this.rethinkService.progress.error(error);
       })
@@ -58,16 +86,46 @@ export class AppComponent implements OnInit {
         this.rethinkService.progress.next('The app is ready to be used');
         this.rethinkService.progress.complete();
         this.rethinkService.status.next(true);
-      })
+        this.ready = true;
+
+      });
+
+      // Prepare the chat service to recive invitations
+      this.chatService.onInvitation((event: any) => {
+        console.log('[Chat Communication View - onInvitation] - event:', event);
+
+        let error = (reason: any) => {
+          console.log('Error:', reason);
+        };
+
+        this.chatService.join(event.url)
+        .then((dataObject: any) => {
+
+          let metadata = event.value;
+          let name = metadata.name;
+
+          console.log('[App Component - Join the parent context: ', name, dataObject);
+
+          let normalizedName = normalizeName(name);
+
+          console.log('AQUI:', name, normalizedName);
+
+          return this.contextualCommDataService.joinContext(normalizedName.name, dataObject, normalizedName.parent);
+        }).then((currentContext: ContextualComm) => {
+          console.log('[App Component] - current context created: ', currentContext);
+        }).catch(error);
+    });
 
   }
 
-  onOpenContext() {
-
+  onOpenContext(event?: Event) {
+    this.contextOpened = !this.contextOpened;
   }
 
-  onClickOutside() {
-
+  onClickOutside(event: Event) {
+    if (event.srcElement.id === 'mp-pusher') {
+      this.contextOpened = false;
+    }
   }
 
 }

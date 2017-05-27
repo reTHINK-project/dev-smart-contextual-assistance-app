@@ -23,9 +23,8 @@
     ]
   ],
   "_from": "rethink-project/dev-runtime-browser#develop",
-  "_id": "runtime-browser@0.4.0",
+  "_id": "runtime-browser@0.5.0",
   "_inCache": true,
-  "_installable": true,
   "_location": "/runtime-browser",
   "_phantomChildren": {},
   "_requested": {
@@ -49,8 +48,8 @@
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "git://github.com/rethink-project/dev-runtime-browser.git#05e799f52cffffe0044b3711641a13d1d04d8677",
-  "_shasum": "0a4fd5e79d803a758bca485e646d62a59a085210",
+  "_resolved": "git://github.com/rethink-project/dev-runtime-browser.git#803bdb9bed32039c4aa7636dbb33cc52f68f3cad",
+  "_shasum": "e39c4b42e07f02b4f36d10778ab2e6e9bbbfef24",
   "_shrinkwrap": null,
   "_spec": "runtime-browser@github:rethink-project/dev-runtime-browser#develop",
   "_where": "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink",
@@ -68,8 +67,8 @@
   ],
   "dependencies": {
     "dexie": "^1.5.1",
-    "runtime-core": "git+https://github.com/reTHINK-project/dev-runtime-core.git#develop",
-    "service-framework": "git+https://github.com/reTHINK-project/dev-service-framework.git#develop",
+    "runtime-core": "github:reTHINK-project/dev-runtime-core#v0.8.1",
+    "service-framework": "github:reTHINK-project/dev-service-framework#v0.6.1",
     "webrtcsupport": "2.2.0"
   },
   "description": "browser runtime development",
@@ -83,6 +82,7 @@
     "chai": "^3.5.0",
     "copyfiles": "^0.2.1",
     "esdoc": "0.5.2",
+    "eslint-plugin-jasmine": "^2.2.0",
     "eslint-plugin-react": "5.2.2",
     "gulp": "^3.9.0",
     "gulp-bump": "^1.0.0",
@@ -110,7 +110,7 @@
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.4.0"
   },
-  "gitHead": "05e799f52cffffe0044b3711641a13d1d04d8677",
+  "gitHead": "803bdb9bed32039c4aa7636dbb33cc52f68f3cad",
   "homepage": "https://rethink-project.eu/",
   "keywords": [
     "reThink",
@@ -131,5 +131,5 @@
     "build:doc": "esdoc -c esdoc.json",
     "test": "karma start"
   },
-  "version": "0.4.0"
+  "version": "0.5.0"
 }

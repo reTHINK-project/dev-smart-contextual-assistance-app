@@ -4,6 +4,7 @@ import { Ng2Walker } from './angular/ng2Walker';
 import { CssAst } from './angular/styles/cssAst';
 import { ComponentMetadata, StyleMetadata } from './angular/metadata';
 export declare class Rule extends Lint.Rules.AbstractRule {
+    static metadata: Lint.IRuleMetadata;
     static FAILURE: string;
     apply(sourceFile: ts.SourceFile): Lint.RuleFailure[];
 }

@@ -1,8 +1,9 @@
-import { EventEmitter, OnInit, OnDestroy, Injector, Renderer, ElementRef, TemplateRef, ViewContainerRef, ComponentFactoryResolver, NgZone } from '@angular/core';
+import { EventEmitter, OnInit, OnDestroy, Injector, Renderer2, ElementRef, TemplateRef, ViewContainerRef, ComponentFactoryResolver, NgZone } from '@angular/core';
 import { NgbPopoverConfig } from './popover-config';
 export declare class NgbPopoverWindow {
     placement: 'top' | 'bottom' | 'left' | 'right';
     title: string;
+    id: string;
 }
 /**
  * A lightweight, extensible directive for fancy popover creation.
@@ -39,11 +40,12 @@ export declare class NgbPopover implements OnInit, OnDestroy {
      * Emits an event when the popover is hidden
      */
     hidden: EventEmitter<{}>;
+    private _ngbPopoverWindowId;
     private _popupService;
     private _windowRef;
     private _unregisterListenersFn;
     private _zoneSubscription;
-    constructor(_elementRef: ElementRef, _renderer: Renderer, injector: Injector, componentFactoryResolver: ComponentFactoryResolver, viewContainerRef: ViewContainerRef, config: NgbPopoverConfig, ngZone: NgZone);
+    constructor(_elementRef: ElementRef, _renderer: Renderer2, injector: Injector, componentFactoryResolver: ComponentFactoryResolver, viewContainerRef: ViewContainerRef, config: NgbPopoverConfig, ngZone: NgZone);
     /**
      * Opens an element’s popover. This is considered a “manual” triggering of the popover.
      * The context is an optional value to be injected into the popover template when it is created.

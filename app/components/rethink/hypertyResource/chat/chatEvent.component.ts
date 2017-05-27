@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import { Message } from '../../../../models/models';
+
 @Component({
   moduleId: module.id,
   selector: 'chat-event',
@@ -7,10 +9,10 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ChatEventComponent implements OnInit {
 
-  @Input() activity:any;
+  @Input() message: Message;
 
   ngOnInit() {
-    
+
   }
 
 }

@@ -1,9 +1,6 @@
-import {List,Record} from 'immutable';
-
 // Rethink Interfaces
-import { HypertyResource, HypertyResourceType } from './rethink/HypertyResource';
-import { Communication, CommunictionStatus } from './rethink/Communication';
-import { Connection } from './rethink/Connection';
+import { HypertyResourceType } from './rethink/HypertyResource';
+import { Communication } from './rethink/Communication';
 import { ContextValue } from './rethink/Context';
 import { UserIdentity } from './rethink/UserIdentity';
 
@@ -30,7 +27,7 @@ export class User implements UserIdentity {
     this.avatar   = obj && obj.avatar;
     this.locale   = obj && obj.locale;
     this.userURL  = obj && obj.userURL;
-    this.status   = obj && obj.status   || 'online';
+    this.status   = obj && obj.status   || 'available';
     this.unread   = obj && obj.unread   || 0;
     this.domain   = obj && obj.domain   || 'hybroker.rethink.ptinovacao.pt';
 
@@ -47,8 +44,10 @@ export class Message {
   message: string;
   user: User;
   date: Date;
+  isRead: boolean;
 
   constructor(obj: any) {
+    this.isRead           = false;
     this.type             = obj && obj.type;
     this.message          = obj && obj.message;
     this.user             = obj && obj.user;
@@ -58,34 +57,51 @@ export class Message {
 
 export class ContextualComm {
 
-  name:string;
-  description:string;
-  parent:string;
+  id: string;
+  url: string;
+  name: string;
+  description?: string;
 
-  contexts:string[];
-  url:string;
-  communication:Communication | Connection;
+  // TODO this should not be optional
+  communication?: Communication;
+  context?: string;
 
-  users:User[];
-  messages:Message[];
+  messages?: Message[];
+  files?: HypertyResourceType[];
+  photos?: HypertyResourceType[];
+  audios?: HypertyResourceType[];
+  videos?: HypertyResourceType[];
+
+  parent?: string;
+  contexts?: ContextualComm[];
+  users?: User[];
+  icon?: string;
 
   constructor(obj: any) {
-    this.name              = obj && obj.name;
-    this.description       = obj && obj.description;
-    this.parent            = obj && obj.parent;
+    this.id                = obj && String(obj.id).toLowerCase();
     this.url               = obj && obj.url;
+    this.name              = obj && String(obj.name).toLowerCase();
+    this.description       = obj && obj.description;
+
+    this.communication     = obj && obj.communication;
+    this.context           = obj && obj.context;
+
     this.contexts          = obj && obj.contexts      || [];
     this.users             = obj && obj.users         || [];
     this.messages          = obj && obj.messages      || [];
 
+    this.icon              = obj && obj.icon          || '';
+
+    this.parent            = obj && obj.parent;
     console.log('[Models - ContextualComm] - constructor: ', this.users);
 
     this.users = this.users.map((user) => {
       return new User(user);
-    })
+    });
+
   }
 
-  addUser(user:User) {
+  addUser(user: User) {
     console.log('[Models - ContextualComm] - addUser: ', this.users.indexOf(user));
     if (this.users.indexOf(user) === -1) {
       this.users.push(user);
@@ -93,7 +109,7 @@ export class ContextualComm {
 
   }
 
-  addMessage(message:any) {
+  addMessage(message: Message) {
     console.log('[Models - ContextualComm] - addMessage: ', this.messages, message);
     this.messages.push(message);
   }
@@ -102,24 +118,19 @@ export class ContextualComm {
 
 export class ContextualCommTrigger {
 
-  contextName:string;
-  contextScheme:string;
+  contextName: string;
+  contextScheme: string;
   contextResource: HypertyResourceType[];
   values: ContextValue[];
 
   trigger: ContextualComm[];
 
-  constructor(trigger: ContextualComm[],
-    name?: string, 
-    contextScheme?: string,
-    contextResource?: HypertyResourceType[],
-    values?: ContextValue[]) {
+  icon?: string;
 
-      this.contextName = name
-      this.contextScheme = contextScheme
-      this.contextResource = contextResource
-      this.values = values || []
-      this.trigger = trigger || [];
-  } 
+  constructor(value: ContextualCommTrigger) {
+
+    Object.assign(this, value);
+
+  };
 
 }

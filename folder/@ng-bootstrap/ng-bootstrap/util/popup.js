@@ -1,5 +1,5 @@
 import { TemplateRef } from '@angular/core';
-export var ContentRef = (function () {
+var ContentRef = (function () {
     function ContentRef(nodes, viewRef, componentRef) {
         this.nodes = nodes;
         this.viewRef = viewRef;
@@ -7,7 +7,8 @@ export var ContentRef = (function () {
     }
     return ContentRef;
 }());
-export var PopupService = (function () {
+export { ContentRef };
+var PopupService = (function () {
     function PopupService(type, _injector, _viewContainerRef, _renderer, componentFactoryResolver) {
         this._injector = _injector;
         this._viewContainerRef = _viewContainerRef;
@@ -41,9 +42,10 @@ export var PopupService = (function () {
             return new ContentRef([viewRef.rootNodes], viewRef);
         }
         else {
-            return new ContentRef([[this._renderer.createText(null, "" + content)]]);
+            return new ContentRef([[this._renderer.createText("" + content)]]);
         }
     };
     return PopupService;
 }());
+export { PopupService };
 //# sourceMappingURL=popup.js.map

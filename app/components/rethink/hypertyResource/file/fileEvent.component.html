@@ -1,13 +1,13 @@
 <div class="push-right align-right">
-    <span class="date">{{activity.date}}</span>
+    <span class="date">{{message.date}}</span>
 </div>
 <div class="contact-avatar push-left">
-    <img src="{{activity.user.avatar}}">
-    <span class="status {{activity.user.status}}">
-      <i class="fa fa-circle{{activity.user.status==='offline'?'-o':''}}"></i>
+    <img src="{{message.user.avatar}}">
+    <span class="status {{message.user.status}}">
+      <i class="fa fa-circle{{message.user.status==='offline'?'-o':''}}"></i>
     </span>
 </div>
-<h4 class="contact-name"><a href="#">{{activity.user.cn}}</a></h4>
+<h4 class="contact-name"><a href="#">{{message.user.cn}}</a></h4>
 
 <!-- File -->
 <p class="quarter-vertical-padding">

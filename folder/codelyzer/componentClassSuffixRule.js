@@ -22,6 +22,25 @@ var Rule = (function (_super) {
     };
     return Rule;
 }(Lint.Rules.AbstractRule));
+Rule.metadata = {
+    ruleName: 'component-class-suffix',
+    type: 'style',
+    description: "Classes decorated with @Component must have suffix \"Component\" (or custom) in their name.",
+    descriptionDetails: "See more at https://angular.io/styleguide#!#02-03.",
+    rationale: "Consistent conventions make it easy to quickly identify and reference assets of different types.",
+    options: {
+        type: 'array',
+        items: {
+            type: 'string',
+        }
+    },
+    optionExamples: [
+        "true",
+        "[true, \"Component\", \"View\"]"
+    ],
+    optionsDescription: "Supply a list of allowed component suffixes. Defaults to \"Component\".",
+    typescriptOnly: true,
+};
 Rule.FAILURE = 'The name of the class %s should end with the suffix %s (https://goo.gl/5X1TE7)';
 Rule.walkerBuilder = walkerFn_1.all(walkerFn_1.validateComponent(function (meta, suffixList) {
     return function_1.Maybe.lift(meta.controller)

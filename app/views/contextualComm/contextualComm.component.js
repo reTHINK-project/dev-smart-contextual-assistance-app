@@ -8,22 +8,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var BehaviorSubject_1 = require('rxjs/BehaviorSubject');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 // Services
-var services_1 = require('../../services/services');
-var add_user_component_1 = require('../userView/add-user.component');
+var services_1 = require("../../services/services");
+// Components
+var add_user_component_1 = require("../contextualCommUsers/add-user.component");
 var ContextualCommComponent = (function () {
-    function ContextualCommComponent(router, route, chatService, appService, messageService, contextService, contactService) {
+    function ContextualCommComponent(router, route, appService, contextualCommService, contactService) {
         this.router = router;
         this.route = route;
-        this.chatService = chatService;
         this.appService = appService;
-        this.messageService = messageService;
-        this.contextService = contextService;
+        this.contextualCommService = contextualCommService;
         this.contactService = contactService;
-        this.hostClass = 'context-view';
+        this.hostClass = 'context-view row no-gutters';
         this.users = new BehaviorSubject_1.BehaviorSubject([]);
     }
     // Load data ones componet is ready
@@ -36,41 +36,39 @@ var ContextualCommComponent = (function () {
             _this.users.next(data.context.users);
             // console.log('Resolved users:', data.users);
         });
-        this.contextService.contextualComm().subscribe(function (contextualComm) {
+        this.contextualCommService.contextualComm().subscribe(function (contextualComm) {
             console.log('[ContextualComm Component - update] - ', contextualComm, contextualComm.users);
             _this.users.next(contextualComm.users);
         });
     };
-    ContextualCommComponent.prototype.onContactClick = function (user) {
-        console.log('(contact-click)', user, this.router);
-        this.router.navigate([this.router.url, user.username]);
-    };
-    ContextualCommComponent.prototype.onContactAdd = function () {
-        this.addView.toogle();
-    };
-    ContextualCommComponent.prototype.onCloseEvent = function () {
-        this.addView.toogle();
-    };
     ContextualCommComponent.prototype.onInviteEvent = function (value) {
         console.log('Invite some one: ', value);
     };
-    __decorate([
-        core_1.HostBinding('class'), 
-        __metadata('design:type', Object)
-    ], ContextualCommComponent.prototype, "hostClass", void 0);
-    __decorate([
-        core_1.ViewChild(add_user_component_1.AddUserComponent), 
-        __metadata('design:type', add_user_component_1.AddUserComponent)
-    ], ContextualCommComponent.prototype, "addView", void 0);
-    ContextualCommComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'context-view',
-            templateUrl: './contextualComm.component.html',
-        }), 
-        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, services_1.ChatService, services_1.RethinkService, services_1.MessageService, services_1.ContextService, services_1.ContactService])
-    ], ContextualCommComponent);
+    ContextualCommComponent.prototype.onCloseEvent = function () {
+    };
+    ContextualCommComponent.prototype.onContactClick = function () {
+    };
     return ContextualCommComponent;
 }());
+__decorate([
+    core_1.HostBinding('class'),
+    __metadata("design:type", Object)
+], ContextualCommComponent.prototype, "hostClass", void 0);
+__decorate([
+    core_1.ViewChild(add_user_component_1.AddUserComponent),
+    __metadata("design:type", add_user_component_1.AddUserComponent)
+], ContextualCommComponent.prototype, "addUserComponent", void 0);
+ContextualCommComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'context-view',
+        templateUrl: './contextualComm.component.html',
+    }),
+    __metadata("design:paramtypes", [router_1.Router,
+        router_1.ActivatedRoute,
+        services_1.RethinkService,
+        services_1.ContextualCommService,
+        services_1.ContactService])
+], ContextualCommComponent);
 exports.ContextualCommComponent = ContextualCommComponent;
 //# sourceMappingURL=contextualComm.component.js.map

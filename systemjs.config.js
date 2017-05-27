@@ -6,8 +6,8 @@
   System.config({
     paths: {
       // paths serve as alias
-      'npm:': 'folder/',
-      "*": "*.js" // should load all libraries with .js appended
+      'npm:': 'node_modules/',
+      '*': "*.js" // should load all libraries with .js appended
     },
     // map tells the System loader where to look for things
     map: {
@@ -23,12 +23,15 @@
       '@angular/http': 'npm:@angular/http/bundles/http.umd.js',
       '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
       '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
-
+      
       // bootstrap bundle
       '@ng-bootstrap/ng-bootstrap': 'npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js',
 
       // other libraries
       'rxjs':                      'npm:rxjs',
+      'moment':                    'npm:moment',
+      'angular2-moment':           'npm:angular2-moment',
+      'moment-duration-format':    'npm:moment-duration-format/lib',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
 
       'runtime-browser': 'npm:runtime-browser/bin'
@@ -36,12 +39,24 @@
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
       '.': {
-           defaultJSExtensions: 'js'
-       },
+        defaultJSExtensions: 'js'
+      },
       app: {
         defaultExtension: 'js'
       },
       rxjs: {
+        defaultExtension: 'js'
+      },
+      moment: {
+        main: 'moment.js',
+        defaultExtension: 'js'
+      },
+      'moment-duration-format': {
+        main: 'moment-duration-format.js',
+        defaultExtension: 'js'
+      },
+      'angular2-moment': {
+        main: './index.js',
         defaultExtension: 'js'
       },
       'runtime-browser': { main: 'rethink.js', defaultExtension: 'js' },

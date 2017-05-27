@@ -2,6 +2,7 @@ import * as Lint from 'tslint';
 import * as ts from 'typescript';
 import { Ng2Walker } from './angular/ng2Walker';
 export declare class Rule extends Lint.Rules.AbstractRule {
+    static metadata: Lint.IRuleMetadata;
     static FAILURE: string;
     apply(sourceFile: ts.SourceFile): Lint.RuleFailure[];
 }

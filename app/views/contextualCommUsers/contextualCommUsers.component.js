@@ -8,13 +8,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var Observable_1 = require('rxjs/Observable');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var Observable_1 = require("rxjs/Observable");
 // Services
-var services_1 = require('../../services/services');
+var services_1 = require("../../services/services");
 var ContextualCommUsersComponent = (function () {
-    function ContextualCommUsersComponent(route, appService) {
+    function ContextualCommUsersComponent(router, route, appService) {
+        this.router = router;
         this.route = route;
         this.appService = appService;
         this.hostClass = 'context-user-view contactlist all-100';
@@ -38,35 +40,38 @@ var ContextualCommUsersComponent = (function () {
     ContextualCommUsersComponent.prototype.filter = function (value) {
         this.contactsFilter = this.model.map(function (users) {
             return users.filter(function (user) {
+                console.log(user);
                 return user.cn.includes(value);
             });
         });
     };
-    __decorate([
-        core_1.HostBinding('class'), 
-        __metadata('design:type', Object)
-    ], ContextualCommUsersComponent.prototype, "hostClass", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', Object)
-    ], ContextualCommUsersComponent.prototype, "contactClick", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', Object)
-    ], ContextualCommUsersComponent.prototype, "contactAdd", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Observable_1.Observable)
-    ], ContextualCommUsersComponent.prototype, "model", void 0);
-    ContextualCommUsersComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'ul[context-user-view]',
-            templateUrl: './contextualCommUsers.component.html'
-        }), 
-        __metadata('design:paramtypes', [router_1.ActivatedRoute, services_1.RethinkService])
-    ], ContextualCommUsersComponent);
     return ContextualCommUsersComponent;
 }());
+__decorate([
+    core_1.HostBinding('class'),
+    __metadata("design:type", Object)
+], ContextualCommUsersComponent.prototype, "hostClass", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], ContextualCommUsersComponent.prototype, "contactClick", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], ContextualCommUsersComponent.prototype, "contactAdd", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Observable_1.Observable)
+], ContextualCommUsersComponent.prototype, "model", void 0);
+ContextualCommUsersComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'ul[context-user-view]',
+        templateUrl: './contextualCommUsers.component.html'
+    }),
+    __metadata("design:paramtypes", [router_1.Router,
+        router_1.ActivatedRoute,
+        services_1.RethinkService])
+], ContextualCommUsersComponent);
 exports.ContextualCommUsersComponent = ContextualCommUsersComponent;
 //# sourceMappingURL=contextualCommUsers.component.js.map

@@ -38,6 +38,7 @@ body.rethink ul.context-menu h2, body.rethink ul.context-menu h3, body.rethink u
   color: #fff;
   font-size: 80%;
 }
+
 /* line 98, ../sass/rethink.scss */
 body.rethink ul.context-menu li:hover {
   cursor: pointer;
@@ -503,18 +504,19 @@ body.rethink div.container {
   /* line 330, ../sass/component.scss */
   /* line 334, ../sass/component.scss */
 }
-/* line 484, ../sass/rethink.scss */
-body.rethink div.container .menu-trigger {
-  position: relative;
+
+body.rethink div.container-fluid {
+  overflow: hidden;
 }
+
 /* line 505, ../sass/rethink.scss */
-body.rethink div.container .mp-pusher {
+body.rethink div.container-fluid .mp-pusher {
   position: relative;
   left: 0;
   height: 100vh;
 }
 /* line 512, ../sass/rethink.scss */
-body.rethink div.container .mp-menu {
+body.rethink div.container-fluid .mp-menu {
   position: absolute;
   /* we can't use fixed here :( */
   top: 0;
@@ -527,7 +529,7 @@ body.rethink div.container .mp-menu {
   transform: translate3d(-100%, 0, 0);
 }
 /* line 527, ../sass/rethink.scss */
-body.rethink div.container .mp-level {
+body.rethink div.container-fluid .mp-level {
   position: absolute;
   top: 0;
   left: 0;
@@ -540,7 +542,7 @@ body.rethink div.container .mp-level {
   transform: translate3d(-100%, 0, 0);
 }
 /* line 542, ../sass/rethink.scss */
-body.rethink div.container .mp-pusher::after {
+body.rethink div.container-fluid .mp-pusher::after {
   position: absolute;
   top: 0;
   right: 0;
@@ -551,7 +553,7 @@ body.rethink div.container .mp-pusher::after {
   z-index: 510;
 }
 /* line 554, ../sass/rethink.scss */
-body.rethink div.container .mp-level::after, body.rethink div.container .mp-level::before {
+body.rethink div.container-fluid .mp-level::after, body.rethink div.container-fluid .mp-level::before {
   position: absolute;
   top: 0;
   right: 0;
@@ -561,14 +563,14 @@ body.rethink div.container .mp-level::after, body.rethink div.container .mp-leve
   opacity: 0;
 }
 /* line 565, ../sass/rethink.scss */
-body.rethink div.container .mp-pusher::after {
+body.rethink div.container-fluid .mp-pusher::after {
   background: rgba(35, 43, 56, 0.6);
   -webkit-transition: opacity 0.3s, width 0.1s 0.3s, height 0.1s 0.3s;
   -moz-transition: opacity 0.3s, width 0.1s 0.3s, height 0.1s 0.3s;
   transition: opacity 0.3s, width 0.1s 0.3s, height 0.1s 0.3s;
 }
 /* line 573, ../sass/rethink.scss */
-body.rethink div.container .mp-level::after {
+body.rethink div.container-fluid .mp-level::after {
   background: rgba(35, 43, 56, 0.6);
   -webkit-transition: opacity 0.3s, width 0.1s 0.3s, height 0.1s 0.3s;
   -moz-transition: opacity 0.3s, width 0.1s 0.3s, height 0.1s 0.3s;
@@ -576,7 +578,7 @@ body.rethink div.container .mp-level::after {
   z-index: -1;
 }
 /* line 582, ../sass/rethink.scss */
-body.rethink div.container .mp-pusher.mp-pushed::after {
+body.rethink div.container-fluid .mp-pusher.mp-pushed::after {
   width: 100%;
   height: 100%;
   opacity: 1;
@@ -585,16 +587,16 @@ body.rethink div.container .mp-pusher.mp-pushed::after {
   transition: opacity 0.3s;
 }
 
-body.rethink div.container .mp-pusher.mp-pushed {
+body.rethink div.container-fluid .mp-pusher.mp-pushed {
   transform: translate3d(320px, 0px, 0px);
 }
 
 /* line 592, ../sass/rethink.scss */
-body.rethink div.container .mp-level.mp-level-overlay {
+body.rethink div.container-fluid .mp-level.mp-level-overlay {
   cursor: pointer;
 }
 /* line 597, ../sass/rethink.scss */
-body.rethink div.container .mp-level.mp-level-overlay::after {
+body.rethink div.container-fluid .mp-level.mp-level-overlay::after {
   width: 100%;
   height: 100%;
   opacity: 1;
@@ -603,80 +605,80 @@ body.rethink div.container .mp-level.mp-level-overlay::after {
   transition: opacity 0.3s;
 }
 /* line 607, ../sass/rethink.scss */
-body.rethink div.container .mp-level.mp-level-overlay.mp-level::before {
+body.rethink div.container-fluid .mp-level.mp-level-overlay.mp-level::before {
   width: 100%;
   height: 100%;
   background: transparent;
   opacity: 1;
 }
 /* line 615, ../sass/rethink.scss */
-body.rethink div.container .mp-pusher, body.rethink div.container .mp-level {
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  transition: all 0.5s;
+body.rethink div.container-fluid .mp-pusher, body.rethink div.container-fluid .mp-level {
+  -webkit-transition: transform 0.5s;
+  -moz-transition: transform 0.5s;
+  transition: transform 0.5s;
 }
 /* line 623, ../sass/rethink.scss */
-body.rethink div.container .mp-overlap .mp-level.mp-level-open {
+body.rethink div.container-fluid .mp-overlap .mp-level.mp-level-open {
   box-shadow: 1px 0 2px rgba(0, 0, 0, 0.2);
   -webkit-transform: translate3d(-40px, 0, 0);
   -moz-transform: translate3d(-40px, 0, 0);
   transform: translate3d(-40px, 0, 0);
 }
 /* line 632, ../sass/rethink.scss */
-body.rethink div.container .mp-menu > .mp-level, body.rethink div.container .mp-menu.mp-overlap > .mp-level {
+body.rethink div.container-fluid .mp-menu > .mp-level, body.rethink div.container-fluid .mp-menu.mp-overlap > .mp-level {
   box-shadow: none;
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
 /* line 640, ../sass/rethink.scss */
-body.rethink div.container .mp-menu > .mp-level.mp-level-open, body.rethink div.container .mp-menu.mp-overlap > .mp-level.mp-level-open {
+body.rethink div.container-fluid .mp-menu > .mp-level.mp-level-open, body.rethink div.container-fluid .mp-menu.mp-overlap > .mp-level.mp-level-open {
   box-shadow: none;
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
 /* line 649, ../sass/rethink.scss */
-body.rethink div.container .mp-cover .mp-level.mp-level-open {
+body.rethink div.container-fluid .mp-cover .mp-level.mp-level-open {
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
 /* line 656, ../sass/rethink.scss */
-body.rethink div.container .mp-cover .mp-level.mp-level-open > ul > li > .mp-level:not(.mp-level-open) {
+body.rethink div.container-fluid .mp-cover .mp-level.mp-level-open > ul > li > .mp-level:not(.mp-level-open) {
   -webkit-transform: translate3d(-100%, 0, 0);
   -moz-transform: translate3d(-100%, 0, 0);
   transform: translate3d(-100%, 0, 0);
 }
 /* line 664, ../sass/rethink.scss */
-body.rethink div.container .mp-menu ul {
+body.rethink div.container-fluid .mp-menu ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 /* line 669, ../sass/rethink.scss */
-body.rethink div.container .mp-menu ul li {
+body.rethink div.container-fluid .mp-menu ul li {
   color: #fff;
 }
 /* line 672, ../sass/rethink.scss */
-body.rethink div.container .mp-menu ul li.search-bar {
+body.rethink div.container-fluid .mp-menu ul li.search-bar {
   display: block;
   overflow: hidden;
 }
 /* line 680, ../sass/rethink.scss */
-body.rethink div.container .mp-menu h2 {
+body.rethink div.container-fluid .mp-menu h2 {
   color: #fff;
   margin-bottom: 0;
 }
 /* line 703, ../sass/rethink.scss */
-body.rethink div.container .mp-menu.mp-cover h2 {
+body.rethink div.container-fluid .mp-menu.mp-cover h2 {
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 1px;
   font-size: 16px;
 }
 /* line 734, ../sass/rethink.scss */
-body.rethink div.container .mp-back {
+body.rethink div.container-fluid .mp-back {
   background: rgba(0, 0, 0, 0.1);
   outline: none;
   color: #fff;
@@ -693,7 +695,7 @@ body.rethink div.container .mp-back {
   transition: background 0.3s;
 }
 /* line 752, ../sass/rethink.scss */
-body.rethink div.container .mp-back::after {
+body.rethink div.container-fluid .mp-back::after {
   position: absolute;
   content: "\e037";
   right: 10px;
@@ -701,27 +703,27 @@ body.rethink div.container .mp-back::after {
   color: rgba(0, 0, 0, 0.3);
 }
 /* line 762, ../sass/rethink.scss */
-body.rethink div.container .mp-menu .mp-level.mp-level-overlay > .mp-back {
+body.rethink div.container-fluid .mp-menu .mp-level.mp-level-overlay > .mp-back {
   background: transparent;
   box-shadow: none;
   color: transparent;
 }
 /* line 769, ../sass/rethink.scss */
-body.rethink div.container .mp-menu .mp-level.mp-level-overlay > .mp-back::after {
+body.rethink div.container-fluid .mp-menu .mp-level.mp-level-overlay > .mp-back::after {
   background: transparent;
   box-shadow: none;
   color: transparent;
 }
 /* line 778, ../sass/rethink.scss */
-body.rethink div.container .no-csstransforms3d .mp-pusher, body.rethink div.container .no-js .mp-pusher {
+body.rethink div.container-fluid .no-csstransforms3d .mp-pusher, body.rethink div.container-fluid .no-js .mp-pusher {
   padding-left: 300px;
 }
 /* line 783, ../sass/rethink.scss */
-body.rethink div.container .no-csstransforms3d .mp-menu .mp-level, body.rethink div.container .no-js .mp-menu .mp-level {
+body.rethink div.container-fluid .no-csstransforms3d .mp-menu .mp-level, body.rethink div.container-fluid .no-js .mp-menu .mp-level {
   display: none;
 }
 /* line 788, ../sass/rethink.scss */
-body.rethink div.container .no-csstransforms3d .mp-menu > .mp-level, body.rethink div.container .no-js .mp-menu > .mp-level {
+body.rethink div.container-fluid .no-csstransforms3d .mp-menu > .mp-level, body.rethink div.container-fluid .no-js .mp-menu > .mp-level {
   display: block;
 }
 /* line 794, ../sass/rethink.scss */
@@ -732,13 +734,7 @@ body.rethink.work div.nav-bk {
 body.rethink.work div.context-icon span.marker.work {
   display: block;
 }
-/* line 802, ../sass/rethink.scss */
-body.rethink.work header {
-  background-color: #364258;
-  position: fixed;
-  width: 100%;
-  z-index: 500;
-}
+
 /* line 809, ../sass/rethink.scss */
 body.rethink.work .fa-lightbulb-o {
   color: #414d63;
@@ -1090,6 +1086,7 @@ body.rethink h1, body.rethink h2, body.rethink h3, body.rethink h4, body.rethink
 }
 /* line 1153, ../sass/rethink.scss */
 body.rethink div.wrapper {
+  width: 100%;
   height: 100vh;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -1105,13 +1102,7 @@ body.rethink h1.big-logo {
   width: 100px;
   margin: 0 auto;
 }
-/* line 1167, ../sass/rethink.scss */
-body.rethink header {
-  overflow: hidden;
-  display: block;
-  margin-bottom: 0;
-  height: 60px;
-}
+
 /* line 1176, ../sass/rethink.scss */
 body.rethink header h1.small-logo {
   display: block;
@@ -1447,7 +1438,7 @@ body.rethink ul.activity-list li div.contact-avatar span.status.offline i {
 body.rethink div.audio-call, body.rethink div.video-call {
   min-height: 320px;
   height: 100%;
-  background-image: url("../img/audio-bk.jpg");
+  background-image: url("../img/audio-bk.png");
   background-size: cover;
   position: relative;
 }
@@ -1468,6 +1459,7 @@ body.rethink div.audio-call div.contactbox, body.rethink div.video-call div.cont
   background: transparent;
   border: none;
   padding-top: 48px;
+  margin: 0 auto;
 }
 /* line 1541, ../sass/rethink.scss */
 body.rethink div.audio-call div.contactbox div.contact-avatar, body.rethink div.video-call div.contactbox div.contact-avatar {
@@ -1668,7 +1660,6 @@ body.rethink div.contact-me span.action a {
   font-size: 18px;
   height: 32px;
   line-height: 46px;
-  padding: 16px;
   text-align: center;
   width: 32px;
 }
@@ -1723,6 +1714,7 @@ body.rethink div.contact-me span.action.video.hangup:hover {
 /* line 1767, ../sass/rethink.scss */
 body.rethink div.contact-me span.action.audio, body.rethink div.contact-me span.action.video {
   background-color: #32d167;
+  text-align: center;
 }
 /* line 1770, ../sass/rethink.scss */
 body.rethink div.contact-me span.action.audio:hover, body.rethink div.contact-me span.action.video:hover {
@@ -1902,6 +1894,12 @@ body.rethink li.options span.add-text {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
   opacity: 0.8;
 }
+
+/*body.rethink .add-user-view .contactlist {
+  max-height: 12em;
+  overflow-y: scroll;
+}*/
+
 /* line 1936, ../sass/rethink.scss */
 body.rethink ul.contactlist {
   overflow: hidden;
@@ -2059,7 +2057,7 @@ body.rethink ul.contactlist li:hover div.pointer, body.rethink ul.contactlist li
 /* line 2082, ../sass/rethink.scss */
 body.rethink ul.contactlist li div.alert {
   position: absolute;
-  top: 18px;
+  top: 0px;
   right: 32px;
 }
 /* line 2087, ../sass/rethink.scss */
@@ -2076,8 +2074,8 @@ body.rethink ul.contactlist li div.alert span.new-message {
   color: #f8f8f8;
   font-weight: 400;
   position: absolute;
-  top: -6px;
-  right: -2px;
+  top: 8px;
+  right: 16px;
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
   -ms-border-radius: 30px;
@@ -2241,7 +2239,7 @@ body.rethink ul.contactlist li.user-area span.status a:hover {
 body.rethink ul.contactlist li div.pointer {
   position: absolute;
   right: 16px;
-  top: 19px;
+  top: 12px;
   padding: 2px 4px;
   transform: scale(0.8, 0.8) translate3d(0, 0, 0);
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
@@ -2286,26 +2284,7 @@ body.rethink ul.contactlist li div.contact-avatar img {
   border-radius: 50%;
   background-color: #fff;
 }
-/* line 2313, ../sass/rethink.scss */
-body.rethink span.status {
-  padding: 0;
-  font-size: 16px;
-  position: absolute;
-  right: -4px;
-  bottom: -4px;
-}
-/* line 2320, ../sass/rethink.scss */
-body.rethink span.status i {
-  padding: 0;
-}
-/* line 2325, ../sass/rethink.scss */
-body.rethink span.status.online i {
-  color: #32d167;
-}
-/* line 2331, ../sass/rethink.scss */
-body.rethink span.status.away i {
-  color: #e44c43;
-}
+
 /* line 2337, ../sass/rethink.scss */
 body.rethink span.status.offline i {
   color: #ccc;
@@ -2571,6 +2550,7 @@ body.rethink ul.tabs-nav {
   border: none;
   margin: 0;
 }
+
 /* line 2599, ../sass/rethink.scss */
 body.rethink ul.tabs-nav li a {
   background: transparent;
@@ -2604,10 +2584,7 @@ body.rethink ul.tabs-nav li.active a {
 body.rethink ul.tabs-nav li.active a i {
   color: #fff;
 }
-/* line 2633, ../sass/rethink.scss */
-body.rethink .content-panel {
-  margin-top: 60px;
-}
+
 /* line 2636, ../sass/rethink.scss */
 body.rethink .content-panel h3 {
   color: #898e95;
@@ -2667,12 +2644,7 @@ body.rethink nav.sub-context-menu ul li a {
   font-size: 16px;
   font-weight: 300;
 }
-/* line 2694, ../sass/rethink.scss */
-body.rethink div.main-content {
-  margin: 0;
-  padding: 0;
-  float: right;
-}
+
 /* line 2700, ../sass/rethink.scss */
 body.rethink div.content-box {
   /* overflow: hidden; */

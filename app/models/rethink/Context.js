@@ -1,6 +1,8 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // TODO Apply the Actions and Action Interfaces
 // TODO check here https://raw.githubusercontent.com/reTHINK-project/dev-service-framework/develop/schemas/json-schema/data-objects/Context.json
+var ContextUnitName;
 (function (ContextUnitName) {
     ContextUnitName[ContextUnitName["meter"] = 0] = "meter";
     ContextUnitName[ContextUnitName["gram"] = 1] = "gram";
@@ -54,8 +56,8 @@
     ContextUnitName[ContextUnitName["availability"] = 49] = "availability";
     ContextUnitName[ContextUnitName["user_activity"] = 50] = "user_activity";
     ContextUnitName[ContextUnitName["user_communication"] = 51] = "user_communication";
-})(exports.ContextUnitName || (exports.ContextUnitName = {}));
-var ContextUnitName = exports.ContextUnitName;
+})(ContextUnitName = exports.ContextUnitName || (exports.ContextUnitName = {}));
+var ContextUnit;
 (function (ContextUnit) {
     ContextUnit[ContextUnit["meter"] = 0] = "meter";
     ContextUnit[ContextUnit["gram"] = 1] = "gram";
@@ -109,6 +111,5 @@ var ContextUnitName = exports.ContextUnitName;
     ContextUnit[ContextUnit["pres"] = 49] = "pres";
     ContextUnit[ContextUnit["act"] = 50] = "act";
     ContextUnit[ContextUnit["comm"] = 51] = "comm";
-})(exports.ContextUnit || (exports.ContextUnit = {}));
-var ContextUnit = exports.ContextUnit;
+})(ContextUnit = exports.ContextUnit || (exports.ContextUnit = {}));
 //# sourceMappingURL=Context.js.map

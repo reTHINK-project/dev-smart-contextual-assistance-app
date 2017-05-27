@@ -35,6 +35,27 @@ var Rule = (function (_super) {
     };
     return Rule;
 }(Lint.Rules.AbstractRule));
+Rule.metadata = {
+    ruleName: 'pipe-naming-rule',
+    type: 'style',
+    description: "Enforce consistent case and prefix for pipes.",
+    rationale: "Consistent conventions make it easy to quickly identify and reference assets of different types.",
+    options: {
+        'type': 'array',
+        'items': [
+            { 'enum': ['kebab-case', 'attribute'] },
+            { 'type': 'string' }
+        ],
+        'minItems': 1
+    },
+    optionExamples: [
+        "[\"camelCase\", \"myPrefix\"]",
+        "[\"camelCase\", \"myPrefix\", \"myOtherPrefix\"]",
+        "[\"kebab-case\", \"my-prefix\"]",
+    ],
+    optionsDescription: (_a = ["\n    * The first item in the array is `\"kebab-case\"` or `\"camelCase\"`, which allows you to pick a case.\n    * The rest of the arguments are supported prefixes (given as strings). They are optional."], _a.raw = ["\n    * The first item in the array is \\`\"kebab-case\"\\` or \\`\"camelCase\"\\`, which allows you to pick a case.\n    * The rest of the arguments are supported prefixes (given as strings). They are optional."], Lint.Utils.dedent(_a)),
+    typescriptOnly: true,
+};
 Rule.FAILURE_WITHOUT_PREFIX = 'The name of the Pipe decorator of class %s should' +
     ' be named camelCase, however its value is "%s".';
 Rule.FAILURE_WITH_PREFIX = 'The name of the Pipe decorator of class %s should' +
@@ -80,3 +101,4 @@ var ClassMetadataWalker = (function (_super) {
     return ClassMetadataWalker;
 }(ng2Walker_1.Ng2Walker));
 exports.ClassMetadataWalker = ClassMetadataWalker;
+var _a;

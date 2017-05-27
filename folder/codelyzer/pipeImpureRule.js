@@ -18,6 +18,15 @@ var Rule = (function (_super) {
     };
     return Rule;
 }(Lint.Rules.AbstractRule));
+Rule.metadata = {
+    ruleName: 'pipe-impure',
+    type: 'functionality',
+    description: "Pipes cannot be declared as impure.",
+    rationale: "Impure pipes do not perform well because they are run on every change detection cycle.",
+    options: null,
+    optionsDescription: "Not configurable.",
+    typescriptOnly: true,
+};
 Rule.FAILURE = 'Warning: impure pipe declared in class %s.';
 exports.Rule = Rule;
 var ClassMetadataWalker = (function (_super) {

@@ -17,6 +17,16 @@ var Rule = (function (_super) {
     };
     return Rule;
 }(Lint.Rules.AbstractRule));
+Rule.metadata = {
+    ruleName: 'no-input-rename-rule',
+    type: 'maintainability',
+    description: "Disallows renaming directive inputs by providing a string to the decorator.",
+    descriptionDetails: "See more at https://angular.io/styleguide#!#05-13.",
+    rationale: "Two names for the same property (one private, one public) is inherently confusing.",
+    options: null,
+    optionsDescription: "Not configurable.",
+    typescriptOnly: true,
+};
 Rule.FAILURE_STRING = 'In the class "%s", the directive ' +
     'input property "%s" should not be renamed.' +
     'Please, consider the following use "@Input() %s: string"';

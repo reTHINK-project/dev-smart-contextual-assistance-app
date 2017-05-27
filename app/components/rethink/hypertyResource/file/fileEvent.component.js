@@ -8,25 +8,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var models_1 = require("../../../../models/models");
 var FileEventComponent = (function () {
     function FileEventComponent() {
     }
     FileEventComponent.prototype.ngOnInit = function () {
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], FileEventComponent.prototype, "activity", void 0);
-    FileEventComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'file-event',
-            templateUrl: './fileEvent.component.html'
-        }), 
-        __metadata('design:paramtypes', [])
-    ], FileEventComponent);
     return FileEventComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", models_1.Message)
+], FileEventComponent.prototype, "message", void 0);
+FileEventComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'file-event',
+        templateUrl: './fileEvent.component.html'
+    })
+], FileEventComponent);
 exports.FileEventComponent = FileEventComponent;
 //# sourceMappingURL=fileEvent.component.js.map

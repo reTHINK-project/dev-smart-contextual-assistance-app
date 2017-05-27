@@ -7,18 +7,26 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // routing
 import { AppRoutingModule } from './app-routing.module';
 
-import { ContextualCommModule } from './views/contextualComm/contextualComm.module';
+// Utils
+import { CustomUtils } from './utils/CustomUtils';
+
+// TO ORGANIZE
+import { ContextMenuComponent } from './views/contextualCommMenu/contextMenu.component';
+import { AddContextualCommComponent } from './views/contextualCommMenu/add-contextualComm.component';
+
 
 // components
 import { AppComponent } from './app.component';
 import { HomeComponent } from './views/home/home.component';
+import { ContextualCommModule } from './views/contextualComm/contextualComm.module';
+import { NotificationComponent } from './components/notification/notification.component';
 import { ContextualCommComponent } from './views/contextualComm/contextualComm.component';
 
 import { ContextualCommUsersComponent } from './views/contextualCommUsers/contextualCommUsers.component';
-import { UserIdentityComponent } from './components/rethink/userIdentity/userIdentity.component'
+import { UserIdentityComponent } from './components/rethink/userIdentity/userIdentity.component';
 import { ContextBreadcrumbComponent } from './views/breadcrumb/breadcrumb.component';
 import { MySelfComponent } from './components/mySelf/my-self.component';
-import { AddUserComponent } from './views/userView/add-user.component';
+import { AddUserComponent } from './views/contextualCommUsers/add-user.component';
 
 // Services
 import { servicesInjectables } from './services/services';
@@ -37,13 +45,17 @@ import { servicesInjectables } from './services/services';
     HomeComponent,
     MySelfComponent,
     AddUserComponent,
+    ContextMenuComponent,
+    NotificationComponent,
     UserIdentityComponent,
     ContextualCommComponent,
+    AddContextualCommComponent,
     ContextBreadcrumbComponent,
     ContextualCommUsersComponent
   ],
 
   providers: [
+    CustomUtils,
     servicesInjectables
   ],
 

@@ -2,43 +2,48 @@ import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // Components
-import { AuthGuard } from '../../services/authGuard.service';
+import { AuthGuard, ContextualCommActivateService } from '../../services/services';
 
-import { ContextualCommResolver } from '../../services/contextualComm.resolver';
+import { ContextualCommDataResolver } from '../../services/contextualCommData.resolver';
 import { UserResolver } from '../../services/user.resolver';
 
-import { ContextualCommComponent } from './contextualComm.component'
-import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component';
+import { ContextualCommComponent } from './contextualComm.component';
 import { ActivityViewComponent } from '../activityView/activity-view.component';
 import { UserViewComponent } from '../userView/user-view.component';
 
 // TODO: Optimize the Resolve Context
 const contextualCommRoutes: Routes = [
   {
-    path: ':trigger',
+    path: ':context',
     component: ContextualCommComponent,
-    canActivate: [
-      AuthGuard
-    ],
+    canActivate: [ AuthGuard ],
+    canActivateChild: [ ContextualCommActivateService ],
     resolve: {
-      context: ContextualCommResolver
+      context: ContextualCommDataResolver
     },
     children: [
       {
         path: '',
         component: ActivityViewComponent,
         resolve: {
-          context: ContextualCommResolver
+          context: ContextualCommDataResolver
+        }
+      },
+      {
+        path: ':task',
+        component: ActivityViewComponent,
+        resolve: {
+          context: ContextualCommDataResolver
         },
       },
       {
-        path: ':user',
+        path: ':task/:user',
         component: UserViewComponent,
         resolve: {
           user: UserResolver,
-          context: ContextualCommResolver
+          context: ContextualCommDataResolver
         }
-      } 
+      }
     ]
   }
 ];

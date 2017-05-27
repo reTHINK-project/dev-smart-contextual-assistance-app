@@ -16,7 +16,6 @@
   "_from": "parseuri@0.0.5",
   "_id": "parseuri@0.0.5",
   "_inCache": true,
-  "_installable": true,
   "_location": "/parseuri",
   "_nodeVersion": "6.9.1",
   "_npmOperationalInternal": {
@@ -77,7 +76,8 @@
   ],
   "name": "parseuri",
   "optionalDependencies": {},
-  "readme": "ERROR: No README data found!",
+  "readme": "# parseuri\r\nModule for parsing URI's in engine.io-client\r\n",
+  "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/get/parseuri.git"

@@ -89,8 +89,7 @@ var BasicTemplateAstVisitor = (function (_super) {
         element.children.forEach(function (e) { return _this.visit(e, context); });
         element.directives.forEach(function (d) { return _this.visit(d, context); });
     };
-    BasicTemplateAstVisitor.prototype.visitReference = function (ast, context) {
-    };
+    BasicTemplateAstVisitor.prototype.visitReference = function (ast, context) { };
     BasicTemplateAstVisitor.prototype.visitVariable = function (ast, context) {
         this._variables.push(ast.name);
     };

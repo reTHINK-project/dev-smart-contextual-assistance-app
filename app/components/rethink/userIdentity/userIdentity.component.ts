@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostBinding } from '@angular/core';
+
+import { User } from '../../../models/models';
 
 @Component({
     moduleId: module.id,
@@ -7,7 +9,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class UserIdentityComponent implements OnInit {
 
-    @Input() model:any;
+    @HostBinding('class') hostClass = 'user-identity';
+
+    @Input() model: User;
 
     constructor() { }
 

@@ -1,41 +1,49 @@
-import { Component, OnInit, HostBinding, ViewChild, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { Component, OnInit, OnDestroy, HostBinding, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 // Services
-import { ChatService } from '../../services/services';
+import { ContactService, ChatService, ContextualCommService } from '../../services/services';
 
 // Models
 import { Message, User, ContextualComm } from '../../models/models';
 
 // Components
-import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component'
-import { ChatCommunicationComponent } from '../../components/rethink/communication/chatCommunication.component'
+import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   moduleId: module.id,
-  selector: 'div[contact-box]',
+  selector: 'div[user-view]',
   templateUrl: './user-view.component.html'
 })
-export class UserViewComponent implements OnInit {
+export class UserViewComponent implements OnInit, OnDestroy {
 
   @HostBinding('class') hostClass = '';
-  @Output() audioEvent = new EventEmitter();
-  @Output() videoEvent = new EventEmitter();
-  //@Output() closeEvent = new EventEmitter();
 
   @ViewChild(ContextualCommActivityComponent)
   private contextualCommActivityComponent: ContextualCommActivityComponent;
+  private subscription: Subscription;
 
-  private user:User;
-  private messages:Subject<Message[]> = new BehaviorSubject([]);
+  action: string;
+  user: User;
+  messages: Subject<Message[]> = new BehaviorSubject([]);
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private contactService: ContactService,
+    private ContextualCommService: ContextualCommService,
     private chatService: ChatService) {
+
+    this.subscription = this.route
+      .queryParams
+      .subscribe(params => {
+        console.log('Params Action:', params['action']);
+        this.action = params['action'];
+      });
+
   }
 
   ngOnInit() {
@@ -46,28 +54,34 @@ export class UserViewComponent implements OnInit {
       this.user = data.user;
 
       this.messages.next(data.context.messages);
+    });
+
+    this.ContextualCommService.contextualComm().subscribe((contextualComm: ContextualComm) => {
+      console.log('[ContextualCommActivity Component - update] - ', contextualComm);
+      this.messages.next(contextualComm.messages);
+
       this.contextualCommActivityComponent.updateView();
     });
 
   }
 
   ngOnDestroy() {
-    console.log('[User View - onMessage] - OnDestroy', this.messages);
-    this.messages.unsubscribe();
+    console.log('[User View] - OnDestroy', this.messages);
+    // this.messages.unsubscribe();
   }
 
-  onMessage(message:string) {
+  onAcceptCall() {
+    console.log('[User View] - onAcceptCall');
+  }
 
-    console.log("Message:", message);
-    this.chatService.send(message).then((message:any) => {
-      console.log('[User View - onMessage] - message sent', message);
-    })
-    
+  onRejectCall() {
+    console.log('[User View] - onRejectCall');
   }
 
   onCloseEvent() {
-    console.log('Close:');
-    history.back();
+    let user: string = this.user.username;
+    let url = this.router.url.replace(user, '');
+    this.router.navigate([url], {relativeTo: this.route});
   }
 
 }

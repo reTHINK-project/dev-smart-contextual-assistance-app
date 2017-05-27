@@ -1,15 +1,6 @@
-import { Component, OnInit, Input, HostBinding, ElementRef, OnChanges, SimpleChange, AfterViewInit, AfterContentInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { Component, HostBinding, HostListener, ElementRef, OnChanges, SimpleChange, AfterContentInit, Input } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-
-// Models
-import { Message, ContextualComm } from '../../models/models';
-
-// Services
-import { ChatService } from '../../services/rethink/chat.service';
-import { ContextService } from '../../services/rethink/context.service';
+import { Message } from '../../models/models';
 
 @Component({
   moduleId: module.id,
@@ -17,11 +8,16 @@ import { ContextService } from '../../services/rethink/context.service';
   templateUrl: './contextualCommActivity.component.html'
 })
 export class ContextualCommActivityComponent implements OnChanges, AfterContentInit {
-  @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list'
 
-  @Input() private messages:Subject<Message[]>;
+  @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list';
 
-  constructor(private el:ElementRef){}
+  @Input() messages: Subject<Message[]>;
+
+  @HostListener('window:resize', ['$event']) onResize(event: any) {
+    this.updateView();
+  }
+
+  constructor(private el: ElementRef) {}
 
   ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
     console.log('CHANGES:', changes);
@@ -33,9 +29,9 @@ export class ContextualCommActivityComponent implements OnChanges, AfterContentI
 
   updateView(): void {
 
-    if (!this._canUpdateView()) return;
+    if (!this._canUpdateView()) { return; }
 
-    console.log('Can Update the view:', this._canUpdateView())
+    console.log('Can Update the view:', this._canUpdateView());
 
     let scrollPane: any = this.el.nativeElement;
     let parentEl: any = scrollPane.offsetParent;
@@ -49,8 +45,8 @@ export class ContextualCommActivityComponent implements OnChanges, AfterContentI
     // TODO: Check if exits other way to wait the dom have the last item added and remove this setTimeout
     setTimeout(() => {
       this.scrollToBottom();
-    })
-    
+    });
+
   }
 
   scrollToBottom(): void {

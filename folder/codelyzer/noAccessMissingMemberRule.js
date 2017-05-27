@@ -135,5 +135,14 @@ var Rule = (function (_super) {
     };
     return Rule;
 }(Lint.Rules.AbstractRule));
+Rule.metadata = {
+    ruleName: 'no-access-missing-member',
+    type: 'functionality',
+    description: "Disallows using non-existing properties and methods from the component in templates.",
+    rationale: "Such occurances in code are most likely a result of a typo.",
+    options: null,
+    optionsDescription: "Not configurable.",
+    typescriptOnly: true,
+};
 Rule.FAILURE = 'The %s "%s" that you\'re trying to access does not exist in the class declaration.';
 exports.Rule = Rule;

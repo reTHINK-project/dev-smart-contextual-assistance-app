@@ -8,8 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var DashboardComponent = (function () {
     function DashboardComponent(route) {
         this.route = route;
@@ -23,15 +24,15 @@ var DashboardComponent = (function () {
             console.log('AQUI:', params);
         });
     };
-    DashboardComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'dashboard-view',
-            templateUrl: './dashboard.component.html'
-        }), 
-        __metadata('design:paramtypes', [router_1.ActivatedRoute])
-    ], DashboardComponent);
     return DashboardComponent;
 }());
+DashboardComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'dashboard-view',
+        templateUrl: './dashboard.component.html'
+    }),
+    __metadata("design:paramtypes", [router_1.ActivatedRoute])
+], DashboardComponent);
 exports.DashboardComponent = DashboardComponent;
 //# sourceMappingURL=dashboard.component.js.map

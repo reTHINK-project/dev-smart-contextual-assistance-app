@@ -16,6 +16,15 @@ var Rule = (function (_super) {
     };
     return Rule;
 }(Lint.Rules.AbstractRule));
+Rule.metadata = {
+    ruleName: 'invoke-injectable',
+    type: 'functionality',
+    description: "Ensures that @Injectable decorator is properly invoked.",
+    rationale: "Application will fail mysteriously if we forget the parentheses.",
+    options: null,
+    optionsDescription: "Not configurable.",
+    typescriptOnly: true,
+};
 Rule.FAILURE_STRING = 'You have to invoke @Injectable()';
 exports.Rule = Rule;
 var ValidateInjectableWalker = (function (_super) {

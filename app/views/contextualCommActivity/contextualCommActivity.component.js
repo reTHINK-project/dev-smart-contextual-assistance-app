@@ -8,13 +8,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var Subject_1 = require('rxjs/Subject');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var Subject_1 = require("rxjs/Subject");
 var ContextualCommActivityComponent = (function () {
     function ContextualCommActivityComponent(el) {
         this.el = el;
         this.hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list';
     }
+    ContextualCommActivityComponent.prototype.onResize = function (event) {
+        this.updateView();
+    };
     ContextualCommActivityComponent.prototype.ngOnChanges = function (changes) {
         console.log('CHANGES:', changes);
     };
@@ -23,8 +27,9 @@ var ContextualCommActivityComponent = (function () {
     };
     ContextualCommActivityComponent.prototype.updateView = function () {
         var _this = this;
-        if (!this._canUpdateView())
+        if (!this._canUpdateView()) {
             return;
+        }
         console.log('Can Update the view:', this._canUpdateView());
         var scrollPane = this.el.nativeElement;
         var parentEl = scrollPane.offsetParent;
@@ -50,23 +55,29 @@ var ContextualCommActivityComponent = (function () {
         console.log('parentElHeigh:', parentEl);
         return parentEl ? true : false;
     };
-    __decorate([
-        core_1.HostBinding('class'), 
-        __metadata('design:type', Object)
-    ], ContextualCommActivityComponent.prototype, "hostClass", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Subject_1.Subject)
-    ], ContextualCommActivityComponent.prototype, "messages", void 0);
-    ContextualCommActivityComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'ul[context-activity-list]',
-            templateUrl: './contextualCommActivity.component.html'
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], ContextualCommActivityComponent);
     return ContextualCommActivityComponent;
 }());
+__decorate([
+    core_1.HostBinding('class'),
+    __metadata("design:type", Object)
+], ContextualCommActivityComponent.prototype, "hostClass", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Subject_1.Subject)
+], ContextualCommActivityComponent.prototype, "messages", void 0);
+__decorate([
+    core_1.HostListener('window:resize', ['$event']),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ContextualCommActivityComponent.prototype, "onResize", null);
+ContextualCommActivityComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'ul[context-activity-list]',
+        templateUrl: './contextualCommActivity.component.html'
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], ContextualCommActivityComponent);
 exports.ContextualCommActivityComponent = ContextualCommActivityComponent;
 //# sourceMappingURL=contextualCommActivity.component.js.map

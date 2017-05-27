@@ -42,4 +42,6 @@ var useOutputPropertyDecoratorRule_1 = require("./useOutputPropertyDecoratorRule
 exports.UseOutputPropertyDecoratorRule = useOutputPropertyDecoratorRule_1.Rule;
 var usePipeTransformInterfaceRule_1 = require("./usePipeTransformInterfaceRule");
 exports.UsePipeTransformInterfaceRule = usePipeTransformInterfaceRule_1.Rule;
+var templateToNgTemplateRule_1 = require("./templateToNgTemplateRule");
+exports.TemplateToNgTemplateRule = templateToNgTemplateRule_1.Rule;
 __export(require("./angular/config"));

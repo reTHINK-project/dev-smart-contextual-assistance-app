@@ -5,43 +5,47 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 // Components
-var authGuard_service_1 = require('../../services/authGuard.service');
-var contextualComm_resolver_1 = require('../../services/contextualComm.resolver');
-var user_resolver_1 = require('../../services/user.resolver');
-var contextualComm_component_1 = require('./contextualComm.component');
-var activity_view_component_1 = require('../activityView/activity-view.component');
-var user_view_component_1 = require('../userView/user-view.component');
+var services_1 = require("../../services/services");
+var contextualCommData_resolver_1 = require("../../services/contextualCommData.resolver");
+var user_resolver_1 = require("../../services/user.resolver");
+var contextualComm_component_1 = require("./contextualComm.component");
+var activity_view_component_1 = require("../activityView/activity-view.component");
+var user_view_component_1 = require("../userView/user-view.component");
 // TODO: Optimize the Resolve Context
 var contextualCommRoutes = [
     {
-        path: ':trigger',
+        path: ':context',
         component: contextualComm_component_1.ContextualCommComponent,
-        canActivate: [
-            authGuard_service_1.AuthGuard
-        ],
+        canActivate: [services_1.AuthGuard],
+        canActivateChild: [services_1.ContextualCommActivateService],
         resolve: {
-            context: contextualComm_resolver_1.ContextualCommResolver
+            context: contextualCommData_resolver_1.ContextualCommDataResolver
         },
         children: [
             {
                 path: '',
                 component: activity_view_component_1.ActivityViewComponent,
                 resolve: {
-                    context: contextualComm_resolver_1.ContextualCommResolver
+                    context: contextualCommData_resolver_1.ContextualCommDataResolver
+                }
+            },
+            {
+                path: ':task',
+                component: activity_view_component_1.ActivityViewComponent,
+                resolve: {
+                    context: contextualCommData_resolver_1.ContextualCommDataResolver
                 },
             },
             {
-                path: ':user',
+                path: ':task/:user',
                 component: user_view_component_1.UserViewComponent,
                 resolve: {
                     user: user_resolver_1.UserResolver,
-                    context: contextualComm_resolver_1.ContextualCommResolver
+                    context: contextualCommData_resolver_1.ContextualCommDataResolver
                 }
             }
         ]
@@ -50,18 +54,17 @@ var contextualCommRoutes = [
 var ContextualCommRoutingModule = (function () {
     function ContextualCommRoutingModule() {
     }
-    ContextualCommRoutingModule = __decorate([
-        core_1.NgModule({
-            imports: [
-                router_1.RouterModule.forChild(contextualCommRoutes)
-            ],
-            exports: [
-                router_1.RouterModule
-            ]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], ContextualCommRoutingModule);
     return ContextualCommRoutingModule;
 }());
+ContextualCommRoutingModule = __decorate([
+    core_1.NgModule({
+        imports: [
+            router_1.RouterModule.forChild(contextualCommRoutes)
+        ],
+        exports: [
+            router_1.RouterModule
+        ]
+    })
+], ContextualCommRoutingModule);
 exports.ContextualCommRoutingModule = ContextualCommRoutingModule;
 //# sourceMappingURL=contextualComm.routing.js.map
