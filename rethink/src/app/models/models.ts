@@ -17,6 +17,7 @@ export class User implements UserIdentity {
   userURL: string;
 
   status: string;
+  statustUrl: string;
 
   unread: number;
   domain: string;
