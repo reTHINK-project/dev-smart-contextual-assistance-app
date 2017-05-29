@@ -4,6 +4,7 @@ import { Communication } from './rethink/Communication';
 import { ContextValue } from './rethink/Context';
 import { UserIdentity } from './rethink/UserIdentity';
 
+
 export class User implements UserIdentity {
 
   guid: string;
@@ -36,6 +37,15 @@ export class User implements UserIdentity {
 
     // TODO: split by the @ from user and domain <domain>@<identifier>
     this.guid     = this.username;
+  }
+
+  startStatusObservation(controller: any) {
+    controller.addEventListener(controller.dataObject.url, function(event: any) {
+
+    this.status = controller.dataObject.data.values[0].value;
+
+    });
+    
   }
 
 }

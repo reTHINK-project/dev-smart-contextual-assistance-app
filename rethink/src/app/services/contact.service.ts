@@ -107,6 +107,15 @@ export class ContactService {
     return this._users;
   }
 
+  getUserList(): Observable<User[]> {
+    let all = [];
+    for (let user of this._users.value) {
+      all.push(user);
+    }
+
+    return Observable.of(all);
+  }
+
   getUser(userURL: string): User {
     console.log('[Contact Service - get user: ', this._userList, userURL);
     return this._userList.get(userURL);
