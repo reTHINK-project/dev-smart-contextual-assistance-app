@@ -2,6 +2,26 @@
   position: relative;
 }
 
+:host .contact-me {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.50);
+  border-top: 1px solid rgba(255, 255, 255, 0.30);
+}
+
+:host .audio-call,
+:host .video-call {
+  overflow: hidden;
+}
+
+:host .player {
+  width: 100%;
+  height: 100%;
+}
+
 :host .video-wall {
   position: absolute;
   top: 0;
@@ -11,6 +31,20 @@
   width: 100%;
   height: 100%;
   z-index: 0;
+}
+
+:host .video-call .my-video-wall {
+   left: auto;
+   right: 10px;
+   top: 10px;
+   width: 200px;
+   height: 200px;
+   background: none;
+}
+
+:host .video-call .my-video-wall .player {
+  height: auto;
+  background: none;
 }
 
 :host .audio-call .video-wall {

@@ -1,7 +1,12 @@
 <div class="{{mode}}-call ">
 
-	<video *ngIf="stream" class="video-wall" [src]="stream" autoplay controls></video>
-	<video *ngIf="myStream" class="video-wall" [src]="myStream" autoplay muted></video>
+	<div class="video-wall">
+		<video *ngIf="stream" class="player" [src]="stream" autoplay></video>
+	</div>
+
+	<div *ngIf="mode === 'video'" class="video-wall my-video-wall">
+		<video *ngIf="myStream" class="player" [src]="myStream" autoplay muted></video>
+	</div>
 
 	<div class="contact-me align-center half-horizontal-padding">
 
@@ -30,8 +35,9 @@
 		<span class="action volume push-right">
 			<a href="javascript:;" (click)="onVolume()"><i class="fa fa-volume-up"></i></a>
 		</span>
-	</div>
-	<div class="contact-me topper align-center half-horizontal-padding">
-		<span class="action full-screen push-right"><a href="#"><i class="fa fa-arrows-alt"></i></a></span>
+
+		<span class="action full-screen push-right">
+			<a href="javascript:;" (click)="onFullscreen()"><i class="fa fa-arrows-alt"></i></a>
+		</span>
 	</div>
 </div>
