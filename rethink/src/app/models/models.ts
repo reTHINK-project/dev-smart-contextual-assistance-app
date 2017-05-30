@@ -39,10 +39,13 @@ export class User implements UserIdentity {
     this.guid     = this.username;
   }
 
-  startStatusObservation(controller: any) {
-    controller.addEventListener(controller.dataObject.url, function(event: any) {
+  startStatusObservation(availability: any) {
 
-    this.status = controller.dataObject.data.values[0].value;
+    this.status = availability.data.values[0].value;
+
+    availability.onChange('*', function(event: any) {
+
+    this.status = availability.data.values[0].value;
 
     });
     

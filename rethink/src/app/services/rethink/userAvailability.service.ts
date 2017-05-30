@@ -67,7 +67,7 @@ export class UserAvailabilityService {
           });
        });
 
-
+       this.startObservation();
 
    }
 
@@ -83,24 +83,24 @@ export class UserAvailabilityService {
           this.hyperty = hyperty;
 
           // Let's retrieve observers from previous sessions
-          this.availabilityObserver.start().then((controllers: any) => {
+          this.availabilityObserver.start().then((availabilities: any) => {
             // lets retrieve all users to be observed
             this.contactService.getUserList().subscribe((users: User[]) => { 
               console.log('[UserAvailability Service - startObservation] users to be observed:', users);
 
-              let uncontrolledUsers: Array<User> = [];
+              let newUsers: Array<User> = [];
 
               //for each User lets start observation 
               users.forEach((user: User)=>{
                 if (user.statustUrl) {
                   // TODO: confirm controllers is a list not an array
-                  user.startStatusObservation(controllers[user.statustUrl]); 
+                  user.startStatusObservation(availabilities[user.statustUrl]); 
                 } else {
-                  uncontrolledUsers.push(user);
+                  newUsers.push(user);
                 }
               });
 
-              // Users that have no controller resumed, let's subscribe to have one
+              // Users that have no controller yet, let's subscribe to have one
 
               if (uncontrolledUsers.length >= 0) {
                 this.subscribeUsers(uncontrolledUsers);
