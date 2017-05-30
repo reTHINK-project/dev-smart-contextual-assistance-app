@@ -94,7 +94,7 @@ export class UserAvailabilityService {
               users.forEach((user: User)=>{
                 if (user.statustUrl) {
                   // TODO: confirm controllers is a list not an array
-                  user.startStatusObservation(availabilities[user.statustUrl]); 
+                  user.startStatusObservation(availabilities[user.statustUrl]);
                 } else {
                   newUsers.push(user);
                 }
@@ -102,9 +102,9 @@ export class UserAvailabilityService {
 
               // Users that have no controller yet, let's subscribe to have one
 
-              if (uncontrolledUsers.length >= 0) {
-                this.subscribeUsers(uncontrolledUsers);
-              }
+              // if (uncontrolledUsers.length >= 0) {
+              //   this.subscribeUsers(uncontrolledUsers);
+              // }
 
           });
 

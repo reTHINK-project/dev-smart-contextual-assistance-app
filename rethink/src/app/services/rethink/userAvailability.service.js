@@ -48,6 +48,7 @@ var UserAvailabilityService = (function () {
                 _this.myAvailability = availability;
             });
         });
+        this.startObservation();
     }
     UserAvailabilityService.prototype.startObservation = function () {
         var _this = this;
@@ -59,25 +60,25 @@ var UserAvailabilityService = (function () {
             console.log('[UserAvailability Service - getHyperty] Observer hyperty was instantiated ', _this.availabilityObserver);
             _this.hyperty = hyperty;
             // Let's retrieve observers from previous sessions
-            _this.availabilityObserver.start().then(function (controllers) {
+            _this.availabilityObserver.start().then(function (availabilities) {
                 // lets retrieve all users to be observed
                 _this.contactService.getUserList().subscribe(function (users) {
                     console.log('[UserAvailability Service - startObservation] users to be observed:', users);
-                    var uncontrolledUsers = [];
+                    var newUsers = [];
                     //for each User lets start observation 
                     users.forEach(function (user) {
                         if (user.statustUrl) {
                             // TODO: confirm controllers is a list not an array
-                            user.startStatusObservation(controllers[user.statustUrl]);
+                            user.startStatusObservation(availabilities[user.statustUrl]);
                         }
                         else {
-                            uncontrolledUsers.push(user);
+                            newUsers.push(user);
                         }
                     });
-                    // Users that have no controller resumed, let's subscribe to have one
-                    if (uncontrolledUsers.length >= 0) {
-                        _this.subscribeUsers(uncontrolledUsers);
-                    }
+                    // Users that have no controller yet, let's subscribe to have one
+                    // if (uncontrolledUsers.length >= 0) {
+                    //   this.subscribeUsers(uncontrolledUsers);
+                    // }
                 });
             });
         });

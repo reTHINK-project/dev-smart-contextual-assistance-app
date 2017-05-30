@@ -44,11 +44,11 @@ export class User implements UserIdentity {
     this.status = availability.data.values[0].value;
 
     availability.onChange('*', function(event: any) {
-
-    this.status = availability.data.values[0].value;
+      console.log('[User Model] - change', event);
+      this.status = availability.data.values[0].value;
 
     });
-    
+
   }
 
 }
