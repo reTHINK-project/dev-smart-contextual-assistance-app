@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 
 // Utils
@@ -99,6 +99,7 @@ export class ConnectorService {
       let options = {video: true, audio: true};
 
       getUserMedia(options).then((mediaStream: MediaStream) => {
+        this._localStream.next(mediaStream);
         return this.controllers[this._webrtcMode].accept(mediaStream);
       }).then((accepted) => {
         this.callInProgress = true;
@@ -178,6 +179,7 @@ export class ConnectorService {
     this._webrtcMode = 'offer';
 
     return getUserMedia(options).then((mediaStream: MediaStream) => {
+      this._localStream.next(mediaStream);
       return this.hypertyVideo.connect(userURL, mediaStream, name, domain);
     }).then((controller: any) => {
       console.log('[Connector Service] - connect:', controller);

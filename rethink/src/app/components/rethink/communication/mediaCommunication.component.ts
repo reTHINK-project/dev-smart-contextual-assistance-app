@@ -39,14 +39,14 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
 
     this.streamingActive = false;
 
-    if (this.mode === 'video') {
+    // if (this.mode === 'video') {
 
-      this.connectorService.getLocalStream().subscribe((stream) => {
-        console.log('[Media Communication Component] - get local stream: ', stream);
-        this.myStream = stream;
-      });
+    this.connectorService.getLocalStream().subscribe((stream) => {
+      console.log('[Media Communication Component] - get local stream: ', stream);
+      this.myStream = stream;
+    });
 
-    }
+    // }
 
     this.connectorService.getRemoteStream().subscribe((stream) => {
       console.log('[Media Communication Component] - get remote stream: ', stream);
@@ -131,6 +131,10 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
 
   disableVideo() {
     this.connectorService.disableVideo();
+  }
+
+  onFullscreen() {
+
   }
 
   onHangup() {

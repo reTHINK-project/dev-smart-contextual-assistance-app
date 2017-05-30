@@ -27,12 +27,12 @@ var MediaCommunicationComponent = (function () {
         this.streamingActive = false;
         console.log('[Media Communication Component] - Constructor:', this.route.queryParams);
         this.streamingActive = false;
-        if (this.mode === 'video') {
-            this.connectorService.getLocalStream().subscribe(function (stream) {
-                console.log('[Media Communication Component] - get local stream: ', stream);
-                _this.myStream = stream;
-            });
-        }
+        // if (this.mode === 'video') {
+        this.connectorService.getLocalStream().subscribe(function (stream) {
+            console.log('[Media Communication Component] - get local stream: ', stream);
+            _this.myStream = stream;
+        });
+        // }
         this.connectorService.getRemoteStream().subscribe(function (stream) {
             console.log('[Media Communication Component] - get remote stream: ', stream);
             _this.stream = stream;
@@ -94,6 +94,8 @@ var MediaCommunicationComponent = (function () {
     };
     MediaCommunicationComponent.prototype.disableVideo = function () {
         this.connectorService.disableVideo();
+    };
+    MediaCommunicationComponent.prototype.onFullscreen = function () {
     };
     MediaCommunicationComponent.prototype.onHangup = function () {
         this.reset();
