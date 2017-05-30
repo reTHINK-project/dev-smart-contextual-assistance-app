@@ -14,6 +14,11 @@ var User = (function () {
         // TODO: split by the @ from user and domain <domain>@<identifier>
         this.guid = this.username;
     }
+    User.prototype.startStatusObservation = function (controller) {
+        controller.addEventListener(controller.dataObject.url, function (event) {
+            this.status = controller.dataObject.data.values[0].value;
+        });
+    };
     return User;
 }());
 exports.User = User;

@@ -14,6 +14,10 @@ import { strMapToObj } from '../utils/utils';
 // Interfaces
 import { User } from '../models/models';
 
+interface IUserOperation extends Function {
+  (users: User[]): User[];
+}
+
 // Services
 import { LocalStorage } from './storage.service';
 
@@ -24,7 +28,7 @@ export class ContactService {
 
   private _userList: Map<string, User> = new Map<string, User>();
 
-  private _users: BehaviorSubject<User[]> = new BehaviorSubject([]);
+  private _users: Observable<User[]>;
 
     // action streams
   private _create: Subject<User> = new Subject<User>();
@@ -38,48 +42,54 @@ export class ContactService {
 
   constructor(private localStorage: LocalStorage) {
 
+    const initialUsers: User[] = [];
+
     if (this.localStorage.hasObject('contacts')) {
       let mapObj = this.localStorage.getObject('contacts');
       for (let k of Object.keys(mapObj)) {
         let currentUser: User = new User(mapObj[k]);
         this._userList.set(k, currentUser);
-        this._users.next([currentUser]);
+        initialUsers.push(currentUser);
       }
     }
 
-    this._users.scan((users: User[], user: User[]) => {
-      return users.concat(user);
-    })
-    .publishReplay(1)
-    .refCount();
-
-    this._updates
-      // watch the updates and accumulate operations on the users
-      .scan((users: User[], user: User) => {
-        console.log('Users:', users);
-        return users.push(user);
-      }, [])
+    this._users = this._updates.scan((users: User[], operation: IUserOperation) => {
+      return operation(users);
+    }, initialUsers)
+    .startWith(initialUsers)
     // make sure we can share the most recent list of users across anyone
     // who's interested in subscribing and cache the last known list of
     // users
     .publishReplay(1)
     .refCount();
 
-    this._create.map((user: User) => {
+    this._create.map((user: User): IUserOperation => {
+        console.log('[Contact Service] - create user:', user);
 
-      console.log('[Contact Service] - create user:', user);
+        if (!this._userList.has(user.userURL)) {
+          this._userList.set(user.userURL, user);
+          this.localStorage.setObject('contacts', strMapToObj(this._userList));
+        } else {
+          user = this._userList.get(user.userURL);
+        }
 
-      if (!this._userList.has(user.userURL)) {
-        this._userList.set(user.userURL, user);
-        this.localStorage.setObject('contacts', strMapToObj(this._userList));
-      } else {
-        user = this._userList.get(user.userURL);
-      }
+        return (users: User[]) => {
 
-      return user;
-    }).subscribe(this._updates);
+          if (users.indexOf(user) !== -1) {
+            return users;
+          }
+
+          return users.concat(user);
+        };
+      }).subscribe(this._updates);
 
     this._newUser.subscribe(this._create);
+
+
+    this._users.subscribe((users: User[]) => {
+      console.log('LIST USERS:', users);
+    });
+
   }
 
   set sessionUser(user: User) {
@@ -109,7 +119,7 @@ export class ContactService {
 
   getUserList(): Observable<User[]> {
     let all = [];
-    for (let user of this._users.value) {
+    for (let user of this._userList.values()) {
       all.push(user);
     }
 
