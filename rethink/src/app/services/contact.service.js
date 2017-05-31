@@ -22,6 +22,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // Core
 var core_1 = require("@angular/core");
 var Subject_1 = require("rxjs/Subject");
+var Observable_1 = require("rxjs/Observable");
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 require("rxjs/add/operator/map");
 require("rxjs/add/operator/scan");
@@ -110,6 +111,24 @@ var ContactService = (function () {
     };
     ContactService.prototype.getUsers = function () {
         return this._users;
+    };
+    ContactService.prototype.getUserList = function () {
+        var all = [];
+        try {
+            for (var _a = __values(this._users.value), _b = _a.next(); !_b.done; _b = _a.next()) {
+                var user = _b.value;
+                all.push(user);
+            }
+        }
+        catch (e_2_1) { e_2 = { error: e_2_1 }; }
+        finally {
+            try {
+                if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+            }
+            finally { if (e_2) throw e_2.error; }
+        }
+        return Observable_1.Observable.of(all);
+        var e_2, _c;
     };
     ContactService.prototype.getUser = function (userURL) {
         console.log('[Contact Service - get user: ', this._userList, userURL);

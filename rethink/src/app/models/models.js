@@ -14,6 +14,13 @@ var User = (function () {
         // TODO: split by the @ from user and domain <domain>@<identifier>
         this.guid = this.username;
     }
+    User.prototype.startStatusObservation = function (availability) {
+        this.statustUrl = availability.url;
+        this.status = availability.data.values[0].value;
+        availability.onChange('*', function (event) {
+            this.status = availability.data.values[0].value;
+        });
+    };
     return User;
 }());
 exports.User = User;

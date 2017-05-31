@@ -13,9 +13,6 @@ import { User, Message } from '../../models/models';
 @Injectable()
 export class UserAvailabilityService {
 
-  /*public chatControllerActive: any;
-
-  private controllerList: Map<string, any> = new Map<string, any>();*/
 
   hyperty: any;
   availabilityReporterURL: string;
@@ -24,26 +21,7 @@ export class UserAvailabilityService {
   myAvailabilityReporter: any;
   availabilityObserver: any;
   myAvailability: any;
-  availabilityControllers: Map<string, Object>;
 
-  observedUsers: Map<User,Object>
-
-  /*private _onUserAdded: Function;
-  private _onInvitation: Function;
-  private _onMessage: Function;
-  private _discovery: any;*/
-
-  /*private _activeDataObjectURL: string;
-  public get activeDataObjectURL(): string {
-    return this._activeDataObjectURL;
-  }
-
-  public set activeDataObjectURL(value: string) {
-    console.log('[Chat Service] - active controller:', value, this.controllerList);
-    this._activeDataObjectURL = value;
-    this.chatControllerActive = this.controllerList.get(value);
-    console.info('[Chat Service] - active controller: ', this.chatControllerActive);
-  }*/
 
   constructor(
     private router: Router,
@@ -64,10 +42,10 @@ export class UserAvailabilityService {
           this.myAvailabilityReporter.start().then((availability: any) => {
             this.myAvailability = availability;
 
+            this.startObservation();
           });
        });
 
-       this.startObservation();
 
    }
 
@@ -102,8 +80,8 @@ export class UserAvailabilityService {
 
               // Users that have no controller yet, let's subscribe to have one
 
-              if (uncontrolledUsers.length >= 0) {
-                this.subscribeUsers(uncontrolledUsers);
+              if (newUsers.length >= 0) {
+                this.subscribeUsers(newUsers);
               }
 
           });
@@ -140,7 +118,8 @@ export class UserAvailabilityService {
     // discover and return last modified user availability hyperty
 
     return new Promise((resolve, reject) => {
-      this.availabilityObserver.discoverUsers(user.identifiers, user.domain).then((discovered:Array <any>) => {
+      debugger;
+      this.availabilityObserver.discoverUsers(user.username, this.rethinkService.domain).then((discovered:Array <any>) => {
         resolve( this.getLastModifiedAvailability(discovered) );
 
       });

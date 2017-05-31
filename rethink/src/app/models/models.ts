@@ -41,6 +41,8 @@ export class User implements UserIdentity {
 
   startStatusObservation(availability: any) {
 
+    this.statustUrl = availability.url;
+
     this.status = availability.data.values[0].value;
 
     availability.onChange('*', function(event: any) {
