@@ -89,6 +89,7 @@ var ConnectorService = (function () {
         if (this.controllers && this.controllers.hasOwnProperty('answer') && this._webrtcMode === 'answer') {
             var options = { video: true, audio: true };
             utils_1.getUserMedia(options).then(function (mediaStream) {
+                _this._localStream.next(mediaStream);
                 return _this.controllers[_this._webrtcMode].accept(mediaStream);
             }).then(function (accepted) {
                 _this.callInProgress = true;
@@ -144,6 +145,7 @@ var ConnectorService = (function () {
         var _this = this;
         this._webrtcMode = 'offer';
         return utils_1.getUserMedia(options).then(function (mediaStream) {
+            _this._localStream.next(mediaStream);
             return _this.hypertyVideo.connect(userURL, mediaStream, name, domain);
         }).then(function (controller) {
             console.log('[Connector Service] - connect:', controller);

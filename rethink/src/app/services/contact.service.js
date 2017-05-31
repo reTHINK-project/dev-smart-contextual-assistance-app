@@ -23,7 +23,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var Subject_1 = require("rxjs/Subject");
 var Observable_1 = require("rxjs/Observable");
-var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 require("rxjs/add/operator/map");
 require("rxjs/add/operator/scan");
 require("rxjs/add/operator/publishReplay");
@@ -38,7 +37,6 @@ var ContactService = (function () {
         var _this = this;
         this.localStorage = localStorage;
         this._userList = new Map();
-        this._users = new BehaviorSubject_1.BehaviorSubject([]);
         // action streams
         this._create = new Subject_1.Subject();
         // `updates` receives _operations_ to be applied to our `users`
@@ -46,6 +44,11 @@ var ContactService = (function () {
         // stored in `users`)
         this._updates = new Subject_1.Subject();
         this._newUser = new Subject_1.Subject();
+        var initialUsers = [];
+        var me;
+        if (this.localStorage.hasObject('me')) {
+            me = this.localStorage.getObject('me');
+        }
         if (this.localStorage.hasObject('contacts')) {
             var mapObj = this.localStorage.getObject('contacts');
             try {
@@ -53,7 +56,9 @@ var ContactService = (function () {
                     var k = _b.value;
                     var currentUser = new models_1.User(mapObj[k]);
                     this._userList.set(k, currentUser);
-                    this._users.next([currentUser]);
+                    if (currentUser.userURL !== me.userURL) {
+                        initialUsers.push(currentUser);
+                    }
                 }
             }
             catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -64,16 +69,10 @@ var ContactService = (function () {
                 finally { if (e_1) throw e_1.error; }
             }
         }
-        this._users.scan(function (users, user) {
-            return users.concat(user);
-        })
-            .publishReplay(1)
-            .refCount();
-        this._updates
-            .scan(function (users, user) {
-            console.log('Users:', users);
-            return users.push(user);
-        }, [])
+        this._users = this._updates.scan(function (users, operation) {
+            return operation(users);
+        }, initialUsers)
+            .startWith(initialUsers)
             .publishReplay(1)
             .refCount();
         this._create.map(function (user) {
@@ -85,9 +84,21 @@ var ContactService = (function () {
             else {
                 user = _this._userList.get(user.userURL);
             }
-            return user;
+            return function (users) {
+                if (users.indexOf(user) !== -1) {
+                    return users;
+                }
+                else {
+                    var id = users.indexOf(user);
+                    users[id] = user;
+                }
+                return users.concat(user);
+            };
         }).subscribe(this._updates);
         this._newUser.subscribe(this._create);
+        this._users.subscribe(function (users) {
+            console.log('LIST USERS:', users);
+        });
         var e_1, _c;
     }
     Object.defineProperty(ContactService.prototype, "sessionUser", {
@@ -115,7 +126,7 @@ var ContactService = (function () {
     ContactService.prototype.getUserList = function () {
         var all = [];
         try {
-            for (var _a = __values(this._users.value), _b = _a.next(); !_b.done; _b = _a.next()) {
+            for (var _a = __values(this._userList.values()), _b = _a.next(); !_b.done; _b = _a.next()) {
                 var user = _b.value;
                 all.push(user);
             }

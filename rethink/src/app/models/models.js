@@ -15,9 +15,11 @@ var User = (function () {
         this.guid = this.username;
     }
     User.prototype.startStatusObservation = function (availability) {
+        console.log('[UserModel.startStatusObservation] ', availability);
         this.statustUrl = availability.url;
         this.status = availability.data.values[0].value;
         availability.onChange('*', function (event) {
+            console.log('[UserModel] Availability change', event);
             this.status = availability.data.values[0].value;
         });
     };

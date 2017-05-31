@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var config_1 = require("../../../config");
 // Models
 var models_1 = require("../../../models/models");
 // Services
@@ -27,12 +28,12 @@ var MediaCommunicationComponent = (function () {
         this.streamingActive = false;
         console.log('[Media Communication Component] - Constructor:', this.route.queryParams);
         this.streamingActive = false;
-        if (this.mode === 'video') {
-            this.connectorService.getLocalStream().subscribe(function (stream) {
-                console.log('[Media Communication Component] - get local stream: ', stream);
-                _this.myStream = stream;
-            });
-        }
+        // if (this.mode === 'video') {
+        this.connectorService.getLocalStream().subscribe(function (stream) {
+            console.log('[Media Communication Component] - get local stream: ', stream);
+            _this.myStream = stream;
+        });
+        // }
         this.connectorService.getRemoteStream().subscribe(function (stream) {
             console.log('[Media Communication Component] - get remote stream: ', stream);
             _this.stream = stream;
@@ -80,7 +81,7 @@ var MediaCommunicationComponent = (function () {
         var options = { video: true, audio: true };
         var contextID = this.contextualCommDataService.getActiveContext().id;
         console.log('[Media Communication Component] - ' + this.mode + ' call To', user, contextID);
-        this.connectorService.connect(user.username, options, contextID, 'localhost')
+        this.connectorService.connect(user.username, options, contextID, config_1.config.domain)
             .then(function (controller) {
             controller.dataObjectReporter.data.mode = _this.mode;
             _this.streamingActive = true;
@@ -94,6 +95,8 @@ var MediaCommunicationComponent = (function () {
     };
     MediaCommunicationComponent.prototype.disableVideo = function () {
         this.connectorService.disableVideo();
+    };
+    MediaCommunicationComponent.prototype.onFullscreen = function () {
     };
     MediaCommunicationComponent.prototype.onHangup = function () {
         this.reset();

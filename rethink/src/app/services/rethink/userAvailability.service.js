@@ -28,7 +28,6 @@ var UserAvailabilityService = (function () {
             .then(function (hyperty) {
             _this.myAvailabilityReporter = hyperty.instance;
             console.log('[UserAvailability Service - getHyperty] Reporter hyperty was instantiated ', _this.myAvailabilityReporter);
-            _this.hyperty = hyperty;
             _this.myAvailabilityReporter.start().then(function (availability) {
                 _this.myAvailability = availability;
                 _this.startObservation();
@@ -43,16 +42,15 @@ var UserAvailabilityService = (function () {
             .then(function (hyperty) {
             _this.availabilityObserver = hyperty.instance;
             console.log('[UserAvailability Service - getHyperty] Observer hyperty was instantiated ', _this.availabilityObserver);
-            _this.hyperty = hyperty;
             // Let's retrieve observers from previous sessions
             _this.availabilityObserver.start().then(function (availabilities) {
                 // lets retrieve all users to be observed
-                _this.contactService.getUserList().subscribe(function (users) {
+                _this.contactService.getUsers().subscribe(function (users) {
                     console.log('[UserAvailability Service - startObservation] users to be observed:', users);
                     var newUsers = [];
                     //for each User lets start observation 
                     users.forEach(function (user) {
-                        if (user.statustUrl) {
+                        if (user.statustUrl && availabilities[user.statustUrl]) {
                             // TODO: confirm controllers is a list not an array
                             user.startStatusObservation(availabilities[user.statustUrl]);
                         }
@@ -84,7 +82,6 @@ var UserAvailabilityService = (function () {
         // discover and return last modified user availability hyperty
         var _this = this;
         return new Promise(function (resolve, reject) {
-            debugger;
             _this.availabilityObserver.discoverUsers(user.username, _this.rethinkService.domain).then(function (discovered) {
                 resolve(_this.getLastModifiedAvailability(discovered));
             });
@@ -94,7 +91,7 @@ var UserAvailabilityService = (function () {
         // from a list of discovered Availability Hyperty reporters return the one that was last modified
         var lastModifiedHyperty = hyperties[0];
         hyperties.forEach(function (hyperty) {
-            if (hyperty.lastModified > lastModifiedHyperty.lastModified) {
+            if (new Date(hyperty.lastModified).getTime() > new Date(lastModifiedHyperty.lastModified).getTime()) {
                 lastModifiedHyperty = hyperty;
             }
         });

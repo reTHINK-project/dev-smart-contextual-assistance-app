@@ -1446,7 +1446,7 @@ body.rethink div.audio-call, body.rethink div.video-call {
 body.rethink div.audio-call div.contact-me, body.rethink div.video-call div.contact-me {
   width: 100%;
   position: absolute;
-  bottom: 8px;
+  bottom: 0;
   left: 0;
 }
 /* line 1530, ../sass/rethink.scss */
@@ -1616,7 +1616,7 @@ body.rethink div.inputbox {
   border-top: 1px solid #d6d6d6;
   display: block;
   position: absolute;
-  botttom: 0;
+  bottom: 0;
 }
 /* line 1685, ../sass/rethink.scss */
 body.rethink div.contact-me {
@@ -1628,11 +1628,11 @@ body.rethink div.contact-me span.counter {
   background-color: rgba(0, 0, 0, 0.15);
   color: #fff;
   display: inline-block;
-  font-size: 10px;
+  font-size: 1em;
   font-weight: 400;
   padding: 2px 8px;
   position: absolute;
-  top: 18px;
+  top: 22px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   -ms-border-radius: 2px;
