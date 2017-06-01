@@ -49,7 +49,7 @@
     "/"
   ],
   "_resolved": "git://github.com/rethink-project/dev-runtime-browser.git#803bdb9bed32039c4aa7636dbb33cc52f68f3cad",
-  "_shasum": "e39c4b42e07f02b4f36d10778ab2e6e9bbbfef24",
+  "_shasum": "424ec58a60bf3b76234a0fd2fbb7d0e2d40623f1",
   "_shrinkwrap": null,
   "_spec": "runtime-browser@github:rethink-project/dev-runtime-browser#develop",
   "_where": "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink",

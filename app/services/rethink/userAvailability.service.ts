@@ -6,59 +6,136 @@ import { RethinkService } from './rethink.service';
 import { ContactService } from '../contact.service';
 import { ContextualCommService } from '../contextualComm.service';
 
+// Models
 import { User, Message } from '../../models/models';
+
 
 @Injectable()
 export class UserAvailabilityService {
 
-  /*public chatControllerActive: any;
-
-  private controllerList: Map<string, any> = new Map<string, any>();*/
 
   hyperty: any;
-  hypertyURL: string;
+  availabilityReporterURL: string;
+  availabilityObserverURL: string;
 
   myAvailabilityReporter: any;
+  availabilityObserver: any;
   myAvailability: any;
 
-  /*private _onUserAdded: Function;
-  private _onInvitation: Function;
-  private _onMessage: Function;
-  private _discovery: any;*/
-
-  /*private _activeDataObjectURL: string;
-  public get activeDataObjectURL(): string {
-    return this._activeDataObjectURL;
-  }
-
-  public set activeDataObjectURL(value: string) {
-    console.log('[Chat Service] - active controller:', value, this.controllerList);
-    this._activeDataObjectURL = value;
-    this.chatControllerActive = this.controllerList.get(value);
-    console.info('[Chat Service] - active controller: ', this.chatControllerActive);
-  }*/
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private rethinkService: RethinkService
+    private rethinkService: RethinkService,
+    private contactService: ContactService
    ) {       
     console.log('[UserAvailability Service - constructor] - ');
 
-      this.hypertyURL = 'hyperty-catalogue://catalogue.' + this.rethinkService.domain + '/.well-known/hyperty/UserAvailabilityReporter';
+      this.availabilityReporterURL = 'hyperty-catalogue://catalogue.' + this.rethinkService.domain + '/.well-known/hyperty/UserAvailabilityReporter';
+      this.availabilityObserverURL = 'hyperty-catalogue://catalogue.' + this.rethinkService.domain + '/.well-known/hyperty/UserAvailabilityObserver';
+
     
-      this.rethinkService.getHyperty(this.hypertyURL)
+      this.rethinkService.getHyperty(this.availabilityReporterURL)
         .then((hyperty: any) => {
           this.myAvailabilityReporter = hyperty.instance;
-          console.log('[UserAvailability Service - getHyperty] hyperty was instantiated ', this.myAvailabilityReporter);
-          //this._discovery = this.chatGroupManager.discovery;
-          this.hyperty = hyperty;
+          console.log('[UserAvailability Service - getHyperty] Reporter hyperty was instantiated ', this.myAvailabilityReporter);
           this.myAvailabilityReporter.start().then((availability: any) => {
             this.myAvailability = availability;
-
+            this.startObservation();
           });
        });
+
+
    }
+
+  private startObservation()
+  {
+   console.log('[UserAvailability service. start observation] ');
+
+      // let's first start the AvailabilityObserver Hyperty 
+        this.rethinkService.getHyperty(this.availabilityObserverURL)
+        .then((hyperty: any) => {
+          this.availabilityObserver = hyperty.instance;
+          console.log('[UserAvailability Service - getHyperty] Observer hyperty was instantiated ', this.availabilityObserver);
+
+          // Let's retrieve observers from previous sessions
+          this.availabilityObserver.start().then((availabilities: any) => {
+            // lets retrieve all users to be observed
+            this.contactService.getUsers().subscribe((users: User[]) => { 
+              console.log('[UserAvailability Service - startObservation] users to be observed:', users);
+
+              let newUsers: Array<User> = [];
+
+              //for each User lets start observation 
+              users.forEach((user: User)=>{
+                if (user.statustUrl && availabilities[user.statustUrl]) {
+                  // TODO: confirm controllers is a list not an array
+                  user.startStatusObservation(availabilities[user.statustUrl]);
+                } else {
+                  newUsers.push(user);
+                }
+              });
+
+              // Users that have no controller yet, let's subscribe to have one
+
+              if (newUsers.length >= 0) {
+                this.subscribeUsers(newUsers);
+              }
+
+          });
+
+        });
+      });
+  }
+
+  private subscribeUsers(users: Array<User>) {
+    //for each user let's discover reporter Hyperties
+
+    users.forEach((user: User) => {
+      this.discoverUserAvailability(user).then((availability: any)=>{
+
+        //lets start a new user availability observation
+
+        this.availabilityObserver.observe(availability).then((controller: any)=>{
+          user.startStatusObservation(controller);
+
+        });
+
+      });
+
+    });
+    
+  }
+
+
+
+
+
+  private discoverUserAvailability(user: User): Promise<Object>
+   {
+    // discover and return last modified user availability hyperty
+
+    return new Promise((resolve, reject) => {
+      this.availabilityObserver.discoverUsers(user.username, this.rethinkService.domain).then((discovered:Array <any>) => {
+        resolve( this.getLastModifiedAvailability(discovered) );
+
+      });
+    });
+
+  }
+
+  private getLastModifiedAvailability(hyperties: Array<any>) {
+    // from a list of discovered Availability Hyperty reporters return the one that was last modified
+
+    let lastModifiedHyperty: any = hyperties[0];
+
+    hyperties.forEach((hyperty)=>{
+      if (new Date(hyperty.lastModified).getTime() > new Date(lastModifiedHyperty.lastModified).getTime()) {
+        lastModifiedHyperty = hyperty;
+      }
+    });
+    return lastModifiedHyperty;
+  }
 
 
 
@@ -69,100 +146,7 @@ export class UserAvailabilityService {
     this.myAvailabilityReporter.setStatus(status);
  
   }
-  /*prepareHyperty() {
-
-    console.log('[Chat Service - prepareHyperty]', this.chatGroupManager);
-
-    this.chatGroupManager.onResumeReporter((controllers: any) => {
-      console.log('[Chat Service - prepareHyperty] - onResume reporters: ', controllers);
-
-      Object.keys(controllers).forEach((url: string) => {
-
-        this.controllerList.set(url, controllers[url]);
-        this._updateControllersList(url, controllers[url]);
-
-      });
-
-    });
-
-    this.chatGroupManager.onResumeObserver((controllers: any) => {
-      console.log('[Chat Service - prepareHyperty] - onResume observers: ', controllers);
-
-      Object.keys(controllers).forEach((url: string) => {
-
-        this.controllerList.set(url, controllers[url]);
-        this._updateControllersList(url, controllers[url]);
-
-      });
-
-    });
-
-    this.chatGroupManager.onInvitation((event: any) => {
-      console.log('[Chat Service - prepareHyperty] - onInvitation', event, this._onInvitation);
-      if (this._onInvitation) { this._onInvitation(event); }
-    });
-
-  }*/
-
-  /*prepareController(chatController: any) {
-
-    console.log('[Chat Service - prepareController]', chatController);
-
-    chatController.onUserAdded((user: any) => {
-      let dataObjectURL = chatController.dataObject.url;
-
-      console.log('[Chat Service - prepareController] - onUserAdded', user, dataObjectURL);
-      let current: User;
-
-      if (user.hasOwnProperty('data')) {
-        current = this.contactService.getUser(user.data.identity.userURL);
-        if (!current) { current = new User(user.data.identity); }
-      } else {
-        current = this.contactService.getUser(user.userURL);
-        if (!current) { current = new User(user); }
-      }
-
-      console.log('[Chat Service - prepareController] - current user:', current);
-      this.contextualCommService.updateContextUsers(current, dataObjectURL);
-    });
 
 
-    chatController.onMessage((message: any) => {
-
-      console.log('[Chat Service - prepareController] - onMessage', message, this.chatControllerActive);
-
-      let dataObjectURL = chatController.dataObject.url;
-      let user: User = this.contactService.getUser(message.identity.userProfile.userURL);
-
-      if (user) {
-        let msg = {
-          type: 'message',
-          message: message.value.content,
-          user: user
-        };
-
-        let currentMessage = new Message(msg);
-        this.contextualCommService.updateContextMessages(currentMessage, dataObjectURL);
-      } else {
-        console.info('The message was rejected because the user ' + message.identity.userProfile.userURL + ' is unknown');
-      }
-    });
-
-  }*/
-
-  
-
-
-/*  onSubscription(callback: Function) {
-    this._onInvitation = callback;
-  }
-
-  onUserAdded(callback: Function) {
-    this._onUserAdded = callback;
-  }
-
-  onMessage(callback: Function) {
-    this._onMessage = callback;
-  }*/
 
 }

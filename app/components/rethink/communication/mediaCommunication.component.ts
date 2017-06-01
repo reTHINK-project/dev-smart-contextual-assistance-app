@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, HostBinding, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { config } from '../../../config';
+
 // Models
 import { User } from '../../../models/models';
 
@@ -39,14 +41,14 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
 
     this.streamingActive = false;
 
-    if (this.mode === 'video') {
+    // if (this.mode === 'video') {
 
-      this.connectorService.getLocalStream().subscribe((stream) => {
-        console.log('[Media Communication Component] - get local stream: ', stream);
-        this.myStream = stream;
-      });
+    this.connectorService.getLocalStream().subscribe((stream) => {
+      console.log('[Media Communication Component] - get local stream: ', stream);
+      this.myStream = stream;
+    });
 
-    }
+    // }
 
     this.connectorService.getRemoteStream().subscribe((stream) => {
       console.log('[Media Communication Component] - get remote stream: ', stream);
@@ -113,7 +115,7 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
 
     console.log('[Media Communication Component] - ' + this.mode + ' call To', user, contextID);
 
-    this.connectorService.connect(user.username, options, contextID, 'hysmart.rethink.ptinovacao.pt')
+    this.connectorService.connect(user.username, options, contextID, config.domain)
       .then((controller) => {
         controller.dataObjectReporter.data.mode = this.mode;
         this.streamingActive = true;
@@ -131,6 +133,10 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
 
   disableVideo() {
     this.connectorService.disableVideo();
+  }
+
+  onFullscreen() {
+
   }
 
   onHangup() {

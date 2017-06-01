@@ -4,6 +4,7 @@ import { Communication } from './rethink/Communication';
 import { ContextValue } from './rethink/Context';
 import { UserIdentity } from './rethink/UserIdentity';
 
+
 export class User implements UserIdentity {
 
   guid: string;
@@ -17,6 +18,7 @@ export class User implements UserIdentity {
   userURL: string;
 
   status: string;
+  statustUrl: string;
 
   unread: number;
   domain: string;
@@ -35,6 +37,22 @@ export class User implements UserIdentity {
 
     // TODO: split by the @ from user and domain <domain>@<identifier>
     this.guid     = this.username;
+  }
+
+  startStatusObservation(availability: any) {
+    console.log('[UserModel.startStatusObservation] ', availability);
+
+    this.statustUrl = availability.url;
+
+    this.status = availability.data.values[0].value;
+
+    availability.onChange('*', (event: any) => {
+      console.log('[UserModel] Availability change', event.data);
+      this.status = event.data;
+
+      console.log('[UserModel] Availability change', this);
+    });
+
   }
 
 }

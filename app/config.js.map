@@ -1,1 +1,1 @@
-{"version":3,"file":"config.js","sourceRoot":"","sources":["config.ts"],"names":[],"mappings":";;AAAa,QAAA,MAAM,GAAG;IACpB,SAAS,EAAE,KAAK;CACjB,CAAA"}
+{"version":3,"file":"config.js","sourceRoot":"","sources":["config.ts"],"names":[],"mappings":";;AAAa,QAAA,MAAM,GAAG;IACpB,SAAS,EAAE,KAAK;IAChB,MAAM,EAAE,+BAA+B;CACxC,CAAA"}

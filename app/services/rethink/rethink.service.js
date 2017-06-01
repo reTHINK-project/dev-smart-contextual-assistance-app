@@ -13,13 +13,14 @@ var core_1 = require("@angular/core");
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 var runtime_browser_1 = require("runtime-browser");
 var models_1 = require("../../models/models");
+var config_1 = require("../../config");
 var contact_service_1 = require("../contact.service");
 var storage_service_1 = require("../storage.service");
 var RethinkService = (function () {
     function RethinkService(localstorage, contactService) {
         this.localstorage = localstorage;
         this.contactService = contactService;
-        this.domain = 'hysmart.rethink.ptinovacao.pt';
+        this.domain = config_1.config.domain;
         this.runtimeURL = 'https://catalogue.' + this.domain + '/.well-known/runtime/Runtime';
         this.config = { domain: this.domain, runtimeURL: this.runtimeURL, development: true };
         this.progress = new BehaviorSubject_1.BehaviorSubject('');

@@ -51,7 +51,7 @@
     "/runtime-browser"
   ],
   "_resolved": "git://github.com/reTHINK-project/dev-runtime-core.git#3706dafac45197979cbd9463afe99f3cbf7f3ec9",
-  "_shasum": "01a3548a5e5646b4372945e291e83c311b0dcba4",
+  "_shasum": "ea7e125efbb8fa73c78001b0d2e5ae2ad73e70fb",
   "_shrinkwrap": null,
   "_spec": "runtime-core@github:reTHINK-project/dev-runtime-core#v0.8.1",
   "_where": "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink/node_modules/runtime-browser",
