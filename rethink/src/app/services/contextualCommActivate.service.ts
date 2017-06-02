@@ -7,7 +7,7 @@ import 'rxjs/add/operator/takeLast';
 import { ContextualComm } from '../models/models';
 
 // Utils
-import { normalizeName } from '../utils/utils';
+import { normalizeName, normalizeFromURL } from '../utils/utils';
 
 // Services
 import { ContactService } from './contact.service';
@@ -51,9 +51,16 @@ export class ContextualCommActivateService implements CanActivateChild {
               name = this.contextualCommDataService.normalizeAtomicName(this.atomicContextualComm(user));
             };
 
-            let normalizedName = normalizeName(name);
 
-            console.log('[ContextualCommData - Activate] - normalized name:', normalizedName);
+            let path = state.url;
+            console.log('[ContextualCommData - Activate] - path: ', path);
+            let normalizedPath = normalizeFromURL(path, this.rethinkService.getCurrentUser.username);
+
+            console.log('[ContextualCommData - Activate] - normalizedPath: ', normalizedPath);
+
+            let normalizedName = normalizeName(normalizedPath);
+
+            console.log('[ContextualCommData - Activate] - normalized name: ', normalizedName);
 
             this.contextualCommDataService.getContext(normalizedName.name).subscribe(
               (context: ContextualComm) => {

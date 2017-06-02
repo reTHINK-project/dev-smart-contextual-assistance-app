@@ -25,6 +25,7 @@ var AddUserComponent = (function () {
         this.chatService = chatService;
         this.contactService = contactService;
         this.contextualCommDataService = contextualCommDataService;
+        this.hostClass = 'add-user-action';
         this.closeEvent = new core_1.EventEmitter();
         this.inviteEvent = new core_1.EventEmitter();
         this.contactClick = new core_1.EventEmitter();
@@ -85,6 +86,10 @@ var AddUserComponent = (function () {
     };
     return AddUserComponent;
 }());
+__decorate([
+    core_1.HostBinding('class'),
+    __metadata("design:type", Object)
+], AddUserComponent.prototype, "hostClass", void 0);
 __decorate([
     core_1.Output(),
     __metadata("design:type", Object)

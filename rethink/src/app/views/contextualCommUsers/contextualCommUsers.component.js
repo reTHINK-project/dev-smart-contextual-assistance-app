@@ -66,7 +66,7 @@ __decorate([
 ContextualCommUsersComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
-        selector: 'ul[context-user-view]',
+        selector: 'context-user-view',
         templateUrl: './contextualCommUsers.component.html'
     }),
     __metadata("design:paramtypes", [router_1.Router,

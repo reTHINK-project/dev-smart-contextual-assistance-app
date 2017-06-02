@@ -1,18 +1,20 @@
-<!-- Search contact input -->
-<li class="search-bar half-padding">
-    <form class="all-100 filter">
-        <span class="fa fa-search"></span>
-        <input type="text" placeholder="type a name" class="search push-left" (keyup)="onFilterKey($event)">
-    </form>
-</li>
+<ul class="context-user-view contactlist all-100">
+    <!-- Search contact input -->
+    <li class="search-bar half-padding">
+        <form class="all-100 filter">
+            <span class="fa fa-search"></span>
+            <input type="text" placeholder="type a name" class="search push-left" (keyup)="onFilterKey($event)">
+        </form>
+    </li>
 
 
-<!--<a routerLink="context/work" routerLinkActive="active">work</a>
-<a routerLink="context/team1" routerLinkActive="active">team1</a>-->
+    <!--<a routerLink="context/work" routerLinkActive="active">work</a>
+    <a routerLink="context/team1" routerLinkActive="active">team1</a>-->
 
-<!-- List of ContactComponent -->
-<li *ngFor="let contact of contactsFilter | async" [routerLink]="[this.router.url, contact.username]" routerLinkActive="active">
-  <user-identity *ngIf="contact" [model]=contact></user-identity>
-</li>
+    <!-- List of ContactComponent -->
+    <li *ngFor="let contact of contactsFilter | async" [routerLink]="[this.router.url, contact.username]" routerLinkActive="active">
+        <user-identity *ngIf="contact" [model]=contact></user-identity>
+    </li>
+</ul>
 
 <add-user-view></add-user-view>

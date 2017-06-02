@@ -98,12 +98,14 @@ export function splitConvetionName(name: string): any {
 }
 
 export function normalizeFromURL(path: string, username: string): string {
-    let pathSplited = path.split('/');
-    pathSplited[0] = config.appPrefix;
 
-    if (path.includes('?')) {
+    // Clear path from attributes
+    if (path.indexOf('?') !== -1) {
       path = path.substring(0, path.lastIndexOf('?'));
     }
+
+    let pathSplited = path.split('/');
+    pathSplited[0] = config.appPrefix;
 
     if (path.includes('@') && username) {
       pathSplited.push(username);
@@ -111,6 +113,6 @@ export function normalizeFromURL(path: string, username: string): string {
 
     let joined = pathSplited.join('-');
 
-    console.log('AQUI:', pathSplited, joined);
+    console.log('AQUI:', path, username, pathSplited, joined);
     return joined;
 }

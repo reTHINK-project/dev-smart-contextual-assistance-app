@@ -1232,11 +1232,12 @@ body.rethink form.filter span.fa.fa-search {
 }
 /* line 1310, ../sass/rethink.scss */
 body.rethink ul.activity-list {
-  overflow-y: scroll;
+  overflow-y: auto;
   display: block;
   margin: 0;
   padding: 0;
   padding-left: 0;
+  height: 100%;
 }
 /* line 1317, ../sass/rethink.scss */
 body.rethink ul.activity-list li:last-child {
@@ -1873,32 +1874,6 @@ body.rethink div.sidebar ul.contactlist {
   height: 100%;
   position: relative;
 }
-/* line 1912, ../sass/rethink.scss */
-body.rethink div.sidebar ul.contactlist li.options {
-  position: absolute;
-  bottom: 40px;
-  width: 100%;
-}
-/* line 1917, ../sass/rethink.scss */
-body.rethink div.sidebar ul.contactlist li.options:hover {
-  background: transparent;
-}
-/* line 1924, ../sass/rethink.scss */
-body.rethink li.options span.add-text {
-  color: #fff;
-  vertical-align: top;
-  line-height: 36px;
-  padding-left: 12px;
-  text-transform: uppercase;
-  font-weight: 400;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
-  opacity: 0.8;
-}
-
-/*body.rethink .add-user-view .contactlist {
-  max-height: 12em;
-  overflow-y: scroll;
-}*/
 
 /* line 1936, ../sass/rethink.scss */
 body.rethink ul.contactlist {

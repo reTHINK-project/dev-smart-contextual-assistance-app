@@ -24,7 +24,7 @@ var MediaCommunicationComponent = (function () {
         this.contactService = contactService;
         this.connectorService = connectorService;
         this.contextualCommDataService = contextualCommDataService;
-        this.hostClass = 'all-100';
+        this.hostClass = 'all-75 large-65 xlarge-65 medium-100';
         this.streamingActive = false;
         console.log('[Media Communication Component] - Constructor:', this.route.queryParams);
         this.streamingActive = false;

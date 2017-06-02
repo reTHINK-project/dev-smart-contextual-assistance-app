@@ -21,7 +21,7 @@ var ActivityViewComponent = (function () {
         this.route = route;
         this.chatService = chatService;
         this.ContextualCommService = ContextualCommService;
-        this.hostClass = '';
+        this.hostClass = 'view-content d-flex flex-column';
         this.messages = new BehaviorSubject_1.BehaviorSubject([]);
     }
     // Load data ones componet is ready

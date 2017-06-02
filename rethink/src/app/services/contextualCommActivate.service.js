@@ -52,8 +52,12 @@ var ContextualCommActivateService = (function () {
                             name_1 = _this.contextualCommDataService.normalizeAtomicName(_this.atomicContextualComm(user_1));
                         }
                         ;
-                        var normalizedName_1 = utils_1.normalizeName(name_1);
-                        console.log('[ContextualCommData - Activate] - normalized name:', normalizedName_1);
+                        var path = state.url;
+                        console.log('[ContextualCommData - Activate] - path: ', path);
+                        var normalizedPath = utils_1.normalizeFromURL(path, _this.rethinkService.getCurrentUser.username);
+                        console.log('[ContextualCommData - Activate] - normalizedPath: ', normalizedPath);
+                        var normalizedName_1 = utils_1.normalizeName(normalizedPath);
+                        console.log('[ContextualCommData - Activate] - normalized name: ', normalizedName_1);
                         _this.contextualCommDataService.getContext(normalizedName_1.name).subscribe(function (context) {
                             _this.activateContext(context);
                             resolve(true);

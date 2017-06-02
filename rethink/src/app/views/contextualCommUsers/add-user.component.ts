@@ -1,4 +1,4 @@
-import { Component, Output, Input, OnInit, EventEmitter } from '@angular/core';
+import { Component, Output, Input, OnInit, HostBinding, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 // Bootstrap
@@ -22,6 +22,8 @@ import { User } from '../../models/models';
   templateUrl: './add-user.component.html'
 })
 export class AddUserComponent implements OnInit {
+
+  @HostBinding('class') hostClass = 'add-user-action';
 
   @Output() closeEvent = new EventEmitter();
   @Output() inviteEvent = new EventEmitter();

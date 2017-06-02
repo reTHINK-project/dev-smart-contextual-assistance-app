@@ -16,44 +16,33 @@ var ContextualCommActivityComponent = (function () {
         this.el = el;
         this.hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list';
     }
-    ContextualCommActivityComponent.prototype.onResize = function (event) {
-        this.updateView();
-    };
     ContextualCommActivityComponent.prototype.ngOnChanges = function (changes) {
         console.log('CHANGES:', changes);
     };
-    ContextualCommActivityComponent.prototype.ngAfterContentInit = function () {
-        this.updateView();
-    };
-    ContextualCommActivityComponent.prototype.updateView = function () {
+    ContextualCommActivityComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
-        if (!this._canUpdateView()) {
-            return;
-        }
-        console.log('Can Update the view:', this._canUpdateView());
-        var scrollPane = this.el.nativeElement;
-        var parentEl = scrollPane.offsetParent;
-        var top = scrollPane.offsetTop;
-        var parentElHeight = parentEl.offsetHeight;
-        // TODO: replace the number for the sender box height;
-        var height = parentElHeight - (top + 62);
-        scrollPane.style.height = height + 'px';
-        // TODO: Check if exits other way to wait the dom have the last item added and remove this setTimeout
-        setTimeout(function () {
+        this.messages.subscribe(function (messages) {
             _this.scrollToBottom();
         });
+    };
+    ContextualCommActivityComponent.prototype.updateView = function () {
+        // if (!this._canUpdateView()) { return; }
+        // console.log('Can Update the view:', this._canUpdateView());
+        // let scrollPane: any = this.el.nativeElement;
+        // let parentEl: any = scrollPane.offsetParent;
+        // let top = scrollPane.offsetTop;
+        // let parentElHeight = parentEl.offsetHeight;
+        // // TODO: replace the number for the sender box height;
+        // let height = parentElHeight - (top + 62);
+        // scrollPane.style.height = height + 'px';
+        // TODO: Check if exits other way to wait the dom have the last item added and remove this setTimeout
+        // setTimeout(() => {
+        //   this.scrollToBottom();
+        // });
     };
     ContextualCommActivityComponent.prototype.scrollToBottom = function () {
         var scrollPane = this.el.nativeElement;
         scrollPane.scrollTop = scrollPane.scrollHeight;
-    };
-    ContextualCommActivityComponent.prototype._canUpdateView = function () {
-        var scrollPane = this.el.nativeElement;
-        /* compares prev and current scrollHeight */
-        var parentEl = scrollPane.offsetParent;
-        console.log('scrollPane: ', scrollPane);
-        console.log('parentElHeigh:', parentEl);
-        return parentEl ? true : false;
     };
     return ContextualCommActivityComponent;
 }());
@@ -65,12 +54,6 @@ __decorate([
     core_1.Input(),
     __metadata("design:type", Subject_1.Subject)
 ], ContextualCommActivityComponent.prototype, "messages", void 0);
-__decorate([
-    core_1.HostListener('window:resize', ['$event']),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], ContextualCommActivityComponent.prototype, "onResize", null);
 ContextualCommActivityComponent = __decorate([
     core_1.Component({
         moduleId: module.id,

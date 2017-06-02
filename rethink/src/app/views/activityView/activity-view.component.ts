@@ -19,7 +19,7 @@ import { Message, ContextualComm } from '../../models/models';
 })
 export class ActivityViewComponent implements OnInit {
 
-  @HostBinding('class') hostClass = '';
+  @HostBinding('class') hostClass = 'view-content d-flex flex-column';
 
   @ViewChild(ContextualCommActivityComponent)
   private contextualCommActivityComponent: ContextualCommActivityComponent;
