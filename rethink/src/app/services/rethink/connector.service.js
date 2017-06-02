@@ -49,6 +49,9 @@ var ConnectorService = (function () {
         get: function () {
             return this._webrtcMode;
         },
+        set: function (value) {
+            this._webrtcMode = value;
+        },
         enumerable: true,
         configurable: true
     });
@@ -210,8 +213,8 @@ var ConnectorService = (function () {
         this.controllers[this._webrtcMode].disconnect();
         this._connectorStatus.next(STATUS.END);
         this._remoteStream = new ReplaySubject_1.ReplaySubject();
-        this._webrtcMode = 'offer';
-        console.log('[Connector Service - hangup]: ', this.router);
+        this.connectorMode = 'offer';
+        console.log('[Connector Service - hangup]: ', this);
     };
     return ConnectorService;
 }());

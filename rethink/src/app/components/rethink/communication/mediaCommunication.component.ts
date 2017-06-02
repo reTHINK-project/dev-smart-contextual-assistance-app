@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, HostBinding, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { config } from '../../../config';
-
 // Models
 import { User } from '../../../models/models';
 
