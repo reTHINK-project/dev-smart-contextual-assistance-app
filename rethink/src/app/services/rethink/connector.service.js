@@ -210,6 +210,7 @@ var ConnectorService = (function () {
         this.controllers[this._webrtcMode].disconnect();
         this._connectorStatus.next(STATUS.END);
         this._remoteStream = new ReplaySubject_1.ReplaySubject();
+        this._webrtcMode = 'offer';
         console.log('[Connector Service - hangup]: ', this.router);
     };
     return ConnectorService;

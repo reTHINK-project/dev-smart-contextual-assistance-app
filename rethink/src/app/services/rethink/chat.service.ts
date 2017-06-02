@@ -126,16 +126,23 @@ export class ChatService {
 
       console.log('[Chat Service - prepareController] - onUserAdded', chatController, user, dataObjectURL);
       let current: User;
+      let userInfo: any = {};
 
       if (user.hasOwnProperty('data')) {
-        current = this.contactService.getUser(user.data.identity.userURL);
-        if (!current) { current = new User(user.data.identity); }
+        current = this.contactService.getUser(user.data.identity.userProfile.userURL);
+        userInfo.domain = user.data.domain;
+        userInfo.idp = user.data.identity.idp;
+        Object.assign(userInfo, user.data.identity.userProfile);
       } else {
-        current = this.contactService.getUser(user.userURL);
-        if (!current) { current = new User(user); }
+        current = this.contactService.getUser(user.identity.userProfile.userURL);
+        userInfo.domain = user.domain;
+        userInfo.idp = user.identity.idp;
+        Object.assign(userInfo, user.identity.userProfile);
       }
 
-      console.log('[Chat Service - prepareController] - current user:', current);
+      if (!current) { current = new User(userInfo); }
+
+      console.log('[Chat Service - prepareController] - current user:', userInfo, current);
       this.contextualCommService.updateContextUsers(current, dataObjectURL);
     });
 

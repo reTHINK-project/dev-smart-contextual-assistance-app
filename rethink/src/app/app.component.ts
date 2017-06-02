@@ -98,11 +98,11 @@ export class AppComponent implements OnInit {
           console.log('Error:', reason);
         };
 
-        this.chatService.join(event.url)
-        .then((dataObject: any) => {
+        let url = event.url;
+        let metadata = event.value;
+        let name = metadata.name;
 
-          let metadata = event.value;
-          let name = metadata.name;
+        this.chatService.join(url).then((dataObject: any) => {
 
           console.log('[App Component - Join the parent context: ', name, dataObject);
 

@@ -5,6 +5,8 @@ import { ContextValue } from './rethink/Context';
 import { UserIdentity } from './rethink/UserIdentity';
 
 
+import { config } from '../../app/config';
+
 export class User implements UserIdentity {
 
   guid: string;
@@ -29,9 +31,9 @@ export class User implements UserIdentity {
     this.avatar   = obj && obj.avatar;
     this.locale   = obj && obj.locale;
     this.userURL  = obj && obj.userURL;
-    this.status   = obj && obj.status   || 'available';
+    this.status   = obj && obj.status   || 'unavailable';
     this.unread   = obj && obj.unread   || 0;
-    this.domain   = obj && obj.domain   || 'hybroker.rethink.ptinovacao.pt';
+    this.domain   = obj && obj.domain   || config.domain;
 
     this.identifiers = '';
 

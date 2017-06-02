@@ -97,19 +97,23 @@ var ChatService = (function () {
             var dataObjectURL = chatController.dataObject.url;
             console.log('[Chat Service - prepareController] - onUserAdded', chatController, user, dataObjectURL);
             var current;
+            var userInfo = {};
             if (user.hasOwnProperty('data')) {
-                current = _this.contactService.getUser(user.data.identity.userURL);
-                if (!current) {
-                    current = new models_1.User(user.data.identity);
-                }
+                current = _this.contactService.getUser(user.data.identity.userProfile.userURL);
+                userInfo.domain = user.data.domain;
+                userInfo.idp = user.data.identity.idp;
+                Object.assign(userInfo, user.data.identity.userProfile);
             }
             else {
-                current = _this.contactService.getUser(user.userURL);
-                if (!current) {
-                    current = new models_1.User(user);
-                }
+                current = _this.contactService.getUser(user.identity.userProfile.userURL);
+                userInfo.domain = user.domain;
+                userInfo.idp = user.identity.idp;
+                Object.assign(userInfo, user.identity.userProfile);
             }
-            console.log('[Chat Service - prepareController] - current user:', current);
+            if (!current) {
+                current = new models_1.User(userInfo);
+            }
+            console.log('[Chat Service - prepareController] - current user:', userInfo, current);
             _this.contextualCommService.updateContextUsers(current, dataObjectURL);
         });
         chatController.onMessage(function (message) {

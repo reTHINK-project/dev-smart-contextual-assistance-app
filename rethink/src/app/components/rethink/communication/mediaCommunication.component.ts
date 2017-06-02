@@ -115,7 +115,7 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
 
     console.log('[Media Communication Component] - ' + this.mode + ' call To', user, contextID);
 
-    this.connectorService.connect(user.username, options, contextID, config.domain)
+    this.connectorService.connect(user.username, options, contextID, user.domain)
       .then((controller) => {
         controller.dataObjectReporter.data.mode = this.mode;
         this.streamingActive = true;

@@ -79,10 +79,10 @@ var AppComponent = (function () {
             var error = function (reason) {
                 console.log('Error:', reason);
             };
-            _this.chatService.join(event.url)
-                .then(function (dataObject) {
-                var metadata = event.value;
-                var name = metadata.name;
+            var url = event.url;
+            var metadata = event.value;
+            var name = metadata.name;
+            _this.chatService.join(url).then(function (dataObject) {
                 console.log('[App Component - Join the parent context: ', name, dataObject);
                 var normalizedName = utils_1.normalizeName(name);
                 console.log('AQUI:', name, normalizedName);
