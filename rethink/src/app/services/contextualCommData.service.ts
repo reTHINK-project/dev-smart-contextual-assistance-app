@@ -108,9 +108,9 @@ export class ContextualCommDataService {
       this.chatService.create(normalizedName.id, [username], []).then((controller: any) => {
 
         console.info('[ContextualCommData Service] - communication objects was created successfully: ', controller);
-        console.info('[ContextualCommData Service] - creating new contexts: ', controller, activeContext.id);
+        console.info('[ContextualCommData Service] - creating new contexts: ', controller, activeContext);
 
-        return this.contextualCommService.create(normalizedName.name, controller.dataObject, activeContext.id);
+        return this.contextualCommService.create(normalizedName.name, controller.dataObject, normalizedName.parent);
       }).then((context: ContextualComm) => {
         console.info('[ContextualCommData Service] -  ContextualComm created: ', context);
         resolve(context);
