@@ -42,13 +42,17 @@ export class User implements UserIdentity {
   }
 
   startStatusObservation(availability: any) {
+    console.log('[UserModel.startStatusObservation] ', availability);
+
+    this.statustUrl = availability.url;
 
     this.status = availability.data.values[0].value;
 
-    availability.onChange('*', function(event: any) {
-      console.log('[User Model] - change', event);
-      this.status = availability.data.values[0].value;
+    availability.onChange('*', (event: any) => {
+      console.log('[UserModel] Availability change', event.data);
+      this.status = event.data;
 
+      console.log('[UserModel] Availability change', this);
     });
 
   }

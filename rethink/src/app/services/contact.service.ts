@@ -42,13 +42,20 @@ export class ContactService {
   constructor(private localStorage: LocalStorage) {
 
     const initialUsers: User[] = [];
+    let me: User;
+
+    if (this.localStorage.hasObject('me')) {
+      me = this.localStorage.getObject('me');
+    }
 
     if (this.localStorage.hasObject('contacts')) {
       let mapObj = this.localStorage.getObject('contacts');
       for (let k of Object.keys(mapObj)) {
         let currentUser: User = new User(mapObj[k]);
         this._userList.set(k, currentUser);
-        initialUsers.push(currentUser);
+        if (currentUser.userURL !== me.userURL) {
+          initialUsers.push(currentUser);
+        }
       }
     }
 
@@ -76,6 +83,9 @@ export class ContactService {
 
           if (users.indexOf(user) !== -1) {
             return users;
+          } else {
+            let id = users.indexOf(user);
+            users[id] = user;
           }
 
           return users.concat(user);
@@ -83,7 +93,6 @@ export class ContactService {
       }).subscribe(this._updates);
 
     this._newUser.subscribe(this._create);
-
 
     this._users.subscribe((users: User[]) => {
       console.log('LIST USERS:', users);

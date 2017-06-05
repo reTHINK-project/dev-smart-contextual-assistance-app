@@ -45,6 +45,10 @@ var ContactService = (function () {
         this._updates = new Subject_1.Subject();
         this._newUser = new Subject_1.Subject();
         var initialUsers = [];
+        var me;
+        if (this.localStorage.hasObject('me')) {
+            me = this.localStorage.getObject('me');
+        }
         if (this.localStorage.hasObject('contacts')) {
             var mapObj = this.localStorage.getObject('contacts');
             try {
@@ -52,7 +56,9 @@ var ContactService = (function () {
                     var k = _b.value;
                     var currentUser = new models_1.User(mapObj[k]);
                     this._userList.set(k, currentUser);
-                    initialUsers.push(currentUser);
+                    if (currentUser.userURL !== me.userURL) {
+                        initialUsers.push(currentUser);
+                    }
                 }
             }
             catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -81,6 +87,10 @@ var ContactService = (function () {
             return function (users) {
                 if (users.indexOf(user) !== -1) {
                     return users;
+                }
+                else {
+                    var id = users.indexOf(user);
+                    users[id] = user;
                 }
                 return users.concat(user);
             };

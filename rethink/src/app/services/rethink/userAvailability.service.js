@@ -15,21 +15,6 @@ var core_1 = require("@angular/core");
 var rethink_service_1 = require("./rethink.service");
 var contact_service_1 = require("../contact.service");
 var UserAvailabilityService = (function () {
-    /*private _onUserAdded: Function;
-    private _onInvitation: Function;
-    private _onMessage: Function;
-    private _discovery: any;*/
-    /*private _activeDataObjectURL: string;
-    public get activeDataObjectURL(): string {
-      return this._activeDataObjectURL;
-    }
-  
-    public set activeDataObjectURL(value: string) {
-      console.log('[Chat Service] - active controller:', value, this.controllerList);
-      this._activeDataObjectURL = value;
-      this.chatControllerActive = this.controllerList.get(value);
-      console.info('[Chat Service] - active controller: ', this.chatControllerActive);
-    }*/
     function UserAvailabilityService(router, route, rethinkService, contactService) {
         var _this = this;
         this.router = router;
@@ -43,12 +28,11 @@ var UserAvailabilityService = (function () {
             .then(function (hyperty) {
             _this.myAvailabilityReporter = hyperty.instance;
             console.log('[UserAvailability Service - getHyperty] Reporter hyperty was instantiated ', _this.myAvailabilityReporter);
-            _this.hyperty = hyperty;
             _this.myAvailabilityReporter.start().then(function (availability) {
                 _this.myAvailability = availability;
+                _this.startObservation();
             });
         });
-        this.startObservation();
     }
     UserAvailabilityService.prototype.startObservation = function () {
         var _this = this;
@@ -58,16 +42,15 @@ var UserAvailabilityService = (function () {
             .then(function (hyperty) {
             _this.availabilityObserver = hyperty.instance;
             console.log('[UserAvailability Service - getHyperty] Observer hyperty was instantiated ', _this.availabilityObserver);
-            _this.hyperty = hyperty;
             // Let's retrieve observers from previous sessions
             _this.availabilityObserver.start().then(function (availabilities) {
                 // lets retrieve all users to be observed
-                _this.contactService.getUserList().subscribe(function (users) {
+                _this.contactService.getUsers().subscribe(function (users) {
                     console.log('[UserAvailability Service - startObservation] users to be observed:', users);
                     var newUsers = [];
                     //for each User lets start observation 
                     users.forEach(function (user) {
-                        if (user.statustUrl) {
+                        if (user.statustUrl && availabilities[user.statustUrl]) {
                             // TODO: confirm controllers is a list not an array
                             user.startStatusObservation(availabilities[user.statustUrl]);
                         }
@@ -76,9 +59,9 @@ var UserAvailabilityService = (function () {
                         }
                     });
                     // Users that have no controller yet, let's subscribe to have one
-                    // if (uncontrolledUsers.length >= 0) {
-                    //   this.subscribeUsers(uncontrolledUsers);
-                    // }
+                    if (newUsers.length >= 0) {
+                        _this.subscribeUsers(newUsers);
+                    }
                 });
             });
         });
@@ -99,7 +82,7 @@ var UserAvailabilityService = (function () {
         // discover and return last modified user availability hyperty
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.availabilityObserver.discoverUsers(user.identifiers, user.domain).then(function (discovered) {
+            _this.availabilityObserver.discoverUsers(user.username, _this.rethinkService.domain).then(function (discovered) {
                 resolve(_this.getLastModifiedAvailability(discovered));
             });
         });
@@ -108,7 +91,7 @@ var UserAvailabilityService = (function () {
         // from a list of discovered Availability Hyperty reporters return the one that was last modified
         var lastModifiedHyperty = hyperties[0];
         hyperties.forEach(function (hyperty) {
-            if (hyperty.lastModified > lastModifiedHyperty.lastModified) {
+            if (new Date(hyperty.lastModified).getTime() > new Date(lastModifiedHyperty.lastModified).getTime()) {
                 lastModifiedHyperty = hyperty;
             }
         });
