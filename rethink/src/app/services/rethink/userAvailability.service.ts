@@ -13,9 +13,6 @@ import { User, Message } from '../../models/models';
 @Injectable()
 export class UserAvailabilityService {
 
-  /*public chatControllerActive: any;
-
-  private controllerList: Map<string, any> = new Map<string, any>();*/
 
   hyperty: any;
   availabilityReporterURL: string;
@@ -24,26 +21,7 @@ export class UserAvailabilityService {
   myAvailabilityReporter: any;
   availabilityObserver: any;
   myAvailability: any;
-  availabilityControllers: Map<string, Object>;
 
-  observedUsers: Map<User,Object>
-
-  /*private _onUserAdded: Function;
-  private _onInvitation: Function;
-  private _onMessage: Function;
-  private _discovery: any;*/
-
-  /*private _activeDataObjectURL: string;
-  public get activeDataObjectURL(): string {
-    return this._activeDataObjectURL;
-  }
-
-  public set activeDataObjectURL(value: string) {
-    console.log('[Chat Service] - active controller:', value, this.controllerList);
-    this._activeDataObjectURL = value;
-    this.chatControllerActive = this.controllerList.get(value);
-    console.info('[Chat Service] - active controller: ', this.chatControllerActive);
-  }*/
 
   constructor(
     private router: Router,
@@ -55,19 +33,18 @@ export class UserAvailabilityService {
 
       this.availabilityReporterURL = 'hyperty-catalogue://catalogue.' + this.rethinkService.domain + '/.well-known/hyperty/UserAvailabilityReporter';
       this.availabilityObserverURL = 'hyperty-catalogue://catalogue.' + this.rethinkService.domain + '/.well-known/hyperty/UserAvailabilityObserver';
+
     
       this.rethinkService.getHyperty(this.availabilityReporterURL)
         .then((hyperty: any) => {
           this.myAvailabilityReporter = hyperty.instance;
           console.log('[UserAvailability Service - getHyperty] Reporter hyperty was instantiated ', this.myAvailabilityReporter);
-          this.hyperty = hyperty;
           this.myAvailabilityReporter.start().then((availability: any) => {
             this.myAvailability = availability;
-
+            this.startObservation();
           });
        });
 
-       this.startObservation();
 
    }
 
@@ -80,19 +57,18 @@ export class UserAvailabilityService {
         .then((hyperty: any) => {
           this.availabilityObserver = hyperty.instance;
           console.log('[UserAvailability Service - getHyperty] Observer hyperty was instantiated ', this.availabilityObserver);
-          this.hyperty = hyperty;
 
           // Let's retrieve observers from previous sessions
           this.availabilityObserver.start().then((availabilities: any) => {
             // lets retrieve all users to be observed
-            this.contactService.getUserList().subscribe((users: User[]) => { 
+            this.contactService.getUsers().subscribe((users: User[]) => { 
               console.log('[UserAvailability Service - startObservation] users to be observed:', users);
 
               let newUsers: Array<User> = [];
 
               //for each User lets start observation 
               users.forEach((user: User)=>{
-                if (user.statustUrl) {
+                if (user.statustUrl && availabilities[user.statustUrl]) {
                   // TODO: confirm controllers is a list not an array
                   user.startStatusObservation(availabilities[user.statustUrl]);
                 } else {
@@ -102,9 +78,9 @@ export class UserAvailabilityService {
 
               // Users that have no controller yet, let's subscribe to have one
 
-              // if (uncontrolledUsers.length >= 0) {
-              //   this.subscribeUsers(uncontrolledUsers);
-              // }
+              if (newUsers.length >= 0) {
+                this.subscribeUsers(newUsers);
+              }
 
           });
 
@@ -140,7 +116,7 @@ export class UserAvailabilityService {
     // discover and return last modified user availability hyperty
 
     return new Promise((resolve, reject) => {
-      this.availabilityObserver.discoverUsers(user.identifiers, user.domain).then((discovered:Array <any>) => {
+      this.availabilityObserver.discoverUsers(user.username, this.rethinkService.domain).then((discovered:Array <any>) => {
         resolve( this.getLastModifiedAvailability(discovered) );
 
       });
@@ -154,7 +130,7 @@ export class UserAvailabilityService {
     let lastModifiedHyperty: any = hyperties[0];
 
     hyperties.forEach((hyperty)=>{
-      if (hyperty.lastModified > lastModifiedHyperty.lastModified) {
+      if (new Date(hyperty.lastModified).getTime() > new Date(lastModifiedHyperty.lastModified).getTime()) {
         lastModifiedHyperty = hyperty;
       }
     });
