@@ -51,7 +51,7 @@ var ContextualCommActivateService = (function () {
                         ;
                         if (task) {
                             name_1 = task;
-                            title = context;
+                            title = task;
                         }
                         ;
                         if (user_1) {

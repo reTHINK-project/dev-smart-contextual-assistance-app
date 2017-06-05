@@ -51,9 +51,9 @@ export class ContextualCommActivateService implements CanActivateChild {
             let title = '';
 
             if (context) { name = context; title = context; };
-            if (task) { name = task; title = context; };
+            if (task) { name = task; title = task; };
             if (user) {
-               title = user;
+              title = user;
               name = this.contextualCommDataService.normalizeAtomicName(this.atomicContextualComm(user));
             };
 
