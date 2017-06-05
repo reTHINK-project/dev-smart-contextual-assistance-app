@@ -9,9 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var platform_browser_1 = require("@angular/platform-browser");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 require("rxjs/add/operator/takeLast");
+var config_1 = require("../config");
 // Utils
 var utils_1 = require("../utils/utils");
 // Services
@@ -22,8 +24,9 @@ var contextualCommData_service_1 = require("./contextualCommData.service");
 var chat_service_1 = require("./rethink/chat.service");
 var rethink_service_1 = require("./rethink/rethink.service");
 var ContextualCommActivateService = (function () {
-    function ContextualCommActivateService(router, chatService, contactService, rethinkService, contextualCommService, contextualCommDataService) {
+    function ContextualCommActivateService(router, titleService, chatService, contactService, rethinkService, contextualCommService, contextualCommDataService) {
         this.router = router;
+        this.titleService = titleService;
         this.chatService = chatService;
         this.contactService = contactService;
         this.rethinkService = rethinkService;
@@ -40,18 +43,23 @@ var ContextualCommActivateService = (function () {
                         var task = route.params['task'];
                         var user_1 = route.params['user'];
                         var name_1 = '';
+                        var title = '';
                         if (context) {
                             name_1 = context;
+                            title = context;
                         }
                         ;
                         if (task) {
                             name_1 = task;
+                            title = task;
                         }
                         ;
                         if (user_1) {
+                            title = user_1;
                             name_1 = _this.contextualCommDataService.normalizeAtomicName(_this.atomicContextualComm(user_1));
                         }
                         ;
+                        _this.titleService.setTitle(config_1.config.pageTitlePrefix + title);
                         var path = state.url;
                         console.log('[ContextualCommData - Activate] - path: ', path);
                         var normalizedPath = utils_1.normalizeFromURL(path, _this.rethinkService.getCurrentUser.username);
@@ -98,6 +106,7 @@ var ContextualCommActivateService = (function () {
 ContextualCommActivateService = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [router_1.Router,
+        platform_browser_1.Title,
         chat_service_1.ChatService,
         contact_service_1.ContactService,
         rethink_service_1.RethinkService,
