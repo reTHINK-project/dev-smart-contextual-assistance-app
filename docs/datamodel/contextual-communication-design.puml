@@ -41,6 +41,18 @@ Package ContextualComm {
 	}
 
 	class ContextualCommUser {
+	commProviders: HypertyProvider[]
+	contextProviders: HypertyProvider[]
+	}
+
+	class HypertyProvider {
+	domain: string
+	domainIcon ?: FontIcon
+	scheme: string
+	resources: HypertyResource.HypertyResourceType[]
+	url: URL.HypertyURL
+	interworking ?: boolean
+	value ?: Context.ContextValue
 	}
 
 	class Identity.Identity {
@@ -48,7 +60,8 @@ Package ContextualComm {
 	 identifiers: User.UserURL[]
 	}
 
- ContextualComm <---right-"1..*" ContextualCommTrigger
+
+	ContextualComm *-left-> ContextualCommUser
 
 	ContextualComm *-up-> Context.Context
 
@@ -56,9 +69,13 @@ Package ContextualComm {
 
 	ContextualCommUser -up-|> Identity.Identity
 
+	ContextualCommUser *-down-> HypertyProvider
+
 	CompositeContextualComm -up-|> ContextualComm
 
 	AtomicContextualComm -up-|> ContextualComm
+
+	ContextualComm <---"1..*" ContextualCommTrigger
 }
 
 @enduml
