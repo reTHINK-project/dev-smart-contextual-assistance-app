@@ -43,6 +43,7 @@ Package ContextualComm {
 	class ContextualCommUser {
 	commProviders: HypertyProvider[]
 	contextProviders: HypertyProvider[]
+	connectionProviders: HypertyProvider[]
 	}
 
 	class HypertyProvider {
