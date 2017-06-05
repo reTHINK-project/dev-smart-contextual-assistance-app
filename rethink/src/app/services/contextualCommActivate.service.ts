@@ -1,7 +1,10 @@
+import { Title } from '@angular/platform-browser';
 import { Injectable } from '@angular/core';
 import { Router, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import 'rxjs/add/operator/takeLast';
+
+import { config } from '../config';
 
 // Models
 import { ContextualComm } from '../models/models';
@@ -23,6 +26,7 @@ export class ContextualCommActivateService implements CanActivateChild {
 
   constructor(
     private router: Router,
+    private titleService: Title,
     private chatService: ChatService,
     private contactService: ContactService,
     private rethinkService: RethinkService,
@@ -44,13 +48,16 @@ export class ContextualCommActivateService implements CanActivateChild {
             let task = route.params['task'];
             let user = route.params['user'];
             let name = '';
+            let title = '';
 
-            if (context) { name = context; };
-            if (task) { name = task; };
+            if (context) { name = context; title = context; };
+            if (task) { name = task; title = task; };
             if (user) {
+              title = user;
               name = this.contextualCommDataService.normalizeAtomicName(this.atomicContextualComm(user));
             };
 
+            this.titleService.setTitle(config.pageTitlePrefix + title);
 
             let path = state.url;
             console.log('[ContextualCommData - Activate] - path: ', path);

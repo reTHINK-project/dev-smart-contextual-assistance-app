@@ -1,5 +1,8 @@
+import { Title } from '@angular/platform-browser';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+
+import { config } from './config';
 
 // Models
 import { User, ContextualComm } from './models/models';
@@ -28,6 +31,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private titleService: Title,
     private route: ActivatedRoute,
     private contactService: ContactService,
     private rethinkService: RethinkService,
@@ -37,7 +41,7 @@ export class AppComponent implements OnInit {
     private chatService: ChatService) {
 
     this.rethinkService.progress.subscribe({
-      next: (v: string) => this.status = v
+      next: (v: string) => { this.status = v; this.titleService.setTitle(config.pageTitlePrefix + v); }
     });
 
     this.triggerActionService.action().subscribe((action: TriggerActions) => {
