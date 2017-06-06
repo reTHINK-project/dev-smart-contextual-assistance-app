@@ -10,7 +10,7 @@ import { User } from '../../models/models';
 
 @Component({
   moduleId: module.id,
-  selector: 'ul[context-user-view]',
+  selector: 'context-user-view',
   templateUrl: './contextualCommUsers.component.html'
 })
 export class ContextualCommUsersComponent implements OnInit {

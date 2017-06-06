@@ -1,50 +1,28 @@
 {
   "_args": [
     [
-      {
-        "raw": "browser-sync-client@2.5.1",
-        "scope": null,
-        "escapedName": "browser-sync-client",
-        "name": "browser-sync-client",
-        "rawSpec": "2.5.1",
-        "spec": "2.5.1",
-        "type": "version"
-      },
-      "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink/node_modules/browser-sync"
+      "browser-sync-client@https://registry.npmjs.org/browser-sync-client/-/browser-sync-client-2.5.1.tgz",
+      "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink"
     ]
   ],
-  "_from": "browser-sync-client@2.5.1",
+  "_from": "browser-sync-client@https://registry.npmjs.org/browser-sync-client/-/browser-sync-client-2.5.1.tgz",
   "_id": "browser-sync-client@2.5.1",
-  "_inCache": true,
+  "_inBundle": false,
+  "_integrity": "sha1-7BrWmknC4tS2RbGLHAbCmz2a+Os=",
   "_location": "/browser-sync-client",
-  "_nodeVersion": "6.10.1",
-  "_npmOperationalInternal": {
-    "host": "s3://npm-registry-packages",
-    "tmp": "tmp/browser-sync-client-2.5.1.tgz_1495357338080_0.24074852792546153"
-  },
-  "_npmUser": {
-    "name": "shakyshane",
-    "email": "shakyshane@gmail.com"
-  },
-  "_npmVersion": "3.10.10",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "browser-sync-client@2.5.1",
-    "scope": null,
-    "escapedName": "browser-sync-client",
+    "type": "remote",
+    "raw": "browser-sync-client@https://registry.npmjs.org/browser-sync-client/-/browser-sync-client-2.5.1.tgz",
     "name": "browser-sync-client",
-    "rawSpec": "2.5.1",
-    "spec": "2.5.1",
-    "type": "version"
+    "escapedName": "browser-sync-client",
+    "rawSpec": "https://registry.npmjs.org/browser-sync-client/-/browser-sync-client-2.5.1.tgz",
+    "saveSpec": "https://registry.npmjs.org/browser-sync-client/-/browser-sync-client-2.5.1.tgz",
+    "fetchSpec": "https://registry.npmjs.org/browser-sync-client/-/browser-sync-client-2.5.1.tgz"
   },
-  "_requiredBy": [
-    "/browser-sync"
-  ],
-  "_resolved": "https://registry.npmjs.org/browser-sync-client/-/browser-sync-client-2.5.1.tgz",
-  "_shasum": "ec1ad69a49c2e2d4b645b18b1c06c29b3d9af8eb",
-  "_shrinkwrap": null,
-  "_spec": "browser-sync-client@2.5.1",
-  "_where": "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink/node_modules/browser-sync",
+  "_requiredBy": [],
+  "_spec": "https://registry.npmjs.org/browser-sync-client/-/browser-sync-client-2.5.1.tgz",
+  "_where": "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink",
   "author": {
     "name": "Shane Osbourne",
     "email": "shane.osbourne8@gmail.com"
@@ -82,11 +60,6 @@
     "vinyl-fs": "^2.4.4",
     "vinyl-source-stream": "^1.1.0"
   },
-  "directories": {},
-  "dist": {
-    "shasum": "ec1ad69a49c2e2d4b645b18b1c06c29b3d9af8eb",
-    "tarball": "https://registry.npmjs.org/browser-sync-client/-/browser-sync-client-2.5.1.tgz"
-  },
   "engines": {
     "node": ">=4.0.0"
   },
@@ -94,7 +67,6 @@
     "dist",
     "index.js"
   ],
-  "gitHead": "702fa68743c6d8123ab2fa1e75dd133eca090be9",
   "homepage": "https://github.com/shakyshane/browser-sync-client",
   "keywords": [],
   "licenses": [
@@ -104,16 +76,7 @@
     }
   ],
   "main": "index.js",
-  "maintainers": [
-    {
-      "name": "shakyshane",
-      "email": "shane.osbourne8@gmail.com"
-    }
-  ],
   "name": "browser-sync-client",
-  "optionalDependencies": {},
-  "readme": "# browser-sync-client [![Build Status](https://travis-ci.org/BrowserSync/browser-sync-client.svg)](https://travis-ci.org/BrowserSync/browser-sync-client)\n\nClient-side script for BrowserSync\n\n## Contributors\n\n```\n   177\tShane Osbourne\n     2\tSergey Slipchenko\n     1\tHugo Dias\n     1\tShinnosuke Watanabe\n     1\tTim Schaub\n     1\tShane Daniel\n     1\tMatthieu Vachon\n```\n\n## License\nCopyright (c) 2014 Shane Osbourne\nLicensed under the MIT license.\n",
-  "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git://github.com/shakyshane/browser-sync-client.git"
@@ -123,5 +86,5 @@
     "start": "cb dev",
     "test": "cb test"
   },
-  "version": "2.5.1"
+  "version": "https://registry.npmjs.org/browser-sync-client/-/browser-sync-client-2.5.1.tgz"
 }

@@ -80,8 +80,8 @@ var ContextualCommDataService = (function () {
             console.log('[ContextualCommData Service] - normalizedName:', normalizedName);
             _this.chatService.create(normalizedName.id, [username], []).then(function (controller) {
                 console.info('[ContextualCommData Service] - communication objects was created successfully: ', controller);
-                console.info('[ContextualCommData Service] - creating new contexts: ', controller, activeContext.id);
-                return _this.contextualCommService.create(normalizedName.name, controller.dataObject, activeContext.id);
+                console.info('[ContextualCommData Service] - creating new contexts: ', controller, activeContext);
+                return _this.contextualCommService.create(normalizedName.name, controller.dataObject, normalizedName.parent);
             }).then(function (context) {
                 console.info('[ContextualCommData Service] -  ContextualComm created: ', context);
                 resolve(context);

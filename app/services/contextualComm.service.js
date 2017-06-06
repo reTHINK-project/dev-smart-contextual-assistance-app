@@ -165,12 +165,12 @@ var ContextualCommService = (function () {
         enumerable: true,
         configurable: true
     });
-    ContextualCommService.prototype._filterByName = function (id) {
+    ContextualCommService.prototype._filterByName = function (idName) {
         var found;
         this.cxtList.forEach(function (context) {
-            console.log('[Contextual Comm Service] - ', context.id, id);
+            console.log('[Contextual Comm Service] - ', context, idName);
             if (!found) {
-                found = context.id === id ? context : null;
+                found = context.id === idName ? context : null;
             }
         });
         return found;

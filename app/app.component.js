@@ -9,8 +9,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var platform_browser_1 = require("@angular/platform-browser");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var config_1 = require("./config");
 var app_models_1 = require("./models/app.models");
 // Utils
 var utils_1 = require("./utils/utils");
@@ -18,9 +20,10 @@ var utils_1 = require("./utils/utils");
 var contextualCommData_service_1 = require("./services/contextualCommData.service");
 var services_1 = require("./services/services");
 var AppComponent = (function () {
-    function AppComponent(router, route, contactService, rethinkService, triggerActionService, contextualCommDataService, connectorService, chatService) {
+    function AppComponent(router, titleService, route, contactService, rethinkService, triggerActionService, contextualCommDataService, connectorService, chatService) {
         var _this = this;
         this.router = router;
+        this.titleService = titleService;
         this.route = route;
         this.contactService = contactService;
         this.rethinkService = rethinkService;
@@ -31,7 +34,7 @@ var AppComponent = (function () {
         this.ready = false;
         this.contextOpened = false;
         this.rethinkService.progress.subscribe({
-            next: function (v) { return _this.status = v; }
+            next: function (v) { _this.status = v; _this.titleService.setTitle(config_1.config.pageTitlePrefix + v); }
         });
         this.triggerActionService.action().subscribe(function (action) {
             console.log('[App Component - TriggerActionService] - action: ', action);
@@ -79,10 +82,10 @@ var AppComponent = (function () {
             var error = function (reason) {
                 console.log('Error:', reason);
             };
-            _this.chatService.join(event.url)
-                .then(function (dataObject) {
-                var metadata = event.value;
-                var name = metadata.name;
+            var url = event.url;
+            var metadata = event.value;
+            var name = metadata.name;
+            _this.chatService.join(url).then(function (dataObject) {
                 console.log('[App Component - Join the parent context: ', name, dataObject);
                 var normalizedName = utils_1.normalizeName(name);
                 console.log('AQUI:', name, normalizedName);
@@ -109,6 +112,7 @@ AppComponent = __decorate([
         templateUrl: './app.component.html'
     }),
     __metadata("design:paramtypes", [router_1.Router,
+        platform_browser_1.Title,
         router_1.ActivatedRoute,
         services_1.ContactService,
         services_1.RethinkService,

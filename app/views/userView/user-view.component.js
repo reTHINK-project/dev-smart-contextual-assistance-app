@@ -24,7 +24,7 @@ var UserViewComponent = (function () {
         this.contactService = contactService;
         this.ContextualCommService = ContextualCommService;
         this.chatService = chatService;
-        this.hostClass = '';
+        this.hostClass = 'view-content d-flex flex-column';
         this.messages = new BehaviorSubject_1.BehaviorSubject([]);
         this.subscription = this.route
             .queryParams

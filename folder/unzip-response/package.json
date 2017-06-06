@@ -1,54 +1,31 @@
 {
   "_args": [
     [
-      {
-        "raw": "unzip-response@^2.0.1",
-        "scope": null,
-        "escapedName": "unzip-response",
-        "name": "unzip-response",
-        "rawSpec": "^2.0.1",
-        "spec": ">=2.0.1 <3.0.0",
-        "type": "range"
-      },
-      "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink/node_modules/got"
+      "unzip-response@https://registry.npmjs.org/unzip-response/-/unzip-response-2.0.1.tgz",
+      "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink"
     ]
   ],
-  "_from": "unzip-response@>=2.0.1 <3.0.0",
+  "_from": "unzip-response@https://registry.npmjs.org/unzip-response/-/unzip-response-2.0.1.tgz",
   "_id": "unzip-response@2.0.1",
-  "_inCache": true,
+  "_inBundle": false,
+  "_integrity": "sha1-0vD3N9FrBhXnKmk17QQhRXLVb5c=",
   "_location": "/unzip-response",
-  "_nodeVersion": "4.5.0",
-  "_npmOperationalInternal": {
-    "host": "packages-16-east.internal.npmjs.com",
-    "tmp": "tmp/unzip-response-2.0.1.tgz_1473187386171_0.46349130012094975"
-  },
-  "_npmUser": {
-    "name": "sindresorhus",
-    "email": "sindresorhus@gmail.com"
-  },
-  "_npmVersion": "2.15.9",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "unzip-response@^2.0.1",
-    "scope": null,
-    "escapedName": "unzip-response",
+    "type": "remote",
+    "raw": "unzip-response@https://registry.npmjs.org/unzip-response/-/unzip-response-2.0.1.tgz",
     "name": "unzip-response",
-    "rawSpec": "^2.0.1",
-    "spec": ">=2.0.1 <3.0.0",
-    "type": "range"
+    "escapedName": "unzip-response",
+    "rawSpec": "https://registry.npmjs.org/unzip-response/-/unzip-response-2.0.1.tgz",
+    "saveSpec": "https://registry.npmjs.org/unzip-response/-/unzip-response-2.0.1.tgz",
+    "fetchSpec": "https://registry.npmjs.org/unzip-response/-/unzip-response-2.0.1.tgz"
   },
-  "_requiredBy": [
-    "/got"
-  ],
-  "_resolved": "https://registry.npmjs.org/unzip-response/-/unzip-response-2.0.1.tgz",
-  "_shasum": "d2f0f737d16b0615e72a6935ed04214572d56f97",
-  "_shrinkwrap": null,
-  "_spec": "unzip-response@^2.0.1",
-  "_where": "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink/node_modules/got",
+  "_requiredBy": [],
+  "_spec": "https://registry.npmjs.org/unzip-response/-/unzip-response-2.0.1.tgz",
+  "_where": "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink",
   "bugs": {
     "url": "https://github.com/sindresorhus/unzip-response/issues"
   },
-  "dependencies": {},
   "description": "Unzip a HTTP response if needed",
   "devDependencies": {
     "ava": "*",
@@ -57,18 +34,12 @@
     "rfpify": "^1.0.0",
     "xo": "*"
   },
-  "directories": {},
-  "dist": {
-    "shasum": "d2f0f737d16b0615e72a6935ed04214572d56f97",
-    "tarball": "https://registry.npmjs.org/unzip-response/-/unzip-response-2.0.1.tgz"
-  },
   "engines": {
     "node": ">=4"
   },
   "files": [
     "index.js"
   ],
-  "gitHead": "71858052fe94b89678d14ba54e8e96cacbda92c3",
   "homepage": "https://github.com/sindresorhus/unzip-response#readme",
   "keywords": [
     "http",
@@ -95,9 +66,6 @@
     }
   ],
   "name": "unzip-response",
-  "optionalDependencies": {},
-  "readme": "# unzip-response [![Build Status](https://travis-ci.org/sindresorhus/unzip-response.svg?branch=master)](https://travis-ci.org/sindresorhus/unzip-response)\n\n> Unzip a HTTP response if needed\n\nUnzips the response from [`http.request`](https://nodejs.org/api/http.html#http_http_request_options_callback) if it's gzipped/deflated, otherwise just passes it through.\n\n\n## Install\n\n```\n$ npm install --save unzip-response\n```\n\n\n## Usage\n\n```js\nconst http = require('http');\nconst unzipResponse = require('unzip-response');\n\nhttp.get('http://sindresorhus.com', res => {\n\tres = unzipResponse(res);\n});\n```\n\n\n## License\n\nMIT © [Sindre Sorhus](https://sindresorhus.com)\n",
-  "readmeFilename": "readme.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sindresorhus/unzip-response.git"
@@ -105,7 +73,7 @@
   "scripts": {
     "test": "xo && ava"
   },
-  "version": "2.0.1",
+  "version": "https://registry.npmjs.org/unzip-response/-/unzip-response-2.0.1.tgz",
   "xo": {
     "esnext": true
   }

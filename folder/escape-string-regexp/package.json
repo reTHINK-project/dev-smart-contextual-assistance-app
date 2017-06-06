@@ -1,57 +1,28 @@
 {
   "_args": [
     [
-      {
-        "raw": "escape-string-regexp@^1.0.0",
-        "scope": null,
-        "escapedName": "escape-string-regexp",
-        "name": "escape-string-regexp",
-        "rawSpec": "^1.0.0",
-        "spec": ">=1.0.0 <2.0.0",
-        "type": "range"
-      },
-      "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink/node_modules/chalk"
+      "escape-string-regexp@https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz",
+      "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink"
     ]
   ],
-  "_from": "escape-string-regexp@>=1.0.0 <2.0.0",
+  "_from": "escape-string-regexp@https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz",
   "_id": "escape-string-regexp@1.0.5",
-  "_inCache": true,
+  "_inBundle": false,
+  "_integrity": "sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=",
   "_location": "/escape-string-regexp",
-  "_nodeVersion": "4.2.6",
-  "_npmOperationalInternal": {
-    "host": "packages-9-west.internal.npmjs.com",
-    "tmp": "tmp/escape-string-regexp-1.0.5.tgz_1456059312074_0.7245344955008477"
-  },
-  "_npmUser": {
-    "name": "jbnicolai",
-    "email": "jappelman@xebia.com"
-  },
-  "_npmVersion": "2.14.12",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "escape-string-regexp@^1.0.0",
-    "scope": null,
-    "escapedName": "escape-string-regexp",
+    "type": "remote",
+    "raw": "escape-string-regexp@https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz",
     "name": "escape-string-regexp",
-    "rawSpec": "^1.0.0",
-    "spec": ">=1.0.0 <2.0.0",
-    "type": "range"
+    "escapedName": "escape-string-regexp",
+    "rawSpec": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz",
+    "saveSpec": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz",
+    "fetchSpec": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz"
   },
-  "_requiredBy": [
-    "/babel-code-frame/chalk",
-    "/boxen/chalk",
-    "/buble/chalk",
-    "/chalk",
-    "/har-validator/chalk",
-    "/protractor/chalk",
-    "/tfunk/chalk",
-    "/update-notifier/chalk"
-  ],
-  "_resolved": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz",
-  "_shasum": "1b61c0562190a8dff6ae3bb2cf0200ca130b86d4",
-  "_shrinkwrap": null,
-  "_spec": "escape-string-regexp@^1.0.0",
-  "_where": "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink/node_modules/chalk",
+  "_requiredBy": [],
+  "_spec": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz",
+  "_where": "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink",
   "author": {
     "name": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
@@ -60,16 +31,10 @@
   "bugs": {
     "url": "https://github.com/sindresorhus/escape-string-regexp/issues"
   },
-  "dependencies": {},
   "description": "Escape RegExp special characters",
   "devDependencies": {
     "ava": "*",
     "xo": "*"
-  },
-  "directories": {},
-  "dist": {
-    "shasum": "1b61c0562190a8dff6ae3bb2cf0200ca130b86d4",
-    "tarball": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz"
   },
   "engines": {
     "node": ">=0.8.0"
@@ -77,7 +42,6 @@
   "files": [
     "index.js"
   ],
-  "gitHead": "db124a3e1aae9d692c4899e42a5c6c3e329eaa20",
   "homepage": "https://github.com/sindresorhus/escape-string-regexp#readme",
   "keywords": [
     "escape",
@@ -105,9 +69,6 @@
     }
   ],
   "name": "escape-string-regexp",
-  "optionalDependencies": {},
-  "readme": "# escape-string-regexp [![Build Status](https://travis-ci.org/sindresorhus/escape-string-regexp.svg?branch=master)](https://travis-ci.org/sindresorhus/escape-string-regexp)\n\n> Escape RegExp special characters\n\n\n## Install\n\n```\n$ npm install --save escape-string-regexp\n```\n\n\n## Usage\n\n```js\nconst escapeStringRegexp = require('escape-string-regexp');\n\nconst escapedString = escapeStringRegexp('how much $ for a unicorn?');\n//=> 'how much \\$ for a unicorn\\?'\n\nnew RegExp(escapedString);\n```\n\n\n## License\n\nMIT © [Sindre Sorhus](http://sindresorhus.com)\n",
-  "readmeFilename": "readme.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sindresorhus/escape-string-regexp.git"
@@ -115,5 +76,5 @@
   "scripts": {
     "test": "xo && ava"
   },
-  "version": "1.0.5"
+  "version": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz"
 }

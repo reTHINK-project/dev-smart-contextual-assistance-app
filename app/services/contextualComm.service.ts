@@ -152,11 +152,11 @@ export class ContextualCommService {
 
   }
 
-  _filterByName(id: string): ContextualComm {
+  _filterByName(idName: string): ContextualComm {
     let found: ContextualComm;
     this.cxtList.forEach((context: ContextualComm) => {
-      console.log('[Contextual Comm Service] - ', context.id, id);
-      if (!found) { found = context.id === id ? context : null; }
+      console.log('[Contextual Comm Service] - ', context, idName);
+      if (!found) { found = context.id === idName ? context : null; }
     });
     return found;
   }

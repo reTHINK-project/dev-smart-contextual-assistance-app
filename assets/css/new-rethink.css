@@ -17,10 +17,19 @@ body.rethink .header {
 /* Main Content */
 body.rethink .content-panel {
   margin-top: 60px;
+  margin-bottom: 60px;
 }
 
 body.rethink .context-view .main-content {
   margin-left: 25%;
+  height: 100vh;
+}
+
+body.rethink .main-content .view-content {
+  overflow-y: auto;
+  height: 100%;
+  float: left;
+  width: 100%;
 }
 
 /* TODO: Remove this.. this only work because the ink framework */
@@ -64,4 +73,25 @@ body.rethink .add-button .add-text {
   padding-left: 12px;
   text-transform: uppercase;
   font-weight: 400;
+}
+
+body.rethink .sidebar .add-user-action {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+}
+
+body.rethink .sidebar .add-user-action a:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+body.rethink .sidebar .add-user-action span.add-text {
+  color: #fff;
+  vertical-align: top;
+  line-height: 36px;
+  padding-left: 12px;
+  text-transform: uppercase;
+  font-weight: 400;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
 }

@@ -20,7 +20,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class UserViewComponent implements OnInit, OnDestroy {
 
-  @HostBinding('class') hostClass = '';
+  @HostBinding('class') hostClass = 'view-content d-flex flex-column';
 
   @ViewChild(ContextualCommActivityComponent)
   private contextualCommActivityComponent: ContextualCommActivityComponent;

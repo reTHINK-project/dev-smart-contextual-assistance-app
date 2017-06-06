@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, HostBinding, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { config } from '../../../config';
-
 // Models
 import { User } from '../../../models/models';
 
@@ -18,7 +16,7 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./mediaCommunication.component.css']
 })
 export class MediaCommunicationComponent implements OnInit, OnDestroy {
-  @HostBinding('class') hostClass = 'all-100';
+  @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100';
 
   @Input() user: User;
   @Input() mode: string;
@@ -115,7 +113,7 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
 
     console.log('[Media Communication Component] - ' + this.mode + ' call To', user, contextID);
 
-    this.connectorService.connect(user.username, options, contextID, config.domain)
+    this.connectorService.connect(user.username, options, contextID, user.domain)
       .then((controller) => {
         controller.dataObjectReporter.data.mode = this.mode;
         this.streamingActive = true;

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var config_1 = require("../../app/config");
 var User = (function () {
     function User(obj) {
         this.username = obj && obj.username;
@@ -7,9 +8,9 @@ var User = (function () {
         this.avatar = obj && obj.avatar;
         this.locale = obj && obj.locale;
         this.userURL = obj && obj.userURL;
-        this.status = obj && obj.status || 'available';
+        this.status = obj && obj.status || 'unavailable';
         this.unread = obj && obj.unread || 0;
-        this.domain = obj && obj.domain || 'hybroker.rethink.ptinovacao.pt';
+        this.domain = obj && obj.domain || config_1.config.domain;
         this.identifiers = '';
         // TODO: split by the @ from user and domain <domain>@<identifier>
         this.guid = this.username;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 
 // Utils
@@ -32,8 +32,13 @@ export class ConnectorService {
 
   private callInProgress = false;
   private _webrtcMode = 'offer';
+
   public get connectorMode(): string {
     return this._webrtcMode;
+  }
+
+  public set connectorMode(value) {
+    this._webrtcMode = value;
   }
 
   private _localStream: Subject<MediaStream> = new Subject();
@@ -263,8 +268,9 @@ export class ConnectorService {
     this.controllers[this._webrtcMode].disconnect();
     this._connectorStatus.next(STATUS.END);
     this._remoteStream = new ReplaySubject();
+    this.connectorMode = 'offer';
 
-    console.log('[Connector Service - hangup]: ', this.router);
+    console.log('[Connector Service - hangup]: ', this);
   }
 
 }

@@ -17,7 +17,8 @@ var services_1 = require("../../services/services");
 // Components
 var add_user_component_1 = require("../contextualCommUsers/add-user.component");
 var ContextualCommComponent = (function () {
-    function ContextualCommComponent(router, route, appService, contextualCommService, contactService) {
+    function ContextualCommComponent(el, router, route, appService, contextualCommService, contactService) {
+        this.el = el;
         this.router = router;
         this.route = route;
         this.appService = appService;
@@ -26,10 +27,13 @@ var ContextualCommComponent = (function () {
         this.hostClass = 'context-view row no-gutters';
         this.users = new BehaviorSubject_1.BehaviorSubject([]);
     }
+    ContextualCommComponent.prototype.onResize = function (event) {
+        this.updateView();
+    };
     // Load data ones componet is ready
     ContextualCommComponent.prototype.ngOnInit = function () {
         var _this = this;
-        console.log('[ContextualComm View - onInit]');
+        console.log('[ContextualComm View - onInit]', this.content);
         this.route.data
             .subscribe(function (data) {
             console.log('Resolved context:', data.context);
@@ -40,6 +44,18 @@ var ContextualCommComponent = (function () {
             console.log('[ContextualComm Component - update] - ', contextualComm, contextualComm.users);
             _this.users.next(contextualComm.users);
         });
+    };
+    ContextualCommComponent.prototype.ngAfterViewInit = function () {
+        this.updateView();
+    };
+    ContextualCommComponent.prototype.updateView = function () {
+        var parentEl = this.content.element.nativeElement.parentElement;
+        var currentEl = this.content.element.nativeElement;
+        var parentHeight = parentEl.offsetHeight;
+        var topMargin = 60;
+        var bottomPadding = 60;
+        var height = parentHeight - (topMargin + bottomPadding) + 'px';
+        currentEl.style.height = height;
     };
     ContextualCommComponent.prototype.onInviteEvent = function (value) {
         console.log('Invite some one: ', value);
@@ -55,16 +71,27 @@ __decorate([
     __metadata("design:type", Object)
 ], ContextualCommComponent.prototype, "hostClass", void 0);
 __decorate([
+    core_1.ViewChild('content', { read: core_1.ViewContainerRef }),
+    __metadata("design:type", core_1.ViewContainerRef)
+], ContextualCommComponent.prototype, "content", void 0);
+__decorate([
     core_1.ViewChild(add_user_component_1.AddUserComponent),
     __metadata("design:type", add_user_component_1.AddUserComponent)
 ], ContextualCommComponent.prototype, "addUserComponent", void 0);
+__decorate([
+    core_1.HostListener('window:resize', ['$event']),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ContextualCommComponent.prototype, "onResize", null);
 ContextualCommComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
         selector: 'context-view',
         templateUrl: './contextualComm.component.html',
     }),
-    __metadata("design:paramtypes", [router_1.Router,
+    __metadata("design:paramtypes", [core_1.ElementRef,
+        router_1.Router,
         router_1.ActivatedRoute,
         services_1.RethinkService,
         services_1.ContextualCommService,

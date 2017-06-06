@@ -105,16 +105,17 @@ function splitConvetionName(name) {
 }
 exports.splitConvetionName = splitConvetionName;
 function normalizeFromURL(path, username) {
-    var pathSplited = path.split('/');
-    pathSplited[0] = config_1.config.appPrefix;
-    if (path.includes('?')) {
+    // Clear path from attributes
+    if (path.indexOf('?') !== -1) {
         path = path.substring(0, path.lastIndexOf('?'));
     }
+    var pathSplited = path.split('/');
+    pathSplited[0] = config_1.config.appPrefix;
     if (path.includes('@') && username) {
         pathSplited.push(username);
     }
     var joined = pathSplited.join('-');
-    console.log('AQUI:', pathSplited, joined);
+    console.log('AQUI:', path, username, pathSplited, joined);
     return joined;
 }
 exports.normalizeFromURL = normalizeFromURL;
