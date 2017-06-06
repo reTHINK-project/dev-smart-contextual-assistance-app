@@ -52,6 +52,7 @@ Package ContextualComm {
 	scheme: string
 	resources: HypertyResource.HypertyResourceType[]
 	url: URL.HypertyURL
+	status: 'live' | 'disconnected'
 	interworking ?: boolean
 	value ?: Context.ContextValue
 	}
