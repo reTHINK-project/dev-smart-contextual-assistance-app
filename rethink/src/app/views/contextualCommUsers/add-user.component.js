@@ -11,6 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+// config
+var config_1 = require("../../config");
 // Bootstrap
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 // Utils
@@ -66,17 +68,23 @@ var AddUserComponent = (function () {
             .subscribe(function (context) {
             var parentURL = context.url;
             var currentURL = _this.chatService.activeDataObjectURL;
-            var parentChat = _this.chatService.invite(parentURL, [_this.model.email], [_this.model.domain]);
-            var currentChat = _this.chatService.invite(currentURL, [_this.model.email], [_this.model.domain]);
+            var parentChat = _this.chatService.invite(parentURL, [_this.model.email], [_this.model.domain || config_1.config.domain]);
+            var currentChat = _this.chatService.invite(currentURL, [_this.model.email], [_this.model.domain || config_1.config.domain]);
             console.log('[Add User Component] - invite: ', parentChat, currentChat);
-            Promise.all([parentChat, currentChat]).then(function (chatController) {
-                console.log('[Users as joined with success]', chatController);
-                setTimeout(function () {
-                    _this.busy = false;
-                    _this.clean();
-                }, 200);
-            }).catch(function (error) {
+            parentChat
+                .then(function (parentController) {
+                console.log('[Users was joined with success] - parent controller', parentController);
+                return currentChat;
+            })
+                .then(function (currentController) {
+                console.log('[Users was joined with success] - current controller', currentController);
+                _this.busy = false;
+                _this.clean();
+            })
+                .catch(function (error) {
                 console.log('Error Inviting', error);
+                _this.busy = false;
+                _this.clean();
             });
         }, function (error) {
             console.log('Error getting the context:', error);

@@ -225,7 +225,7 @@ var ContextualCommService = (function () {
             console.log('MAP:', item, participants[item]);
             var currentUser = _this.contactService.getUser(item);
             if (!currentUser) {
-                currentUser = new models_1.User(participants[item].identity);
+                currentUser = new models_1.User(participants[item].identity.userProfile);
                 _this.contactService.addUser(currentUser);
                 console.log('[Context Service - update users] - create new user: ', currentUser);
             }

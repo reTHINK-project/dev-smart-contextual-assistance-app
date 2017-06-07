@@ -76,7 +76,7 @@ export class ContextualCommDataService {
 
     return new Promise((resolve, reject) => {
 
-      console.info('[ContextualCommData Service] - join: ', name, normalizeName(name));
+      console.info('[ContextualCommData Service] - join: ', name);
 
       this.contextualCommService.getContextByName(name).then((context: ContextualComm) => {
 
