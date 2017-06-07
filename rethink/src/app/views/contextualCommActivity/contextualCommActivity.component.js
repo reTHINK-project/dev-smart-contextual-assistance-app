@@ -22,7 +22,10 @@ var ContextualCommActivityComponent = (function () {
     ContextualCommActivityComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
         this.messages.subscribe(function (messages) {
-            _this.scrollToBottom();
+            // TODO: Check if exits other way to wait the dom have the last item added and remove this setTimeout
+            setTimeout(function () {
+                _this.scrollToBottom();
+            });
         });
     };
     ContextualCommActivityComponent.prototype.updateView = function () {
