@@ -17,6 +17,7 @@ var NotificationComponent = (function () {
         var _this = this;
         this.notificationService = notificationService;
         this.hostClass = 'notification-view';
+        this.hostShow = false;
         this.alerts = [];
         this.onAcceptClick = new core_1.EventEmitter();
         this.onRejectClick = new core_1.EventEmitter();
@@ -28,10 +29,12 @@ var NotificationComponent = (function () {
     NotificationComponent.prototype.showAlert = function (alert) {
         console.log('[Notification Component] - showAlert', alert);
         this.alerts.push(alert);
+        this.checkAlerts();
     };
     NotificationComponent.prototype.closeAlert = function (alert) {
         var index = this.alerts.indexOf(alert);
         this.alerts.splice(index, 1);
+        this.checkAlerts();
     };
     NotificationComponent.prototype.acceptClick = function (alert) {
         var index = this.alerts.indexOf(alert);
@@ -39,6 +42,7 @@ var NotificationComponent = (function () {
         console.log('[Notification Component] - accept', currAlert);
         this.notificationService.accept(currAlert);
         this.alerts.splice(index, 1);
+        this.checkAlerts();
     };
     NotificationComponent.prototype.rejectClick = function (alert) {
         var index = this.alerts.indexOf(alert);
@@ -46,6 +50,15 @@ var NotificationComponent = (function () {
         console.log('[Notification Component] - reject', currAlert);
         this.notificationService.reject(currAlert);
         this.alerts.splice(index, 1);
+        this.checkAlerts();
+    };
+    NotificationComponent.prototype.checkAlerts = function () {
+        if (this.alerts.length === 0) {
+            this.hostShow = false;
+        }
+        else {
+            this.hostShow = true;
+        }
     };
     return NotificationComponent;
 }());
@@ -54,15 +67,19 @@ __decorate([
     __metadata("design:type", Object)
 ], NotificationComponent.prototype, "hostClass", void 0);
 __decorate([
+    core_1.HostBinding('class.show'),
+    __metadata("design:type", Object)
+], NotificationComponent.prototype, "hostShow", void 0);
+__decorate([
     core_1.Input(),
     __metadata("design:type", models_1.User)
 ], NotificationComponent.prototype, "user", void 0);
 __decorate([
-    core_1.Output('onAcceptCall'),
+    core_1.Output(),
     __metadata("design:type", Object)
 ], NotificationComponent.prototype, "onAcceptClick", void 0);
 __decorate([
-    core_1.Output('onRejectCall'),
+    core_1.Output(),
     __metadata("design:type", Object)
 ], NotificationComponent.prototype, "onRejectClick", void 0);
 NotificationComponent = __decorate([

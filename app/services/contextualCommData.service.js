@@ -59,7 +59,7 @@ var ContextualCommDataService = (function () {
     ContextualCommDataService.prototype.joinContext = function (name, dataObject, parentNameId) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            console.info('[ContextualCommData Service] - join: ', name, utils_1.normalizeName(name));
+            console.info('[ContextualCommData Service] - join: ', name);
             _this.contextualCommService.getContextByName(name).then(function (context) {
                 console.info('[ContextualCommData Service] - communication objects was created successfully: ', dataObject);
                 console.info('[ContextualCommData Service] - creating new contexts: ', dataObject, parentNameId);

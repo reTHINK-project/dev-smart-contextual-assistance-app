@@ -1,6 +1,11 @@
 import { Component, Output, Input, OnInit, HostBinding, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { Observable } from 'rxjs/Observable';
+
+// config
+import { config } from '../../config';
+
 // Bootstrap
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
@@ -13,7 +18,6 @@ import { ContextualComm } from '../../models/models';
 // Services
 import { ContextualCommDataService } from '../../services/contextualCommData.service';
 import { ContactService, ChatService } from '../../services/services';
-import { Observable } from 'rxjs/Observable';
 import { User } from '../../models/models';
 
 @Component({
@@ -87,23 +91,34 @@ export class AddUserComponent implements OnInit {
       let parentURL = context.url;
       let currentURL = this.chatService.activeDataObjectURL;
 
-      let parentChat = this.chatService.invite(parentURL, [this.model.email], [this.model.domain]);
-      let currentChat = this.chatService.invite(currentURL, [this.model.email], [this.model.domain]);
+      let parentChat = this.chatService.invite(parentURL, [this.model.email], [this.model.domain || config.domain]);
+      let currentChat = this.chatService.invite(currentURL, [this.model.email], [this.model.domain || config.domain]);
 
       console.log('[Add User Component] - invite: ', parentChat, currentChat);
 
-      Promise.all([parentChat, currentChat]).then((chatController: any) => {
-        console.log('[Users as joined with success]', chatController);
-        setTimeout(() => {
+      parentChat
+        .then((parentController: any) => {
+          console.log('[Users was joined with success] - parent controller', parentController);
+          return currentChat;
+        })
+        .then((currentController: any) => {
+
+          console.log('[Users was joined with success] - current controller', currentController);
+
           this.busy = false;
           this.clean();
-        }, 200);
+        })
+        .catch((error) => {
+          console.log('Error Inviting', error);
 
-      }).catch((error) => {
-        console.log('Error Inviting', error);
-      });
+          this.busy = false;
+          this.clean();
 
-    })
+        });
+
+    }, (error: any) => {
+      console.log('Error getting the context:', error);
+    });
 
   }
 
