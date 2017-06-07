@@ -9,26 +9,12 @@
         <div class="col-6">
           <h3>Contexts List</h3>
 
-<!--          <ul class="list-group ">
-            <li *ngFor="let context of contextualComms | async;" class="list-group-item justify-content-between">
-              <a routerLink="{{context.name | lowercase}}" routerLinkActive="active">
-                <i *ngIf="context.icon" class="pr-3 fa fa-{{context.icon}}"></i>{{context.name}}
-              </a>
-              <span class="badge badge-default badge-pill">{{context.contexts.length}}</span>
-
-            </li>
-          </ul>-->
-
-
           <div class="list-group list-group-root" *ngFor="let context of contextualComms | async;">
 
             <div class="list-group-item justify-content-between">
-              <!--<a routerLink="{{context.name | lowercase}}" routerLinkActive="active">
+              <a routerLink="{{context.name | lowercase}}" routerLinkActive="active">
                 <i *ngIf="context.icon" class="pr-3 fa fa-{{context.icon}}"></i>{{context.name}}
-              </a>-->
-              <span>
-                <i *ngIf="context.icon" class="pr-3 fa fa-{{context.icon}}"></i>{{context.name}}
-              </span>
+              </a>
               <span class="badge badge-default badge-pill">{{context.contexts.length}}</span>
             </div>
 

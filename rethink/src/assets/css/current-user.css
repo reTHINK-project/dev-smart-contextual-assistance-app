@@ -26,8 +26,12 @@
   color: #32d167
 }
 
-.current-user .user-status .status.unavailable {
+.current-user .user-status .status.busy {
   color: #e44c43
+}
+
+.current-user .user-status .status.unavailable {
+  color: #d6d6d6
 }
 
 .current-user .user-status .status i {
@@ -84,8 +88,12 @@
   color: #32d167
 }
 
-.user-identity .contact-avatar .status.unavailable {
+.user-identity .contact-avatar .status.busy {
   color: #e44c43
+}
+
+.user-identity .contact-avatar .status.unavailable {
+  color: #d6d6d6;
 }
 
 .user-identity .contact-avatar .status i {

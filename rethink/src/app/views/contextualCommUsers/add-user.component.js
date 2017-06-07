@@ -78,6 +78,8 @@ var AddUserComponent = (function () {
             }).catch(function (error) {
                 console.log('Error Inviting', error);
             });
+        }, function (error) {
+            console.log('Error getting the context:', error);
         });
     };
     AddUserComponent.prototype.clean = function () {

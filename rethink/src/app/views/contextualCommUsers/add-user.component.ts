@@ -103,7 +103,9 @@ export class AddUserComponent implements OnInit {
         console.log('Error Inviting', error);
       });
 
-    })
+    }, (error: any) => {
+      console.log('Error getting the context:', error);
+    });
 
   }
 

@@ -1,6 +1,6 @@
 <div class="notifications" *ngFor="let alert of alerts" [ngSwitch]="alert.type">
 
-  <ngb-alert *ngSwitchCase="'question'" [type]="alert.type === 'question' ? 'info' : alert.type" (close)="closeAlert(alert)">
+  <ngb-alert class="alert-view float-left w-100" *ngSwitchCase="'question'" [type]="alert.type === 'question' ? 'info' : alert.type" (close)="closeAlert(alert)">
     <span>
       <img src="{{alert.message.user.avatar}}" class="rounded-circle" width="30px" height="30px" />
       {{ alert.message.message }}
@@ -11,7 +11,7 @@
     </span>
   </ngb-alert>
 
-  <ngb-alert *ngSwitchDefault [type]="alert.type" (close)="closeAlert(alert)">
+  <ngb-alert class="alert-view float-left w-100" *ngSwitchDefault [type]="alert.type" (close)="closeAlert(alert)">
     <span>{{ alert.message.message }}</span>
   </ngb-alert>
 </div>
