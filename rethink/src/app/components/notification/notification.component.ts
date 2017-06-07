@@ -14,13 +14,14 @@ import { User } from '../../models/models';
 })
 export class NotificationComponent {
   @HostBinding('class') hostClass = 'notification-view';
+  @HostBinding('class.show') hostShow = false;
 
   @Input() user: User;
 
-  private alerts: IAlert[] = [];
+  alerts: IAlert[] = [];
 
-  @Output('onAcceptCall') onAcceptClick = new EventEmitter();
-  @Output('onRejectCall') onRejectClick = new EventEmitter();
+  @Output() onAcceptClick = new EventEmitter();
+  @Output() onRejectClick = new EventEmitter();
 
   constructor(private notificationService: NotificationService) {
 
@@ -34,11 +35,15 @@ export class NotificationComponent {
   showAlert(alert: IAlert) {
     console.log('[Notification Component] - showAlert', alert);
     this.alerts.push(alert);
+
+    this.checkAlerts();
   }
 
   closeAlert(alert: IAlert) {
     const index: number = this.alerts.indexOf(alert);
     this.alerts.splice(index, 1);
+
+    this.checkAlerts();
   }
 
   acceptClick(alert: IAlert) {
@@ -47,6 +52,8 @@ export class NotificationComponent {
     console.log('[Notification Component] - accept', currAlert);
     this.notificationService.accept(currAlert);
     this.alerts.splice(index, 1);
+
+    this.checkAlerts();
   }
 
   rejectClick(alert: IAlert) {
@@ -55,6 +62,16 @@ export class NotificationComponent {
     console.log('[Notification Component] - reject', currAlert);
     this.notificationService.reject(currAlert);
     this.alerts.splice(index, 1);
+
+    this.checkAlerts();
+  }
+
+  checkAlerts() {
+    if (this.alerts.length === 0) {
+      this.hostShow = false;
+    } else {
+      this.hostShow = true;
+    }
   }
 
 }
