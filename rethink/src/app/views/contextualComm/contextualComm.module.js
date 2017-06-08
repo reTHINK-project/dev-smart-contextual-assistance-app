@@ -12,6 +12,7 @@ var common_1 = require("@angular/common");
 var angular2_moment_1 = require("angular2-moment");
 var contextualComm_routing_1 = require("./contextualComm.routing");
 // Generic Components
+var rethink_directive_1 = require("../../shared/rethink.directive");
 var contact_box_component_1 = require("../../components/user/contact-box.component");
 var chatCommunication_component_1 = require("../../components/rethink/communication/chatCommunication.component");
 var mediaCommunication_component_1 = require("../../components/rethink/communication/mediaCommunication.component");
@@ -43,6 +44,7 @@ ContextualCommModule = __decorate([
             contextualComm_routing_1.ContextualCommRoutingModule
         ],
         declarations: [
+            rethink_directive_1.ContextNameValidatorDirective,
             contextualCommActivity_component_1.ContextualCommActivityComponent,
             activity_view_component_1.ActivityViewComponent,
             user_view_component_1.UserViewComponent,

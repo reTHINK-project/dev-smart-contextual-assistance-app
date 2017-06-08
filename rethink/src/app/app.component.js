@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var platform_browser_1 = require("@angular/platform-browser");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var Subject_1 = require("rxjs/Subject");
 var config_1 = require("./config");
 var app_models_1 = require("./models/app.models");
 // Utils
@@ -32,6 +33,7 @@ var AppComponent = (function () {
         this.connectorService = connectorService;
         this.chatService = chatService;
         this.ready = false;
+        this.processNewEvent = new Subject_1.Subject();
         this.contextOpened = false;
         this.rethinkService.progress.subscribe({
             next: function (v) { _this.status = v; _this.titleService.setTitle(config_1.config.pageTitlePrefix + v); }
@@ -79,20 +81,30 @@ var AppComponent = (function () {
         // Prepare the chat service to recive invitations
         this.chatService.onInvitation(function (event) {
             console.log('[Chat Communication View - onInvitation] - event:', event);
-            var error = function (reason) {
-                console.log('Error:', reason);
-            };
+            _this.processEvent(event).then(function (result) {
+                console.log('[Chat Communication View - onInvitation] - event processed:', result);
+            }).catch(function (reason) {
+                console.error('[Chat Communication View - onInvitation] - event not processed:', reason);
+            });
+        });
+    };
+    AppComponent.prototype.processEvent = function (event) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
             var url = event.url;
             var metadata = event.value;
             var name = metadata.name;
             _this.chatService.join(url).then(function (dataObject) {
-                console.log('[App Component - Join the parent context: ', name, dataObject);
                 var normalizedName = utils_1.normalizeName(name);
-                console.log('AQUI:', name, normalizedName);
+                console.log('[App Component - Join the to the context: ', name, dataObject, normalizedName);
                 return _this.contextualCommDataService.joinContext(normalizedName.name, dataObject, normalizedName.parent);
             }).then(function (currentContext) {
                 console.log('[App Component] - current context created: ', currentContext);
-            }).catch(error);
+                resolve(currentContext);
+            }).catch(function (reason) {
+                console.log('Error:', reason);
+                reject(reason);
+            });
         });
     };
     AppComponent.prototype.onOpenContext = function (event) {

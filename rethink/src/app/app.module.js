@@ -40,6 +40,7 @@ AppModule = __decorate([
         imports: [
             forms_1.FormsModule,
             platform_browser_1.BrowserModule,
+            forms_1.ReactiveFormsModule,
             contextualComm_module_1.ContextualCommModule,
             ng_bootstrap_1.NgbModule.forRoot(),
             app_routing_module_1.AppRoutingModule

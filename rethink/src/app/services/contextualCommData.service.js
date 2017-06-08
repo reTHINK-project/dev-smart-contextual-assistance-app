@@ -12,8 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
 var router_1 = require("@angular/router");
-// Utils
-var config_1 = require("../config");
 var utils_1 = require("../utils/utils");
 // Services
 var contextualComm_service_1 = require("./contextualComm.service");
@@ -25,7 +23,6 @@ var ContextualCommDataService = (function () {
         this.chatService = chatService;
         this.contactService = contactService;
         this.contextualCommService = contextualCommService;
-        this.appPrefix = config_1.config.appPrefix;
         this.location = location;
     }
     ContextualCommDataService.prototype.createContext = function (name, parentNameId, contextInfo) {
@@ -36,17 +33,13 @@ var ContextualCommDataService = (function () {
                 console.info('[ContextualCommData Service] - context found: ', context);
                 resolve(context);
             }).catch(function (reason) {
-                // TODO: use the util normalizeName;
-                var normalizedName = _this.appPrefix + '-' + name.toLowerCase();
-                if (parentNameId) {
-                    normalizedName = parentNameId + '-' + name.toLowerCase();
-                }
+                var normalizedName = utils_1.normalizeName(name, parentNameId);
                 console.info('[ContextualCommData Service] - no contexts was found: ', reason);
-                console.info('[ContextualCommData Service] - creating new context: ', name, parentNameId, normalizedName);
-                _this.chatService.create(normalizedName, [], []).then(function (controller) {
+                console.info('[ContextualCommData Service] - creating new context: ', name, normalizedName);
+                _this.chatService.create(normalizedName.id, [], []).then(function (controller) {
                     console.info('[ContextualCommData Service] - communication objects was created successfully: ', controller);
-                    console.info('[ContextualCommData Service] - creating new contexts: ', controller, parentNameId);
-                    return _this.contextualCommService.create(name, controller.dataObject, parentNameId, contextInfo);
+                    console.info('[ContextualCommData Service] - creating new contexts: ', controller, normalizedName.parent);
+                    return _this.contextualCommService.create(name, controller.dataObject, normalizedName.parent, contextInfo);
                 }).then(function (context) {
                     console.info('[ContextualCommData Service] -  ContextualComm created: ', context);
                     resolve(context);
@@ -121,10 +114,9 @@ var ContextualCommDataService = (function () {
         }
     };
     ContextualCommDataService.prototype.getContext = function (name) {
-        var _this = this;
         return this.contextualCommService.getContextualCommList()
             .map(function (contexts) {
-            var found = contexts.filter(function (context) { return _this.filterContextsByName(name, context); })[0];
+            var found = contexts.filter(function (context) { return utils_1.filterContextsByName(name, context); })[0];
             console.log('[ContextualCommData Service] - found: ', found);
             if (!found) {
                 throw new Error('Context not found');
@@ -153,23 +145,6 @@ var ContextualCommDataService = (function () {
     ContextualCommDataService.prototype.filterContextsById = function (id, context) {
         console.log('[ContextualCommData Service] - getting Context By Id: ', context.id, id, context.id === id);
         return context.id === id;
-    };
-    ContextualCommDataService.prototype.filterContextsByName = function (name, context) {
-        if (name.indexOf('-') !== -1 && name.includes('@')) {
-            var users = name.split('-');
-            var user1 = users[0];
-            var user2 = users[1];
-            var variation1 = user1 + '-' + user2;
-            var variation2 = user2 + '-' + user1;
-            if (context.name === variation1) {
-                name = variation1;
-            }
-            else if (context.name === variation2) {
-                name = variation2;
-            }
-        }
-        console.log('[ContextualCommData Service] - getting Context By Name: ', context.name, name, context.name === name);
-        return context.name === name;
     };
     return ContextualCommDataService;
 }());

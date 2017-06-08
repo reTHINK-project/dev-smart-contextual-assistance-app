@@ -6,6 +6,8 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/startWith';
 
+import { config } from '../config';
+
 // utils
 import { strMapToObj } from '../utils/utils';
 
@@ -287,16 +289,17 @@ export class ContextualCommService {
     return new Promise<ContextualComm>((resolve, reject) => {
 
       let currentContext: ContextualComm;
+      let splitChat = config.splitChar;
 
       this.cxtList.forEach((context: ContextualComm) => {
 
-        if (name.indexOf('-') !== -1 && name.includes('@')) {
-          let users = name.split('-');
+        if (name.indexOf(splitChat) !== -1 && name.includes('@')) {
+          let users = name.split(splitChat);
           let user1 = users[0];
           let user2 = users[1];
 
-          let variation1 = user1 + '-' + user2;
-          let variation2 = user2 + '-' + user1;
+          let variation1 = user1 + splitChat + user2;
+          let variation2 = user2 + splitChat + user1;
 
           if (context.name === variation1) {
             name = variation1;

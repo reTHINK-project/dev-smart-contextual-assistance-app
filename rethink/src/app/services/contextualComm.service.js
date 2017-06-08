@@ -25,6 +25,7 @@ var Subject_1 = require("rxjs/Subject");
 require("rxjs/add/observable/of");
 require("rxjs/add/operator/filter");
 require("rxjs/add/operator/startWith");
+var config_1 = require("../config");
 // utils
 var utils_1 = require("../utils/utils");
 // Services
@@ -263,13 +264,14 @@ var ContextualCommService = (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             var currentContext;
+            var splitChat = config_1.config.splitChar;
             _this.cxtList.forEach(function (context) {
-                if (name.indexOf('-') !== -1 && name.includes('@')) {
-                    var users = name.split('-');
+                if (name.indexOf(splitChat) !== -1 && name.includes('@')) {
+                    var users = name.split(splitChat);
                     var user1 = users[0];
                     var user2 = users[1];
-                    var variation1 = user1 + '-' + user2;
-                    var variation2 = user2 + '-' + user1;
+                    var variation1 = user1 + splitChat + user2;
+                    var variation2 = user2 + splitChat + user1;
                     if (context.name === variation1) {
                         name = variation1;
                     }
