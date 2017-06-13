@@ -23,6 +23,7 @@ export class ContextualCommActivityComponent implements OnChanges, AfterViewInit
 
     this.messages.subscribe((messages: Message[]) => {
 
+      // TODO: Check if exits other way to wait the dom have the last item added and remove this setTimeout
       setTimeout(() => {this.scrollToBottom(); });
 
     });
