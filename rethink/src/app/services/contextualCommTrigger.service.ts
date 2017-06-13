@@ -93,7 +93,7 @@ export class ContextualCommTriggerService {
         let context: ContextualCommTrigger = {
           contextName: name,
           contextScheme: 'context',
-          contextResource: [HypertyResourceType.video, HypertyResourceType.audio, HypertyResourceType.chat],
+          contextResource: [HypertyResourceType.Video, HypertyResourceType.Audio, HypertyResourceType.Chat],
           values: [],
           trigger: []
         };

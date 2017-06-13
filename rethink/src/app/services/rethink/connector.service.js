@@ -131,14 +131,10 @@ var ConnectorService = (function () {
                 queryParams: { 'action': this.mode }
             };
             var metadata = response.metadata;
-            var paths = utils_1.splitConvetionName(metadata.name);
+            var paths = utils_1.splitFromURL(metadata.name);
             console.log('[Connector Service] -  navigate to: ', paths);
-            this.router.navigate([paths.context, paths.task, paths.active], navigationExtras);
-            // if (this.router.url.includes(user.username)) {
-            //   this.router.navigate([this.router.url], navigationExtras);
-            // } else {
-            //   this.router.navigate([this.router.url, user.username], navigationExtras);
-            // }
+            console.log('[Connector Service] -  navigate to: ', paths.context, paths.task, paths.user);
+            this.router.navigate([paths.context, paths.task, paths.user], navigationExtras);
         }
         else {
             controller.decline();

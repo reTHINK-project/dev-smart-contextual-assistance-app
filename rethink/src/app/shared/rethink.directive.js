@@ -23,18 +23,18 @@ var contextualCommData_service_1 = require("../services/contextualCommData.servi
 var ContextNameValidatorDirective = (function () {
     function ContextNameValidatorDirective(contextualCommDataService) {
         this.contextualCommDataService = contextualCommDataService;
-        this.valFn = rethink_validator_1.RethinkValidators.contextName(this.contextualCommDataService);
+        this.valFn = forms_1.Validators.composeAsync(null);
     }
     ContextNameValidatorDirective.prototype.ngOnChanges = function (changes) {
         var change = changes['name'];
-        console.log(changes);
         if (change) {
-            console.log('CHANGE:', change, name);
             this.valFn = rethink_validator_1.RethinkValidators.contextName(this.contextualCommDataService);
+        }
+        else {
+            this.valFn = forms_1.Validators.composeAsync(null);
         }
     };
     ContextNameValidatorDirective.prototype.validate = function (control) {
-        console.log('AQUI:', control);
         return this.valFn(control);
     };
     return ContextNameValidatorDirective;

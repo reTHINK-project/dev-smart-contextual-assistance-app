@@ -22,7 +22,9 @@ export class ContextualCommActivityComponent implements OnChanges, AfterViewInit
   ngAfterViewInit() {
 
     this.messages.subscribe((messages: Message[]) => {
-      this.scrollToBottom();
+
+      setTimeout(() => {this.scrollToBottom(); });
+
     });
 
   }

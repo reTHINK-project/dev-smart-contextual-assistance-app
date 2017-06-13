@@ -1,13 +1,12 @@
 import { Injectable }             from '@angular/core';
 import { Router, Resolve,
-         ActivatedRouteSnapshot } from '@angular/router';
+         ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 // Model
 import { ContextualComm } from './../models/models';
-import { TriggerActions } from '../models/app.models';
 
 // Utils
-import { normalizeName } from '../utils/utils';
+import { normalizeName, normalizeFromURL } from '../utils/utils';
 
 // Service
 import { ContextualCommDataService } from './contextualCommData.service';
@@ -24,50 +23,40 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
     private triggerActionService: TriggerActionService,
     private contextualCommService: ContextualCommService,
     private contextualCommDataService: ContextualCommDataService
-    ) {}
+    ) {
+    }
 
-  resolve(route: ActivatedRouteSnapshot): Promise<ContextualComm> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<ContextualComm> {
 
     return new Promise((resolve, reject) => {
 
       let context = route.params['context'];
       let task = route.params['task'];
       let user = route.params['user'];
+      let path = state.url;
       let name = '';
 
       if (context) { name = context; };
       if (task) { name = task; };
-      if (user) {
-        name = this.contextualCommDataService.normalizeAtomicName(this.atomicContextualComm(user));
-      };
+      if (user) { name = user; };
+
+      name = normalizeFromURL(path, this.contactService.sessionUser.username);
 
       let normalizedName = normalizeName(name);
 
-      console.log('[ContextualCommData - Resolve] - normalized name:', normalizedName);
+      console.log('[ContextualCommData - Resolve] - normalized name:', state, route, route.params);
+      console.log('[ContextualCommData - Resolve] - normalized name:', name, normalizedName, path);
 
-      this.contextualCommDataService.getContext(normalizedName.name).subscribe({
+      this.contextualCommDataService.getContextById(normalizedName.id).subscribe({
         next: contextualComm => resolve(contextualComm),
         error: reason => {
           console.log('[ContextualCommData - Resolve] - user:', user);
-          // if (user) {
-          //   return this.contextualCommDataService.createAtomicContext(user, normalizedName.id, normalizedName.parent)
-          //   .then(context => resolve(context))
-          //   .catch(reason => reject(reason));
-          // } else {
-          //   this.triggerActionService.trigger(TriggerActions.OpenContextMenuCreator);
-          //   reject(reason);
-          // }
+          reject(reason);
         }
       });
 
     });
 
-  }
-
-  atomicContextualComm(user: string): string {
-    let currentUser = this.contactService.sessionUser.username;
-    let invitedUser = user;
-    return currentUser + '-' + invitedUser;
   }
 
 }

@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 
 // Services
-import { ContactService, RethinkService, ContextualCommService } from '../../services/services';
+import { ContactService, RethinkService, ContextualCommDataService } from '../../services/services';
 
 // Models
 import { User, ContextualComm } from '../../models/models';
@@ -30,32 +30,39 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
     this.updateView();
   }
 
+
   constructor(
     private el: ElementRef,
     private router: Router,
     private route: ActivatedRoute,
     private appService: RethinkService,
-    private contextualCommService: ContextualCommService,
-    private contactService: ContactService) {}
+    private contextualCommDataService: ContextualCommDataService,
+    private contactService: ContactService) {
+
+      this.route.data
+        .subscribe((data: { context: ContextualComm, users: User[] }) => {
+          console.log('Resolved context:', data.context);
+          this.users.next(data.context.users);
+        });
+
+      this.contextualCommDataService.currentContext().subscribe((context: ContextualComm) => {
+
+        console.log('[ContextualComm View - active context change]:', context);
+
+        // Check if the context is not an atomicContext
+        // TODO: we should create an instance of Atomic and Composite Context;
+        if (!context.id.includes('@')) {
+          console.log('[ContextualComm View - is not an Atomic Context]:', context);
+          this.users.next(context.users);
+        }
+
+      });
+
+    }
 
   // Load data ones componet is ready
   ngOnInit() {
-
     console.log('[ContextualComm View - onInit]', this.content);
-
-    this.route.data
-      .subscribe((data: { context: ContextualComm, users: User[] }) => {
-        console.log('Resolved context:', data.context);
-
-        this.users.next(data.context.users);
-        // console.log('Resolved users:', data.users);
-      });
-
-    this.contextualCommService.contextualComm().subscribe((contextualComm: ContextualComm) => {
-      console.log('[ContextualComm Component - update] - ', contextualComm, contextualComm.users);
-      this.users.next(contextualComm.users);
-    });
-
   }
 
   ngAfterViewInit() {

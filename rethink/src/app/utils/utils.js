@@ -49,18 +49,14 @@ function getUserMedia(constraints) {
     });
 }
 exports.getUserMedia = getUserMedia;
-function replaceToUrl(str) {
-    return str.replace(' ', '-');
-}
 function normalizeName(name, parent) {
     var prefix = config_1.config.appPrefix;
     var splitChar = config_1.config.splitChar;
+    var at = new RegExp(/%40/g);
+    name = name.replace(at, '@');
     var normalized = {};
     var splited = [];
-    if (name.indexOf(splitChar) !== -1) {
-        splited = name.split(splitChar);
-    }
-    else if (name.indexOf('/') !== -1) {
+    if (name.indexOf('/') !== -1) {
         splited = name.split('/');
         splited[0] = prefix;
     }
@@ -77,53 +73,56 @@ function normalizeName(name, parent) {
             return prev;
         }, splited);
     }
-    console.log('Splited: ', name, splited);
+    console.log('Splited: ', name, parent, splited);
     var contextId = splited[0] + splitChar + splited[1];
-    var contextName = splited[1];
     var task = splited[2] ? splited[2] : null;
-    var user = splited[3] && splited[4] ? splited[3] + splitChar + splited[4] : null;
+    var user = splited[3] ? splited[3] : null;
     if (contextId) {
         normalized['id'] = contextId;
         normalized['name'] = splited[1];
         normalized['parent'] = null;
-        normalized['url'] = replaceToUrl(contextName);
     }
     if (task) {
         normalized['id'] = contextId + splitChar + task;
         normalized['name'] = task;
         normalized['parent'] = contextId;
-        normalized['url'] = replaceToUrl(task);
     }
     if (user) {
         normalized['id'] = contextId + splitChar + task + splitChar + user;
         normalized['name'] = user;
         normalized['parent'] = contextId + splitChar + task;
-        normalized['url'] = user;
     }
     return normalized;
 }
 exports.normalizeName = normalizeName;
-function splitConvetionName(name) {
+function splitFromURL(name) {
     var splitChar = config_1.config.splitChar;
     var splited = name.split(splitChar);
     var result = {};
-    if (splited[1]) {
-        result['context'] = splited[1];
-        result['active'] = splited[1];
+    var context = splited[1];
+    var task = splited[2];
+    var user = splited[3];
+    if (context) {
+        result['context'] = context;
     }
-    if (splited[2]) {
-        result['task'] = splited[2];
-        result['active'] = splited[2];
+    if (task) {
+        result['context'] = context;
+        result['task'] = task;
     }
-    if (splited[3] && splited[4]) {
-        result['user'] = splited[3] + splitChar + splited[4];
-        result['active'] = splited[3];
+    if (user) {
+        result['context'] = context;
+        result['task'] = task;
+        if (user.includes('@') && user.includes('-')) {
+            result['user'] = user.split('-')[1];
+        }
     }
     return result;
 }
-exports.splitConvetionName = splitConvetionName;
+exports.splitFromURL = splitFromURL;
 function normalizeFromURL(path, username) {
     var splitChar = config_1.config.splitChar;
+    var at = new RegExp(/%40/g);
+    path = path.replace(at, '@');
     // Clear path from attributes
     if (path.indexOf('?') !== -1) {
         path = path.substring(0, path.lastIndexOf('?'));
@@ -131,7 +130,10 @@ function normalizeFromURL(path, username) {
     var pathSplited = path.split('/');
     pathSplited[0] = config_1.config.appPrefix;
     if (path.includes('@') && username) {
-        pathSplited.push(username);
+        var lastIndex = pathSplited.length - 1;
+        var last = pathSplited[lastIndex];
+        var updated = last + '-' + username;
+        pathSplited[lastIndex] = updated;
     }
     var joined = pathSplited.join(splitChar);
     console.log('AQUI:', path, username, pathSplited, joined);
@@ -139,13 +141,12 @@ function normalizeFromURL(path, username) {
 }
 exports.normalizeFromURL = normalizeFromURL;
 function filterContextsByName(name, context) {
-    var splitChat = config_1.config.splitChar;
-    if (name.indexOf(splitChat) !== -1 && name.includes('@')) {
-        var users = name.split(splitChat);
+    if (name.includes('@')) {
+        var users = name.split('-');
         var user1 = users[0];
         var user2 = users[1];
-        var variation1 = user1 + splitChat + user2;
-        var variation2 = user2 + splitChat + user1;
+        var variation1 = user1 + '-' + user2;
+        var variation2 = user2 + '-' + user1;
         if (context.name === variation1) {
             name = variation1;
         }

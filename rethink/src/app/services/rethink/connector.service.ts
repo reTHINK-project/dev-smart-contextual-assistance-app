@@ -3,7 +3,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 
 // Utils
-import { getUserMedia, splitConvetionName } from '../../utils/utils';
+import { getUserMedia, splitFromURL } from '../../utils/utils';
 
 // Services
 import { RethinkService } from './rethink.service';
@@ -162,17 +162,13 @@ export class ConnectorService {
 
       let metadata = response.metadata;
 
-      let paths: any = splitConvetionName(metadata.name);
+      let paths: any = splitFromURL(metadata.name);
 
       console.log('[Connector Service] -  navigate to: ', paths);
+      console.log('[Connector Service] -  navigate to: ', paths.context, paths.task, paths.user);
 
-      this.router.navigate([paths.context, paths.task, paths.active], navigationExtras);
+      this.router.navigate([paths.context, paths.task, paths.user], navigationExtras);
 
-      // if (this.router.url.includes(user.username)) {
-      //   this.router.navigate([this.router.url], navigationExtras);
-      // } else {
-      //   this.router.navigate([this.router.url, user.username], navigationExtras);
-      // }
     } else {
       controller.decline();
     }

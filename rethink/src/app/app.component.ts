@@ -144,8 +144,9 @@ export class AppComponent implements OnInit {
     this.contextOpened = !this.contextOpened;
   }
 
-  onClickOutside(event: Event) {
-    if (event.srcElement.id === 'mp-pusher') {
+  onClickOutside(event: any) {
+    console.log(event);
+    if (event && ((event.srcElement && event.srcElement.id === 'mp-pusher') || (event.target && event.target.id === 'mp-pusher'))) {
       this.contextOpened = false;
     }
   }

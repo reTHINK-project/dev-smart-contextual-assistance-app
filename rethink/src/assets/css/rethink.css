@@ -2017,12 +2017,14 @@ body.rethink ul.contactlist li {
   margin: 0;
 }
 /* line 2069, ../sass/rethink.scss */
-body.rethink ul.contactlist li:hover, body.rethink ul.contactlist li.active {
+body.rethink ul.contactlist .item:hover, 
+body.rethink ul.contactlist .item.active {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.15);
 }
 /* line 2073, ../sass/rethink.scss */
-body.rethink ul.contactlist li:hover div.pointer, body.rethink ul.contactlist li.active div.pointer {
+body.rethink ul.contactlist .item:hover div.pointer, 
+body.rethink ul.contactlist .item.active div.pointer {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
   transition-duration: 500ms;

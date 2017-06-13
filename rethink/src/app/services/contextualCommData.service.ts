@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 // Models
 import { ContextualComm } from '../models/models';
 
-import { filterContextsByName, normalizeName, normalizeFromURL } from '../utils/utils';
+import { filterContextsByName, normalizeName } from '../utils/utils';
 
 // Services
 import { ContextualCommService } from './contextualComm.service';
@@ -115,18 +115,6 @@ export class ContextualCommDataService {
 
   }
 
-  normalizeAtomicName(name: string): string {
-
-    let activeContext = this.contextualCommService.getActiveContext;
-    if (activeContext) {
-      return activeContext.id + '-' + name;
-    } else {
-      let path = this.location.path();
-      return normalizeFromURL(path, this.contactService.sessionUser.username);
-    }
-
-  }
-
   /**
    *
    *
@@ -139,8 +127,8 @@ export class ContextualCommDataService {
       .map(contexts => contexts.filter(context => context.parent === ''));
   }
 
-  getActiveContext(): ContextualComm {
-    let contextualComm: ContextualComm = this.contextualCommService.getActiveContext;
+  activeContext(): ContextualComm {
+    let contextualComm = this.contextualCommService.getActiveContext;
 
     if (contextualComm) {
       return contextualComm;
@@ -175,16 +163,27 @@ export class ContextualCommDataService {
       });
   }
 
-  getTasks(url: string): Observable<ContextualComm[]> {
-    return this.contextualCommService.getContextualComms().map(contexts => contexts.filter(context => context.parent === url));
-  }
-
-  getUsers() {
-    return this.contextualCommService.getContextualComms()
-      .map(contexts => contexts.filter(context => context.name === name)[0].users);
+  currentContext(): Observable<ContextualComm> {
+    return this.contextualCommService.currentContext();
   }
 
   private filterContextsById(id: string, context: ContextualComm) {
+
+    if (id.includes('@')) {
+      let base = id.substr(0, id.lastIndexOf('/') + 1);
+      let user = id.substr(id.lastIndexOf('/') + 1);
+      let users = user.split('-');
+
+      let variation1 = base + users[0] + '-' + users[1];
+      let variation2 = base + users[1] + '-' + users[0];
+
+      if (context.id === variation1) {
+        id = variation1;
+      } else if (context.id === variation2) {
+        id = variation2;
+      }
+    }
+
     console.log('[ContextualCommData Service] - getting Context By Id: ', context.id, id, context.id === id);
     return context.id === id;
   }

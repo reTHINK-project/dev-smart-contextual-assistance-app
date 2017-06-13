@@ -24,6 +24,7 @@ export class User implements UserIdentity {
 
   unread: number;
   domain: string;
+  hypertyURL: string[];
 
   constructor(obj: any) {
     this.username = obj && obj.username;
@@ -82,6 +83,8 @@ export class ContextualComm {
   name: string;
   description?: string;
 
+  reporter: boolean;
+
   // TODO this should not be optional
   communication?: Communication;
   context?: string;
@@ -111,6 +114,8 @@ export class ContextualComm {
     this.messages          = obj && obj.messages      || [];
 
     this.icon              = obj && obj.icon          || '';
+
+    this.reporter          = obj && obj.reporter      || false;
 
     this.parent            = obj && obj.parent;
     console.log('[Models - ContextualComm] - constructor: ', this.users);

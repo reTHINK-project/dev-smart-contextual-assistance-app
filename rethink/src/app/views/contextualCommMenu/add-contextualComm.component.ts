@@ -81,29 +81,36 @@ export class AddContextualCommComponent implements OnInit, AfterViewInit {
 
     });
 
+    this.buildForm();
+
   }
 
   ngAfterViewInit() {
-    this.buildForm();
+
   }
 
   buildForm() {
 
     this.model.name = '';
     this.model.icon = this.icons[0];
+    this.model.parent = null;
+    this.model.reporter = true;
 
     console.log('Is empty:', this.contexts.length);
 
     if (this.complexForm) { this.complexForm.reset(); }
 
     this.complexForm = this.fb.group({
-      'name': [this.model.name, Validators.compose([
+      'name': [this.model.name,
+      Validators.compose([
         Validators.required,
-        RethinkValidators.contextName(this.contextualCommDataService),
         Validators.pattern('[a-zA-Z1-9- ]*'),
         Validators.minLength(4),
         Validators.maxLength(22)]
-      )],
+      ),
+      Validators.composeAsync([
+        RethinkValidators.contextName(this.contextualCommDataService)
+      ])],
       'parent' : [{value: null, disabled: this.contexts.length === 0 } ],
       'icon' : [this.model.icon]
     });
@@ -133,9 +140,21 @@ export class AddContextualCommComponent implements OnInit, AfterViewInit {
       }
   }
 
+  onLostFocus(event: FocusEvent) {
+    let nameEl: HTMLInputElement = (<HTMLInputElement>event.target);
+    let value = nameEl.value.replace(/\s+/g, '-');
+    nameEl.value = value;
+  }
+
   submitForm(value: any) {
     console.log('Submit:', value);
-    this.contextualCommDataService.createContext(value.name, value.parent, value).then((result) => {
+    let name = value.name.trim();
+    let parent = value.parent;
+
+    let info = value;
+    info['reporter'] = true;
+
+    this.contextualCommDataService.createContext(name, parent, info).then((result) => {
 
       this.buildForm();
 

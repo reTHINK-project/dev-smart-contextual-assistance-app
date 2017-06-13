@@ -1,5 +1,5 @@
 import { Directive, SimpleChanges, OnChanges, Input } from '@angular/core';
-import { AsyncValidator, AbstractControl, NG_ASYNC_VALIDATORS } from '@angular/forms';
+import { Validator, AbstractControl, NG_ASYNC_VALIDATORS, Validators } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -17,11 +17,11 @@ import { ContextualCommDataService } from '../services/contextualCommData.servic
     selector: '[exist]',
     providers: [{ provide: NG_ASYNC_VALIDATORS, useExisting: RethinkValidators, multi: true }]
 })
-export class ContextNameValidatorDirective implements AsyncValidator, OnChanges {
+export class ContextNameValidatorDirective implements Validator, OnChanges {
 
   @Input() name: string;
 
-  private valFn = RethinkValidators.contextName(this.contextualCommDataService);
+  private valFn = Validators.composeAsync(null);
 
   constructor(
     private contextualCommDataService: ContextualCommDataService
@@ -29,19 +29,15 @@ export class ContextNameValidatorDirective implements AsyncValidator, OnChanges 
 
   ngOnChanges(changes: SimpleChanges): void {
     const change = changes['name'];
-
-    console.log(changes);
-
     if (change) {
-      console.log('CHANGE:', change, name);
-
       this.valFn = RethinkValidators.contextName(this.contextualCommDataService);
+    } else {
+      this.valFn = Validators.composeAsync(null);
     }
 
   }
 
   validate(control: AbstractControl): Promise<{ [key: string]: any }> | Observable<{ [key: string]: any }> {
-      console.log('AQUI:', control);
       return this.valFn(control);
   }
 }

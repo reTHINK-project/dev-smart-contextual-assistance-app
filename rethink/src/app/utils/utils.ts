@@ -33,21 +33,18 @@ export function getUserMedia(constraints: any) {
   });
 }
 
-function replaceToUrl(str: string): string {
-  return str.replace(' ', '-');
-}
-
 export function normalizeName(name: string, parent?: string): any {
 
   let prefix = config.appPrefix;
   let splitChar = config.splitChar;
 
+  let at = new RegExp(/%40/g);
+  name = name.replace(at, '@');
+
   let normalized = {};
   let splited = [];
 
-  if (name.indexOf(splitChar) !== -1) {
-    splited = name.split(splitChar);
-  } else if (name.indexOf('/') !== -1) {
+  if (name.indexOf('/') !== -1) {
     splited = name.split('/');
     splited[0] = prefix;
   } else {
@@ -64,56 +61,60 @@ export function normalizeName(name: string, parent?: string): any {
 
   }
 
-  console.log('Splited: ', name, splited);
+  console.log('Splited: ', name, parent, splited);
 
   let contextId = splited[0] + splitChar + splited[1];
-  let contextName = splited[1];
   let task = splited[2] ? splited[2] : null;
-  let user = splited[3] && splited[4] ?  splited[3] + splitChar + splited[4] : null;
+  let user = splited[3] ?  splited[3] : null;
 
   if (contextId) {
     normalized['id'] = contextId;
     normalized['name'] = splited[1];
     normalized['parent'] = null;
-    normalized['url'] = replaceToUrl(contextName);
   }
 
   if (task) {
     normalized['id'] = contextId + splitChar + task;
     normalized['name'] = task;
     normalized['parent'] = contextId;
-    normalized['url'] = replaceToUrl(task);
   }
 
   if (user) {
     normalized['id'] = contextId + splitChar + task + splitChar + user;
     normalized['name'] = user;
     normalized['parent'] = contextId + splitChar + task;
-    normalized['url'] = user;
   }
 
   return normalized;
 }
 
-export function splitConvetionName(name: string): any {
+export function splitFromURL(name: string): any {
 
   let splitChar = config.splitChar;
   let splited = name.split(splitChar);
   let result = {};
 
-  if (splited[1]) {
-    result['context'] = splited[1];
-    result['active'] = splited[1];
+  let context = splited[1];
+  let task = splited[2];
+  let user = splited[3];
+
+  if (context) {
+    result['context'] = context;
   }
 
-  if (splited[2]) {
-    result['task'] = splited[2];
-    result['active'] = splited[2];
+  if (task) {
+    result['context'] = context;
+    result['task'] = task;
   }
 
-  if (splited[3] && splited[4]) {
-    result['user'] = splited[3] + splitChar + splited[4];
-    result['active'] = splited[3];
+  if (user) {
+    result['context'] = context;
+    result['task'] = task;
+
+    if (user.includes('@') && user.includes('-')) {
+      result['user'] = user.split('-')[1];
+    }
+
   }
 
   return result;
@@ -122,6 +123,9 @@ export function splitConvetionName(name: string): any {
 export function normalizeFromURL(path: string, username: string): string {
 
   let splitChar = config.splitChar;
+
+  let at = new RegExp(/%40/g);
+  path = path.replace(at, '@');
 
   // Clear path from attributes
   if (path.indexOf('?') !== -1) {
@@ -132,7 +136,10 @@ export function normalizeFromURL(path: string, username: string): string {
   pathSplited[0] = config.appPrefix;
 
   if (path.includes('@') && username) {
-    pathSplited.push(username);
+    let lastIndex = pathSplited.length - 1;
+    let last = pathSplited[lastIndex];
+    let updated = last + '-' + username;
+    pathSplited[lastIndex] = updated;
   }
 
   let joined = pathSplited.join(splitChar);
@@ -144,15 +151,14 @@ export function normalizeFromURL(path: string, username: string): string {
 
 export function filterContextsByName(name: string, context: ContextualComm): boolean {
 
-  let splitChat = config.splitChar;
+  if (name.includes('@')) {
 
-  if (name.indexOf(splitChat) !== -1 && name.includes('@')) {
-    let users = name.split(splitChat);
+    let users = name.split('-');
     let user1 = users[0];
     let user2 = users[1];
 
-    let variation1 = user1 + splitChat + user2;
-    let variation2 = user2 + splitChat + user1;
+    let variation1 = user1 + '-' + user2;
+    let variation2 = user2 + '-' + user1;
 
     if (context.name === variation1) {
       name = variation1;

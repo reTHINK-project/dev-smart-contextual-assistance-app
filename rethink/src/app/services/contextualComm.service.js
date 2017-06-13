@@ -25,7 +25,6 @@ var Subject_1 = require("rxjs/Subject");
 require("rxjs/add/observable/of");
 require("rxjs/add/operator/filter");
 require("rxjs/add/operator/startWith");
-var config_1 = require("../config");
 // utils
 var utils_1 = require("../utils/utils");
 // Services
@@ -47,6 +46,7 @@ var ContextualCommService = (function () {
         this._contextualCommUpdates = new Subject_1.Subject();
         this._contextualComm = new Subject_1.Subject();
         this.contextualCommObs = new Subject_1.Subject();
+        this._currentContext = new Subject_1.Subject();
         this._contextualCommList = this._contextualCommUpdates
             .map(function (context) {
             context.users = context.users.map(function (user) {
@@ -121,9 +121,6 @@ var ContextualCommService = (function () {
         var e_1, _c;
     }
     Object.defineProperty(ContextualCommService.prototype, "getActiveContext", {
-        // public getActiveContext(v: string): ContextualComm {
-        //   return this.localStorage.hasObject(v) ? this.localStorage.getObject(v) as ContextualComm : null;
-        // }
         get: function () {
             return this.currentActiveContext;
         },
@@ -134,34 +131,7 @@ var ContextualCommService = (function () {
         set: function (value) {
             console.log('[Context Service] - setActiveContext: ', value, this.cxtList.get(value));
             this.currentActiveContext = this.cxtList.get(value);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ContextualCommService.prototype, "setContextPath", {
-        set: function (v) {
-            this.contextPath = v;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ContextualCommService.prototype, "getContextPath", {
-        get: function () {
-            return this.contextPath;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ContextualCommService.prototype, "setTaskPath", {
-        set: function (v) {
-            this.taskPath = v;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ContextualCommService.prototype, "getTaskPath", {
-        get: function () {
-            return this.taskPath;
+            this._currentContext.next(this.currentActiveContext);
         },
         enumerable: true,
         configurable: true
@@ -212,14 +182,17 @@ var ContextualCommService = (function () {
         var _this = this;
         var data = JSON.parse(JSON.stringify(dataObject.data));
         var metadata = JSON.parse(JSON.stringify(dataObject.metadata));
+        var isReporter = contextInfo && contextInfo.reporter ? contextInfo.reporter : false;
+        var icon = contextInfo && contextInfo.icon ? contextInfo.icon : '';
         console.log('[Contextual Comm Service] -  createContextualComm: ', name, data, metadata, parent, dataObject);
         var contextualComm = new models_1.ContextualComm({
-            icon: contextInfo ? contextInfo.icon : '',
+            icon: icon,
             name: name,
             url: metadata.url,
             id: metadata.name,
             parent: parent ? parent.url : '',
-            description: metadata.description || ''
+            description: metadata.description || '',
+            reporter: isReporter
         });
         var participants = data.participants || {};
         Object.keys(participants).forEach(function (item) {
@@ -232,8 +205,8 @@ var ContextualCommService = (function () {
             }
             contextualComm.addUser(currentUser);
         });
-        var communication = (data);
-        communication.resources = [HypertyResource_1.HypertyResourceType.chat];
+        var communication = (metadata);
+        communication.resources = [HypertyResource_1.HypertyResourceType.Chat];
         contextualComm.communication = communication;
         console.log('[Context Service - createContextualComm] - New ContextualComm:', contextualComm);
         return contextualComm;
@@ -264,14 +237,13 @@ var ContextualCommService = (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             var currentContext;
-            var splitChat = config_1.config.splitChar;
             _this.cxtList.forEach(function (context) {
-                if (name.indexOf(splitChat) !== -1 && name.includes('@')) {
-                    var users = name.split(splitChat);
+                if (name.includes('@')) {
+                    var users = name.split('-');
                     var user1 = users[0];
                     var user2 = users[1];
-                    var variation1 = user1 + splitChat + user2;
-                    var variation2 = user2 + splitChat + user1;
+                    var variation1 = user1 + '-' + user2;
+                    var variation2 = user2 + '-' + user1;
                     if (context.name === variation1) {
                         name = variation1;
                     }
@@ -309,6 +281,9 @@ var ContextualCommService = (function () {
             next: function (list) { return console.log('List of contacts:', list); }
         });
         return this.contactService.getUsers();
+    };
+    ContextualCommService.prototype.currentContext = function () {
+        return this._currentContext;
     };
     ContextualCommService.prototype.contextualComm = function () {
         return this.contextualCommObs;

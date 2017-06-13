@@ -1,7 +1,9 @@
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 
 import { ContextualCommDataService } from '../services/contextualCommData.service';
+import { ContextualComm } from '../models/models';
 import { Observable } from 'rxjs/Observable';
+
 import 'rxjs/add/operator/toPromise';
 
 export class RethinkValidators {
@@ -12,19 +14,18 @@ export class RethinkValidators {
 
     return (control: AbstractControl): Promise<{[key: string]: any}> | Observable<{[key: string]: any}> => {
 
-      let name = control.value;
+      let name: string = control.value.toLowerCase();
       return new Promise((resolve) => {
 
-        contextualCommDataService.getContext(name).toPromise().then((result) => {
-          console.log('COntext:', result);
+        contextualCommDataService.getContext(name).subscribe((context: ContextualComm) => {
 
-          if (result) {
+          if (context) {
             resolve({ 'exist': name});
           } else {
             resolve(null);
           }
-        }).catch((reason) => {
-          console.log('Not found', reason);
+
+        }, (error: any) => {
           resolve(null);
         });
       });

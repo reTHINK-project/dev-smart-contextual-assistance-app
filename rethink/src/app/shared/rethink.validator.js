@@ -6,18 +6,16 @@ var RethinkValidators = (function () {
     }
     RethinkValidators.contextName = function (contextualCommDataService) {
         return function (control) {
-            var name = control.value;
+            var name = control.value.toLowerCase();
             return new Promise(function (resolve) {
-                contextualCommDataService.getContext(name).toPromise().then(function (result) {
-                    console.log('COntext:', result);
-                    if (result) {
+                contextualCommDataService.getContext(name).subscribe(function (context) {
+                    if (context) {
                         resolve({ 'exist': name });
                     }
                     else {
                         resolve(null);
                     }
-                }).catch(function (reason) {
-                    console.log('Not found', reason);
+                }, function (error) {
                     resolve(null);
                 });
             });

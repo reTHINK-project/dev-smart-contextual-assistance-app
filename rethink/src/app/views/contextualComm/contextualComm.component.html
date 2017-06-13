@@ -2,7 +2,7 @@
 <!-- bootstrap: col-sm-5 col-md-3 col-lg-2 pull-sm-7 pull-lg-10 pull-md-9 pl-0 pr-0 sidebar -->
 <!-- all-25 medium-30 xlarge-20 sidebar hide-small hide-tiny -->
 <div class="all-25 medium-30 xlarge-20 sidebar hide-small hide-tiny">
-    <context-user-view [model]="users"></context-user-view>
+    <context-user-view [users]=users ></context-user-view>
 
     <footer class="alt-foot">
         Copyright 2016 © Altice Labs - All rights reserved
@@ -14,8 +14,5 @@
 <div class="all-75 medium-70 xlarge-80 main-content hide-small hide-tiny">
     <div #content class="content-panel all-100 hide-small hide-tiny">
         <router-outlet></router-outlet>
-
-        <!-- <ul activity-list [model]="activities"></ul>
-        <div file-share-list></div> -->
     </div>
 </div>

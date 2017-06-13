@@ -111,7 +111,8 @@ var AppComponent = (function () {
         this.contextOpened = !this.contextOpened;
     };
     AppComponent.prototype.onClickOutside = function (event) {
-        if (event.srcElement.id === 'mp-pusher') {
+        console.log(event);
+        if (event && ((event.srcElement && event.srcElement.id === 'mp-pusher') || (event.target && event.target.id === 'mp-pusher'))) {
             this.contextOpened = false;
         }
     };

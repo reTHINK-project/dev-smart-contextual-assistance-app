@@ -99,7 +99,7 @@ var ContextualCommTriggerService = (function () {
                 var context = {
                     contextName: name,
                     contextScheme: 'context',
-                    contextResource: [HypertyResource_1.HypertyResourceType.video, HypertyResource_1.HypertyResourceType.audio, HypertyResource_1.HypertyResourceType.chat],
+                    contextResource: [HypertyResource_1.HypertyResourceType.Video, HypertyResource_1.HypertyResourceType.Audio, HypertyResource_1.HypertyResourceType.Chat],
                     values: [],
                     trigger: []
                 };

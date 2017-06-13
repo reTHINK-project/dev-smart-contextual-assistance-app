@@ -10,18 +10,9 @@ var CustomUrlSerializer = (function () {
     };
     CustomUrlSerializer.prototype.serialize = function (tree) {
         var dus = new router_1.DefaultUrlSerializer(), path = dus.serialize(tree);
-        var serializedPath = path;
         var at = new RegExp(/%40/g);
-        var space = new RegExp(/%20/g);
-        if (at) {
-            serializedPath = path.replace(at, '@');
-        }
-        if (space) {
-            serializedPath = path.replace(space, '-');
-        }
-        console.log('path:', path, serializedPath);
         // use your regex to replace as per your requirement.
-        return serializedPath;
+        return path.replace(at, '@');
     };
     return CustomUrlSerializer;
 }());

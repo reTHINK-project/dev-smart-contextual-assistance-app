@@ -57,24 +57,29 @@ var AddContextualCommComponent = (function () {
                 _this.open(_this.el);
             }
         });
+        this.buildForm();
     };
     AddContextualCommComponent.prototype.ngAfterViewInit = function () {
-        this.buildForm();
     };
     AddContextualCommComponent.prototype.buildForm = function () {
         this.model.name = '';
         this.model.icon = this.icons[0];
+        this.model.parent = null;
+        this.model.reporter = true;
         console.log('Is empty:', this.contexts.length);
         if (this.complexForm) {
             this.complexForm.reset();
         }
         this.complexForm = this.fb.group({
-            'name': [this.model.name, forms_1.Validators.compose([
+            'name': [this.model.name,
+                forms_1.Validators.compose([
                     forms_1.Validators.required,
-                    rethink_validator_1.RethinkValidators.contextName(this.contextualCommDataService),
                     forms_1.Validators.pattern('[a-zA-Z1-9- ]*'),
                     forms_1.Validators.minLength(4),
                     forms_1.Validators.maxLength(22)
+                ]),
+                forms_1.Validators.composeAsync([
+                    rethink_validator_1.RethinkValidators.contextName(this.contextualCommDataService)
                 ])],
             'parent': [{ value: null, disabled: this.contexts.length === 0 }],
             'icon': [this.model.icon]
@@ -101,10 +106,19 @@ var AddContextualCommComponent = (function () {
             return "with: " + reason;
         }
     };
+    AddContextualCommComponent.prototype.onLostFocus = function (event) {
+        var nameEl = event.target;
+        var value = nameEl.value.replace(/\s+/g, '-');
+        nameEl.value = value;
+    };
     AddContextualCommComponent.prototype.submitForm = function (value) {
         var _this = this;
         console.log('Submit:', value);
-        this.contextualCommDataService.createContext(value.name, value.parent, value).then(function (result) {
+        var name = value.name.trim();
+        var parent = value.parent;
+        var info = value;
+        info['reporter'] = true;
+        this.contextualCommDataService.createContext(name, parent, info).then(function (result) {
             _this.buildForm();
         }).catch(function (reason) {
         });

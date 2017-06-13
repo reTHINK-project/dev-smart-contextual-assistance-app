@@ -78,7 +78,7 @@ var MediaCommunicationComponent = (function () {
     MediaCommunicationComponent.prototype.callTo = function (user) {
         var _this = this;
         var options = { video: true, audio: true };
-        var contextID = this.contextualCommDataService.getActiveContext().id;
+        var contextID = this.contextualCommDataService.activeContext().id;
         console.log('[Media Communication Component] - ' + this.mode + ' call To', user, contextID);
         this.connectorService.connect(user.username, options, contextID, user.domain)
             .then(function (controller) {

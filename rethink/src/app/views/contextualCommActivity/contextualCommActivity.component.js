@@ -22,7 +22,7 @@ var ContextualCommActivityComponent = (function () {
     ContextualCommActivityComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
         this.messages.subscribe(function (messages) {
-            _this.scrollToBottom();
+            setTimeout(function () { _this.scrollToBottom(); });
         });
     };
     ContextualCommActivityComponent.prototype.updateView = function () {

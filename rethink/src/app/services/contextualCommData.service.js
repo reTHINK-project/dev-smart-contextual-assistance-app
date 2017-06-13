@@ -83,16 +83,6 @@ var ContextualCommDataService = (function () {
             });
         });
     };
-    ContextualCommDataService.prototype.normalizeAtomicName = function (name) {
-        var activeContext = this.contextualCommService.getActiveContext;
-        if (activeContext) {
-            return activeContext.id + '-' + name;
-        }
-        else {
-            var path = this.location.path();
-            return utils_1.normalizeFromURL(path, this.contactService.sessionUser.username);
-        }
-    };
     /**
      *
      *
@@ -104,7 +94,7 @@ var ContextualCommDataService = (function () {
         return this.contextualCommService.getContextualComms()
             .map(function (contexts) { return contexts.filter(function (context) { return context.parent === ''; }); });
     };
-    ContextualCommDataService.prototype.getActiveContext = function () {
+    ContextualCommDataService.prototype.activeContext = function () {
         var contextualComm = this.contextualCommService.getActiveContext;
         if (contextualComm) {
             return contextualComm;
@@ -135,14 +125,23 @@ var ContextualCommDataService = (function () {
             return found;
         });
     };
-    ContextualCommDataService.prototype.getTasks = function (url) {
-        return this.contextualCommService.getContextualComms().map(function (contexts) { return contexts.filter(function (context) { return context.parent === url; }); });
-    };
-    ContextualCommDataService.prototype.getUsers = function () {
-        return this.contextualCommService.getContextualComms()
-            .map(function (contexts) { return contexts.filter(function (context) { return context.name === name; })[0].users; });
+    ContextualCommDataService.prototype.currentContext = function () {
+        return this.contextualCommService.currentContext();
     };
     ContextualCommDataService.prototype.filterContextsById = function (id, context) {
+        if (id.includes('@')) {
+            var base = id.substr(0, id.lastIndexOf('/') + 1);
+            var user = id.substr(id.lastIndexOf('/') + 1);
+            var users = user.split('-');
+            var variation1 = base + users[0] + '-' + users[1];
+            var variation2 = base + users[1] + '-' + users[0];
+            if (context.id === variation1) {
+                id = variation1;
+            }
+            else if (context.id === variation2) {
+                id = variation2;
+            }
+        }
         console.log('[ContextualCommData Service] - getting Context By Id: ', context.id, id, context.id === id);
         return context.id === id;
     };
