@@ -65,13 +65,13 @@ export class ContextualCommDataService {
 
   }
 
-  joinContext(name: string, dataObject: any, parentNameId?: string): Promise<ContextualComm> {
+  joinContext(name: string, id: string, dataObject: any, parentNameId?: string): Promise<ContextualComm> {
 
     return new Promise((resolve, reject) => {
 
       console.info('[ContextualCommData Service] - join: ', name);
 
-      this.contextualCommService.getContextByName(name).then((context: ContextualComm) => {
+      this.getContextById(id).toPromise().then((context: ContextualComm) => {
 
         console.info('[ContextualCommData Service] - communication objects was created successfully: ', dataObject);
         console.info('[ContextualCommData Service] - creating new contexts: ', dataObject, parentNameId);

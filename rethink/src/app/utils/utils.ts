@@ -39,6 +39,8 @@ export function normalizeName(name: string, parent?: string): any {
   let splitChar = config.splitChar;
 
   let at = new RegExp(/%40/g);
+
+  name = name.toLowerCase();
   name = name.replace(at, '@');
 
   let normalized = {};

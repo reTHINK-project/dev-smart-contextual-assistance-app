@@ -53,6 +53,7 @@ function normalizeName(name, parent) {
     var prefix = config_1.config.appPrefix;
     var splitChar = config_1.config.splitChar;
     var at = new RegExp(/%40/g);
+    name = name.toLowerCase();
     name = name.replace(at, '@');
     var normalized = {};
     var splited = [];

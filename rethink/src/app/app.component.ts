@@ -2,10 +2,6 @@ import { Title } from '@angular/platform-browser';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { Observer } from 'rxjs/Observer';
-
 import { config } from './config';
 
 // Models
@@ -30,8 +26,6 @@ export class AppComponent implements OnInit {
   ready = false;
   myIdentity: User;
   status: string;
-
-  private processNewEvent: Subject<any> = new Subject();
 
   private contextOpened = false;
 
@@ -108,7 +102,7 @@ export class AppComponent implements OnInit {
           console.log('[Chat Communication View - onInvitation] - event processed:', result);
         }).catch((reason) => {
           console.error('[Chat Communication View - onInvitation] - event not processed:', reason);
-        })
+        });
 
     });
 
@@ -127,7 +121,7 @@ export class AppComponent implements OnInit {
         let normalizedName = normalizeName(name);
         console.log('[App Component - Join the to the context: ', name, dataObject, normalizedName);
 
-        return this.contextualCommDataService.joinContext(normalizedName.name, dataObject, normalizedName.parent);
+        return this.contextualCommDataService.joinContext(normalizedName.name, normalizedName.id, dataObject, normalizedName.parent);
       }).then((currentContext: ContextualComm) => {
         console.log('[App Component] - current context created: ', currentContext);
         resolve(currentContext);
