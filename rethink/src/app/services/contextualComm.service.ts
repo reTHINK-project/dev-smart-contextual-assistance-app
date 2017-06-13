@@ -34,13 +34,7 @@ export class ContextualCommService {
   private _contextualComm: Subject<ContextualComm> = new Subject<ContextualComm>();
 
   private contextualCommObs: Subject<ContextualComm> = new Subject<ContextualComm>();
-
-  private contextPath: string;
-  private taskPath: string;
-
-  // public getActiveContext(v: string): ContextualComm {
-  //   return this.localStorage.hasObject(v) ? this.localStorage.getObject(v) as ContextualComm : null;
-  // }
+  private _currentContext: Subject<ContextualComm> = new Subject<ContextualComm>();
 
   public get getActiveContext(): ContextualComm {
     return this.currentActiveContext;
@@ -49,22 +43,7 @@ export class ContextualCommService {
   public set setActiveContext(value: string) {
     console.log('[Context Service] - setActiveContext: ', value, this.cxtList.get(value));
     this.currentActiveContext = this.cxtList.get(value);
-  }
-
-  public set setContextPath(v: string) {
-    this.contextPath = v;
-  }
-
-  public get getContextPath(): string {
-    return this.contextPath;
-  }
-
-  public set setTaskPath(v: string) {
-    this.taskPath = v;
-  }
-
-  public get getTaskPath(): string {
-    return this.taskPath;
+    this._currentContext.next(this.currentActiveContext);
   }
 
   constructor(
@@ -214,15 +193,19 @@ export class ContextualCommService {
     let data: any = JSON.parse(JSON.stringify(dataObject.data));
     let metadata: any = JSON.parse(JSON.stringify(dataObject.metadata));
 
+    let isReporter: boolean = contextInfo && contextInfo.reporter ? contextInfo.reporter : false;
+    let icon: string = contextInfo && contextInfo.icon ? contextInfo.icon : '';
+
     console.log('[Contextual Comm Service] -  createContextualComm: ', name, data, metadata, parent, dataObject);
 
     let contextualComm = new ContextualComm({
-      icon: contextInfo ? contextInfo.icon : '',
+      icon: icon,
       name: name,
       url: metadata.url,
       id: metadata.name,
       parent: parent ? parent.url : '',
-      description: metadata.description || ''
+      description: metadata.description || '',
+      reporter: isReporter
     });
 
 
@@ -239,8 +222,8 @@ export class ContextualCommService {
       contextualComm.addUser(currentUser);
     });
 
-    let communication: Communication = <Communication>(data);
-    communication.resources = [HypertyResourceType.chat];
+    let communication: Communication = <Communication>(metadata);
+    communication.resources = [HypertyResourceType.Chat];
     contextualComm.communication = communication;
 
     console.log('[Context Service - createContextualComm] - New ContextualComm:', contextualComm);
@@ -290,7 +273,7 @@ export class ContextualCommService {
 
       this.cxtList.forEach((context: ContextualComm) => {
 
-        if (name.indexOf('-') !== -1 && name.includes('@')) {
+        if (name.includes('@')) {
           let users = name.split('-');
           let user1 = users[0];
           let user2 = users[1];
@@ -350,6 +333,9 @@ export class ContextualCommService {
     return this.contactService.getUsers();
   }
 
+  currentContext(): Observable<ContextualComm> {
+    return this._currentContext;
+  }
 
   contextualComm(): Observable<ContextualComm> {
     return this.contextualCommObs;

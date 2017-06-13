@@ -7,6 +7,7 @@ import { MomentModule } from 'angular2-moment';
 import { ContextualCommRoutingModule } from './contextualComm.routing';
 
 // Generic Components
+import { ContextNameValidatorDirective } from '../../shared/rethink.directive';
 import { ContactBoxComponent } from '../../components/user/contact-box.component';
 
 import { ChatCommunicationComponent } from '../../components/rethink/communication/chatCommunication.component';
@@ -46,6 +47,8 @@ import {
     ContextualCommRoutingModule
   ],
   declarations: [
+    ContextNameValidatorDirective,
+
     ContextualCommActivityComponent,
     ActivityViewComponent,
     UserViewComponent,

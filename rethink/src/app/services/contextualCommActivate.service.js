@@ -56,17 +56,17 @@ var ContextualCommActivateService = (function () {
                         ;
                         if (user_1) {
                             title = user_1;
-                            name_1 = _this.contextualCommDataService.normalizeAtomicName(_this.atomicContextualComm(user_1));
+                            name_1 = user_1;
                         }
                         ;
                         _this.titleService.setTitle(config_1.config.pageTitlePrefix + title);
                         var path = state.url;
-                        console.log('[ContextualCommData - Activate] - path: ', path);
+                        console.log('[ContextualCommData - Activate] - path: ', path, name_1);
                         var normalizedPath = utils_1.normalizeFromURL(path, _this.rethinkService.getCurrentUser.username);
                         console.log('[ContextualCommData - Activate] - normalizedPath: ', normalizedPath);
                         var normalizedName_1 = utils_1.normalizeName(normalizedPath);
                         console.log('[ContextualCommData - Activate] - normalized name: ', normalizedName_1);
-                        _this.contextualCommDataService.getContext(normalizedName_1.name).subscribe(function (context) {
+                        _this.contextualCommDataService.getContextById(normalizedName_1.id).subscribe(function (context) {
                             _this.activateContext(context);
                             resolve(true);
                         }, function (reason) {
@@ -95,11 +95,6 @@ var ContextualCommActivateService = (function () {
         console.log('[Can Activate Route] - ', context.url);
         this.chatService.activeDataObjectURL = context.url;
         this.contextualCommService.setActiveContext = context.url;
-    };
-    ContextualCommActivateService.prototype.atomicContextualComm = function (user) {
-        var currentUser = this.contactService.sessionUser.username;
-        var invitedUser = user;
-        return currentUser + '-' + invitedUser;
     };
     return ContextualCommActivateService;
 }());

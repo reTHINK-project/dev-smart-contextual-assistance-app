@@ -26,12 +26,13 @@ var ContextualCommDataResolver = (function () {
         this.contextualCommService = contextualCommService;
         this.contextualCommDataService = contextualCommDataService;
     }
-    ContextualCommDataResolver.prototype.resolve = function (route) {
+    ContextualCommDataResolver.prototype.resolve = function (route, state) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             var context = route.params['context'];
             var task = route.params['task'];
             var user = route.params['user'];
+            var path = state.url;
             var name = '';
             if (context) {
                 name = context;
@@ -42,31 +43,20 @@ var ContextualCommDataResolver = (function () {
             }
             ;
             if (user) {
-                name = _this.contextualCommDataService.normalizeAtomicName(_this.atomicContextualComm(user));
+                name = user;
             }
             ;
+            name = utils_1.normalizeFromURL(path, _this.contactService.sessionUser.username);
             var normalizedName = utils_1.normalizeName(name);
-            console.log('[ContextualCommData - Resolve] - normalized name:', normalizedName);
-            _this.contextualCommDataService.getContext(normalizedName.name).subscribe({
+            console.log('[ContextualCommData - Resolve] - normalized name:', name, normalizedName, path);
+            _this.contextualCommDataService.getContextById(normalizedName.id).subscribe({
                 next: function (contextualComm) { return resolve(contextualComm); },
                 error: function (reason) {
                     console.log('[ContextualCommData - Resolve] - user:', user);
-                    // if (user) {
-                    //   return this.contextualCommDataService.createAtomicContext(user, normalizedName.id, normalizedName.parent)
-                    //   .then(context => resolve(context))
-                    //   .catch(reason => reject(reason));
-                    // } else {
-                    //   this.triggerActionService.trigger(TriggerActions.OpenContextMenuCreator);
-                    //   reject(reason);
-                    // }
+                    reject(reason);
                 }
             });
         });
-    };
-    ContextualCommDataResolver.prototype.atomicContextualComm = function (user) {
-        var currentUser = this.contactService.sessionUser.username;
-        var invitedUser = user;
-        return currentUser + '-' + invitedUser;
     };
     return ContextualCommDataResolver;
 }());

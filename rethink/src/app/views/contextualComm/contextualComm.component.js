@@ -17,33 +17,49 @@ var services_1 = require("../../services/services");
 // Components
 var add_user_component_1 = require("../contextualCommUsers/add-user.component");
 var ContextualCommComponent = (function () {
-    function ContextualCommComponent(el, router, route, appService, contextualCommService, contactService) {
+    function ContextualCommComponent(el, router, route, appService, contextualCommDataService, contactService) {
+        var _this = this;
         this.el = el;
         this.router = router;
         this.route = route;
         this.appService = appService;
-        this.contextualCommService = contextualCommService;
+        this.contextualCommDataService = contextualCommDataService;
         this.contactService = contactService;
         this.hostClass = 'context-view row no-gutters';
+        this.allowAddUser = false;
         this.users = new BehaviorSubject_1.BehaviorSubject([]);
+        this.route.data.subscribe(function (data) {
+            _this.updateCurrentContext(data.context);
+        });
+        this.contextualCommDataService.currentContext().subscribe(function (context) {
+            console.log('[ContextualComm View - active context change]:', context);
+            _this.updateCurrentContext(context);
+        });
     }
     ContextualCommComponent.prototype.onResize = function (event) {
         this.updateView();
     };
+    ContextualCommComponent.prototype.updateCurrentContext = function (context) {
+        var _this = this;
+        console.log('[ContextualComm View - active context change]:', context);
+        this.allowAddUser = context.reporter ? true : false;
+        // Check if the context is not an atomicContext
+        // TODO: we should create an instance of Atomic and Composite Context;
+        if (!context.id.includes('@')) {
+            console.log('[ContextualComm View - is not an Atomic Context]:', context);
+            this.users.next(context.users);
+        }
+        else {
+            this.contextualCommDataService.getContextByResource(context.parent)
+                .subscribe(function (context) {
+                _this.users.next(context.users);
+            });
+            this.allowAddUser = false;
+        }
+    };
     // Load data ones componet is ready
     ContextualCommComponent.prototype.ngOnInit = function () {
-        var _this = this;
         console.log('[ContextualComm View - onInit]', this.content);
-        this.route.data
-            .subscribe(function (data) {
-            console.log('Resolved context:', data.context);
-            _this.users.next(data.context.users);
-            // console.log('Resolved users:', data.users);
-        });
-        this.contextualCommService.contextualComm().subscribe(function (contextualComm) {
-            console.log('[ContextualComm Component - update] - ', contextualComm, contextualComm.users);
-            _this.users.next(contextualComm.users);
-        });
     };
     ContextualCommComponent.prototype.ngAfterViewInit = function () {
         this.updateView();
@@ -94,7 +110,7 @@ ContextualCommComponent = __decorate([
         router_1.Router,
         router_1.ActivatedRoute,
         services_1.RethinkService,
-        services_1.ContextualCommService,
+        services_1.ContextualCommDataService,
         services_1.ContactService])
 ], ContextualCommComponent);
 exports.ContextualCommComponent = ContextualCommComponent;

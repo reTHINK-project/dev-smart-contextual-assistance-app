@@ -23,9 +23,7 @@ var ContextualCommActivityComponent = (function () {
         var _this = this;
         this.messages.subscribe(function (messages) {
             // TODO: Check if exits other way to wait the dom have the last item added and remove this setTimeout
-            setTimeout(function () {
-                _this.scrollToBottom();
-            });
+            setTimeout(function () { _this.scrollToBottom(); });
         });
     };
     ContextualCommActivityComponent.prototype.updateView = function () {

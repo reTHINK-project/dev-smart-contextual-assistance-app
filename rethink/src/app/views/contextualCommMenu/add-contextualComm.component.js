@@ -10,16 +10,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var forms_1 = require("@angular/forms");
+require("rxjs/add/operator/defaultIfEmpty");
 // Bootstrap
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 // App Model
 var app_models_1 = require("../../models/app.models");
+// Validator
+var rethink_validator_1 = require("../../shared/rethink.validator");
 // Serives
 var services_1 = require("../../services/services");
 var contextualCommData_service_1 = require("../../services/contextualCommData.service");
 var AddContextualCommComponent = (function () {
-    function AddContextualCommComponent(rd, modalService, triggerActionService, contextualCommDataService) {
+    function AddContextualCommComponent(rd, fb, modalService, triggerActionService, contextualCommDataService) {
+        var _this = this;
         this.rd = rd;
+        this.fb = fb;
         this.modalService = modalService;
         this.triggerActionService = triggerActionService;
         this.contextualCommDataService = contextualCommDataService;
@@ -38,8 +44,11 @@ var AddContextualCommComponent = (function () {
             'users'
         ];
         this.title = 'Add New context';
-        this.model.icon = this.icons[0];
+        this.contexts = [];
         this.contextualComms = this.contextualCommDataService.getContexts();
+        this.contextualComms.subscribe(function (contexts) {
+            _this.contexts = contexts;
+        });
     }
     AddContextualCommComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -47,6 +56,33 @@ var AddContextualCommComponent = (function () {
             if (action === app_models_1.TriggerActions.OpenContextMenuCreator) {
                 _this.open(_this.el);
             }
+        });
+        this.buildForm();
+    };
+    AddContextualCommComponent.prototype.ngAfterViewInit = function () {
+    };
+    AddContextualCommComponent.prototype.buildForm = function () {
+        this.model.name = '';
+        this.model.icon = this.icons[0];
+        this.model.parent = null;
+        this.model.reporter = true;
+        console.log('Is empty:', this.contexts.length);
+        if (this.complexForm) {
+            this.complexForm.reset();
+        }
+        this.complexForm = this.fb.group({
+            'name': [this.model.name,
+                forms_1.Validators.compose([
+                    forms_1.Validators.required,
+                    forms_1.Validators.pattern('[a-zA-Z1-9- ]*'),
+                    forms_1.Validators.minLength(4),
+                    forms_1.Validators.maxLength(22)
+                ]),
+                forms_1.Validators.composeAsync([
+                    rethink_validator_1.RethinkValidators.contextName(this.contextualCommDataService)
+                ])],
+            'parent': [{ value: null, disabled: this.contexts.length === 0 }],
+            'icon': [this.model.icon]
         });
     };
     AddContextualCommComponent.prototype.open = function (content) {
@@ -70,13 +106,22 @@ var AddContextualCommComponent = (function () {
             return "with: " + reason;
         }
     };
-    AddContextualCommComponent.prototype.submitForm = function (value) {
-        console.log('Submit:', value);
-        this.contextualCommDataService.createContext(value.name, value.parent, value);
-        this.clean();
+    AddContextualCommComponent.prototype.onLostFocus = function (event) {
+        var nameEl = event.target;
+        var value = nameEl.value.replace(/\s+/g, '-');
+        nameEl.value = value;
     };
-    AddContextualCommComponent.prototype.clean = function () {
-        this.model = {};
+    AddContextualCommComponent.prototype.submitForm = function (value) {
+        var _this = this;
+        console.log('Submit:', value);
+        var name = value.name.trim();
+        var parent = value.parent;
+        var info = value;
+        info['reporter'] = true;
+        this.contextualCommDataService.createContext(name, parent, info).then(function (result) {
+            _this.buildForm();
+        }).catch(function (reason) {
+        });
     };
     return AddContextualCommComponent;
 }());
@@ -92,6 +137,7 @@ AddContextualCommComponent = __decorate([
         styleUrls: ['./add-contextualComm.component.css']
     }),
     __metadata("design:paramtypes", [core_1.Renderer2,
+        forms_1.FormBuilder,
         ng_bootstrap_1.NgbModal,
         services_1.TriggerActionService,
         contextualCommData_service_1.ContextualCommDataService])

@@ -16,29 +16,43 @@ var Observable_1 = require("rxjs/Observable");
 var services_1 = require("../../services/services");
 var ContextualCommUsersComponent = (function () {
     function ContextualCommUsersComponent(router, route, appService) {
+        var _this = this;
         this.router = router;
         this.route = route;
         this.appService = appService;
         this.hostClass = 'context-user-view contactlist all-100';
         this.contactClick = new core_1.EventEmitter();
         this.contactAdd = new core_1.EventEmitter();
+        this.hide = true;
+        this.basePath = this.router.url;
+        this.router.events.subscribe(function (navigation) {
+            console.log('[ContextualCommUsers] - ', navigation);
+            if (navigation instanceof router_1.NavigationEnd) {
+                var url = navigation.url;
+                if (url.includes('@')) {
+                    url = url.substr(0, url.lastIndexOf('/'));
+                }
+                _this.basePath = url;
+            }
+        });
+        console.log('[ContextualCommUsers - constructor]', this.router, this.router.url);
     }
     // Load data ones componet is ready
     ContextualCommUsersComponent.prototype.ngOnInit = function () {
         var _this = this;
-        console.log('[contextualCommUsers - ngOnInit]', this.model);
-        this.model.subscribe(function (users) {
+        console.log('[contextualCommUsers - ngOnInit]', this.users);
+        this.users.subscribe(function (users) {
             _this.filter('');
         });
     };
-    ContextualCommUsersComponent.prototype.onContactClick = function (model) {
-        console.log('aaa', model);
+    ContextualCommUsersComponent.prototype.ngAfterViewInit = function () {
+        console.log('[contextualCommUsers - ngAfterViewInit]', this.users);
     };
     ContextualCommUsersComponent.prototype.onFilterKey = function (event) {
         this.filter(event.target.value);
     };
     ContextualCommUsersComponent.prototype.filter = function (value) {
-        this.contactsFilter = this.model.map(function (users) {
+        this.contactsFilter = this.users.map(function (users) {
             return users.filter(function (user) {
                 console.log(user);
                 return user.cn.includes(value);
@@ -62,7 +76,11 @@ __decorate([
 __decorate([
     core_1.Input(),
     __metadata("design:type", Observable_1.Observable)
-], ContextualCommUsersComponent.prototype, "model", void 0);
+], ContextualCommUsersComponent.prototype, "users", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], ContextualCommUsersComponent.prototype, "allowAddUser", void 0);
 ContextualCommUsersComponent = __decorate([
     core_1.Component({
         moduleId: module.id,

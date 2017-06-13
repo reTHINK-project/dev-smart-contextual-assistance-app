@@ -3,7 +3,7 @@
     "node_modules/codelyzer"
   ],
   "rules": {
-    "directive-selector": [true, "attribute", "sg", "camelCase"],
+    "directive-selector": false,
     "component-selector": false,
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,

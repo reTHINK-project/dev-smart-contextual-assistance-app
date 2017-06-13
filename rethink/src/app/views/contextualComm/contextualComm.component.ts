@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 
 // Services
-import { ContactService, RethinkService, ContextualCommService } from '../../services/services';
+import { ContactService, RethinkService, ContextualCommDataService } from '../../services/services';
 
 // Models
 import { User, ContextualComm } from '../../models/models';
@@ -24,6 +24,7 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
   @ViewChild('content', {read: ViewContainerRef}) content: ViewContainerRef;
   @ViewChild(AddUserComponent) addUserComponent: AddUserComponent;
 
+  allowAddUser = false;
   users: Subject<User[]> = new BehaviorSubject([]);
 
   @HostListener('window:resize', ['$event']) onResize(event: any) {
@@ -35,27 +36,46 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
     private router: Router,
     private route: ActivatedRoute,
     private appService: RethinkService,
-    private contextualCommService: ContextualCommService,
-    private contactService: ContactService) {}
+    private contextualCommDataService: ContextualCommDataService,
+    private contactService: ContactService) {
+
+    this.route.data.subscribe((data: { context: ContextualComm, users: User[] }) => {
+      this.updateCurrentContext(data.context);
+    });
+
+    this.contextualCommDataService.currentContext().subscribe((context: ContextualComm) => {
+      console.log('[ContextualComm View - active context change]:', context);
+      this.updateCurrentContext(context);
+    });
+
+  }
+
+  updateCurrentContext(context: ContextualComm) {
+
+    console.log('[ContextualComm View - active context change]:', context);
+
+    this.allowAddUser = context.reporter ? true : false;
+
+    // Check if the context is not an atomicContext
+    // TODO: we should create an instance of Atomic and Composite Context;
+    if (!context.id.includes('@')) {
+      console.log('[ContextualComm View - is not an Atomic Context]:', context);
+      this.users.next(context.users);
+    } else {
+
+      this.contextualCommDataService.getContextByResource(context.parent)
+        .subscribe((context: ContextualComm) => {
+          this.users.next(context.users);
+        });
+
+      this.allowAddUser = false;
+    }
+
+  }
 
   // Load data ones componet is ready
   ngOnInit() {
-
     console.log('[ContextualComm View - onInit]', this.content);
-
-    this.route.data
-      .subscribe((data: { context: ContextualComm, users: User[] }) => {
-        console.log('Resolved context:', data.context);
-
-        this.users.next(data.context.users);
-        // console.log('Resolved users:', data.users);
-      });
-
-    this.contextualCommService.contextualComm().subscribe((contextualComm: ContextualComm) => {
-      console.log('[ContextualComm Component - update] - ', contextualComm, contextualComm.users);
-      this.users.next(contextualComm.users);
-    });
-
   }
 
   ngAfterViewInit() {

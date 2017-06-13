@@ -54,13 +54,13 @@ export class ContextualCommActivateService implements CanActivateChild {
             if (task) { name = task; title = task; };
             if (user) {
               title = user;
-              name = this.contextualCommDataService.normalizeAtomicName(this.atomicContextualComm(user));
+              name = user;
             };
 
             this.titleService.setTitle(config.pageTitlePrefix + title);
 
             let path = state.url;
-            console.log('[ContextualCommData - Activate] - path: ', path);
+            console.log('[ContextualCommData - Activate] - path: ', path, name);
             let normalizedPath = normalizeFromURL(path, this.rethinkService.getCurrentUser.username);
 
             console.log('[ContextualCommData - Activate] - normalizedPath: ', normalizedPath);
@@ -69,7 +69,7 @@ export class ContextualCommActivateService implements CanActivateChild {
 
             console.log('[ContextualCommData - Activate] - normalized name: ', normalizedName);
 
-            this.contextualCommDataService.getContext(normalizedName.name).subscribe(
+            this.contextualCommDataService.getContextById(normalizedName.id).subscribe(
               (context: ContextualComm) => {
                 this.activateContext(context);
                 resolve(true);
@@ -104,11 +104,4 @@ export class ContextualCommActivateService implements CanActivateChild {
     this.chatService.activeDataObjectURL = context.url;
     this.contextualCommService.setActiveContext = context.url;
   }
-
-  atomicContextualComm(user: string): string {
-    let currentUser = this.contactService.sessionUser.username;
-    let invitedUser = user;
-    return currentUser + '-' + invitedUser;
-  }
-
 }

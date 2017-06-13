@@ -109,7 +109,7 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
 
     let options = {video: true, audio: true};
 
-    let contextID = this.contextualCommDataService.getActiveContext().id;
+    let contextID = this.contextualCommDataService.activeContext().id;
 
     console.log('[Media Communication Component] - ' + this.mode + ' call To', user, contextID);
 

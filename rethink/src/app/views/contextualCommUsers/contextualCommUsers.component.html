@@ -7,14 +7,12 @@
         </form>
     </li>
 
-
-    <!--<a routerLink="context/work" routerLinkActive="active">work</a>
-    <a routerLink="context/team1" routerLinkActive="active">team1</a>-->
-
     <!-- List of ContactComponent -->
-    <li *ngFor="let contact of contactsFilter | async" [routerLink]="[this.router.url, contact.username]" routerLinkActive="active">
-        <user-identity *ngIf="contact" [model]=contact></user-identity>
+    <li *ngFor="let contact of contactsFilter | async">
+        <a class="item" [routerLink]="[this.basePath, contact.username]" routerLinkActive="active">
+            <user-identity *ngIf="contact" [model]=contact></user-identity>
+        </a>
     </li>
 </ul>
 
-<add-user-view></add-user-view>
+<add-user-view [hidden]="!allowAddUser"></add-user-view>

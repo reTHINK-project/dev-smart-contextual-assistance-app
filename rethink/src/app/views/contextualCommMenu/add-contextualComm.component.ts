@@ -1,11 +1,17 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+
+import 'rxjs/add/operator/defaultIfEmpty';
 
 // Bootstrap
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 // App Model
 import { TriggerActions } from '../../models/app.models';
+
+// Validator
+import { RethinkValidators } from '../../shared/rethink.validator';
 
 // Serives
 import { TriggerActionService } from '../../services/services';
@@ -19,7 +25,7 @@ import { ContextualComm } from '../../models/models';
     styleUrls: ['./add-contextualComm.component.css']
 })
 
-export class AddContextualCommComponent implements OnInit {
+export class AddContextualCommComponent implements OnInit, AfterViewInit {
 
   private closeResult: string;
 
@@ -45,17 +51,25 @@ export class AddContextualCommComponent implements OnInit {
 
   @ViewChild('content') el: ElementRef;
 
+  private contexts: ContextualComm[] = [];
+
+  complexForm: FormGroup;
+
   constructor(
     private rd: Renderer2,
+    private fb: FormBuilder,
     private modalService: NgbModal,
     private triggerActionService: TriggerActionService,
     private contextualCommDataService: ContextualCommDataService) {
 
-      this.model.icon = this.icons[0];
-
       this.contextualComms = this.contextualCommDataService.getContexts();
 
-    }
+      this.contextualComms.subscribe((contexts: ContextualComm[]) => {
+        this.contexts = contexts;
+      });
+
+  }
+
 
   ngOnInit() {
 
@@ -65,7 +79,40 @@ export class AddContextualCommComponent implements OnInit {
         this.open(this.el);
       }
 
+    });
 
+    this.buildForm();
+
+  }
+
+  ngAfterViewInit() {
+
+  }
+
+  buildForm() {
+
+    this.model.name = '';
+    this.model.icon = this.icons[0];
+    this.model.parent = null;
+    this.model.reporter = true;
+
+    console.log('Is empty:', this.contexts.length);
+
+    if (this.complexForm) { this.complexForm.reset(); }
+
+    this.complexForm = this.fb.group({
+      'name': [this.model.name,
+      Validators.compose([
+        Validators.required,
+        Validators.pattern('[a-zA-Z1-9- ]*'),
+        Validators.minLength(4),
+        Validators.maxLength(22)]
+      ),
+      Validators.composeAsync([
+        RethinkValidators.contextName(this.contextualCommDataService)
+      ])],
+      'parent' : [{value: null, disabled: this.contexts.length === 0 } ],
+      'icon' : [this.model.icon]
     });
 
   }
@@ -93,13 +140,27 @@ export class AddContextualCommComponent implements OnInit {
       }
   }
 
-  submitForm(value: any) {
-    console.log('Submit:', value);
-    this.contextualCommDataService.createContext(value.name, value.parent, value);
-    this.clean();
+  onLostFocus(event: FocusEvent) {
+    let nameEl: HTMLInputElement = (<HTMLInputElement>event.target);
+    let value = nameEl.value.replace(/\s+/g, '-');
+    nameEl.value = value;
   }
 
-  clean() {
-    this.model = {};
+  submitForm(value: any) {
+    console.log('Submit:', value);
+    let name = value.name.trim();
+    let parent = value.parent;
+
+    let info = value;
+    info['reporter'] = true;
+
+    this.contextualCommDataService.createContext(name, parent, info).then((result) => {
+
+      this.buildForm();
+
+    }).catch((reason) => {
+
+    });
+
   }
 }
