@@ -24,7 +24,6 @@ export class User implements UserIdentity {
 
   unread: number;
   domain: string;
-  hypertyURL: string[];
 
   constructor(obj: any) {
     this.username = obj && obj.username;

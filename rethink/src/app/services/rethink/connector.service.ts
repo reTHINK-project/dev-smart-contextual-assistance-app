@@ -162,7 +162,7 @@ export class ConnectorService {
 
       let metadata = response.metadata;
 
-      let paths: any = splitFromURL(metadata.name);
+      let paths: any = splitFromURL(metadata.name, this.contactService.sessionUser.username);
 
       console.log('[Connector Service] -  navigate to: ', paths);
       console.log('[Connector Service] -  navigate to: ', paths.context, paths.task, paths.user);

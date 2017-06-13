@@ -44,7 +44,6 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
 
       let normalizedName = normalizeName(name);
 
-      console.log('[ContextualCommData - Resolve] - normalized name:', state, route, route.params);
       console.log('[ContextualCommData - Resolve] - normalized name:', name, normalizedName, path);
 
       this.contextualCommDataService.getContextById(normalizedName.id).subscribe({

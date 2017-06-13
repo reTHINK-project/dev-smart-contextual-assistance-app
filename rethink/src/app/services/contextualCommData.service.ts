@@ -163,6 +163,15 @@ export class ContextualCommDataService {
       });
   }
 
+  getContextByResource(resource: string): Observable<ContextualComm> {
+    return this.contextualCommService.getContextualCommList()
+      .map(contexts => {
+        return contexts.filter((context: ContextualComm) => {
+          return context.url === resource;
+        })[0];
+      });
+  }
+
   currentContext(): Observable<ContextualComm> {
     return this.contextualCommService.currentContext();
   }

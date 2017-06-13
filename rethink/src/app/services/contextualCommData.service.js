@@ -125,6 +125,14 @@ var ContextualCommDataService = (function () {
             return found;
         });
     };
+    ContextualCommDataService.prototype.getContextByResource = function (resource) {
+        return this.contextualCommService.getContextualCommList()
+            .map(function (contexts) {
+            return contexts.filter(function (context) {
+                return context.url === resource;
+            })[0];
+        });
+    };
     ContextualCommDataService.prototype.currentContext = function () {
         return this.contextualCommService.currentContext();
     };

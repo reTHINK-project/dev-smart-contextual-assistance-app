@@ -77,6 +77,10 @@ __decorate([
     core_1.Input(),
     __metadata("design:type", Observable_1.Observable)
 ], ContextualCommUsersComponent.prototype, "users", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], ContextualCommUsersComponent.prototype, "allowAddUser", void 0);
 ContextualCommUsersComponent = __decorate([
     core_1.Component({
         moduleId: module.id,

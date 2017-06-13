@@ -88,7 +88,7 @@ export function normalizeName(name: string, parent?: string): any {
   return normalized;
 }
 
-export function splitFromURL(name: string): any {
+export function splitFromURL(name: string, currentUser?: string): any {
 
   let splitChar = config.splitChar;
   let splited = name.split(splitChar);
@@ -112,7 +112,13 @@ export function splitFromURL(name: string): any {
     result['task'] = task;
 
     if (user.includes('@') && user.includes('-')) {
-      result['user'] = user.split('-')[1];
+      let users = user.split('-');
+
+      if (currentUser) {
+        users.splice(users.indexOf(currentUser), 1);
+      }
+
+      result['user'] = users[0];
     }
 
   }

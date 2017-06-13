@@ -95,7 +95,7 @@ function normalizeName(name, parent) {
     return normalized;
 }
 exports.normalizeName = normalizeName;
-function splitFromURL(name) {
+function splitFromURL(name, currentUser) {
     var splitChar = config_1.config.splitChar;
     var splited = name.split(splitChar);
     var result = {};
@@ -113,7 +113,11 @@ function splitFromURL(name) {
         result['context'] = context;
         result['task'] = task;
         if (user.includes('@') && user.includes('-')) {
-            result['user'] = user.split('-')[1];
+            var users = user.split('-');
+            if (currentUser) {
+                users.splice(users.indexOf(currentUser), 1);
+            }
+            result['user'] = users[0];
         }
     }
     return result;

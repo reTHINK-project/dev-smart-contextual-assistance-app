@@ -48,7 +48,6 @@ var ContextualCommDataResolver = (function () {
             ;
             name = utils_1.normalizeFromURL(path, _this.contactService.sessionUser.username);
             var normalizedName = utils_1.normalizeName(name);
-            console.log('[ContextualCommData - Resolve] - normalized name:', state, route, route.params);
             console.log('[ContextualCommData - Resolve] - normalized name:', name, normalizedName, path);
             _this.contextualCommDataService.getContextById(normalizedName.id).subscribe({
                 next: function (contextualComm) { return resolve(contextualComm); },

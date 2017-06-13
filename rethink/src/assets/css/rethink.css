@@ -2010,12 +2010,16 @@ body.rethink ul.contactlist li.search-bar label.search a:hover i {
 }
 /* line 2062, ../sass/rethink.scss */
 body.rethink ul.contactlist li {
-  padding-left: 24px;
+  margin: 0;
+}
+
+body.rethink ul.contactlist .item {
   display: block;
   overflow: hidden;
   position: relative;
-  margin: 0;
+  padding-left: 24px;
 }
+
 /* line 2069, ../sass/rethink.scss */
 body.rethink ul.contactlist .item:hover, 
 body.rethink ul.contactlist .item.active {

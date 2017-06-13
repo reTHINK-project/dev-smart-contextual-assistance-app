@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, HostBinding, Output, EventEmitter, Input } from '@angular/core';
-import { Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 // Services
@@ -19,7 +19,9 @@ export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
 
   @Output() contactClick = new EventEmitter();
   @Output() contactAdd = new EventEmitter();
+
   @Input() users: Observable<User[]>;
+  @Input() allowAddUser: boolean;
 
   // users: Subject<User[]> = new BehaviorSubject([]);
 
