@@ -52,7 +52,7 @@
 
             <select class="form-control" formControlName="parent" [formControl]="complexForm.controls['parent']">
               <option selected value=null>Choose...</option>
-              <option *ngFor="let context of contextualComms | async;" [value]="context.id">{{context.name}}</option>
+              <option *ngFor="let context of contextualComms | async" [value]="context.id">{{context.name}}</option>
             </select>
 
             <div *ngIf="complexForm.controls['parent'].errors" class="form-control-feedback">
