@@ -1,22 +1,25 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, HostBinding } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NavigationEnd, ActivatedRoute,  Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/defaultIfEmpty';
+
+import { normalizeName } from '../../utils/utils';
 
 // Bootstrap
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 // App Model
 import { TriggerActions } from '../../models/app.models';
+import { ContextualComm } from '../../models/models';
 
 // Validator
 import { RethinkValidators } from '../../shared/rethink.validator';
 
-// Serives
+// Services
 import { TriggerActionService } from '../../services/services';
 import { ContextualCommDataService } from '../../services/contextualCommData.service';
-import { ContextualComm } from '../../models/models';
 
 @Component({
     moduleId: module.id,
@@ -26,6 +29,8 @@ import { ContextualComm } from '../../models/models';
 })
 
 export class AddContextualCommComponent implements OnInit {
+
+  @HostBinding('class') hostClass = 'add-context-view';
 
   private closeResult: string;
 
@@ -53,23 +58,37 @@ export class AddContextualCommComponent implements OnInit {
 
   private contexts: ContextualComm[] = [];
 
+  private contextRoot: string;
+
   complexForm: FormGroup;
 
   constructor(
     private rd: Renderer2,
+    private router: Router,
     private fb: FormBuilder,
+    private route: ActivatedRoute,
     private modalService: NgbModal,
     private triggerActionService: TriggerActionService,
     private contextualCommDataService: ContextualCommDataService) {
 
-      this.contextualComms = this.contextualCommDataService.getContexts()
-        .map((contexts => contexts.filter(context => context.reporter)));
+    this.contextualComms = this.contextualCommDataService.getContexts()
+      .map((contexts => contexts.filter(context => context.reporter)));
 
-      this.contextualComms
-        .subscribe((contexts: ContextualComm[]) => {
-          this.contexts = contexts;
-        });
+    this.contextualComms
+      .subscribe((contexts: ContextualComm[]) => {
+        this.contexts = contexts;
+      });
 
+    this.router.events.subscribe((navigation: NavigationEnd) => {
+      console.log('[AddContextualComm] - ', navigation);
+      if (navigation instanceof NavigationEnd) {
+        let normalized = normalizeName(navigation.url);
+
+        console.log('[AddContextualComm] - params:', normalized);
+
+        this.contextRoot = normalized.parent;
+      }
+    });
   }
 
 
@@ -89,10 +108,11 @@ export class AddContextualCommComponent implements OnInit {
 
     this.model.name = '';
     this.model.icon = this.icons[0];
-    this.model.parent = null;
+    this.model.parent = this.contextRoot || null;
     this.model.reporter = true;
 
     console.log('Is empty:', this.contexts.length);
+    let disabled = this.contexts.length === 0 || this.contextRoot ? true : false;
 
     if (this.complexForm) { this.complexForm.reset(); }
 
@@ -107,7 +127,7 @@ export class AddContextualCommComponent implements OnInit {
       Validators.composeAsync([
         RethinkValidators.contextName(this.contextualCommDataService)
       ])],
-      'parent' : [{value: null, disabled: this.contexts.length === 0 } ],
+      'parent' : [{value: this.model.parent, disabled: disabled }],
       'icon' : [this.model.icon]
     });
 
@@ -147,7 +167,7 @@ export class AddContextualCommComponent implements OnInit {
   submitForm(value: any) {
     console.log('Submit:', value);
     let name = value.name.trim();
-    let parent = value.parent;
+    let parent = value.parent || this.model.parent;
 
     let info = value;
     info['reporter'] = true;

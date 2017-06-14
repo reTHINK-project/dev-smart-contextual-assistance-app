@@ -2,11 +2,14 @@ import { Component, OnInit, AfterViewInit, HostBinding, Output, EventEmitter, In
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
+// configs
+import { config } from '../../config';
+
 // Services
-import { RethinkService } from '../../services/services';
+import { ContextualCommDataService } from '../../services/contextualCommData.service';
 
 // Models
-import { User } from '../../models/models';
+import { User, ContextualComm } from '../../models/models';
 
 @Component({
   moduleId: module.id,
@@ -15,7 +18,7 @@ import { User } from '../../models/models';
 })
 export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
 
-  @HostBinding('class') hostClass = 'context-user-view contactlist all-100';
+  @HostBinding('class') hostClass = 'context-user-view d-flex flex-column justify-content-between';
 
   @Output() contactClick = new EventEmitter();
   @Output() contactAdd = new EventEmitter();
@@ -23,17 +26,19 @@ export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
   @Input() users: Observable<User[]>;
   @Input() allowAddUser: boolean;
 
-  // users: Subject<User[]> = new BehaviorSubject([]);
+  contexts: Observable<ContextualComm[]>;
 
   contactsFilter: Observable<User[]>;
 
+  rootContext: string;
   basePath: string;
   hide = true;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private appService: RethinkService) {
+    private contextualCommDataService: ContextualCommDataService
+    ) {
 
       this.basePath = this.router.url;
 
@@ -52,6 +57,19 @@ export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
 
       });
 
+      let paramsObserver = this.route.params;
+
+      paramsObserver.subscribe((params: any) => {
+        console.log('[ContextualCommUsers] - params:', params);
+
+        let context = params['context'];
+        let id = config.appPrefix + '/' + context;
+
+        this.rootContext = context;
+        this.contexts = this.contextualCommDataService.getContextTask(id);
+
+      });
+
       console.log('[ContextualCommUsers - constructor]', this.router, this.router.url);
     }
 
@@ -60,6 +78,7 @@ export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
     console.log('[contextualCommUsers - ngOnInit]', this.users);
 
     this.users.subscribe((users: User[]) => {
+      console.log('[contextualCommUsers - filter]:', users);
       this.filter('');
     });
   }
@@ -78,7 +97,7 @@ export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
 
     this.contactsFilter = this.users.map((users: User[]) => {
       return users.filter((user: User) => {
-        console.log(user);
+        console.log('[contextualCommUsers - filter]:', user);
         return user.cn.includes(value);
       });
     });

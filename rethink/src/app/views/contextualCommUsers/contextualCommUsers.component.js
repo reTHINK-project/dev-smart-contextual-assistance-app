@@ -12,15 +12,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var Observable_1 = require("rxjs/Observable");
+// configs
+var config_1 = require("../../config");
 // Services
-var services_1 = require("../../services/services");
+var contextualCommData_service_1 = require("../../services/contextualCommData.service");
 var ContextualCommUsersComponent = (function () {
-    function ContextualCommUsersComponent(router, route, appService) {
+    function ContextualCommUsersComponent(router, route, contextualCommDataService) {
         var _this = this;
         this.router = router;
         this.route = route;
-        this.appService = appService;
-        this.hostClass = 'context-user-view contactlist all-100';
+        this.contextualCommDataService = contextualCommDataService;
+        this.hostClass = 'context-user-view d-flex flex-column justify-content-between';
         this.contactClick = new core_1.EventEmitter();
         this.contactAdd = new core_1.EventEmitter();
         this.hide = true;
@@ -35,6 +37,14 @@ var ContextualCommUsersComponent = (function () {
                 _this.basePath = url;
             }
         });
+        var paramsObserver = this.route.params;
+        paramsObserver.subscribe(function (params) {
+            console.log('[ContextualCommUsers] - params:', params);
+            var context = params['context'];
+            var id = config_1.config.appPrefix + '/' + context;
+            _this.rootContext = context;
+            _this.contexts = _this.contextualCommDataService.getContextTask(id);
+        });
         console.log('[ContextualCommUsers - constructor]', this.router, this.router.url);
     }
     // Load data ones componet is ready
@@ -42,6 +52,7 @@ var ContextualCommUsersComponent = (function () {
         var _this = this;
         console.log('[contextualCommUsers - ngOnInit]', this.users);
         this.users.subscribe(function (users) {
+            console.log('[contextualCommUsers - filter]:', users);
             _this.filter('');
         });
     };
@@ -54,7 +65,7 @@ var ContextualCommUsersComponent = (function () {
     ContextualCommUsersComponent.prototype.filter = function (value) {
         this.contactsFilter = this.users.map(function (users) {
             return users.filter(function (user) {
-                console.log(user);
+                console.log('[contextualCommUsers - filter]:', user);
                 return user.cn.includes(value);
             });
         });
@@ -89,7 +100,7 @@ ContextualCommUsersComponent = __decorate([
     }),
     __metadata("design:paramtypes", [router_1.Router,
         router_1.ActivatedRoute,
-        services_1.RethinkService])
+        contextualCommData_service_1.ContextualCommDataService])
 ], ContextualCommUsersComponent);
 exports.ContextualCommUsersComponent = ContextualCommUsersComponent;
 //# sourceMappingURL=contextualCommUsers.component.js.map

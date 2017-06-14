@@ -151,6 +151,11 @@ export class ContextualCommDataService {
       });
   }
 
+  getContextTask(id: string): Observable<ContextualComm[]> {
+    return this.contextualCommService.getContextualComms()
+      .map(contexts => contexts.filter(context => context.id === id)[0].contexts);
+  }
+
   getContextById(id: string): Observable<ContextualComm> {
     return this.contextualCommService.getContextualCommList()
       .map(contexts => {
