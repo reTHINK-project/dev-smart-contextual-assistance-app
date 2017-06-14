@@ -62,7 +62,8 @@ var AddUserComponent = (function () {
         // this.inviteEvent.emit( JSON.parse(JSON.stringify(this.model)) );
         var _this = this;
         this.busy = true;
-        var normalizedName = utils_1.normalizeName(this.router.url);
+        var path = this.router.url;
+        var normalizedName = utils_1.normalizeName(path);
         console.log('[Add User Component] - parent: ', normalizedName, this.chatService.activeDataObjectURL);
         this.contextualCommDataService.getContextById(normalizedName.parent)
             .subscribe(function (context) {
@@ -73,11 +74,18 @@ var AddUserComponent = (function () {
             console.log('[Add User Component] - invite: ', parentChat, currentChat);
             parentChat
                 .then(function (parentController) {
-                console.log('[Users was joined with success] - parent controller', parentController);
+                console.log('[Add User Component] - parent controller', parentController);
                 return currentChat;
             })
                 .then(function (currentController) {
-                console.log('[Users was joined with success] - current controller', currentController);
+                console.log('[Add User Component] - current controller', currentController);
+                var normalizedPath = utils_1.normalizeFromURL(path + '/' + _this.model.email, _this.contactService.sessionUser.username);
+                var normalizedName = utils_1.normalizeName(normalizedPath);
+                var parentURL = currentController.url;
+                return _this.contextualCommDataService.createAtomicContext(_this.model.email, normalizedName.id, parentURL);
+            })
+                .then(function (chillController) {
+                console.log('[Add User Component] - one to one controller', chillController);
                 _this.busy = false;
                 _this.clean();
             })
@@ -87,6 +95,8 @@ var AddUserComponent = (function () {
                 _this.clean();
             });
         }, function (error) {
+            _this.busy = false;
+            _this.clean();
             console.log('Error getting the context:', error);
         });
     };

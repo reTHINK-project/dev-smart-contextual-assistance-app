@@ -45,8 +45,10 @@ var AddContextualCommComponent = (function () {
         ];
         this.title = 'Add New context';
         this.contexts = [];
-        this.contextualComms = this.contextualCommDataService.getContexts();
-        this.contextualComms.subscribe(function (contexts) {
+        this.contextualComms = this.contextualCommDataService.getContexts()
+            .map((function (contexts) { return contexts.filter(function (context) { return context.reporter; }); }));
+        this.contextualComms
+            .subscribe(function (contexts) {
             _this.contexts = contexts;
         });
     }
@@ -57,9 +59,6 @@ var AddContextualCommComponent = (function () {
                 _this.open(_this.el);
             }
         });
-        this.buildForm();
-    };
-    AddContextualCommComponent.prototype.ngAfterViewInit = function () {
     };
     AddContextualCommComponent.prototype.buildForm = function () {
         this.model.name = '';
@@ -88,6 +87,7 @@ var AddContextualCommComponent = (function () {
     AddContextualCommComponent.prototype.open = function (content) {
         var _this = this;
         console.log('[AddContextualComm] - ', content);
+        this.buildForm();
         this.modalService.open(content, { windowClass: 'custom-modal' }).result.then(function (result) {
             console.log('AQUI:', result);
             _this.closeResult = "Closed with: " + result;

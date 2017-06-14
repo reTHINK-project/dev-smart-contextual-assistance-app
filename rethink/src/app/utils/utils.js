@@ -49,6 +49,9 @@ function getUserMedia(constraints) {
     });
 }
 exports.getUserMedia = getUserMedia;
+function normalizeAtomicName(user, current) {
+}
+exports.normalizeAtomicName = normalizeAtomicName;
 function normalizeName(name, parent) {
     var prefix = config_1.config.appPrefix;
     var splitChar = config_1.config.splitChar;

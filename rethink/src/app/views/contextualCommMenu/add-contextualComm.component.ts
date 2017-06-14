@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
@@ -25,7 +25,7 @@ import { ContextualComm } from '../../models/models';
     styleUrls: ['./add-contextualComm.component.css']
 })
 
-export class AddContextualCommComponent implements OnInit, AfterViewInit {
+export class AddContextualCommComponent implements OnInit {
 
   private closeResult: string;
 
@@ -62,11 +62,13 @@ export class AddContextualCommComponent implements OnInit, AfterViewInit {
     private triggerActionService: TriggerActionService,
     private contextualCommDataService: ContextualCommDataService) {
 
-      this.contextualComms = this.contextualCommDataService.getContexts();
+      this.contextualComms = this.contextualCommDataService.getContexts()
+        .map((contexts => contexts.filter(context => context.reporter)));
 
-      this.contextualComms.subscribe((contexts: ContextualComm[]) => {
-        this.contexts = contexts;
-      });
+      this.contextualComms
+        .subscribe((contexts: ContextualComm[]) => {
+          this.contexts = contexts;
+        });
 
   }
 
@@ -80,12 +82,6 @@ export class AddContextualCommComponent implements OnInit, AfterViewInit {
       }
 
     });
-
-    this.buildForm();
-
-  }
-
-  ngAfterViewInit() {
 
   }
 
@@ -120,6 +116,8 @@ export class AddContextualCommComponent implements OnInit, AfterViewInit {
   open(content: any) {
 
     console.log('[AddContextualComm] - ', content);
+
+    this.buildForm();
 
     this.modalService.open(content, {windowClass: 'custom-modal'}).result.then((result) => {
       console.log('AQUI:', result);
