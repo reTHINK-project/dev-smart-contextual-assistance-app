@@ -10,7 +10,7 @@ import { config } from '../../config';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 // Utils
-import { normalizeName } from '../../utils/utils';
+import { normalizeName, normalizeFromURL } from '../../utils/utils';
 
 // Models
 import { ContextualComm } from '../../models/models';
@@ -81,7 +81,8 @@ export class AddUserComponent implements OnInit {
     // this.inviteEvent.emit( JSON.parse(JSON.stringify(this.model)) );
 
     this.busy = true;
-    let normalizedName = normalizeName(this.router.url);
+    let path = this.router.url;
+    let normalizedName = normalizeName(path);
 
      console.log('[Add User Component] - parent: ', normalizedName, this.chatService.activeDataObjectURL);
 
@@ -98,12 +99,21 @@ export class AddUserComponent implements OnInit {
 
       parentChat
         .then((parentController: any) => {
-          console.log('[Users was joined with success] - parent controller', parentController);
+          console.log('[Add User Component] - parent controller', parentController);
           return currentChat;
         })
         .then((currentController: any) => {
 
-          console.log('[Users was joined with success] - current controller', currentController);
+          console.log('[Add User Component] - current controller', currentController);
+          let normalizedPath = normalizeFromURL(path + '/' + this.model.email, this.contactService.sessionUser.username);
+          let normalizedName = normalizeName(normalizedPath);
+          let parentURL = currentController.url;
+
+          return this.contextualCommDataService.createAtomicContext(this.model.email, normalizedName.id, parentURL);
+        })
+        .then((chillController: any) => {
+
+          console.log('[Add User Component] - one to one controller', chillController);
 
           this.busy = false;
           this.clean();
@@ -117,6 +127,8 @@ export class AddUserComponent implements OnInit {
         });
 
     }, (error: any) => {
+      this.busy = false;
+      this.clean();
       console.log('Error getting the context:', error);
     });
 

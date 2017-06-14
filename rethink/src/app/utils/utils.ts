@@ -33,6 +33,10 @@ export function getUserMedia(constraints: any) {
   });
 }
 
+export function normalizeAtomicName(user: string, current: string) {
+  
+}
+
 export function normalizeName(name: string, parent?: string): any {
 
   let prefix = config.appPrefix;
