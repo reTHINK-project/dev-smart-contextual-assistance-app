@@ -46,7 +46,7 @@ var AddContextualCommComponent = (function () {
         this.title = 'Add New context';
         this.contexts = [];
         this.contextualComms = this.contextualCommDataService.getContexts()
-            .map((function (contexts) { return contexts.filter(function (context) { console.log(context.reporter); return context.reporter; }); }));
+            .map((function (contexts) { return contexts.filter(function (context) { return context.reporter; }); }));
         this.contextualComms
             .subscribe(function (contexts) {
             _this.contexts = contexts;

@@ -63,7 +63,7 @@ export class AddContextualCommComponent implements OnInit {
     private contextualCommDataService: ContextualCommDataService) {
 
       this.contextualComms = this.contextualCommDataService.getContexts()
-        .map((contexts => contexts.filter(context => {console.log(context.reporter); return context.reporter; })))
+        .map((contexts => contexts.filter(context => context.reporter)));
 
       this.contextualComms
         .subscribe((contexts: ContextualComm[]) => {
