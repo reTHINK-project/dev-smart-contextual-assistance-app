@@ -25,7 +25,7 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
   @ViewChild(AddUserComponent) addUserComponent: AddUserComponent;
 
   allowAddUser = false;
-  users: Subject<User[]> = new BehaviorSubject([]);
+  userList: Subject<User[]> = new BehaviorSubject([]);
 
   @HostListener('window:resize', ['$event']) onResize(event: any) {
     this.updateView();
@@ -60,12 +60,12 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
     // TODO: we should create an instance of Atomic and Composite Context;
     if (!context.id.includes('@')) {
       console.log('[ContextualComm View - is not an Atomic Context]:', context);
-      this.users.next(context.users);
+      this.userList.next(context.users);
     } else {
 
       this.contextualCommDataService.getContextByResource(context.parent)
         .subscribe((context: ContextualComm) => {
-          this.users.next(context.users);
+          this.userList.next(context.users);
         });
 
       this.allowAddUser = false;

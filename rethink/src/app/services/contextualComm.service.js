@@ -69,6 +69,7 @@ var ContextualCommService = (function () {
                     message.user.unread = 0;
                     return message;
                 });
+                _this._currentContext.next(context);
                 _this.contextualCommObs.next(context);
             }
             else {

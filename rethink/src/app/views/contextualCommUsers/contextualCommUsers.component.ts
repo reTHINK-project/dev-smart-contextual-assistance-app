@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, HostBinding, Output, EventEmitter, Input } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 // configs
 import { config } from '../../config';
@@ -23,12 +24,12 @@ export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
   @Output() contactClick = new EventEmitter();
   @Output() contactAdd = new EventEmitter();
 
-  @Input() users: Observable<User[]>;
+  @Input() users: Subject<User[]>;
   @Input() allowAddUser: boolean;
 
   contexts: Observable<ContextualComm[]>;
 
-  contactsFilter: Observable<User[]>;
+  contactsFilter: Observable<User[]> = new Observable();
 
   rootContext: string;
   basePath: string;
@@ -75,12 +76,13 @@ export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
 
   // Load data ones componet is ready
   ngOnInit() {
-    console.log('[contextualCommUsers - ngOnInit]', this.users);
 
     this.users.subscribe((users: User[]) => {
-      console.log('[contextualCommUsers - filter]:', users);
+      console.log('[contextualCommUsers - subscribe]', users);
       this.filter('');
     });
+
+    console.log('[contextualCommUsers - ngOnInit]', this.users);
   }
 
   ngAfterViewInit() {
@@ -96,6 +98,7 @@ export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
   filter(value: string) {
 
     this.contactsFilter = this.users.map((users: User[]) => {
+      console.log('[contextualCommUsers - filter]:', users);
       return users.filter((user: User) => {
         console.log('[contextualCommUsers - filter]:', user);
         return user.cn.includes(value);

@@ -27,7 +27,7 @@ var ContextualCommComponent = (function () {
         this.contactService = contactService;
         this.hostClass = 'context-view row no-gutters';
         this.allowAddUser = false;
-        this.users = new BehaviorSubject_1.BehaviorSubject([]);
+        this.userList = new BehaviorSubject_1.BehaviorSubject([]);
         this.route.data.subscribe(function (data) {
             _this.updateCurrentContext(data.context);
         });
@@ -47,12 +47,12 @@ var ContextualCommComponent = (function () {
         // TODO: we should create an instance of Atomic and Composite Context;
         if (!context.id.includes('@')) {
             console.log('[ContextualComm View - is not an Atomic Context]:', context);
-            this.users.next(context.users);
+            this.userList.next(context.users);
         }
         else {
             this.contextualCommDataService.getContextByResource(context.parent)
                 .subscribe(function (context) {
-                _this.users.next(context.users);
+                _this.userList.next(context.users);
             });
             this.allowAddUser = false;
         }

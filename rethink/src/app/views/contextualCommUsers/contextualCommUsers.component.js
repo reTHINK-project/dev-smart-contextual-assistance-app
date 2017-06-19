@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var Observable_1 = require("rxjs/Observable");
+var Subject_1 = require("rxjs/Subject");
 // configs
 var config_1 = require("../../config");
 // Services
@@ -25,6 +26,7 @@ var ContextualCommUsersComponent = (function () {
         this.hostClass = 'context-user-view d-flex flex-column justify-content-between';
         this.contactClick = new core_1.EventEmitter();
         this.contactAdd = new core_1.EventEmitter();
+        this.contactsFilter = new Observable_1.Observable();
         this.hide = true;
         this.basePath = this.router.url;
         this.router.events.subscribe(function (navigation) {
@@ -50,11 +52,11 @@ var ContextualCommUsersComponent = (function () {
     // Load data ones componet is ready
     ContextualCommUsersComponent.prototype.ngOnInit = function () {
         var _this = this;
-        console.log('[contextualCommUsers - ngOnInit]', this.users);
         this.users.subscribe(function (users) {
-            console.log('[contextualCommUsers - filter]:', users);
+            console.log('[contextualCommUsers - subscribe]', users);
             _this.filter('');
         });
+        console.log('[contextualCommUsers - ngOnInit]', this.users);
     };
     ContextualCommUsersComponent.prototype.ngAfterViewInit = function () {
         console.log('[contextualCommUsers - ngAfterViewInit]', this.users);
@@ -64,6 +66,7 @@ var ContextualCommUsersComponent = (function () {
     };
     ContextualCommUsersComponent.prototype.filter = function (value) {
         this.contactsFilter = this.users.map(function (users) {
+            console.log('[contextualCommUsers - filter]:', users);
             return users.filter(function (user) {
                 console.log('[contextualCommUsers - filter]:', user);
                 return user.cn.includes(value);
@@ -86,7 +89,7 @@ __decorate([
 ], ContextualCommUsersComponent.prototype, "contactAdd", void 0);
 __decorate([
     core_1.Input(),
-    __metadata("design:type", Observable_1.Observable)
+    __metadata("design:type", Subject_1.Subject)
 ], ContextualCommUsersComponent.prototype, "users", void 0);
 __decorate([
     core_1.Input(),
