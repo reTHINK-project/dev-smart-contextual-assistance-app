@@ -41,6 +41,7 @@ var AddUserComponent = (function () {
     AddUserComponent.prototype.open = function (content) {
         var _this = this;
         this.ready = true;
+        this.busy = false;
         this.modalService.open(content, { backdrop: false, windowClass: 'custom-modal' }).result.then(function (result) {
             _this.closeResult = "Closed with: " + result;
         }, function (reason) {
@@ -84,8 +85,8 @@ var AddUserComponent = (function () {
                 var parentURL = currentController.url;
                 return _this.contextualCommDataService.createAtomicContext(_this.model.email, normalizedName.id, parentURL);
             })
-                .then(function (chillController) {
-                console.log('[Add User Component] - one to one controller', chillController);
+                .then(function (childController) {
+                console.log('[Add User Component] - one to one controller', childController);
                 _this.busy = false;
                 _this.clean();
             })

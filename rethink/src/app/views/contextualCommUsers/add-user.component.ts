@@ -59,6 +59,8 @@ export class AddUserComponent implements OnInit {
 
     this.ready = true;
 
+    this.busy = false;
+
     this.modalService.open(content, {backdrop: false, windowClass: 'custom-modal'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -111,9 +113,9 @@ export class AddUserComponent implements OnInit {
 
           return this.contextualCommDataService.createAtomicContext(this.model.email, normalizedName.id, parentURL);
         })
-        .then((chillController: any) => {
+        .then((childController: any) => {
 
-          console.log('[Add User Component] - one to one controller', chillController);
+          console.log('[Add User Component] - one to one controller', childController);
 
           this.busy = false;
           this.clean();
