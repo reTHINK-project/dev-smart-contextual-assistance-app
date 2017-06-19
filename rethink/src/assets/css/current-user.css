@@ -65,14 +65,13 @@
 /* All users status */
 
 .user-identity {
-
+  position: relative;
 }
 
 /* Avatar Section */
 .user-identity .contact-avatar {
   height: 38px;
   width: 38px;
-  margin-top: 4px;
   position: relative;
 }
 

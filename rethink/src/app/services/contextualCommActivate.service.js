@@ -9,10 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var router_1 = require("@angular/router");
 var platform_browser_1 = require("@angular/platform-browser");
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
-require("rxjs/add/operator/takeLast");
+// import 'rxjs/add/operator/take';
+// import 'rxjs/add/combination/merge';
 var config_1 = require("../config");
 // Utils
 var utils_1 = require("../utils/utils");
@@ -62,37 +63,53 @@ var ContextualCommActivateService = (function () {
                         _this.titleService.setTitle(config_1.config.pageTitlePrefix + title);
                         var path = state.url;
                         console.log('[ContextualCommData - Activate] - path: ', path, name_1);
-                        var normalizedPath = utils_1.normalizeFromURL(path, _this.rethinkService.getCurrentUser.username);
-                        console.log('[ContextualCommData - Activate] - normalizedPath: ', normalizedPath);
-                        var normalizedName_1 = utils_1.normalizeName(normalizedPath);
+                        var normalizedPath_1 = utils_1.normalizeFromURL(path, _this.rethinkService.getCurrentUser.username);
+                        var normalizedName_1 = utils_1.normalizeName(normalizedPath_1);
+                        console.log('[ContextualCommData - Activate] - normalized path: ', normalizedPath_1);
                         console.log('[ContextualCommData - Activate] - normalized name: ', normalizedName_1);
                         _this.contextualCommDataService.getContextById(normalizedName_1.id).subscribe(function (context) {
                             _this.activateContext(context);
                             resolve(true);
                         }, function (reason) {
-                            if (user_1) {
-                                _this.contextualCommDataService.createAtomicContext(user_1, normalizedName_1.id, normalizedName_1.parent)
-                                    .then(function (context) {
-                                    _this.activateContext(context);
-                                    resolve(true);
-                                })
-                                    .catch(function (reason) {
-                                    console.log('[Can Not Activate Route] - ', reason);
+                            // Observable.merge()
+                            // Get the parent
+                            _this.contextualCommDataService.getContextById(normalizedName_1.parent).subscribe(function (context) {
+                                var invitedUser = _this.contactService.getUser(user_1);
+                                console.log('[ContextualCommData - Activate] - parent context and user found: ', normalizedPath_1);
+                                if (context && user_1 && invitedUser) {
+                                    _this.contextualCommDataService.createAtomicContext(user_1, normalizedName_1.id, normalizedName_1.parent)
+                                        .then(function (context) {
+                                        _this.activateContext(context);
+                                        resolve(true);
+                                    })
+                                        .catch(function (reason) {
+                                        console.log('[ContextualCommData - Activate] - Can Not Activate Route:', reason);
+                                        _this.goHome();
+                                        resolve(false);
+                                    });
+                                }
+                                else {
+                                    console.log('[ContextualCommData - Activate] - Can Not Activate Route:', 'Parent context not found');
+                                    _this.goHome();
                                     resolve(false);
-                                });
-                            }
-                            else {
-                                _this.router.navigate(['/']);
+                                }
+                            }, function (reason) {
+                                console.log('[ContextualCommData - Activate] - Can Not Activate Route:', reason);
+                                _this.goHome();
                                 resolve(false);
-                            }
+                            });
                         });
                     }
                 }
             });
         });
     };
+    ContextualCommActivateService.prototype.goHome = function () {
+        console.log('[ContextualCommData - Activate] - home');
+        this.router.navigate(['/']);
+    };
     ContextualCommActivateService.prototype.activateContext = function (context) {
-        console.log('[Can Activate Route] - ', context.url);
+        console.log('[ContextualCommData - Activate] - Can Activate Route - ', context.url);
         this.chatService.activeDataObjectURL = context.url;
         this.contextualCommService.setActiveContext = context.url;
     };

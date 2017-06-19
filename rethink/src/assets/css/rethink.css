@@ -2801,20 +2801,7 @@ body.rethink div.content-box.user span.chat {
 body.rethink div.sidebar {
   position: fixed;
 }
-/* line 2882, ../sass/rethink.scss */
-body.rethink div.sidebar footer {
-  position: absolute;
-  bottom: 6px;
-  width: 100%;
-  font-size: 9px;
-  color: #fff;
-  padding: 4px;
-  padding-left: 24px;
-  background-color: #3d495f;
-  border-top: rgba(255, 255, 255, 0.8);
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
-  opacity: 0.5;
-}
+
 /* line 2897, ../sass/rethink.scss */
 body.rethink .ink-shade {
   z-index: 500;

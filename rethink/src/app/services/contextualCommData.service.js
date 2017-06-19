@@ -114,6 +114,10 @@ var ContextualCommDataService = (function () {
             return found;
         });
     };
+    ContextualCommDataService.prototype.getContextTask = function (id) {
+        return this.contextualCommService.getContextualComms()
+            .map(function (contexts) { return contexts.filter(function (context) { return context.id === id; })[0].contexts; });
+    };
     ContextualCommDataService.prototype.getContextById = function (id) {
         var _this = this;
         return this.contextualCommService.getContextualCommList()
