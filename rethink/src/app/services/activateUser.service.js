@@ -85,15 +85,15 @@ var ActivateUserGuard = (function () {
         this.chatService.activeDataObjectURL = context.url;
         this.contextualCommService.setActiveContext = context.url;
     };
+    ActivateUserGuard = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [router_1.Router,
+            chat_service_1.ChatService,
+            rethink_service_1.RethinkService,
+            contextualComm_service_1.ContextualCommService,
+            contextualCommData_service_1.ContextualCommDataService])
+    ], ActivateUserGuard);
     return ActivateUserGuard;
 }());
-ActivateUserGuard = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [router_1.Router,
-        chat_service_1.ChatService,
-        rethink_service_1.RethinkService,
-        contextualComm_service_1.ContextualCommService,
-        contextualCommData_service_1.ContextualCommDataService])
-], ActivateUserGuard);
 exports.ActivateUserGuard = ActivateUserGuard;
 //# sourceMappingURL=activateUser.service.js.map

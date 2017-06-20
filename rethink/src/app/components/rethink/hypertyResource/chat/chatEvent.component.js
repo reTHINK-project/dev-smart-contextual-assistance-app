@@ -16,18 +16,18 @@ var ChatEventComponent = (function () {
     }
     ChatEventComponent.prototype.ngOnInit = function () {
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", models_1.Message)
+    ], ChatEventComponent.prototype, "message", void 0);
+    ChatEventComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'chat-event',
+            templateUrl: './chatEvent.component.html'
+        })
+    ], ChatEventComponent);
     return ChatEventComponent;
 }());
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", models_1.Message)
-], ChatEventComponent.prototype, "message", void 0);
-ChatEventComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'chat-event',
-        templateUrl: './chatEvent.component.html'
-    })
-], ChatEventComponent);
 exports.ChatEventComponent = ChatEventComponent;
 //# sourceMappingURL=chatEvent.component.js.map

@@ -28,12 +28,12 @@ var AuthGuard = (function () {
             });
         });
     };
+    AuthGuard = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [rethink_service_1.RethinkService,
+            router_1.Router])
+    ], AuthGuard);
     return AuthGuard;
 }());
-AuthGuard = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [rethink_service_1.RethinkService,
-        router_1.Router])
-], AuthGuard);
 exports.AuthGuard = AuthGuard;
 //# sourceMappingURL=authGuard.service.js.map

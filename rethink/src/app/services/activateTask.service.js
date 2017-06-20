@@ -62,15 +62,15 @@ var ActivateTaskGuard = (function () {
         this.chatService.activeDataObjectURL = context.url;
         this.contextualCommService.setActiveContext = context.url;
     };
+    ActivateTaskGuard = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [router_1.Router,
+            chat_service_1.ChatService,
+            rethink_service_1.RethinkService,
+            contextualComm_service_1.ContextualCommService,
+            contextualCommData_service_1.ContextualCommDataService])
+    ], ActivateTaskGuard);
     return ActivateTaskGuard;
 }());
-ActivateTaskGuard = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [router_1.Router,
-        chat_service_1.ChatService,
-        rethink_service_1.RethinkService,
-        contextualComm_service_1.ContextualCommService,
-        contextualCommData_service_1.ContextualCommDataService])
-], ActivateTaskGuard);
 exports.ActivateTaskGuard = ActivateTaskGuard;
 //# sourceMappingURL=activateTask.service.js.map

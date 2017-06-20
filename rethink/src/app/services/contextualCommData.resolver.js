@@ -11,6 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var platform_browser_1 = require("@angular/platform-browser");
+var config_1 = require("../config");
 // Utils
 var utils_1 = require("../utils/utils");
 // Service
@@ -19,8 +21,9 @@ var contextualComm_service_1 = require("./contextualComm.service");
 var triggerAction_service_1 = require("./triggerAction.service");
 var contact_service_1 = require("./contact.service");
 var ContextualCommDataResolver = (function () {
-    function ContextualCommDataResolver(router, contactService, triggerActionService, contextualCommService, contextualCommDataService) {
+    function ContextualCommDataResolver(router, titleService, contactService, triggerActionService, contextualCommService, contextualCommDataService) {
         this.router = router;
+        this.titleService = titleService;
         this.contactService = contactService;
         this.triggerActionService = triggerActionService;
         this.contextualCommService = contextualCommService;
@@ -34,18 +37,23 @@ var ContextualCommDataResolver = (function () {
             var user = route.params['user'];
             var path = state.url;
             var name = '';
+            var title = '';
             if (context) {
                 name = context;
+                title = context;
             }
             ;
             if (task) {
                 name = task;
+                title = task;
             }
             ;
             if (user) {
                 name = user;
+                title = user;
             }
             ;
+            _this.titleService.setTitle(config_1.config.pageTitlePrefix + title);
             name = utils_1.normalizeFromURL(path, _this.contactService.sessionUser.username);
             var normalizedName = utils_1.normalizeName(name);
             console.log('[ContextualCommData - Resolve] - normalized name:', name, task, normalizedName, path, user);
@@ -53,8 +61,9 @@ var ContextualCommDataResolver = (function () {
                 _this.contextualCommDataService.getContext(normalizedName.name).subscribe({
                     next: function (contextualComm) { return resolve(contextualComm); },
                     error: function (reason) {
-                        console.log('[ContextualCommData - Resolve] - user:', user);
+                        console.log('[ContextualCommData - Resolve] - user:', reason);
                         reject(reason);
+                        _this.goHome();
                     }
                 });
             }
@@ -62,22 +71,28 @@ var ContextualCommDataResolver = (function () {
                 _this.contextualCommDataService.getContextById(normalizedName.id).subscribe({
                     next: function (contextualComm) { return resolve(contextualComm); },
                     error: function (reason) {
-                        console.log('[ContextualCommData - Resolve] - task or context:', user);
+                        console.log('[ContextualCommData - Resolve] - task or context:', reason);
                         reject(reason);
+                        _this.goHome();
                     }
                 });
             }
         });
     };
+    ContextualCommDataResolver.prototype.goHome = function () {
+        console.log('[ContextualCommData - Resolve] - Can not resolve - Home ');
+        this.router.navigate(['/']);
+    };
+    ContextualCommDataResolver = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [router_1.Router,
+            platform_browser_1.Title,
+            contact_service_1.ContactService,
+            triggerAction_service_1.TriggerActionService,
+            contextualComm_service_1.ContextualCommService,
+            contextualCommData_service_1.ContextualCommDataService])
+    ], ContextualCommDataResolver);
     return ContextualCommDataResolver;
 }());
-ContextualCommDataResolver = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [router_1.Router,
-        contact_service_1.ContactService,
-        triggerAction_service_1.TriggerActionService,
-        contextualComm_service_1.ContextualCommService,
-        contextualCommData_service_1.ContextualCommDataService])
-], ContextualCommDataResolver);
 exports.ContextualCommDataResolver = ContextualCommDataResolver;
 //# sourceMappingURL=contextualCommData.resolver.js.map

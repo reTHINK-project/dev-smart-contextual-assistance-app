@@ -26,23 +26,23 @@ var MySelfComponent = (function () {
         console.log('[MySelfComponent] status changed:', status);
         this.userAvailabilityService.setStatus(status);
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", models_1.User)
+    ], MySelfComponent.prototype, "model", void 0);
+    __decorate([
+        core_1.HostBinding('class'),
+        __metadata("design:type", Object)
+    ], MySelfComponent.prototype, "hostClass", void 0);
+    MySelfComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'my-self',
+            templateUrl: './my-self.component.html'
+        }),
+        __metadata("design:paramtypes", [ng_bootstrap_1.NgbDropdownConfig, userAvailability_service_1.UserAvailabilityService])
+    ], MySelfComponent);
     return MySelfComponent;
 }());
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", models_1.User)
-], MySelfComponent.prototype, "model", void 0);
-__decorate([
-    core_1.HostBinding('class'),
-    __metadata("design:type", Object)
-], MySelfComponent.prototype, "hostClass", void 0);
-MySelfComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'my-self',
-        templateUrl: './my-self.component.html'
-    }),
-    __metadata("design:paramtypes", [ng_bootstrap_1.NgbDropdownConfig, userAvailability_service_1.UserAvailabilityService])
-], MySelfComponent);
 exports.MySelfComponent = MySelfComponent;
 //# sourceMappingURL=my-self.component.js.map

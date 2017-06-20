@@ -21,7 +21,6 @@ var contextualCommRoutes = [
         path: ':context',
         component: contextualComm_component_1.ContextualCommComponent,
         canActivate: [services_1.AuthGuard],
-        // canActivateChild: [ ContextualCommActivateService ],
         resolve: {
             context: contextualCommData_resolver_1.ContextualCommDataResolver
         },
@@ -29,6 +28,7 @@ var contextualCommRoutes = [
             {
                 path: '',
                 component: activity_view_component_1.ActivityViewComponent,
+                canActivate: [services_1.ActivateTaskGuard],
                 resolve: {
                     context: contextualCommData_resolver_1.ContextualCommDataResolver
                 }
@@ -65,17 +65,17 @@ var contextualCommRoutes = [
 var ContextualCommRoutingModule = (function () {
     function ContextualCommRoutingModule() {
     }
+    ContextualCommRoutingModule = __decorate([
+        core_1.NgModule({
+            imports: [
+                router_1.RouterModule.forChild(contextualCommRoutes)
+            ],
+            exports: [
+                router_1.RouterModule
+            ]
+        })
+    ], ContextualCommRoutingModule);
     return ContextualCommRoutingModule;
 }());
-ContextualCommRoutingModule = __decorate([
-    core_1.NgModule({
-        imports: [
-            router_1.RouterModule.forChild(contextualCommRoutes)
-        ],
-        exports: [
-            router_1.RouterModule
-        ]
-    })
-], ContextualCommRoutingModule);
 exports.ContextualCommRoutingModule = ContextualCommRoutingModule;
 //# sourceMappingURL=contextualComm.routing.js.map

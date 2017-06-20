@@ -29,18 +29,18 @@ var HomeComponent = (function () {
     HomeComponent.prototype.onCreateEvent = function () {
         this.triggerActionService.trigger(app_models_1.TriggerActions.OpenContextMenuCreator);
     };
+    HomeComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'home-view',
+            templateUrl: './home.component.html'
+        }),
+        __metadata("design:paramtypes", [router_1.ActivatedRoute,
+            services_1.TriggerActionService,
+            contextualCommData_service_1.ContextualCommDataService,
+            services_1.RethinkService])
+    ], HomeComponent);
     return HomeComponent;
 }());
-HomeComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'home-view',
-        templateUrl: './home.component.html'
-    }),
-    __metadata("design:paramtypes", [router_1.ActivatedRoute,
-        services_1.TriggerActionService,
-        contextualCommData_service_1.ContextualCommDataService,
-        services_1.RethinkService])
-], HomeComponent);
 exports.HomeComponent = HomeComponent;
 //# sourceMappingURL=home.component.js.map

@@ -114,23 +114,23 @@ var AppComponent = (function () {
             this.contextOpened = false;
         }
     };
+    AppComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'rethink-app',
+            templateUrl: './app.component.html'
+        }),
+        __metadata("design:paramtypes", [router_1.Router,
+            platform_browser_1.Title,
+            router_1.ActivatedRoute,
+            services_1.ContactService,
+            services_1.RethinkService,
+            services_1.TriggerActionService,
+            contextualCommData_service_1.ContextualCommDataService,
+            services_1.ConnectorService,
+            services_1.ChatService])
+    ], AppComponent);
     return AppComponent;
 }());
-AppComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'rethink-app',
-        templateUrl: './app.component.html'
-    }),
-    __metadata("design:paramtypes", [router_1.Router,
-        platform_browser_1.Title,
-        router_1.ActivatedRoute,
-        services_1.ContactService,
-        services_1.RethinkService,
-        services_1.TriggerActionService,
-        contextualCommData_service_1.ContextualCommDataService,
-        services_1.ConnectorService,
-        services_1.ChatService])
-], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map

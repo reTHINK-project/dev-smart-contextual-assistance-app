@@ -23,19 +23,19 @@ var ContextMenuComponent = (function () {
         }
     };
     ;
+    __decorate([
+        core_1.HostBinding('class'),
+        __metadata("design:type", Object)
+    ], ContextMenuComponent.prototype, "hostClass", void 0);
+    ContextMenuComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'nav[context-menu]',
+            templateUrl: './contextMenu.component.html'
+        }),
+        __metadata("design:paramtypes", [services_1.ContextualCommDataService])
+    ], ContextMenuComponent);
     return ContextMenuComponent;
 }());
-__decorate([
-    core_1.HostBinding('class'),
-    __metadata("design:type", Object)
-], ContextMenuComponent.prototype, "hostClass", void 0);
-ContextMenuComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'nav[context-menu]',
-        templateUrl: './contextMenu.component.html'
-    }),
-    __metadata("design:paramtypes", [services_1.ContextualCommDataService])
-], ContextMenuComponent);
 exports.ContextMenuComponent = ContextMenuComponent;
 //# sourceMappingURL=contextMenu.component.js.map

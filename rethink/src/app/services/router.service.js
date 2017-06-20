@@ -39,11 +39,11 @@ var RouterService = (function () {
             this.generateBreadcrumbTrail(url.substr(0, url.lastIndexOf('/')));
         }
     };
+    RouterService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [router_1.Router])
+    ], RouterService);
     return RouterService;
 }());
-RouterService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [router_1.Router])
-], RouterService);
 exports.RouterService = RouterService;
 //# sourceMappingURL=router.service.js.map

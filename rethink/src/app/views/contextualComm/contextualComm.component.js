@@ -93,38 +93,38 @@ var ContextualCommComponent = (function () {
     };
     ContextualCommComponent.prototype.onContactClick = function () {
     };
+    __decorate([
+        core_1.HostBinding('class'),
+        __metadata("design:type", Object)
+    ], ContextualCommComponent.prototype, "hostClass", void 0);
+    __decorate([
+        core_1.ViewChild('content', { read: core_1.ViewContainerRef }),
+        __metadata("design:type", core_1.ViewContainerRef)
+    ], ContextualCommComponent.prototype, "content", void 0);
+    __decorate([
+        core_1.ViewChild(add_user_component_1.AddUserComponent),
+        __metadata("design:type", add_user_component_1.AddUserComponent)
+    ], ContextualCommComponent.prototype, "addUserComponent", void 0);
+    __decorate([
+        core_1.HostListener('window:resize', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", void 0)
+    ], ContextualCommComponent.prototype, "onResize", null);
+    ContextualCommComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'context-view',
+            templateUrl: './contextualComm.component.html',
+        }),
+        __metadata("design:paramtypes", [core_1.ElementRef,
+            router_1.Router,
+            router_1.ActivatedRoute,
+            services_1.RethinkService,
+            services_1.ContextualCommDataService,
+            services_1.ContactService])
+    ], ContextualCommComponent);
     return ContextualCommComponent;
 }());
-__decorate([
-    core_1.HostBinding('class'),
-    __metadata("design:type", Object)
-], ContextualCommComponent.prototype, "hostClass", void 0);
-__decorate([
-    core_1.ViewChild('content', { read: core_1.ViewContainerRef }),
-    __metadata("design:type", core_1.ViewContainerRef)
-], ContextualCommComponent.prototype, "content", void 0);
-__decorate([
-    core_1.ViewChild(add_user_component_1.AddUserComponent),
-    __metadata("design:type", add_user_component_1.AddUserComponent)
-], ContextualCommComponent.prototype, "addUserComponent", void 0);
-__decorate([
-    core_1.HostListener('window:resize', ['$event']),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], ContextualCommComponent.prototype, "onResize", null);
-ContextualCommComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'context-view',
-        templateUrl: './contextualComm.component.html',
-    }),
-    __metadata("design:paramtypes", [core_1.ElementRef,
-        router_1.Router,
-        router_1.ActivatedRoute,
-        services_1.RethinkService,
-        services_1.ContextualCommDataService,
-        services_1.ContactService])
-], ContextualCommComponent);
 exports.ContextualCommComponent = ContextualCommComponent;
 //# sourceMappingURL=contextualComm.component.js.map

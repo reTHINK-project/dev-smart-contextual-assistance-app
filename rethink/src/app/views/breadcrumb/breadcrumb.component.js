@@ -38,24 +38,24 @@ var ContextBreadcrumbComponent = (function () {
             }).filter(function (item) { return item ? true : false; });
         });
     };
+    __decorate([
+        core_1.HostBinding('class'),
+        __metadata("design:type", Object)
+    ], ContextBreadcrumbComponent.prototype, "hostClass", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], ContextBreadcrumbComponent.prototype, "openContext", void 0);
+    ContextBreadcrumbComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'ul[context-breadcrumb]',
+            templateUrl: './breadcrumb.component.html'
+        }),
+        __metadata("design:paramtypes", [router_1.Router,
+            services_1.RouterService])
+    ], ContextBreadcrumbComponent);
     return ContextBreadcrumbComponent;
 }());
-__decorate([
-    core_1.HostBinding('class'),
-    __metadata("design:type", Object)
-], ContextBreadcrumbComponent.prototype, "hostClass", void 0);
-__decorate([
-    core_1.Output(),
-    __metadata("design:type", Object)
-], ContextBreadcrumbComponent.prototype, "openContext", void 0);
-ContextBreadcrumbComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'ul[context-breadcrumb]',
-        templateUrl: './breadcrumb.component.html'
-    }),
-    __metadata("design:paramtypes", [router_1.Router,
-        services_1.RouterService])
-], ContextBreadcrumbComponent);
 exports.ContextBreadcrumbComponent = ContextBreadcrumbComponent;
 //# sourceMappingURL=breadcrumb.component.js.map

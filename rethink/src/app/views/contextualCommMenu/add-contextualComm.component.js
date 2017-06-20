@@ -21,16 +21,18 @@ var app_models_1 = require("../../models/app.models");
 // Validator
 var rethink_validator_1 = require("../../shared/rethink.validator");
 // Services
+var contact_service_1 = require("../../services/contact.service");
 var services_1 = require("../../services/services");
 var contextualCommData_service_1 = require("../../services/contextualCommData.service");
 var AddContextualCommComponent = (function () {
-    function AddContextualCommComponent(rd, router, fb, route, modalService, triggerActionService, contextualCommDataService) {
+    function AddContextualCommComponent(rd, router, fb, route, modalService, contactService, triggerActionService, contextualCommDataService) {
         var _this = this;
         this.rd = rd;
         this.router = router;
         this.fb = fb;
         this.route = route;
         this.modalService = modalService;
+        this.contactService = contactService;
         this.triggerActionService = triggerActionService;
         this.contextualCommDataService = contextualCommDataService;
         this.hostClass = 'add-context-view';
@@ -49,13 +51,7 @@ var AddContextualCommComponent = (function () {
             'users'
         ];
         this.title = 'Add New context';
-        this.contexts = [];
-        this.contextualComms = this.contextualCommDataService.getContexts()
-            .map((function (contexts) { return contexts.filter(function (context) { return context.reporter; }); }));
-        this.contextualComms
-            .subscribe(function (contexts) {
-            _this.contexts = contexts;
-        });
+        this.contextualComms = this.contextualCommDataService.getContexts();
         this.router.events.subscribe(function (navigation) {
             console.log('[AddContextualComm] - ', navigation);
             if (navigation instanceof router_1.NavigationEnd) {
@@ -74,12 +70,24 @@ var AddContextualCommComponent = (function () {
         });
     };
     AddContextualCommComponent.prototype.buildForm = function () {
+        var _this = this;
+        var normalizedPath = utils_1.normalizeFromURL(this.router.url, this.contactService.sessionUser.username);
+        var normalizedName = utils_1.normalizeName(normalizedPath);
+        console.log('[AddContextualComm] - build form:', normalizedPath, normalizedName);
+        var contextNameId = normalizedName.parent ? normalizedName.parent : normalizedName.id;
+        this.contextualCommDataService
+            .getContextById(contextNameId)
+            .subscribe(function (context) {
+            _this.fillForm(context);
+        }, function (error) {
+            _this.fillForm();
+        });
+    };
+    AddContextualCommComponent.prototype.fillForm = function (context) {
         this.model.name = '';
         this.model.icon = this.icons[0];
-        this.model.parent = this.contextRoot || null;
+        this.model.parent = context ? context.id : null;
         this.model.reporter = true;
-        console.log('Is empty:', this.contexts.length);
-        var disabled = this.contexts.length === 0 || this.contextRoot ? true : false;
         if (this.complexForm) {
             this.complexForm.reset();
         }
@@ -94,7 +102,7 @@ var AddContextualCommComponent = (function () {
                 forms_1.Validators.composeAsync([
                     rethink_validator_1.RethinkValidators.contextName(this.contextualCommDataService)
                 ])],
-            'parent': [{ value: this.model.parent, disabled: disabled }],
+            'parent': [{ value: this.model.parent, disabled: true }],
             'icon': [this.model.icon]
         });
     };
@@ -137,30 +145,31 @@ var AddContextualCommComponent = (function () {
         }).catch(function (reason) {
         });
     };
+    __decorate([
+        core_1.HostBinding('class'),
+        __metadata("design:type", Object)
+    ], AddContextualCommComponent.prototype, "hostClass", void 0);
+    __decorate([
+        core_1.ViewChild('content'),
+        __metadata("design:type", core_1.ElementRef)
+    ], AddContextualCommComponent.prototype, "el", void 0);
+    AddContextualCommComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'add-contextualComm-view',
+            templateUrl: './add-contextualComm.component.html',
+            styleUrls: ['./add-contextualComm.component.css']
+        }),
+        __metadata("design:paramtypes", [core_1.Renderer2,
+            router_1.Router,
+            forms_1.FormBuilder,
+            router_1.ActivatedRoute,
+            ng_bootstrap_1.NgbModal,
+            contact_service_1.ContactService,
+            services_1.TriggerActionService,
+            contextualCommData_service_1.ContextualCommDataService])
+    ], AddContextualCommComponent);
     return AddContextualCommComponent;
 }());
-__decorate([
-    core_1.HostBinding('class'),
-    __metadata("design:type", Object)
-], AddContextualCommComponent.prototype, "hostClass", void 0);
-__decorate([
-    core_1.ViewChild('content'),
-    __metadata("design:type", core_1.ElementRef)
-], AddContextualCommComponent.prototype, "el", void 0);
-AddContextualCommComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'add-contextualComm-view',
-        templateUrl: './add-contextualComm.component.html',
-        styleUrls: ['./add-contextualComm.component.css']
-    }),
-    __metadata("design:paramtypes", [core_1.Renderer2,
-        router_1.Router,
-        forms_1.FormBuilder,
-        router_1.ActivatedRoute,
-        ng_bootstrap_1.NgbModal,
-        services_1.TriggerActionService,
-        contextualCommData_service_1.ContextualCommDataService])
-], AddContextualCommComponent);
 exports.AddContextualCommComponent = AddContextualCommComponent;
 //# sourceMappingURL=add-contextualComm.component.js.map

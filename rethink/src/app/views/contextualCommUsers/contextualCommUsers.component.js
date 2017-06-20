@@ -73,37 +73,37 @@ var ContextualCommUsersComponent = (function () {
             });
         });
     };
+    __decorate([
+        core_1.HostBinding('class'),
+        __metadata("design:type", Object)
+    ], ContextualCommUsersComponent.prototype, "hostClass", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], ContextualCommUsersComponent.prototype, "contactClick", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], ContextualCommUsersComponent.prototype, "contactAdd", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Subject_1.Subject)
+    ], ContextualCommUsersComponent.prototype, "users", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], ContextualCommUsersComponent.prototype, "allowAddUser", void 0);
+    ContextualCommUsersComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'context-user-view',
+            templateUrl: './contextualCommUsers.component.html'
+        }),
+        __metadata("design:paramtypes", [router_1.Router,
+            router_1.ActivatedRoute,
+            contextualCommData_service_1.ContextualCommDataService])
+    ], ContextualCommUsersComponent);
     return ContextualCommUsersComponent;
 }());
-__decorate([
-    core_1.HostBinding('class'),
-    __metadata("design:type", Object)
-], ContextualCommUsersComponent.prototype, "hostClass", void 0);
-__decorate([
-    core_1.Output(),
-    __metadata("design:type", Object)
-], ContextualCommUsersComponent.prototype, "contactClick", void 0);
-__decorate([
-    core_1.Output(),
-    __metadata("design:type", Object)
-], ContextualCommUsersComponent.prototype, "contactAdd", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Subject_1.Subject)
-], ContextualCommUsersComponent.prototype, "users", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Boolean)
-], ContextualCommUsersComponent.prototype, "allowAddUser", void 0);
-ContextualCommUsersComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'context-user-view',
-        templateUrl: './contextualCommUsers.component.html'
-    }),
-    __metadata("design:paramtypes", [router_1.Router,
-        router_1.ActivatedRoute,
-        contextualCommData_service_1.ContextualCommDataService])
-], ContextualCommUsersComponent);
 exports.ContextualCommUsersComponent = ContextualCommUsersComponent;
 //# sourceMappingURL=contextualCommUsers.component.js.map

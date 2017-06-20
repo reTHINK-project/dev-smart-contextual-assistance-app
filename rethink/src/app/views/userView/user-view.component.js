@@ -62,27 +62,27 @@ var UserViewComponent = (function () {
         var url = this.router.url.replace('user/' + user, '');
         this.router.navigate([url], { relativeTo: this.route });
     };
+    __decorate([
+        core_1.HostBinding('class'),
+        __metadata("design:type", Object)
+    ], UserViewComponent.prototype, "hostClass", void 0);
+    __decorate([
+        core_1.ViewChild(contextualCommActivity_component_1.ContextualCommActivityComponent),
+        __metadata("design:type", contextualCommActivity_component_1.ContextualCommActivityComponent)
+    ], UserViewComponent.prototype, "contextualCommActivityComponent", void 0);
+    UserViewComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'div[user-view]',
+            templateUrl: './user-view.component.html'
+        }),
+        __metadata("design:paramtypes", [router_1.Router,
+            router_1.ActivatedRoute,
+            services_1.ContactService,
+            services_1.ContextualCommService,
+            services_1.ChatService])
+    ], UserViewComponent);
     return UserViewComponent;
 }());
-__decorate([
-    core_1.HostBinding('class'),
-    __metadata("design:type", Object)
-], UserViewComponent.prototype, "hostClass", void 0);
-__decorate([
-    core_1.ViewChild(contextualCommActivity_component_1.ContextualCommActivityComponent),
-    __metadata("design:type", contextualCommActivity_component_1.ContextualCommActivityComponent)
-], UserViewComponent.prototype, "contextualCommActivityComponent", void 0);
-UserViewComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'div[user-view]',
-        templateUrl: './user-view.component.html'
-    }),
-    __metadata("design:paramtypes", [router_1.Router,
-        router_1.ActivatedRoute,
-        services_1.ContactService,
-        services_1.ContextualCommService,
-        services_1.ChatService])
-], UserViewComponent);
 exports.UserViewComponent = UserViewComponent;
 //# sourceMappingURL=user-view.component.js.map

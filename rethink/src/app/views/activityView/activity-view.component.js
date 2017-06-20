@@ -37,25 +37,25 @@ var ActivityViewComponent = (function () {
             _this.contextualCommActivityComponent.updateView();
         });
     };
+    __decorate([
+        core_1.HostBinding('class'),
+        __metadata("design:type", Object)
+    ], ActivityViewComponent.prototype, "hostClass", void 0);
+    __decorate([
+        core_1.ViewChild(contextualCommActivity_component_1.ContextualCommActivityComponent),
+        __metadata("design:type", contextualCommActivity_component_1.ContextualCommActivityComponent)
+    ], ActivityViewComponent.prototype, "contextualCommActivityComponent", void 0);
+    ActivityViewComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'activity-view',
+            templateUrl: './activity-view.component.html'
+        }),
+        __metadata("design:paramtypes", [router_1.ActivatedRoute,
+            services_1.ChatService,
+            services_1.ContextualCommService])
+    ], ActivityViewComponent);
     return ActivityViewComponent;
 }());
-__decorate([
-    core_1.HostBinding('class'),
-    __metadata("design:type", Object)
-], ActivityViewComponent.prototype, "hostClass", void 0);
-__decorate([
-    core_1.ViewChild(contextualCommActivity_component_1.ContextualCommActivityComponent),
-    __metadata("design:type", contextualCommActivity_component_1.ContextualCommActivityComponent)
-], ActivityViewComponent.prototype, "contextualCommActivityComponent", void 0);
-ActivityViewComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'activity-view',
-        templateUrl: './activity-view.component.html'
-    }),
-    __metadata("design:paramtypes", [router_1.ActivatedRoute,
-        services_1.ChatService,
-        services_1.ContextualCommService])
-], ActivityViewComponent);
 exports.ActivityViewComponent = ActivityViewComponent;
 //# sourceMappingURL=activity-view.component.js.map

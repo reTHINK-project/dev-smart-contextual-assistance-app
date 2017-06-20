@@ -101,14 +101,14 @@ var UserAvailabilityService = (function () {
         console.log('[UserAvailability service. setStatus]', status);
         this.myAvailabilityReporter.setStatus(status);
     };
+    UserAvailabilityService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [router_1.Router,
+            router_1.ActivatedRoute,
+            rethink_service_1.RethinkService,
+            contact_service_1.ContactService])
+    ], UserAvailabilityService);
     return UserAvailabilityService;
 }());
-UserAvailabilityService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [router_1.Router,
-        router_1.ActivatedRoute,
-        rethink_service_1.RethinkService,
-        contact_service_1.ContactService])
-], UserAvailabilityService);
 exports.UserAvailabilityService = UserAvailabilityService;
 //# sourceMappingURL=userAvailability.service.js.map

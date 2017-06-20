@@ -4,7 +4,6 @@ import { RethinkService } from './rethink/rethink.service';
 import { ChatService } from './rethink/chat.service';
 
 // Services
-import { ContextualCommActivateService } from './contextualCommActivate.service';
 import { ContextualCommTriggerService } from './contextualCommTrigger.service';
 import { ContextualCommDataService } from './contextualCommData.service';
 import { ContextualCommDataResolver } from './contextualCommData.resolver';
@@ -35,8 +34,7 @@ export {
   ContextualCommService,
   ContextualCommDataService,
   ContextualCommDataResolver,
-  ContextualCommTriggerService,
-  ContextualCommActivateService
+  ContextualCommTriggerService
 };
 
 export let servicesInjectables: Array<any> = [

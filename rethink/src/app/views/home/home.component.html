@@ -19,19 +19,17 @@
               <a routerLink="{{context.name | lowercase}}" routerLinkActive="active">
                 <i *ngIf="context.icon" class="pr-3 fa fa-{{context.icon}}"></i>{{context.name}}
               </a>
-              <!--<span>
-                <i *ngIf="context.icon" class="pr-3 fa fa-{{context.icon}}"></i>{{context.name}}
-              </span>-->
+
               <span class="badge badge-default badge-pill">{{context.contexts.length}}</span>
             </div>
 
-            <div class="list-group" *ngFor="let item of context.contexts;">
+<!--            <div class="list-group" *ngFor="let item of context.contexts;">
               <div class="list-group-item justify-content-between">
                 <a routerLink="{{context.name}}/{{item.name | lowercase}}" routerLinkActive="active">
                   <i *ngIf="item.icon" class="pr-3 fa fa-{{item.icon}}"></i>{{item.name}}
                 </a>
               </div>
-            </div>
+            </div>-->
 
           </div>
         </div>

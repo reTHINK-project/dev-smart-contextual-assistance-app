@@ -310,14 +310,14 @@ var ContextualCommService = (function () {
         return Observable_1.Observable.of(all);
         var e_2, _c;
     };
+    ContextualCommService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [storage_service_1.LocalStorage,
+            rethink_service_1.RethinkService,
+            contact_service_1.ContactService,
+            contextualCommTrigger_service_1.ContextualCommTriggerService])
+    ], ContextualCommService);
     return ContextualCommService;
 }());
-ContextualCommService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [storage_service_1.LocalStorage,
-        rethink_service_1.RethinkService,
-        contact_service_1.ContactService,
-        contextualCommTrigger_service_1.ContextualCommTriggerService])
-], ContextualCommService);
 exports.ContextualCommService = ContextualCommService;
 //# sourceMappingURL=contextualComm.service.js.map
