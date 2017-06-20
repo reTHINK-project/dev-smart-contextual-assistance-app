@@ -26,7 +26,6 @@ var services_1 = require("../../services/services");
 var contextualCommData_service_1 = require("../../services/contextualCommData.service");
 var AddContextualCommComponent = (function () {
     function AddContextualCommComponent(rd, router, fb, route, modalService, contactService, triggerActionService, contextualCommDataService) {
-        var _this = this;
         this.rd = rd;
         this.router = router;
         this.fb = fb;
@@ -52,14 +51,6 @@ var AddContextualCommComponent = (function () {
         ];
         this.title = 'Add New context';
         this.contextualComms = this.contextualCommDataService.getContexts();
-        this.router.events.subscribe(function (navigation) {
-            console.log('[AddContextualComm] - ', navigation);
-            if (navigation instanceof router_1.NavigationEnd) {
-                var normalized = utils_1.normalizeName(navigation.url);
-                console.log('[AddContextualComm] - params:', normalized);
-                _this.contextRoot = normalized.parent;
-            }
-        });
     }
     AddContextualCommComponent.prototype.ngOnInit = function () {
         var _this = this;

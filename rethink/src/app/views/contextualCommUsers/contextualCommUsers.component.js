@@ -29,7 +29,7 @@ var ContextualCommUsersComponent = (function () {
         this.contactsFilter = new Observable_1.Observable();
         this.hide = true;
         this.basePath = this.router.url;
-        this.router.events.subscribe(function (navigation) {
+        this.events = this.router.events.subscribe(function (navigation) {
             console.log('[ContextualCommUsers] - ', navigation);
             if (navigation instanceof router_1.NavigationEnd) {
                 var url = navigation.url;
@@ -39,8 +39,7 @@ var ContextualCommUsersComponent = (function () {
                 _this.basePath = url;
             }
         });
-        var paramsObserver = this.route.params;
-        paramsObserver.subscribe(function (params) {
+        this.paramsObserver = this.route.params.subscribe(function (params) {
             console.log('[ContextualCommUsers] - params:', params);
             var context = params['context'];
             var id = config_1.config.appPrefix + '/' + context;
@@ -52,14 +51,17 @@ var ContextualCommUsersComponent = (function () {
     // Load data ones componet is ready
     ContextualCommUsersComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.users.subscribe(function (users) {
+        this.currentUsers = this.users.subscribe(function (users) {
             console.log('[contextualCommUsers - subscribe]', users);
             _this.filter('');
         });
-        console.log('[contextualCommUsers - ngOnInit]', this.users);
+        console.log('[contextualCommUsers - ngOnInit]', this.currentUsers);
     };
-    ContextualCommUsersComponent.prototype.ngAfterViewInit = function () {
-        console.log('[contextualCommUsers - ngAfterViewInit]', this.users);
+    ContextualCommUsersComponent.prototype.ngOnDestroy = function () {
+        this.currentUsers.unsubscribe();
+        this.events.unsubscribe();
+        this.paramsObserver.unsubscribe();
+        console.log('[contextualCommUsers - ngOnDestroy]', this.events, this.paramsObserver);
     };
     ContextualCommUsersComponent.prototype.onFilterKey = function (event) {
         this.filter(event.target.value);

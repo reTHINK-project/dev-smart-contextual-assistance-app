@@ -1,5 +1,6 @@
-import { Component, OnInit, AfterViewInit, HostBinding, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, Output, EventEmitter, Input } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
@@ -17,7 +18,7 @@ import { User, ContextualComm } from '../../models/models';
   selector: 'context-user-view',
   templateUrl: './contextualCommUsers.component.html'
 })
-export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
+export class ContextualCommUsersComponent implements OnInit, OnDestroy {
 
   @HostBinding('class') hostClass = 'context-user-view d-flex flex-column justify-content-between';
 
@@ -35,6 +36,10 @@ export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
   basePath: string;
   hide = true;
 
+  private events: Subscription;
+  private currentUsers: Subscription;
+  private paramsObserver: Subscription;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -43,7 +48,7 @@ export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
 
       this.basePath = this.router.url;
 
-      this.router.events.subscribe((navigation: NavigationEnd) => {
+      this.events = this.router.events.subscribe((navigation: NavigationEnd) => {
         console.log('[ContextualCommUsers] - ', navigation);
 
         if (navigation instanceof NavigationEnd) {
@@ -58,9 +63,7 @@ export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
 
       });
 
-      let paramsObserver = this.route.params;
-
-      paramsObserver.subscribe((params: any) => {
+      this.paramsObserver = this.route.params.subscribe((params: any) => {
         console.log('[ContextualCommUsers] - params:', params);
 
         let context = params['context'];
@@ -77,17 +80,21 @@ export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
   // Load data ones componet is ready
   ngOnInit() {
 
-    this.users.subscribe((users: User[]) => {
+    this.currentUsers = this.users.subscribe((users: User[]) => {
       console.log('[contextualCommUsers - subscribe]', users);
       this.filter('');
     });
 
-    console.log('[contextualCommUsers - ngOnInit]', this.users);
+    console.log('[contextualCommUsers - ngOnInit]', this.currentUsers);
   }
 
-  ngAfterViewInit() {
+  ngOnDestroy() {
 
-    console.log('[contextualCommUsers - ngAfterViewInit]', this.users);
+    this.currentUsers.unsubscribe();
+    this.events.unsubscribe();
+    this.paramsObserver.unsubscribe();
+
+    console.log('[contextualCommUsers - ngOnDestroy]', this.events, this.paramsObserver);
 
   }
 

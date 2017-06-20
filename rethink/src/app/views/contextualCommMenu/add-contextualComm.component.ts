@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2, HostBinding } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NavigationEnd, ActivatedRoute,  Router } from '@angular/router';
+import { ActivatedRoute,  Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/defaultIfEmpty';
@@ -57,8 +57,6 @@ export class AddContextualCommComponent implements OnInit {
 
   @ViewChild('content') el: ElementRef;
 
-  private contextRoot: string;
-
   complexForm: FormGroup;
 
   constructor(
@@ -73,16 +71,6 @@ export class AddContextualCommComponent implements OnInit {
 
     this.contextualComms = this.contextualCommDataService.getContexts();
 
-    this.router.events.subscribe((navigation: NavigationEnd) => {
-      console.log('[AddContextualComm] - ', navigation);
-      if (navigation instanceof NavigationEnd) {
-        let normalized = normalizeName(navigation.url);
-
-        console.log('[AddContextualComm] - params:', normalized);
-
-        this.contextRoot = normalized.parent;
-      }
-    });
   }
 
 
