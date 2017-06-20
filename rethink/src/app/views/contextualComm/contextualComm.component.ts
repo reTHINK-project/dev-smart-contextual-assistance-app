@@ -1,6 +1,7 @@
 import { Component, OnInit, HostBinding, HostListener, AfterViewInit, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 // Services
@@ -9,6 +10,8 @@ import { ContactService, RethinkService, ContextualCommDataService } from '../..
 // Models
 import { User, ContextualComm } from '../../models/models';
 
+// Utils
+import { isAnUser, normalizeFromURL, normalizeName } from '../../utils/utils';
 
 // Components
 import { AddUserComponent } from '../contextualCommUsers/add-user.component';
@@ -57,16 +60,30 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
     this.allowAddUser = context.reporter ? true : false;
 
     // Check if the context is not an atomicContext
-    // TODO: we should create an instance of Atomic and Composite Context;
+    // TODO: we should check for an instance of Atomic and Composite Context;
     if (!context.id.includes('@')) {
       console.log('[ContextualComm View - is not an Atomic Context]:', context);
       this.userList.next(context.users);
     } else {
 
-      this.contextualCommDataService.getContextByResource(context.parent)
-        .subscribe((context: ContextualComm) => {
-          this.userList.next(context.users);
-        });
+      let normalizedPath = normalizeFromURL(this.router.url, this.contactService.sessionUser.username);
+      let normalizedName = normalizeName(normalizedPath);
+
+      console.log('[ContextualComm View - get parent active context]:', normalizedPath);
+      console.log('[ContextualComm View - get parent active context]:', normalizedName);
+
+      let result: Observable<ContextualComm>;
+
+      if (isAnUser(normalizedName.name)) {
+        result = this.contextualCommDataService.getContext(normalizedName.name);
+      } else {
+        result = this.contextualCommDataService.getContextById(normalizedName.id);
+      }
+
+      result.subscribe((parentContext: ContextualComm) => {
+        console.log('[ContextualComm View - get parent context]:', parentContext);
+        this.userList.next(parentContext.users);
+      });
 
       this.allowAddUser = false;
     }

@@ -22,6 +22,10 @@ var triggerAction_service_1 = require("./triggerAction.service");
 exports.TriggerActionService = triggerAction_service_1.TriggerActionService;
 var notification_service_1 = require("./notification.service");
 exports.NotificationService = notification_service_1.NotificationService;
+var activateTask_service_1 = require("./activateTask.service");
+exports.ActivateTaskGuard = activateTask_service_1.ActivateTaskGuard;
+var activateUser_service_1 = require("./activateUser.service");
+exports.ActivateUserGuard = activateUser_service_1.ActivateUserGuard;
 var contact_service_1 = require("./contact.service");
 exports.ContactService = contact_service_1.ContactService;
 var storage_service_1 = require("./storage.service");
@@ -39,6 +43,8 @@ exports.servicesInjectables = [
     rethink_service_1.RethinkService,
     contact_service_1.ContactService,
     connector_service_1.ConnectorService,
+    activateTask_service_1.ActivateTaskGuard,
+    activateUser_service_1.ActivateUserGuard,
     notification_service_1.NotificationService,
     triggerAction_service_1.TriggerActionService,
     contextualCommTrigger_service_1.ContextualCommTriggerService

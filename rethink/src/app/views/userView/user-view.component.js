@@ -59,7 +59,7 @@ var UserViewComponent = (function () {
     };
     UserViewComponent.prototype.onCloseEvent = function () {
         var user = this.user.username;
-        var url = this.router.url.replace(user, '');
+        var url = this.router.url.replace('user/' + user, '');
         this.router.navigate([url], { relativeTo: this.route });
     };
     return UserViewComponent;

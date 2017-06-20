@@ -6,7 +6,7 @@ import { Router, Resolve,
 import { ContextualComm } from './../models/models';
 
 // Utils
-import { normalizeName, normalizeFromURL } from '../utils/utils';
+import { isAnUser, normalizeName, normalizeFromURL } from '../utils/utils';
 
 // Service
 import { ContextualCommDataService } from './contextualCommData.service';
@@ -44,15 +44,25 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
 
       let normalizedName = normalizeName(name);
 
-      console.log('[ContextualCommData - Resolve] - normalized name:', name, normalizedName, path);
+      console.log('[ContextualCommData - Resolve] - normalized name:', name, task, normalizedName, path, user);
 
-      this.contextualCommDataService.getContextById(normalizedName.id).subscribe({
-        next: contextualComm => resolve(contextualComm),
-        error: reason => {
-          console.log('[ContextualCommData - Resolve] - user:', user);
-          reject(reason);
-        }
-      });
+      if (isAnUser(normalizedName.name)) {
+        this.contextualCommDataService.getContext(normalizedName.name).subscribe({
+          next: contextualComm => resolve(contextualComm),
+          error: reason => {
+            console.log('[ContextualCommData - Resolve] - user:', user);
+            reject(reason);
+          }
+        });
+      } else {
+        this.contextualCommDataService.getContextById(normalizedName.id).subscribe({
+          next: contextualComm => resolve(contextualComm),
+          error: reason => {
+            console.log('[ContextualCommData - Resolve] - task or context:', user);
+            reject(reason);
+          }
+        });
+      }
 
     });
 

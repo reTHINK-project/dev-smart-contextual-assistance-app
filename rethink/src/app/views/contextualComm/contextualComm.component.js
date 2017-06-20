@@ -14,6 +14,8 @@ var router_1 = require("@angular/router");
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 // Services
 var services_1 = require("../../services/services");
+// Utils
+var utils_1 = require("../../utils/utils");
 // Components
 var add_user_component_1 = require("../contextualCommUsers/add-user.component");
 var ContextualCommComponent = (function () {
@@ -44,15 +46,26 @@ var ContextualCommComponent = (function () {
         console.log('[ContextualComm View - active context change]:', context);
         this.allowAddUser = context.reporter ? true : false;
         // Check if the context is not an atomicContext
-        // TODO: we should create an instance of Atomic and Composite Context;
+        // TODO: we should check for an instance of Atomic and Composite Context;
         if (!context.id.includes('@')) {
             console.log('[ContextualComm View - is not an Atomic Context]:', context);
             this.userList.next(context.users);
         }
         else {
-            this.contextualCommDataService.getContextByResource(context.parent)
-                .subscribe(function (context) {
-                _this.userList.next(context.users);
+            var normalizedPath = utils_1.normalizeFromURL(this.router.url, this.contactService.sessionUser.username);
+            var normalizedName = utils_1.normalizeName(normalizedPath);
+            console.log('[ContextualComm View - get parent active context]:', normalizedPath);
+            console.log('[ContextualComm View - get parent active context]:', normalizedName);
+            var result = void 0;
+            if (utils_1.isAnUser(normalizedName.name)) {
+                result = this.contextualCommDataService.getContext(normalizedName.name);
+            }
+            else {
+                result = this.contextualCommDataService.getContextById(normalizedName.id);
+            }
+            result.subscribe(function (parentContext) {
+                console.log('[ContextualComm View - get parent context]:', parentContext);
+                _this.userList.next(parentContext.users);
             });
             this.allowAddUser = false;
         }

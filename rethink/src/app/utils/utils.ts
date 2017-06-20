@@ -33,8 +33,22 @@ export function getUserMedia(constraints: any) {
   });
 }
 
-export function normalizeAtomicName(user: string, current: string) {
+export function isAnUser(name: string): boolean {
+  let users = [];
+  if (name.indexOf('-') !== -1) {
+    users = name.split('-');
+  } else {
+    users.push(name);
+  }
 
+  let result = users.map((user) => {
+    let pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    console.log('isAnUser:', pattern.test(user));
+    return pattern.test(user);
+  });
+
+  console.log(result);
+  return result[0] && result[1];
 }
 
 export function normalizeName(name: string, parent?: string): any {
@@ -43,6 +57,11 @@ export function normalizeName(name: string, parent?: string): any {
   let splitChar = config.splitChar;
 
   let at = new RegExp(/%40/g);
+
+  // Clear path from attributes
+  if (name.indexOf('?') !== -1) {
+    name = name.substring(0, name.lastIndexOf('?'));
+  }
 
   name = name.toLowerCase();
   name = name.replace(at, '@');
@@ -69,9 +88,14 @@ export function normalizeName(name: string, parent?: string): any {
 
   console.log('Splited: ', name, parent, splited);
 
+  let userName = splited[3] === 'user' ? splited[4] : splited[3];
+  let isTask = splited[2] === 'user' && isAnUser(splited[3]) ? false : true;
+
+  if (!isTask) { userName = splited[3]; }
+
   let contextId = splited[0] + splitChar + splited[1];
-  let task = splited[2] ? splited[2] : null;
-  let user = splited[3] ?  splited[3] : null;
+  let task = isTask ? splited[2] : null;
+  let user = userName ? userName : null;
 
   if (contextId) {
     normalized['id'] = contextId;
@@ -86,10 +110,12 @@ export function normalizeName(name: string, parent?: string): any {
   }
 
   if (user) {
-    normalized['id'] = contextId + splitChar + task + splitChar + user;
+    normalized['id'] = contextId + splitChar + (task ? task  + splitChar : '') + user;
     normalized['name'] = user;
-    normalized['parent'] = contextId + splitChar + task;
+    normalized['parent'] = contextId + (task ? splitChar + task : '');
   }
+
+  console.log('Normalized Path:', normalized);
 
   return normalized;
 }

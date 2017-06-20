@@ -21,7 +21,7 @@ var contextualCommRoutes = [
         path: ':context',
         component: contextualComm_component_1.ContextualCommComponent,
         canActivate: [services_1.AuthGuard],
-        canActivateChild: [services_1.ContextualCommActivateService],
+        // canActivateChild: [ ContextualCommActivateService ],
         resolve: {
             context: contextualCommData_resolver_1.ContextualCommDataResolver
         },
@@ -36,13 +36,24 @@ var contextualCommRoutes = [
             {
                 path: ':task',
                 component: activity_view_component_1.ActivityViewComponent,
+                canActivate: [services_1.ActivateTaskGuard],
                 resolve: {
                     context: contextualCommData_resolver_1.ContextualCommDataResolver
                 },
             },
             {
-                path: ':task/:user',
+                path: 'user/:user',
                 component: user_view_component_1.UserViewComponent,
+                canActivate: [services_1.ActivateUserGuard],
+                resolve: {
+                    user: user_resolver_1.UserResolver,
+                    context: contextualCommData_resolver_1.ContextualCommDataResolver
+                }
+            },
+            {
+                path: ':task/user/:user',
+                component: user_view_component_1.UserViewComponent,
+                canActivate: [services_1.ActivateUserGuard],
                 resolve: {
                     user: user_resolver_1.UserResolver,
                     context: contextualCommData_resolver_1.ContextualCommDataResolver

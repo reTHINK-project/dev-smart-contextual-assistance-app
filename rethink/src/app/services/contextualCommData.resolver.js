@@ -48,14 +48,25 @@ var ContextualCommDataResolver = (function () {
             ;
             name = utils_1.normalizeFromURL(path, _this.contactService.sessionUser.username);
             var normalizedName = utils_1.normalizeName(name);
-            console.log('[ContextualCommData - Resolve] - normalized name:', name, normalizedName, path);
-            _this.contextualCommDataService.getContextById(normalizedName.id).subscribe({
-                next: function (contextualComm) { return resolve(contextualComm); },
-                error: function (reason) {
-                    console.log('[ContextualCommData - Resolve] - user:', user);
-                    reject(reason);
-                }
-            });
+            console.log('[ContextualCommData - Resolve] - normalized name:', name, task, normalizedName, path, user);
+            if (utils_1.isAnUser(normalizedName.name)) {
+                _this.contextualCommDataService.getContext(normalizedName.name).subscribe({
+                    next: function (contextualComm) { return resolve(contextualComm); },
+                    error: function (reason) {
+                        console.log('[ContextualCommData - Resolve] - user:', user);
+                        reject(reason);
+                    }
+                });
+            }
+            else {
+                _this.contextualCommDataService.getContextById(normalizedName.id).subscribe({
+                    next: function (contextualComm) { return resolve(contextualComm); },
+                    error: function (reason) {
+                        console.log('[ContextualCommData - Resolve] - task or context:', user);
+                        reject(reason);
+                    }
+                });
+            }
         });
     };
     return ContextualCommDataResolver;

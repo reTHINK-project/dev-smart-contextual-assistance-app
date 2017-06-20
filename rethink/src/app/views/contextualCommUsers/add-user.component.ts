@@ -107,11 +107,18 @@ export class AddUserComponent implements OnInit {
         .then((currentController: any) => {
 
           console.log('[Add User Component] - current controller', currentController);
-          let normalizedPath = normalizeFromURL(path + '/' + this.model.email, this.contactService.sessionUser.username);
+          let normalizedPath = normalizeFromURL(path + '/user/' + this.model.email, this.contactService.sessionUser.username);
           let normalizedName = normalizeName(normalizedPath);
-          let parentURL = currentController.url;
+          // let parentURL = currentController.url;
 
-          return this.contextualCommDataService.createAtomicContext(this.model.email, normalizedName.id, parentURL);
+          console.log('[Add User Component] - current controller', normalizedName);
+
+          return this.contextualCommDataService.createAtomicContext(
+            this.model.email,
+            normalizedName.name,
+            normalizedName.id,
+            normalizedName.parent);
+
         })
         .then((childController: any) => {
 

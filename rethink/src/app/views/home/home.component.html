@@ -16,12 +16,12 @@
           <div class="list-group list-group-root" *ngFor="let context of contextualComms | async;">
 
             <div class="list-group-item justify-content-between">
-              <!--<a routerLink="{{context.name | lowercase}}" routerLinkActive="active">
+              <a routerLink="{{context.name | lowercase}}" routerLinkActive="active">
                 <i *ngIf="context.icon" class="pr-3 fa fa-{{context.icon}}"></i>{{context.name}}
-              </a>-->
-              <span>
+              </a>
+              <!--<span>
                 <i *ngIf="context.icon" class="pr-3 fa fa-{{context.icon}}"></i>{{context.name}}
-              </span>
+              </span>-->
               <span class="badge badge-default badge-pill">{{context.contexts.length}}</span>
             </div>
 

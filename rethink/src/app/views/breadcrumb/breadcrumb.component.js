@@ -19,17 +19,23 @@ var ContextBreadcrumbComponent = (function () {
         this.routerService = routerService;
         this.hostClass = 'rethink-breadcrumb';
         this.openContext = new core_1.EventEmitter();
-        console.log('[Breadcrumb] - ');
     }
     ContextBreadcrumbComponent.prototype.ngOnInit = function () {
-        console.log('[Breadcrumb] - ', this.routerService.breadcrumb);
         this.breadcrumb = this.routerService.breadcrumb.map(function (paths) {
             return paths.map(function (path) {
                 if (path.indexOf('?') !== -1) {
                     path = path.substring(0, path.indexOf('?'));
                 }
+                if (path.indexOf('user') !== -1) {
+                    path = path.replace('user', '');
+                }
                 return path;
-            });
+            }).map(function (item) {
+                item = item.replace('/', '').substr(item.lastIndexOf('/'));
+                if (item && item.length > 0) {
+                    return item;
+                }
+            }).filter(function (item) { return item ? true : false; });
         });
     };
     return ContextBreadcrumbComponent;

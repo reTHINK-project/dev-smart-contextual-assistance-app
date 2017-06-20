@@ -2,7 +2,7 @@ import { Router, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot }
 import { Title } from '@angular/platform-browser';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
+// import { Observable } from 'rxjs/Observable';
 // import 'rxjs/add/operator/take';
 // import 'rxjs/add/combination/merge';
 
@@ -80,13 +80,14 @@ export class ContextualCommActivateService implements CanActivateChild {
               // Get the parent
               this.contextualCommDataService.getContextById(normalizedName.parent).subscribe((context: ContextualComm) => {
 
-                let invitedUser = this.contactService.getUser(user);
+                let invitedUser = this.contactService.getByUserName(user);
 
                 console.log('[ContextualCommData - Activate] - parent context and user found: ', normalizedPath);
+                console.log('[ContextualCommData - Activate] - parent context and user found: ', context, user, invitedUser);
 
                 if (context && user && invitedUser) {
 
-                  this.contextualCommDataService.createAtomicContext(user, normalizedName.id, normalizedName.parent)
+                  this.contextualCommDataService.createAtomicContext(user, normalizedName.name, normalizedName.id, normalizedName.parent)
                     .then(context => {
                       this.activateContext(context);
                       resolve(true);

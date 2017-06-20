@@ -69,7 +69,7 @@ export class ContextualCommDataService {
 
     return new Promise((resolve, reject) => {
 
-      console.info('[ContextualCommData Service] - join: ', name);
+      console.info('[ContextualCommData Service] - join: ', name, id);
 
       this.getContextById(id).toPromise().then((context: ContextualComm) => {
 
@@ -89,21 +89,20 @@ export class ContextualCommDataService {
     });
   }
 
-  createAtomicContext(username: string, name: string, parentNameId?: string): Promise<ContextualComm> {
+  createAtomicContext(username: string, name: string, id: string, parentNameId?: string): Promise<ContextualComm> {
 
     return new Promise((resolve, reject) => {
 
-      let normalizedName = normalizeName(name);
       let activeContext = this.contextualCommService.getActiveContext;
 
-      console.log('[ContextualCommData Service] - normalizedName:', normalizedName);
+      console.log('[ContextualCommData Service] - normalizedName:', name);
 
-      this.chatService.create(normalizedName.id, [username], []).then((controller: any) => {
+      this.chatService.create(id, [username], []).then((controller: any) => {
 
         console.info('[ContextualCommData Service] - communication objects was created successfully: ', controller);
         console.info('[ContextualCommData Service] - creating new contexts: ', controller, activeContext);
 
-        return this.contextualCommService.create(normalizedName.name, controller.dataObject, normalizedName.parent);
+        return this.contextualCommService.create(name, controller.dataObject, parentNameId);
       }).then((context: ContextualComm) => {
         console.info('[ContextualCommData Service] -  ContextualComm created: ', context);
         resolve(context);

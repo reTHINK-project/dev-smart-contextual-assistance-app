@@ -52,7 +52,7 @@ var ContextualCommDataService = (function () {
     ContextualCommDataService.prototype.joinContext = function (name, id, dataObject, parentNameId) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            console.info('[ContextualCommData Service] - join: ', name);
+            console.info('[ContextualCommData Service] - join: ', name, id);
             _this.getContextById(id).toPromise().then(function (context) {
                 console.info('[ContextualCommData Service] - communication objects was created successfully: ', dataObject);
                 console.info('[ContextualCommData Service] - creating new contexts: ', dataObject, parentNameId);
@@ -65,16 +65,15 @@ var ContextualCommDataService = (function () {
             });
         });
     };
-    ContextualCommDataService.prototype.createAtomicContext = function (username, name, parentNameId) {
+    ContextualCommDataService.prototype.createAtomicContext = function (username, name, id, parentNameId) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            var normalizedName = utils_1.normalizeName(name);
             var activeContext = _this.contextualCommService.getActiveContext;
-            console.log('[ContextualCommData Service] - normalizedName:', normalizedName);
-            _this.chatService.create(normalizedName.id, [username], []).then(function (controller) {
+            console.log('[ContextualCommData Service] - normalizedName:', name);
+            _this.chatService.create(id, [username], []).then(function (controller) {
                 console.info('[ContextualCommData Service] - communication objects was created successfully: ', controller);
                 console.info('[ContextualCommData Service] - creating new contexts: ', controller, activeContext);
-                return _this.contextualCommService.create(normalizedName.name, controller.dataObject, normalizedName.parent);
+                return _this.contextualCommService.create(name, controller.dataObject, parentNameId);
             }).then(function (context) {
                 console.info('[ContextualCommData Service] -  ContextualComm created: ', context);
                 resolve(context);

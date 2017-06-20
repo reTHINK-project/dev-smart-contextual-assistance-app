@@ -134,7 +134,7 @@ var ConnectorService = (function () {
             var paths = utils_1.splitFromURL(metadata.name, this.contactService.sessionUser.username);
             console.log('[Connector Service] -  navigate to: ', paths);
             console.log('[Connector Service] -  navigate to: ', paths.context, paths.task, paths.user);
-            this.router.navigate([paths.context, paths.task, paths.user], navigationExtras);
+            this.router.navigate([paths.context, paths.task, 'user', paths.user], navigationExtras);
         }
         else {
             controller.decline();

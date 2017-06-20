@@ -80,10 +80,11 @@ var AddUserComponent = (function () {
             })
                 .then(function (currentController) {
                 console.log('[Add User Component] - current controller', currentController);
-                var normalizedPath = utils_1.normalizeFromURL(path + '/' + _this.model.email, _this.contactService.sessionUser.username);
+                var normalizedPath = utils_1.normalizeFromURL(path + '/user/' + _this.model.email, _this.contactService.sessionUser.username);
                 var normalizedName = utils_1.normalizeName(normalizedPath);
-                var parentURL = currentController.url;
-                return _this.contextualCommDataService.createAtomicContext(_this.model.email, normalizedName.id, parentURL);
+                // let parentURL = currentController.url;
+                console.log('[Add User Component] - current controller', normalizedName);
+                return _this.contextualCommDataService.createAtomicContext(_this.model.email, normalizedName.name, normalizedName.id, normalizedName.parent);
             })
                 .then(function (childController) {
                 console.log('[Add User Component] - one to one controller', childController);
