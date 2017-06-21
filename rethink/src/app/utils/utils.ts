@@ -179,7 +179,12 @@ export function normalizeFromURL(path: string, username: string): string {
   if (path.includes('@') && username) {
     let lastIndex = pathSplited.length - 1;
     let last = pathSplited[lastIndex];
-    let updated = last + '-' + username;
+
+    let updated = last;
+    if (!last.includes(username)) {
+      updated = last + '-' + username;
+    }
+
     pathSplited[lastIndex] = updated;
   }
 
@@ -189,6 +194,14 @@ export function normalizeFromURL(path: string, username: string): string {
   return joined;
 }
 
+
+export function clearMyUsername(name: string, username: string): string {
+  if (name.indexOf('-') !== -1 && name.indexOf('@') !== -1 && name.includes(username)) {
+    return name.replace('-' + username, '');
+  } else {
+    return name;
+  }
+}
 
 export function filterContextsByName(name: string, context: ContextualComm): boolean {
 

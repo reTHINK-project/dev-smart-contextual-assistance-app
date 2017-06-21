@@ -68,9 +68,9 @@ var ContextualCommUsersComponent = (function () {
     };
     ContextualCommUsersComponent.prototype.filter = function (value) {
         this.contactsFilter = this.users.map(function (users) {
-            console.log('[contextualCommUsers - filter]:', users);
+            console.log('[contextualCommUsers - filter]:', users, value);
             return users.filter(function (user) {
-                console.log('[contextualCommUsers - filter]:', user);
+                console.log('[contextualCommUsers - filter]:', user, value);
                 return user.cn.includes(value);
             });
         });

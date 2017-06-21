@@ -166,7 +166,10 @@ function normalizeFromURL(path, username) {
     if (path.includes('@') && username) {
         var lastIndex = pathSplited.length - 1;
         var last = pathSplited[lastIndex];
-        var updated = last + '-' + username;
+        var updated = last;
+        if (!last.includes(username)) {
+            updated = last + '-' + username;
+        }
         pathSplited[lastIndex] = updated;
     }
     var joined = pathSplited.join(splitChar);
@@ -174,6 +177,15 @@ function normalizeFromURL(path, username) {
     return joined;
 }
 exports.normalizeFromURL = normalizeFromURL;
+function clearMyUsername(name, username) {
+    if (name.indexOf('-') !== -1 && name.indexOf('@') !== -1 && name.includes(username)) {
+        return name.replace('-' + username, '');
+    }
+    else {
+        return name;
+    }
+}
+exports.clearMyUsername = clearMyUsername;
 function filterContextsByName(name, context) {
     if (name.includes('@')) {
         var users = name.split('-');

@@ -105,9 +105,9 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
   filter(value: string) {
 
     this.contactsFilter = this.users.map((users: User[]) => {
-      console.log('[contextualCommUsers - filter]:', users);
+      console.log('[contextualCommUsers - filter]:', users, value);
       return users.filter((user: User) => {
-        console.log('[contextualCommUsers - filter]:', user);
+        console.log('[contextualCommUsers - filter]:', user, value);
         return user.cn.includes(value);
       });
     });
