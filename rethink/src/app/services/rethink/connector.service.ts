@@ -3,7 +3,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 
 // Utils
-import { getUserMedia, splitFromURL } from '../../utils/utils';
+import { isAnUser, clearMyUsername, getUserMedia, splitFromURL } from '../../utils/utils';
 
 // Services
 import { RethinkService } from './rethink.service';
@@ -161,13 +161,26 @@ export class ConnectorService {
       };
 
       let metadata = response.metadata;
-
-      let paths: any = splitFromURL(metadata.name, this.contactService.sessionUser.username);
+      let currentUser = this.contactService.sessionUser.username;
+      let paths: any = splitFromURL(metadata.name, currentUser);
 
       console.log('[Connector Service] -  navigate to: ', paths);
       console.log('[Connector Service] -  navigate to: ', paths.context, paths.task, paths.user);
 
-      this.router.navigate([paths.context, paths.task, paths.user], navigationExtras);
+      let navigationArgs = [paths.context];
+
+      if (isAnUser(paths.task)) {
+        navigationArgs.push('user');
+        navigationArgs.push(clearMyUsername(paths.task, currentUser));
+      } else {
+        navigationArgs.push(paths.task);
+        navigationArgs.push('user');
+        navigationArgs.push(clearMyUsername(paths.user, currentUser));
+      }
+
+      console.log('[Connector Service] -  navigate to path: ', navigationArgs);
+
+      this.router.navigate(navigationArgs, navigationExtras);
 
     } else {
       controller.decline();

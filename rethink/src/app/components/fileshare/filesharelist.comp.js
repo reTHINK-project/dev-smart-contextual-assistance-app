@@ -14,17 +14,17 @@ var FileShareListComponent = (function () {
     function FileShareListComponent() {
         this.hostClass = 'all-25 large-35 xlarge-35 hide-medium hide-small hide-tiny';
     }
+    __decorate([
+        core_1.HostBinding('class'),
+        __metadata("design:type", Object)
+    ], FileShareListComponent.prototype, "hostClass", void 0);
+    FileShareListComponent = __decorate([
+        core_1.Component({
+            selector: 'div[file-share-list]',
+            templateUrl: 'comp/fileshare/filesharelist.comp.html'
+        })
+    ], FileShareListComponent);
     return FileShareListComponent;
 }());
-__decorate([
-    core_1.HostBinding('class'),
-    __metadata("design:type", Object)
-], FileShareListComponent.prototype, "hostClass", void 0);
-FileShareListComponent = __decorate([
-    core_1.Component({
-        selector: 'div[file-share-list]',
-        templateUrl: 'comp/fileshare/filesharelist.comp.html'
-    })
-], FileShareListComponent);
 exports.FileShareListComponent = FileShareListComponent;
 //# sourceMappingURL=filesharelist.comp.js.map

@@ -14,6 +14,8 @@ var router_1 = require("@angular/router");
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 // Services
 var services_1 = require("../../services/services");
+// Utils
+var utils_1 = require("../../utils/utils");
 // Components
 var add_user_component_1 = require("../contextualCommUsers/add-user.component");
 var ContextualCommComponent = (function () {
@@ -27,7 +29,7 @@ var ContextualCommComponent = (function () {
         this.contactService = contactService;
         this.hostClass = 'context-view row no-gutters';
         this.allowAddUser = false;
-        this.users = new BehaviorSubject_1.BehaviorSubject([]);
+        this.userList = new BehaviorSubject_1.BehaviorSubject([]);
         this.route.data.subscribe(function (data) {
             _this.updateCurrentContext(data.context);
         });
@@ -44,15 +46,26 @@ var ContextualCommComponent = (function () {
         console.log('[ContextualComm View - active context change]:', context);
         this.allowAddUser = context.reporter ? true : false;
         // Check if the context is not an atomicContext
-        // TODO: we should create an instance of Atomic and Composite Context;
+        // TODO: we should check for an instance of Atomic and Composite Context;
         if (!context.id.includes('@')) {
             console.log('[ContextualComm View - is not an Atomic Context]:', context);
-            this.users.next(context.users);
+            this.userList.next(context.users);
         }
         else {
-            this.contextualCommDataService.getContextByResource(context.parent)
-                .subscribe(function (context) {
-                _this.users.next(context.users);
+            var normalizedPath = utils_1.normalizeFromURL(this.router.url, this.contactService.sessionUser.username);
+            var normalizedName = utils_1.normalizeName(normalizedPath);
+            console.log('[ContextualComm View - get parent active context]:', normalizedPath);
+            console.log('[ContextualComm View - get parent active context]:', normalizedName);
+            var result = void 0;
+            if (utils_1.isAnUser(normalizedName.name)) {
+                result = this.contextualCommDataService.getContext(normalizedName.name);
+            }
+            else {
+                result = this.contextualCommDataService.getContextById(normalizedName.id);
+            }
+            result.subscribe(function (parentContext) {
+                console.log('[ContextualComm View - get parent context]:', parentContext);
+                _this.userList.next(parentContext.users);
             });
             this.allowAddUser = false;
         }
@@ -80,38 +93,38 @@ var ContextualCommComponent = (function () {
     };
     ContextualCommComponent.prototype.onContactClick = function () {
     };
+    __decorate([
+        core_1.HostBinding('class'),
+        __metadata("design:type", Object)
+    ], ContextualCommComponent.prototype, "hostClass", void 0);
+    __decorate([
+        core_1.ViewChild('content', { read: core_1.ViewContainerRef }),
+        __metadata("design:type", core_1.ViewContainerRef)
+    ], ContextualCommComponent.prototype, "content", void 0);
+    __decorate([
+        core_1.ViewChild(add_user_component_1.AddUserComponent),
+        __metadata("design:type", add_user_component_1.AddUserComponent)
+    ], ContextualCommComponent.prototype, "addUserComponent", void 0);
+    __decorate([
+        core_1.HostListener('window:resize', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", void 0)
+    ], ContextualCommComponent.prototype, "onResize", null);
+    ContextualCommComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'context-view',
+            templateUrl: './contextualComm.component.html',
+        }),
+        __metadata("design:paramtypes", [core_1.ElementRef,
+            router_1.Router,
+            router_1.ActivatedRoute,
+            services_1.RethinkService,
+            services_1.ContextualCommDataService,
+            services_1.ContactService])
+    ], ContextualCommComponent);
     return ContextualCommComponent;
 }());
-__decorate([
-    core_1.HostBinding('class'),
-    __metadata("design:type", Object)
-], ContextualCommComponent.prototype, "hostClass", void 0);
-__decorate([
-    core_1.ViewChild('content', { read: core_1.ViewContainerRef }),
-    __metadata("design:type", core_1.ViewContainerRef)
-], ContextualCommComponent.prototype, "content", void 0);
-__decorate([
-    core_1.ViewChild(add_user_component_1.AddUserComponent),
-    __metadata("design:type", add_user_component_1.AddUserComponent)
-], ContextualCommComponent.prototype, "addUserComponent", void 0);
-__decorate([
-    core_1.HostListener('window:resize', ['$event']),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], ContextualCommComponent.prototype, "onResize", null);
-ContextualCommComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'context-view',
-        templateUrl: './contextualComm.component.html',
-    }),
-    __metadata("design:paramtypes", [core_1.ElementRef,
-        router_1.Router,
-        router_1.ActivatedRoute,
-        services_1.RethinkService,
-        services_1.ContextualCommDataService,
-        services_1.ContactService])
-], ContextualCommComponent);
 exports.ContextualCommComponent = ContextualCommComponent;
 //# sourceMappingURL=contextualComm.component.js.map

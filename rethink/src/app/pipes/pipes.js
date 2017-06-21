@@ -12,15 +12,15 @@ var timeElapsedPipe_1 = require("./timeElapsedPipe");
 var PipesModule = (function () {
     function PipesModule() {
     }
+    PipesModule = __decorate([
+        core_1.NgModule({
+            declarations: [timeElapsedPipe_1.TimeElapsedPipe],
+            imports: [common_1.CommonModule],
+            exports: [timeElapsedPipe_1.TimeElapsedPipe]
+        })
+    ], PipesModule);
     return PipesModule;
 }());
-PipesModule = __decorate([
-    core_1.NgModule({
-        declarations: [timeElapsedPipe_1.TimeElapsedPipe],
-        imports: [common_1.CommonModule],
-        exports: [timeElapsedPipe_1.TimeElapsedPipe]
-    })
-], PipesModule);
 exports.PipesModule = PipesModule;
 ;
 //# sourceMappingURL=pipes.js.map

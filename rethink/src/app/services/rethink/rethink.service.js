@@ -87,12 +87,12 @@ var RethinkService = (function () {
             });
         });
     };
+    RethinkService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [storage_service_1.LocalStorage,
+            contact_service_1.ContactService])
+    ], RethinkService);
     return RethinkService;
 }());
-RethinkService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [storage_service_1.LocalStorage,
-        contact_service_1.ContactService])
-], RethinkService);
 exports.RethinkService = RethinkService;
 //# sourceMappingURL=rethink.service.js.map

@@ -155,11 +155,11 @@ var ContactService = (function () {
         });
         return user;
     };
+    ContactService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [storage_service_1.LocalStorage])
+    ], ContactService);
     return ContactService;
 }());
-ContactService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [storage_service_1.LocalStorage])
-], ContactService);
 exports.ContactService = ContactService;
 //# sourceMappingURL=contact.service.js.map

@@ -37,18 +37,18 @@ var ContextNameValidatorDirective = (function () {
     ContextNameValidatorDirective.prototype.validate = function (control) {
         return this.valFn(control);
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], ContextNameValidatorDirective.prototype, "name", void 0);
+    ContextNameValidatorDirective = __decorate([
+        core_1.Directive({
+            selector: '[exist]',
+            providers: [{ provide: forms_1.NG_ASYNC_VALIDATORS, useExisting: rethink_validator_1.RethinkValidators, multi: true }]
+        }),
+        __metadata("design:paramtypes", [contextualCommData_service_1.ContextualCommDataService])
+    ], ContextNameValidatorDirective);
     return ContextNameValidatorDirective;
 }());
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", String)
-], ContextNameValidatorDirective.prototype, "name", void 0);
-ContextNameValidatorDirective = __decorate([
-    core_1.Directive({
-        selector: '[exist]',
-        providers: [{ provide: forms_1.NG_ASYNC_VALIDATORS, useExisting: rethink_validator_1.RethinkValidators, multi: true }]
-    }),
-    __metadata("design:paramtypes", [contextualCommData_service_1.ContextualCommDataService])
-], ContextNameValidatorDirective);
 exports.ContextNameValidatorDirective = ContextNameValidatorDirective;
 //# sourceMappingURL=rethink.directive.js.map

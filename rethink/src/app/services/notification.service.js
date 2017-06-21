@@ -55,11 +55,11 @@ var NotificationService = (function () {
             currAlert.callback(currAlert.message.reply);
         }
     };
+    NotificationService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [])
+    ], NotificationService);
     return NotificationService;
 }());
-NotificationService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [])
-], NotificationService);
 exports.NotificationService = NotificationService;
 //# sourceMappingURL=notification.service.js.map

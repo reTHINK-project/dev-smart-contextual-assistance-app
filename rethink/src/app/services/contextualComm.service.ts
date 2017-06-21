@@ -83,6 +83,7 @@ export class ContextualCommService {
           return message;
         });
 
+        this._currentContext.next(context);
         this.contextualCommObs.next(context);
       } else {
 

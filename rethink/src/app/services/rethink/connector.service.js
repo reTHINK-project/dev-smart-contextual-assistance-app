@@ -131,10 +131,22 @@ var ConnectorService = (function () {
                 queryParams: { 'action': this.mode }
             };
             var metadata = response.metadata;
-            var paths = utils_1.splitFromURL(metadata.name, this.contactService.sessionUser.username);
+            var currentUser = this.contactService.sessionUser.username;
+            var paths = utils_1.splitFromURL(metadata.name, currentUser);
             console.log('[Connector Service] -  navigate to: ', paths);
             console.log('[Connector Service] -  navigate to: ', paths.context, paths.task, paths.user);
-            this.router.navigate([paths.context, paths.task, paths.user], navigationExtras);
+            var navigationArgs = [paths.context];
+            if (utils_1.isAnUser(paths.task)) {
+                navigationArgs.push('user');
+                navigationArgs.push(utils_1.clearMyUsername(paths.task, currentUser));
+            }
+            else {
+                navigationArgs.push(paths.task);
+                navigationArgs.push('user');
+                navigationArgs.push(utils_1.clearMyUsername(paths.user, currentUser));
+            }
+            console.log('[Connector Service] -  navigate to path: ', navigationArgs);
+            this.router.navigate(navigationArgs, navigationExtras);
         }
         else {
             controller.decline();
@@ -212,16 +224,16 @@ var ConnectorService = (function () {
         this.connectorMode = 'offer';
         console.log('[Connector Service - hangup]: ', this);
     };
+    ConnectorService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [router_1.Router,
+            router_1.ActivatedRoute,
+            platform_browser_1.DomSanitizer,
+            contact_service_1.ContactService,
+            notification_service_1.NotificationService,
+            rethink_service_1.RethinkService])
+    ], ConnectorService);
     return ConnectorService;
 }());
-ConnectorService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [router_1.Router,
-        router_1.ActivatedRoute,
-        platform_browser_1.DomSanitizer,
-        contact_service_1.ContactService,
-        notification_service_1.NotificationService,
-        rethink_service_1.RethinkService])
-], ConnectorService);
 exports.ConnectorService = ConnectorService;
 //# sourceMappingURL=connector.service.js.map

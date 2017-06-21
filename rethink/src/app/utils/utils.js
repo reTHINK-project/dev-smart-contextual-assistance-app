@@ -49,13 +49,33 @@ function getUserMedia(constraints) {
     });
 }
 exports.getUserMedia = getUserMedia;
-function normalizeAtomicName(user, current) {
+function isAnUser(name) {
+    console.log('isAnUser - name:', name);
+    var users = [];
+    if (name.indexOf('-') !== -1) {
+        users = name.split('-');
+    }
+    else {
+        users.push(name);
+    }
+    console.log('isAnUser - users:', users);
+    var result = users.map(function (user) {
+        var pattern = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+        console.log('isAnUser:', pattern.test(user));
+        return pattern.test(user);
+    });
+    console.log(result);
+    return result[0] && result[1];
 }
-exports.normalizeAtomicName = normalizeAtomicName;
+exports.isAnUser = isAnUser;
 function normalizeName(name, parent) {
     var prefix = config_1.config.appPrefix;
     var splitChar = config_1.config.splitChar;
     var at = new RegExp(/%40/g);
+    // Clear path from attributes
+    if (name.indexOf('?') !== -1) {
+        name = name.substring(0, name.lastIndexOf('?'));
+    }
     name = name.toLowerCase();
     name = name.replace(at, '@');
     var normalized = {};
@@ -78,9 +98,14 @@ function normalizeName(name, parent) {
         }, splited);
     }
     console.log('Splited: ', name, parent, splited);
+    var userName = splited[3] === 'user' ? splited[4] : splited[3];
+    var isTask = splited[2] === 'user' && isAnUser(splited[3]) ? false : true;
+    if (!isTask) {
+        userName = splited[3];
+    }
     var contextId = splited[0] + splitChar + splited[1];
-    var task = splited[2] ? splited[2] : null;
-    var user = splited[3] ? splited[3] : null;
+    var task = isTask ? splited[2] : null;
+    var user = userName ? userName : null;
     if (contextId) {
         normalized['id'] = contextId;
         normalized['name'] = splited[1];
@@ -92,10 +117,11 @@ function normalizeName(name, parent) {
         normalized['parent'] = contextId;
     }
     if (user) {
-        normalized['id'] = contextId + splitChar + task + splitChar + user;
+        normalized['id'] = contextId + splitChar + (task ? task + splitChar : '') + user;
         normalized['name'] = user;
-        normalized['parent'] = contextId + splitChar + task;
+        normalized['parent'] = contextId + (task ? splitChar + task : '');
     }
+    console.log('Normalized Path:', normalized);
     return normalized;
 }
 exports.normalizeName = normalizeName;
@@ -140,7 +166,10 @@ function normalizeFromURL(path, username) {
     if (path.includes('@') && username) {
         var lastIndex = pathSplited.length - 1;
         var last = pathSplited[lastIndex];
-        var updated = last + '-' + username;
+        var updated = last;
+        if (!last.includes(username)) {
+            updated = last + '-' + username;
+        }
         pathSplited[lastIndex] = updated;
     }
     var joined = pathSplited.join(splitChar);
@@ -148,6 +177,15 @@ function normalizeFromURL(path, username) {
     return joined;
 }
 exports.normalizeFromURL = normalizeFromURL;
+function clearMyUsername(name, username) {
+    if (name.indexOf('-') !== -1 && name.indexOf('@') !== -1 && name.includes(username)) {
+        return name.replace('-' + username, '');
+    }
+    else {
+        return name;
+    }
+}
+exports.clearMyUsername = clearMyUsername;
 function filterContextsByName(name, context) {
     if (name.includes('@')) {
         var users = name.split('-');

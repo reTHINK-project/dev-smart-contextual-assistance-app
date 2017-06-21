@@ -52,11 +52,11 @@ var TimeElapsedPipe = (function () {
             this.currentTimer = null;
         }
     };
+    TimeElapsedPipe = __decorate([
+        core_1.Pipe({ name: 'amTimeElapsed', pure: false }),
+        __metadata("design:paramtypes", [core_1.ChangeDetectorRef, core_1.NgZone])
+    ], TimeElapsedPipe);
     return TimeElapsedPipe;
 }());
-TimeElapsedPipe = __decorate([
-    core_1.Pipe({ name: 'amTimeElapsed', pure: false }),
-    __metadata("design:paramtypes", [core_1.ChangeDetectorRef, core_1.NgZone])
-], TimeElapsedPipe);
 exports.TimeElapsedPipe = TimeElapsedPipe;
 //# sourceMappingURL=timeElapsedPipe.js.map

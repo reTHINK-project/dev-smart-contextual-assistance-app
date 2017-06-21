@@ -21,18 +21,20 @@ export class ContextBreadcrumbComponent implements OnInit {
   constructor(
     private router: Router,
     private routerService: RouterService) {
-    console.log('[Breadcrumb] - ');
   }
 
   ngOnInit() {
-    console.log('[Breadcrumb] - ', this.routerService.breadcrumb);
-
     this.breadcrumb = this.routerService.breadcrumb.map((paths: string[]) => {
       return paths.map((path: string) => {
         if (path.indexOf('?') !== -1) { path = path.substring(0, path.indexOf('?')); }
+        if (path.indexOf('user') !== -1) { path = path.replace('user', ''); }
         return path;
-      });
+      }).map((item: string) => {
+        item = item.replace('/', '').substr(item.lastIndexOf('/'));
+        if (item && item.length > 0) {return item; }
+      }).filter(item => item ? true : false);
     });
+
   }
 
 }

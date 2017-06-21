@@ -85,33 +85,56 @@ export class AddUserComponent implements OnInit {
     this.busy = true;
     let path = this.router.url;
     let normalizedName = normalizeName(path);
+    let parentNameId = '';
 
-     console.log('[Add User Component] - parent: ', normalizedName, this.chatService.activeDataObjectURL);
+    console.log('[Add User Component] - parent: ', normalizedName, this.chatService.activeDataObjectURL);
 
-    this.contextualCommDataService.getContextById(normalizedName.parent)
+    parentNameId = normalizedName.parent;
+
+    if (!parentNameId) {
+      parentNameId = normalizedName.id;
+    }
+
+    this.contextualCommDataService.getContextById(parentNameId)
     .subscribe((context: ContextualComm) => {
 
       let parentURL = context.url;
       let currentURL = this.chatService.activeDataObjectURL;
 
       let parentChat = this.chatService.invite(parentURL, [this.model.email], [this.model.domain || config.domain]);
-      let currentChat = this.chatService.invite(currentURL, [this.model.email], [this.model.domain || config.domain]);
+      let currentChat: any;
 
+      if (parentURL !== currentURL) {
+        currentChat = this.chatService.invite(currentURL, [this.model.email], [this.model.domain || config.domain]);
+      }
+
+      console.log('[Add User Component] - invite: ', parentURL, currentURL);
       console.log('[Add User Component] - invite: ', parentChat, currentChat);
 
-      parentChat
-        .then((parentController: any) => {
-          console.log('[Add User Component] - parent controller', parentController);
+      parentChat.then((parentController: any) => {
+          console.log('[Add User Component] - parent controller:', parentController);
+          console.log('[Add User Component] - check controllers: ', parentController, currentURL, parentController.url === currentURL);
+
+          if (!currentChat) {
+            return parentController;
+          }
+
           return currentChat;
         })
         .then((currentController: any) => {
 
           console.log('[Add User Component] - current controller', currentController);
-          let normalizedPath = normalizeFromURL(path + '/' + this.model.email, this.contactService.sessionUser.username);
+          let normalizedPath = normalizeFromURL(path + '/user/' + this.model.email, this.contactService.sessionUser.username);
           let normalizedName = normalizeName(normalizedPath);
-          let parentURL = currentController.url;
 
-          return this.contextualCommDataService.createAtomicContext(this.model.email, normalizedName.id, parentURL);
+          console.log('[Add User Component] - normalized name: ', normalizedName);
+
+          return this.contextualCommDataService.createAtomicContext(
+            this.model.email,
+            normalizedName.name,
+            normalizedName.id,
+            normalizedName.parent);
+
         })
         .then((childController: any) => {
 

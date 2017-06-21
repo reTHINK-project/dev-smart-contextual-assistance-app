@@ -35,8 +35,7 @@ import {
   UserResolver,
   ContextualCommService,
   ContextualCommDataResolver,
-  ContextualCommDataService,
-  ContextualCommActivateService } from '../../services/services';
+  ContextualCommDataService } from '../../services/services';
 
 @NgModule({
   imports: [
@@ -66,8 +65,7 @@ import {
     ContextualCommService,
     UserAvailabilityService,
     ContextualCommDataService,
-    ContextualCommDataResolver,
-    ContextualCommActivateService
+    ContextualCommDataResolver
   ]
 })
 export class ContextualCommModule {}

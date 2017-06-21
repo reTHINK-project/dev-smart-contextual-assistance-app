@@ -52,7 +52,7 @@ var ContextualCommDataService = (function () {
     ContextualCommDataService.prototype.joinContext = function (name, id, dataObject, parentNameId) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            console.info('[ContextualCommData Service] - join: ', name);
+            console.info('[ContextualCommData Service] - join: ', name, id);
             _this.getContextById(id).toPromise().then(function (context) {
                 console.info('[ContextualCommData Service] - communication objects was created successfully: ', dataObject);
                 console.info('[ContextualCommData Service] - creating new contexts: ', dataObject, parentNameId);
@@ -65,21 +65,24 @@ var ContextualCommDataService = (function () {
             });
         });
     };
-    ContextualCommDataService.prototype.createAtomicContext = function (username, name, parentNameId) {
+    ContextualCommDataService.prototype.createAtomicContext = function (username, name, id, parentNameId) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            var normalizedName = utils_1.normalizeName(name);
             var activeContext = _this.contextualCommService.getActiveContext;
-            console.log('[ContextualCommData Service] - normalizedName:', normalizedName);
-            _this.chatService.create(normalizedName.id, [username], []).then(function (controller) {
-                console.info('[ContextualCommData Service] - communication objects was created successfully: ', controller);
-                console.info('[ContextualCommData Service] - creating new contexts: ', controller, activeContext);
-                return _this.contextualCommService.create(normalizedName.name, controller.dataObject, normalizedName.parent);
-            }).then(function (context) {
-                console.info('[ContextualCommData Service] -  ContextualComm created: ', context);
+            console.log('[ContextualCommData Service] - normalizedName:', name);
+            _this.getContext(name).subscribe(function (context) {
                 resolve(context);
-            }).catch(function (reason) {
-                console.error('Reason:', reason);
+            }, function (error) {
+                _this.chatService.create(id, [username], []).then(function (controller) {
+                    console.info('[ContextualCommData Service] - communication objects was created successfully: ', controller);
+                    console.info('[ContextualCommData Service] - creating new contexts: ', controller, activeContext);
+                    return _this.contextualCommService.create(name, controller.dataObject, parentNameId);
+                }).then(function (context) {
+                    console.info('[ContextualCommData Service] -  ContextualComm created: ', context);
+                    resolve(context);
+                }).catch(function (reason) {
+                    console.error('Reason:', reason);
+                });
             });
         });
     };
@@ -116,7 +119,7 @@ var ContextualCommDataService = (function () {
     };
     ContextualCommDataService.prototype.getContextTask = function (id) {
         return this.contextualCommService.getContextualComms()
-            .map(function (contexts) { return contexts.filter(function (context) { return context.id === id; })[0].contexts; });
+            .map(function (contexts) { return contexts.filter(function (context) { return context.id === id; })[0].contexts.filter(function (context) { return !context.id.includes('@'); }); });
     };
     ContextualCommDataService.prototype.getContextById = function (id) {
         var _this = this;
@@ -157,15 +160,15 @@ var ContextualCommDataService = (function () {
         console.log('[ContextualCommData Service] - getting Context By Id: ', context.id, id, context.id === id);
         return context.id === id;
     };
+    ContextualCommDataService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [common_1.Location,
+            router_1.Router,
+            chat_service_1.ChatService,
+            contact_service_1.ContactService,
+            contextualComm_service_1.ContextualCommService])
+    ], ContextualCommDataService);
     return ContextualCommDataService;
 }());
-ContextualCommDataService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [common_1.Location,
-        router_1.Router,
-        chat_service_1.ChatService,
-        contact_service_1.ContactService,
-        contextualComm_service_1.ContextualCommService])
-], ContextualCommDataService);
 exports.ContextualCommDataService = ContextualCommDataService;
 //# sourceMappingURL=contextualCommData.service.js.map

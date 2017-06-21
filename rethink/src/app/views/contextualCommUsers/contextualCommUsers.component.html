@@ -28,7 +28,7 @@
     <ul class="list p-0">
       <!-- List of ContactComponent -->
       <li class="item m-0" *ngFor="let contact of contactsFilter | async">
-        <a class="link" [routerLink]="[this.basePath, contact.username]" routerLinkActive="active">
+        <a class="link" [routerLink]="[this.basePath, 'user', contact.username]" routerLinkActive="active">
           <user-identity *ngIf="contact" [model]=contact></user-identity>
         </a>
       </li>

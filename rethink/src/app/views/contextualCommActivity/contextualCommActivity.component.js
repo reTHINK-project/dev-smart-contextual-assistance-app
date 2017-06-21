@@ -45,23 +45,23 @@ var ContextualCommActivityComponent = (function () {
         var scrollPane = this.el.nativeElement;
         scrollPane.scrollTop = scrollPane.scrollHeight;
     };
+    __decorate([
+        core_1.HostBinding('class'),
+        __metadata("design:type", Object)
+    ], ContextualCommActivityComponent.prototype, "hostClass", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Subject_1.Subject)
+    ], ContextualCommActivityComponent.prototype, "messages", void 0);
+    ContextualCommActivityComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'ul[context-activity-list]',
+            templateUrl: './contextualCommActivity.component.html'
+        }),
+        __metadata("design:paramtypes", [core_1.ElementRef])
+    ], ContextualCommActivityComponent);
     return ContextualCommActivityComponent;
 }());
-__decorate([
-    core_1.HostBinding('class'),
-    __metadata("design:type", Object)
-], ContextualCommActivityComponent.prototype, "hostClass", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Subject_1.Subject)
-], ContextualCommActivityComponent.prototype, "messages", void 0);
-ContextualCommActivityComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'ul[context-activity-list]',
-        templateUrl: './contextualCommActivity.component.html'
-    }),
-    __metadata("design:paramtypes", [core_1.ElementRef])
-], ContextualCommActivityComponent);
 exports.ContextualCommActivityComponent = ContextualCommActivityComponent;
 //# sourceMappingURL=contextualCommActivity.component.js.map

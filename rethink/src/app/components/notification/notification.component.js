@@ -60,36 +60,36 @@ var NotificationComponent = (function () {
             this.hostShow = true;
         }
     };
+    __decorate([
+        core_1.HostBinding('class'),
+        __metadata("design:type", Object)
+    ], NotificationComponent.prototype, "hostClass", void 0);
+    __decorate([
+        core_1.HostBinding('class.show'),
+        __metadata("design:type", Object)
+    ], NotificationComponent.prototype, "hostShow", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", models_1.User)
+    ], NotificationComponent.prototype, "user", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], NotificationComponent.prototype, "onAcceptClick", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], NotificationComponent.prototype, "onRejectClick", void 0);
+    NotificationComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'ngbd-alert-closeable',
+            templateUrl: './notification.component.html',
+            styleUrls: ['./notification.component.css']
+        }),
+        __metadata("design:paramtypes", [services_1.NotificationService])
+    ], NotificationComponent);
     return NotificationComponent;
 }());
-__decorate([
-    core_1.HostBinding('class'),
-    __metadata("design:type", Object)
-], NotificationComponent.prototype, "hostClass", void 0);
-__decorate([
-    core_1.HostBinding('class.show'),
-    __metadata("design:type", Object)
-], NotificationComponent.prototype, "hostShow", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", models_1.User)
-], NotificationComponent.prototype, "user", void 0);
-__decorate([
-    core_1.Output(),
-    __metadata("design:type", Object)
-], NotificationComponent.prototype, "onAcceptClick", void 0);
-__decorate([
-    core_1.Output(),
-    __metadata("design:type", Object)
-], NotificationComponent.prototype, "onRejectClick", void 0);
-NotificationComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'ngbd-alert-closeable',
-        templateUrl: './notification.component.html',
-        styleUrls: ['./notification.component.css']
-    }),
-    __metadata("design:paramtypes", [services_1.NotificationService])
-], NotificationComponent);
 exports.NotificationComponent = NotificationComponent;
 //# sourceMappingURL=notification.component.js.map

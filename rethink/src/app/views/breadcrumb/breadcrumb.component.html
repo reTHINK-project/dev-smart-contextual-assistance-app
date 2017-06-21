@@ -9,13 +9,15 @@
 
     <a class="name" *ngIf="!$last" routerLink="{{item}}" routerLinkActive="active">
       <!--<span *ngIf="!$last" class="fa fa-lock"></span>-->
-      {{item.replace('/', '').substr(item.lastIndexOf('/'))}}
+      <!--{{item.replace('/', '').substr(item.lastIndexOf('/'))}}-->
+      {{item}}
     </a>
 
     <!-- TODO apply an PIPE here to replace the address -->
     <span class="name" *ngIf="$last">
       <!--<span *ngIf="!$last" class="fa fa-lock"></span>-->
-      {{item.replace('/', '').substr(item.lastIndexOf('/'))}}
+      <!--{{item.replace('/', '').substr(item.lastIndexOf('/'))}}-->
+      {{item}}
     </span>
   </h3>
 </li>

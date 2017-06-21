@@ -1,6 +1,8 @@
-import { Component, OnInit, AfterViewInit, HostBinding, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, Output, EventEmitter, Input } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 // configs
 import { config } from '../../config';
@@ -16,23 +18,27 @@ import { User, ContextualComm } from '../../models/models';
   selector: 'context-user-view',
   templateUrl: './contextualCommUsers.component.html'
 })
-export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
+export class ContextualCommUsersComponent implements OnInit, OnDestroy {
 
   @HostBinding('class') hostClass = 'context-user-view d-flex flex-column justify-content-between';
 
   @Output() contactClick = new EventEmitter();
   @Output() contactAdd = new EventEmitter();
 
-  @Input() users: Observable<User[]>;
+  @Input() users: Subject<User[]>;
   @Input() allowAddUser: boolean;
 
   contexts: Observable<ContextualComm[]>;
 
-  contactsFilter: Observable<User[]>;
+  contactsFilter: Observable<User[]> = new Observable();
 
   rootContext: string;
   basePath: string;
   hide = true;
+
+  private events: Subscription;
+  private currentUsers: Subscription;
+  private paramsObserver: Subscription;
 
   constructor(
     private router: Router,
@@ -42,7 +48,7 @@ export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
 
       this.basePath = this.router.url;
 
-      this.router.events.subscribe((navigation: NavigationEnd) => {
+      this.events = this.router.events.subscribe((navigation: NavigationEnd) => {
         console.log('[ContextualCommUsers] - ', navigation);
 
         if (navigation instanceof NavigationEnd) {
@@ -57,9 +63,7 @@ export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
 
       });
 
-      let paramsObserver = this.route.params;
-
-      paramsObserver.subscribe((params: any) => {
+      this.paramsObserver = this.route.params.subscribe((params: any) => {
         console.log('[ContextualCommUsers] - params:', params);
 
         let context = params['context'];
@@ -75,17 +79,22 @@ export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
 
   // Load data ones componet is ready
   ngOnInit() {
-    console.log('[contextualCommUsers - ngOnInit]', this.users);
 
-    this.users.subscribe((users: User[]) => {
-      console.log('[contextualCommUsers - filter]:', users);
+    this.currentUsers = this.users.subscribe((users: User[]) => {
+      console.log('[contextualCommUsers - subscribe]', users);
       this.filter('');
     });
+
+    console.log('[contextualCommUsers - ngOnInit]', this.currentUsers);
   }
 
-  ngAfterViewInit() {
+  ngOnDestroy() {
 
-    console.log('[contextualCommUsers - ngAfterViewInit]', this.users);
+    this.currentUsers.unsubscribe();
+    this.events.unsubscribe();
+    this.paramsObserver.unsubscribe();
+
+    console.log('[contextualCommUsers - ngOnDestroy]', this.events, this.paramsObserver);
 
   }
 
@@ -96,8 +105,9 @@ export class ContextualCommUsersComponent implements OnInit, AfterViewInit {
   filter(value: string) {
 
     this.contactsFilter = this.users.map((users: User[]) => {
+      console.log('[contextualCommUsers - filter]:', users, value);
       return users.filter((user: User) => {
-        console.log('[contextualCommUsers - filter]:', user);
+        console.log('[contextualCommUsers - filter]:', user, value);
         return user.cn.includes(value);
       });
     });

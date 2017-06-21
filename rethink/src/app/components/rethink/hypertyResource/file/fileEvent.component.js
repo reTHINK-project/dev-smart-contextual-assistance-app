@@ -16,18 +16,18 @@ var FileEventComponent = (function () {
     }
     FileEventComponent.prototype.ngOnInit = function () {
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", models_1.Message)
+    ], FileEventComponent.prototype, "message", void 0);
+    FileEventComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'file-event',
+            templateUrl: './fileEvent.component.html'
+        })
+    ], FileEventComponent);
     return FileEventComponent;
 }());
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", models_1.Message)
-], FileEventComponent.prototype, "message", void 0);
-FileEventComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'file-event',
-        templateUrl: './fileEvent.component.html'
-    })
-], FileEventComponent);
 exports.FileEventComponent = FileEventComponent;
 //# sourceMappingURL=fileEvent.component.js.map

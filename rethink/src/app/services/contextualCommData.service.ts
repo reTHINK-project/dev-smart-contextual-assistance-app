@@ -69,7 +69,7 @@ export class ContextualCommDataService {
 
     return new Promise((resolve, reject) => {
 
-      console.info('[ContextualCommData Service] - join: ', name);
+      console.info('[ContextualCommData Service] - join: ', name, id);
 
       this.getContextById(id).toPromise().then((context: ContextualComm) => {
 
@@ -89,26 +89,31 @@ export class ContextualCommDataService {
     });
   }
 
-  createAtomicContext(username: string, name: string, parentNameId?: string): Promise<ContextualComm> {
+  createAtomicContext(username: string, name: string, id: string, parentNameId?: string): Promise<ContextualComm> {
 
     return new Promise((resolve, reject) => {
 
-      let normalizedName = normalizeName(name);
       let activeContext = this.contextualCommService.getActiveContext;
 
-      console.log('[ContextualCommData Service] - normalizedName:', normalizedName);
+      console.log('[ContextualCommData Service] - normalizedName:', name);
 
-      this.chatService.create(normalizedName.id, [username], []).then((controller: any) => {
-
-        console.info('[ContextualCommData Service] - communication objects was created successfully: ', controller);
-        console.info('[ContextualCommData Service] - creating new contexts: ', controller, activeContext);
-
-        return this.contextualCommService.create(normalizedName.name, controller.dataObject, normalizedName.parent);
-      }).then((context: ContextualComm) => {
-        console.info('[ContextualCommData Service] -  ContextualComm created: ', context);
+      this.getContext(name).subscribe((context: ContextualComm) => {
         resolve(context);
-      }).catch((reason: any) => {
-        console.error('Reason:', reason);
+      }, (error: any) => {
+
+        this.chatService.create(id, [username], []).then((controller: any) => {
+
+          console.info('[ContextualCommData Service] - communication objects was created successfully: ', controller);
+          console.info('[ContextualCommData Service] - creating new contexts: ', controller, activeContext);
+
+          return this.contextualCommService.create(name, controller.dataObject, parentNameId);
+        }).then((context: ContextualComm) => {
+          console.info('[ContextualCommData Service] -  ContextualComm created: ', context);
+          resolve(context);
+        }).catch((reason: any) => {
+          console.error('Reason:', reason);
+        });
+
       });
 
     });
@@ -153,7 +158,7 @@ export class ContextualCommDataService {
 
   getContextTask(id: string): Observable<ContextualComm[]> {
     return this.contextualCommService.getContextualComms()
-      .map(contexts => contexts.filter(context => context.id === id)[0].contexts);
+      .map(contexts => contexts.filter(context => context.id === id)[0].contexts.filter(context => !context.id.includes('@')));
   }
 
   getContextById(id: string): Observable<ContextualComm> {

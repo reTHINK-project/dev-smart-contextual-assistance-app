@@ -138,11 +138,11 @@ var ContextualCommTriggerService = (function () {
     ContextualCommTriggerService.prototype.getContextualCommTriggers = function () {
         return this._contextualCommTriggerList;
     };
+    ContextualCommTriggerService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [storage_service_1.LocalStorage])
+    ], ContextualCommTriggerService);
     return ContextualCommTriggerService;
 }());
-ContextualCommTriggerService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [storage_service_1.LocalStorage])
-], ContextualCommTriggerService);
 exports.ContextualCommTriggerService = ContextualCommTriggerService;
 //# sourceMappingURL=contextualCommTrigger.service.js.map

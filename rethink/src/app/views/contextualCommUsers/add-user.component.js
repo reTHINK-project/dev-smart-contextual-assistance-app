@@ -65,25 +65,37 @@ var AddUserComponent = (function () {
         this.busy = true;
         var path = this.router.url;
         var normalizedName = utils_1.normalizeName(path);
+        var parentNameId = '';
         console.log('[Add User Component] - parent: ', normalizedName, this.chatService.activeDataObjectURL);
-        this.contextualCommDataService.getContextById(normalizedName.parent)
+        parentNameId = normalizedName.parent;
+        if (!parentNameId) {
+            parentNameId = normalizedName.id;
+        }
+        this.contextualCommDataService.getContextById(parentNameId)
             .subscribe(function (context) {
             var parentURL = context.url;
             var currentURL = _this.chatService.activeDataObjectURL;
             var parentChat = _this.chatService.invite(parentURL, [_this.model.email], [_this.model.domain || config_1.config.domain]);
-            var currentChat = _this.chatService.invite(currentURL, [_this.model.email], [_this.model.domain || config_1.config.domain]);
+            var currentChat;
+            if (parentURL !== currentURL) {
+                currentChat = _this.chatService.invite(currentURL, [_this.model.email], [_this.model.domain || config_1.config.domain]);
+            }
+            console.log('[Add User Component] - invite: ', parentURL, currentURL);
             console.log('[Add User Component] - invite: ', parentChat, currentChat);
-            parentChat
-                .then(function (parentController) {
-                console.log('[Add User Component] - parent controller', parentController);
+            parentChat.then(function (parentController) {
+                console.log('[Add User Component] - parent controller:', parentController);
+                console.log('[Add User Component] - check controllers: ', parentController, currentURL, parentController.url === currentURL);
+                if (!currentChat) {
+                    return parentController;
+                }
                 return currentChat;
             })
                 .then(function (currentController) {
                 console.log('[Add User Component] - current controller', currentController);
-                var normalizedPath = utils_1.normalizeFromURL(path + '/' + _this.model.email, _this.contactService.sessionUser.username);
+                var normalizedPath = utils_1.normalizeFromURL(path + '/user/' + _this.model.email, _this.contactService.sessionUser.username);
                 var normalizedName = utils_1.normalizeName(normalizedPath);
-                var parentURL = currentController.url;
-                return _this.contextualCommDataService.createAtomicContext(_this.model.email, normalizedName.id, parentURL);
+                console.log('[Add User Component] - normalized name: ', normalizedName);
+                return _this.contextualCommDataService.createAtomicContext(_this.model.email, normalizedName.name, normalizedName.id, normalizedName.parent);
             })
                 .then(function (childController) {
                 console.log('[Add User Component] - one to one controller', childController);
@@ -105,39 +117,39 @@ var AddUserComponent = (function () {
         this.model.email = '';
         this.model.domain = '';
     };
+    __decorate([
+        core_1.HostBinding('class'),
+        __metadata("design:type", Object)
+    ], AddUserComponent.prototype, "hostClass", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], AddUserComponent.prototype, "closeEvent", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], AddUserComponent.prototype, "inviteEvent", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], AddUserComponent.prototype, "contactClick", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], AddUserComponent.prototype, "busy", void 0);
+    AddUserComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'add-user-view',
+            templateUrl: './add-user.component.html'
+        }),
+        __metadata("design:paramtypes", [router_1.Router,
+            ng_bootstrap_1.NgbModal,
+            services_1.ChatService,
+            services_1.ContactService,
+            contextualCommData_service_1.ContextualCommDataService])
+    ], AddUserComponent);
     return AddUserComponent;
 }());
-__decorate([
-    core_1.HostBinding('class'),
-    __metadata("design:type", Object)
-], AddUserComponent.prototype, "hostClass", void 0);
-__decorate([
-    core_1.Output(),
-    __metadata("design:type", Object)
-], AddUserComponent.prototype, "closeEvent", void 0);
-__decorate([
-    core_1.Output(),
-    __metadata("design:type", Object)
-], AddUserComponent.prototype, "inviteEvent", void 0);
-__decorate([
-    core_1.Output(),
-    __metadata("design:type", Object)
-], AddUserComponent.prototype, "contactClick", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Object)
-], AddUserComponent.prototype, "busy", void 0);
-AddUserComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'add-user-view',
-        templateUrl: './add-user.component.html'
-    }),
-    __metadata("design:paramtypes", [router_1.Router,
-        ng_bootstrap_1.NgbModal,
-        services_1.ChatService,
-        services_1.ContactService,
-        contextualCommData_service_1.ContextualCommDataService])
-], AddUserComponent);
 exports.AddUserComponent = AddUserComponent;
 //# sourceMappingURL=add-user.component.js.map

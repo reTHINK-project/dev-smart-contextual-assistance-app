@@ -20,7 +20,7 @@ export class RethinkService {
 
   public progress: BehaviorSubject<String> = new BehaviorSubject('');
 
-  public status: BehaviorSubject<Boolean> = new BehaviorSubject(false);
+  public status: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   private currentUser: User;
 

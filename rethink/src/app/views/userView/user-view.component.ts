@@ -80,7 +80,7 @@ export class UserViewComponent implements OnInit, OnDestroy {
 
   onCloseEvent() {
     let user: string = this.user.username;
-    let url = this.router.url.replace(user, '');
+    let url = this.router.url.replace('user/' + user, '');
     this.router.navigate([url], {relativeTo: this.route});
   }
 
