@@ -2,6 +2,8 @@ import { Title } from '@angular/platform-browser';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import { NotificationsService } from './components/notification/notifications.module';
+
 import { config } from './config';
 
 // Models
@@ -27,12 +29,20 @@ export class AppComponent implements OnInit {
   myIdentity: User;
   status: string;
 
+  public options = {
+    position: ['top', 'left'],
+    timeOut: 0,
+    lastOnBottom: true,
+    clickToClose: true
+  };
+
   private contextOpened = false;
 
   constructor(
     private router: Router,
     private titleService: Title,
     private route: ActivatedRoute,
+    private notificationsService: NotificationsService,
     private contactService: ContactService,
     private rethinkService: RethinkService,
     private triggerActionService: TriggerActionService,
@@ -92,20 +102,39 @@ export class AppComponent implements OnInit {
         this.rethinkService.status.next(true);
         this.ready = true;
 
+        this.hypertiesReady();
+
       });
 
-      // Prepare the chat service to recive invitations
-      this.chatService.onInvitation((event: any) => {
-        console.log('[Chat Communication View - onInvitation] - event:', event);
+  }
 
-        this.processEvent(event).then((result: any) => {
-          console.log('[Chat Communication View - onInvitation] - event processed:', result);
-        }).catch((reason) => {
-          console.error('[Chat Communication View - onInvitation] - event not processed:', reason);
-        });
+  onClickClouse(event: any) {
+    console.log('AQUI:', event);
+  }
+
+  hypertiesReady() {
+
+    // Prepare the chat service to recive invitations
+    this.chatService.onInvitation((event: any) => {
+      console.log('[Chat Communication View - onInvitation] - event:', event);
+
+      this.processEvent(event).then((result: any) => {
+        console.log('[Chat Communication View - onInvitation] - event processed:', result);
+      }).catch((reason) => {
+        console.error('[Chat Communication View - onInvitation] - event not processed:', reason);
+      });
 
     });
 
+
+
+    this.notificationsService.success('Some Title',
+      'Some Content',
+      {
+        showProgressBar: true,
+        pauseOnHover: false,
+        maxLength: 10
+      });
   }
 
   private processEvent(event: any) {

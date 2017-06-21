@@ -17,19 +17,16 @@ var utils_1 = require("../../utils/utils");
 // Services
 var rethink_service_1 = require("./rethink.service");
 var contact_service_1 = require("../contact.service");
-var app_models_1 = require("../../models/app.models");
-var notification_service_1 = require("../notification.service");
 var Subject_1 = require("rxjs/Subject");
 var ReplaySubject_1 = require("rxjs/ReplaySubject");
 var STATUS = { INPROGRESS: 'in-progress', END: 'end' };
 var ConnectorService = (function () {
-    function ConnectorService(router, route, sanitizer, contactService, notificationService, appService) {
+    function ConnectorService(router, route, sanitizer, contactService, appService) {
         var _this = this;
         this.router = router;
         this.route = route;
         this.sanitizer = sanitizer;
         this.contactService = contactService;
-        this.notificationService = notificationService;
         this.appService = appService;
         this.hypertyURL = 'hyperty-catalogue://catalogue.' + this.appService.domain + '/.well-known/hyperty/Connector';
         this.controllers = {};
@@ -38,6 +35,7 @@ var ConnectorService = (function () {
         this._localStream = new Subject_1.Subject();
         this._remoteStream = new ReplaySubject_1.ReplaySubject();
         this._connectorStatus = new Subject_1.Subject();
+        this.onInvitation = new core_1.EventEmitter();
         this.paramsSubscription = this.route.queryParams.subscribe(function (params) {
             console.log('[Connector Service] - query params changes:', params['action'], _this.mode, _this.callInProgress);
             if (!_this.callInProgress) {
@@ -115,43 +113,46 @@ var ConnectorService = (function () {
             _this._webrtcMode = 'answer';
             _this.prepareController(controller);
             var currUser = _this.contactService.getUser(identity.userURL);
-            _this.notificationService.addNotification(app_models_1.AlertType.QUESTION, {
-                user: currUser,
-                message: 'New call is incomming from ' + currUser.username,
-                action: _this._mode
-            }, metadata, function (alert) {
-                _this._notificationResponse(controller, alert, currUser);
-            });
+            _this.onInvitation.emit({ metadata: metadata, user: currUser });
         });
     };
-    ConnectorService.prototype._notificationResponse = function (controller, response, user) {
+    /*  private _notificationResponse(controller: any, response: IAlert, user: User) {
+    
         console.log('[Connector Service] - notification response: ', response, this);
+    
         if (response) {
-            var navigationExtras = {
-                queryParams: { 'action': this.mode }
-            };
-            var metadata = response.metadata;
-            var currentUser = this.contactService.sessionUser.username;
-            var paths = utils_1.splitFromURL(metadata.name, currentUser);
-            console.log('[Connector Service] -  navigate to: ', paths);
-            console.log('[Connector Service] -  navigate to: ', paths.context, paths.task, paths.user);
-            var navigationArgs = [paths.context];
-            if (utils_1.isAnUser(paths.task)) {
-                navigationArgs.push('user');
-                navigationArgs.push(utils_1.clearMyUsername(paths.task, currentUser));
-            }
-            else {
-                navigationArgs.push(paths.task);
-                navigationArgs.push('user');
-                navigationArgs.push(utils_1.clearMyUsername(paths.user, currentUser));
-            }
-            console.log('[Connector Service] -  navigate to path: ', navigationArgs);
-            this.router.navigate(navigationArgs, navigationExtras);
+    
+          let navigationExtras: NavigationExtras = {
+            queryParams: { 'action': this.mode }
+          };
+    
+          let metadata = response.metadata;
+          let currentUser = this.contactService.sessionUser.username;
+          let paths: any = splitFromURL(metadata.name, currentUser);
+    
+          console.log('[Connector Service] -  navigate to: ', paths);
+          console.log('[Connector Service] -  navigate to: ', paths.context, paths.task, paths.user);
+    
+          let navigationArgs = [paths.context];
+    
+          if (isAnUser(paths.task)) {
+            navigationArgs.push('user');
+            navigationArgs.push(clearMyUsername(paths.task, currentUser));
+          } else {
+            navigationArgs.push(paths.task);
+            navigationArgs.push('user');
+            navigationArgs.push(clearMyUsername(paths.user, currentUser));
+          }
+    
+          console.log('[Connector Service] -  navigate to path: ', navigationArgs);
+    
+          this.router.navigate(navigationArgs, navigationExtras);
+    
+        } else {
+          controller.decline();
         }
-        else {
-            controller.decline();
-        }
-    };
+    
+      }*/
     ConnectorService.prototype.connect = function (userURL, options, name, domain) {
         var _this = this;
         this._webrtcMode = 'offer';
@@ -224,13 +225,16 @@ var ConnectorService = (function () {
         this.connectorMode = 'offer';
         console.log('[Connector Service - hangup]: ', this);
     };
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], ConnectorService.prototype, "onInvitation", void 0);
     ConnectorService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [router_1.Router,
             router_1.ActivatedRoute,
             platform_browser_1.DomSanitizer,
             contact_service_1.ContactService,
-            notification_service_1.NotificationService,
             rethink_service_1.RethinkService])
     ], ConnectorService);
     return ConnectorService;

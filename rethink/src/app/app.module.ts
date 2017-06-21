@@ -1,5 +1,6 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -14,12 +15,13 @@ import { CustomUtils } from './utils/CustomUtils';
 import { ContextMenuComponent } from './views/contextualCommMenu/contextMenu.component';
 import { AddContextualCommComponent } from './views/contextualCommMenu/add-contextualComm.component';
 
+import { NativeNotificationsModule } from './components/notification/native-notifications.module';
+import { NotificationsModule } from './components/notification/notifications.module';
 
 // components
 import { AppComponent } from './app.component';
 import { HomeComponent } from './views/home/home.component';
 import { ContextualCommModule } from './views/contextualComm/contextualComm.module';
-import { NotificationComponent } from './components/notification/notification.component';
 import { ContextualCommComponent } from './views/contextualComm/contextualComm.component';
 
 import { ContextualCommUsersComponent } from './views/contextualCommUsers/contextualCommUsers.component';
@@ -37,7 +39,10 @@ import { servicesInjectables } from './services/services';
     BrowserModule,
     ReactiveFormsModule,
     ContextualCommModule,
+    BrowserAnimationsModule,
     NgbModule.forRoot(),
+    NotificationsModule.forRoot(),
+    NativeNotificationsModule,
     AppRoutingModule
   ],
 
@@ -47,7 +52,6 @@ import { servicesInjectables } from './services/services';
     MySelfComponent,
     AddUserComponent,
     ContextMenuComponent,
-    NotificationComponent,
     UserIdentityComponent,
     ContextualCommComponent,
     AddContextualCommComponent,

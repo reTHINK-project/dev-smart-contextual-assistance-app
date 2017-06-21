@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var platform_browser_1 = require("@angular/platform-browser");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var notifications_module_1 = require("./components/notification/notifications.module");
 var config_1 = require("./config");
 var app_models_1 = require("./models/app.models");
 // Utils
@@ -20,11 +21,12 @@ var utils_1 = require("./utils/utils");
 var contextualCommData_service_1 = require("./services/contextualCommData.service");
 var services_1 = require("./services/services");
 var AppComponent = (function () {
-    function AppComponent(router, titleService, route, contactService, rethinkService, triggerActionService, contextualCommDataService, connectorService, chatService) {
+    function AppComponent(router, titleService, route, notificationsService, contactService, rethinkService, triggerActionService, contextualCommDataService, connectorService, chatService) {
         var _this = this;
         this.router = router;
         this.titleService = titleService;
         this.route = route;
+        this.notificationsService = notificationsService;
         this.contactService = contactService;
         this.rethinkService = rethinkService;
         this.triggerActionService = triggerActionService;
@@ -32,6 +34,12 @@ var AppComponent = (function () {
         this.connectorService = connectorService;
         this.chatService = chatService;
         this.ready = false;
+        this.options = {
+            position: ['top', 'left'],
+            timeOut: 0,
+            lastOnBottom: true,
+            clickToClose: true
+        };
         this.contextOpened = false;
         this.rethinkService.progress.subscribe({
             next: function (v) { _this.status = v; _this.titleService.setTitle(config_1.config.pageTitlePrefix + v); }
@@ -75,7 +83,14 @@ var AppComponent = (function () {
             _this.rethinkService.progress.complete();
             _this.rethinkService.status.next(true);
             _this.ready = true;
+            _this.hypertiesReady();
         });
+    };
+    AppComponent.prototype.onClickClouse = function (event) {
+        console.log('AQUI:', event);
+    };
+    AppComponent.prototype.hypertiesReady = function () {
+        var _this = this;
         // Prepare the chat service to recive invitations
         this.chatService.onInvitation(function (event) {
             console.log('[Chat Communication View - onInvitation] - event:', event);
@@ -84,6 +99,11 @@ var AppComponent = (function () {
             }).catch(function (reason) {
                 console.error('[Chat Communication View - onInvitation] - event not processed:', reason);
             });
+        });
+        this.notificationsService.success('Some Title', 'Some Content', {
+            showProgressBar: true,
+            pauseOnHover: false,
+            maxLength: 10
         });
     };
     AppComponent.prototype.processEvent = function (event) {
@@ -123,6 +143,7 @@ var AppComponent = (function () {
         __metadata("design:paramtypes", [router_1.Router,
             platform_browser_1.Title,
             router_1.ActivatedRoute,
+            notifications_module_1.NotificationsService,
             services_1.ContactService,
             services_1.RethinkService,
             services_1.TriggerActionService,

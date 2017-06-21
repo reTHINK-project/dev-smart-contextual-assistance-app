@@ -44,6 +44,8 @@ var MediaCommunicationComponent = (function () {
                 _this.reset();
             }
         });
+        this.connectorService.onInvitation.subscribe(function (event) {
+        });
         console.log('[Media Communication Component] - Params Action:', this.mode);
     }
     MediaCommunicationComponent.prototype.ngOnInit = function () {

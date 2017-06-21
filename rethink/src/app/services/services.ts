@@ -9,7 +9,6 @@ import { ContextualCommDataService } from './contextualCommData.service';
 import { ContextualCommDataResolver } from './contextualCommData.resolver';
 import { ContextualCommService } from './contextualComm.service';
 import { TriggerActionService } from './triggerAction.service';
-import { NotificationService } from './notification.service';
 import { ActivateTaskGuard } from './activateTask.service';
 import { ActivateUserGuard } from './activateUser.service';
 import { ContactService } from './contact.service';
@@ -29,7 +28,6 @@ export {
   ConnectorService,
   ActivateTaskGuard,
   ActivateUserGuard,
-  NotificationService,
   TriggerActionService,
   ContextualCommService,
   ContextualCommDataService,
@@ -46,7 +44,6 @@ export let servicesInjectables: Array<any> = [
   ConnectorService,
   ActivateTaskGuard,
   ActivateUserGuard,
-  NotificationService,
   TriggerActionService,
   ContextualCommTriggerService
 ];

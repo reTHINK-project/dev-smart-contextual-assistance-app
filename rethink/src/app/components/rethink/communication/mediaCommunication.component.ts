@@ -63,6 +63,10 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
 
     });
 
+    this.connectorService.onInvitation.subscribe((event: any) => {
+
+    });
+
     console.log('[Media Communication Component] - Params Action:', this.mode);
   }
 

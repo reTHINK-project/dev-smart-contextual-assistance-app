@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter, Output } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 
@@ -9,9 +9,7 @@ import { isAnUser, clearMyUsername, getUserMedia, splitFromURL } from '../../uti
 import { RethinkService } from './rethink.service';
 import { ContactService } from '../contact.service';
 
-import { IAlert, AlertType } from '../../models/app.models';
 import { User } from '../../models/models';
-import { NotificationService } from '../notification.service';
 
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
@@ -57,12 +55,13 @@ export class ConnectorService {
     this._mode = value;
   }
 
+  @Output() onInvitation = new EventEmitter();
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
     private contactService: ContactService,
-    private notificationService: NotificationService,
     private appService: RethinkService) {
 
       this.paramsSubscription = this.route.queryParams.subscribe(params => {
@@ -138,19 +137,13 @@ export class ConnectorService {
 
       let currUser: User = this.contactService.getUser(identity.userURL);
 
-      this.notificationService.addNotification(AlertType.QUESTION, {
-        user: currUser,
-        message: 'New call is incomming from ' + currUser.username,
-        action: this._mode
-      }, metadata, (alert: IAlert) => {
-        this._notificationResponse(controller, alert, currUser);
-      });
+      this.onInvitation.emit({metadata: metadata, user: currUser});
 
     });
 
   }
 
-  private _notificationResponse(controller: any, response: IAlert, user: User) {
+/*  private _notificationResponse(controller: any, response: IAlert, user: User) {
 
     console.log('[Connector Service] - notification response: ', response, this);
 
@@ -186,7 +179,7 @@ export class ConnectorService {
       controller.decline();
     }
 
-  }
+  }*/
 
   connect(userURL: string, options: any, name: string, domain: string) {
 
