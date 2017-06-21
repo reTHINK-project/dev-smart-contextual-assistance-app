@@ -34,6 +34,7 @@ export function getUserMedia(constraints: any) {
 }
 
 export function isAnUser(name: string): boolean {
+  console.log('isAnUser - name:', name);
   let users = [];
   if (name.indexOf('-') !== -1) {
     users = name.split('-');
@@ -41,8 +42,10 @@ export function isAnUser(name: string): boolean {
     users.push(name);
   }
 
+  console.log('isAnUser - users:', users);
+
   let result = users.map((user) => {
-    let pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    let pattern = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
     console.log('isAnUser:', pattern.test(user));
     return pattern.test(user);
   });

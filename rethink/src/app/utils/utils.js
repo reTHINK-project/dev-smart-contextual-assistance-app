@@ -50,6 +50,7 @@ function getUserMedia(constraints) {
 }
 exports.getUserMedia = getUserMedia;
 function isAnUser(name) {
+    console.log('isAnUser - name:', name);
     var users = [];
     if (name.indexOf('-') !== -1) {
         users = name.split('-');
@@ -57,8 +58,9 @@ function isAnUser(name) {
     else {
         users.push(name);
     }
+    console.log('isAnUser - users:', users);
     var result = users.map(function (user) {
-        var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+        var pattern = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
         console.log('isAnUser:', pattern.test(user));
         return pattern.test(user);
     });

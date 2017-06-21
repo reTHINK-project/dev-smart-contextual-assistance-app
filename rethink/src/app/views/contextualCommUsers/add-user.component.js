@@ -94,8 +94,7 @@ var AddUserComponent = (function () {
                 console.log('[Add User Component] - current controller', currentController);
                 var normalizedPath = utils_1.normalizeFromURL(path + '/user/' + _this.model.email, _this.contactService.sessionUser.username);
                 var normalizedName = utils_1.normalizeName(normalizedPath);
-                // let parentURL = currentController.url;
-                console.log('[Add User Component] - current controller', normalizedName);
+                console.log('[Add User Component] - normalized name: ', normalizedName);
                 return _this.contextualCommDataService.createAtomicContext(_this.model.email, normalizedName.name, normalizedName.id, normalizedName.parent);
             })
                 .then(function (childController) {
