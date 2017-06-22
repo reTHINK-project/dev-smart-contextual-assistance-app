@@ -3,7 +3,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 
 // Utils
-import { getUserMedia, splitConvetionName } from '../../utils/utils';
+import { isAnUser, clearMyUsername, getUserMedia, splitFromURL } from '../../utils/utils';
 
 // Services
 import { RethinkService } from './rethink.service';
@@ -161,18 +161,29 @@ export class ConnectorService {
       };
 
       let metadata = response.metadata;
-
-      let paths: any = splitConvetionName(metadata.name);
+      let currentUser = this.contactService.sessionUser.username;
+      let paths: any = splitFromURL(metadata.name, currentUser);
 
       console.log('[Connector Service] -  navigate to: ', paths);
+      console.log('[Connector Service] -  navigate to: ', paths.context, paths.task, paths.user);
 
-      this.router.navigate([paths.context, paths.task, paths.active], navigationExtras);
+      let navigationArgs = [paths.context];
+      let userTo;
 
-      // if (this.router.url.includes(user.username)) {
-      //   this.router.navigate([this.router.url], navigationExtras);
-      // } else {
-      //   this.router.navigate([this.router.url, user.username], navigationExtras);
-      // }
+      if (isAnUser(paths.task)) {
+        userTo = clearMyUsername(paths.task, currentUser);
+      } else {
+        navigationArgs.push(paths.task);
+        userTo = clearMyUsername(paths.user, currentUser);
+      }
+
+      navigationArgs.push('user');
+      navigationArgs.push(userTo);
+
+      console.log('[Connector Service] -  navigate to path: ', navigationArgs);
+
+      this.router.navigate(navigationArgs, navigationExtras);
+
     } else {
       controller.decline();
     }

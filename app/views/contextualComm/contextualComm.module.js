@@ -12,6 +12,7 @@ var common_1 = require("@angular/common");
 var angular2_moment_1 = require("angular2-moment");
 var contextualComm_routing_1 = require("./contextualComm.routing");
 // Generic Components
+var rethink_directive_1 = require("../../shared/rethink.directive");
 var contact_box_component_1 = require("../../components/user/contact-box.component");
 var chatCommunication_component_1 = require("../../components/rethink/communication/chatCommunication.component");
 var mediaCommunication_component_1 = require("../../components/rethink/communication/mediaCommunication.component");
@@ -31,37 +32,37 @@ var services_1 = require("../../services/services");
 var ContextualCommModule = (function () {
     function ContextualCommModule() {
     }
+    ContextualCommModule = __decorate([
+        core_1.NgModule({
+            imports: [
+                pipes_1.PipesModule,
+                angular2_moment_1.MomentModule,
+                common_1.CommonModule,
+                forms_1.FormsModule,
+                contextualComm_routing_1.ContextualCommRoutingModule
+            ],
+            declarations: [
+                rethink_directive_1.ContextNameValidatorDirective,
+                contextualCommActivity_component_1.ContextualCommActivityComponent,
+                activity_view_component_1.ActivityViewComponent,
+                user_view_component_1.UserViewComponent,
+                chatCommunication_component_1.ChatCommunicationComponent,
+                mediaCommunication_component_1.MediaCommunicationComponent,
+                contact_box_component_1.ContactBoxComponent,
+                chatEvent_component_1.ChatEventComponent,
+                fileEvent_component_1.FileEventComponent
+            ],
+            providers: [
+                services_1.AuthGuard,
+                services_1.UserResolver,
+                services_1.ContextualCommService,
+                userAvailability_service_1.UserAvailabilityService,
+                services_1.ContextualCommDataService,
+                services_1.ContextualCommDataResolver
+            ]
+        })
+    ], ContextualCommModule);
     return ContextualCommModule;
 }());
-ContextualCommModule = __decorate([
-    core_1.NgModule({
-        imports: [
-            pipes_1.PipesModule,
-            angular2_moment_1.MomentModule,
-            common_1.CommonModule,
-            forms_1.FormsModule,
-            contextualComm_routing_1.ContextualCommRoutingModule
-        ],
-        declarations: [
-            contextualCommActivity_component_1.ContextualCommActivityComponent,
-            activity_view_component_1.ActivityViewComponent,
-            user_view_component_1.UserViewComponent,
-            chatCommunication_component_1.ChatCommunicationComponent,
-            mediaCommunication_component_1.MediaCommunicationComponent,
-            contact_box_component_1.ContactBoxComponent,
-            chatEvent_component_1.ChatEventComponent,
-            fileEvent_component_1.FileEventComponent
-        ],
-        providers: [
-            services_1.AuthGuard,
-            services_1.UserResolver,
-            services_1.ContextualCommService,
-            userAvailability_service_1.UserAvailabilityService,
-            services_1.ContextualCommDataService,
-            services_1.ContextualCommDataResolver,
-            services_1.ContextualCommActivateService
-        ]
-    })
-], ContextualCommModule);
 exports.ContextualCommModule = ContextualCommModule;
 //# sourceMappingURL=contextualComm.module.js.map

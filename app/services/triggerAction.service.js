@@ -35,11 +35,11 @@ var TriggerActionService = (function () {
     TriggerActionService.prototype.action = function () {
         return this.triggerAction;
     };
+    TriggerActionService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [])
+    ], TriggerActionService);
     return TriggerActionService;
 }());
-TriggerActionService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [])
-], TriggerActionService);
 exports.TriggerActionService = TriggerActionService;
 //# sourceMappingURL=triggerAction.service.js.map

@@ -213,15 +213,15 @@ var ChatService = (function () {
     ChatService.prototype.onMessage = function (callback) {
         this._onMessage = callback;
     };
+    ChatService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [router_1.Router,
+            router_1.ActivatedRoute,
+            rethink_service_1.RethinkService,
+            contextualComm_service_1.ContextualCommService,
+            contact_service_1.ContactService])
+    ], ChatService);
     return ChatService;
 }());
-ChatService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [router_1.Router,
-        router_1.ActivatedRoute,
-        rethink_service_1.RethinkService,
-        contextualComm_service_1.ContextualCommService,
-        contact_service_1.ContactService])
-], ChatService);
 exports.ChatService = ChatService;
 //# sourceMappingURL=chat.service.js.map

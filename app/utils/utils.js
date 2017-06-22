@@ -49,62 +49,114 @@ function getUserMedia(constraints) {
     });
 }
 exports.getUserMedia = getUserMedia;
-function normalizeName(name) {
+function isAnUser(name) {
+    console.log('isAnUser - name:', name);
+    var users = [];
+    if (name.indexOf('-') !== -1) {
+        users = name.split('-');
+    }
+    else {
+        users.push(name);
+    }
+    console.log('isAnUser - users:', users);
+    var result = users.map(function (user) {
+        var pattern = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+        console.log('isAnUser:', pattern.test(user));
+        return pattern.test(user);
+    });
+    console.log(result);
+    return result[0] && result[1];
+}
+exports.isAnUser = isAnUser;
+function normalizeName(name, parent) {
     var prefix = config_1.config.appPrefix;
+    var splitChar = config_1.config.splitChar;
+    var at = new RegExp(/%40/g);
+    // Clear path from attributes
+    if (name.indexOf('?') !== -1) {
+        name = name.substring(0, name.lastIndexOf('?'));
+    }
+    name = name.toLowerCase();
+    name = name.replace(at, '@');
     var normalized = {};
     var splited = [];
-    if (name.indexOf('-') !== -1) {
-        splited = name.split('-');
-    }
-    else if (name.indexOf('/') !== -1) {
+    if (name.indexOf('/') !== -1) {
         splited = name.split('/');
         splited[0] = prefix;
     }
     else {
-        splited.push(prefix);
+        if (!parent) {
+            splited.push(prefix);
+        }
         splited.push(name);
     }
-    console.log('Splited: ', name, splited);
-    var context = splited[0] + '-' + splited[1];
-    var task = splited[2] ? splited[2] : null;
-    var user = splited[3] && splited[4] ? splited[3] + '-' + splited[4] : null;
-    if (context) {
-        normalized['id'] = context;
+    if (parent) {
+        var tmp1 = parent.split(splitChar);
+        tmp1.reduceRight(function (prev, curr) {
+            prev.unshift(curr);
+            return prev;
+        }, splited);
+    }
+    console.log('Splited: ', name, parent, splited);
+    var userName = splited[3] === 'user' ? splited[4] : splited[3];
+    var isTask = splited[2] === 'user' && isAnUser(splited[3]) ? false : true;
+    if (!isTask) {
+        userName = splited[3];
+    }
+    var contextId = splited[0] + splitChar + splited[1];
+    var task = isTask ? splited[2] : null;
+    var user = userName ? userName : null;
+    if (contextId) {
+        normalized['id'] = contextId;
         normalized['name'] = splited[1];
         normalized['parent'] = null;
     }
     if (task) {
-        normalized['id'] = context + '-' + task;
+        normalized['id'] = contextId + splitChar + task;
         normalized['name'] = task;
-        normalized['parent'] = context;
+        normalized['parent'] = contextId;
     }
     if (user) {
-        normalized['id'] = context + '-' + task + '-' + user;
+        normalized['id'] = contextId + splitChar + (task ? task + splitChar : '') + user;
         normalized['name'] = user;
-        normalized['parent'] = context + '-' + task;
+        normalized['parent'] = contextId + (task ? splitChar + task : '');
     }
+    console.log('Normalized Path:', normalized);
     return normalized;
 }
 exports.normalizeName = normalizeName;
-function splitConvetionName(name) {
-    var splited = name.split('-');
+function splitFromURL(name, currentUser) {
+    var splitChar = config_1.config.splitChar;
+    var splited = name.split(splitChar);
     var result = {};
-    if (splited[1]) {
-        result['context'] = splited[1];
-        result['active'] = splited[1];
+    var context = splited[1];
+    var task = splited[2];
+    var user = splited[3];
+    if (context) {
+        result['context'] = context;
     }
-    if (splited[2]) {
-        result['task'] = splited[2];
-        result['active'] = splited[2];
+    if (task) {
+        result['context'] = context;
+        result['task'] = task;
     }
-    if (splited[3] && splited[4]) {
-        result['user'] = splited[3] + '-' + splited[4];
-        result['active'] = splited[3];
+    if (user) {
+        result['context'] = context;
+        result['task'] = task;
+        if (user.includes('@') && user.includes('-')) {
+            var users = user.split('-');
+            if (currentUser) {
+                users.splice(users.indexOf(currentUser), 1);
+            }
+            result['user'] = users[0];
+        }
     }
     return result;
 }
-exports.splitConvetionName = splitConvetionName;
+exports.splitFromURL = splitFromURL;
 function normalizeFromURL(path, username) {
+    var splitChar = config_1.config.splitChar;
+    var at = new RegExp(/%40/g);
+    path = path.replace(at, '@');
     // Clear path from attributes
     if (path.indexOf('?') !== -1) {
         path = path.substring(0, path.lastIndexOf('?'));
@@ -112,11 +164,42 @@ function normalizeFromURL(path, username) {
     var pathSplited = path.split('/');
     pathSplited[0] = config_1.config.appPrefix;
     if (path.includes('@') && username) {
-        pathSplited.push(username);
+        var lastIndex = pathSplited.length - 1;
+        var last = pathSplited[lastIndex];
+        var updated = last;
+        if (!last.includes(username)) {
+            updated = last + '-' + username;
+        }
+        pathSplited[lastIndex] = updated;
     }
-    var joined = pathSplited.join('-');
+    var joined = pathSplited.join(splitChar);
     console.log('AQUI:', path, username, pathSplited, joined);
     return joined;
 }
 exports.normalizeFromURL = normalizeFromURL;
+function clearMyUsername(name, username) {
+    if (name.indexOf('-') !== -1 && name.indexOf('@') !== -1 && name.includes(username)) {
+        return name.replace(username, '').replace('-', '');
+    }
+    return name;
+}
+exports.clearMyUsername = clearMyUsername;
+function filterContextsByName(name, context) {
+    if (name.includes('@')) {
+        var users = name.split('-');
+        var user1 = users[0];
+        var user2 = users[1];
+        var variation1 = user1 + '-' + user2;
+        var variation2 = user2 + '-' + user1;
+        if (context.name === variation1) {
+            name = variation1;
+        }
+        else if (context.name === variation2) {
+            name = variation2;
+        }
+    }
+    console.log('[ContextualCommData Service] - getting Context By Name: ', context.name, name, context.name === name);
+    return context.name === name;
+}
+exports.filterContextsByName = filterContextsByName;
 //# sourceMappingURL=utils.js.map

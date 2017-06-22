@@ -20,26 +20,26 @@ var ContactBoxComponent = (function () {
     ContactBoxComponent.prototype.onCloseClick = function () {
         this.closeEvent.emit();
     };
+    __decorate([
+        core_1.HostBinding('class'),
+        __metadata("design:type", Object)
+    ], ContactBoxComponent.prototype, "hostClass", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", models_1.User)
+    ], ContactBoxComponent.prototype, "user", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", Object)
+    ], ContactBoxComponent.prototype, "closeEvent", void 0);
+    ContactBoxComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'div[contact-box]',
+            templateUrl: './contact-box.component.html'
+        })
+    ], ContactBoxComponent);
     return ContactBoxComponent;
 }());
-__decorate([
-    core_1.HostBinding('class'),
-    __metadata("design:type", Object)
-], ContactBoxComponent.prototype, "hostClass", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", models_1.User)
-], ContactBoxComponent.prototype, "user", void 0);
-__decorate([
-    core_1.Output(),
-    __metadata("design:type", Object)
-], ContactBoxComponent.prototype, "closeEvent", void 0);
-ContactBoxComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'div[contact-box]',
-        templateUrl: './contact-box.component.html'
-    })
-], ContactBoxComponent);
 exports.ContactBoxComponent = ContactBoxComponent;
 //# sourceMappingURL=contact-box.component.js.map

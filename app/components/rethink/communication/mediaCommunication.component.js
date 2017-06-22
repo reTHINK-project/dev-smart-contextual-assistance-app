@@ -78,7 +78,7 @@ var MediaCommunicationComponent = (function () {
     MediaCommunicationComponent.prototype.callTo = function (user) {
         var _this = this;
         var options = { video: true, audio: true };
-        var contextID = this.contextualCommDataService.getActiveContext().id;
+        var contextID = this.contextualCommDataService.activeContext().id;
         console.log('[Media Communication Component] - ' + this.mode + ' call To', user, contextID);
         this.connectorService.connect(user.username, options, contextID, user.domain)
             .then(function (controller) {
@@ -107,31 +107,31 @@ var MediaCommunicationComponent = (function () {
     MediaCommunicationComponent.prototype.onVolume = function () {
         this.connectorService.disableAudio();
     };
+    __decorate([
+        core_1.HostBinding('class'),
+        __metadata("design:type", Object)
+    ], MediaCommunicationComponent.prototype, "hostClass", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", models_1.User)
+    ], MediaCommunicationComponent.prototype, "user", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], MediaCommunicationComponent.prototype, "mode", void 0);
+    MediaCommunicationComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'div[media-view]',
+            templateUrl: './mediaCommunication.component.html',
+            styleUrls: ['./mediaCommunication.component.css']
+        }),
+        __metadata("design:paramtypes", [router_1.ActivatedRoute,
+            services_1.ContactService,
+            services_1.ConnectorService,
+            contextualCommData_service_1.ContextualCommDataService])
+    ], MediaCommunicationComponent);
     return MediaCommunicationComponent;
 }());
-__decorate([
-    core_1.HostBinding('class'),
-    __metadata("design:type", Object)
-], MediaCommunicationComponent.prototype, "hostClass", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", models_1.User)
-], MediaCommunicationComponent.prototype, "user", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", String)
-], MediaCommunicationComponent.prototype, "mode", void 0);
-MediaCommunicationComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'div[media-view]',
-        templateUrl: './mediaCommunication.component.html',
-        styleUrls: ['./mediaCommunication.component.css']
-    }),
-    __metadata("design:paramtypes", [router_1.ActivatedRoute,
-        services_1.ContactService,
-        services_1.ConnectorService,
-        contextualCommData_service_1.ContextualCommDataService])
-], MediaCommunicationComponent);
 exports.MediaCommunicationComponent = MediaCommunicationComponent;
 //# sourceMappingURL=mediaCommunication.component.js.map

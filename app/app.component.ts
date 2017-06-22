@@ -98,26 +98,38 @@ export class AppComponent implements OnInit {
       this.chatService.onInvitation((event: any) => {
         console.log('[Chat Communication View - onInvitation] - event:', event);
 
-        let error = (reason: any) => {
-          console.log('Error:', reason);
-        };
+        this.processEvent(event).then((result: any) => {
+          console.log('[Chat Communication View - onInvitation] - event processed:', result);
+        }).catch((reason) => {
+          console.error('[Chat Communication View - onInvitation] - event not processed:', reason);
+        });
 
-        let url = event.url;
-        let metadata = event.value;
-        let name = metadata.name;
+    });
 
-        this.chatService.join(url).then((dataObject: any) => {
+  }
 
-          console.log('[App Component - Join the parent context: ', name, dataObject);
+  private processEvent(event: any) {
 
-          let normalizedName = normalizeName(name);
+    return new Promise((resolve, reject) => {
 
-          console.log('AQUI:', name, normalizedName);
+      let url = event.url;
+      let metadata = event.value;
+      let name = metadata.name;
 
-          return this.contextualCommDataService.joinContext(normalizedName.name, dataObject, normalizedName.parent);
-        }).then((currentContext: ContextualComm) => {
-          console.log('[App Component] - current context created: ', currentContext);
-        }).catch(error);
+      this.chatService.join(url).then((dataObject: any) => {
+
+        let normalizedName = normalizeName(name);
+        console.log('[App Component - Join the to the context: ', name, dataObject, normalizedName);
+
+        return this.contextualCommDataService.joinContext(normalizedName.name, normalizedName.id, dataObject, normalizedName.parent);
+      }).then((currentContext: ContextualComm) => {
+        console.log('[App Component] - current context created: ', currentContext);
+        resolve(currentContext);
+      }).catch((reason: any) => {
+        console.log('Error:', reason);
+        reject(reason);
+      });
+
     });
 
   }
@@ -126,8 +138,9 @@ export class AppComponent implements OnInit {
     this.contextOpened = !this.contextOpened;
   }
 
-  onClickOutside(event: Event) {
-    if (event.srcElement.id === 'mp-pusher') {
+  onClickOutside(event: any) {
+    console.log(event);
+    if (event && ((event.srcElement && event.srcElement.id === 'mp-pusher') || (event.target && event.target.id === 'mp-pusher'))) {
       this.contextOpened = false;
     }
   }

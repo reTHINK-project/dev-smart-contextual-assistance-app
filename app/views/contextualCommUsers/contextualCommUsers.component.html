@@ -1,20 +1,43 @@
-<ul class="context-user-view contactlist all-100">
-    <!-- Search contact input -->
-    <li class="search-bar half-padding">
-        <form class="all-100 filter">
-            <span class="fa fa-search"></span>
-            <input type="text" placeholder="type a name" class="search push-left" (keyup)="onFilterKey($event)">
-        </form>
-    </li>
+<!-- Search contact input -->
+<div class="search-bar half-padding">
+    <form class="all-100 filter">
+        <span class="fa fa-search"></span>
+        <input type="text" placeholder="type a name" class="search push-left" (keyup)="onFilterKey($event)">
+    </form>
+</div>
 
+<div class="sidebar-content">
 
-    <!--<a routerLink="context/work" routerLinkActive="active">work</a>
-    <a routerLink="context/team1" routerLinkActive="active">team1</a>-->
+  <div class="contexts float-left w-100 pb-3">
+    <h4 class="title float-left">Contexts</h4>
 
-    <!-- List of ContactComponent -->
-    <li *ngFor="let contact of contactsFilter | async" [routerLink]="[this.router.url, contact.username]" routerLinkActive="active">
-        <user-identity *ngIf="contact" [model]=contact></user-identity>
-    </li>
-</ul>
+    <add-contextualComm-view></add-contextualComm-view>
 
-<add-user-view></add-user-view>
+    <ul class="list p-0">
+      <li class="item p-0 m-0" *ngFor="let context of contexts | async">
+        <a class="link" [routerLink]="[context.name]" routerLinkActive="active">
+          <i *ngIf="context.icon" class="fa fa-{{context.icon}}"></i>
+          <span class="name">{{context.name}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="users float-left w-100 pb-3 pt-3">
+    <h4 class="title">Users</h4>
+    <ul class="list p-0">
+      <!-- List of ContactComponent -->
+      <li class="item m-0" *ngFor="let contact of contactsFilter | async">
+        <a class="link" [routerLink]="[this.basePath, 'user', contact.username]" routerLinkActive="active">
+          <user-identity *ngIf="contact" [model]=contact></user-identity>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<add-user-view [hidden]="!allowAddUser"></add-user-view>
+
+<footer class="alt-foot">
+    Copyright 2016 © Altice Labs - All rights reserved
+</footer>

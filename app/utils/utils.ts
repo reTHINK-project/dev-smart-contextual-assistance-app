@@ -1,5 +1,7 @@
 import { config } from '../config';
 
+// Models
+import { ContextualComm } from '../models/models';
 
 export function strMapToObj(strMap: Map<string, any>) {
     let obj = Object.create(null);
@@ -31,67 +33,129 @@ export function getUserMedia(constraints: any) {
   });
 }
 
-export function normalizeName(name: string): any {
+export function isAnUser(name: string): boolean {
+  console.log('isAnUser - name:', name);
+  let users = [];
+  if (name.indexOf('-') !== -1) {
+    users = name.split('-');
+  } else {
+    users.push(name);
+  }
+
+  console.log('isAnUser - users:', users);
+
+  let result = users.map((user) => {
+    let pattern = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+    console.log('isAnUser:', pattern.test(user));
+    return pattern.test(user);
+  });
+
+  console.log(result);
+  return result[0] && result[1];
+}
+
+export function normalizeName(name: string, parent?: string): any {
 
   let prefix = config.appPrefix;
+  let splitChar = config.splitChar;
+
+  let at = new RegExp(/%40/g);
+
+  // Clear path from attributes
+  if (name.indexOf('?') !== -1) {
+    name = name.substring(0, name.lastIndexOf('?'));
+  }
+
+  name = name.toLowerCase();
+  name = name.replace(at, '@');
+
   let normalized = {};
   let splited = [];
 
-  if (name.indexOf('-') !== -1) {
-    splited = name.split('-');
-  } else if (name.indexOf('/') !== -1) {
+  if (name.indexOf('/') !== -1) {
     splited = name.split('/');
     splited[0] = prefix;
   } else {
-    splited.push(prefix);
+    if (!parent) { splited.push(prefix); }
     splited.push(name);
   }
 
-  console.log('Splited: ', name, splited);
+  if (parent) {
+    let tmp1: string[] = parent.split(splitChar);
+    tmp1.reduceRight((prev: string[], curr: string) => {
+      prev.unshift(curr);
+      return prev;
+    }, splited);
 
-  let context = splited[0] + '-' + splited[1];
-  let task = splited[2] ? splited[2] : null;
-  let user = splited[3] && splited[4] ?  splited[3] + '-' + splited[4] : null;
+  }
 
-  if (context) {
-    normalized['id'] = context;
+  console.log('Splited: ', name, parent, splited);
+
+  let userName = splited[3] === 'user' ? splited[4] : splited[3];
+  let isTask = splited[2] === 'user' && isAnUser(splited[3]) ? false : true;
+
+  if (!isTask) { userName = splited[3]; }
+
+  let contextId = splited[0] + splitChar + splited[1];
+  let task = isTask ? splited[2] : null;
+  let user = userName ? userName : null;
+
+  if (contextId) {
+    normalized['id'] = contextId;
     normalized['name'] = splited[1];
     normalized['parent'] = null;
   }
 
   if (task) {
-    normalized['id'] = context + '-' + task;
+    normalized['id'] = contextId + splitChar + task;
     normalized['name'] = task;
-    normalized['parent'] = context;
+    normalized['parent'] = contextId;
   }
 
   if (user) {
-    normalized['id'] = context + '-' + task + '-' + user;
+    normalized['id'] = contextId + splitChar + (task ? task  + splitChar : '') + user;
     normalized['name'] = user;
-    normalized['parent'] = context + '-' + task;
+    normalized['parent'] = contextId + (task ? splitChar + task : '');
   }
+
+  console.log('Normalized Path:', normalized);
 
   return normalized;
 }
 
-export function splitConvetionName(name: string): any {
+export function splitFromURL(name: string, currentUser?: string): any {
 
-  let splited = name.split('-');
+  let splitChar = config.splitChar;
+  let splited = name.split(splitChar);
   let result = {};
 
-  if (splited[1]) {
-    result['context'] = splited[1];
-    result['active'] = splited[1];
+  let context = splited[1];
+  let task = splited[2];
+  let user = splited[3];
+
+  if (context) {
+    result['context'] = context;
   }
 
-  if (splited[2]) {
-    result['task'] = splited[2];
-    result['active'] = splited[2];
+  if (task) {
+    result['context'] = context;
+    result['task'] = task;
   }
 
-  if (splited[3] && splited[4]) {
-    result['user'] = splited[3] + '-' + splited[4];
-    result['active'] = splited[3];
+  if (user) {
+    result['context'] = context;
+    result['task'] = task;
+
+    if (user.includes('@') && user.includes('-')) {
+      let users = user.split('-');
+
+      if (currentUser) {
+        users.splice(users.indexOf(currentUser), 1);
+      }
+
+      result['user'] = users[0];
+    }
+
   }
 
   return result;
@@ -99,20 +163,66 @@ export function splitConvetionName(name: string): any {
 
 export function normalizeFromURL(path: string, username: string): string {
 
-    // Clear path from attributes
-    if (path.indexOf('?') !== -1) {
-      path = path.substring(0, path.lastIndexOf('?'));
+  let splitChar = config.splitChar;
+
+  let at = new RegExp(/%40/g);
+  path = path.replace(at, '@');
+
+  // Clear path from attributes
+  if (path.indexOf('?') !== -1) {
+    path = path.substring(0, path.lastIndexOf('?'));
+  }
+
+  let pathSplited = path.split('/');
+  pathSplited[0] = config.appPrefix;
+
+  if (path.includes('@') && username) {
+    let lastIndex = pathSplited.length - 1;
+    let last = pathSplited[lastIndex];
+
+    let updated = last;
+    if (!last.includes(username)) {
+      updated = last + '-' + username;
     }
 
-    let pathSplited = path.split('/');
-    pathSplited[0] = config.appPrefix;
+    pathSplited[lastIndex] = updated;
+  }
 
-    if (path.includes('@') && username) {
-      pathSplited.push(username);
+  let joined = pathSplited.join(splitChar);
+
+  console.log('AQUI:', path, username, pathSplited, joined);
+  return joined;
+}
+
+
+export function clearMyUsername(name: string, username: string): string {
+
+  if (name.indexOf('-') !== -1 && name.indexOf('@') !== -1 && name.includes(username)) {
+    return name.replace(username, '').replace('-', '');
+  }
+
+  return name;
+
+}
+
+export function filterContextsByName(name: string, context: ContextualComm): boolean {
+
+  if (name.includes('@')) {
+
+    let users = name.split('-');
+    let user1 = users[0];
+    let user2 = users[1];
+
+    let variation1 = user1 + '-' + user2;
+    let variation2 = user2 + '-' + user1;
+
+    if (context.name === variation1) {
+      name = variation1;
+    } else if (context.name === variation2) {
+      name = variation2;
     }
+  }
 
-    let joined = pathSplited.join('-');
-
-    console.log('AQUI:', path, username, pathSplited, joined);
-    return joined;
+  console.log('[ContextualCommData Service] - getting Context By Name: ', context.name, name, context.name === name);
+  return context.name === name;
 }

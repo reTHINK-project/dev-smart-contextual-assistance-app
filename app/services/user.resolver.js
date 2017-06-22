@@ -37,15 +37,15 @@ var UserResolver = (function () {
             }
         });
     };
+    UserResolver = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [services_1.RethinkService,
+            services_1.ChatService,
+            services_1.ContextualCommService,
+            contact_service_1.ContactService,
+            router_1.Router])
+    ], UserResolver);
     return UserResolver;
 }());
-UserResolver = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [services_1.RethinkService,
-        services_1.ChatService,
-        services_1.ContextualCommService,
-        contact_service_1.ContactService,
-        router_1.Router])
-], UserResolver);
 exports.UserResolver = UserResolver;
 //# sourceMappingURL=user.resolver.js.map

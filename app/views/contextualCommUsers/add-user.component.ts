@@ -10,7 +10,7 @@ import { config } from '../../config';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 // Utils
-import { normalizeName } from '../../utils/utils';
+import { normalizeName, normalizeFromURL } from '../../utils/utils';
 
 // Models
 import { ContextualComm } from '../../models/models';
@@ -59,6 +59,8 @@ export class AddUserComponent implements OnInit {
 
     this.ready = true;
 
+    this.busy = false;
+
     this.modalService.open(content, {backdrop: false, windowClass: 'custom-modal'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -81,29 +83,62 @@ export class AddUserComponent implements OnInit {
     // this.inviteEvent.emit( JSON.parse(JSON.stringify(this.model)) );
 
     this.busy = true;
-    let normalizedName = normalizeName(this.router.url);
+    let path = this.router.url;
+    let normalizedName = normalizeName(path);
+    let parentNameId = '';
 
-     console.log('[Add User Component] - parent: ', normalizedName, this.chatService.activeDataObjectURL);
+    console.log('[Add User Component] - parent: ', normalizedName, this.chatService.activeDataObjectURL);
 
-    this.contextualCommDataService.getContextById(normalizedName.parent)
+    parentNameId = normalizedName.parent;
+
+    if (!parentNameId) {
+      parentNameId = normalizedName.id;
+    }
+
+    this.contextualCommDataService.getContextById(parentNameId)
     .subscribe((context: ContextualComm) => {
 
       let parentURL = context.url;
       let currentURL = this.chatService.activeDataObjectURL;
 
       let parentChat = this.chatService.invite(parentURL, [this.model.email], [this.model.domain || config.domain]);
-      let currentChat = this.chatService.invite(currentURL, [this.model.email], [this.model.domain || config.domain]);
+      let currentChat: any;
 
+      if (parentURL !== currentURL) {
+        currentChat = this.chatService.invite(currentURL, [this.model.email], [this.model.domain || config.domain]);
+      }
+
+      console.log('[Add User Component] - invite: ', parentURL, currentURL);
       console.log('[Add User Component] - invite: ', parentChat, currentChat);
 
-      parentChat
-        .then((parentController: any) => {
-          console.log('[Users was joined with success] - parent controller', parentController);
+      parentChat.then((parentController: any) => {
+          console.log('[Add User Component] - parent controller:', parentController);
+          console.log('[Add User Component] - check controllers: ', parentController, currentURL, parentController.url === currentURL);
+
+          if (!currentChat) {
+            return parentController;
+          }
+
           return currentChat;
         })
         .then((currentController: any) => {
 
-          console.log('[Users was joined with success] - current controller', currentController);
+          console.log('[Add User Component] - current controller', currentController);
+          let normalizedPath = normalizeFromURL(path + '/user/' + this.model.email, this.contactService.sessionUser.username);
+          let normalizedName = normalizeName(normalizedPath);
+
+          console.log('[Add User Component] - normalized name: ', normalizedName);
+
+          return this.contextualCommDataService.createAtomicContext(
+            this.model.email,
+            normalizedName.name,
+            normalizedName.id,
+            normalizedName.parent);
+
+        })
+        .then((childController: any) => {
+
+          console.log('[Add User Component] - one to one controller', childController);
 
           this.busy = false;
           this.clean();
@@ -117,6 +152,8 @@ export class AddUserComponent implements OnInit {
         });
 
     }, (error: any) => {
+      this.busy = false;
+      this.clean();
       console.log('Error getting the context:', error);
     });
 

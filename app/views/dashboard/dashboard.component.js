@@ -24,15 +24,15 @@ var DashboardComponent = (function () {
             console.log('AQUI:', params);
         });
     };
+    DashboardComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'dashboard-view',
+            templateUrl: './dashboard.component.html'
+        }),
+        __metadata("design:paramtypes", [router_1.ActivatedRoute])
+    ], DashboardComponent);
     return DashboardComponent;
 }());
-DashboardComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'dashboard-view',
-        templateUrl: './dashboard.component.html'
-    }),
-    __metadata("design:paramtypes", [router_1.ActivatedRoute])
-], DashboardComponent);
 exports.DashboardComponent = DashboardComponent;
 //# sourceMappingURL=dashboard.component.js.map

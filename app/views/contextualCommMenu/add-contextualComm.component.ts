@@ -1,16 +1,26 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, HostBinding } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute,  Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+
+import 'rxjs/add/operator/defaultIfEmpty';
+
+import { normalizeName, normalizeFromURL } from '../../utils/utils';
 
 // Bootstrap
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 // App Model
 import { TriggerActions } from '../../models/app.models';
+import { ContextualComm } from '../../models/models';
 
-// Serives
+// Validator
+import { RethinkValidators } from '../../shared/rethink.validator';
+
+// Services
+import { ContactService } from '../../services/contact.service';
 import { TriggerActionService } from '../../services/services';
 import { ContextualCommDataService } from '../../services/contextualCommData.service';
-import { ContextualComm } from '../../models/models';
 
 @Component({
     moduleId: module.id,
@@ -20,6 +30,8 @@ import { ContextualComm } from '../../models/models';
 })
 
 export class AddContextualCommComponent implements OnInit {
+
+  @HostBinding('class') hostClass = 'add-context-view';
 
   private closeResult: string;
 
@@ -45,17 +57,22 @@ export class AddContextualCommComponent implements OnInit {
 
   @ViewChild('content') el: ElementRef;
 
+  complexForm: FormGroup;
+
   constructor(
     private rd: Renderer2,
+    private router: Router,
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
     private modalService: NgbModal,
+    private contactService: ContactService,
     private triggerActionService: TriggerActionService,
     private contextualCommDataService: ContextualCommDataService) {
 
-      this.model.icon = this.icons[0];
+    this.contextualComms = this.contextualCommDataService.getContexts();
 
-      this.contextualComms = this.contextualCommDataService.getContexts();
+  }
 
-    }
 
   ngOnInit() {
 
@@ -65,14 +82,58 @@ export class AddContextualCommComponent implements OnInit {
         this.open(this.el);
       }
 
-
     });
 
+  }
+
+  buildForm() {
+
+    let normalizedPath = normalizeFromURL(this.router.url, this.contactService.sessionUser.username);
+    let normalizedName = normalizeName(normalizedPath);
+
+    console.log('[AddContextualComm] - build form:', normalizedPath, normalizedName);
+
+    let contextNameId = normalizedName.parent ? normalizedName.parent : normalizedName.id;
+
+    this.contextualCommDataService
+      .getContextById(contextNameId)
+      .subscribe((context: ContextualComm) => {
+        this.fillForm(context);
+      }, (error: any) => {
+        this.fillForm();
+      });
+
+  }
+
+  fillForm(context?: ContextualComm) {
+    this.model.name = '';
+    this.model.icon = this.icons[0];
+    this.model.parent = context ? context.id : null;
+    this.model.reporter = true;
+
+    if (this.complexForm) { this.complexForm.reset(); }
+
+    this.complexForm = this.fb.group({
+      'name': [this.model.name,
+      Validators.compose([
+        Validators.required,
+        Validators.pattern('[a-zA-Z1-9- ]*'),
+        Validators.minLength(4),
+        Validators.maxLength(22)]
+      ),
+      Validators.composeAsync([
+        RethinkValidators.contextName(this.contextualCommDataService)
+      ])],
+      'parent' : [{value: this.model.parent, disabled: true }],
+      'icon' : [this.model.icon]
+    });
   }
 
   open(content: any) {
 
     console.log('[AddContextualComm] - ', content);
+
+    this.buildForm();
 
     this.modalService.open(content, {windowClass: 'custom-modal'}).result.then((result) => {
       console.log('AQUI:', result);
@@ -93,13 +154,27 @@ export class AddContextualCommComponent implements OnInit {
       }
   }
 
-  submitForm(value: any) {
-    console.log('Submit:', value);
-    this.contextualCommDataService.createContext(value.name, value.parent, value);
-    this.clean();
+  onLostFocus(event: FocusEvent) {
+    let nameEl: HTMLInputElement = (<HTMLInputElement>event.target);
+    let value = nameEl.value.replace(/\s+/g, '-');
+    nameEl.value = value;
   }
 
-  clean() {
-    this.model = {};
+  submitForm(value: any) {
+    console.log('Submit:', value);
+    let name = value.name.trim();
+    let parent = value.parent || this.model.parent;
+
+    let info = value;
+    info['reporter'] = true;
+
+    this.contextualCommDataService.createContext(name, parent, info).then((result) => {
+
+      this.buildForm();
+
+    }).catch((reason) => {
+
+    });
+
   }
 }

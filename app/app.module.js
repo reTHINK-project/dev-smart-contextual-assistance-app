@@ -33,38 +33,39 @@ var services_1 = require("./services/services");
 var AppModule = (function () {
     function AppModule() {
     }
+    AppModule = __decorate([
+        core_1.NgModule({
+            imports: [
+                forms_1.FormsModule,
+                platform_browser_1.BrowserModule,
+                forms_1.ReactiveFormsModule,
+                contextualComm_module_1.ContextualCommModule,
+                ng_bootstrap_1.NgbModule.forRoot(),
+                app_routing_module_1.AppRoutingModule
+            ],
+            declarations: [
+                app_component_1.AppComponent,
+                home_component_1.HomeComponent,
+                my_self_component_1.MySelfComponent,
+                add_user_component_1.AddUserComponent,
+                contextMenu_component_1.ContextMenuComponent,
+                notification_component_1.NotificationComponent,
+                userIdentity_component_1.UserIdentityComponent,
+                contextualComm_component_1.ContextualCommComponent,
+                add_contextualComm_component_1.AddContextualCommComponent,
+                breadcrumb_component_1.ContextBreadcrumbComponent,
+                contextualCommUsers_component_1.ContextualCommUsersComponent
+            ],
+            providers: [
+                CustomUtils_1.CustomUtils,
+                services_1.servicesInjectables
+            ],
+            bootstrap: [
+                app_component_1.AppComponent
+            ]
+        })
+    ], AppModule);
     return AppModule;
 }());
-AppModule = __decorate([
-    core_1.NgModule({
-        imports: [
-            forms_1.FormsModule,
-            platform_browser_1.BrowserModule,
-            contextualComm_module_1.ContextualCommModule,
-            ng_bootstrap_1.NgbModule.forRoot(),
-            app_routing_module_1.AppRoutingModule
-        ],
-        declarations: [
-            app_component_1.AppComponent,
-            home_component_1.HomeComponent,
-            my_self_component_1.MySelfComponent,
-            add_user_component_1.AddUserComponent,
-            contextMenu_component_1.ContextMenuComponent,
-            notification_component_1.NotificationComponent,
-            userIdentity_component_1.UserIdentityComponent,
-            contextualComm_component_1.ContextualCommComponent,
-            add_contextualComm_component_1.AddContextualCommComponent,
-            breadcrumb_component_1.ContextBreadcrumbComponent,
-            contextualCommUsers_component_1.ContextualCommUsersComponent
-        ],
-        providers: [
-            CustomUtils_1.CustomUtils,
-            services_1.servicesInjectables
-        ],
-        bootstrap: [
-            app_component_1.AppComponent
-        ]
-    })
-], AppModule);
 exports.AppModule = AppModule;
 //# sourceMappingURL=app.module.js.map

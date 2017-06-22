@@ -79,47 +79,58 @@ var AppComponent = (function () {
         // Prepare the chat service to recive invitations
         this.chatService.onInvitation(function (event) {
             console.log('[Chat Communication View - onInvitation] - event:', event);
-            var error = function (reason) {
-                console.log('Error:', reason);
-            };
+            _this.processEvent(event).then(function (result) {
+                console.log('[Chat Communication View - onInvitation] - event processed:', result);
+            }).catch(function (reason) {
+                console.error('[Chat Communication View - onInvitation] - event not processed:', reason);
+            });
+        });
+    };
+    AppComponent.prototype.processEvent = function (event) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
             var url = event.url;
             var metadata = event.value;
             var name = metadata.name;
             _this.chatService.join(url).then(function (dataObject) {
-                console.log('[App Component - Join the parent context: ', name, dataObject);
                 var normalizedName = utils_1.normalizeName(name);
-                console.log('AQUI:', name, normalizedName);
-                return _this.contextualCommDataService.joinContext(normalizedName.name, dataObject, normalizedName.parent);
+                console.log('[App Component - Join the to the context: ', name, dataObject, normalizedName);
+                return _this.contextualCommDataService.joinContext(normalizedName.name, normalizedName.id, dataObject, normalizedName.parent);
             }).then(function (currentContext) {
                 console.log('[App Component] - current context created: ', currentContext);
-            }).catch(error);
+                resolve(currentContext);
+            }).catch(function (reason) {
+                console.log('Error:', reason);
+                reject(reason);
+            });
         });
     };
     AppComponent.prototype.onOpenContext = function (event) {
         this.contextOpened = !this.contextOpened;
     };
     AppComponent.prototype.onClickOutside = function (event) {
-        if (event.srcElement.id === 'mp-pusher') {
+        console.log(event);
+        if (event && ((event.srcElement && event.srcElement.id === 'mp-pusher') || (event.target && event.target.id === 'mp-pusher'))) {
             this.contextOpened = false;
         }
     };
+    AppComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'rethink-app',
+            templateUrl: './app.component.html'
+        }),
+        __metadata("design:paramtypes", [router_1.Router,
+            platform_browser_1.Title,
+            router_1.ActivatedRoute,
+            services_1.ContactService,
+            services_1.RethinkService,
+            services_1.TriggerActionService,
+            contextualCommData_service_1.ContextualCommDataService,
+            services_1.ConnectorService,
+            services_1.ChatService])
+    ], AppComponent);
     return AppComponent;
 }());
-AppComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'rethink-app',
-        templateUrl: './app.component.html'
-    }),
-    __metadata("design:paramtypes", [router_1.Router,
-        platform_browser_1.Title,
-        router_1.ActivatedRoute,
-        services_1.ContactService,
-        services_1.RethinkService,
-        services_1.TriggerActionService,
-        contextualCommData_service_1.ContextualCommDataService,
-        services_1.ConnectorService,
-        services_1.ChatService])
-], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map
