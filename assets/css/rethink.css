@@ -2010,19 +2010,25 @@ body.rethink ul.contactlist li.search-bar label.search a:hover i {
 }
 /* line 2062, ../sass/rethink.scss */
 body.rethink ul.contactlist li {
-  padding-left: 24px;
+  margin: 0;
+}
+
+body.rethink ul.contactlist .item {
   display: block;
   overflow: hidden;
   position: relative;
-  margin: 0;
+  padding-left: 24px;
 }
+
 /* line 2069, ../sass/rethink.scss */
-body.rethink ul.contactlist li:hover, body.rethink ul.contactlist li.active {
+body.rethink ul.contactlist .item:hover, 
+body.rethink ul.contactlist .item.active {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.15);
 }
 /* line 2073, ../sass/rethink.scss */
-body.rethink ul.contactlist li:hover div.pointer, body.rethink ul.contactlist li.active div.pointer {
+body.rethink ul.contactlist .item:hover div.pointer, 
+body.rethink ul.contactlist .item.active div.pointer {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
   transition-duration: 500ms;
@@ -2795,20 +2801,7 @@ body.rethink div.content-box.user span.chat {
 body.rethink div.sidebar {
   position: fixed;
 }
-/* line 2882, ../sass/rethink.scss */
-body.rethink div.sidebar footer {
-  position: absolute;
-  bottom: 6px;
-  width: 100%;
-  font-size: 9px;
-  color: #fff;
-  padding: 4px;
-  padding-left: 24px;
-  background-color: #3d495f;
-  border-top: rgba(255, 255, 255, 0.8);
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
-  opacity: 0.5;
-}
+
 /* line 2897, ../sass/rethink.scss */
 body.rethink .ink-shade {
   z-index: 500;
