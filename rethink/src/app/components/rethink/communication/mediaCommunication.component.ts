@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, HostBinding, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 
 // Models
 import { User } from '../../../models/models';
@@ -43,14 +43,17 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
 
     this.streamingActive = false;
 
-    this.subscription = this.router.events.subscribe((params: any) => {
-        let action = params['action'];
+    this.subscription = this.router.events.subscribe((event: NavigationEnd) => {
+
+      if (event instanceof NavigationEnd) {
+        let action = event['action'];
         console.log('[Media Communication Component] - Params Action:', action);
         this.mode = action;
         this.connectorService.mode = action;
         return action;
       }
-    );
+
+    });
 
     // if (this.mode === 'video') {
 

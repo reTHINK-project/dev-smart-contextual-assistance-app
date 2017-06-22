@@ -28,12 +28,14 @@ var MediaCommunicationComponent = (function () {
         this.streamingActive = false;
         console.log('[Media Communication Component] - Constructor:', this.route.queryParams);
         this.streamingActive = false;
-        this.subscription = this.router.events.subscribe(function (params) {
-            var action = params['action'];
-            console.log('[Media Communication Component] - Params Action:', action);
-            _this.mode = action;
-            _this.connectorService.mode = action;
-            return action;
+        this.subscription = this.router.events.subscribe(function (event) {
+            if (event instanceof router_1.NavigationEnd) {
+                var action = event['action'];
+                console.log('[Media Communication Component] - Params Action:', action);
+                _this.mode = action;
+                _this.connectorService.mode = action;
+                return action;
+            }
         });
         // if (this.mode === 'video') {
         this.localStream = this.connectorService.getLocalStream().subscribe(function (stream) {
