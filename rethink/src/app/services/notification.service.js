@@ -16,9 +16,6 @@ var NotificationService = (function () {
         this.alerts = [];
         this.newNotification = new Subject_1.Subject();
         this.notification = this.newNotification;
-        this.notification.subscribe(function (notification) {
-            console.log('[Notification Service] - new Notification: ', notification);
-        });
     }
     NotificationService.prototype.addNotification = function (type, message, metadata, callback) {
         if (callback === void 0) { callback = null; }

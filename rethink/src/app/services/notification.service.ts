@@ -17,10 +17,6 @@ export class NotificationService {
 
     this.notification = this.newNotification;
 
-    this.notification.subscribe((notification: IAlert) => {
-      console.log('[Notification Service] - new Notification: ', notification);
-    });
-
   }
 
   addNotification(type: AlertType, message: any, metadata: any, callback: Function = null) {

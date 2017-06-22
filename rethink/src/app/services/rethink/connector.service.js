@@ -39,10 +39,12 @@ var ConnectorService = (function () {
         this._remoteStream = new ReplaySubject_1.ReplaySubject();
         this._connectorStatus = new Subject_1.Subject();
         console.log('[Connector Service] - constructor', this.router);
-        this.paramsSubscription = this.router.events.subscribe(function (params) {
-            console.log('[Connector Service] - query params changes:', params['action'], _this.mode, _this.callInProgress);
-            if (!_this.callInProgress) {
-                _this.acceptCall();
+        this.paramsSubscription = this.router.events.subscribe(function (event) {
+            if (event instanceof router_1.NavigationEnd) {
+                console.log('[Connector Service] - query params changes:', event, event['action'], _this.mode, _this.callInProgress);
+                if (!_this.callInProgress) {
+                    _this.acceptCall();
+                }
             }
         });
     }
@@ -109,7 +111,7 @@ var ConnectorService = (function () {
             });
         }
         else {
-            console.error('error accepting call', this.controllers, this.controllers.hasOwnProperty('ansewer'), this._webrtcMode);
+            // console.error('error accepting call', this.controllers, this.controllers.hasOwnProperty('ansewer'), this._webrtcMode);
         }
     };
     ConnectorService.prototype.prepareHyperty = function () {

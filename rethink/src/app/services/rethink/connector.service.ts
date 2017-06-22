@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras, NavigationEnd } from '@angular/router';
 
 // Utils
 import { isAnUser, clearMyUsername, getUserMedia, splitFromURL } from '../../utils/utils';
@@ -67,10 +67,13 @@ export class ConnectorService {
 
       console.log('[Connector Service] - constructor', this.router);
 
-      this.paramsSubscription = this.router.events.subscribe(params => {
-        console.log('[Connector Service] - query params changes:', params['action'], this.mode, this.callInProgress);
+      this.paramsSubscription = this.router.events.subscribe((event: NavigationEnd) => {
 
-        if (!this.callInProgress) { this.acceptCall(); }
+        if (event instanceof NavigationEnd) {
+          console.log('[Connector Service] - query params changes:', event, event['action'], this.mode, this.callInProgress);
+          if (!this.callInProgress) { this.acceptCall(); }
+        }
+
       });
 
   }
@@ -127,7 +130,7 @@ export class ConnectorService {
       });
 
     } else {
-      console.error('error accepting call', this.controllers, this.controllers.hasOwnProperty('ansewer'), this._webrtcMode);
+      // console.error('error accepting call', this.controllers, this.controllers.hasOwnProperty('ansewer'), this._webrtcMode);
     }
 
   }
