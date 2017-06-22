@@ -65,7 +65,9 @@ export class ConnectorService {
     private notificationService: NotificationService,
     private appService: RethinkService) {
 
-      this.paramsSubscription = this.route.queryParams.subscribe(params => {
+      console.log('[Connector Service] - constructor', this.router);
+
+      this.paramsSubscription = this.router.events.subscribe(params => {
         console.log('[Connector Service] - query params changes:', params['action'], this.mode, this.callInProgress);
 
         if (!this.callInProgress) { this.acceptCall(); }
@@ -99,6 +101,9 @@ export class ConnectorService {
 
   acceptCall() {
 
+    console.log('[Connector Service] - AcceptCall: ', this.controllers, this.controllers.hasOwnProperty('ansewer'));
+    console.log('[Connector Service] - AcceptCall: ', this._webrtcMode);
+
     if (this.controllers && this.controllers.hasOwnProperty('answer') && this._webrtcMode === 'answer') {
 
       let options = {video: true, audio: true};
@@ -121,6 +126,8 @@ export class ConnectorService {
         console.error(reason);
       });
 
+    } else {
+      console.error('error accepting call', this.controllers, this.controllers.hasOwnProperty('ansewer'), this._webrtcMode);
     }
 
   }
@@ -235,7 +242,6 @@ export class ConnectorService {
       };
 
       this.router.navigate([], navigationExtras);
-      this.paramsSubscription.unsubscribe();
       this._connectorStatus.next(STATUS.END);
     });
 
