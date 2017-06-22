@@ -136,15 +136,16 @@ var ConnectorService = (function () {
             console.log('[Connector Service] -  navigate to: ', paths);
             console.log('[Connector Service] -  navigate to: ', paths.context, paths.task, paths.user);
             var navigationArgs = [paths.context];
+            var userTo = void 0;
             if (utils_1.isAnUser(paths.task)) {
-                navigationArgs.push('user');
-                navigationArgs.push(utils_1.clearMyUsername(paths.task, currentUser));
+                userTo = utils_1.clearMyUsername(paths.task, currentUser);
             }
             else {
                 navigationArgs.push(paths.task);
-                navigationArgs.push('user');
-                navigationArgs.push(utils_1.clearMyUsername(paths.user, currentUser));
+                userTo = utils_1.clearMyUsername(paths.user, currentUser);
             }
+            navigationArgs.push('user');
+            navigationArgs.push(userTo);
             console.log('[Connector Service] -  navigate to path: ', navigationArgs);
             this.router.navigate(navigationArgs, navigationExtras);
         }

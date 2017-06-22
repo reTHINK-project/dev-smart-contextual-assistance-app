@@ -168,15 +168,17 @@ export class ConnectorService {
       console.log('[Connector Service] -  navigate to: ', paths.context, paths.task, paths.user);
 
       let navigationArgs = [paths.context];
+      let userTo;
 
       if (isAnUser(paths.task)) {
-        navigationArgs.push('user');
-        navigationArgs.push(clearMyUsername(paths.task, currentUser));
+        userTo = clearMyUsername(paths.task, currentUser);
       } else {
         navigationArgs.push(paths.task);
-        navigationArgs.push('user');
-        navigationArgs.push(clearMyUsername(paths.user, currentUser));
+        userTo = clearMyUsername(paths.user, currentUser);
       }
+
+      navigationArgs.push('user');
+      navigationArgs.push(userTo);
 
       console.log('[Connector Service] -  navigate to path: ', navigationArgs);
 
