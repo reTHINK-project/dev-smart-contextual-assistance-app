@@ -29,13 +29,6 @@ export class AppComponent implements OnInit {
   myIdentity: User;
   status: string;
 
-  public options = {
-    position: ['top', 'left'],
-    timeOut: 0,
-    lastOnBottom: true,
-    clickToClose: true
-  };
-
   private contextOpened = false;
 
   constructor(
@@ -133,7 +126,9 @@ export class AppComponent implements OnInit {
       {
         showProgressBar: true,
         pauseOnHover: false,
-        maxLength: 10
+        maxLength: 10,
+        clickToClose: false,
+        actions: true
       });
   }
 

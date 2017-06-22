@@ -19,8 +19,6 @@ var NotificationComponent = (function () {
         this.notificationService = notificationService;
         this.domSanitizer = domSanitizer;
         this.zone = zone;
-        this.onAccept = new core_1.EventEmitter();
-        this.onReject = new core_1.EventEmitter();
         // Progress bar variables
         this.progressWidth = 0;
         this.stopTime = false;
@@ -78,6 +76,27 @@ var NotificationComponent = (function () {
         if (this.clickToClose) {
             this.remove();
         }
+    };
+    NotificationComponent.prototype.onAcceptClick = function ($e) {
+        this.item.onEventAction.emit(this.buildActionEvent($e));
+        if (this.clickToClose) {
+            this.remove();
+        }
+    };
+    NotificationComponent.prototype.onRejectClick = function ($e) {
+        this.item.onEventAction.emit(this.buildActionEvent($e));
+        if (this.clickToClose) {
+            this.remove();
+        }
+    };
+    NotificationComponent.prototype.buildActionEvent = function ($e) {
+        console.log('Action Click: ', $e, this.item);
+        /*    let toEmit: Notification = {
+              createdOn: notification.createdOn,
+              type: notification.type,
+              icon: notification.icon,
+              id: notification.id
+            };*/
     };
     // Attach all the overrides
     NotificationComponent.prototype.attachOverrides = function () {
@@ -146,13 +165,9 @@ var NotificationComponent = (function () {
         __metadata("design:type", Object)
     ], NotificationComponent.prototype, "item", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", Object)
-    ], NotificationComponent.prototype, "onAccept", void 0);
-    __decorate([
-        core_1.Output(),
-        __metadata("design:type", Object)
-    ], NotificationComponent.prototype, "onReject", void 0);
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], NotificationComponent.prototype, "actions", void 0);
     NotificationComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

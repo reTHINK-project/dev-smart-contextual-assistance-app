@@ -28,9 +28,9 @@
       <span [ngStyle]="{'width': progressWidth + '%'}"></span>
     </div>
 
-    <div class="actions">
-      <button (click)="onAccept($event)" class="button">Accept</button>
-      <button (click)="onReject($event)" class="button">Reject</button>
+    <div *ngIf="actions"  class="sn-actions">
+      <button type="button" (click)="onAcceptClick($event)" class="btn btn-sm btn-success">Accept</button>
+      <button type="button" (click)="onRejectClick($event)" class="btn btn-sm btn-warning">Reject</button>
     </div>
 
 </div>

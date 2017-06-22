@@ -18,4 +18,6 @@ export interface Notification {
     clickToClose?: boolean;
     theClass?: string;
     click?: EventEmitter<{}>;
+    actions?: boolean;
+    onEventAction?: EventEmitter<{}>;
 }

@@ -15,7 +15,8 @@ var NotificationsService = (function () {
         this.icons = icons_1.defaultIcons;
     }
     NotificationsService.prototype.set = function (notification, to) {
-        notification.id = notification.override && notification.override.id ? notification.override.id : Math.random().toString(36).substring(3);
+        notification.id = notification.override && notification.override.id ?
+            notification.override.id : Math.random().toString(36).substring(3);
         notification.click = new core_1.EventEmitter();
         this.emitter.next({ command: 'set', notification: notification, add: to });
         return notification;

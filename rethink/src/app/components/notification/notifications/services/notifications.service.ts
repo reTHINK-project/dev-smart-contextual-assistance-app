@@ -11,9 +11,12 @@ export class NotificationsService {
   private icons: Icons = defaultIcons;
 
   set(notification: Notification, to: boolean) {
-    notification.id = notification.override && notification.override.id ? notification.override.id : Math.random().toString(36).substring(3);
+    notification.id = notification.override && notification.override.id ?
+      notification.override.id : Math.random().toString(36).substring(3);
+
     notification.click = new EventEmitter<{}>();
     this.emitter.next({ command: 'set', notification: notification, add: to });
+
     return notification;
   };
 

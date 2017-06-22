@@ -76,9 +76,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
   @Input() public animate: string;
   @Input() public position: number;
   @Input() public item: Notification;
-
-  @Output() onAccept = new EventEmitter();
-  @Output() onReject = new EventEmitter();
+  @Input() public actions: boolean;
 
   // Progress bar variables
   public progressWidth = 0;
@@ -144,6 +142,35 @@ export class NotificationComponent implements OnInit, OnDestroy {
     if (this.clickToClose) {
       this.remove();
     }
+  }
+
+  onAcceptClick($e: MouseEvent): void {
+    this.item.onEventAction!.emit(this.buildActionEvent($e));
+
+    if (this.clickToClose) {
+      this.remove();
+    }
+  }
+
+  onRejectClick($e: MouseEvent): void {
+    this.item.onEventAction!.emit(this.buildActionEvent($e));
+
+    if (this.clickToClose) {
+      this.remove();
+    }
+  }
+
+  buildActionEvent($e: MouseEvent): any {
+
+    console.log('Action Click: ', $e, this.item);
+
+/*    let toEmit: Notification = {
+      createdOn: notification.createdOn,
+      type: notification.type,
+      icon: notification.icon,
+      id: notification.id
+    };*/
+
   }
 
   // Attach all the overrides

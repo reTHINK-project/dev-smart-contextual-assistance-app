@@ -9,8 +9,8 @@ import { NotificationsService } from '../services/notifications.service';
   encapsulation: ViewEncapsulation.None,
   template: `
         <div class="notification-wrapper" [ngClass]="position">
-            <notification
-                *ngFor="let a of notifications; let i = index"
+            <notification *ngFor="let a of notifications; let i = index"
+                [actions]="actions"
                 [item]="a"
                 [timeOut]="timeOut"
                 [clickToClose]="clickToClose"

@@ -34,12 +34,6 @@ var AppComponent = (function () {
         this.connectorService = connectorService;
         this.chatService = chatService;
         this.ready = false;
-        this.options = {
-            position: ['top', 'left'],
-            timeOut: 0,
-            lastOnBottom: true,
-            clickToClose: true
-        };
         this.contextOpened = false;
         this.rethinkService.progress.subscribe({
             next: function (v) { _this.status = v; _this.titleService.setTitle(config_1.config.pageTitlePrefix + v); }
@@ -103,7 +97,9 @@ var AppComponent = (function () {
         this.notificationsService.success('Some Title', 'Some Content', {
             showProgressBar: true,
             pauseOnHover: false,
-            maxLength: 10
+            maxLength: 10,
+            clickToClose: false,
+            actions: true
         });
     };
     AppComponent.prototype.processEvent = function (event) {
