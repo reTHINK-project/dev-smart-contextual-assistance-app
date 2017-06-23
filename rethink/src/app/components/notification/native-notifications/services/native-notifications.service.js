@@ -17,7 +17,7 @@ var NativeNotificationsService = (function () {
     }
     NativeNotificationsService.prototype.requestPermission = function () {
         var _this = this;
-        if (this.isSupported()) {
+        if ('Notification' in window) {
             Notification.requestPermission(function (status) { return _this.permission = status; });
         }
     };
@@ -26,8 +26,11 @@ var NativeNotificationsService = (function () {
     };
     NativeNotificationsService.prototype.create = function (title, options) {
         var _this = this;
+        if (this.haveFocus) {
+            return new Observable_1.Observable(function (obs) { obs.complete(); });
+        }
         return new Observable_1.Observable(function (obs) {
-            if (!_this.isSupported()) {
+            if (!('Notification' in window)) {
                 obs.error('Notifications are not available in this environment');
                 obs.complete();
             }
@@ -42,6 +45,10 @@ var NativeNotificationsService = (function () {
             n.onclose = function () { return obs.complete(); };
         });
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Boolean)
+    ], NativeNotificationsService.prototype, "haveFocus", void 0);
     NativeNotificationsService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [])

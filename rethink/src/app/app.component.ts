@@ -1,8 +1,11 @@
 import { Title } from '@angular/platform-browser';
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, HostListener } from '@angular/core';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 
 import { NotificationsService } from './components/notification/notifications.module';
+import { NotificationActionEvent, ActionType } from './components/notification/notifications/interfaces/notification.action-event';
+
+import { NativeNotificationsService } from './components/notification/native-notifications.module';
 
 import { config } from './config';
 
@@ -16,7 +19,6 @@ import { normalizeName, splitFromURL, isAnUser, clearMyUsername } from './utils/
 // Services
 import { ContextualCommDataService } from './services/contextualCommData.service';
 import { TriggerActionService, RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
-import { NotificationActionEvent, ActionType } from "./components/notification/notifications/interfaces/notification.action-event";
 
 @Component({
   moduleId: module.id,
@@ -26,17 +28,29 @@ import { NotificationActionEvent, ActionType } from "./components/notification/n
 
 export class AppComponent implements OnInit {
 
+  private actionResult = new EventEmitter<{}>();
+  private contextOpened = false;
+  private haveFocus = true;
+
   ready = false;
   myIdentity: User;
   status: string;
 
-  private actionResult = new EventEmitter<{}>();
-  private contextOpened = false;
+  @HostListener('window:blur', ['$event']) onBlurEvent(event: any) {
+    console.log('[App Lost Focus] - blur:', event);
+    this.natNotificationsService.haveFocus = false;
+  }
+
+  @HostListener('window:focus', ['$event']) onFocusEvent(event: any) {
+    console.log('[App Have Focus] - focus:', event);
+    this.natNotificationsService.haveFocus = true;
+  }
 
   constructor(
     private router: Router,
     private titleService: Title,
     private route: ActivatedRoute,
+    private natNotificationsService: NativeNotificationsService,
     private notificationsService: NotificationsService,
     private contactService: ContactService,
     private rethinkService: RethinkService,
@@ -44,6 +58,8 @@ export class AppComponent implements OnInit {
     private contextualCommDataService: ContextualCommDataService,
     private connectorService: ConnectorService,
     private chatService: ChatService) {
+
+    this.natNotificationsService.requestPermission();
 
     this.rethinkService.progress.subscribe({
       next: (v: string) => { this.status = v; this.titleService.setTitle(config.pageTitlePrefix + v); }
@@ -127,6 +143,7 @@ export class AppComponent implements OnInit {
 
       let title = 'Incoming call';
       let content = 'A ' + event.mode + ' call is Incoming from ' + event.user.username;
+      let avatar = event.user.avatar;
 
       this.notificationsService.create(title, content, 'info',
       {
@@ -134,7 +151,24 @@ export class AppComponent implements OnInit {
         pauseOnHover: false,
         haveActions: true,
         metadata: event
-      }, event.user.avatar, this.actionResult);
+      }, avatar, this.actionResult);
+
+      this.natNotificationsService.create(title, {
+        icon: avatar,
+        body: content,
+        data: event,
+        silent: false,
+        sound: 'sound',
+      }).subscribe((n: any) => {
+        console.log('Native:', n, n.notification, n.event);
+
+        n.notification.onclick = function(x: any) {
+          console.log('Native:', x);
+          window.focus();
+          this.close();
+        };
+
+      });
 
     });
 
@@ -176,12 +210,12 @@ export class AppComponent implements OnInit {
     console.log('[Media Communication Component] -  Action Event: ', actionEvent);
     console.log('[Media Communication Component] -  Action Event: ', actionEvent.metadata);
 
-    if (actionEvent.action === ActionType.ACCEPT) {
+    let metadata = actionEvent.metadata;
+    let mode = metadata.mode;
+    let currentUser = this.contactService.sessionUser.username;
+    let paths: any = splitFromURL(metadata.metadata.name, currentUser);
 
-      let metadata = actionEvent.metadata;
-      let mode = metadata.mode;
-      let currentUser = this.contactService.sessionUser.username;
-      let paths: any = splitFromURL(metadata.metadata.name, currentUser);
+    if (actionEvent.action === ActionType.ACCEPT) {
 
       let navigationExtras: NavigationExtras = {
         queryParams: { 'action': mode }
@@ -209,8 +243,10 @@ export class AppComponent implements OnInit {
 
     } else {
 
-      console.log('[Media Communication Component] -  navigate to path: ');
-      // controller.decline();
+      console.log('[Media Communication Component] -  navigate to path: ', this.connectorService.getControllers);
+
+      this.connectorService.getControllers['answer'].decline();
+
     }
   }
 

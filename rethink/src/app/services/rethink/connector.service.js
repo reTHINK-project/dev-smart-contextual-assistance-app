@@ -56,6 +56,13 @@ var ConnectorService = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ConnectorService.prototype, "getControllers", {
+        get: function () {
+            return this.controllers;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ConnectorService.prototype, "mode", {
         get: function () {
             return this._mode;

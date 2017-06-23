@@ -24,6 +24,7 @@ var ChatService = (function () {
         this.contextualCommService = contextualCommService;
         this.contactService = contactService;
         this.controllerList = new Map();
+        this.onMessageEvent = new core_1.EventEmitter();
     }
     Object.defineProperty(ChatService.prototype, "activeDataObjectURL", {
         get: function () {
@@ -128,6 +129,7 @@ var ChatService = (function () {
                 };
                 var currentMessage = new models_1.Message(msg);
                 _this.contextualCommService.updateContextMessages(currentMessage, dataObjectURL);
+                _this.onMessageEvent.emit(currentMessage);
             }
             else {
                 console.info('The message was rejected because the user ' + message.identity.userProfile.userURL + ' is unknown');

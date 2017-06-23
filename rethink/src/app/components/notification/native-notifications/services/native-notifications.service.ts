@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { NativeNotification, Permission } from '../interfaces/native-notification.type';
 
@@ -9,12 +9,14 @@ export class NativeNotificationsService {
 
   permission: Permission;
 
+  @Input() haveFocus: boolean;
+
   constructor() {
     this.permission  = this.isSupported() ? Notification.permission : 'denied';
   }
 
   requestPermission() {
-    if (this.isSupported()) {
+    if ('Notification' in window) {
       Notification.requestPermission((status: any) => this.permission = status);
     }
   }
@@ -25,9 +27,13 @@ export class NativeNotificationsService {
 
   create(title: string, options?: NativeNotification): any {
 
+    if (this.haveFocus) {
+      return new Observable((obs: any) => { obs.complete(); });
+    }
+
     return new Observable((obs: any) => {
 
-      if (!this.isSupported()) {
+      if (!('Notification' in window)) {
         obs.error('Notifications are not available in this environment');
         obs.complete();
       }

@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, HostBinding, EventEmitter } from '@angular/core';
 
+import { NativeNotificationsService } from '../../notification/native-notifications/services/native-notifications.service';
 
+import { Message } from '../../../models/models';
 import { ChatService } from '../../../services/services';
 import { ContextualCommDataService } from '../../../services/contextualCommData.service';
 
@@ -20,9 +22,28 @@ export class ChatCommunicationComponent implements OnInit {
 
   constructor(
     private chatService: ChatService,
+    private natNotificationsService: NativeNotificationsService,
     private contextualCommDataService: ContextualCommDataService) {}
 
   ngOnInit() {
+
+    this.chatService.onMessageEvent.subscribe((message: Message) => {
+
+      this.natNotificationsService.create('New Message', {
+        icon: message.user.avatar,
+        body: message.message,
+      }).subscribe((n: any) => {
+        console.log('Native:', n, n.notification, n.event);
+
+        n.notification.onclick = function(x: any) {
+          console.log('Native:', x);
+          window.focus();
+          this.close();
+        };
+
+      });
+
+    });
 
   }
 

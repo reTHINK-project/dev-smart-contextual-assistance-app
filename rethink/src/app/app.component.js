@@ -13,6 +13,8 @@ var platform_browser_1 = require("@angular/platform-browser");
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var notifications_module_1 = require("./components/notification/notifications.module");
+var notification_action_event_1 = require("./components/notification/notifications/interfaces/notification.action-event");
+var native_notifications_module_1 = require("./components/notification/native-notifications.module");
 var config_1 = require("./config");
 var app_models_1 = require("./models/app.models");
 // Utils
@@ -20,13 +22,13 @@ var utils_1 = require("./utils/utils");
 // Services
 var contextualCommData_service_1 = require("./services/contextualCommData.service");
 var services_1 = require("./services/services");
-var notification_action_event_1 = require("./components/notification/notifications/interfaces/notification.action-event");
 var AppComponent = (function () {
-    function AppComponent(router, titleService, route, notificationsService, contactService, rethinkService, triggerActionService, contextualCommDataService, connectorService, chatService) {
+    function AppComponent(router, titleService, route, natNotificationsService, notificationsService, contactService, rethinkService, triggerActionService, contextualCommDataService, connectorService, chatService) {
         var _this = this;
         this.router = router;
         this.titleService = titleService;
         this.route = route;
+        this.natNotificationsService = natNotificationsService;
         this.notificationsService = notificationsService;
         this.contactService = contactService;
         this.rethinkService = rethinkService;
@@ -34,9 +36,11 @@ var AppComponent = (function () {
         this.contextualCommDataService = contextualCommDataService;
         this.connectorService = connectorService;
         this.chatService = chatService;
-        this.ready = false;
         this.actionResult = new core_1.EventEmitter();
         this.contextOpened = false;
+        this.haveFocus = true;
+        this.ready = false;
+        this.natNotificationsService.requestPermission();
         this.rethinkService.progress.subscribe({
             next: function (v) { _this.status = v; _this.titleService.setTitle(config_1.config.pageTitlePrefix + v); }
         });
@@ -47,6 +51,14 @@ var AppComponent = (function () {
             }
         });
     }
+    AppComponent.prototype.onBlurEvent = function (event) {
+        console.log('[App Lost Focus] - blur:', event);
+        this.natNotificationsService.haveFocus = false;
+    };
+    AppComponent.prototype.onFocusEvent = function (event) {
+        console.log('[App Have Focus] - focus:', event);
+        this.natNotificationsService.haveFocus = true;
+    };
     AppComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.rethinkService.progress.next('Loading runtime');
@@ -100,12 +112,27 @@ var AppComponent = (function () {
             console.log('[Media Communication Component] - event', event);
             var title = 'Incoming call';
             var content = 'A ' + event.mode + ' call is Incoming from ' + event.user.username;
+            var avatar = event.user.avatar;
             _this.notificationsService.create(title, content, 'info', {
                 showProgressBar: false,
                 pauseOnHover: false,
                 haveActions: true,
                 metadata: event
-            }, event.user.avatar, _this.actionResult);
+            }, avatar, _this.actionResult);
+            _this.natNotificationsService.create(title, {
+                icon: avatar,
+                body: content,
+                data: event,
+                silent: false,
+                sound: 'sound',
+            }).subscribe(function (n) {
+                console.log('Native:', n, n.notification, n.event);
+                n.notification.onclick = function (x) {
+                    console.log('Native:', x);
+                    window.focus();
+                    this.close();
+                };
+            });
         });
         this.actionResult.subscribe(function (a) {
             console.log('[Media Communication Component] - Params Action:', a);
@@ -134,11 +161,11 @@ var AppComponent = (function () {
     AppComponent.prototype.actionEvent = function (actionEvent) {
         console.log('[Media Communication Component] -  Action Event: ', actionEvent);
         console.log('[Media Communication Component] -  Action Event: ', actionEvent.metadata);
+        var metadata = actionEvent.metadata;
+        var mode = metadata.mode;
+        var currentUser = this.contactService.sessionUser.username;
+        var paths = utils_1.splitFromURL(metadata.metadata.name, currentUser);
         if (actionEvent.action === notification_action_event_1.ActionType.ACCEPT) {
-            var metadata = actionEvent.metadata;
-            var mode = metadata.mode;
-            var currentUser = this.contactService.sessionUser.username;
-            var paths = utils_1.splitFromURL(metadata.metadata.name, currentUser);
             var navigationExtras = {
                 queryParams: { 'action': mode }
             };
@@ -159,8 +186,8 @@ var AppComponent = (function () {
             this.router.navigate(navigationArgs, navigationExtras);
         }
         else {
-            console.log('[Media Communication Component] -  navigate to path: ');
-            // controller.decline();
+            console.log('[Media Communication Component] -  navigate to path: ', this.connectorService.getControllers);
+            this.connectorService.getControllers['answer'].decline();
         }
     };
     AppComponent.prototype.onOpenContext = function (event) {
@@ -172,6 +199,18 @@ var AppComponent = (function () {
             this.contextOpened = false;
         }
     };
+    __decorate([
+        core_1.HostListener('window:blur', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", void 0)
+    ], AppComponent.prototype, "onBlurEvent", null);
+    __decorate([
+        core_1.HostListener('window:focus', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", void 0)
+    ], AppComponent.prototype, "onFocusEvent", null);
     AppComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -181,6 +220,7 @@ var AppComponent = (function () {
         __metadata("design:paramtypes", [router_1.Router,
             platform_browser_1.Title,
             router_1.ActivatedRoute,
+            native_notifications_module_1.NativeNotificationsService,
             notifications_module_1.NotificationsService,
             services_1.ContactService,
             services_1.RethinkService,

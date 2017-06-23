@@ -39,6 +39,10 @@ export class ConnectorService {
     this._webrtcMode = value;
   }
 
+  public get getControllers(): any[] {
+    return this.controllers;
+  }
+
   private _localStream: Subject<MediaStream> = new Subject();
   private _remoteStream: ReplaySubject<MediaStream> = new ReplaySubject();
 
