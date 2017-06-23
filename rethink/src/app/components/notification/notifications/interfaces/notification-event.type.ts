@@ -5,4 +5,5 @@ export interface NotificationEvent {
   command: string;
   id?: string;
   notification?: Notification;
+  action?: 'accept' | 'reject' | 'maybe';
 }

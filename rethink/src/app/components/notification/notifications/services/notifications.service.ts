@@ -25,38 +25,85 @@ export class NotificationsService {
   }
 
   //// Access methods
-  success(title: string, content?: string, override?: any) {
-    return this.set({ title: title, content: content || '', type: 'success', icon: this.icons.success, override: override }, true);
+  success(title: string, content?: string, override?: any, event?: EventEmitter<{}>) {
+    return this.set({
+      title: title,
+      content: content || '',
+      type: 'success',
+      icon: this.icons.success,
+      override: override,
+      onEventAction: event}, true);
   }
 
-  error(title: string, content?: string, override?: any) {
-    return this.set({ title: title, content: content || '', type: 'error', icon: this.icons.error, override: override }, true);
+  error(title: string, content?: string, override?: any, event?: EventEmitter<{}>) {
+    return this.set({
+      title: title,
+      content: content || '',
+      type: 'error',
+      icon: this.icons.error,
+      override: override,
+      onEventAction: event }, true);
   }
 
-  alert(title: string, content?: string, override?: any) {
-    return this.set({ title: title, content: content || '', type: 'alert', icon: this.icons.alert, override: override }, true);
+  alert(title: string, content?: string, override?: any, event?: EventEmitter<{}>) {
+    return this.set({
+      title: title,
+      content: content || '',
+      type: 'alert',
+      icon: this.icons.alert,
+      override: override,
+      onEventAction: event }, true);
   }
 
-  info(title: string, content?: string, override?: any) {
-    return this.set({ title: title, content: content || '', type: 'info', icon: this.icons.info, override: override }, true);
+  info(title: string, content?: string, override?: any, event?: EventEmitter<{}>) {
+    return this.set({
+      title: title,
+      content: content || '',
+      type: 'info',
+      icon: this.icons.info,
+      override: override,
+      onEventAction: event }, true);
   }
 
-  warn(title: string, content?: string, override?: any) {
-    return this.set({ title: title, content: content || '', type: 'warn', icon: this.icons.warn, override: override }, true);
+  warn(title: string, content?: string, override?: any, event?: EventEmitter<{}>) {
+    return this.set({
+      title: title,
+      content: content || '',
+      type: 'warn',
+      icon: this.icons.warn,
+      override: override,
+      onEventAction: event }, true);
   }
 
-  bare(title: string, content?: string, override?: any) {
-    return this.set({ title: title, content: content || '', type: 'bare', icon: 'bare', override: override }, true);
+  bare(title: string, content?: string, override?: any, event?: EventEmitter<{}>) {
+    return this.set({
+      title: title,
+      content: content || '',
+      type: 'bare',
+      icon: 'bare',
+      override: override,
+      onEventAction: event }, true);
   }
 
   // With type method
-  create(title: string, content = '', type = 'success', override?: any) {
-    return this.set({ title: title, content: content, type: type, icon: this.icons[type], override: override }, true);
+  create(title: string, content = '', type = 'success', override?: any, event?: EventEmitter<{}>) {
+    return this.set({
+      title: title,
+      content: content,
+      type: type,
+      icon: this.icons[type],
+      override: override,
+      onEventAction: event }, true);
   }
 
   // HTML Notification method
-  html(html: any, type = 'success', override?: any) {
-    return this.set({ html: html, type: type, icon: 'bare', override: override }, true);
+  html(html: any, type = 'success', override?: any, event?: EventEmitter<{}>) {
+    return this.set({
+      html: html,
+      type: type,
+      icon: 'bare',
+      override: override,
+      onEventAction: event }, true);
   }
 
   // Remove all notifications method

@@ -1,6 +1,6 @@
 import { Title } from '@angular/platform-browser';
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 
 import { NotificationsService } from './components/notification/notifications.module';
 
@@ -11,11 +11,12 @@ import { User, ContextualComm } from './models/models';
 import { TriggerActions } from './models/app.models';
 
 // Utils
-import { normalizeName } from './utils/utils';
+import { normalizeName, splitFromURL, isAnUser, clearMyUsername } from './utils/utils';
 
 // Services
 import { ContextualCommDataService } from './services/contextualCommData.service';
 import { TriggerActionService, RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
+import { NotificationActionEvent, ActionType } from "./components/notification/notifications/interfaces/notification.action-event";
 
 @Component({
   moduleId: module.id,
@@ -29,6 +30,7 @@ export class AppComponent implements OnInit {
   myIdentity: User;
   status: string;
 
+  private actionResult = new EventEmitter<{}>();
   private contextOpened = false;
 
   constructor(
@@ -119,17 +121,27 @@ export class AppComponent implements OnInit {
 
     });
 
+    this.connectorService.onInvitation.subscribe((event: any) => {
 
+      console.log('[Media Communication Component] - event', event);
 
-    this.notificationsService.success('Some Title',
+      this.notificationsService.info('Call Incoming',
       'Some Content',
       {
-        showProgressBar: true,
+        showProgressBar: false,
         pauseOnHover: false,
         maxLength: 10,
-        clickToClose: false,
-        actions: true
-      });
+        haveActions: true,
+        metadata: event.metadata
+      }, this.actionResult);
+
+    });
+
+    this.actionResult.subscribe((a: any) => {
+      console.log('[Media Communication Component] - Params Action:', a);
+
+      this.actionEvent(a);
+    });
   }
 
   private processEvent(event: any) {
@@ -156,6 +168,46 @@ export class AppComponent implements OnInit {
 
     });
 
+  }
+
+  actionEvent(actionEvent: NotificationActionEvent) {
+
+    console.log('[Media Communication Component] -  Action Event: ', actionEvent);
+    console.log('[Media Communication Component] -  Action Event: ', actionEvent.metadata);
+
+    if (actionEvent.action === ActionType.ACCEPT) {
+
+      let navigationExtras: NavigationExtras = {
+        queryParams: { 'action': 'Video' }
+      };
+
+      let metadata = actionEvent.metadata;
+      let currentUser = this.contactService.sessionUser.username;
+      let paths: any = splitFromURL(metadata.name, currentUser);
+
+      console.log('[Media Communication Component] -  navigate to: ', paths);
+      console.log('[Media Communication Component] -  navigate to: ', paths.context, paths.task, paths.user);
+
+      let navigationArgs = [paths.context];
+
+      if (isAnUser(paths.task)) {
+        navigationArgs.push('user');
+        navigationArgs.push(clearMyUsername(paths.task, currentUser));
+      } else {
+        navigationArgs.push(paths.task);
+        navigationArgs.push('user');
+        navigationArgs.push(clearMyUsername(paths.user, currentUser));
+      }
+
+      console.log('[Media Communication Component] -  navigate to path: ', navigationArgs);
+
+      this.router.navigate(navigationArgs, navigationExtras);
+
+    } else {
+
+      console.log('[Media Communication Component] -  navigate to path: ');
+      // controller.decline();
+    }
   }
 
   onOpenContext(event?: Event) {

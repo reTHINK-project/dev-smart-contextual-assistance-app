@@ -20,6 +20,7 @@ var utils_1 = require("./utils/utils");
 // Services
 var contextualCommData_service_1 = require("./services/contextualCommData.service");
 var services_1 = require("./services/services");
+var notification_action_event_1 = require("./components/notification/notifications/interfaces/notification.action-event");
 var AppComponent = (function () {
     function AppComponent(router, titleService, route, notificationsService, contactService, rethinkService, triggerActionService, contextualCommDataService, connectorService, chatService) {
         var _this = this;
@@ -34,6 +35,7 @@ var AppComponent = (function () {
         this.connectorService = connectorService;
         this.chatService = chatService;
         this.ready = false;
+        this.actionResult = new core_1.EventEmitter();
         this.contextOpened = false;
         this.rethinkService.progress.subscribe({
             next: function (v) { _this.status = v; _this.titleService.setTitle(config_1.config.pageTitlePrefix + v); }
@@ -94,12 +96,19 @@ var AppComponent = (function () {
                 console.error('[Chat Communication View - onInvitation] - event not processed:', reason);
             });
         });
-        this.notificationsService.success('Some Title', 'Some Content', {
-            showProgressBar: true,
-            pauseOnHover: false,
-            maxLength: 10,
-            clickToClose: false,
-            actions: true
+        this.connectorService.onInvitation.subscribe(function (event) {
+            console.log('[Media Communication Component] - event', event);
+            _this.notificationsService.info('Call Incoming', 'Some Content', {
+                showProgressBar: false,
+                pauseOnHover: false,
+                maxLength: 10,
+                haveActions: true,
+                metadata: event.metadata
+            }, _this.actionResult);
+        });
+        this.actionResult.subscribe(function (a) {
+            console.log('[Media Communication Component] - Params Action:', a);
+            _this.actionEvent(a);
         });
     };
     AppComponent.prototype.processEvent = function (event) {
@@ -120,6 +129,36 @@ var AppComponent = (function () {
                 reject(reason);
             });
         });
+    };
+    AppComponent.prototype.actionEvent = function (actionEvent) {
+        console.log('[Media Communication Component] -  Action Event: ', actionEvent);
+        console.log('[Media Communication Component] -  Action Event: ', actionEvent.metadata);
+        if (actionEvent.action === notification_action_event_1.ActionType.ACCEPT) {
+            var navigationExtras = {
+                queryParams: { 'action': 'Video' }
+            };
+            var metadata = actionEvent.metadata;
+            var currentUser = this.contactService.sessionUser.username;
+            var paths = utils_1.splitFromURL(metadata.name, currentUser);
+            console.log('[Media Communication Component] -  navigate to: ', paths);
+            console.log('[Media Communication Component] -  navigate to: ', paths.context, paths.task, paths.user);
+            var navigationArgs = [paths.context];
+            if (utils_1.isAnUser(paths.task)) {
+                navigationArgs.push('user');
+                navigationArgs.push(utils_1.clearMyUsername(paths.task, currentUser));
+            }
+            else {
+                navigationArgs.push(paths.task);
+                navigationArgs.push('user');
+                navigationArgs.push(utils_1.clearMyUsername(paths.user, currentUser));
+            }
+            console.log('[Media Communication Component] -  navigate to path: ', navigationArgs);
+            this.router.navigate(navigationArgs, navigationExtras);
+        }
+        else {
+            console.log('[Media Communication Component] -  navigate to path: ');
+            // controller.decline();
+        }
     };
     AppComponent.prototype.onOpenContext = function (event) {
         this.contextOpened = !this.contextOpened;

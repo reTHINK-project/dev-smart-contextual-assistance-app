@@ -17,8 +17,9 @@ var models_1 = require("../../../models/models");
 var contextualCommData_service_1 = require("../../../services/contextualCommData.service");
 var services_1 = require("../../../services/services");
 var MediaCommunicationComponent = (function () {
-    function MediaCommunicationComponent(route, contactService, connectorService, contextualCommDataService) {
+    function MediaCommunicationComponent(router, route, contactService, connectorService, contextualCommDataService) {
         var _this = this;
+        this.router = router;
         this.route = route;
         this.contactService = contactService;
         this.connectorService = connectorService;
@@ -43,8 +44,6 @@ var MediaCommunicationComponent = (function () {
             if (status === 'end') {
                 _this.reset();
             }
-        });
-        this.connectorService.onInvitation.subscribe(function (event) {
         });
         console.log('[Media Communication Component] - Params Action:', this.mode);
     }
@@ -128,7 +127,8 @@ var MediaCommunicationComponent = (function () {
             templateUrl: './mediaCommunication.component.html',
             styleUrls: ['./mediaCommunication.component.css']
         }),
-        __metadata("design:paramtypes", [router_1.ActivatedRoute,
+        __metadata("design:paramtypes", [router_1.Router,
+            router_1.ActivatedRoute,
             services_1.ContactService,
             services_1.ConnectorService,
             contextualCommData_service_1.ContextualCommDataService])

@@ -10,7 +10,7 @@ import { NotificationsService } from '../services/notifications.service';
   template: `
         <div class="notification-wrapper" [ngClass]="position">
             <notification *ngFor="let a of notifications; let i = index"
-                [actions]="actions"
+                [haveActions]="actions"
                 [item]="a"
                 [timeOut]="timeOut"
                 [clickToClose]="clickToClose"
@@ -55,9 +55,11 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   @Output() onCreate = new EventEmitter();
   @Output() onDestroy = new EventEmitter();
+  @Output() onActionEvent = new EventEmitter();
 
   public notifications: Notification[] = [];
   public position: ['top' | 'bottom', 'right' | 'left'] = ['bottom', 'right'];
+  public actions: true;
 
   private lastNotificationCreated: Notification;
   private listener: Subscription;

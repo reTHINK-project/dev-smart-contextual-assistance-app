@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy, Input, ViewEncapsulation, NgZone, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewEncapsulation, NgZone } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Notification } from '../interfaces/notification.type';
 import { NotificationsService } from '../services/notifications.service';
+import { NotificationActionEvent, ActionType } from '../interfaces/notification.action-event';
 
 @Component({
   moduleId: module.id,
@@ -76,7 +77,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
   @Input() public animate: string;
   @Input() public position: number;
   @Input() public item: Notification;
-  @Input() public actions: boolean;
+  @Input() public haveActions: boolean;
 
   // Progress bar variables
   public progressWidth = 0;
@@ -145,31 +146,33 @@ export class NotificationComponent implements OnInit, OnDestroy {
   }
 
   onAcceptClick($e: MouseEvent): void {
-    this.item.onEventAction!.emit(this.buildActionEvent($e));
 
-    if (this.clickToClose) {
-      this.remove();
-    }
+    this.item.onEventAction!.emit(this.buildActionEvent($e, ActionType.ACCEPT));
+    this.remove();
+
   }
 
   onRejectClick($e: MouseEvent): void {
-    this.item.onEventAction!.emit(this.buildActionEvent($e));
 
-    if (this.clickToClose) {
-      this.remove();
-    }
+    this.item.onEventAction!.emit(this.buildActionEvent($e, ActionType.REJECT));
+    this.remove();
+
   }
 
-  buildActionEvent($e: MouseEvent): any {
+  buildActionEvent($e: MouseEvent, action: ActionType): any {
 
-    console.log('Action Click: ', $e, this.item);
+    console.log('Action Click: ', $e, this.item, action);
 
-/*    let toEmit: Notification = {
-      createdOn: notification.createdOn,
-      type: notification.type,
-      icon: notification.icon,
-      id: notification.id
-    };*/
+    let toEmit: NotificationActionEvent = {
+      createdOn: this.item.createdOn,
+      notification: this.item,
+      type: this.item.type,
+      id: this.item.id,
+      action: action,
+      metadata: this.item.override.metadata
+    };
+
+    return toEmit;
 
   }
 

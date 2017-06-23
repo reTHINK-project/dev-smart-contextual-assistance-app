@@ -3,7 +3,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 
 // Utils
-import { isAnUser, clearMyUsername, getUserMedia, splitFromURL } from '../../utils/utils';
+import { getUserMedia } from '../../utils/utils';
 
 // Services
 import { RethinkService } from './rethink.service';

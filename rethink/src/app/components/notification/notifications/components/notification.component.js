@@ -13,6 +13,7 @@ var core_1 = require("@angular/core");
 var animations_1 = require("@angular/animations");
 var platform_browser_1 = require("@angular/platform-browser");
 var notifications_service_1 = require("../services/notifications.service");
+var notification_action_event_1 = require("../interfaces/notification.action-event");
 var NotificationComponent = (function () {
     function NotificationComponent(notificationService, domSanitizer, zone) {
         var _this = this;
@@ -78,25 +79,24 @@ var NotificationComponent = (function () {
         }
     };
     NotificationComponent.prototype.onAcceptClick = function ($e) {
-        this.item.onEventAction.emit(this.buildActionEvent($e));
-        if (this.clickToClose) {
-            this.remove();
-        }
+        this.item.onEventAction.emit(this.buildActionEvent($e, notification_action_event_1.ActionType.ACCEPT));
+        this.remove();
     };
     NotificationComponent.prototype.onRejectClick = function ($e) {
-        this.item.onEventAction.emit(this.buildActionEvent($e));
-        if (this.clickToClose) {
-            this.remove();
-        }
+        this.item.onEventAction.emit(this.buildActionEvent($e, notification_action_event_1.ActionType.REJECT));
+        this.remove();
     };
-    NotificationComponent.prototype.buildActionEvent = function ($e) {
-        console.log('Action Click: ', $e, this.item);
-        /*    let toEmit: Notification = {
-              createdOn: notification.createdOn,
-              type: notification.type,
-              icon: notification.icon,
-              id: notification.id
-            };*/
+    NotificationComponent.prototype.buildActionEvent = function ($e, action) {
+        console.log('Action Click: ', $e, this.item, action);
+        var toEmit = {
+            createdOn: this.item.createdOn,
+            notification: this.item,
+            type: this.item.type,
+            id: this.item.id,
+            action: action,
+            metadata: this.item.override.metadata
+        };
+        return toEmit;
     };
     // Attach all the overrides
     NotificationComponent.prototype.attachOverrides = function () {
@@ -167,7 +167,7 @@ var NotificationComponent = (function () {
     __decorate([
         core_1.Input(),
         __metadata("design:type", Boolean)
-    ], NotificationComponent.prototype, "actions", void 0);
+    ], NotificationComponent.prototype, "haveActions", void 0);
     NotificationComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

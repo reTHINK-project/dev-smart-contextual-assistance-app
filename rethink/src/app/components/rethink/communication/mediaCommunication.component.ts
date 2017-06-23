@@ -1,5 +1,10 @@
-import { Component, Input, OnInit, HostBinding, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input, OnInit, HostBinding, OnDestroy, EventEmitter } from '@angular/core';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
+
+import { NotificationActionEvent, ActionType } from '../../notification/notifications/interfaces/notification.action-event';
+
+// Utils
+import { isAnUser, clearMyUsername, splitFromURL } from '../../../utils/utils';
 
 // Models
 import { User } from '../../../models/models';
@@ -16,6 +21,7 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./mediaCommunication.component.css']
 })
 export class MediaCommunicationComponent implements OnInit, OnDestroy {
+  notificationsService: any;
   @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100';
 
   @Input() user: User;
@@ -30,6 +36,7 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
   private streamingActive = false;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private contactService: ContactService,
     private connectorService: ConnectorService,
@@ -60,10 +67,6 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
       if (status === 'end') {
         this.reset();
       }
-
-    });
-
-    this.connectorService.onInvitation.subscribe((event: any) => {
 
     });
 
