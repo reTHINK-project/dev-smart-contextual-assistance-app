@@ -1,10 +1,5 @@
-import { Component, Input, OnInit, HostBinding, OnDestroy, EventEmitter } from '@angular/core';
-import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
-
-import { NotificationActionEvent, ActionType } from '../../notification/notifications/interfaces/notification.action-event';
-
-// Utils
-import { isAnUser, clearMyUsername, splitFromURL } from '../../../utils/utils';
+import { Component, Input, OnInit, HostBinding, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 
 // Models
 import { User } from '../../../models/models';
@@ -34,6 +29,9 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   private streamingActive = false;
+  private localStream: Subscription;
+  private remoteStream: Subscription;
+  private connStatus: Subscription;
 
   constructor(
     private router: Router,
@@ -46,22 +44,34 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
 
     this.streamingActive = false;
 
+    this.subscription = this.router.events.subscribe((event: NavigationEnd) => {
+
+      if (event instanceof NavigationEnd) {
+        let action = event['action'];
+        console.log('[Media Communication Component] - Params Action:', action);
+        this.mode = action;
+        this.connectorService.mode = action;
+        return action;
+      }
+
+    });
+
     // if (this.mode === 'video') {
 
-    this.connectorService.getLocalStream().subscribe((stream) => {
+    this.localStream = this.connectorService.getLocalStream().subscribe((stream) => {
       console.log('[Media Communication Component] - get local stream: ', stream);
       this.myStream = stream;
     });
 
     // }
 
-    this.connectorService.getRemoteStream().subscribe((stream) => {
+    this.remoteStream = this.connectorService.getRemoteStream().subscribe((stream) => {
       console.log('[Media Communication Component] - get remote stream: ', stream);
       this.stream = stream;
       this.duration = new Date();
     });
 
-    this.connectorService.connectorStatus().subscribe((status: string) => {
+    this.connStatus = this.connectorService.connectorStatus().subscribe((status: string) => {
       console.log('[Media Communication Component] -  connector status: ', status);
 
       if (status === 'end') {
@@ -74,17 +84,6 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
-    this.subscription = this.route.queryParams.subscribe(
-      (queryParam: any) => {
-        console.log('[Media Communication Component] - Params Action:', queryParam['action']);
-        this.mode = queryParam['action'];
-        this.connectorService.mode = queryParam['action'];
-        return queryParam['action'];
-      }
-    );
-
-     console.log('[Media Communication Component] - ngOnInit:', this.mode);
 
     if (this.mode) {
 
@@ -107,6 +106,9 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
   }
 
   reset() {
+    this.connStatus.unsubscribe();
+    this.localStream.unsubscribe();
+    this.remoteStream.unsubscribe();
     this.subscription.unsubscribe();
     this.streamingActive = false;
     this.stream = null;

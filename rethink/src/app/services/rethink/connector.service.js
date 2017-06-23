@@ -36,10 +36,13 @@ var ConnectorService = (function () {
         this._remoteStream = new ReplaySubject_1.ReplaySubject();
         this._connectorStatus = new Subject_1.Subject();
         this.onInvitation = new core_1.EventEmitter();
-        this.paramsSubscription = this.route.queryParams.subscribe(function (params) {
-            console.log('[Connector Service] - query params changes:', params['action'], _this.mode, _this.callInProgress);
-            if (!_this.callInProgress) {
-                _this.acceptCall();
+        console.log('[Connector Service] - constructor', this.router);
+        this.paramsSubscription = this.router.events.subscribe(function (event) {
+            if (event instanceof router_1.NavigationEnd) {
+                console.log('[Connector Service] - query params changes:', event, event['action'], _this.mode, _this.callInProgress);
+                if (!_this.callInProgress) {
+                    _this.acceptCall();
+                }
             }
         });
     }
@@ -87,6 +90,8 @@ var ConnectorService = (function () {
     };
     ConnectorService.prototype.acceptCall = function () {
         var _this = this;
+        console.log('[Connector Service] - AcceptCall: ', this.controllers, this.controllers.hasOwnProperty('ansewer'));
+        console.log('[Connector Service] - AcceptCall: ', this._webrtcMode);
         if (this.controllers && this.controllers.hasOwnProperty('answer') && this._webrtcMode === 'answer') {
             var options = { video: true, audio: true };
             utils_1.getUserMedia(options).then(function (mediaStream) {
@@ -103,6 +108,9 @@ var ConnectorService = (function () {
                 console.error(reason);
             });
         }
+        else {
+            // console.error('error accepting call', this.controllers, this.controllers.hasOwnProperty('ansewer'), this._webrtcMode);
+        }
     };
     ConnectorService.prototype.prepareHyperty = function () {
         var _this = this;
@@ -113,46 +121,9 @@ var ConnectorService = (function () {
             _this._webrtcMode = 'answer';
             _this.prepareController(controller);
             var currUser = _this.contactService.getUser(identity.userURL);
-            _this.onInvitation.emit({ metadata: metadata, user: currUser });
+            _this.onInvitation.emit({ metadata: metadata, user: currUser, mode: _this.mode });
         });
     };
-    /*  private _notificationResponse(controller: any, response: IAlert, user: User) {
-    
-        console.log('[Connector Service] - notification response: ', response, this);
-    
-        if (response) {
-    
-          let navigationExtras: NavigationExtras = {
-            queryParams: { 'action': this.mode }
-          };
-    
-          let metadata = response.metadata;
-          let currentUser = this.contactService.sessionUser.username;
-          let paths: any = splitFromURL(metadata.name, currentUser);
-    
-          console.log('[Connector Service] -  navigate to: ', paths);
-          console.log('[Connector Service] -  navigate to: ', paths.context, paths.task, paths.user);
-    
-          let navigationArgs = [paths.context];
-    
-          if (isAnUser(paths.task)) {
-            navigationArgs.push('user');
-            navigationArgs.push(clearMyUsername(paths.task, currentUser));
-          } else {
-            navigationArgs.push(paths.task);
-            navigationArgs.push('user');
-            navigationArgs.push(clearMyUsername(paths.user, currentUser));
-          }
-    
-          console.log('[Connector Service] -  navigate to path: ', navigationArgs);
-    
-          this.router.navigate(navigationArgs, navigationExtras);
-    
-        } else {
-          controller.decline();
-        }
-    
-      }*/
     ConnectorService.prototype.connect = function (userURL, options, name, domain) {
         var _this = this;
         this._webrtcMode = 'offer';
@@ -186,7 +157,6 @@ var ConnectorService = (function () {
                 relativeTo: _this.route
             };
             _this.router.navigate([], navigationExtras);
-            _this.paramsSubscription.unsubscribe();
             _this._connectorStatus.next(STATUS.END);
         });
     };

@@ -98,13 +98,14 @@ var AppComponent = (function () {
         });
         this.connectorService.onInvitation.subscribe(function (event) {
             console.log('[Media Communication Component] - event', event);
-            _this.notificationsService.info('Call Incoming', 'Some Content', {
+            var title = 'Incoming call';
+            var content = 'A ' + event.mode + ' call is Incoming from ' + event.user.username;
+            _this.notificationsService.create(title, content, 'info', {
                 showProgressBar: false,
                 pauseOnHover: false,
-                maxLength: 10,
                 haveActions: true,
-                metadata: event.metadata
-            }, _this.actionResult);
+                metadata: event
+            }, event.user.avatar, _this.actionResult);
         });
         this.actionResult.subscribe(function (a) {
             console.log('[Media Communication Component] - Params Action:', a);
@@ -134,25 +135,27 @@ var AppComponent = (function () {
         console.log('[Media Communication Component] -  Action Event: ', actionEvent);
         console.log('[Media Communication Component] -  Action Event: ', actionEvent.metadata);
         if (actionEvent.action === notification_action_event_1.ActionType.ACCEPT) {
-            var navigationExtras = {
-                queryParams: { 'action': 'Video' }
-            };
             var metadata = actionEvent.metadata;
+            var mode = metadata.mode;
             var currentUser = this.contactService.sessionUser.username;
-            var paths = utils_1.splitFromURL(metadata.name, currentUser);
+            var paths = utils_1.splitFromURL(metadata.metadata.name, currentUser);
+            var navigationExtras = {
+                queryParams: { 'action': mode }
+            };
             console.log('[Media Communication Component] -  navigate to: ', paths);
             console.log('[Media Communication Component] -  navigate to: ', paths.context, paths.task, paths.user);
             var navigationArgs = [paths.context];
+            var userTo = void 0;
             if (utils_1.isAnUser(paths.task)) {
-                navigationArgs.push('user');
-                navigationArgs.push(utils_1.clearMyUsername(paths.task, currentUser));
+                userTo = utils_1.clearMyUsername(paths.task, currentUser);
             }
             else {
                 navigationArgs.push(paths.task);
-                navigationArgs.push('user');
-                navigationArgs.push(utils_1.clearMyUsername(paths.user, currentUser));
+                userTo = utils_1.clearMyUsername(paths.user, currentUser);
             }
-            console.log('[Media Communication Component] -  navigate to path: ', navigationArgs);
+            navigationArgs.push('user');
+            navigationArgs.push(userTo);
+            console.log('[Connector Service] -  navigate to path: ', navigationArgs);
             this.router.navigate(navigationArgs, navigationExtras);
         }
         else {

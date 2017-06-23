@@ -196,11 +196,13 @@ export function normalizeFromURL(path: string, username: string): string {
 
 
 export function clearMyUsername(name: string, username: string): string {
+
   if (name.indexOf('-') !== -1 && name.indexOf('@') !== -1 && name.includes(username)) {
-    return name.replace('-' + username, '');
-  } else {
-    return name;
+    return name.replace(username, '').replace('-', '');
   }
+
+  return name;
+
 }
 
 export function filterContextsByName(name: string, context: ContextualComm): boolean {

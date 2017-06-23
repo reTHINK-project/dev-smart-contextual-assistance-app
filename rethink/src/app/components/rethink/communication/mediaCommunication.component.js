@@ -28,18 +28,27 @@ var MediaCommunicationComponent = (function () {
         this.streamingActive = false;
         console.log('[Media Communication Component] - Constructor:', this.route.queryParams);
         this.streamingActive = false;
+        this.subscription = this.router.events.subscribe(function (event) {
+            if (event instanceof router_1.NavigationEnd) {
+                var action = event['action'];
+                console.log('[Media Communication Component] - Params Action:', action);
+                _this.mode = action;
+                _this.connectorService.mode = action;
+                return action;
+            }
+        });
         // if (this.mode === 'video') {
-        this.connectorService.getLocalStream().subscribe(function (stream) {
+        this.localStream = this.connectorService.getLocalStream().subscribe(function (stream) {
             console.log('[Media Communication Component] - get local stream: ', stream);
             _this.myStream = stream;
         });
         // }
-        this.connectorService.getRemoteStream().subscribe(function (stream) {
+        this.remoteStream = this.connectorService.getRemoteStream().subscribe(function (stream) {
             console.log('[Media Communication Component] - get remote stream: ', stream);
             _this.stream = stream;
             _this.duration = new Date();
         });
-        this.connectorService.connectorStatus().subscribe(function (status) {
+        this.connStatus = this.connectorService.connectorStatus().subscribe(function (status) {
             console.log('[Media Communication Component] -  connector status: ', status);
             if (status === 'end') {
                 _this.reset();
@@ -48,14 +57,6 @@ var MediaCommunicationComponent = (function () {
         console.log('[Media Communication Component] - Params Action:', this.mode);
     }
     MediaCommunicationComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.subscription = this.route.queryParams.subscribe(function (queryParam) {
-            console.log('[Media Communication Component] - Params Action:', queryParam['action']);
-            _this.mode = queryParam['action'];
-            _this.connectorService.mode = queryParam['action'];
-            return queryParam['action'];
-        });
-        console.log('[Media Communication Component] - ngOnInit:', this.mode);
         if (this.mode) {
             console.log('[Media Communication Component] - connection mode: ', this.connectorService.connectorMode, this.streamingActive);
             if (this.connectorService.connectorMode !== 'answer' && !this.streamingActive) {
@@ -72,6 +73,9 @@ var MediaCommunicationComponent = (function () {
         this.reset();
     };
     MediaCommunicationComponent.prototype.reset = function () {
+        this.connStatus.unsubscribe();
+        this.localStream.unsubscribe();
+        this.remoteStream.unsubscribe();
         this.subscription.unsubscribe();
         this.streamingActive = false;
         this.stream = null;

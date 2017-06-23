@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras, NavigationEnd } from '@angular/router';
 
 // Utils
 import { getUserMedia } from '../../utils/utils';
@@ -64,10 +64,15 @@ export class ConnectorService {
     private contactService: ContactService,
     private appService: RethinkService) {
 
-      this.paramsSubscription = this.route.queryParams.subscribe(params => {
-        console.log('[Connector Service] - query params changes:', params['action'], this.mode, this.callInProgress);
+      console.log('[Connector Service] - constructor', this.router);
 
-        if (!this.callInProgress) { this.acceptCall(); }
+      this.paramsSubscription = this.router.events.subscribe((event: NavigationEnd) => {
+
+        if (event instanceof NavigationEnd) {
+          console.log('[Connector Service] - query params changes:', event, event['action'], this.mode, this.callInProgress);
+          if (!this.callInProgress) { this.acceptCall(); }
+        }
+
       });
 
   }
@@ -98,6 +103,9 @@ export class ConnectorService {
 
   acceptCall() {
 
+    console.log('[Connector Service] - AcceptCall: ', this.controllers, this.controllers.hasOwnProperty('ansewer'));
+    console.log('[Connector Service] - AcceptCall: ', this._webrtcMode);
+
     if (this.controllers && this.controllers.hasOwnProperty('answer') && this._webrtcMode === 'answer') {
 
       let options = {video: true, audio: true};
@@ -120,6 +128,8 @@ export class ConnectorService {
         console.error(reason);
       });
 
+    } else {
+      // console.error('error accepting call', this.controllers, this.controllers.hasOwnProperty('ansewer'), this._webrtcMode);
     }
 
   }
@@ -137,49 +147,11 @@ export class ConnectorService {
 
       let currUser: User = this.contactService.getUser(identity.userURL);
 
-      this.onInvitation.emit({metadata: metadata, user: currUser});
+      this.onInvitation.emit({metadata: metadata, user: currUser, mode: this.mode});
 
     });
 
   }
-
-/*  private _notificationResponse(controller: any, response: IAlert, user: User) {
-
-    console.log('[Connector Service] - notification response: ', response, this);
-
-    if (response) {
-
-      let navigationExtras: NavigationExtras = {
-        queryParams: { 'action': this.mode }
-      };
-
-      let metadata = response.metadata;
-      let currentUser = this.contactService.sessionUser.username;
-      let paths: any = splitFromURL(metadata.name, currentUser);
-
-      console.log('[Connector Service] -  navigate to: ', paths);
-      console.log('[Connector Service] -  navigate to: ', paths.context, paths.task, paths.user);
-
-      let navigationArgs = [paths.context];
-
-      if (isAnUser(paths.task)) {
-        navigationArgs.push('user');
-        navigationArgs.push(clearMyUsername(paths.task, currentUser));
-      } else {
-        navigationArgs.push(paths.task);
-        navigationArgs.push('user');
-        navigationArgs.push(clearMyUsername(paths.user, currentUser));
-      }
-
-      console.log('[Connector Service] -  navigate to path: ', navigationArgs);
-
-      this.router.navigate(navigationArgs, navigationExtras);
-
-    } else {
-      controller.decline();
-    }
-
-  }*/
 
   connect(userURL: string, options: any, name: string, domain: string) {
 
@@ -226,7 +198,6 @@ export class ConnectorService {
       };
 
       this.router.navigate([], navigationExtras);
-      this.paramsSubscription.unsubscribe();
       this._connectorStatus.next(STATUS.END);
     });
 

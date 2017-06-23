@@ -87,14 +87,14 @@ var NotificationsService = (function () {
         }, true);
     };
     // With type method
-    NotificationsService.prototype.create = function (title, content, type, override, event) {
+    NotificationsService.prototype.create = function (title, content, type, override, icon, event) {
         if (content === void 0) { content = ''; }
         if (type === void 0) { type = 'success'; }
         return this.set({
             title: title,
             content: content,
             type: type,
-            icon: this.icons[type],
+            icon: this.icons.custom(icon) || this.icons[type],
             override: override,
             onEventAction: event
         }, true);

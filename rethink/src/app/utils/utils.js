@@ -179,11 +179,9 @@ function normalizeFromURL(path, username) {
 exports.normalizeFromURL = normalizeFromURL;
 function clearMyUsername(name, username) {
     if (name.indexOf('-') !== -1 && name.indexOf('@') !== -1 && name.includes(username)) {
-        return name.replace('-' + username, '');
+        return name.replace(username, '').replace('-', '');
     }
-    else {
-        return name;
-    }
+    return name;
 }
 exports.clearMyUsername = clearMyUsername;
 function filterContextsByName(name, context) {

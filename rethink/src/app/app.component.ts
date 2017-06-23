@@ -125,15 +125,16 @@ export class AppComponent implements OnInit {
 
       console.log('[Media Communication Component] - event', event);
 
-      this.notificationsService.info('Call Incoming',
-      'Some Content',
+      let title = 'Incoming call';
+      let content = 'A ' + event.mode + ' call is Incoming from ' + event.user.username;
+
+      this.notificationsService.create(title, content, 'info',
       {
         showProgressBar: false,
         pauseOnHover: false,
-        maxLength: 10,
         haveActions: true,
-        metadata: event.metadata
-      }, this.actionResult);
+        metadata: event
+      }, event.user.avatar, this.actionResult);
 
     });
 
@@ -177,29 +178,32 @@ export class AppComponent implements OnInit {
 
     if (actionEvent.action === ActionType.ACCEPT) {
 
-      let navigationExtras: NavigationExtras = {
-        queryParams: { 'action': 'Video' }
-      };
-
       let metadata = actionEvent.metadata;
+      let mode = metadata.mode;
       let currentUser = this.contactService.sessionUser.username;
-      let paths: any = splitFromURL(metadata.name, currentUser);
+      let paths: any = splitFromURL(metadata.metadata.name, currentUser);
+
+      let navigationExtras: NavigationExtras = {
+        queryParams: { 'action': mode }
+      };
 
       console.log('[Media Communication Component] -  navigate to: ', paths);
       console.log('[Media Communication Component] -  navigate to: ', paths.context, paths.task, paths.user);
 
       let navigationArgs = [paths.context];
+      let userTo;
 
       if (isAnUser(paths.task)) {
-        navigationArgs.push('user');
-        navigationArgs.push(clearMyUsername(paths.task, currentUser));
+        userTo = clearMyUsername(paths.task, currentUser);
       } else {
         navigationArgs.push(paths.task);
-        navigationArgs.push('user');
-        navigationArgs.push(clearMyUsername(paths.user, currentUser));
+        userTo = clearMyUsername(paths.user, currentUser);
       }
 
-      console.log('[Media Communication Component] -  navigate to path: ', navigationArgs);
+      navigationArgs.push('user');
+      navigationArgs.push(userTo);
+
+      console.log('[Connector Service] -  navigate to path: ', navigationArgs);
 
       this.router.navigate(navigationArgs, navigationExtras);
 

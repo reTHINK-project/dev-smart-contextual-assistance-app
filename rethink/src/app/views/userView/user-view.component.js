@@ -17,20 +17,18 @@ var services_1 = require("../../services/services");
 // Components
 var contextualCommActivity_component_1 = require("../contextualCommActivity/contextualCommActivity.component");
 var UserViewComponent = (function () {
-    function UserViewComponent(router, route, contactService, ContextualCommService, chatService) {
+    function UserViewComponent(router, route, contactService, contextualCommService, chatService) {
         var _this = this;
         this.router = router;
         this.route = route;
         this.contactService = contactService;
-        this.ContextualCommService = ContextualCommService;
+        this.contextualCommService = contextualCommService;
         this.chatService = chatService;
         this.hostClass = 'view-content d-flex flex-column';
         this.messages = new BehaviorSubject_1.BehaviorSubject([]);
-        this.subscription = this.route
-            .queryParams
-            .subscribe(function (params) {
-            console.log('Params Action:', params['action']);
-            _this.action = params['action'];
+        this.paramsSubscription = this.route.queryParams.subscribe(function (event) {
+            console.log('[User View] - router event change:', event, event['action']);
+            _this.action = event['action'];
         });
     }
     UserViewComponent.prototype.ngOnInit = function () {
@@ -41,7 +39,7 @@ var UserViewComponent = (function () {
             _this.user = data.user;
             _this.messages.next(data.context.messages);
         });
-        this.ContextualCommService.contextualComm().subscribe(function (contextualComm) {
+        this.contextualCommService.contextualComm().subscribe(function (contextualComm) {
             console.log('[ContextualCommActivity Component - update] - ', contextualComm);
             _this.messages.next(contextualComm.messages);
             _this.contextualCommActivityComponent.updateView();

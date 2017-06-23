@@ -4,6 +4,7 @@ export interface Icons {
   info: string;
   warn: string;
   success: string;
+  custom: Function;
 }
 
 export const defaultIcons: Icons = {
@@ -37,5 +38,9 @@ export const defaultIcons: Icons = {
           <path d="M30.08 25.012V42.32c0 1.107.897 2.005 2.006 2.005s2.006-.897 2.006-2.005V25.012c0-1.107-.897-2.006-2.006-2.006s-2.006.898-2.006 2.006z"/>
           <path d="M63.766 59.234L33.856 3.082c-.697-1.308-2.844-1.308-3.54 0L.407 59.234c-.331.622-.312 1.372.051 1.975.362.605 1.015.975 1.72.975h59.816c.705 0 1.357-.369 1.721-.975.361-.603.381-1.353.051-1.975zM5.519 58.172L32.086 8.291l26.568 49.881H5.519z"/>
         </svg>
-    `
+    `,
+  custom: (icon: string) => {
+     return `<img class="rounded-circle" src=${icon}>`;
+  }
+
 };

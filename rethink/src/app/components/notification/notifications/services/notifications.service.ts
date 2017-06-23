@@ -86,12 +86,12 @@ export class NotificationsService {
   }
 
   // With type method
-  create(title: string, content = '', type = 'success', override?: any, event?: EventEmitter<{}>) {
+  create(title: string, content = '', type = 'success', override?: any, icon?: string, event?: EventEmitter<{}>) {
     return this.set({
       title: title,
       content: content,
       type: type,
-      icon: this.icons[type],
+      icon: this.icons.custom(icon) || this.icons[type],
       override: override,
       onEventAction: event }, true);
   }
