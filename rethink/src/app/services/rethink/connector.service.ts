@@ -21,7 +21,7 @@ const STATUS = { INPROGRESS: 'in-progress', END: 'end'};
 @Injectable()
 export class ConnectorService {
 
-  private hypertyURL = 'hyperty-catalogue://catalogue.' + this.appService.domain + '/.well-known/hyperty/Connector';
+  private hypertyURL = 'hyperty-catalogue://catalogue.' + this.rethinkService.domain + '/.well-known/hyperty/Connector';
   private controllers: any = {};
   private hyperty: any;
   private hypertyVideo: any;
@@ -66,7 +66,7 @@ export class ConnectorService {
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
     private contactService: ContactService,
-    private appService: RethinkService) {
+    private rethinkService: RethinkService) {
 
       console.log('[Connector Service] - constructor', this.router);
 
@@ -87,7 +87,7 @@ export class ConnectorService {
 
       if (!this.hypertyVideo) {
 
-        this.appService.getHyperty(this.hypertyURL)
+        this.rethinkService.getHyperty(this.hypertyURL)
         .then((hyperty: any) => {
           this.hypertyVideo = hyperty.instance;
           this.hyperty = hyperty;

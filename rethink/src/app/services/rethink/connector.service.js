@@ -21,14 +21,14 @@ var Subject_1 = require("rxjs/Subject");
 var ReplaySubject_1 = require("rxjs/ReplaySubject");
 var STATUS = { INPROGRESS: 'in-progress', END: 'end' };
 var ConnectorService = (function () {
-    function ConnectorService(router, route, sanitizer, contactService, appService) {
+    function ConnectorService(router, route, sanitizer, contactService, rethinkService) {
         var _this = this;
         this.router = router;
         this.route = route;
         this.sanitizer = sanitizer;
         this.contactService = contactService;
-        this.appService = appService;
-        this.hypertyURL = 'hyperty-catalogue://catalogue.' + this.appService.domain + '/.well-known/hyperty/Connector';
+        this.rethinkService = rethinkService;
+        this.hypertyURL = 'hyperty-catalogue://catalogue.' + this.rethinkService.domain + '/.well-known/hyperty/Connector';
         this.controllers = {};
         this.callInProgress = false;
         this._webrtcMode = 'offer';
@@ -78,7 +78,7 @@ var ConnectorService = (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             if (!_this.hypertyVideo) {
-                _this.appService.getHyperty(_this.hypertyURL)
+                _this.rethinkService.getHyperty(_this.hypertyURL)
                     .then(function (hyperty) {
                     _this.hypertyVideo = hyperty.instance;
                     _this.hyperty = hyperty;

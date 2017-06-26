@@ -41,7 +41,7 @@ export class ActivityViewComponent implements OnInit {
       this.messages.next(data.context.messages);
     });
 
-    this.ContextualCommService.contextualComm().subscribe((contextualComm: ContextualComm) => {
+    this.ContextualCommService.currentContext().subscribe((contextualComm: ContextualComm) => {
       console.log('[ContextualCommActivity Component - update] - ', contextualComm);
       this.messages.next(contextualComm.messages);
 

@@ -31,7 +31,7 @@ var ActivityViewComponent = (function () {
             console.log('Resolve data Context: ', data.context);
             _this.messages.next(data.context.messages);
         });
-        this.ContextualCommService.contextualComm().subscribe(function (contextualComm) {
+        this.ContextualCommService.currentContext().subscribe(function (contextualComm) {
             console.log('[ContextualCommActivity Component - update] - ', contextualComm);
             _this.messages.next(contextualComm.messages);
             _this.contextualCommActivityComponent.updateView();

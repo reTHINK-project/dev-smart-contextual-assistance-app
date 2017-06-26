@@ -10,13 +10,14 @@ import { NativeNotificationsService } from './components/notification/native-not
 import { config } from './config';
 
 // Models
-import { User, ContextualComm } from './models/models';
+import { ContextualCommEvent, User,  ContextualComm } from './models/models';
 import { TriggerActions } from './models/app.models';
 
 // Utils
 import { normalizeName, splitFromURL, isAnUser, clearMyUsername } from './utils/utils';
 
 // Services
+import { ContextualCommService } from './services/contextualComm.service';
 import { ContextualCommDataService } from './services/contextualCommData.service';
 import { TriggerActionService, RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
 
@@ -30,7 +31,6 @@ export class AppComponent implements OnInit {
 
   private actionResult = new EventEmitter<{}>();
   private contextOpened = false;
-  private haveFocus = true;
 
   ready = false;
   myIdentity: User;
@@ -55,6 +55,7 @@ export class AppComponent implements OnInit {
     private contactService: ContactService,
     private rethinkService: RethinkService,
     private triggerActionService: TriggerActionService,
+    private contextualComm: ContextualCommService,
     private contextualCommDataService: ContextualCommDataService,
     private connectorService: ConnectorService,
     private chatService: ChatService) {
@@ -72,6 +73,29 @@ export class AppComponent implements OnInit {
       if (action === TriggerActions.OpenContextMenu) {
         this.onOpenContext();
       }
+
+    });
+
+    this.contextualComm.contextualCommEvent.subscribe((event: ContextualCommEvent) => {
+
+      let title = 'New Contextual Communication';
+      let content = 'You have a new contextual communication ' + event.contextualComm.name; 
+
+      this.notificationsService.success(title, content, {
+        showProgressBar: true,
+        timeOut: 5000,
+        pauseOnHover: false,
+        haveActions: false
+      });
+
+      this.natNotificationsService.create(title, {
+        body: content,
+        data: event,
+        silent: false,
+        sound: config.sounds + 'solemn.mp3',
+      }).subscribe(this.nativeNotificationSubscription, (reason: any) => {
+        console.info(reason);
+      });
 
     });
 
@@ -157,18 +181,8 @@ export class AppComponent implements OnInit {
         icon: avatar,
         body: content,
         data: event,
-        silent: false,
-        sound: 'sound',
-      }).subscribe((n: any) => {
-        console.log('Native:', n, n.notification, n.event);
-
-        n.notification.onclick = function(x: any) {
-          console.log('Native:', x);
-          window.focus();
-          this.close();
-        };
-
-      });
+        silent: false
+      }).subscribe(this.nativeNotificationSubscription);
 
     });
 
@@ -248,6 +262,17 @@ export class AppComponent implements OnInit {
       this.connectorService.getControllers['answer'].decline();
 
     }
+  }
+
+  nativeNotificationSubscription(n: any) {
+    console.log('Native:', n, n.notification, n.event);
+
+    n.notification.onclick = function(x: any) {
+      console.log('Native:', x);
+      window.focus();
+      this.close();
+    };
+
   }
 
   onOpenContext(event?: Event) {

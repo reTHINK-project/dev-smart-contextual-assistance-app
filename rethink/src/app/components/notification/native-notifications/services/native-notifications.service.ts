@@ -2,10 +2,14 @@ import { Injectable, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { NativeNotification, Permission } from '../interfaces/native-notification.type';
 
+import { config } from '../../../../config';
+
 declare const Notification: any;
 
 @Injectable()
 export class NativeNotificationsService {
+
+  private audio: any;
 
   permission: Permission;
 
@@ -13,6 +17,12 @@ export class NativeNotificationsService {
 
   constructor() {
     this.permission  = this.isSupported() ? Notification.permission : 'denied';
+
+
+    // TODO: add a list of sounds to each type of event
+    this.audio = new Audio();
+    this.audio.src = config.sounds + 'solemn.mp3';
+    this.audio.load();
   }
 
   requestPermission() {
@@ -44,6 +54,8 @@ export class NativeNotificationsService {
       }
 
       const n = new Notification(title, options);
+
+      this.audio.play();
 
       n.onshow = (e: any) => obs.next({notification: n, event: e});
       n.onclick = (e: any) => obs.next({notification: n, event: e});

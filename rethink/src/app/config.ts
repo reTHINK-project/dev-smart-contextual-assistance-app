@@ -2,5 +2,6 @@ export const config = {
   pageTitlePrefix: 'reThink Project - ',
   appPrefix: 'sca',
   splitChar: '/',
-  domain: 'localhost'
+  domain: 'localhost',
+  sounds: '../assets/sounds/'
 };

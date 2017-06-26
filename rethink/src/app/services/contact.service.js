@@ -45,9 +45,9 @@ var ContactService = (function () {
         this._updates = new Subject_1.Subject();
         this._newUser = new Subject_1.Subject();
         var initialUsers = [];
-        var me;
         if (this.localStorage.hasObject('me')) {
-            me = this.localStorage.getObject('me');
+            var me = this.localStorage.getObject('me');
+            this._sessionUser = new models_1.User(me);
         }
         if (this.localStorage.hasObject('contacts')) {
             var mapObj = this.localStorage.getObject('contacts');
@@ -56,7 +56,7 @@ var ContactService = (function () {
                     var k = _b.value;
                     var currentUser = new models_1.User(mapObj[k]);
                     this._userList.set(k, currentUser);
-                    if (currentUser.userURL !== me.userURL) {
+                    if (currentUser.userURL !== this._sessionUser.userURL) {
                         initialUsers.push(currentUser);
                     }
                 }
@@ -107,6 +107,7 @@ var ContactService = (function () {
         },
         set: function (user) {
             this._sessionUser = user;
+            this.localStorage.setObject('me', user);
         },
         enumerable: true,
         configurable: true

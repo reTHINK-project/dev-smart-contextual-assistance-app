@@ -25,25 +25,7 @@ var RethinkService = (function () {
         this.config = { domain: this.domain, runtimeURL: this.runtimeURL, development: true };
         this.progress = new BehaviorSubject_1.BehaviorSubject('');
         this.status = new BehaviorSubject_1.BehaviorSubject(false);
-        if (this.localstorage.hasObject('me')) {
-            var me = this.localstorage.get('me');
-            this.setCurrentUser = new models_1.User(me);
-        }
     }
-    Object.defineProperty(RethinkService.prototype, "setCurrentUser", {
-        set: function (v) {
-            this.currentUser = v;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(RethinkService.prototype, "getCurrentUser", {
-        get: function () {
-            return this.currentUser;
-        },
-        enumerable: true,
-        configurable: true
-    });
     RethinkService.prototype.loadRuntime = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -75,7 +57,6 @@ var RethinkService = (function () {
         return new Promise(function (resolve, reject) {
             hyperty.instance.identityManager.discoverUserRegistered().then(function (user) {
                 var myUser = new models_1.User(user);
-                _this.setCurrentUser = myUser;
                 _this.contactService.sessionUser = myUser;
                 _this.contactService.addUser(myUser);
                 console.info('Getting the registed user', myUser);

@@ -20,10 +20,11 @@ var app_models_1 = require("./models/app.models");
 // Utils
 var utils_1 = require("./utils/utils");
 // Services
+var contextualComm_service_1 = require("./services/contextualComm.service");
 var contextualCommData_service_1 = require("./services/contextualCommData.service");
 var services_1 = require("./services/services");
 var AppComponent = (function () {
-    function AppComponent(router, titleService, route, natNotificationsService, notificationsService, contactService, rethinkService, triggerActionService, contextualCommDataService, connectorService, chatService) {
+    function AppComponent(router, titleService, route, natNotificationsService, notificationsService, contactService, rethinkService, triggerActionService, contextualComm, contextualCommDataService, connectorService, chatService) {
         var _this = this;
         this.router = router;
         this.titleService = titleService;
@@ -33,12 +34,12 @@ var AppComponent = (function () {
         this.contactService = contactService;
         this.rethinkService = rethinkService;
         this.triggerActionService = triggerActionService;
+        this.contextualComm = contextualComm;
         this.contextualCommDataService = contextualCommDataService;
         this.connectorService = connectorService;
         this.chatService = chatService;
         this.actionResult = new core_1.EventEmitter();
         this.contextOpened = false;
-        this.haveFocus = true;
         this.ready = false;
         this.natNotificationsService.requestPermission();
         this.rethinkService.progress.subscribe({
@@ -49,6 +50,24 @@ var AppComponent = (function () {
             if (action === app_models_1.TriggerActions.OpenContextMenu) {
                 _this.onOpenContext();
             }
+        });
+        this.contextualComm.contextualCommEvent.subscribe(function (event) {
+            var title = 'New Contextual Communication';
+            var content = 'You have a new contextual communication ' + event.contextualComm.name;
+            _this.notificationsService.success(title, content, {
+                showProgressBar: true,
+                timeOut: 5000,
+                pauseOnHover: false,
+                haveActions: false
+            });
+            _this.natNotificationsService.create(title, {
+                body: content,
+                data: event,
+                silent: false,
+                sound: config_1.config.sounds + 'solemn.mp3',
+            }).subscribe(_this.nativeNotificationSubscription, function (reason) {
+                console.info(reason);
+            });
         });
     }
     AppComponent.prototype.onBlurEvent = function (event) {
@@ -123,16 +142,8 @@ var AppComponent = (function () {
                 icon: avatar,
                 body: content,
                 data: event,
-                silent: false,
-                sound: 'sound',
-            }).subscribe(function (n) {
-                console.log('Native:', n, n.notification, n.event);
-                n.notification.onclick = function (x) {
-                    console.log('Native:', x);
-                    window.focus();
-                    this.close();
-                };
-            });
+                silent: false
+            }).subscribe(_this.nativeNotificationSubscription);
         });
         this.actionResult.subscribe(function (a) {
             console.log('[Media Communication Component] - Params Action:', a);
@@ -190,6 +201,14 @@ var AppComponent = (function () {
             this.connectorService.getControllers['answer'].decline();
         }
     };
+    AppComponent.prototype.nativeNotificationSubscription = function (n) {
+        console.log('Native:', n, n.notification, n.event);
+        n.notification.onclick = function (x) {
+            console.log('Native:', x);
+            window.focus();
+            this.close();
+        };
+    };
     AppComponent.prototype.onOpenContext = function (event) {
         this.contextOpened = !this.contextOpened;
     };
@@ -225,6 +244,7 @@ var AppComponent = (function () {
             services_1.ContactService,
             services_1.RethinkService,
             services_1.TriggerActionService,
+            contextualComm_service_1.ContextualCommService,
             contextualCommData_service_1.ContextualCommDataService,
             services_1.ConnectorService,
             services_1.ChatService])

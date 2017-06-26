@@ -39,7 +39,7 @@ var UserViewComponent = (function () {
             _this.user = data.user;
             _this.messages.next(data.context.messages);
         });
-        this.contextualCommService.contextualComm().subscribe(function (contextualComm) {
+        this.contextualCommService.currentContext().subscribe(function (contextualComm) {
             console.log('[ContextualCommActivity Component - update] - ', contextualComm);
             _this.messages.next(contextualComm.messages);
             _this.contextualCommActivityComponent.updateView();

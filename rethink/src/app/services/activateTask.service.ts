@@ -13,6 +13,7 @@ import { ContextualCommDataService } from './contextualCommData.service';
 import { ContextualCommService } from './contextualComm.service';
 import { RethinkService } from './rethink/rethink.service';
 import { ChatService } from './rethink/chat.service';
+import { ContactService } from './contact.service';
 
 @Injectable()
 export class ActivateTaskGuard implements CanActivate {
@@ -21,6 +22,7 @@ export class ActivateTaskGuard implements CanActivate {
     private router: Router,
     private chatService: ChatService,
     private rethinkService: RethinkService,
+    private contactService: ContactService,
     private contextualCommService: ContextualCommService,
     private contextualCommDataService: ContextualCommDataService
   ) { }
@@ -37,7 +39,7 @@ export class ActivateTaskGuard implements CanActivate {
             let context = route.params['context'];
             let task = route.params['task'];
 
-            let normalizedPath = normalizeFromURL(path, this.rethinkService.getCurrentUser.username);
+            let normalizedPath = normalizeFromURL(path, this.contactService.sessionUser.username);
 
             console.log('[Activate Task Guard] - ', context, task, state, normalizedPath);
 

@@ -58,7 +58,7 @@ export class UserViewComponent implements OnInit, OnDestroy {
       this.messages.next(data.context.messages);
     });
 
-    this.contextualCommService.contextualComm().subscribe((contextualComm: ContextualComm) => {
+    this.contextualCommService.currentContext().subscribe((contextualComm: ContextualComm) => {
       console.log('[ContextualCommActivity Component - update] - ', contextualComm);
       this.messages.next(contextualComm.messages);
 

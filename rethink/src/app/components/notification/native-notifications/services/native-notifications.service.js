@@ -11,9 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var Observable_1 = require("rxjs/Observable");
+var config_1 = require("../../../../config");
 var NativeNotificationsService = (function () {
     function NativeNotificationsService() {
         this.permission = this.isSupported() ? Notification.permission : 'denied';
+        // TODO: add a list of sounds to each type of event
+        this.audio = new Audio();
+        this.audio.src = config_1.config.sounds + 'solemn.mp3';
+        this.audio.load();
     }
     NativeNotificationsService.prototype.requestPermission = function () {
         var _this = this;
@@ -39,6 +44,7 @@ var NativeNotificationsService = (function () {
                 obs.complete();
             }
             var n = new Notification(title, options);
+            _this.audio.play();
             n.onshow = function (e) { return obs.next({ notification: n, event: e }); };
             n.onclick = function (e) { return obs.next({ notification: n, event: e }); };
             n.onerror = function (e) { return obs.error({ notification: n, event: e }); };

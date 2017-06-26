@@ -1,4 +1,3 @@
-import { ActivatedRoute, Router } from '@angular/router';
 import { Injectable, EventEmitter } from '@angular/core';
 
 // Services
@@ -40,8 +39,6 @@ export class ChatService {
   }
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
     private rethinkService: RethinkService,
     private contextualCommService: ContextualCommService,
     private contactService: ContactService
