@@ -5,6 +5,6 @@ exports.config = {
     appPrefix: 'sca',
     splitChar: '/',
     domain: 'hysmart.rethink.ptinovacao.pt',
-    sounds: '../assets/sounds/'
+    sounds: 'assets/sounds/'
 };
 //# sourceMappingURL=config.js.map
