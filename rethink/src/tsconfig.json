@@ -8,7 +8,6 @@
     "experimentalDecorators": true,
     "lib": [ "es6", "es7", "dom" ],
     "downlevelIteration": true,
-    "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true
   }
 }

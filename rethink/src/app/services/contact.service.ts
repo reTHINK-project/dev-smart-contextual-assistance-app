@@ -44,14 +44,14 @@ export class ContactService {
     const initialUsers: User[] = [];
 
     if (this.localStorage.hasObject('me')) {
-      let me: User = this.localStorage.getObject('me');
+      const me: User = this.localStorage.getObject('me');
       this._sessionUser = new User(me);
     }
 
     if (this.localStorage.hasObject('contacts')) {
-      let mapObj = this.localStorage.getObject('contacts');
-      for (let k of Object.keys(mapObj)) {
-        let currentUser: User = new User(mapObj[k]);
+      const mapObj = this.localStorage.getObject('contacts');
+      for (const k of Object.keys(mapObj)) {
+        const currentUser: User = new User(mapObj[k]);
         this._userList.set(k, currentUser);
         if (currentUser.userURL !== this._sessionUser.userURL) {
           initialUsers.push(currentUser);
@@ -84,7 +84,7 @@ export class ContactService {
           if (users.indexOf(user) !== -1) {
             return users;
           } else {
-            let id = users.indexOf(user);
+            const id = users.indexOf(user);
             users[id] = user;
           }
 
@@ -127,8 +127,8 @@ export class ContactService {
   }
 
   getUserList(): Observable<User[]> {
-    let all = [];
-    for (let user of this._userList.values()) {
+    const all = [];
+    for (const user of this._userList.values()) {
       all.push(user);
     }
 

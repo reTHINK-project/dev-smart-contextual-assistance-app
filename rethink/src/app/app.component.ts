@@ -78,8 +78,8 @@ export class AppComponent implements OnInit {
 
     this.contextualComm.contextualCommEvent.subscribe((event: ContextualCommEvent) => {
 
-      let title = 'New Contextual Communication';
-      let content = 'You have a new contextual communication ' + event.contextualComm.name; 
+      const title = 'New Contextual Communication';
+      const content = 'You have a new contextual communication ' + event.contextualComm.name;
 
       this.notificationsService.success(title, content, {
         showProgressBar: true,
@@ -94,7 +94,7 @@ export class AppComponent implements OnInit {
         silent: false,
         sound: config.sounds + 'solemn.mp3',
       }).subscribe(this.nativeNotificationSubscription, (reason: any) => {
-        console.info(reason);
+        console.log(reason);
       });
 
     });
@@ -165,9 +165,9 @@ export class AppComponent implements OnInit {
 
       console.log('[Media Communication Component] - event', event);
 
-      let title = 'Incoming call';
-      let content = 'A ' + event.mode + ' call is Incoming from ' + event.user.username;
-      let avatar = event.user.avatar;
+      const title = 'Incoming call';
+      const content = 'A ' + event.mode + ' call is Incoming from ' + event.user.username;
+      const avatar = event.user.avatar;
 
       this.notificationsService.create(title, content, 'info',
       {
@@ -197,13 +197,13 @@ export class AppComponent implements OnInit {
 
     return new Promise((resolve, reject) => {
 
-      let url = event.url;
-      let metadata = event.value;
-      let name = metadata.name;
+      const url = event.url;
+      const metadata = event.value;
+      const name = metadata.name;
 
       this.chatService.join(url).then((dataObject: any) => {
 
-        let normalizedName = normalizeName(name);
+        const normalizedName = normalizeName(name);
         console.log('[App Component - Join the to the context: ', name, dataObject, normalizedName);
 
         return this.contextualCommDataService.joinContext(normalizedName.name, normalizedName.id, dataObject, normalizedName.parent);
@@ -224,21 +224,21 @@ export class AppComponent implements OnInit {
     console.log('[Media Communication Component] -  Action Event: ', actionEvent);
     console.log('[Media Communication Component] -  Action Event: ', actionEvent.metadata);
 
-    let metadata = actionEvent.metadata;
-    let mode = metadata.mode;
-    let currentUser = this.contactService.sessionUser.username;
-    let paths: any = splitFromURL(metadata.metadata.name, currentUser);
+    const metadata = actionEvent.metadata;
+    const mode = metadata.mode;
+    const currentUser = this.contactService.sessionUser.username;
+    const paths: any = splitFromURL(metadata.metadata.name, currentUser);
 
     if (actionEvent.action === ActionType.ACCEPT) {
 
-      let navigationExtras: NavigationExtras = {
+      const navigationExtras: NavigationExtras = {
         queryParams: { 'action': mode }
       };
 
       console.log('[Media Communication Component] -  navigate to: ', paths);
       console.log('[Media Communication Component] -  navigate to: ', paths.context, paths.task, paths.user);
 
-      let navigationArgs = [paths.context];
+      const navigationArgs = [paths.context];
       let userTo;
 
       if (isAnUser(paths.task)) {

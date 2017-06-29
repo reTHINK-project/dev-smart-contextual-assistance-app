@@ -4,7 +4,7 @@ import { config } from '../config';
 import { ContextualComm } from '../models/models';
 
 export function strMapToObj(strMap: Map<string, any>) {
-    let obj = Object.create(null);
+    const obj = Object.create(null);
     strMap.forEach((v: any, k: string) => {
         obj[k] = v;
     });
@@ -12,8 +12,8 @@ export function strMapToObj(strMap: Map<string, any>) {
 }
 
 export function objToStrMap(obj: any) {
-    let strMap = new Map();
-    for (let k of Object.keys(obj)) {
+    const strMap = new Map();
+    for (const k of Object.keys(obj)) {
         strMap.set(k, obj[k]);
     }
 
@@ -44,8 +44,8 @@ export function isAnUser(name: string): boolean {
 
   console.log('isAnUser - users:', users);
 
-  let result = users.map((user) => {
-    let pattern = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+  const result = users.map((user) => {
+    const pattern = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
     console.log('isAnUser:', pattern.test(user));
     return pattern.test(user);
   });
@@ -56,10 +56,10 @@ export function isAnUser(name: string): boolean {
 
 export function normalizeName(name: string, parent?: string): any {
 
-  let prefix = config.appPrefix;
-  let splitChar = config.splitChar;
+  const prefix = config.appPrefix;
+  const splitChar = config.splitChar;
 
-  let at = new RegExp(/%40/g);
+  const at = new RegExp(/%40/g);
 
   // Clear path from attributes
   if (name.indexOf('?') !== -1) {
@@ -69,7 +69,7 @@ export function normalizeName(name: string, parent?: string): any {
   name = name.toLowerCase();
   name = name.replace(at, '@');
 
-  let normalized = {};
+  const normalized = {};
   let splited = [];
 
   if (name.indexOf('/') !== -1) {
@@ -81,7 +81,7 @@ export function normalizeName(name: string, parent?: string): any {
   }
 
   if (parent) {
-    let tmp1: string[] = parent.split(splitChar);
+    const tmp1: string[] = parent.split(splitChar);
     tmp1.reduceRight((prev: string[], curr: string) => {
       prev.unshift(curr);
       return prev;
@@ -92,13 +92,13 @@ export function normalizeName(name: string, parent?: string): any {
   console.log('Splited: ', name, parent, splited);
 
   let userName = splited[3] === 'user' ? splited[4] : splited[3];
-  let isTask = splited[2] === 'user' && isAnUser(splited[3]) ? false : true;
+  const isTask = splited[2] === 'user' && isAnUser(splited[3]) ? false : true;
 
   if (!isTask) { userName = splited[3]; }
 
-  let contextId = splited[0] + splitChar + splited[1];
-  let task = isTask ? splited[2] : null;
-  let user = userName ? userName : null;
+  const contextId = splited[0] + splitChar + splited[1];
+  const task = isTask ? splited[2] : null;
+  const user = userName ? userName : null;
 
   if (contextId) {
     normalized['id'] = contextId;
@@ -125,13 +125,13 @@ export function normalizeName(name: string, parent?: string): any {
 
 export function splitFromURL(name: string, currentUser?: string): any {
 
-  let splitChar = config.splitChar;
-  let splited = name.split(splitChar);
-  let result = {};
+  const splitChar = config.splitChar;
+  const splited = name.split(splitChar);
+  const result = {};
 
-  let context = splited[1];
-  let task = splited[2];
-  let user = splited[3];
+  const context = splited[1];
+  const task = splited[2];
+  const user = splited[3];
 
   if (context) {
     result['context'] = context;
@@ -147,7 +147,7 @@ export function splitFromURL(name: string, currentUser?: string): any {
     result['task'] = task;
 
     if (user.includes('@') && user.includes('-')) {
-      let users = user.split('-');
+      const users = user.split('-');
 
       if (currentUser) {
         users.splice(users.indexOf(currentUser), 1);
@@ -163,9 +163,9 @@ export function splitFromURL(name: string, currentUser?: string): any {
 
 export function normalizeFromURL(path: string, username: string): string {
 
-  let splitChar = config.splitChar;
+  const splitChar = config.splitChar;
 
-  let at = new RegExp(/%40/g);
+  const at = new RegExp(/%40/g);
   path = path.replace(at, '@');
 
   // Clear path from attributes
@@ -173,12 +173,12 @@ export function normalizeFromURL(path: string, username: string): string {
     path = path.substring(0, path.lastIndexOf('?'));
   }
 
-  let pathSplited = path.split('/');
+  const pathSplited = path.split('/');
   pathSplited[0] = config.appPrefix;
 
   if (path.includes('@') && username) {
-    let lastIndex = pathSplited.length - 1;
-    let last = pathSplited[lastIndex];
+    const lastIndex = pathSplited.length - 1;
+    const last = pathSplited[lastIndex];
 
     let updated = last;
     if (!last.includes(username)) {
@@ -188,7 +188,7 @@ export function normalizeFromURL(path: string, username: string): string {
     pathSplited[lastIndex] = updated;
   }
 
-  let joined = pathSplited.join(splitChar);
+  const joined = pathSplited.join(splitChar);
 
   console.log('AQUI:', path, username, pathSplited, joined);
   return joined;
@@ -209,12 +209,12 @@ export function filterContextsByName(name: string, context: ContextualComm): boo
 
   if (name.includes('@')) {
 
-    let users = name.split('-');
-    let user1 = users[0];
-    let user2 = users[1];
+    const users = name.split('-');
+    const user1 = users[0];
+    const user2 = users[1];
 
-    let variation1 = user1 + '-' + user2;
-    let variation2 = user2 + '-' + user1;
+    const variation1 = user1 + '-' + user2;
+    const variation2 = user2 + '-' + user1;
 
     if (context.name === variation1) {
       name = variation1;
