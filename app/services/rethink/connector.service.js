@@ -38,10 +38,13 @@ var ConnectorService = (function () {
         this._localStream = new Subject_1.Subject();
         this._remoteStream = new ReplaySubject_1.ReplaySubject();
         this._connectorStatus = new Subject_1.Subject();
-        this.paramsSubscription = this.route.queryParams.subscribe(function (params) {
-            console.log('[Connector Service] - query params changes:', params['action'], _this.mode, _this.callInProgress);
-            if (!_this.callInProgress) {
-                _this.acceptCall();
+        console.log('[Connector Service] - constructor', this.router);
+        this.paramsSubscription = this.router.events.subscribe(function (event) {
+            if (event instanceof router_1.NavigationEnd) {
+                console.log('[Connector Service] - query params changes:', event, event['action'], _this.mode, _this.callInProgress);
+                if (!_this.callInProgress) {
+                    _this.acceptCall();
+                }
             }
         });
     }
@@ -89,6 +92,8 @@ var ConnectorService = (function () {
     };
     ConnectorService.prototype.acceptCall = function () {
         var _this = this;
+        console.log('[Connector Service] - AcceptCall: ', this.controllers, this.controllers.hasOwnProperty('ansewer'));
+        console.log('[Connector Service] - AcceptCall: ', this._webrtcMode);
         if (this.controllers && this.controllers.hasOwnProperty('answer') && this._webrtcMode === 'answer') {
             var options = { video: true, audio: true };
             utils_1.getUserMedia(options).then(function (mediaStream) {
@@ -104,6 +109,9 @@ var ConnectorService = (function () {
             }).catch(function (reason) {
                 console.error(reason);
             });
+        }
+        else {
+            // console.error('error accepting call', this.controllers, this.controllers.hasOwnProperty('ansewer'), this._webrtcMode);
         }
     };
     ConnectorService.prototype.prepareHyperty = function () {
@@ -186,7 +194,6 @@ var ConnectorService = (function () {
                 relativeTo: _this.route
             };
             _this.router.navigate([], navigationExtras);
-            _this.paramsSubscription.unsubscribe();
             _this._connectorStatus.next(STATUS.END);
         });
     };
