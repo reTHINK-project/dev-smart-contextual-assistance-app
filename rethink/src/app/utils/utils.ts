@@ -226,3 +226,4 @@ export function filterContextsByName(name: string, context: ContextualComm): boo
   console.log('[ContextualCommData Service] - getting Context By Name: ', context.name, name, context.name === name);
   return context.name === name;
 }
+

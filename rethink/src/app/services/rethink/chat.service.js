@@ -9,7 +9,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var router_1 = require("@angular/router");
 var core_1 = require("@angular/core");
 // Services
 var rethink_service_1 = require("./rethink.service");
@@ -17,13 +16,12 @@ var contact_service_1 = require("../contact.service");
 var contextualComm_service_1 = require("../contextualComm.service");
 var models_1 = require("../../models/models");
 var ChatService = (function () {
-    function ChatService(router, route, rethinkService, contextualCommService, contactService) {
-        this.router = router;
-        this.route = route;
+    function ChatService(rethinkService, contextualCommService, contactService) {
         this.rethinkService = rethinkService;
         this.contextualCommService = contextualCommService;
         this.contactService = contactService;
         this.controllerList = new Map();
+        this.onMessageEvent = new core_1.EventEmitter();
     }
     Object.defineProperty(ChatService.prototype, "activeDataObjectURL", {
         get: function () {
@@ -128,6 +126,7 @@ var ChatService = (function () {
                 };
                 var currentMessage = new models_1.Message(msg);
                 _this.contextualCommService.updateContextMessages(currentMessage, dataObjectURL);
+                _this.onMessageEvent.emit(currentMessage);
             }
             else {
                 console.info('The message was rejected because the user ' + message.identity.userProfile.userURL + ' is unknown');
@@ -215,9 +214,7 @@ var ChatService = (function () {
     };
     ChatService = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [router_1.Router,
-            router_1.ActivatedRoute,
-            rethink_service_1.RethinkService,
+        __metadata("design:paramtypes", [rethink_service_1.RethinkService,
             contextualComm_service_1.ContextualCommService,
             contact_service_1.ContactService])
     ], ChatService);

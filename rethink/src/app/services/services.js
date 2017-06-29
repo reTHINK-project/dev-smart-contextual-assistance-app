@@ -18,8 +18,6 @@ var contextualComm_service_1 = require("./contextualComm.service");
 exports.ContextualCommService = contextualComm_service_1.ContextualCommService;
 var triggerAction_service_1 = require("./triggerAction.service");
 exports.TriggerActionService = triggerAction_service_1.TriggerActionService;
-var notification_service_1 = require("./notification.service");
-exports.NotificationService = notification_service_1.NotificationService;
 var activateTask_service_1 = require("./activateTask.service");
 exports.ActivateTaskGuard = activateTask_service_1.ActivateTaskGuard;
 var activateUser_service_1 = require("./activateUser.service");
@@ -43,7 +41,6 @@ exports.servicesInjectables = [
     connector_service_1.ConnectorService,
     activateTask_service_1.ActivateTaskGuard,
     activateUser_service_1.ActivateUserGuard,
-    notification_service_1.NotificationService,
     triggerAction_service_1.TriggerActionService,
     contextualCommTrigger_service_1.ContextualCommTriggerService
 ];

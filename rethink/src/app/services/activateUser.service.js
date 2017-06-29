@@ -18,10 +18,12 @@ var contextualCommData_service_1 = require("./contextualCommData.service");
 var contextualComm_service_1 = require("./contextualComm.service");
 var rethink_service_1 = require("./rethink/rethink.service");
 var chat_service_1 = require("./rethink/chat.service");
+var contact_service_1 = require("./contact.service");
 var ActivateUserGuard = (function () {
-    function ActivateUserGuard(router, chatService, rethinkService, contextualCommService, contextualCommDataService) {
+    function ActivateUserGuard(router, chatService, contactService, rethinkService, contextualCommService, contextualCommDataService) {
         this.router = router;
         this.chatService = chatService;
+        this.contactService = contactService;
         this.rethinkService = rethinkService;
         this.contextualCommService = contextualCommService;
         this.contextualCommDataService = contextualCommDataService;
@@ -35,7 +37,7 @@ var ActivateUserGuard = (function () {
                         var path = state.url;
                         var context = route.params['context'];
                         var user_1 = route.params['user'];
-                        var normalizedPath_1 = utils_1.normalizeFromURL(path, _this.rethinkService.getCurrentUser.username);
+                        var normalizedPath_1 = utils_1.normalizeFromURL(path, _this.contactService.sessionUser.username);
                         console.log('[Activate User Guard] - ', context, user_1, state, normalizedPath_1);
                         var normalizedName_1 = utils_1.normalizeName(normalizedPath_1);
                         console.log('[Activate User Guard - Activate] - normalized path: ', normalizedPath_1);
@@ -89,6 +91,7 @@ var ActivateUserGuard = (function () {
         core_1.Injectable(),
         __metadata("design:paramtypes", [router_1.Router,
             chat_service_1.ChatService,
+            contact_service_1.ContactService,
             rethink_service_1.RethinkService,
             contextualComm_service_1.ContextualCommService,
             contextualCommData_service_1.ContextualCommDataService])

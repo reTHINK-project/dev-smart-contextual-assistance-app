@@ -1,17 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter, Output } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router, NavigationExtras, NavigationEnd } from '@angular/router';
 
 // Utils
-import { isAnUser, clearMyUsername, getUserMedia, splitFromURL } from '../../utils/utils';
+import { getUserMedia } from '../../utils/utils';
 
 // Services
 import { RethinkService } from './rethink.service';
 import { ContactService } from '../contact.service';
 
-import { IAlert, AlertType } from '../../models/app.models';
 import { User } from '../../models/models';
-import { NotificationService } from '../notification.service';
 
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
@@ -23,7 +21,7 @@ const STATUS = { INPROGRESS: 'in-progress', END: 'end'};
 @Injectable()
 export class ConnectorService {
 
-  private hypertyURL = 'hyperty-catalogue://catalogue.' + this.appService.domain + '/.well-known/hyperty/Connector';
+  private hypertyURL = 'hyperty-catalogue://catalogue.' + this.rethinkService.domain + '/.well-known/hyperty/Connector';
   private controllers: any = {};
   private hyperty: any;
   private hypertyVideo: any;
@@ -39,6 +37,10 @@ export class ConnectorService {
 
   public set connectorMode(value) {
     this._webrtcMode = value;
+  }
+
+  public get getControllers(): any[] {
+    return this.controllers;
   }
 
   private _localStream: Subject<MediaStream> = new Subject();
@@ -57,13 +59,14 @@ export class ConnectorService {
     this._mode = value;
   }
 
+  @Output() onInvitation = new EventEmitter();
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
     private contactService: ContactService,
-    private notificationService: NotificationService,
-    private appService: RethinkService) {
+    private rethinkService: RethinkService) {
 
       console.log('[Connector Service] - constructor', this.router);
 
@@ -84,7 +87,7 @@ export class ConnectorService {
 
       if (!this.hypertyVideo) {
 
-        this.appService.getHyperty(this.hypertyURL)
+        this.rethinkService.getHyperty(this.hypertyURL)
         .then((hyperty: any) => {
           this.hypertyVideo = hyperty.instance;
           this.hyperty = hyperty;
@@ -148,55 +151,9 @@ export class ConnectorService {
 
       let currUser: User = this.contactService.getUser(identity.userURL);
 
-      this.notificationService.addNotification(AlertType.QUESTION, {
-        user: currUser,
-        message: 'New call is incomming from ' + currUser.username,
-        action: this._mode
-      }, metadata, (alert: IAlert) => {
-        this._notificationResponse(controller, alert, currUser);
-      });
+      this.onInvitation.emit({metadata: metadata, user: currUser, mode: this.mode});
 
     });
-
-  }
-
-  private _notificationResponse(controller: any, response: IAlert, user: User) {
-
-    console.log('[Connector Service] - notification response: ', response, this);
-
-    if (response) {
-
-      let navigationExtras: NavigationExtras = {
-        queryParams: { 'action': this.mode }
-      };
-
-      let metadata = response.metadata;
-      let currentUser = this.contactService.sessionUser.username;
-      let paths: any = splitFromURL(metadata.name, currentUser);
-
-      console.log('[Connector Service] -  navigate to: ', paths);
-      console.log('[Connector Service] -  navigate to: ', paths.context, paths.task, paths.user);
-
-      let navigationArgs = [paths.context];
-      let userTo;
-
-      if (isAnUser(paths.task)) {
-        userTo = clearMyUsername(paths.task, currentUser);
-      } else {
-        navigationArgs.push(paths.task);
-        userTo = clearMyUsername(paths.user, currentUser);
-      }
-
-      navigationArgs.push('user');
-      navigationArgs.push(userTo);
-
-      console.log('[Connector Service] -  navigate to path: ', navigationArgs);
-
-      this.router.navigate(navigationArgs, navigationExtras);
-
-    } else {
-      controller.decline();
-    }
 
   }
 

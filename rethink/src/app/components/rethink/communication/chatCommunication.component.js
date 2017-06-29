@@ -10,18 +10,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var native_notifications_service_1 = require("../../notification/native-notifications/services/native-notifications.service");
 var services_1 = require("../../../services/services");
 var contextualCommData_service_1 = require("../../../services/contextualCommData.service");
 var ChatCommunicationComponent = (function () {
-    function ChatCommunicationComponent(chatService, contextualCommDataService) {
+    function ChatCommunicationComponent(chatService, natNotificationsService, contextualCommDataService) {
+        var _this = this;
         this.chatService = chatService;
+        this.natNotificationsService = natNotificationsService;
         this.contextualCommDataService = contextualCommDataService;
         this.hostClass = 'message-sender all-75 medium-70 xlarge-80 hide-small hide-tiny push-right';
         this.active = false;
         this.onMessage = new core_1.EventEmitter();
         this.model = { message: '' };
+        this.messages = this.chatService.onMessageEvent.subscribe(function (message) {
+            _this.natNotificationsService.create('New Message', {
+                icon: message.user.avatar,
+                body: message.message
+            }).subscribe(function (n) {
+                console.log('Native:', n, n.notification, n.event);
+                n.notification.onclick = function (x) {
+                    console.log('Native:', x);
+                    window.focus();
+                    this.close();
+                };
+            });
+        });
     }
     ChatCommunicationComponent.prototype.ngOnInit = function () {
+    };
+    ChatCommunicationComponent.prototype.ngOnDestroy = function () {
+        this.messages.unsubscribe();
     };
     ChatCommunicationComponent.prototype.onSubmit = function () {
         var message = this.model.message;
@@ -62,6 +81,7 @@ var ChatCommunicationComponent = (function () {
             templateUrl: './chatCommunication.component.html'
         }),
         __metadata("design:paramtypes", [services_1.ChatService,
+            native_notifications_service_1.NativeNotificationsService,
             contextualCommData_service_1.ContextualCommDataService])
     ], ChatCommunicationComponent);
     return ChatCommunicationComponent;

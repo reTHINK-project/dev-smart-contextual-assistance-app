@@ -1,5 +1,4 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 // Services
 import { RethinkService } from './rethink.service';
@@ -20,6 +19,8 @@ export class ChatService {
 
   chatGroupManager: any;
 
+  public onMessageEvent = new EventEmitter<Message>();
+
   private _onUserAdded: Function;
   private _onInvitation: Function;
   private _onMessage: Function;
@@ -38,8 +39,6 @@ export class ChatService {
   }
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
     private rethinkService: RethinkService,
     private contextualCommService: ContextualCommService,
     private contactService: ContactService
@@ -163,6 +162,8 @@ export class ChatService {
 
         let currentMessage = new Message(msg);
         this.contextualCommService.updateContextMessages(currentMessage, dataObjectURL);
+
+        this.onMessageEvent.emit(currentMessage);
       } else {
         console.info('The message was rejected because the user ' + message.identity.userProfile.userURL + ' is unknown');
       }

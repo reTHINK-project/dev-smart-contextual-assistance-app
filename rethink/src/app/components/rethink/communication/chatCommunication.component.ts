@@ -1,6 +1,11 @@
-import { Component, OnInit, Input, Output, HostBinding, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, OnDestroy, HostBinding, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
+import { NativeNotificationsService } from '../../notification/native-notifications/services/native-notifications.service';
 
+import { config } from '../../../config';
+
+import { Message } from '../../../models/models';
 import { ChatService } from '../../../services/services';
 import { ContextualCommDataService } from '../../../services/contextualCommData.service';
 
@@ -9,21 +14,48 @@ import { ContextualCommDataService } from '../../../services/contextualCommData.
   selector: 'chat-view',
   templateUrl: './chatCommunication.component.html'
 })
-export class ChatCommunicationComponent implements OnInit {
+export class ChatCommunicationComponent implements OnInit, OnDestroy {
 
-  @HostBinding('class') hostClass = 'message-sender all-75 medium-70 xlarge-80 hide-small hide-tiny push-right'
+  @HostBinding('class') hostClass = 'message-sender all-75 medium-70 xlarge-80 hide-small hide-tiny push-right';
 
   @Input() active = false;
   @Output() onMessage = new EventEmitter();
 
   model = <any>{message: ''};
 
+  private messages: Subscription;
+
   constructor(
     private chatService: ChatService,
-    private contextualCommDataService: ContextualCommDataService) {}
+    private natNotificationsService: NativeNotificationsService,
+    private contextualCommDataService: ContextualCommDataService) {
+
+    this.messages = this.chatService.onMessageEvent.subscribe((message: Message) => {
+
+      this.natNotificationsService.create('New Message', {
+        icon: message.user.avatar,
+        body: message.message
+      }).subscribe((n: any) => {
+        console.log('Native:', n, n.notification, n.event);
+
+        n.notification.onclick = function(x: any) {
+          console.log('Native:', x);
+          window.focus();
+          this.close();
+        };
+
+      });
+
+    });
+
+    }
 
   ngOnInit() {
 
+  }
+
+  ngOnDestroy() {
+    this.messages.unsubscribe();
   }
 
   onSubmit() {

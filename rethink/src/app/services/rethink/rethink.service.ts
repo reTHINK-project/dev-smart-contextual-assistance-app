@@ -15,31 +15,14 @@ export class RethinkService {
   domain = config.domain;
   runtimeURL = 'https://catalogue.' + this.domain + '/.well-known/runtime/Runtime';
   config = {domain: this.domain, runtimeURL: this.runtimeURL, development: true };
-
   runtime: any;
 
   public progress: BehaviorSubject<String> = new BehaviorSubject('');
-
   public status: BehaviorSubject<boolean> = new BehaviorSubject(false);
-
-  private currentUser: User;
-
-  public set setCurrentUser(v: User) {
-    this.currentUser = v;
-  }
-
-  public get getCurrentUser(): User {
-    return this.currentUser;
-  }
 
   constructor(
     private localstorage: LocalStorage,
     private contactService: ContactService) {
-
-      if (this.localstorage.hasObject('me') ) {
-        let me = this.localstorage.get('me');
-        this.setCurrentUser = new User(me);
-      }
 
   }
 
@@ -85,7 +68,6 @@ export class RethinkService {
       hyperty.instance.identityManager.discoverUserRegistered().then((user: User) => {
 
         let myUser = new User(user);
-        this.setCurrentUser = myUser;
         this.contactService.sessionUser = myUser;
         this.contactService.addUser(myUser);
 

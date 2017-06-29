@@ -4,6 +4,7 @@ exports.config = {
     pageTitlePrefix: 'reThink Project - ',
     appPrefix: 'sca',
     splitChar: '/',
-    domain: 'localhost'
+    domain: 'localhost',
+    sounds: '../assets/sounds/'
 };
 //# sourceMappingURL=config.js.map
