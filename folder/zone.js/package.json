@@ -1,29 +1,31 @@
 {
   "_args": [
     [
-      "zone.js@https://registry.npmjs.org/zone.js/-/zone.js-0.8.11.tgz",
+      "zone.js@0.8.12",
       "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink"
     ]
   ],
-  "_from": "zone.js@https://registry.npmjs.org/zone.js/-/zone.js-0.8.11.tgz",
-  "_id": "zone.js@0.8.11",
+  "_from": "zone.js@0.8.12",
+  "_id": "zone.js@0.8.12",
   "_inBundle": false,
-  "_integrity": "sha1-dCvvsX+8SaVxcSuMfYfljKJv2IY=",
+  "_integrity": "sha1-hv9QU8mK7CkaC/S7rFAdaUoFz7s=",
   "_location": "/zone.js",
   "_phantomChildren": {},
   "_requested": {
-    "type": "remote",
-    "raw": "zone.js@https://registry.npmjs.org/zone.js/-/zone.js-0.8.11.tgz",
+    "type": "version",
+    "registry": true,
+    "raw": "zone.js@0.8.12",
     "name": "zone.js",
     "escapedName": "zone.js",
-    "rawSpec": "https://registry.npmjs.org/zone.js/-/zone.js-0.8.11.tgz",
-    "saveSpec": "https://registry.npmjs.org/zone.js/-/zone.js-0.8.11.tgz",
-    "fetchSpec": "https://registry.npmjs.org/zone.js/-/zone.js-0.8.11.tgz"
+    "rawSpec": "0.8.12",
+    "saveSpec": null,
+    "fetchSpec": "0.8.12"
   },
   "_requiredBy": [
     "/"
   ],
-  "_spec": "https://registry.npmjs.org/zone.js/-/zone.js-0.8.11.tgz",
+  "_resolved": "https://registry.npmjs.org/zone.js/-/zone.js-0.8.12.tgz",
+  "_spec": "0.8.12",
   "_where": "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink",
   "author": {
     "name": "Brian Ford"
@@ -113,5 +115,5 @@
     "ws-server": "node ./test/ws-server.js"
   },
   "typings": "dist/zone.js.d.ts",
-  "version": "https://registry.npmjs.org/zone.js/-/zone.js-0.8.11.tgz"
+  "version": "0.8.12"
 }

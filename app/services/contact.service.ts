@@ -42,10 +42,10 @@ export class ContactService {
   constructor(private localStorage: LocalStorage) {
 
     const initialUsers: User[] = [];
-    let me: User;
 
     if (this.localStorage.hasObject('me')) {
-      me = this.localStorage.getObject('me');
+      let me: User = this.localStorage.getObject('me');
+      this._sessionUser = new User(me);
     }
 
     if (this.localStorage.hasObject('contacts')) {
@@ -53,7 +53,7 @@ export class ContactService {
       for (let k of Object.keys(mapObj)) {
         let currentUser: User = new User(mapObj[k]);
         this._userList.set(k, currentUser);
-        if (currentUser.userURL !== me.userURL) {
+        if (currentUser.userURL !== this._sessionUser.userURL) {
           initialUsers.push(currentUser);
         }
       }
@@ -102,6 +102,7 @@ export class ContactService {
 
   set sessionUser(user: User) {
     this._sessionUser = user;
+    this.localStorage.setObject('me', user);
   }
 
   get sessionUser(): User {

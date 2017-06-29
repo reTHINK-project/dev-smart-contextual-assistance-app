@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
+var animations_1 = require("@angular/platform-browser/animations");
 var forms_1 = require("@angular/forms");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 // routing
@@ -17,11 +18,12 @@ var CustomUtils_1 = require("./utils/CustomUtils");
 // TO ORGANIZE
 var contextMenu_component_1 = require("./views/contextualCommMenu/contextMenu.component");
 var add_contextualComm_component_1 = require("./views/contextualCommMenu/add-contextualComm.component");
+var native_notifications_module_1 = require("./components/notification/native-notifications.module");
+var notifications_module_1 = require("./components/notification/notifications.module");
 // components
 var app_component_1 = require("./app.component");
 var home_component_1 = require("./views/home/home.component");
 var contextualComm_module_1 = require("./views/contextualComm/contextualComm.module");
-var notification_component_1 = require("./components/notification/notification.component");
 var contextualComm_component_1 = require("./views/contextualComm/contextualComm.component");
 var contextualCommUsers_component_1 = require("./views/contextualCommUsers/contextualCommUsers.component");
 var userIdentity_component_1 = require("./components/rethink/userIdentity/userIdentity.component");
@@ -40,7 +42,10 @@ var AppModule = (function () {
                 platform_browser_1.BrowserModule,
                 forms_1.ReactiveFormsModule,
                 contextualComm_module_1.ContextualCommModule,
+                animations_1.BrowserAnimationsModule,
                 ng_bootstrap_1.NgbModule.forRoot(),
+                notifications_module_1.NotificationsModule.forRoot(),
+                native_notifications_module_1.NativeNotificationsModule,
                 app_routing_module_1.AppRoutingModule
             ],
             declarations: [
@@ -49,7 +54,6 @@ var AppModule = (function () {
                 my_self_component_1.MySelfComponent,
                 add_user_component_1.AddUserComponent,
                 contextMenu_component_1.ContextMenuComponent,
-                notification_component_1.NotificationComponent,
                 userIdentity_component_1.UserIdentityComponent,
                 contextualComm_component_1.ContextualCommComponent,
                 add_contextualComm_component_1.AddContextualCommComponent,

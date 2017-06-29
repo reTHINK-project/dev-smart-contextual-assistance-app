@@ -75,6 +75,11 @@ export class Message {
   }
 }
 
+export interface ContextualCommEvent {
+  type: 'add' | 'update' | 'remove';
+  contextualComm: ContextualComm;
+}
+
 export class ContextualComm {
 
   id: string;

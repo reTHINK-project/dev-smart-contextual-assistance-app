@@ -16,6 +16,7 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./mediaCommunication.component.css']
 })
 export class MediaCommunicationComponent implements OnInit, OnDestroy {
+  notificationsService: any;
   @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100';
 
   @Input() user: User;

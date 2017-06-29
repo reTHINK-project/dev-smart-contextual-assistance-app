@@ -12,6 +12,7 @@ import { ContextualCommDataService } from './contextualCommData.service';
 import { ContextualCommService } from './contextualComm.service';
 import { RethinkService } from './rethink/rethink.service';
 import { ChatService } from './rethink/chat.service';
+import { ContactService } from './contact.service';
 
 @Injectable()
 export class ActivateUserGuard implements CanActivate {
@@ -19,6 +20,7 @@ export class ActivateUserGuard implements CanActivate {
   constructor(
     private router: Router,
     private chatService: ChatService,
+    private contactService: ContactService,
     private rethinkService: RethinkService,
     private contextualCommService: ContextualCommService,
     private contextualCommDataService: ContextualCommDataService
@@ -36,7 +38,7 @@ export class ActivateUserGuard implements CanActivate {
             let context = route.params['context'];
             let user = route.params['user'];
 
-            let normalizedPath = normalizeFromURL(path, this.rethinkService.getCurrentUser.username);
+            let normalizedPath = normalizeFromURL(path, this.contactService.sessionUser.username);
 
             console.log('[Activate User Guard] - ', context, user, state, normalizedPath);
 

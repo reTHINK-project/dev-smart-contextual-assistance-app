@@ -18,11 +18,13 @@ var contextualCommData_service_1 = require("./contextualCommData.service");
 var contextualComm_service_1 = require("./contextualComm.service");
 var rethink_service_1 = require("./rethink/rethink.service");
 var chat_service_1 = require("./rethink/chat.service");
+var contact_service_1 = require("./contact.service");
 var ActivateTaskGuard = (function () {
-    function ActivateTaskGuard(router, chatService, rethinkService, contextualCommService, contextualCommDataService) {
+    function ActivateTaskGuard(router, chatService, rethinkService, contactService, contextualCommService, contextualCommDataService) {
         this.router = router;
         this.chatService = chatService;
         this.rethinkService = rethinkService;
+        this.contactService = contactService;
         this.contextualCommService = contextualCommService;
         this.contextualCommDataService = contextualCommDataService;
     }
@@ -35,7 +37,7 @@ var ActivateTaskGuard = (function () {
                         var path = state.url;
                         var context = route.params['context'];
                         var task = route.params['task'];
-                        var normalizedPath = utils_1.normalizeFromURL(path, _this.rethinkService.getCurrentUser.username);
+                        var normalizedPath = utils_1.normalizeFromURL(path, _this.contactService.sessionUser.username);
                         console.log('[Activate Task Guard] - ', context, task, state, normalizedPath);
                         var normalizedName = utils_1.normalizeName(normalizedPath);
                         console.log('[Activate Task Guard - Activate] - normalized path: ', normalizedPath);
@@ -67,6 +69,7 @@ var ActivateTaskGuard = (function () {
         __metadata("design:paramtypes", [router_1.Router,
             chat_service_1.ChatService,
             rethink_service_1.RethinkService,
+            contact_service_1.ContactService,
             contextualComm_service_1.ContextualCommService,
             contextualCommData_service_1.ContextualCommDataService])
     ], ActivateTaskGuard);

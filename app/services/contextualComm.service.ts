@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
@@ -12,13 +12,11 @@ import { strMapToObj } from '../utils/utils';
 // Services
 import { LocalStorage } from './storage.service';
 import { ContactService } from './contact.service';
-import { ContextualCommTriggerService } from './contextualCommTrigger.service';
 
 // Interfaces
-import { ContextualComm, User, Message } from '../models/models';
+import { ContextualCommEvent, ContextualComm, User, Message } from '../models/models';
 import { HypertyResourceType } from '../models/rethink/HypertyResource';
 import { Communication } from '../models/rethink/Communication';
-import { RethinkService } from './rethink/rethink.service';
 
 @Injectable()
 export class ContextualCommService {
@@ -28,13 +26,12 @@ export class ContextualCommService {
   private currentActiveContext: ContextualComm;
 
   private _contextualCommList: Observable<ContextualComm[]>;
-
   private _contextualCommUpdates: Subject<any> = new Subject<any>();
+  private _newContextualComm: Subject<ContextualComm> = new Subject<ContextualComm>();
 
-  private _contextualComm: Subject<ContextualComm> = new Subject<ContextualComm>();
-
-  private contextualCommObs: Subject<ContextualComm> = new Subject<ContextualComm>();
   private _currentContext: Subject<ContextualComm> = new Subject<ContextualComm>();
+
+  public contextualCommEvent  = new EventEmitter<ContextualCommEvent>();
 
   public get getActiveContext(): ContextualComm {
     return this.currentActiveContext;
@@ -48,9 +45,7 @@ export class ContextualCommService {
 
   constructor(
     private localStorage: LocalStorage,
-    private rethinkService: RethinkService,
-    private contactService: ContactService,
-    private contextualCommTriggerService: ContextualCommTriggerService
+    private contactService: ContactService
   ) {
 
     this._contextualCommList = this._contextualCommUpdates
@@ -59,7 +54,7 @@ export class ContextualCommService {
       context.users = context.users.map((user: User) => {
         return this.contactService.getUser(user.userURL);
       }).filter((user: User) => {
-        return user.userURL !== this.rethinkService.getCurrentUser.userURL;
+        return user.userURL !== this.contactService.sessionUser.userURL;
       });
 
       context.messages = context.messages.map((message: Message) => {
@@ -84,14 +79,13 @@ export class ContextualCommService {
         });
 
         this._currentContext.next(context);
-        this.contextualCommObs.next(context);
       } else {
 
         let count = 0;
 
         context.messages.forEach((message: Message) => {
           let currentUser;
-          if (message.user.userURL !== this.rethinkService.getCurrentUser.userURL) {
+          if (message.user.userURL !== this.contactService.sessionUser.userURL) {
             currentUser = this.contactService.getUser(message.user.userURL);
             if (message.isRead === false) { count++; }
             currentUser.unread = count;
@@ -114,7 +108,7 @@ export class ContextualCommService {
     .publishReplay(1)
     .refCount();
 
-    this._contextualComm.subscribe(this._contextualCommUpdates);
+    this._newContextualComm.subscribe(this._contextualCommUpdates);
 
     // TODO: check why we need this, HOT something
     this._contextualCommList.subscribe((list: any) => {
@@ -126,7 +120,7 @@ export class ContextualCommService {
       for (let k of Object.keys(mapObj)) {
         let currentContext = new ContextualComm(mapObj[k]);
         this.cxtList.set(k, currentContext);
-        this._contextualComm.next(currentContext);
+        this._newContextualComm.next(currentContext);
       }
     }
 
@@ -183,7 +177,7 @@ export class ContextualCommService {
 
       }
 
-      this._contextualComm.next(context);
+      this._newContextualComm.next(context);
       resolve(context);
 
     });
@@ -229,6 +223,11 @@ export class ContextualCommService {
 
     console.log('[Context Service - createContextualComm] - New ContextualComm:', contextualComm);
 
+    this.contextualCommEvent.emit({
+      type: 'add',
+      contextualComm: contextualComm
+    });
+
     return contextualComm;
   }
 
@@ -244,7 +243,7 @@ export class ContextualCommService {
     let context: ContextualComm = this.cxtList.get(url);
     context.addMessage(message);
 
-    this._contextualComm.next(context);
+    this._newContextualComm.next(context);
 
     console.log('[Context Service - update messages]', context.name, context.url, context);
   }
@@ -260,7 +259,7 @@ export class ContextualCommService {
     // Update the contact list
     this.contactService.addUser(user);
 
-    this._contextualComm.next(context);
+    this._newContextualComm.next(context);
 
     console.log('[Context Service - Update contacts]', context.name, context.url, context);
 
@@ -296,7 +295,7 @@ export class ContextualCommService {
           currentContext = context as ContextualComm;
 
           console.log('[context service] - found', name, currentContext);
-          this._contextualComm.next(context);
+          this._newContextualComm.next(context);
           return resolve(currentContext);
         }
 
@@ -336,10 +335,6 @@ export class ContextualCommService {
 
   currentContext(): Observable<ContextualComm> {
     return this._currentContext;
-  }
-
-  contextualComm(): Observable<ContextualComm> {
-    return this.contextualCommObs;
   }
 
   getContextualComms(): Observable<ContextualComm[]> {

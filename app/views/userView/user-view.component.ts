@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, HostBinding, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 
 // Services
@@ -11,7 +12,6 @@ import { Message, User, ContextualComm } from '../../models/models';
 
 // Components
 import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component';
-import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   moduleId: module.id,
@@ -24,24 +24,26 @@ export class UserViewComponent implements OnInit, OnDestroy {
 
   @ViewChild(ContextualCommActivityComponent)
   private contextualCommActivityComponent: ContextualCommActivityComponent;
-  private subscription: Subscription;
+
+  private paramsSubscription: Subscription;
 
   action: string;
   user: User;
   messages: Subject<Message[]> = new BehaviorSubject([]);
 
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private contactService: ContactService,
-    private ContextualCommService: ContextualCommService,
+    private contextualCommService: ContextualCommService,
     private chatService: ChatService) {
 
-    this.subscription = this.route
-      .queryParams
-      .subscribe(params => {
-        console.log('Params Action:', params['action']);
-        this.action = params['action'];
+      this.paramsSubscription = this.route.queryParams.subscribe((event: any) => {
+
+        console.log('[User View] - router event change:', event, event['action']);
+        this.action = event['action'];
+
       });
 
   }
@@ -56,7 +58,7 @@ export class UserViewComponent implements OnInit, OnDestroy {
       this.messages.next(data.context.messages);
     });
 
-    this.ContextualCommService.contextualComm().subscribe((contextualComm: ContextualComm) => {
+    this.contextualCommService.currentContext().subscribe((contextualComm: ContextualComm) => {
       console.log('[ContextualCommActivity Component - update] - ', contextualComm);
       this.messages.next(contextualComm.messages);
 

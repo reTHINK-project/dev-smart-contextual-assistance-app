@@ -29,7 +29,7 @@
 			<ng-template ngbPanelContent>
 
 				<ul>
-						<li *ngFor="let sub of context.contexts">
+						<li [hidden]="sub.name.includes('@')" *ngFor="let sub of context.contexts">
 							<a class="sub-level" routerLink="{{context.name | lowercase}}/{{sub.name | lowercase}}" routerLinkActive="active">{{sub.name}}</a>
 						</li>
 				</ul>

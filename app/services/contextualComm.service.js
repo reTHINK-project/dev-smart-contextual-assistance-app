@@ -30,29 +30,25 @@ var utils_1 = require("../utils/utils");
 // Services
 var storage_service_1 = require("./storage.service");
 var contact_service_1 = require("./contact.service");
-var contextualCommTrigger_service_1 = require("./contextualCommTrigger.service");
 // Interfaces
 var models_1 = require("../models/models");
 var HypertyResource_1 = require("../models/rethink/HypertyResource");
-var rethink_service_1 = require("./rethink/rethink.service");
 var ContextualCommService = (function () {
-    function ContextualCommService(localStorage, rethinkService, contactService, contextualCommTriggerService) {
+    function ContextualCommService(localStorage, contactService) {
         var _this = this;
         this.localStorage = localStorage;
-        this.rethinkService = rethinkService;
         this.contactService = contactService;
-        this.contextualCommTriggerService = contextualCommTriggerService;
         this.cxtList = new Map();
         this._contextualCommUpdates = new Subject_1.Subject();
-        this._contextualComm = new Subject_1.Subject();
-        this.contextualCommObs = new Subject_1.Subject();
+        this._newContextualComm = new Subject_1.Subject();
         this._currentContext = new Subject_1.Subject();
+        this.contextualCommEvent = new core_1.EventEmitter();
         this._contextualCommList = this._contextualCommUpdates
             .map(function (context) {
             context.users = context.users.map(function (user) {
                 return _this.contactService.getUser(user.userURL);
             }).filter(function (user) {
-                return user.userURL !== _this.rethinkService.getCurrentUser.userURL;
+                return user.userURL !== _this.contactService.sessionUser.userURL;
             });
             context.messages = context.messages.map(function (message) {
                 var currentMessage = new models_1.Message(message);
@@ -70,13 +66,12 @@ var ContextualCommService = (function () {
                     return message;
                 });
                 _this._currentContext.next(context);
-                _this.contextualCommObs.next(context);
             }
             else {
                 var count_1 = 0;
                 context.messages.forEach(function (message) {
                     var currentUser;
-                    if (message.user.userURL !== _this.rethinkService.getCurrentUser.userURL) {
+                    if (message.user.userURL !== _this.contactService.sessionUser.userURL) {
                         currentUser = _this.contactService.getUser(message.user.userURL);
                         if (message.isRead === false) {
                             count_1++;
@@ -96,7 +91,7 @@ var ContextualCommService = (function () {
             .startWith([])
             .publishReplay(1)
             .refCount();
-        this._contextualComm.subscribe(this._contextualCommUpdates);
+        this._newContextualComm.subscribe(this._contextualCommUpdates);
         // TODO: check why we need this, HOT something
         this._contextualCommList.subscribe(function (list) {
             console.log('LIST:', list);
@@ -108,7 +103,7 @@ var ContextualCommService = (function () {
                     var k = _b.value;
                     var currentContext = new models_1.ContextualComm(mapObj[k]);
                     this.cxtList.set(k, currentContext);
-                    this._contextualComm.next(currentContext);
+                    this._newContextualComm.next(currentContext);
                 }
             }
             catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -175,7 +170,7 @@ var ContextualCommService = (function () {
                     _this.updateContexts(context.url, context);
                 }
             }
-            _this._contextualComm.next(context);
+            _this._newContextualComm.next(context);
             resolve(context);
         });
     };
@@ -210,6 +205,10 @@ var ContextualCommService = (function () {
         communication.resources = [HypertyResource_1.HypertyResourceType.Chat];
         contextualComm.communication = communication;
         console.log('[Context Service - createContextualComm] - New ContextualComm:', contextualComm);
+        this.contextualCommEvent.emit({
+            type: 'add',
+            contextualComm: contextualComm
+        });
         return contextualComm;
     };
     ContextualCommService.prototype.updateContexts = function (url, context) {
@@ -221,7 +220,7 @@ var ContextualCommService = (function () {
         console.log('[Context Service - Active Context:', this.cxtList.get(url));
         var context = this.cxtList.get(url);
         context.addMessage(message);
-        this._contextualComm.next(context);
+        this._newContextualComm.next(context);
         console.log('[Context Service - update messages]', context.name, context.url, context);
     };
     ContextualCommService.prototype.updateContextUsers = function (user, url) {
@@ -231,7 +230,7 @@ var ContextualCommService = (function () {
         context.addUser(user);
         // Update the contact list
         this.contactService.addUser(user);
-        this._contextualComm.next(context);
+        this._newContextualComm.next(context);
         console.log('[Context Service - Update contacts]', context.name, context.url, context);
     };
     ContextualCommService.prototype.getContextByName = function (name) {
@@ -257,7 +256,7 @@ var ContextualCommService = (function () {
                     // TODO: Solve the problem of active context
                     currentContext = context;
                     console.log('[context service] - found', name, currentContext);
-                    _this._contextualComm.next(context);
+                    _this._newContextualComm.next(context);
                     return resolve(currentContext);
                 }
             });
@@ -286,9 +285,6 @@ var ContextualCommService = (function () {
     ContextualCommService.prototype.currentContext = function () {
         return this._currentContext;
     };
-    ContextualCommService.prototype.contextualComm = function () {
-        return this.contextualCommObs;
-    };
     ContextualCommService.prototype.getContextualComms = function () {
         return this._contextualCommList;
     };
@@ -313,9 +309,7 @@ var ContextualCommService = (function () {
     ContextualCommService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [storage_service_1.LocalStorage,
-            rethink_service_1.RethinkService,
-            contact_service_1.ContactService,
-            contextualCommTrigger_service_1.ContextualCommTriggerService])
+            contact_service_1.ContactService])
     ], ContextualCommService);
     return ContextualCommService;
 }());
