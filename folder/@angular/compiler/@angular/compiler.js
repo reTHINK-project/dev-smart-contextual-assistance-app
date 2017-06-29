@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.2.4
+ * @license Angular v4.2.3
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -20,7 +20,7 @@ import { ANALYZE_FOR_ENTRY_COMPONENTS, Attribute, COMPILER_OPTIONS, CUSTOM_ELEME
 /**
  * \@stable
  */
-const VERSION = new Version('4.2.4');
+const VERSION = new Version('4.2.3');
 
 /**
  * @license
@@ -23096,9 +23096,7 @@ class AotCompiler {
             }
             const /** @type {?} */ arity = this._symbolResolver.getTypeArity(symbol) || 0;
             const { filePath, name, members } = this._symbolResolver.getImportAs(symbol) || symbol;
-            const /** @type {?} */ importModule = this._symbolResolver.fileNameToModuleName(filePath, genFilePath);
-            const /** @type {?} */ selfReference = this._symbolResolver.fileNameToModuleName(genFilePath, genFilePath);
-            const /** @type {?} */ moduleName = importModule === selfReference ? null : importModule;
+            const /** @type {?} */ moduleName = this._symbolResolver.fileNameToModuleName(filePath, genFilePath);
             // If we are in a type expression that refers to a generic type then supply
             // the required type parameters. If there were not enough type parameters
             // supplied, supply any as the type. Outside a type expression the reference
@@ -24239,6 +24237,9 @@ class StaticSymbolResolver {
      * @return {?}
      */
     fileNameToModuleName(importedFilePath, containingFilePath) {
+        if (importedFilePath === containingFilePath) {
+            return null;
+        }
         return this.knownFileNameToModuleNames.get(importedFilePath) ||
             this.host.fileNameToModuleName(importedFilePath, containingFilePath);
     }

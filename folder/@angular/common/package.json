@@ -1,28 +1,27 @@
 {
-  "_from": "@angular/common@4.2.4",
-  "_id": "@angular/common@4.2.4",
+  "_from": "@angular/common@4.2.3",
+  "_id": "@angular/common@4.2.3",
   "_inBundle": false,
-  "_integrity": "sha1-m37g5pKrAxkafNmvMx0PSS087+s=",
+  "_integrity": "sha1-4Bc2EutqnPjdUL00yKky286R0r8=",
   "_location": "/@angular/common",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "@angular/common@4.2.4",
+    "raw": "@angular/common@4.2.3",
     "name": "@angular/common",
     "escapedName": "@angular%2fcommon",
     "scope": "@angular",
-    "rawSpec": "4.2.4",
+    "rawSpec": "4.2.3",
     "saveSpec": null,
-    "fetchSpec": "4.2.4"
+    "fetchSpec": "4.2.3"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/@angular/common/-/common-4.2.4.tgz",
-  "_shasum": "9b7ee0e692ab03191a7cd9af331d0f492d3cefeb",
-  "_spec": "@angular/common@4.2.4",
+  "_resolved": "https://registry.npmjs.org/@angular/common/-/common-4.2.3.tgz",
+  "_shasum": "e0173612eb6a9cf8dd50bd34c8a932dbce91d2bf",
+  "_spec": "@angular/common@4.2.3",
   "_where": "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink",
   "author": {
     "name": "angular"
@@ -43,12 +42,12 @@
   "module": "./@angular/common.es5.js",
   "name": "@angular/common",
   "peerDependencies": {
-    "@angular/core": "4.2.4"
+    "@angular/core": "4.2.3"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/angular/angular.git"
   },
   "typings": "./common.d.ts",
-  "version": "4.2.4"
+  "version": "4.2.3"
 }

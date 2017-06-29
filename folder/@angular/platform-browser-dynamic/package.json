@@ -1,28 +1,27 @@
 {
-  "_from": "@angular/platform-browser-dynamic@4.2.4",
-  "_id": "@angular/platform-browser-dynamic@4.2.4",
+  "_from": "@angular/platform-browser-dynamic@4.2.3",
+  "_id": "@angular/platform-browser-dynamic@4.2.3",
   "_inBundle": false,
-  "_integrity": "sha1-UZD9p5QlrkmkkiSYVhTJeAo3B2E=",
+  "_integrity": "sha1-h85B9XedMcvGjHHba/66IW0TVVQ=",
   "_location": "/@angular/platform-browser-dynamic",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "@angular/platform-browser-dynamic@4.2.4",
+    "raw": "@angular/platform-browser-dynamic@4.2.3",
     "name": "@angular/platform-browser-dynamic",
     "escapedName": "@angular%2fplatform-browser-dynamic",
     "scope": "@angular",
-    "rawSpec": "4.2.4",
+    "rawSpec": "4.2.3",
     "saveSpec": null,
-    "fetchSpec": "4.2.4"
+    "fetchSpec": "4.2.3"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/@angular/platform-browser-dynamic/-/platform-browser-dynamic-4.2.4.tgz",
-  "_shasum": "5190fda79425ae49a49224985614c9780a370761",
-  "_spec": "@angular/platform-browser-dynamic@4.2.4",
+  "_resolved": "https://registry.npmjs.org/@angular/platform-browser-dynamic/-/platform-browser-dynamic-4.2.3.tgz",
+  "_shasum": "87ce41f5779d31cbc68c71db6bfeba216d135554",
+  "_spec": "@angular/platform-browser-dynamic@4.2.3",
   "_where": "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink",
   "author": {
     "name": "angular"
@@ -43,15 +42,15 @@
   "module": "./@angular/platform-browser-dynamic.es5.js",
   "name": "@angular/platform-browser-dynamic",
   "peerDependencies": {
-    "@angular/core": "4.2.4",
-    "@angular/common": "4.2.4",
-    "@angular/compiler": "4.2.4",
-    "@angular/platform-browser": "4.2.4"
+    "@angular/core": "4.2.3",
+    "@angular/common": "4.2.3",
+    "@angular/compiler": "4.2.3",
+    "@angular/platform-browser": "4.2.3"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/angular/angular.git"
   },
   "typings": "./platform-browser-dynamic.d.ts",
-  "version": "4.2.4"
+  "version": "4.2.3"
 }
