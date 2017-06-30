@@ -228,7 +228,7 @@ export class ChatService {
       console.log('[Invite]', listOfEmails, ' - ', listOfDomains);
       console.log('[Chat Service - invite]: ', this.controllerList, dataObjectURL, this.controllerList.get(dataObjectURL));
 
-      let currentController = this.controllerList.get(dataObjectURL);
+      const currentController = this.controllerList.get(dataObjectURL);
 
       currentController.addUser(listOfEmails, listOfDomains).then((result: any) => {
         console.log('[Invite Chat]', result);

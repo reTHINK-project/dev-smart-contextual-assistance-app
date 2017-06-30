@@ -123,7 +123,7 @@ export class ContactService {
   }
 
   getUsers(): Observable<User[]> {
-    return this._users;
+    return this._users.map(users => users.filter(user => user.username !== this.sessionUser.username));
   }
 
   getUserList(): Observable<User[]> {
