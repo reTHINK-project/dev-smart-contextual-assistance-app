@@ -112,7 +112,7 @@ export class ConnectorService {
 
     if (this.controllers && this.controllers.hasOwnProperty('answer') && this._webrtcMode === 'answer') {
 
-      let options = {video: true, audio: true};
+      const options = {video: true, audio: true};
 
       getUserMedia(options).then((mediaStream: MediaStream) => {
         this._localStream.next(mediaStream);
@@ -144,12 +144,12 @@ export class ConnectorService {
 
       console.log('[Connector Service] - on Invitation:', controller, identity);
 
-      let metadata = controller.dataObjectObserver.metadata;
+      const metadata = controller.dataObjectObserver.metadata;
       this.mode = controller.dataObjectObserver.data.mode;
       this._webrtcMode = 'answer';
       this.prepareController(controller);
 
-      let currUser: User = this.contactService.getUser(identity.userURL);
+      const currUser: User = this.contactService.getUser(identity.userURL);
 
       this.onInvitation.emit({metadata: metadata, user: currUser, mode: this.mode});
 
@@ -196,7 +196,7 @@ export class ConnectorService {
     controller.onDisconnect((identity: any) => {
       console.log('[Connector Service - onDisconnect] - onDisconnect:', identity);
 
-      let navigationExtras: NavigationExtras = {
+      const navigationExtras: NavigationExtras = {
         queryParams: {},
         relativeTo: this.route
       };

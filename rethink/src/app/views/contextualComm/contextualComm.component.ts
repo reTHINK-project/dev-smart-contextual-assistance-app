@@ -66,8 +66,8 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
       this.userList.next(context.users);
     } else {
 
-      let normalizedPath = normalizeFromURL(this.router.url, this.contactService.sessionUser.username);
-      let normalizedName = normalizeName(normalizedPath);
+      const normalizedPath = normalizeFromURL(this.router.url, this.contactService.sessionUser.username);
+      const normalizedName = normalizeName(normalizedPath);
 
       console.log('[ContextualComm View - get parent active context]:', normalizedPath);
       console.log('[ContextualComm View - get parent active context]:', normalizedName);
@@ -100,12 +100,12 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
   }
 
   updateView() {
-    let parentEl = this.content.element.nativeElement.parentElement;
-    let currentEl = this.content.element.nativeElement;
-    let parentHeight = parentEl.offsetHeight;
-    let topMargin = 60;
-    let bottomPadding = 60;
-    let height = parentHeight - (topMargin + bottomPadding) + 'px';
+    const parentEl = this.content.element.nativeElement.parentElement;
+    const currentEl = this.content.element.nativeElement;
+    const parentHeight = parentEl.offsetHeight;
+    const topMargin = 60;
+    const bottomPadding = 60;
+    const height = parentHeight - (topMargin + bottomPadding) + 'px';
     currentEl.style.height = height;
   }
 

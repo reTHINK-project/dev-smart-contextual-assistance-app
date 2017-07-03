@@ -28,13 +28,13 @@ export class UserAvailabilityService {
     private route: ActivatedRoute,
     private rethinkService: RethinkService,
     private contactService: ContactService
-   ) {       
+   ) {
     console.log('[UserAvailability Service - constructor] - ');
 
       this.availabilityReporterURL = 'hyperty-catalogue://catalogue.' + this.rethinkService.domain + '/.well-known/hyperty/UserAvailabilityReporter';
       this.availabilityObserverURL = 'hyperty-catalogue://catalogue.' + this.rethinkService.domain + '/.well-known/hyperty/UserAvailabilityObserver';
 
-    
+
       this.rethinkService.getHyperty(this.availabilityReporterURL)
         .then((hyperty: any) => {
           this.myAvailabilityReporter = hyperty.instance;
@@ -48,11 +48,10 @@ export class UserAvailabilityService {
 
    }
 
-  private startObservation()
-  {
+  private startObservation() {
    console.log('[UserAvailability service. start observation] ');
 
-      // let's first start the AvailabilityObserver Hyperty 
+      // let's first start the AvailabilityObserver Hyperty
         this.rethinkService.getHyperty(this.availabilityObserverURL)
         .then((hyperty: any) => {
           this.availabilityObserver = hyperty.instance;
@@ -61,13 +60,13 @@ export class UserAvailabilityService {
           // Let's retrieve observers from previous sessions
           this.availabilityObserver.start().then((availabilities: any) => {
             // lets retrieve all users to be observed
-            this.contactService.getUsers().subscribe((users: User[]) => { 
+            this.contactService.getUsers().subscribe((users: User[]) => {
               console.log('[UserAvailability Service - startObservation] users to be observed:', users);
 
-              let newUsers: Array<User> = [];
+              const newUsers: Array<User> = [];
 
-              //for each User lets start observation 
-              users.forEach((user: User)=>{
+              // for each User lets start observation
+              users.forEach((user: User) => {
                 if (user.statustUrl && availabilities[user.statustUrl]) {
                   // TODO: confirm controllers is a list not an array
                   user.startStatusObservation(availabilities[user.statustUrl]);
@@ -89,14 +88,14 @@ export class UserAvailabilityService {
   }
 
   private subscribeUsers(users: Array<User>) {
-    //for each user let's discover reporter Hyperties
+    // for each user let's discover reporter Hyperties
 
     users.forEach((user: User) => {
-      this.discoverUserAvailability(user).then((availability: any)=>{
+      this.discoverUserAvailability(user).then((availability: any) => {
 
-        //lets start a new user availability observation
+        // lets start a new user availability observation
 
-        this.availabilityObserver.observe(availability).then((controller: any)=>{
+        this.availabilityObserver.observe(availability).then((controller: any) => {
           user.startStatusObservation(controller);
 
         });
@@ -104,19 +103,18 @@ export class UserAvailabilityService {
       });
 
     });
-    
+
   }
 
 
 
 
 
-  private discoverUserAvailability(user: User): Promise<Object>
-   {
+  private discoverUserAvailability(user: User): Promise<Object> {
     // discover and return last modified user availability hyperty
 
     return new Promise((resolve, reject) => {
-      this.availabilityObserver.discoverUsers(user.username, this.rethinkService.domain).then((discovered:Array <any>) => {
+      this.availabilityObserver.discoverUsers(user.username, this.rethinkService.domain).then((discovered: Array <any>) => {
         resolve( this.getLastModifiedAvailability(discovered) );
 
       });
@@ -129,7 +127,7 @@ export class UserAvailabilityService {
 
     let lastModifiedHyperty: any = hyperties[0];
 
-    hyperties.forEach((hyperty)=>{
+    hyperties.forEach((hyperty) => {
       if (new Date(hyperty.lastModified).getTime() > new Date(lastModifiedHyperty.lastModified).getTime()) {
         lastModifiedHyperty = hyperty;
       }
@@ -144,7 +142,7 @@ export class UserAvailabilityService {
     console.log('[UserAvailability service. setStatus]', status);
 
     this.myAvailabilityReporter.setStatus(status);
- 
+
   }
 
 

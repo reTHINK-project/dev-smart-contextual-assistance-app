@@ -83,8 +83,8 @@ export class AddUserComponent implements OnInit {
     // this.inviteEvent.emit( JSON.parse(JSON.stringify(this.model)) );
 
     this.busy = true;
-    let path = this.router.url;
-    let normalizedName = normalizeName(path);
+    const path = this.router.url;
+    const normalizedName = normalizeName(path);
     let parentNameId = '';
 
     console.log('[Add User Component] - parent: ', normalizedName, this.chatService.activeDataObjectURL);
@@ -98,16 +98,17 @@ export class AddUserComponent implements OnInit {
     this.contextualCommDataService.getContextById(parentNameId)
     .subscribe((context: ContextualComm) => {
 
-      let parentURL = context.url;
-      let currentURL = this.chatService.activeDataObjectURL;
+      const parentURL = context.url;
+      const currentURL = this.chatService.activeDataObjectURL;
 
-      let parentChat = this.chatService.invite(parentURL, [this.model.email], [this.model.domain || config.domain]);
+      const parentChat = this.chatService.invite(parentURL, [this.model.email], [this.model.domain || config.domain]);
       let currentChat: any;
 
       if (parentURL !== currentURL) {
         currentChat = this.chatService.invite(currentURL, [this.model.email], [this.model.domain || config.domain]);
       }
 
+      console.log('[Add User Component] - invite: ', this.model);
       console.log('[Add User Component] - invite: ', parentURL, currentURL);
       console.log('[Add User Component] - invite: ', parentChat, currentChat);
 
@@ -124,8 +125,8 @@ export class AddUserComponent implements OnInit {
         .then((currentController: any) => {
 
           console.log('[Add User Component] - current controller', currentController);
-          let normalizedPath = normalizeFromURL(path + '/user/' + this.model.email, this.contactService.sessionUser.username);
-          let normalizedName = normalizeName(normalizedPath);
+          const normalizedPath = normalizeFromURL(path + '/user/' + this.model.email, this.contactService.sessionUser.username);
+          const normalizedName = normalizeName(normalizedPath);
 
           console.log('[Add User Component] - normalized name: ', normalizedName);
 
