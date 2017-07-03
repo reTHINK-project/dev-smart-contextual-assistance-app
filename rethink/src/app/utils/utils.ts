@@ -227,3 +227,9 @@ export function filterContextsByName(name: string, context: ContextualComm): boo
   return context.name === name;
 }
 
+export function isALegacyUser(user: string): boolean {
+
+  const reg = new RegExp(/([a-zA-Z]+):\/\//, 'i');
+  return reg.test(user);
+
+}

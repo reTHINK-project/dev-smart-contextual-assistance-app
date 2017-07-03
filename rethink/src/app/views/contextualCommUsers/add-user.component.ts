@@ -10,7 +10,7 @@ import { config } from '../../config';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 // Utils
-import { normalizeName, normalizeFromURL } from '../../utils/utils';
+import { isALegacyUser, normalizeName, normalizeFromURL } from '../../utils/utils';
 
 // Models
 import { ContextualComm } from '../../models/models';
@@ -104,7 +104,7 @@ export class AddUserComponent implements OnInit {
       const parentChat = this.chatService.invite(parentURL, [this.model.email], [this.model.domain || config.domain]);
       let currentChat: any;
 
-      if (parentURL !== currentURL) {
+      if (parentURL !== currentURL || !isALegacyUser(this.model.email)) {
         currentChat = this.chatService.invite(currentURL, [this.model.email], [this.model.domain || config.domain]);
       }
 
@@ -124,6 +124,10 @@ export class AddUserComponent implements OnInit {
         })
         .then((currentController: any) => {
 
+          if (isALegacyUser(this.model.email)) {
+            throw new Error('Is a legacy user');
+          }
+
           console.log('[Add User Component] - current controller', currentController);
           const normalizedPath = normalizeFromURL(path + '/user/' + this.model.email, this.contactService.sessionUser.username);
           const normalizedName = normalizeName(normalizedPath);
@@ -131,11 +135,10 @@ export class AddUserComponent implements OnInit {
           console.log('[Add User Component] - normalized name: ', normalizedName);
 
           return this.contextualCommDataService.createAtomicContext(
-            this.model.email,
-            normalizedName.name,
-            normalizedName.id,
-            normalizedName.parent);
-
+              this.model.email,
+              normalizedName.name,
+              normalizedName.id,
+              normalizedName.parent);
         })
         .then((childController: any) => {
 
@@ -153,9 +156,9 @@ export class AddUserComponent implements OnInit {
         });
 
     }, (error: any) => {
+      console.log('Error getting the context:', error);
       this.busy = false;
       this.clean();
-      console.log('Error getting the context:', error);
     });
 
   }

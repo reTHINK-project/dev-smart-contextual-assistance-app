@@ -41,7 +41,7 @@ export class ContextualCommDataService {
 
       }).catch((reason: any) => {
 
-        let normalizedName = normalizeName(name, parentNameId);
+        const normalizedName = normalizeName(name, parentNameId);
 
         console.info('[ContextualCommData Service] - no contexts was found: ', reason);
         console.info('[ContextualCommData Service] - creating new context: ', name, normalizedName);
@@ -93,7 +93,7 @@ export class ContextualCommDataService {
 
     return new Promise((resolve, reject) => {
 
-      let activeContext = this.contextualCommService.getActiveContext;
+      const activeContext = this.contextualCommService.getActiveContext;
 
       console.log('[ContextualCommData Service] - normalizedName:', name);
 
@@ -112,6 +112,7 @@ export class ContextualCommDataService {
           resolve(context);
         }).catch((reason: any) => {
           console.error('Reason:', reason);
+          reject(reason);
         });
 
       });
@@ -133,7 +134,7 @@ export class ContextualCommDataService {
   }
 
   activeContext(): ContextualComm {
-    let contextualComm = this.contextualCommService.getActiveContext;
+    const contextualComm = this.contextualCommService.getActiveContext;
 
     if (contextualComm) {
       return contextualComm;
@@ -146,7 +147,7 @@ export class ContextualCommDataService {
   getContext(name: string): Observable<ContextualComm> {
     return this.contextualCommService.getContextualCommList()
       .map(contexts => {
-        let found = contexts.filter(context => filterContextsByName(name, context))[0];
+        const found = contexts.filter(context => filterContextsByName(name, context))[0];
         console.log('[ContextualCommData Service] - found: ', found);
         if (!found) {
           throw new Error('Context not found');
@@ -164,7 +165,7 @@ export class ContextualCommDataService {
   getContextById(id: string): Observable<ContextualComm> {
     return this.contextualCommService.getContextualCommList()
       .map(contexts => {
-        let found = contexts.filter(context => this.filterContextsById(id, context))[0];
+        const found = contexts.filter(context => this.filterContextsById(id, context))[0];
         if (!found) {
           throw new Error('Context not found');
         }
@@ -189,12 +190,12 @@ export class ContextualCommDataService {
   private filterContextsById(id: string, context: ContextualComm) {
 
     if (id.includes('@')) {
-      let base = id.substr(0, id.lastIndexOf('/') + 1);
-      let user = id.substr(id.lastIndexOf('/') + 1);
-      let users = user.split('-');
+      const base = id.substr(0, id.lastIndexOf('/') + 1);
+      const user = id.substr(id.lastIndexOf('/') + 1);
+      const users = user.split('-');
 
-      let variation1 = base + users[0] + '-' + users[1];
-      let variation2 = base + users[1] + '-' + users[0];
+      const variation1 = base + users[0] + '-' + users[1];
+      const variation2 = base + users[1] + '-' + users[0];
 
       if (context.id === variation1) {
         id = variation1;
