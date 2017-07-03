@@ -8,6 +8,16 @@ It's mandatory installing the @angular/cli like a global module;
 npm install -g @angular/cli
 ```
 
+**Note for Windows Users:**
+In case you have errors like
+```
+... error MSB4019: The imported project "C:\Microsoft.Cpp.Default.props" was not found. Confirm that the path in the <Import> declaration is correct, and that the file exists on disk.
+```
+make sure you have Visual Studio installed and for the module raising this error execute `npm install` specifying your visual Studio version. Example:
+
+`npm install node-sass -msvs_version=2008`
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `https://localhost:8080/`. The app will automatically reload if you change any of the source files.
