@@ -65,7 +65,12 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
 
         if (navigation instanceof NavigationError) {
 
-          this.notificationService.error('Error', 'This user not allow private messages');
+          this.notificationService.error('Error', navigation.error, {
+            showProgressBar: false,
+            timeOut: 3000,
+            pauseOnHover: false,
+            haveActions: false
+          });
         }
 
       });

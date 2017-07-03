@@ -4,6 +4,7 @@ import { Communication } from './rethink/Communication';
 import { ContextValue } from './rethink/Context';
 import { UserIdentity } from './rethink/UserIdentity';
 
+import { isALegacyUser } from '../utils/utils';
 
 import { config } from '../../app/config';
 
@@ -25,6 +26,8 @@ export class User implements UserIdentity {
   unread: number;
   domain: string;
 
+  isLegacy: boolean;
+
   constructor(obj: any) {
     this.username = obj && obj.username;
     this.cn       = obj && obj.cn;
@@ -35,7 +38,12 @@ export class User implements UserIdentity {
     this.unread   = obj && obj.unread   || 0;
     this.domain   = obj && obj.domain   || config.domain;
 
+    this.isLegacy = false;
+
     this.identifiers = '';
+
+    // TODO: this should be removed
+    if (!this.username.includes('@')) { this.isLegacy = true; }
 
     // TODO: split by the @ from user and domain <domain>@<identifier>
     this.guid     = this.username;

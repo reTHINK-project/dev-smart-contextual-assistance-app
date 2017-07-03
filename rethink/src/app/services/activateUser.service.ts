@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, Router } from '@angular/router';
 
 // Utils
-import { normalizeName, normalizeFromURL } from '../utils/utils';
+import { isALegacyUser, normalizeName, normalizeFromURL } from '../utils/utils';
 
 // Model
 import { ContextualComm } from '../models/models';
@@ -48,34 +48,38 @@ export class ActivateUserGuard implements CanActivate {
             console.log('[Activate User Guard - Activate] - normalized name: ', normalizedName);
 
             this.contextualCommDataService.getContext(normalizedName.name).subscribe(
-              (context: ContextualComm) => {
-                this.activateContext(context);
+              (currentContext: ContextualComm) => {
+                this.activateContext(currentContext);
                 resolve(true);
               },
               (reason: any) => {
 
                 // Get the parent
                 this.contextualCommDataService.getContextById(normalizedName.parent).subscribe(
-                  (context: ContextualComm) => {
+                  (parentContext: ContextualComm) => {
 
                   console.log('[Activate User Guard - Activate] - parent context and user found: ', normalizedPath);
-                  console.log('[Activate User Guard - Activate] - parent context and user found: ', context, user);
+                  console.log('[Activate User Guard - Activate] - parent context and user found: ', parentContext, user);
 
-                  if (context && user) {
-                    this.activateContext(context);
+                  if (parentContext && user) {
+                    this.activateContext(parentContext);
                     resolve(true);
                   } else {
                     console.log('[Activate User Guard - Activate] - Can Not Activate Route:', 'Parent context not found');
                     this.goHome();
                     resolve(false);
                   }
-                }, (reason) => {
+                }, (reason: any) => {
 
-                  // TODO Handle this logs and the expection
-                  console.log('[Activate User Guard - Activate] - Can Not Activate Route:', reason);
-                  throw Error('Context not found...');
-                  // this.goHome();
-                  // resolve(false);
+                  if (user && this.contactService.getByUserName(user).isLegacy) {
+                    reject('This kind of user do not allow private messages');
+                  } else {
+                    // TODO Handle this logs and the expection
+                    console.log('[Activate User Guard - Activate] - Can Not Activate Route:', reason);
+                    this.goHome();
+                    resolve(false);
+                  }
+
                 });
 
               });
