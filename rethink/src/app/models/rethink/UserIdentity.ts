@@ -9,4 +9,6 @@ export interface UserIdentity {
 
   idp: string;
   context?: string;
+
+  isLegacy: boolean;
 }

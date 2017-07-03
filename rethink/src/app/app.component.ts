@@ -37,12 +37,12 @@ export class AppComponent implements OnInit {
   status: string;
 
   @HostListener('window:blur', ['$event']) onBlurEvent(event: any) {
-    console.log('[App Lost Focus] - blur:', event);
+    // console.log('[App Lost Focus] - blur:', event);
     this.natNotificationsService.haveFocus = false;
   }
 
   @HostListener('window:focus', ['$event']) onFocusEvent(event: any) {
-    console.log('[App Have Focus] - focus:', event);
+    // console.log('[App Have Focus] - focus:', event);
     this.natNotificationsService.haveFocus = true;
   }
 
