@@ -34,15 +34,15 @@ export class ActivateUserGuard implements CanActivate {
         next: (value: boolean) => {
 
           if (value) {
-            let path = state.url;
-            let context = route.params['context'];
-            let user = route.params['user'];
+            const path = state.url;
+            const context = route.params['context'];
+            const user = route.params['user'];
 
-            let normalizedPath = normalizeFromURL(path, this.contactService.sessionUser.username);
+            const normalizedPath = normalizeFromURL(path, this.contactService.sessionUser.username);
 
             console.log('[Activate User Guard] - ', context, user, state, normalizedPath);
 
-            let normalizedName = normalizeName(normalizedPath);
+            const normalizedName = normalizeName(normalizedPath);
 
             console.log('[Activate User Guard - Activate] - normalized path: ', normalizedPath);
             console.log('[Activate User Guard - Activate] - normalized name: ', normalizedName);
@@ -55,32 +55,27 @@ export class ActivateUserGuard implements CanActivate {
               (reason: any) => {
 
                 // Get the parent
-                this.contextualCommDataService.getContextById(normalizedName.parent).subscribe((context: ContextualComm) => {
+                this.contextualCommDataService.getContextById(normalizedName.parent).subscribe(
+                  (context: ContextualComm) => {
 
                   console.log('[Activate User Guard - Activate] - parent context and user found: ', normalizedPath);
                   console.log('[Activate User Guard - Activate] - parent context and user found: ', context, user);
 
                   if (context && user) {
-
-                    this.contextualCommDataService.createAtomicContext(user, normalizedName.name, normalizedName.id, normalizedName.parent)
-                      .then(context => {
-                        this.activateContext(context);
-                        resolve(true);
-                      })
-                      .catch(reason => {
-                        console.log('[Activate User Guard - Activate] - Can Not Activate Route:', reason);
-                        this.goHome();
-                        resolve(false);
-                      });
+                    this.activateContext(context);
+                    resolve(true);
                   } else {
                     console.log('[Activate User Guard - Activate] - Can Not Activate Route:', 'Parent context not found');
                     this.goHome();
                     resolve(false);
                   }
                 }, (reason) => {
+
+                  // TODO Handle this logs and the expection
                   console.log('[Activate User Guard - Activate] - Can Not Activate Route:', reason);
-                  this.goHome();
-                  resolve(false);
+                  throw Error('Context not found...');
+                  // this.goHome();
+                  // resolve(false);
                 });
 
               });

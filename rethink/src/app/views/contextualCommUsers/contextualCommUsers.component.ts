@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, HostBinding, Output, EventEmitter, Input } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -8,6 +8,7 @@ import { Subject } from 'rxjs/Subject';
 import { config } from '../../config';
 
 // Services
+import { NotificationsService } from '../../components/notification/notifications.module';
 import { ContextualCommDataService } from '../../services/contextualCommData.service';
 
 // Models
@@ -43,12 +44,13 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private notificationService: NotificationsService,
     private contextualCommDataService: ContextualCommDataService
     ) {
 
       this.basePath = this.router.url;
 
-      this.events = this.router.events.subscribe((navigation: NavigationEnd) => {
+      this.events = this.router.events.subscribe((navigation: NavigationEnd | NavigationError) => {
         console.log('[ContextualCommUsers] - ', navigation);
 
         if (navigation instanceof NavigationEnd) {
@@ -61,13 +63,18 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
           this.basePath = url;
         }
 
+        if (navigation instanceof NavigationError) {
+
+          this.notificationService.error('Error', 'This user not allow private messages');
+        }
+
       });
 
       this.paramsObserver = this.route.params.subscribe((params: any) => {
         console.log('[ContextualCommUsers] - params:', params);
 
-        let context = params['context'];
-        let id = config.appPrefix + '/' + context;
+        const context = params['context'];
+        const id = config.appPrefix + '/' + context;
 
         this.rootContext = context;
         this.contexts = this.contextualCommDataService.getContextTask(id);
