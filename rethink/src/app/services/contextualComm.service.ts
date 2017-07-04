@@ -58,7 +58,7 @@ export class ContextualCommService {
       });
 
       context.messages = context.messages.map((message: Message) => {
-        let currentMessage = new Message(message);
+        const currentMessage = new Message(message);
         currentMessage.user = this.contactService.getUser(currentMessage.user.userURL);
         return currentMessage;
       });
@@ -117,8 +117,8 @@ export class ContextualCommService {
 
     if (this.localStorage.hasObject('contexts')) {
       let mapObj = this.localStorage.getObject('contexts');
-      for (let k of Object.keys(mapObj)) {
-        let currentContext = new ContextualComm(mapObj[k]);
+      for (const k of Object.keys(mapObj)) {
+        const currentContext = new ContextualComm(mapObj[k]);
         this.cxtList.set(k, currentContext);
         this._newContextualComm.next(currentContext);
       }
@@ -139,22 +139,22 @@ export class ContextualCommService {
 
     return new Promise<ContextualComm>((resolve, reject) => {
 
-      let parentContextualComm: ContextualComm = this._filterByName(parentNameId);
-      let newContextURL: string =  dataObject.url;
+      const parentContextualComm: ContextualComm = this._filterByName(parentNameId);
+      const newContextURL: string =  dataObject.url;
       let context: ContextualComm;
 
       console.log('[Contextual Comm Service] -  create: ', name, parentContextualComm, parentNameId, newContextURL);
 
       if (parentContextualComm) {
 
-        let hasChild = parentContextualComm.contexts.find((context: ContextualComm) => {
+        const hasChild = parentContextualComm.contexts.find((context: ContextualComm) => {
           return context && context.url === newContextURL;
         });
 
         if (!hasChild) {
 
           // Create new ContextualComm
-          let current: ContextualComm = this.createContextualComm(name, dataObject, parentContextualComm, contextInfo);
+          const current: ContextualComm = this.createContextualComm(name, dataObject, parentContextualComm, contextInfo);
 
           // Add the current ContextualComm to his parent;
           parentContextualComm.contexts.push(current);
@@ -169,7 +169,7 @@ export class ContextualCommService {
         if (!this.cxtList.has(newContextURL)) {
 
           // Create new ContextualComm
-          let current: ContextualComm = this.createContextualComm(name, dataObject, undefined, contextInfo);
+          const current: ContextualComm = this.createContextualComm(name, dataObject, undefined, contextInfo);
           context = current;
 
           this.updateContexts(context.url, context);
@@ -185,15 +185,15 @@ export class ContextualCommService {
 
   private createContextualComm(name: string, dataObject: any, parent?: ContextualComm, contextInfo?: any): ContextualComm {
 
-    let data: any = JSON.parse(JSON.stringify(dataObject.data));
-    let metadata: any = JSON.parse(JSON.stringify(dataObject.metadata));
+    const data: any = JSON.parse(JSON.stringify(dataObject.data));
+    const metadata: any = JSON.parse(JSON.stringify(dataObject.metadata));
 
-    let isReporter: boolean = contextInfo && contextInfo.reporter ? contextInfo.reporter : false;
-    let icon: string = contextInfo && contextInfo.icon ? contextInfo.icon : '';
+    const isReporter: boolean = contextInfo && contextInfo.reporter ? contextInfo.reporter : false;
+    const icon: string = contextInfo && contextInfo.icon ? contextInfo.icon : '';
 
     console.log('[Contextual Comm Service] -  createContextualComm: ', name, data, metadata, parent, dataObject);
 
-    let contextualComm = new ContextualComm({
+    const contextualComm = new ContextualComm({
       icon: icon,
       name: name,
       url: metadata.url,
@@ -204,7 +204,7 @@ export class ContextualCommService {
     });
 
 
-    let participants = data.participants || {};
+    const participants = data.participants || {};
     Object.keys(participants).forEach((item: any) => {
       console.log('MAP:', item, participants[item]);
       let currentUser: User = this.contactService.getUser(item);
@@ -217,7 +217,7 @@ export class ContextualCommService {
       contextualComm.addUser(currentUser);
     });
 
-    let communication: Communication = <Communication>(metadata);
+    const communication: Communication = <Communication>(metadata);
     communication.resources = [HypertyResourceType.Chat];
     contextualComm.communication = communication;
 
@@ -225,7 +225,7 @@ export class ContextualCommService {
 
     this.contextualCommEvent.emit({
       type: 'add',
-      contextualComm: contextualComm
+      contextualComm: JSON.parse(JSON.stringify(contextualComm))
     });
 
     return contextualComm;
@@ -240,7 +240,7 @@ export class ContextualCommService {
     console.log('[Context Service - Update Context Message:', message, url);
     console.log('[Context Service - Active Context:', this.cxtList.get(url));
 
-    let context: ContextualComm = this.cxtList.get(url);
+    const context: ContextualComm = this.cxtList.get(url);
     context.addMessage(message);
 
     this._newContextualComm.next(context);
@@ -253,7 +253,7 @@ export class ContextualCommService {
     console.log('[Context Service - Active Context:', this.cxtList, this.cxtList.get(url));
 
 
-    let context: ContextualComm = this.cxtList.get(url);
+    const context: ContextualComm = this.cxtList.get(url);
     context.addUser(user);
 
     // Update the contact list
@@ -274,12 +274,12 @@ export class ContextualCommService {
       this.cxtList.forEach((context: ContextualComm) => {
 
         if (name.includes('@')) {
-          let users = name.split('-');
-          let user1 = users[0];
-          let user2 = users[1];
+          const users = name.split('-');
+          const user1 = users[0];
+          const user2 = users[1];
 
-          let variation1 = user1 + '-' + user2;
-          let variation2 = user2 + '-' + user1;
+          const variation1 = user1 + '-' + user2;
+          const variation2 = user2 + '-' + user1;
 
           if (context.name === variation1) {
             name = variation1;
@@ -311,7 +311,7 @@ export class ContextualCommService {
 
     return new Promise<ContextualComm>((resolve, reject) => {
 
-      let currentContext: ContextualComm = this.cxtList.get(resource);
+      const currentContext: ContextualComm = this.cxtList.get(resource);
 
       if (currentContext) {
         resolve(currentContext);
@@ -343,8 +343,8 @@ export class ContextualCommService {
 
   getContextualCommList(): Observable<ContextualComm[]> {
 
-    let all = [];
-    for (let cxt of this.cxtList.values()) {
+    const all = [];
+    for (const cxt of this.cxtList.values()) {
       all.push(cxt);
     }
 

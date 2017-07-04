@@ -78,8 +78,8 @@ export class AppComponent implements OnInit {
 
     this.contextualComm.contextualCommEvent.subscribe((event: ContextualCommEvent) => {
 
-      const title = 'New Contextual Communication';
-      const content = 'You have a new contextual communication ' + event.contextualComm.name;
+      const title = 'New communication channel';
+      const content = 'You have a new communication channel ' + event.contextualComm.name;
 
       this.notificationsService.success(title, content, {
         showProgressBar: true,
@@ -90,7 +90,6 @@ export class AppComponent implements OnInit {
 
       this.natNotificationsService.create(title, {
         body: content,
-        data: event,
         silent: false,
         sound: config.sounds + 'solemn.mp3',
       }).subscribe(this.nativeNotificationSubscription, (reason: any) => {

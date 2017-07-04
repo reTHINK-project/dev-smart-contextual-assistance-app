@@ -88,12 +88,12 @@ export class AddContextualCommComponent implements OnInit {
 
   buildForm() {
 
-    let normalizedPath = normalizeFromURL(this.router.url, this.contactService.sessionUser.username);
-    let normalizedName = normalizeName(normalizedPath);
+    const normalizedPath = normalizeFromURL(this.router.url, this.contactService.sessionUser.username);
+    const normalizedName = normalizeName(normalizedPath);
 
     console.log('[AddContextualComm] - build form:', normalizedPath, normalizedName);
 
-    let contextNameId = normalizedName.parent ? normalizedName.parent : normalizedName.id;
+    const contextNameId = normalizedName.parent ? normalizedName.parent : normalizedName.id;
 
     this.contextualCommDataService
       .getContextById(contextNameId)
@@ -155,17 +155,17 @@ export class AddContextualCommComponent implements OnInit {
   }
 
   onLostFocus(event: FocusEvent) {
-    let nameEl: HTMLInputElement = (<HTMLInputElement>event.target);
-    let value = nameEl.value.replace(/\s+/g, '-');
+    const nameEl: HTMLInputElement = (<HTMLInputElement>event.target);
+    const value = nameEl.value.replace(/\s+/g, '-');
     nameEl.value = value;
   }
 
   submitForm(value: any) {
     console.log('Submit:', value);
-    let name = value.name.trim();
-    let parent = value.parent || this.model.parent;
+    const name = value.name.trim();
+    const parent = value.parent || this.model.parent;
 
-    let info = value;
+    const info = value;
     info['reporter'] = true;
 
     this.contextualCommDataService.createContext(name, parent, info).then((result) => {

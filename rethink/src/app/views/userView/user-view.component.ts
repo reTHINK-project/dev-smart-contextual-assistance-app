@@ -26,6 +26,7 @@ export class UserViewComponent implements OnInit, OnDestroy {
   private contextualCommActivityComponent: ContextualCommActivityComponent;
 
   private paramsSubscription: Subscription;
+  private currentContextSub: Subscription;
 
   action: string;
   user: User;
@@ -58,8 +59,8 @@ export class UserViewComponent implements OnInit, OnDestroy {
       this.messages.next(data.context.messages);
     });
 
-    this.contextualCommService.currentContext().subscribe((contextualComm: ContextualComm) => {
-      console.log('[ContextualCommActivity Component - update] - ', contextualComm);
+    this.currentContextSub = this.contextualCommService.currentContext().subscribe((contextualComm: ContextualComm) => {
+      console.log('[User View - ContextualCommActivity Component - update] - ', contextualComm);
       this.messages.next(contextualComm.messages);
 
       this.contextualCommActivityComponent.updateView();
@@ -69,7 +70,7 @@ export class UserViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log('[User View] - OnDestroy', this.messages);
-    // this.messages.unsubscribe();
+    this.currentContextSub.unsubscribe();
   }
 
   onAcceptCall() {

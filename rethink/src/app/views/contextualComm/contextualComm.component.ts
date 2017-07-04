@@ -73,12 +73,7 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
       console.log('[ContextualComm View - get parent active context]:', normalizedName);
 
       let result: Observable<ContextualComm>;
-
-      if (isAnUser(normalizedName.name)) {
-        result = this.contextualCommDataService.getContext(normalizedName.name);
-      } else {
-        result = this.contextualCommDataService.getContextById(normalizedName.id);
-      }
+      result = this.contextualCommDataService.getContextById(normalizedName.id);
 
       result.subscribe((parentContext: ContextualComm) => {
         console.log('[ContextualComm View - get parent context]:', parentContext);
