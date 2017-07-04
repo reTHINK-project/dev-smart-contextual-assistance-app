@@ -1,6 +1,0 @@
-<div media-view *ngIf="action === 'video' || action === 'audio'" [mode]="action" [user]="user"></div>
-<div contact-box *ngIf="!action" [user]="user" (closeEvent)="onCloseEvent()"></div>
-
-<ul context-activity-list [messages]="messages"></ul>
-
-<chat-view></chat-view>
