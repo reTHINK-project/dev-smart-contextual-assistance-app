@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { RethinkService } from './rethink.service';
 import { ContactService } from '../contact.service';
 import { ContextualCommService } from '../contextualComm.service';
+import { Observable } from 'rxjs/Observable';
 
 // Models
 import { User, Message } from '../../models/models';
@@ -41,6 +42,9 @@ export class UserAvailabilityService {
           console.log('[UserAvailability Service - getHyperty] Reporter hyperty was instantiated ', this.myAvailabilityReporter);
           this.myAvailabilityReporter.start().then((availability: any) => {
             this.myAvailability = availability;
+            this.contactService.sessionUser.statustUrl = availability.url;
+            this.contactService.sessionUser.status = 'available';
+            this.myAvailabilityReporter.setStatus('available');
             this.startObservation();
           });
        });
@@ -64,19 +68,22 @@ export class UserAvailabilityService {
             this.contactService.getUsers().subscribe((users: User[]) => { 
               console.log('[UserAvailability Service - startObservation] users to be observed:', users);
 
-              let newUsers: Array<User> = [];
+              let newUsers: User[] = [];
+
 
               //for each User lets start observation 
               users.forEach((user: User)=>{
-                if (user.statustUrl && availabilities[user.statustUrl]) {
-                  // TODO: confirm controllers is a list not an array
-                  user.startStatusObservation(availabilities[user.statustUrl]);
-                } else {
-                  newUsers.push(user);
-                }
+                
+                  if (user.statustUrl && availabilities[user.statustUrl]) {
+                    // TODO: confirm controllers is a list not an array
+                    user.startStatusObservation(availabilities[user.statustUrl]);
+                  } else if (user.username !== this.contactService.sessionUser.username) {//don't observe myself
+                    newUsers.push(user);
+                  }
+
               });
 
-              // Users that have no controller yet, let's subscribe to have one
+              // Users that are not subscribed yet, let's subscribe
 
               if (newUsers.length >= 0) {
                 this.subscribeUsers(newUsers);

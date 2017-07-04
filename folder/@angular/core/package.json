@@ -1,27 +1,32 @@
 {
-  "_from": "@angular/core@4.2.3",
-  "_id": "@angular/core@4.2.3",
+  "_args": [
+    [
+      "@angular/core@4.2.4",
+      "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink"
+    ]
+  ],
+  "_from": "@angular/core@4.2.4",
+  "_id": "@angular/core@4.2.4",
   "_inBundle": false,
-  "_integrity": "sha1-q3MpwY1P0wWHK4Jxj/rj525NRUk=",
+  "_integrity": "sha1-6N96jdXeWjJ3hN/DW12mNEKBzxs=",
   "_location": "/@angular/core",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "@angular/core@4.2.3",
+    "raw": "@angular/core@4.2.4",
     "name": "@angular/core",
     "escapedName": "@angular%2fcore",
     "scope": "@angular",
-    "rawSpec": "4.2.3",
+    "rawSpec": "4.2.4",
     "saveSpec": null,
-    "fetchSpec": "4.2.3"
+    "fetchSpec": "4.2.4"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/@angular/core/-/core-4.2.3.tgz",
-  "_shasum": "ab7329c18d4fd305872b82718ffae3e76e4d4549",
-  "_spec": "@angular/core@4.2.3",
+  "_resolved": "https://registry.npmjs.org/@angular/core/-/core-4.2.4.tgz",
+  "_spec": "4.2.4",
   "_where": "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink",
   "author": {
     "name": "angular"
@@ -29,11 +34,9 @@
   "bugs": {
     "url": "https://github.com/angular/angular/issues"
   },
-  "bundleDependencies": false,
   "dependencies": {
     "tslib": "^1.7.1"
   },
-  "deprecated": false,
   "description": "Angular - the core framework",
   "es2015": "./@angular/core.js",
   "homepage": "https://github.com/angular/angular#readme",
@@ -50,5 +53,5 @@
     "url": "git+https://github.com/angular/angular.git"
   },
   "typings": "./core.d.ts",
-  "version": "4.2.3"
+  "version": "4.2.4"
 }

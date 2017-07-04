@@ -121,11 +121,11 @@ export class ChatService {
     console.log('[Chat Service - prepareController]', chatController);
 
     chatController.onUserAdded((user: any) => {
-      let dataObjectURL = chatController.dataObject.url;
+      const dataObjectURL = chatController.dataObject.url;
 
       console.log('[Chat Service - prepareController] - onUserAdded', chatController, user, dataObjectURL);
       let current: User;
-      let userInfo: any = {};
+      const userInfo: any = {};
 
       if (user.hasOwnProperty('data')) {
         current = this.contactService.getUser(user.data.identity.userProfile.userURL);
@@ -150,17 +150,17 @@ export class ChatService {
 
       console.log('[Chat Service - prepareController] - onMessage', message, this.chatControllerActive);
 
-      let dataObjectURL = chatController.dataObject.url;
-      let user: User = this.contactService.getUser(message.identity.userProfile.userURL);
+      const dataObjectURL = chatController.dataObject.url;
+      const user: User = this.contactService.getUser(message.identity.userProfile.userURL);
 
       if (user) {
-        let msg = {
+        const msg = {
           type: 'message',
           message: message.value.content,
           user: user
         };
 
-        let currentMessage = new Message(msg);
+        const currentMessage = new Message(msg);
         this.contextualCommService.updateContextMessages(currentMessage, dataObjectURL);
 
         this.onMessageEvent.emit(currentMessage);
@@ -209,7 +209,7 @@ export class ChatService {
 
       this.chatGroupManager.join(url).then((chatController: any) => {
 
-        let dataObject = chatController.dataObject;
+        const dataObject = chatController.dataObject;
 
         this._updateControllersList(dataObject.url, chatController);
 
@@ -228,7 +228,7 @@ export class ChatService {
       console.log('[Invite]', listOfEmails, ' - ', listOfDomains);
       console.log('[Chat Service - invite]: ', this.controllerList, dataObjectURL, this.controllerList.get(dataObjectURL));
 
-      let currentController = this.controllerList.get(dataObjectURL);
+      const currentController = this.controllerList.get(dataObjectURL);
 
       currentController.addUser(listOfEmails, listOfDomains).then((result: any) => {
         console.log('[Invite Chat]', result);
@@ -252,16 +252,16 @@ export class ChatService {
       this.chatControllerActive.send(message).then((result: any) => {
 
         console.log('[Chat Service - Sended Message]', message, result, this.chatControllerActive);
-        let user: User = this.contactService.getUser(result.identity.userProfile.userURL);
+        const user: User = this.contactService.getUser(result.identity.userProfile.userURL);
         console.log('[Chat Service] - user:', user, result.identity.userProfile.userURL);
 
-        let msg = {
+        const msg = {
           type: 'message',
           message: result.value.content,
           user: user
         };
 
-        let currentMessage = new Message(msg);
+        const currentMessage = new Message(msg);
         this.contextualCommService.updateContextMessages(currentMessage, this.chatControllerActive.dataObject.url);
         resolve(currentMessage);
       }).catch(reject);

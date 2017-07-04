@@ -5,16 +5,16 @@ import { HypertyResource } from '../rethink/HypertyResource';
 
 export interface ContextualComm {
 
-  url: string // id from context data object reporter url
-  communication: Communication
-  context?: Context // TODO remove this as optional
+  url: string; // id from context data object reporter url
+  communication: Communication;
+  context?: Context; // TODO remove this as optional
 
-  users?: UserIdentity[]
-  messages?: ChatMessage[]
-  files?: HypertyResource[]
-  photos?: HypertyResource[]
-  audios?: HypertyResource[]
-  videos?: HypertyResource[]
+  users?: UserIdentity[];
+  messages?: ChatMessage[];
+  files?: HypertyResource[];
+  photos?: HypertyResource[];
+  audios?: HypertyResource[];
+  videos?: HypertyResource[];
 
 }
 

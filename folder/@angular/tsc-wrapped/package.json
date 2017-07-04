@@ -1,33 +1,34 @@
 {
-  "_from": "@angular/tsc-wrapped@4.2.3",
-  "_id": "@angular/tsc-wrapped@4.2.3",
+  "_args": [
+    [
+      "@angular/tsc-wrapped@4.2.5",
+      "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink"
+    ]
+  ],
+  "_from": "@angular/tsc-wrapped@4.2.5",
+  "_id": "@angular/tsc-wrapped@4.2.5",
   "_inBundle": false,
-  "_integrity": "sha1-GYPmXZypY5XdUqCpBKz+isjlck0=",
+  "_integrity": "sha1-Ci/CMwYXgNK+QCmWGHh4wng4t+M=",
   "_location": "/@angular/tsc-wrapped",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "@angular/tsc-wrapped@4.2.3",
+    "raw": "@angular/tsc-wrapped@4.2.5",
     "name": "@angular/tsc-wrapped",
     "escapedName": "@angular%2ftsc-wrapped",
     "scope": "@angular",
-    "rawSpec": "4.2.3",
+    "rawSpec": "4.2.5",
     "saveSpec": null,
-    "fetchSpec": "4.2.3"
+    "fetchSpec": "4.2.5"
   },
-  "_requiredBy": [
-    "/",
-    "/@angular/compiler-cli"
-  ],
-  "_resolved": "https://registry.npmjs.org/@angular/tsc-wrapped/-/tsc-wrapped-4.2.3.tgz",
-  "_shasum": "1983e65d9ca96395dd52a0a904acfe8ac8e5724d",
-  "_spec": "@angular/tsc-wrapped@4.2.3",
+  "_requiredBy": [],
+  "_resolved": "https://registry.npmjs.org/@angular/tsc-wrapped/-/tsc-wrapped-4.2.5.tgz",
+  "_spec": "4.2.5",
   "_where": "/home/luis/Documents/rethink/dev-smart-contextual-assistance-app/rethink",
   "bugs": {
     "url": "https://github.com/angular/angular/issues"
   },
-  "bundleDependencies": false,
   "contributors": [
     {
       "name": "Alex Eagle",
@@ -41,7 +42,6 @@
   "dependencies": {
     "tsickle": "^0.21.0"
   },
-  "deprecated": false,
   "description": "Wraps the tsc CLI, allowing extensions.",
   "homepage": "https://github.com/angular/angular/blob/master/tools/@angular/tsc-wrapped",
   "license": "MIT",
@@ -53,5 +53,5 @@
     "type": "git",
     "url": "git+https://github.com/angular/angular.git"
   },
-  "version": "4.2.3"
+  "version": "4.2.5"
 }

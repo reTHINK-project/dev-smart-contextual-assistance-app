@@ -1,4 +1,4 @@
-import { Injectable }             from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router, Resolve,
          ActivatedRouteSnapshot } from '@angular/router';
 
@@ -7,7 +7,11 @@ import { User } from '../models/models';
 
 // Service
 import { ContactService } from './contact.service';
-import { RethinkService, ChatService, ContextualCommService } from './services';
+import { ChatService } from './rethink/chat.service';
+import { RethinkService } from './rethink/rethink.service';
+import { ContextualCommService } from './contextualComm.service';
+
+// import { RethinkService, ChatService, ContextualCommService } from './services';
 
 @Injectable()
 export class UserResolver implements Resolve<User> {

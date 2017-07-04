@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import rethink from 'runtime-browser';
+import Rethink from 'runtime-browser';
+
 import { User } from '../../models/models';
 
 import { config } from '../../config';
@@ -30,9 +31,9 @@ export class RethinkService {
 
     return new Promise((resolve, reject) => {
 
-      console.log('[Loading Rethink Runtime at] ', this.config);
+      console.log('[Loading Rethink Runtime at] ', this.config, rethink);
 
-      rethink.install(this.config).then((runtime: any) => {
+      rethink.default.install(this.config).then((runtime: any) => {
         console.log('[Runtime Loaded]');
         this.runtime = runtime;
         resolve(runtime);

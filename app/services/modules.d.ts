@@ -3,6 +3,11 @@ interface Runtime {
 }
 
 interface Rethink {
+
+  default: {
+    install(config: any): Promise<Runtime>
+  },
+
   install(config: any): Promise<Runtime>
 }
 

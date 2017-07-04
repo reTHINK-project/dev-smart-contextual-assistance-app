@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
 
-  private context:string;
+  private context: string;
 
   constructor(private route: ActivatedRoute) {}
 

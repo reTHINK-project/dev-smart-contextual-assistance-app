@@ -1,27 +1,27 @@
 export interface Connection {
-  scheme: string
-  status: string
-  owner: string
-  peer: string
+  scheme: string;
+  status: string;
+  owner: string;
+  peer: string;
   OwnerPeer: {
     ConnectionDescription: ConnetionDescription,
     IceCandidates: IceCandidates
-  }
+  };
 }
 
 export interface ConnetionDescription {
-  sdp: string
+  sdp: string;
 }
 
 export interface IceCandidates {
-  status: RTCIceConnectionState
-  [index: number]: IceCandidate
+  status: RTCIceConnectionState;
+  [index: number]: IceCandidate;
 }
 
 export interface IceCandidate {
-  candidate: string
-  sdpMLineIndex: number
-  sdpMid: string
+  candidate: string;
+  sdpMLineIndex: number;
+  sdpMid: string;
 }
 
 export enum RTCIceConnectionState {

@@ -30,6 +30,7 @@ var UserAvailabilityService = (function () {
             console.log('[UserAvailability Service - getHyperty] Reporter hyperty was instantiated ', _this.myAvailabilityReporter);
             _this.myAvailabilityReporter.start().then(function (availability) {
                 _this.myAvailability = availability;
+                _this.myAvailabilityReporter.setStatus('available');
                 _this.startObservation();
             });
         });
@@ -54,11 +55,11 @@ var UserAvailabilityService = (function () {
                             // TODO: confirm controllers is a list not an array
                             user.startStatusObservation(availabilities[user.statustUrl]);
                         }
-                        else {
+                        else if (user.username !== _this.contactService.sessionUser.username) {
                             newUsers.push(user);
                         }
                     });
-                    // Users that have no controller yet, let's subscribe to have one
+                    // Users that are not subscribed yet, let's subscribe
                     if (newUsers.length >= 0) {
                         _this.subscribeUsers(newUsers);
                     }

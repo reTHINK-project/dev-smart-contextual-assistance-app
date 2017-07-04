@@ -4,7 +4,7 @@ exports.config = {
     pageTitlePrefix: 'reThink Project - ',
     appPrefix: 'sca',
     splitChar: '/',
-    domain: 'hysmart.rethink.ptinovacao.pt',
-    sounds: 'assets/sounds/'
+    domain: 'localhost',
+    sounds: '../assets/sounds/'
 };
 //# sourceMappingURL=config.js.map

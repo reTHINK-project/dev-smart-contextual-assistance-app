@@ -122,6 +122,7 @@ var ContactService = (function () {
     ContactService.prototype.removeUser = function () {
     };
     ContactService.prototype.getUsers = function () {
+        //return this._users.map(users => users.filter(user => user.username !== this.contactService.sessionUser.username));
         return this._users;
     };
     ContactService.prototype.getUserList = function () {
