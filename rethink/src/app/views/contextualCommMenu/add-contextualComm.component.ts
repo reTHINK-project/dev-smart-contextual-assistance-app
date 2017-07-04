@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, HostBinding } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostBinding } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute,  Router } from '@angular/router';
+import { ActivatedRoute, Router, RoutesRecognized, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/defaultIfEmpty';
 
-import { normalizeName, normalizeFromURL } from '../../utils/utils';
+import { splitFromURL, normalizeName, normalizeFromURL } from '../../utils/utils';
 
 // Bootstrap
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -21,6 +21,7 @@ import { RethinkValidators } from '../../shared/rethink.validator';
 import { ContactService } from '../../services/contact.service';
 import { TriggerActionService } from '../../services/services';
 import { ContextualCommDataService } from '../../services/contextualCommData.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     moduleId: module.id,
@@ -29,10 +30,13 @@ import { ContextualCommDataService } from '../../services/contextualCommData.ser
     styleUrls: ['./add-contextualComm.component.css']
 })
 
-export class AddContextualCommComponent implements OnInit {
+export class AddContextualCommComponent implements OnInit, OnDestroy {
 
   @HostBinding('class') hostClass = 'add-context-view';
 
+  private routeEvents: Subscription;
+  private triggerActions: Subscription;
+  private routeParams: any;
   private closeResult: string;
 
   model: any = {};
@@ -60,7 +64,6 @@ export class AddContextualCommComponent implements OnInit {
   complexForm: FormGroup;
 
   constructor(
-    private rd: Renderer2,
     private router: Router,
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -71,12 +74,21 @@ export class AddContextualCommComponent implements OnInit {
 
     this.contextualComms = this.contextualCommDataService.getContexts();
 
+    this.routeEvents = this.router.events.subscribe((navigation: NavigationEnd) => {
+      console.log('[AddContextualComm] - router events:', navigation);
+
+      if (navigation instanceof NavigationEnd) {
+        this.routeParams = splitFromURL(navigation.url);
+      }
+
+    });
+
   }
 
 
   ngOnInit() {
 
-    this.triggerActionService.action().subscribe((action: TriggerActions) => {
+    this.triggerActions = this.triggerActionService.action().subscribe((action: TriggerActions) => {
 
       if (action === TriggerActions.OpenContextMenuCreator) {
         this.open(this.el);
@@ -86,12 +98,21 @@ export class AddContextualCommComponent implements OnInit {
 
   }
 
+  ngOnDestroy() {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.routeEvents.unsubscribe();
+    this.triggerActions.unsubscribe();
+
+    console.log('[AddContextualComm] - destroy component');
+  }
+
   buildForm() {
 
-    const normalizedPath = normalizeFromURL(this.router.url, this.contactService.sessionUser.username);
-    const normalizedName = normalizeName(normalizedPath);
+    const mainContext: string = this.routeParams.context || '';
+    const normalizedName = normalizeName(mainContext);
 
-    console.log('[AddContextualComm] - build form:', normalizedPath, normalizedName);
+    console.log('[AddContextualComm] - build form: ', normalizedName, this.routeParams);
 
     const contextNameId = normalizedName.parent ? normalizedName.parent : normalizedName.id;
 
@@ -117,7 +138,7 @@ export class AddContextualCommComponent implements OnInit {
       'name': [this.model.name,
       Validators.compose([
         Validators.required,
-        Validators.pattern('[a-zA-Z1-9- ]*'),
+        Validators.pattern('[a-zA-Z0-9- ]*'),
         Validators.minLength(4),
         Validators.maxLength(22)]
       ),
