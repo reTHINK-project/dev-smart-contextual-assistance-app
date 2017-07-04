@@ -221,25 +221,14 @@ export class ChatService {
 
   }
 
-  invite(dataObjectURL: string, listOfEmails: String[], listOfDomains: String[]) {
+  invite(dataObjectURL: string, listOfEmails: String[], listOfDomains: String[]): Promise<any> {
 
-    return new Promise((resolve, reject) => {
+    console.log('[Invite]', listOfEmails, ' - ', listOfDomains);
+    console.log('[Chat Service - invite]: ', this.controllerList, dataObjectURL, this.controllerList.get(dataObjectURL));
 
-      console.log('[Invite]', listOfEmails, ' - ', listOfDomains);
-      console.log('[Chat Service - invite]: ', this.controllerList, dataObjectURL, this.controllerList.get(dataObjectURL));
+    const currentController = this.controllerList.get(dataObjectURL);
 
-      const currentController = this.controllerList.get(dataObjectURL);
-
-      currentController.addUser(listOfEmails, listOfDomains).then((result: any) => {
-        console.log('[Invite Chat]', result);
-        console.log('[Chat Service] - Result: ', currentController);
-
-        resolve(currentController);
-      }).catch((reason: any) => {
-        console.error('Error on invite:', reason);
-      });
-
-    });
+    return currentController.addUser(listOfEmails, listOfDomains);
 
   }
 
