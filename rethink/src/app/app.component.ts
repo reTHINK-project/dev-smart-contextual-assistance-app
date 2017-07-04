@@ -1,6 +1,7 @@
 import { Title } from '@angular/platform-browser';
 import { Component, OnInit, EventEmitter, HostListener } from '@angular/core';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { NotificationsService } from './components/notification/notifications.module';
 import { NotificationActionEvent, ActionType } from './components/notification/notifications/interfaces/notification.action-event';
@@ -29,9 +30,17 @@ import { TriggerActionService, RethinkService, ConnectorService, ChatService, Co
 
 export class AppComponent implements OnInit {
 
-  private actionResult = new EventEmitter<{}>();
-  private contextOpened = false;
+  private natNotFeedback: Subscription;
+  private contextualCommEvent: Subscription;
+  private actionService: Subscription;
+  private connectorInvitation: Subscription;
+  private chatInvitation: Subscription;
 
+  private actionResult = new EventEmitter<{}>();
+
+  notificationStatus;
+
+  contextOpened = false;
   ready = false;
   myIdentity: User;
   status: string;
@@ -60,13 +69,14 @@ export class AppComponent implements OnInit {
     private connectorService: ConnectorService,
     private chatService: ChatService) {
 
-    this.natNotificationsService.requestPermission();
+    this.natNotFeedback = this.natNotificationsService.requestPermission()
+      .subscribe(success => this.notificationStatus = success, reason => this.notificationStatus = reason);
 
     this.rethinkService.progress.subscribe({
       next: (v: string) => { this.status = v; this.titleService.setTitle(config.pageTitlePrefix + v); }
     });
 
-    this.triggerActionService.action().subscribe((action: TriggerActions) => {
+    this.actionService = this.triggerActionService.action().subscribe((action: TriggerActions) => {
 
       console.log('[App Component - TriggerActionService] - action: ', action);
 
@@ -76,7 +86,7 @@ export class AppComponent implements OnInit {
 
     });
 
-    this.contextualComm.contextualCommEvent.subscribe((event: ContextualCommEvent) => {
+    this.contextualCommEvent = this.contextualComm.contextualCommEvent.subscribe((event: ContextualCommEvent) => {
 
       const title = 'New communication channel';
       const content = 'You have a new communication channel ' + event.contextualComm.name;
@@ -92,9 +102,9 @@ export class AppComponent implements OnInit {
         body: content,
         silent: false,
         sound: config.sounds + 'solemn.mp3',
-      }).subscribe(this.nativeNotificationSubscription, (reason: any) => {
-        console.log(reason);
-      });
+      }).subscribe(this.nativeNotificationSubscription,
+        (reason: any) => { console.log('Native Notification error:', reason); },
+        () => { console.log('Native Notification Completed'); });
 
     });
 
@@ -149,7 +159,7 @@ export class AppComponent implements OnInit {
   hypertiesReady() {
 
     // Prepare the chat service to recive invitations
-    this.chatService.onInvitation((event: any) => {
+    this.chatInvitation = this.chatService.onInvitation.subscribe((event: any) => {
       console.log('[Chat Communication View - onInvitation] - event:', event);
 
       this.processEvent(event).then((result: any) => {
@@ -160,7 +170,7 @@ export class AppComponent implements OnInit {
 
     });
 
-    this.connectorService.onInvitation.subscribe((event: any) => {
+    this.connectorInvitation = this.connectorService.onInvitation.subscribe((event: any) => {
 
       console.log('[Media Communication Component] - event', event);
 
@@ -181,8 +191,13 @@ export class AppComponent implements OnInit {
         body: content,
         data: event,
         silent: false
-      }).subscribe(this.nativeNotificationSubscription);
+      }).subscribe(
+        this.nativeNotificationSubscription,
+        (reason: any) => { console.log('Native Notification error:', reason); },
+        () => { console.log('Native Notification Completed'); });
 
+    }, (error: any) => {
+      console.log('[Media Communication Component] - error', error);
     });
 
     this.actionResult.subscribe((a: any) => {

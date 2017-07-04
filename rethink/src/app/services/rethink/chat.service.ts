@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, Output } from '@angular/core';
 
 // Services
 import { RethinkService } from './rethink.service';
@@ -22,7 +22,6 @@ export class ChatService {
   public onMessageEvent = new EventEmitter<Message>();
 
   private _onUserAdded: Function;
-  private _onInvitation: Function;
   private _onMessage: Function;
   private _discovery: any;
 
@@ -37,6 +36,8 @@ export class ChatService {
     this.chatControllerActive = this.controllerList.get(value);
     console.info('[Chat Service] - active controller: ', this.chatControllerActive);
   }
+
+  @Output() onInvitation: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private rethinkService: RethinkService,
@@ -111,7 +112,9 @@ export class ChatService {
     });
 
     this.chatGroupManager.onInvitation((event: any) => {
-      if (this._onInvitation) { this._onInvitation(event); }
+
+      this.onInvitation.emit(event);
+
     });
 
   }
@@ -261,10 +264,6 @@ export class ChatService {
 
   discovery() {
     return this._discovery;
-  }
-
-  onInvitation(callback: Function) {
-    this._onInvitation = callback;
   }
 
   onUserAdded(callback: Function) {
