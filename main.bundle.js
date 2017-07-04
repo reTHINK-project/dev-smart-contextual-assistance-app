@@ -65,7 +65,7 @@ var AppRoutingModule = (function () {
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<notifications></notifications>\n\n<!-- container -->\n<div class=\"container-fluid\">\n    \n  <div class=\"row\">\n\n      <!-- pusher -->\n      <div class=\"mp-pusher wrapper {{contextOpened ? 'mp-pushed' : ''}}\" (click)='onClickOutside($event)' id=\"mp-pusher\">\n          <nav context-menu></nav>\n\n          <!-- scroller -->\n          <div class=\"scroller\">\n\n              <!-- scroller-inner -->\n              <div class=\"scroller-inner\">\n                    <header class=\"header\">\n                        <div class=\"row\">\n                            <!-- breadcrumb -->\n                            <div class=\"col\">\n                                <!-- TODO optimize the openContextMenu process, should be only on the 3 dots -->\n                                <ul [hidden]=\"!ready\" context-breadcrumb (openContext)=\"onOpenContext($event)\"></ul>\n                            </div>\n\n                            <!-- Logotipo -->\n                            <div class=\"col-3 align-center\">\n                                <a routerLink=\"/\"><img src=\"../assets/img/rethinklogo2.png\"></a>\n                            </div>\n\n                            <!-- My Identity -->\n                            <div class=\"col\">\n                                <my-self *ngIf=\"myIdentity\" [model]=\"myIdentity\"></my-self>\n                            </div>\n                        </div>\n                    </header>\n\n                    <!-- Router Outlet -->\n                    <router-outlet></router-outlet>\n\n                    <!-- Loading spinner when wait for the auth and app be ready -->\n                    <div *ngIf=\"!ready\" class=\"main-content\">\n                        <div class=\"content-panel\">\n                            <span>Loading {{ status }}</span>\n                        </div>\n                    </div>\n\n              </div>\n              <!-- /scroller-inner -->\n          </div>\n          <!-- /scroller -->\n      </div>\n\n  </div>\n      <!-- /pusher -->\n</div>\n<!-- /container -->\n\n"
+module.exports = "<notifications></notifications>\n\n<!-- container -->\n<div class=\"container-fluid\">\n    \n  <div class=\"row\">\n\n      <!-- pusher -->\n      <div class=\"mp-pusher wrapper {{contextOpened ? 'mp-pushed' : ''}}\" (click)='onClickOutside($event)' id=\"mp-pusher\">\n          <nav context-menu></nav>\n\n          <!-- scroller -->\n          <div class=\"scroller\">\n\n              <!-- scroller-inner -->\n              <div class=\"scroller-inner\">\n                    <header class=\"header\">\n                        <div class=\"row\">\n                            <!-- breadcrumb -->\n                            <div class=\"col\">\n                                <!-- TODO optimize the openContextMenu process, should be only on the 3 dots -->\n                                <ul [hidden]=\"!ready\" context-breadcrumb (openContext)=\"onOpenContext($event)\"></ul>\n                            </div>\n\n                            <!-- Logotipo -->\n                            <div class=\"col-3 align-center\">\n                                <a routerLink=\"/\"><img src=\"assets/img/rethinklogo2.png\"></a>\n                            </div>\n\n                            <!-- My Identity -->\n                            <div class=\"col\">\n                                <my-self *ngIf=\"myIdentity\" [model]=\"myIdentity\"></my-self>\n                            </div>\n                        </div>\n                    </header>\n\n                    <!-- Router Outlet -->\n                    <router-outlet></router-outlet>\n\n                    <!-- Loading spinner when wait for the auth and app be ready -->\n                    <div *ngIf=\"!ready\" class=\"main-content\">\n                        <div class=\"content-panel\">\n                            <span>Loading {{ status }}</span>\n                        </div>\n                    </div>\n\n              </div>\n              <!-- /scroller-inner -->\n          </div>\n          <!-- /scroller -->\n      </div>\n\n  </div>\n      <!-- /pusher -->\n</div>\n<!-- /container -->\n\n"
 
 /***/ }),
 
@@ -1914,7 +1914,7 @@ var config = {
     appPrefix: 'sca',
     splitChar: '/',
     domain: 'hysmart.rethink.ptinovacao.pt',
-    sounds: '../assets/sounds/'
+    sounds: 'assets/sounds/'
 };
 //# sourceMappingURL=config.js.map
 
@@ -4027,7 +4027,7 @@ var UserAvailabilityService = (function () {
     UserAvailabilityService.prototype.startObservation = function () {
         var _this = this;
         console.log('[UserAvailability service. start observation] ');
-        // let's first start the AvailabilityObserver Hyperty 
+        // let's first start the AvailabilityObserver Hyperty
         this.rethinkService.getHyperty(this.availabilityObserverURL)
             .then(function (hyperty) {
             _this.availabilityObserver = hyperty.instance;
@@ -4038,7 +4038,7 @@ var UserAvailabilityService = (function () {
                 _this.contactService.getUsers().subscribe(function (users) {
                     console.log('[UserAvailability Service - startObservation] users to be observed:', users);
                     var newUsers = [];
-                    //for each User lets start observation 
+                    //for each User lets start observation
                     users.forEach(function (user) {
                         if (user.statustUrl && availabilities[user.statustUrl]) {
                             // TODO: confirm controllers is a list not an array
