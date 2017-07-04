@@ -1175,7 +1175,7 @@ var NotificationsComponent = (function () {
             selector: 'notifications',
             encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewEncapsulation"].None,
             template: "\n        <div class=\"notification-wrapper\" [ngClass]=\"position\">\n            <notification *ngFor=\"let a of notifications; let i = index\"\n                [haveActions]=\"actions\"\n                [item]=\"a\"\n                [timeOut]=\"timeOut\"\n                [clickToClose]=\"clickToClose\"\n                [maxLength]=\"maxLength\"\n                [showProgressBar]=\"showProgressBar\"\n                [pauseOnHover]=\"pauseOnHover\"\n                [theClass]=\"theClass\"\n                [rtl]=\"rtl\"\n                [animate]=\"animate\"\n                [position]=\"i\"\n                >\n            </notification>\n        </div>\n    ",
-            styles: ["\n        .notification-wrapper {\n            position: fixed;\n            width: 300px;\n            z-index: 1000;\n        }\n        \n        .notification-wrapper.left { left: 20px; }\n        .notification-wrapper.top { top: 20px; }\n        .notification-wrapper.right { right: 20px; }\n        .notification-wrapper.bottom { bottom: 20px; }\n        \n        @media (max-width: 340px) {\n            .notification-wrapper {\n                width: auto;\n                left: 20px;\n                right: 20px;\n            }\n        }\n    "]
+            styles: ["\n        .notification-wrapper {\n            position: fixed;\n            width: 300px;\n            z-index: 2500;\n        }\n\n        .notification-wrapper.left { left: 20px; }\n        .notification-wrapper.top { top: 20px; }\n        .notification-wrapper.right { right: 20px; }\n        .notification-wrapper.bottom { bottom: 20px; }\n\n        @media (max-width: 340px) {\n            .notification-wrapper {\n                width: auto;\n                left: 20px;\n                right: 20px;\n            }\n        }\n    "]
         }),
         __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services_notifications_service__["a" /* NotificationsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_notifications_service__["a" /* NotificationsService */]) === "function" && _c || Object])
     ], NotificationsComponent);
@@ -1981,7 +1981,7 @@ var User = (function () {
         this.status = availability.data.values[0].value;
         availability.onChange('*', function (event) {
             console.log('[UserModel] Availability change', event.data);
-            _this.status = event.data;
+            _this.status = availability.data.values[0].value;
             console.log('[UserModel] Availability change', _this);
         });
     };
@@ -3597,19 +3597,10 @@ var ChatService = (function () {
         });
     };
     ChatService.prototype.invite = function (dataObjectURL, listOfEmails, listOfDomains) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            console.log('[Invite]', listOfEmails, ' - ', listOfDomains);
-            console.log('[Chat Service - invite]: ', _this.controllerList, dataObjectURL, _this.controllerList.get(dataObjectURL));
-            var currentController = _this.controllerList.get(dataObjectURL);
-            currentController.addUser(listOfEmails, listOfDomains).then(function (result) {
-                console.log('[Invite Chat]', result);
-                console.log('[Chat Service] - Result: ', currentController);
-                resolve(currentController);
-            }).catch(function (reason) {
-                console.error('Error on invite:', reason);
-            });
-        });
+        console.log('[Invite]', listOfEmails, ' - ', listOfDomains);
+        console.log('[Chat Service - invite]: ', this.controllerList, dataObjectURL, this.controllerList.get(dataObjectURL));
+        var currentController = this.controllerList.get(dataObjectURL);
+        return currentController.addUser(listOfEmails, listOfDomains);
     };
     ChatService.prototype.send = function (message) {
         var _this = this;
@@ -5597,8 +5588,9 @@ module.exports = "<ng-template #addUserContent let-c=\"close\" let-d=\"dismiss\"
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__config__ = __webpack_require__("../../../../../src/app/config.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_utils__ = __webpack_require__("../../../../../src/app/utils/utils.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_contextualCommData_service__ = __webpack_require__("../../../../../src/app/services/contextualCommData.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_notification_notifications_module__ = __webpack_require__("../../../../../src/app/components/notification/notifications.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_contextualCommData_service__ = __webpack_require__("../../../../../src/app/services/contextualCommData.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddUserComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -5620,12 +5612,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 // Services
 
 
+
 var AddUserComponent = (function () {
-    function AddUserComponent(router, modalService, chatService, contactService, contextualCommDataService) {
+    function AddUserComponent(router, modalService, chatService, contactService, notificationsService, contextualCommDataService) {
         this.router = router;
         this.modalService = modalService;
         this.chatService = chatService;
         this.contactService = contactService;
+        this.notificationsService = notificationsService;
         this.contextualCommDataService = contextualCommDataService;
         this.hostClass = 'add-user-action';
         this.closeEvent = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
@@ -5671,8 +5665,7 @@ var AddUserComponent = (function () {
         if (!parentNameId) {
             parentNameId = normalizedName.id;
         }
-        this.contextualCommDataService.getContextById(parentNameId)
-            .subscribe(function (context) {
+        this.contextualCommDataService.getContextById(parentNameId).subscribe(function (context) {
             var parentURL = context.url;
             var currentURL = _this.chatService.activeDataObjectURL;
             var parentChat = _this.chatService.invite(parentURL, [_this.model.email], [_this.model.domain || __WEBPACK_IMPORTED_MODULE_2__config__["a" /* config */].domain]);
@@ -5690,8 +5683,7 @@ var AddUserComponent = (function () {
                     return parentController;
                 }
                 return currentChat;
-            })
-                .then(function (currentController) {
+            }).then(function (currentController) {
                 if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__utils_utils__["g" /* isALegacyUser */])(_this.model.email)) {
                     throw new Error('Is a legacy user');
                 }
@@ -5700,22 +5692,25 @@ var AddUserComponent = (function () {
                 var normalizedName = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__utils_utils__["c" /* normalizeName */])(normalizedPath);
                 console.log('[Add User Component] - normalized name: ', normalizedName);
                 return _this.contextualCommDataService.createAtomicContext(_this.model.email, normalizedName.name, normalizedName.id, normalizedName.parent);
-            })
-                .then(function (childController) {
+            }).then(function (childController) {
                 console.log('[Add User Component] - one to one controller', childController);
                 _this.busy = false;
                 _this.clean();
-            })
-                .catch(function (error) {
-                console.log('Error Inviting', error);
-                _this.busy = false;
-                _this.clean();
-            });
-        }, function (error) {
-            console.log('Error getting the context:', error);
-            _this.busy = false;
-            _this.clean();
+            }).catch(function (reason) { _this.errorNotificateSystem(reason); });
+        }, function (reason) {
+            _this.errorNotificateSystem(reason);
         });
+    };
+    AddUserComponent.prototype.errorNotificateSystem = function (error) {
+        console.log('ERROR:', error);
+        this.notificationsService.error('Error', error, {
+            showProgressBar: false,
+            timeOut: 3000,
+            pauseOnHover: false,
+            haveActions: false
+        });
+        this.busy = false;
+        this.clean();
     };
     AddUserComponent.prototype.clean = function () {
         this.model.email = '';
@@ -5746,10 +5741,10 @@ var AddUserComponent = (function () {
             selector: 'add-user-view',
             template: __webpack_require__("../../../../../src/app/views/contextualCommUsers/add-user.component.html")
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_6__services_services__["g" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__services_services__["g" /* ChatService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6__services_services__["f" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__services_services__["f" /* ContactService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_5__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _e || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_7__services_services__["g" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__services_services__["g" /* ChatService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_7__services_services__["f" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__services_services__["f" /* ContactService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_5__components_notification_notifications_module__["NotificationsService"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__components_notification_notifications_module__["NotificationsService"]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_6__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _f || Object])
     ], AddUserComponent);
     return AddUserComponent;
-    var _a, _b, _c, _d, _e;
+    var _a, _b, _c, _d, _e, _f;
 }());
 
 //# sourceMappingURL=add-user.component.js.map
