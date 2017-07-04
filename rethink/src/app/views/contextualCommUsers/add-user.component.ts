@@ -16,6 +16,7 @@ import { isALegacyUser, normalizeName, normalizeFromURL } from '../../utils/util
 import { ContextualComm } from '../../models/models';
 
 // Services
+import { NotificationsService } from '../../components/notification/notifications.module';
 import { ContextualCommDataService } from '../../services/contextualCommData.service';
 import { ContactService, ChatService } from '../../services/services';
 import { User } from '../../models/models';
@@ -48,6 +49,7 @@ export class AddUserComponent implements OnInit {
     private modalService: NgbModal,
     private chatService: ChatService,
     private contactService: ContactService,
+    private notificationsService: NotificationsService,
     private contextualCommDataService: ContextualCommDataService) {
   }
 
@@ -95,8 +97,7 @@ export class AddUserComponent implements OnInit {
       parentNameId = normalizedName.id;
     }
 
-    this.contextualCommDataService.getContextById(parentNameId)
-    .subscribe((context: ContextualComm) => {
+    this.contextualCommDataService.getContextById(parentNameId).subscribe((context: ContextualComm) => {
 
       const parentURL = context.url;
       const currentURL = this.chatService.activeDataObjectURL;
@@ -113,54 +114,56 @@ export class AddUserComponent implements OnInit {
       console.log('[Add User Component] - invite: ', parentChat, currentChat);
 
       parentChat.then((parentController: any) => {
-          console.log('[Add User Component] - parent controller:', parentController);
-          console.log('[Add User Component] - check controllers: ', parentController, currentURL, parentController.url === currentURL);
+        console.log('[Add User Component] - parent controller:', parentController);
+        console.log('[Add User Component] - check controllers: ', parentController, currentURL, parentController.url === currentURL);
 
-          if (!currentChat) {
-            return parentController;
-          }
+        if (!currentChat) {
+          return parentController;
+        }
 
-          return currentChat;
-        })
-        .then((currentController: any) => {
+        return currentChat;
+      }).then((currentController: any) => {
 
-          if (isALegacyUser(this.model.email)) {
-            throw new Error('Is a legacy user');
-          }
+        if (isALegacyUser(this.model.email)) {
+          throw new Error('Is a legacy user');
+        }
 
-          console.log('[Add User Component] - current controller', currentController);
-          const normalizedPath = normalizeFromURL(path + '/user/' + this.model.email, this.contactService.sessionUser.username);
-          const normalizedName = normalizeName(normalizedPath);
+        console.log('[Add User Component] - current controller', currentController);
+        const normalizedPath = normalizeFromURL(path + '/user/' + this.model.email, this.contactService.sessionUser.username);
+        const normalizedName = normalizeName(normalizedPath);
 
-          console.log('[Add User Component] - normalized name: ', normalizedName);
+        console.log('[Add User Component] - normalized name: ', normalizedName);
 
-          return this.contextualCommDataService.createAtomicContext(
-              this.model.email,
-              normalizedName.name,
-              normalizedName.id,
-              normalizedName.parent);
-        })
-        .then((childController: any) => {
+        return this.contextualCommDataService.createAtomicContext(
+            this.model.email,
+            normalizedName.name,
+            normalizedName.id,
+            normalizedName.parent);
+      }).then((childController: any) => {
 
-          console.log('[Add User Component] - one to one controller', childController);
+        console.log('[Add User Component] - one to one controller', childController);
 
-          this.busy = false;
-          this.clean();
-        })
-        .catch((error) => {
-          console.log('Error Inviting', error);
+        this.busy = false;
+        this.clean();
+      }).catch((reason: any) => { this.errorNotificateSystem(reason); });
 
-          this.busy = false;
-          this.clean();
+    }, (reason: any) => {
+      this.errorNotificateSystem(reason);
+    });
+  }
 
-        });
+  errorNotificateSystem(error: any) {
+    console.log('ERROR:', error);
 
-    }, (error: any) => {
-      console.log('Error getting the context:', error);
-      this.busy = false;
-      this.clean();
+    this.notificationsService.error('Error', error, {
+      showProgressBar: false,
+      timeOut: 3000,
+      pauseOnHover: false,
+      haveActions: false
     });
 
+    this.busy = false;
+    this.clean();
   }
 
   clean() {

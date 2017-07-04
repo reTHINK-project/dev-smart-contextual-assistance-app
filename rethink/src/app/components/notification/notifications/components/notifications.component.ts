@@ -29,14 +29,14 @@ import { NotificationsService } from '../services/notifications.service';
         .notification-wrapper {
             position: fixed;
             width: 300px;
-            z-index: 1000;
+            z-index: 2500;
         }
-        
+
         .notification-wrapper.left { left: 20px; }
         .notification-wrapper.top { top: 20px; }
         .notification-wrapper.right { right: 20px; }
         .notification-wrapper.bottom { bottom: 20px; }
-        
+
         @media (max-width: 340px) {
             .notification-wrapper {
                 width: auto;
