@@ -4,20 +4,24 @@
 body.rethink .header {
   padding: .75em;
   background: #364258;
-  position: fixed;
   width: 100%;
   z-index: 500;
 
   top: 0;
 
   margin-bottom: 0;
-  height: 60px;
+}
+
+/* Home Content */
+body.rethink .home-view {
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Main Content */
-body.rethink .content-panel {
-  margin-top: 60px;
-  margin-bottom: 60px;
+
+body.rethink .context-view {
+  position: relative;
 }
 
 body.rethink .context-view .main-content {

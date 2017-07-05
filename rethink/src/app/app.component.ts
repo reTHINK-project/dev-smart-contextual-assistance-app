@@ -39,6 +39,7 @@ export class AppComponent implements OnInit {
   private actionResult = new EventEmitter<{}>();
 
   notificationStatus;
+  showAlert = false;
 
   contextOpened = false;
   ready = false;
@@ -70,7 +71,14 @@ export class AppComponent implements OnInit {
     private chatService: ChatService) {
 
     this.natNotFeedback = this.natNotificationsService.requestPermission()
-      .subscribe(success => this.notificationStatus = success, reason => this.notificationStatus = reason);
+      .subscribe(
+        success => {
+          this.notificationStatus = success;
+        },
+        reason => {
+          this.showAlert = true;
+          this.notificationStatus = '<span class="font-weight-bold">Warning!</span> ' + reason;
+        });
 
     this.rethinkService.progress.subscribe({
       next: (v: string) => { this.status = v; this.titleService.setTitle(config.pageTitlePrefix + v); }

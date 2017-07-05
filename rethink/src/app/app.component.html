@@ -12,14 +12,11 @@
           <!-- scroller -->
           <div class="scroller">
 
+              <div *ngIf="showAlert" [innerHTML]="notificationStatus" class="alert alert-warning m-0 rounded-0" role="alert"></div>
+
               <!-- scroller-inner -->
-              <div class="scroller-inner">
+              <div class="scroller-inner d-flex flex-column align-items-stretch">
                     <header class="header">
-
-                        <div class="row">
-                          <div class="col-12">{{notificationStatus}}</div>
-                        </div>
-
                         <div class="row">
                             <!-- breadcrumb -->
                             <div class="col">
@@ -39,7 +36,6 @@
                         </div>
                     </header>
 
-                    <!-- Router Outlet -->
                     <router-outlet></router-outlet>
 
                     <!-- Loading spinner when wait for the auth and app be ready -->

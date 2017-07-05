@@ -1,7 +1,6 @@
 .search-bar {
   background-color: transparent;
   overflow: visible;
-  display: flex;
   padding: .75em;
 }
 

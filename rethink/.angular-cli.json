@@ -72,8 +72,7 @@
       "host": "localhost",
       "ssl": true,
       "sslCert": "ssl/server.crt",
-      "sslKey": "ssl/server.key",
-      "liveReload": false
+      "sslKey": "ssl/server.key"
     }
   }
 }

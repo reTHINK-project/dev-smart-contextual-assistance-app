@@ -99,7 +99,7 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
     const currentEl = this.content.element.nativeElement;
     const parentHeight = parentEl.offsetHeight;
     const topMargin = 60;
-    const bottomPadding = 60;
+    const bottomPadding = 45;
     const height = parentHeight - (topMargin + bottomPadding) + 'px';
     currentEl.style.height = height;
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
@@ -17,6 +17,8 @@ import { ContextualCommDataService } from '../../services/contextualCommData.ser
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
+
+  @HostBinding('class') hostClass = 'home-view col';
 
   contextualComms: Observable<ContextualComm[]>;
 
