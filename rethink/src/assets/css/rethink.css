@@ -253,7 +253,8 @@ body.rethink div.scroller-inner {
 }
 /* line 308, ../sass/rethink.scss */
 body.rethink div.scroller-inner .message-sender {
-  height: 85px;
+  height: 72px;
+  min-height: 72px;
   overflow: hidden;
   border-top: 1px solid #ddd;
   background-color: #f6f6f6;
@@ -1590,7 +1591,7 @@ body.rethink div.sidebar {
   display: block;
   position: absolute;
   top: 0;
-  bottom: 46px;
+  bottom: 0;
 }
 /* line 1677, ../sass/rethink.scss */
 body.rethink div.inputbox {

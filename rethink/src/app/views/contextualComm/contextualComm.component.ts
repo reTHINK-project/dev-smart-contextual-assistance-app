@@ -95,13 +95,16 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
   }
 
   updateView() {
-    const parentEl = this.content.element.nativeElement.parentElement;
-    const currentEl = this.content.element.nativeElement;
-    const parentHeight = parentEl.offsetHeight;
-    const topMargin = 60;
-    const bottomPadding = 45;
-    const height = parentHeight - (topMargin + bottomPadding) + 'px';
-    currentEl.style.height = height;
+    // const parentEl = this.content.element.nativeElement.parentElement;
+    // const currentEl = this.content.element.nativeElement;
+
+    // const parentHeight = parentEl.offsetHeight;
+    // const bottomPadding = 50;
+    // const height = (parentHeight - bottomPadding) + 'px';
+
+    // console.log('SIZE:', parentEl, currentEl, height);
+
+    // currentEl.style.height = height;
   }
 
   onInviteEvent(value: any) {

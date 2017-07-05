@@ -22,11 +22,18 @@ body.rethink .home-view {
 
 body.rethink .context-view {
   position: relative;
+  height: 100%;
 }
 
 body.rethink .context-view .main-content {
   margin-left: 25%;
-  height: 100vh;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+body.rethink .content-panel {
+  height: 100%;
 }
 
 body.rethink .main-content .view-content {

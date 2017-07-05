@@ -5,54 +5,54 @@
 
   <div class="row">
 
-      <!-- pusher -->
-      <div class="mp-pusher wrapper {{contextOpened ? 'mp-pushed' : ''}}" (click)='onClickOutside($event)' id="mp-pusher">
-          <nav context-menu></nav>
+    <!-- pusher -->
+    <div class="mp-pusher wrapper {{contextOpened ? 'mp-pushed' : ''}}" (click)='onClickOutside($event)' id="mp-pusher">
+      <nav context-menu></nav>
 
-          <!-- scroller -->
-          <div class="scroller">
+      <!-- scroller -->
+      <div class="scroller">
 
-              <div *ngIf="showAlert" [innerHTML]="notificationStatus" class="alert alert-warning m-0 rounded-0" role="alert"></div>
+        <!-- scroller-inner -->
+        <div class="scroller-inner d-flex flex-column align-items-stretch">
 
-              <!-- scroller-inner -->
-              <div class="scroller-inner d-flex flex-column align-items-stretch">
-                    <header class="header">
-                        <div class="row">
-                            <!-- breadcrumb -->
-                            <div class="col">
-                                <!-- TODO optimize the openContextMenu process, should be only on the 3 dots -->
-                                <ul [hidden]="!ready" context-breadcrumb (openContext)="onOpenContext($event)"></ul>
-                            </div>
+          <div *ngIf="showAlert" [innerHTML]="notificationStatus" class="alert alert-warning m-0 rounded-0" role="alert"></div>
 
-                            <!-- Logotipo -->
-                            <div class="col-3 align-center">
-                                <a routerLink="/"><img src="../assets/img/rethinklogo2.png"></a>
-                            </div>
-
-                            <!-- My Identity -->
-                            <div class="col">
-                                <my-self *ngIf="myIdentity" [model]="myIdentity"></my-self>
-                            </div>
-                        </div>
-                    </header>
-
-                    <router-outlet></router-outlet>
-
-                    <!-- Loading spinner when wait for the auth and app be ready -->
-                    <div *ngIf="!ready" class="main-content">
-                        <div class="content-panel">
-                            <span>Loading {{ status }}</span>
-                        </div>
-                    </div>
-
+          <header class="header">
+            <div class="row">
+              <!-- breadcrumb -->
+              <div class="col">
+                <!-- TODO optimize the openContextMenu process, should be only on the 3 dots -->
+                <ul [hidden]="!ready" context-breadcrumb (openContext)="onOpenContext($event)"></ul>
               </div>
-              <!-- /scroller-inner -->
+
+              <!-- Logotipo -->
+              <div class="col-3 align-center">
+                <a routerLink="/"><img src="../assets/img/rethinklogo2.png"></a>
+              </div>
+
+              <!-- My Identity -->
+              <div class="col">
+                <my-self *ngIf="myIdentity" [model]="myIdentity"></my-self>
+              </div>
+            </div>
+          </header>
+
+          <router-outlet></router-outlet>
+
+          <!-- Loading spinner when wait for the auth and app be ready -->
+          <div *ngIf="!ready" class="main-content">
+            <div class="content-panel">
+              <span>Loading {{ status }}</span>
+            </div>
           </div>
-          <!-- /scroller -->
+
+        </div>
+        <!-- /scroller-inner -->
       </div>
+      <!-- /scroller -->
+    </div>
 
   </div>
-      <!-- /pusher -->
+  <!-- /pusher -->
 </div>
 <!-- /container -->
-
