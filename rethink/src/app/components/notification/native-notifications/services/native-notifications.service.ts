@@ -39,7 +39,7 @@ export class NativeNotificationsService {
           this.permission = status;
 
           if (this.permission !== 'granted') {
-            obs.error(`The user hasn't granted you permission to send Native notifications`);
+            obs.error(`You hasn't granted permission to send Native notifications`);
             obs.complete();
           }
 
