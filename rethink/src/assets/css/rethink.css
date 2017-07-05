@@ -1590,7 +1590,7 @@ body.rethink div.sidebar {
   display: block;
   position: absolute;
   top: 0;
-  bottom: 48px;
+  bottom: 46px;
 }
 /* line 1677, ../sass/rethink.scss */
 body.rethink div.inputbox {
