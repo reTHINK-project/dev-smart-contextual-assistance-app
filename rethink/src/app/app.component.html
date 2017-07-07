@@ -18,10 +18,11 @@
           <div *ngIf="showAlert" [innerHTML]="notificationStatus" class="alert alert-warning m-0 rounded-0" role="alert"></div>
 
           <header class="header">
-            <div class="row">
+            <div class="row no-gutters">
 
               <!-- Logotipo -->
-              <div class="col-6 align-center">
+              <div class="col align-center">
+                <a class="open-context" (click)="onOpenContext($event)"><i class="fa fa-lightbulb-o"></i></a>
                 <a routerLink="/"><img src="../assets/img/rethinklogo2.png"></a>
               </div>
 
@@ -34,10 +35,14 @@
 
             <div class="row">
 
+              <div class="secondary-menu col-2">
+
+              </div>
+
               <!-- breadcrumb -->
-              <div class="col-12">
+              <div class="col-10">
                 <!-- TODO optimize the openContextMenu process, should be only on the 3 dots -->
-                <ul [hidden]="!ready" context-breadcrumb (openContext)="onOpenContext($event)"></ul>
+                <ul [hidden]="!ready"  (openContext)="onOpenContext($event)" context-breadcrumb></ul>
               </div>
 
             </div>
