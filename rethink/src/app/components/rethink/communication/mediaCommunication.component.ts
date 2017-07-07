@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, HostBinding, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, HostBinding, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 
 // Models
@@ -47,7 +47,7 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
     this.subscription = this.router.events.subscribe((event: NavigationEnd) => {
 
       if (event instanceof NavigationEnd) {
-        let action = event['action'];
+        const action = event['action'];
         console.log('[Media Communication Component] - Params Action:', action);
         this.mode = action;
         this.connectorService.mode = action;

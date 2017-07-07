@@ -5,7 +5,7 @@
 
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
-        
+
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -17,7 +17,7 @@
 
           <div class="form-group {{ complexForm.controls['name'].errors ? 'has-danger' : 'has-success' }}">
             <label for="name">Context Name</label>
-            
+
             <input type="text" id="name" formControlName="name" class="form-control {{ complexForm.controls['name'].errors ? 'form-control-danger' : 'form-control-success' }}"
                [formControl]="complexForm.controls['name']" (blur)="onLostFocus($event)"
                aria-describedby="nameHelp" placeholder="Context name">
@@ -41,7 +41,7 @@
 
             <div id="icons" class="form-control form-group-control" formControlName="icon" [formControl]="complexForm.controls['icon']" ngbRadioGroup name="icon">
               <label *ngFor="let icon of icons; let i = index" class="btn btn-primary">
-                <input type="radio" name="icons" id="{{icon}}" value="{{icon}}" autocomplete="off"><i class="fa fa-{{icon}}"></i> 
+                <input type="radio" name="icons" id="{{icon}}" value="{{icon}}" autocomplete="off"><i class="fa fa-{{icon}}"></i>
               </label>
             </div>
 
@@ -76,7 +76,7 @@
 
 </ng-template>
 
-<a href="javascript:;" class="add-button" (click)="open(content)">
-  <span class="add-user"><a href="javascript:;">+</a></span>
-  <span class="add-text">new context</span>
+<!-- Add context button -->
+<a href="javascript:;" class="float-left" (click)="open(content)">
+  <i class="fa fa-plus-circle"></i>new context
 </a>

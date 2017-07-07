@@ -19,6 +19,9 @@ import { NativeNotificationsModule } from './components/notification/native-noti
 import { NotificationsModule } from './components/notification/notifications.module';
 
 // components
+import { ContextBreadcrumbComponent } from './views/breadcrumb/breadcrumb.component';
+import { MySelfComponent } from './components/mySelf/my-self.component';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './views/home/home.component';
 import { ContextualCommModule } from './views/contextualComm/contextualComm.module';
@@ -26,8 +29,6 @@ import { ContextualCommComponent } from './views/contextualComm/contextualComm.c
 
 import { ContextualCommUsersComponent } from './views/contextualCommUsers/contextualCommUsers.component';
 import { UserIdentityComponent } from './components/rethink/userIdentity/userIdentity.component';
-import { ContextBreadcrumbComponent } from './views/breadcrumb/breadcrumb.component';
-import { MySelfComponent } from './components/mySelf/my-self.component';
 import { AddUserComponent } from './views/contextualCommUsers/add-user.component';
 
 // Services

@@ -22,7 +22,6 @@ import { User, ContextualComm } from '../../models/models';
 export class ContextualCommUsersComponent implements OnInit, OnDestroy {
 
   @HostBinding('class') hostClass = 'context-user-view d-flex flex-column justify-content-between';
-
   @Output() contactClick = new EventEmitter();
   @Output() contactAdd = new EventEmitter();
 

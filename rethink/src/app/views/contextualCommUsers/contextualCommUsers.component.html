@@ -11,7 +11,7 @@
   <div class="contexts float-left w-100 pb-3">
     <h4 class="title float-left">Contexts</h4>
 
-    <add-contextualComm-view></add-contextualComm-view>
+    <add-contextualComm-view [hidden]="!allowAddUser"></add-contextualComm-view>
 
     <ul class="list p-0">
       <li class="item p-0 m-0" *ngFor="let context of contexts | async">
@@ -24,19 +24,29 @@
   </div>
 
   <div class="users float-left w-100 pb-3 pt-3">
-    <h4 class="title">Users</h4>
-    <ul class="list p-0">
+    <h4 class="title float-left">Users</h4>
+
+    <add-user-view [hidden]="!allowAddUser"></add-user-view>
+
+    <ul class="contact-list">
       <!-- List of ContactComponent -->
       <li class="item m-0" *ngFor="let contact of contactsFilter | async">
         <a class="link" [routerLink]="[this.basePath, 'user', contact.username]" routerLinkActive="active">
+
           <user-identity *ngIf="contact" [model]=contact></user-identity>
+
+          <div *ngIf="contact.unread" class="alert">
+              <span class="new-message">{{contact.unread}}</span>
+              <i class="fa fa-comment-o"></i>
+          </div>
+          <div class="pointer">
+              <span class="action chat"><i class="fa fa-angle-right"></i></span>
+          </div>
         </a>
       </li>
     </ul>
   </div>
 </div>
-
-<add-user-view [hidden]="!allowAddUser"></add-user-view>
 
 <footer class="alt-foot">
     Copyright 2016 © Altice Labs - All rights reserved

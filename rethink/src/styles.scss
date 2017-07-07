@@ -1,0 +1,36 @@
+// "assets/css/rethink.css",
+// "assets/css/new-rethink.css",
+// "assets/css/context-menu.css",
+// "assets/css/forms.css",
+// "assets/css/breadcrumb.css",
+// "assets/css/current-user.css",
+// "assets/css/notification.css",
+// "assets/css/nested-list.css",
+// "assets/css/search.css",
+// "assets/css/sidebar.scss",
+// "assets/css/modals.css",
+// "../node_modules/bootstrap/dist/css/bootstrap.css"
+
+// @import './assets/style/ink.min.css';
+
+@import './assets/style/_custom.scss';
+
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+
+@import './assets/style/mixins/_transform.scss';
+
+@import './assets/style/_common.scss';
+
+@import './assets/style/_activity-list.scss';
+@import './assets/style/_user-identity.scss';
+@import './assets/style/_context-menu.scss';
+@import './assets/style/_new-rethink.scss';
+@import './assets/style/_nested-list.scss';
+@import './assets/style/_breadcrumb.scss';
+@import './assets/style/_user-view.scss';
+@import './assets/style/_chat-view.scss';
+// @import './assets/style/_rethink.scss';
+@import './assets/style/_sidebar.scss';
+@import './assets/style/_modals.scss';
+@import './assets/style/_search.scss';
+@import './assets/style/_forms.scss';

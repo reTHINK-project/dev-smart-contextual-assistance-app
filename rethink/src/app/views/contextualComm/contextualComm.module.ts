@@ -1,6 +1,6 @@
-import { NgModule }       from '@angular/core';
-import { FormsModule }    from '@angular/forms';
-import { CommonModule }   from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { MomentModule } from 'angular2-moment';
 
@@ -8,15 +8,15 @@ import { ContextualCommRoutingModule } from './contextualComm.routing';
 
 // Generic Components
 import { ContextNameValidatorDirective } from '../../shared/rethink.directive';
-import { ContactBoxComponent } from '../../components/user/contact-box.component';
 
-import { ChatCommunicationComponent } from '../../components/rethink/communication/chatCommunication.component';
 import { MediaCommunicationComponent } from '../../components/rethink/communication/mediaCommunication.component';
+import { ChatCommunicationComponent } from '../../components/rethink/communication/chatCommunication.component';
 
 import { ChatEventComponent } from '../../components/rethink/hypertyResource/chat/chatEvent.component';
 import { FileEventComponent } from '../../components/rethink/hypertyResource/file/fileEvent.component';
 
 // Components views
+import { ContactBoxComponent } from '../userView/contact-box.component';
 import { UserViewComponent } from '../userView/user-view.component';
 import { ActivityViewComponent } from '../activityView/activity-view.component';
 

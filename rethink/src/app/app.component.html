@@ -19,22 +19,29 @@
 
           <header class="header">
             <div class="row">
-              <!-- breadcrumb -->
-              <div class="col">
-                <!-- TODO optimize the openContextMenu process, should be only on the 3 dots -->
-                <ul [hidden]="!ready" context-breadcrumb (openContext)="onOpenContext($event)"></ul>
-              </div>
 
               <!-- Logotipo -->
-              <div class="col-3 align-center">
+              <div class="col-6 align-center">
                 <a routerLink="/"><img src="../assets/img/rethinklogo2.png"></a>
               </div>
 
               <!-- My Identity -->
-              <div class="col">
+              <div class="col-6">
                 <my-self *ngIf="myIdentity" [model]="myIdentity"></my-self>
               </div>
+
             </div>
+
+            <div class="row">
+
+              <!-- breadcrumb -->
+              <div class="col-12">
+                <!-- TODO optimize the openContextMenu process, should be only on the 3 dots -->
+                <ul [hidden]="!ready" context-breadcrumb (openContext)="onOpenContext($event)"></ul>
+              </div>
+
+            </div>
+
           </header>
 
           <router-outlet></router-outlet>

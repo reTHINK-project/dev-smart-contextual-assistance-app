@@ -9,7 +9,7 @@ import { Message } from '../../models/models';
 })
 export class ContextualCommActivityComponent implements OnChanges, AfterViewInit {
 
-  @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100 activity-list';
+  @HostBinding('class') hostClass = 'activity-list w-100 h-100';
 
   @Input() messages: Subject<Message[]>;
 

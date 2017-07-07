@@ -1,11 +1,7 @@
 <div class="current-user" ngbDropdown>
 
   <div id="dropdownConfig" class="d-flex justify-content-around align-items-center user-area" ngbDropdownToggle>
-    <div class="user-status">
-      <img class="rounded-circle" src="{{model.avatar}}">
-      <span class="status {{model.status}}"><i class="fa fa-circle{{model.status === 'unavailable' ? '-o' : ''}}"></i></span>
-    </div>
-    <h3>{{model.cn}}</h3>
+    <user-identity [model]="model"></user-identity>
   </div>
 
   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownConfig">
@@ -32,7 +28,7 @@
       <img src="{{model.avatar}}">
       <span class="status {{model.status}}"><i class="fa fa-circle"></i></span>
     </div>
-    
+
     <div class="main-username push-left quarter-padding">
       <h3>{{model.cn}}</h3>
       <span class="status-changer all-100 ink-dropdown push-left" data-target="#my-menu-dropdown"><a class=""><span class="fa fa-angle-down"></span></a>
