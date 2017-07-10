@@ -24,6 +24,7 @@ import { MySelfComponent } from './components/mySelf/my-self.component';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './views/home/home.component';
+import { SidebarDirective } from './views/contextualComm/sidebar.directive';
 import { ContextualCommModule } from './views/contextualComm/contextualComm.module';
 import { ContextualCommComponent } from './views/contextualComm/contextualComm.component';
 
@@ -52,12 +53,17 @@ import { servicesInjectables } from './services/services';
     HomeComponent,
     MySelfComponent,
     AddUserComponent,
+    SidebarDirective,
     ContextMenuComponent,
     UserIdentityComponent,
     ContextualCommComponent,
     AddContextualCommComponent,
     ContextBreadcrumbComponent,
     ContextualCommUsersComponent
+  ],
+  entryComponents: [
+    UserIdentityComponent,
+    ContextualCommComponent
   ],
 
   providers: [

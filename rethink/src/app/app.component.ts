@@ -1,5 +1,5 @@
 import { Title } from '@angular/platform-browser';
-import { Component, OnInit, EventEmitter, HostListener } from '@angular/core';
+import { Component, OnInit, EventEmitter, HostListener, ContentChildren, QueryList, forwardRef, ViewChild, ElementRef, ViewChildren } from '@angular/core';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -18,6 +18,7 @@ import { TriggerActions } from './models/app.models';
 import { normalizeName, splitFromURL, isAnUser, clearMyUsername } from './utils/utils';
 
 // Services
+import { ContextualCommComponent } from './views/contextualComm/contextualComm.component';
 import { ContextualCommService } from './services/contextualComm.service';
 import { ContextualCommDataService } from './services/contextualCommData.service';
 import { TriggerActionService, RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
@@ -37,6 +38,8 @@ export class AppComponent implements OnInit {
   private chatInvitation: Subscription;
 
   private actionResult = new EventEmitter<{}>();
+
+  context: ContextualCommComponent;
 
   notificationStatus;
   showAlert = false;
@@ -65,7 +68,7 @@ export class AppComponent implements OnInit {
     private contactService: ContactService,
     private rethinkService: RethinkService,
     private triggerActionService: TriggerActionService,
-    private contextualComm: ContextualCommService,
+    private contextualCommService: ContextualCommService,
     private contextualCommDataService: ContextualCommDataService,
     private connectorService: ConnectorService,
     private chatService: ChatService) {
@@ -94,7 +97,7 @@ export class AppComponent implements OnInit {
 
     });
 
-    this.contextualCommEvent = this.contextualComm.contextualCommEvent.subscribe((event: ContextualCommEvent) => {
+    this.contextualCommEvent = this.contextualCommService.contextualCommEvent.subscribe((event: ContextualCommEvent) => {
 
       const title = 'New communication channel';
       const content = 'You have a new communication channel ' + event.contextualComm.name;
@@ -158,10 +161,6 @@ export class AppComponent implements OnInit {
 
       });
 
-  }
-
-  onClickClouse(event: any) {
-    console.log('AQUI:', event);
   }
 
   hypertiesReady() {
@@ -302,9 +301,22 @@ export class AppComponent implements OnInit {
   }
 
   onClickOutside(event: any) {
-    console.log(event);
+    // console.log(event);
     if (event && ((event.srcElement && event.srcElement.id === 'mp-pusher') || (event.target && event.target.id === 'mp-pusher'))) {
       this.contextOpened = false;
+    }
+  }
+
+  openSecondaryContext(event: MouseEvent) {
+    if (this.context) {
+      this.context.showSidebar();
+    }
+  }
+
+  onActivate(event: any ) {
+
+    if (event instanceof ContextualCommComponent) {
+      this.context = event;
     }
   }
 

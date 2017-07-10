@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, HostListener, AfterViewInit, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, HostBinding, HostListener, AfterViewInit, ElementRef, ViewChild, ViewContainerRef, Directive } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
@@ -16,6 +16,9 @@ import { isAnUser, normalizeFromURL, normalizeName } from '../../utils/utils';
 // Components
 import { AddUserComponent } from '../contextualCommUsers/add-user.component';
 
+// Directives
+import { SidebarDirective } from './sidebar.directive';
+
 @Component({
   moduleId: module.id,
   selector: 'context-view',
@@ -25,6 +28,9 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
 
   @HostBinding('class') hostClass = 'context-view row no-gutters';
   @ViewChild('content', {read: ViewContainerRef}) content: ViewContainerRef;
+
+  @ViewChild(SidebarDirective) sidebar: SidebarDirective;
+
   @ViewChild(AddUserComponent) addUserComponent: AddUserComponent;
 
   allowAddUser = false;
@@ -117,6 +123,10 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
 
   onContactClick() {
 
+  }
+
+  showSidebar() {
+    console.log('Show sidebar: ', this.sidebar.show() );
   }
 
 

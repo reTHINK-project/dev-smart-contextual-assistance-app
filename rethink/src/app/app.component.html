@@ -18,7 +18,7 @@
           <div *ngIf="showAlert" [innerHTML]="notificationStatus" class="alert alert-warning m-0 rounded-0" role="alert"></div>
 
           <header class="header">
-            <div class="row no-gutters">
+            <div class="primary-menu row no-gutters">
 
               <!-- Logotipo -->
               <div class="col align-center">
@@ -33,23 +33,19 @@
 
             </div>
 
-            <div class="row">
-
-              <div class="secondary-menu col-2">
-
-              </div>
+            <div class="secondary-menu mt-4 row no-gutters">
 
               <!-- breadcrumb -->
-              <div class="col-10">
+              <div class="col-12">
                 <!-- TODO optimize the openContextMenu process, should be only on the 3 dots -->
-                <ul [hidden]="!ready"  (openContext)="onOpenContext($event)" context-breadcrumb></ul>
+                <ul [hidden]="!ready"  (click)="openSecondaryContext($event)" context-breadcrumb></ul>
               </div>
 
             </div>
 
           </header>
 
-          <router-outlet></router-outlet>
+          <router-outlet (activate)='onActivate($event)'></router-outlet>
 
           <!-- Loading spinner when wait for the auth and app be ready -->
           <div *ngIf="!ready" class="main-content">
