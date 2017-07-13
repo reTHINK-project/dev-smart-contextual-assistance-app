@@ -2,21 +2,26 @@
   background-color: transparent;
   overflow: visible;
   padding: .75em;
+  margin: 0;
 
-  form.filter {
-    position: relative;
+  form {
     margin: 0;
-    padding: 0;
 
-    input {
-      color: #dedede;
-    }
+    &.filter {
+      position: relative;
+      margin: 0;
+      padding: 0;
 
-    span.fa.fa-search {
-      position: absolute;
-      right: 12px;
-      top: 14px;
-      color: rgba(255, 255, 255, 0.8);
+      input {
+        color: #dedede;
+      }
+
+      span.fa.fa-search {
+        position: absolute;
+        right: 12px;
+        top: 14px;
+        color: rgba(255, 255, 255, 0.8);
+      }
     }
   }
 
@@ -51,11 +56,20 @@
 
     border-radius: 4px;
 
+    i.fa-search {
+      position: absolute;
+      left: 4px;
+      top: 4px;
+    }
+
     &:focus {
       display: inline-block;
       transition-duration: 500ms;
       background-color: rgba(0, 0, 0, 0.15);
       border: none;
+
+      padding: 6px 10px;
+      padding-left: 20px;
     }
   }
 

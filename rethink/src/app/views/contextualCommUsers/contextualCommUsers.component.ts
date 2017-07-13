@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostBinding, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, Output, EventEmitter, Input, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -14,6 +14,9 @@ import { ContextualCommDataService } from '../../services/contextualCommData.ser
 // Models
 import { User, ContextualComm } from '../../models/models';
 
+// Directives
+import { SidebarDirective } from '../../shared/directive.module';
+
 @Component({
   moduleId: module.id,
   selector: 'context-user-view',
@@ -21,11 +24,13 @@ import { User, ContextualComm } from '../../models/models';
 })
 export class ContextualCommUsersComponent implements OnInit, OnDestroy {
 
+  @ViewChild(SidebarDirective) sidebar: SidebarDirective;
+
   @HostBinding('class') hostClass = 'context-user-view d-flex flex-column justify-content-between';
   @Output() contactClick = new EventEmitter();
   @Output() contactAdd = new EventEmitter();
 
-  @Input() users: Subject<User[]>;
+  @Input() users: Observable<User[]>;
   @Input() allowAddUser: boolean;
 
   contexts: Observable<ContextualComm[]>;
@@ -122,6 +127,20 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
         return user.cn.includes(value);
       });
     });
+
+  }
+
+  onCloseSidebarEvent($event) {
+
+    // TODO: try to put this code in Sidebar Directive
+    // TODO: i tried but i can't do it;
+    const element: HTMLElement = document.getElementById('sidebar');
+
+    if (element.classList.contains('opened')) {
+      element.classList.remove('opened');
+    } else {
+      element.classList.add('opened');
+    }
 
   }
 

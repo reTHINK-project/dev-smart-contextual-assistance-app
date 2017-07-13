@@ -11,26 +11,27 @@ import { AppRoutingModule } from './app-routing.module';
 // Utils
 import { CustomUtils } from './utils/CustomUtils';
 
-// TO ORGANIZE
-import { ContextMenuComponent } from './views/contextualCommMenu/contextMenu.component';
-import { AddContextualCommComponent } from './views/contextualCommMenu/add-contextualComm.component';
-
-import { NativeNotificationsModule } from './components/notification/native-notifications.module';
-import { NotificationsModule } from './components/notification/notifications.module';
+// Directives
+// import { SidebarDirective } from './shared/sidebar.directive';
+import { DirectiveModules  } from './shared/directive.module';
 
 // components
-import { ContextBreadcrumbComponent } from './views/breadcrumb/breadcrumb.component';
-import { MySelfComponent } from './components/mySelf/my-self.component';
-
 import { AppComponent } from './app.component';
-import { HomeComponent } from './views/home/home.component';
-import { SidebarDirective } from './views/contextualComm/sidebar.directive';
-import { ContextualCommModule } from './views/contextualComm/contextualComm.module';
-import { ContextualCommComponent } from './views/contextualComm/contextualComm.component';
-
-import { ContextualCommUsersComponent } from './views/contextualCommUsers/contextualCommUsers.component';
+import { MySelfComponent } from './components/mySelf/my-self.component';
+import { NotificationsModule } from './components/notification/notifications.module';
 import { UserIdentityComponent } from './components/rethink/userIdentity/userIdentity.component';
+import { NativeNotificationsModule } from './components/notification/native-notifications.module';
+
+// View Components
+import { HomeComponent } from './views/home/home.component';
+import { LoadingComponent } from './views/loading/loading.component';
 import { AddUserComponent } from './views/contextualCommUsers/add-user.component';
+import { ContextualCommModule } from './views/contextualComm/contextualComm.module';
+import { ContextBreadcrumbComponent } from './views/breadcrumb/breadcrumb.component';
+import { ContextMenuComponent } from './views/contextualCommMenu/contextMenu.component';
+import { ContextualCommComponent } from './views/contextualComm/contextualComm.component';
+import { AddContextualCommComponent } from './views/contextualCommMenu/add-contextualComm.component';
+import { ContextualCommUsersComponent } from './views/contextualCommUsers/contextualCommUsers.component';
 
 // Services
 import { servicesInjectables } from './services/services';
@@ -39,6 +40,7 @@ import { servicesInjectables } from './services/services';
   imports: [
     FormsModule,
     BrowserModule,
+    DirectiveModules,
     ReactiveFormsModule,
     ContextualCommModule,
     BrowserAnimationsModule,
@@ -53,7 +55,8 @@ import { servicesInjectables } from './services/services';
     HomeComponent,
     MySelfComponent,
     AddUserComponent,
-    SidebarDirective,
+    LoadingComponent,
+
     ContextMenuComponent,
     UserIdentityComponent,
     ContextualCommComponent,

@@ -38,7 +38,7 @@
               <!-- breadcrumb -->
               <div class="col-12">
                 <!-- TODO optimize the openContextMenu process, should be only on the 3 dots -->
-                <ul [hidden]="!ready"  (click)="openSecondaryContext($event)" context-breadcrumb></ul>
+                <ul [hidden]="!ready"  (openContext)="openSecondaryContext($event)" context-breadcrumb></ul>
               </div>
 
             </div>
@@ -47,12 +47,7 @@
 
           <router-outlet (activate)='onActivate($event)'></router-outlet>
 
-          <!-- Loading spinner when wait for the auth and app be ready -->
-          <div *ngIf="!ready" class="main-content">
-            <div class="content-panel">
-              <span>Loading {{ status }}</span>
-            </div>
-          </div>
+          <loading *ngIf="!ready"  [status]="status"></loading>
 
         </div>
         <!-- /scroller-inner -->

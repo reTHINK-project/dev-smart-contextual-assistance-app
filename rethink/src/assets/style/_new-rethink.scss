@@ -225,10 +225,12 @@
   z-index: 500;
   margin-bottom: 0;
 }
+
 .home-view {
   overflow-x: hidden;
   overflow-y: auto;
 }
+
 .context-view {
   position: relative;
   height: 100%;
@@ -240,9 +242,11 @@
   }
 
 }
+
 .content-panel {
   height: 100%;
 }
+
 .main-content .view-content {
   overflow-y: auto;
   height: 100%;

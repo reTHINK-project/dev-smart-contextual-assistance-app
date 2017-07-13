@@ -37,4 +37,8 @@ export class ContextBreadcrumbComponent implements OnInit {
 
   }
 
+  onClickEvent($event: MouseEvent) {
+    this.openContext.emit($event);
+  }
+
 }

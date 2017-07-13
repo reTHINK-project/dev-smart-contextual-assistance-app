@@ -1,5 +1,5 @@
 import { Title } from '@angular/platform-browser';
-import { Component, OnInit, EventEmitter, HostListener, ContentChildren, QueryList, forwardRef, ViewChild, ElementRef, ViewChildren } from '@angular/core';
+import { Component, OnInit, EventEmitter, HostListener } from '@angular/core';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -296,7 +296,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  onOpenContext(event?: Event) {
+  onOpenContext(event?: MouseEvent) {
     this.contextOpened = !this.contextOpened;
   }
 
@@ -308,9 +308,25 @@ export class AppComponent implements OnInit {
   }
 
   openSecondaryContext(event: MouseEvent) {
-    if (this.context) {
-      this.context.showSidebar();
+
+    // TODO: try to put this code in Sidebar Directive
+    // TODO: i tried but i can't do it;
+    const element: HTMLElement = document.getElementById('sidebar');
+
+    if (element.classList.contains('opened')) {
+      element.classList.remove('opened');
+    } else {
+      element.classList.add('opened');
     }
+
+    const el: HTMLElement = event.currentTarget as HTMLElement;
+
+    if (el.classList.contains('opened')) {
+      el.classList.remove('opened');
+    } else {
+      el.classList.add('opened');
+    }
+
   }
 
   onActivate(event: any ) {

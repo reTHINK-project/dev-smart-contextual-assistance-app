@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, HostListener, AfterViewInit, ElementRef, ViewChild, ViewContainerRef, Directive } from '@angular/core';
+import { Component, OnInit, HostBinding, HostListener, AfterViewInit, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
@@ -17,7 +17,7 @@ import { isAnUser, normalizeFromURL, normalizeName } from '../../utils/utils';
 import { AddUserComponent } from '../contextualCommUsers/add-user.component';
 
 // Directives
-import { SidebarDirective } from './sidebar.directive';
+import { SidebarDirective } from '../../shared/directive.module';
 
 @Component({
   moduleId: module.id,
@@ -28,8 +28,7 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
 
   @HostBinding('class') hostClass = 'context-view row no-gutters';
   @ViewChild('content', {read: ViewContainerRef}) content: ViewContainerRef;
-
-  @ViewChild(SidebarDirective) sidebar: SidebarDirective;
+  @ViewChild('sidebar', {read: ViewContainerRef}) sidebar: ViewContainerRef;
 
   @ViewChild(AddUserComponent) addUserComponent: AddUserComponent;
 
@@ -101,16 +100,15 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
   }
 
   updateView() {
-    // const parentEl = this.content.element.nativeElement.parentElement;
-    // const currentEl = this.content.element.nativeElement;
 
-    // const parentHeight = parentEl.offsetHeight;
-    // const bottomPadding = 50;
-    // const height = (parentHeight - bottomPadding) + 'px';
+    // TODO: try to put this code in Sidebar Directive
+    // TODO: i tried but i can't do it;
+    const element: HTMLElement = document.getElementById('sidebar');
 
-    // console.log('SIZE:', parentEl, currentEl, height);
+    if (element.classList.contains('opened')) {
+      element.classList.remove('opened');
+    }
 
-    // currentEl.style.height = height;
   }
 
   onInviteEvent(value: any) {
@@ -124,10 +122,5 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
   onContactClick() {
 
   }
-
-  showSidebar() {
-    console.log('Show sidebar: ', this.sidebar.show() );
-  }
-
 
 }

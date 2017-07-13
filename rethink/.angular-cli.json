@@ -52,9 +52,13 @@
       "config": "./karma.conf.js"
     }
   },
+
   "defaults": {
     "styleExt": "scss",
-    "component": {},
+    "component": {
+      "inlineStyle": true,
+      "viewEncapsulation": "Native"
+    },
     "serve": {
       "port": 8080,
       "host": "localhost",
