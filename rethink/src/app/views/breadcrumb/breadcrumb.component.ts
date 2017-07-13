@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import 'rxjs/add/operator/pairwise';
 
-import { RouterService } from '../../services/services';
+import { BreadcrumbService } from '../../services/services';
 
 @Component({
   moduleId: module.id,
@@ -20,11 +20,11 @@ export class ContextBreadcrumbComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private routerService: RouterService) {
+    private breadcrumbService: BreadcrumbService) {
   }
 
   ngOnInit() {
-    this.breadcrumb = this.routerService.breadcrumb.map((paths: string[]) => {
+    this.breadcrumb = this.breadcrumbService.breadcrumb.map((paths: string[]) => {
       return paths.map((path: string) => {
         if (path.indexOf('?') !== -1) { path = path.substring(0, path.indexOf('?')); }
         if (path.indexOf('user') !== -1) { path = path.replace('user', ''); }

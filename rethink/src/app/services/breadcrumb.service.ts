@@ -8,7 +8,7 @@ import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/bufferCount';
 
 @Injectable()
-export class RouterService {
+export class BreadcrumbService {
 
   private _urls: string[];
   private paths: Subject<Array<string>> = new Subject<Array<string>>();
@@ -19,7 +19,7 @@ export class RouterService {
     private router: Router) {
 
     // this.paths.take(2)
-    this.breadcrumb = this.paths;
+    this.breadcrumb = this.paths.asObservable();
 
     // Subscribe to route params
     this._urls = new Array();

@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './views/home/home.component';
 
 // Services
-import { AuthGuard } from './services/services';
+import { AuthGuard, RoutingService } from './services/services';
 
 const routes: Routes = [
   {
@@ -14,10 +14,14 @@ const routes: Routes = [
     canActivate: [
       AuthGuard
     ],
+    data: {
+      pageTitle: 'Home',
+      pageSection: 'home'
+    }
   },
   {
     path: '**',
-    redirectTo: ''
+    redirectTo: '/'
   }
 ];
 @NgModule({

@@ -1,5 +1,5 @@
 import { Title } from '@angular/platform-browser';
-import { Component, OnInit, EventEmitter, HostListener } from '@angular/core';
+import { Component, OnInit, EventEmitter, HostListener, ViewChild, ViewContainerRef, AfterViewInit, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -12,12 +12,13 @@ import { config } from './config';
 
 // Models
 import { ContextualCommEvent, User,  ContextualComm } from './models/models';
-import { TriggerActions } from './models/app.models';
+import { TriggerActions, PageSection } from './models/app.models';
 
 // Utils
 import { normalizeName, splitFromURL, isAnUser, clearMyUsername } from './utils/utils';
 
 // Services
+import { RoutingService } from './services/routing.service';
 import { ContextualCommComponent } from './views/contextualComm/contextualComm.component';
 import { ContextualCommService } from './services/contextualComm.service';
 import { ContextualCommDataService } from './services/contextualCommData.service';
@@ -29,14 +30,16 @@ import { TriggerActionService, RethinkService, ConnectorService, ChatService, Co
   templateUrl: './app.component.html'
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
 
   private natNotFeedback: Subscription;
   private contextualCommEvent: Subscription;
   private actionService: Subscription;
   private connectorInvitation: Subscription;
   private chatInvitation: Subscription;
+  private routeData: Subscription;
 
+  private showBreadcrumb = false;
   private actionResult = new EventEmitter<{}>();
 
   context: ContextualCommComponent;
@@ -48,6 +51,8 @@ export class AppComponent implements OnInit {
   ready = false;
   myIdentity: User;
   status: string;
+
+  @ViewChild('section') section: ElementRef;
 
   @HostListener('window:blur', ['$event']) onBlurEvent(event: any) {
     // console.log('[App Lost Focus] - blur:', event);
@@ -63,6 +68,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private route: ActivatedRoute,
+    private routingService: RoutingService,
     private natNotificationsService: NativeNotificationsService,
     private notificationsService: NotificationsService,
     private contactService: ContactService,
@@ -160,6 +166,22 @@ export class AppComponent implements OnInit {
         this.hypertiesReady();
 
       });
+
+  }
+
+  ngAfterViewInit() {
+
+    this.routeData = this.routingService.routingChanges.subscribe((pageSection: PageSection) => {
+      console.log('[Routing Service Output] - ', pageSection);
+
+      if (pageSection.section !== 'home') {
+        this.showBreadcrumb = true;
+      } else {
+        this.showBreadcrumb = false;
+      }
+
+      this.section.nativeElement.setAttribute('data-section', pageSection.section );
+    });
 
   }
 
@@ -309,22 +331,25 @@ export class AppComponent implements OnInit {
 
   openSecondaryContext(event: MouseEvent) {
 
+    const el: HTMLElement = event.currentTarget as HTMLElement;
+
+    if (el) {
+      if (el.classList.contains('opened')) {
+        el.classList.remove('opened');
+      } else {
+        el.classList.add('opened');
+      }
+    }
+
     // TODO: try to put this code in Sidebar Directive
     // TODO: i tried but i can't do it;
     const element: HTMLElement = document.getElementById('sidebar');
-
-    if (element.classList.contains('opened')) {
-      element.classList.remove('opened');
-    } else {
-      element.classList.add('opened');
-    }
-
-    const el: HTMLElement = event.currentTarget as HTMLElement;
-
-    if (el.classList.contains('opened')) {
-      el.classList.remove('opened');
-    } else {
-      el.classList.add('opened');
+    if (element) {
+      if (element.classList.contains('opened')) {
+        element.classList.remove('opened');
+      } else {
+        element.classList.add('opened');
+      }
     }
 
   }

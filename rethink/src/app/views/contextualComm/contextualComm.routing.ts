@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // Components
-import { AuthGuard, ActivateUserGuard, ActivateTaskGuard } from '../../services/services';
+import { AuthGuard, ActivateUserGuard, ActivateTaskGuard, RoutingService } from '../../services/services';
 
 import { ContextualCommDataResolver } from '../../services/contextualCommData.resolver';
 import { UserResolver } from '../../services/user.resolver';

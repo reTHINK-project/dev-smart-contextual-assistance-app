@@ -22,7 +22,6 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
 
   constructor(
     private router: Router,
-    private titleService: Title,
     private contactService: ContactService,
     private triggerActionService: TriggerActionService,
     private contextualCommService: ContextualCommService,
@@ -44,8 +43,6 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
       if (context) { name = context;  title = context; };
       if (task) { name = task; title = task; };
       if (user) { name = user; title = user; };
-
-      this.titleService.setTitle(config.pageTitlePrefix + title);
 
       name = normalizeFromURL(path, this.contactService.sessionUser.username);
 

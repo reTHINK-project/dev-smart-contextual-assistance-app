@@ -11,9 +11,10 @@ import { ContextualCommService } from './contextualComm.service';
 import { TriggerActionService } from './triggerAction.service';
 import { ActivateTaskGuard } from './activateTask.service';
 import { ActivateUserGuard } from './activateUser.service';
+import { BreadcrumbService } from './breadcrumb.service';
 import { ContactService } from './contact.service';
+import { RoutingService } from './routing.service';
 import { LocalStorage } from './storage.service';
-import { RouterService } from './router.service';
 import { AuthGuard } from './authGuard.service';
 import { UserResolver } from './user.resolver';
 
@@ -22,10 +23,11 @@ export {
   ChatService,
   UserResolver,
   LocalStorage,
-  RouterService,
+  RoutingService,
   RethinkService,
   ContactService,
   ConnectorService,
+  BreadcrumbService,
   ActivateTaskGuard,
   ActivateUserGuard,
   TriggerActionService,
@@ -38,10 +40,11 @@ export {
 export let servicesInjectables: Array<any> = [
   ChatService,
   LocalStorage,
-  RouterService,
+  RoutingService,
   RethinkService,
   ContactService,
   ConnectorService,
+  BreadcrumbService,
   ActivateTaskGuard,
   ActivateUserGuard,
   TriggerActionService,

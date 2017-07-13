@@ -28,3 +28,8 @@ export enum TriggerActions {
   OpenContextMenu = <any>'open-context',
   OpenContextMenuCreator = <any>'open-context-creation'
 };
+
+export interface PageSection {
+  section: string;
+  title: string;
+};

@@ -13,7 +13,7 @@
       <div class="scroller">
 
         <!-- scroller-inner -->
-        <div class="scroller-inner d-flex flex-column align-items-stretch">
+        <div #section class="scroller-inner d-flex flex-column align-items-stretch">
 
           <div *ngIf="showAlert" [innerHTML]="notificationStatus" class="alert alert-warning m-0 rounded-0" role="alert"></div>
 
@@ -33,12 +33,11 @@
 
             </div>
 
-            <div class="secondary-menu mt-4 row no-gutters">
+            <div *ngIf="showBreadcrumb"  class="secondary-menu mt-4 row no-gutters">
 
               <!-- breadcrumb -->
               <div class="col-12">
-                <!-- TODO optimize the openContextMenu process, should be only on the 3 dots -->
-                <ul [hidden]="!ready"  (openContext)="openSecondaryContext($event)" context-breadcrumb></ul>
+                <ul *ngIf="ready" (openContext)="openSecondaryContext($event)" context-breadcrumb></ul>
               </div>
 
             </div>

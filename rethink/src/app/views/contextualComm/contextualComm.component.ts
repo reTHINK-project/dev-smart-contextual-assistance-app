@@ -1,6 +1,7 @@
-import { Component, OnInit, HostBinding, HostListener, AfterViewInit, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, HostBinding, HostListener, OnDestroy, AfterViewInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
@@ -24,7 +25,7 @@ import { SidebarDirective } from '../../shared/directive.module';
   selector: 'context-view',
   templateUrl: './contextualComm.component.html',
 })
-export class ContextualCommComponent implements OnInit, AfterViewInit {
+export class ContextualCommComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @HostBinding('class') hostClass = 'context-view row no-gutters';
   @ViewChild('content', {read: ViewContainerRef}) content: ViewContainerRef;
@@ -35,23 +36,25 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
   allowAddUser = false;
   userList: Subject<User[]> = new BehaviorSubject([]);
 
+  private routeData: Subscription;
+  private currentContext: Subscription;
+
   @HostListener('window:resize', ['$event']) onResize(event: any) {
     this.updateView();
   }
 
   constructor(
-    private el: ElementRef,
     private router: Router,
     private route: ActivatedRoute,
     private appService: RethinkService,
     private contextualCommDataService: ContextualCommDataService,
     private contactService: ContactService) {
 
-    this.route.data.subscribe((data: { context: ContextualComm, users: User[] }) => {
+    this.routeData = this.route.data.subscribe((data: { context: ContextualComm, users: User[] }) => {
       this.updateCurrentContext(data.context);
     });
 
-    this.contextualCommDataService.currentContext().subscribe((context: ContextualComm) => {
+    this.currentContext = this.contextualCommDataService.currentContext().subscribe((context: ContextualComm) => {
       console.log('[ContextualComm View - active context change]:', context);
       this.updateCurrentContext(context);
     });
@@ -97,6 +100,11 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.updateView();
+  }
+
+  ngOnDestroy() {
+    this.currentContext.unsubscribe();
+    this.routeData.unsubscribe();
   }
 
   updateView() {
