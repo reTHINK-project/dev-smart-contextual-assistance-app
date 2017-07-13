@@ -79,7 +79,23 @@
     }
 
     .fa {
-      padding-right: 7px;
+      padding-right: 0.4375rem;
+    }
+
+    &.first h3 {
+      padding-right: 0;
+    }
+
+    &.last h3 {
+      padding-left: 0;
+    }
+
+    &.first.last {
+      padding-left: .75rem;
+
+      @include media-breakpoint-down(xs) {
+        padding-left: 0;
+      }
     }
 
     &.first h3 .name {

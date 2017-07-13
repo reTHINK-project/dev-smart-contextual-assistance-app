@@ -19,6 +19,7 @@ import { normalizeName, splitFromURL, isAnUser, clearMyUsername } from './utils/
 
 // Services
 import { RoutingService } from './services/routing.service';
+import { BreadcrumbService } from './services/breadcrumb.service';
 import { ContextualCommComponent } from './views/contextualComm/contextualComm.component';
 import { ContextualCommService } from './services/contextualComm.service';
 import { ContextualCommDataService } from './services/contextualCommData.service';
@@ -69,6 +70,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private titleService: Title,
     private route: ActivatedRoute,
     private routingService: RoutingService,
+    private breadcrumbService: BreadcrumbService,
     private natNotificationsService: NativeNotificationsService,
     private notificationsService: NotificationsService,
     private contactService: ContactService,
