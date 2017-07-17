@@ -10,6 +10,7 @@ declare const Notification: any;
 export class NativeNotificationsService {
 
   private audio: any;
+  private registration: ServiceWorkerRegistration;
 
   permission: Permission;
 
@@ -17,7 +18,6 @@ export class NativeNotificationsService {
 
   constructor() {
     this.permission  = this.isSupported() ? Notification.permission : 'denied';
-
 
     // TODO: add a list of sounds to each type of event
     this.audio = new Audio();
@@ -41,10 +41,12 @@ export class NativeNotificationsService {
           if (this.permission !== 'granted') {
             obs.error(`You hasn't granted permission to send Native notifications`);
             obs.complete();
+          } else if (this.permission === 'granted') {
+            navigator.serviceWorker.getRegistration().then(registration => {
+              this.registration = registration;
+              obs.complete();
+            });
           }
-
-          obs.complete();
-
         });
       }
     });
@@ -73,14 +75,35 @@ export class NativeNotificationsService {
         obs.complete();
       }
 
-      const n = new Notification(title, options);
+      // try {
 
-      this.audio.play();
+      //   console.log('ServiceWorker Registration:', this.registration);
 
-      n.onshow = (e: any) => obs.next({notification: n, event: e});
-      n.onclick = (e: any) => obs.next({notification: n, event: e});
-      n.onerror = (e: any) => obs.error({notification: n, event: e});
-      n.onclose = () => obs.complete();
+      //   this.registration.showNotification(title, Object.assign({requireInteraction: true}, options)).then((n: any) => {
+
+      //     this.audio.play();
+
+      //   }).catch((reason: any) => {
+
+      //     obs.error({event: reason});
+      //     obs.complete();
+
+      //   })
+
+      // } catch (error) {
+
+       //  console.log('Error:', error);
+
+        const n = new Notification(title, options);
+
+        this.audio.play();
+
+        n.onshow = (e: any) => obs.next({notification: n, event: e});
+        n.onclick = (e: any) => obs.next({notification: n, event: e});
+        n.onerror = (e: any) => obs.error({notification: n, event: e});
+        n.onclose = () => obs.complete();
+
+      // }
 
     });
   }

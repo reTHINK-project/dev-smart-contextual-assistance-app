@@ -2,7 +2,7 @@ export const config = {
   pageTitlePrefix: 'reThink Project - ',
   appPrefix: 'sca',
   splitChar: '/',
-  domain: 'localhost',
+  domain: 'vitor.dev',
   images: '../assets/img/',
   sounds: '../assets/sounds/'
 };

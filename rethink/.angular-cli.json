@@ -10,7 +10,10 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "main.js",
+        "favicon.ico",
+        "manifest.json",
+        "service-worker.js"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -59,7 +62,7 @@
     },
     "serve": {
       "port": 8080,
-      "host": "localhost",
+      "host": "vitor.dev",
       "ssl": true,
       "sslKey": "ssl/server.key",
       "sslCert": "ssl/server.crt"

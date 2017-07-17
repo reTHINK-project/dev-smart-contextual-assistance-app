@@ -11,7 +11,7 @@
   <div class="contexts float-left w-100 pb-3">
     <h4 class="title float-left">Contexts</h4>
 
-    <add-contextualComm-view *ngIf="!allowAddUser"></add-contextualComm-view>
+    <add-contextualComm-view *ngIf="allowAddUser"></add-contextualComm-view>
 
     <ul class="list p-0">
       <li class="item p-0 m-0" *ngFor="let context of contexts | async">
@@ -26,7 +26,7 @@
   <div class="users float-left w-100 pb-3 pt-3">
     <h4 class="title float-left">Users</h4>
 
-    <add-user-view *ngIf="!allowAddUser"></add-user-view>
+    <add-user-view *ngIf="allowAddUser"></add-user-view>
 
     <ul class="contact-list">
       <!-- List of ContactComponent -->

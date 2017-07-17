@@ -445,7 +445,7 @@ module.exports = {
   "devServer": {
     "historyApiFallback": true,
     "port": 8080,
-    "host": "localhost",
+    "host": "vitor.dev",
     "watchContentBase": false,
     "watchOptions": {
       "watch": false

@@ -146,6 +146,9 @@ export class AddContextualCommComponent implements OnInit, OnDestroy {
       'parent' : [{value: this.model.parent, disabled: true }],
       'icon' : [this.model.icon]
     });
+
+
+    // console.log('[AddContextualComm] - controls: ', this.complexForm.controls);
   }
 
   open(content: any) {

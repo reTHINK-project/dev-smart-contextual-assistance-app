@@ -21,13 +21,7 @@ export class ContextBreadcrumbComponent implements OnInit, AfterViewInit, OnDest
   constructor(
     private router: Router,
     private breadcrumbService: BreadcrumbService) {
-  }
 
-  ngOnInit() {
-
-  }
-
-  ngAfterViewInit() {
     this.breadcrumb = this.breadcrumbService.breadcrumb.map((paths: string[]) => {
 
       console.log('[Breadcrumb Service] - Component: ', paths);
@@ -41,6 +35,15 @@ export class ContextBreadcrumbComponent implements OnInit, AfterViewInit, OnDest
         if (item && item.length > 0) {return item; }
       }).filter(item => item ? true : false);
     });
+
+  }
+
+  ngOnInit() {
+
+  }
+
+  ngAfterViewInit() {
+
   }
 
   ngOnDestroy(): void {
