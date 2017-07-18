@@ -1,6 +1,7 @@
-import { Component, OnInit, HostBinding, HostListener, AfterViewInit, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, HostBinding, HostListener, OnDestroy, AfterViewInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
@@ -16,37 +17,44 @@ import { isAnUser, normalizeFromURL, normalizeName } from '../../utils/utils';
 // Components
 import { AddUserComponent } from '../contextualCommUsers/add-user.component';
 
+// Directives
+import { SidebarDirective } from '../../shared/directive.module';
+
 @Component({
   moduleId: module.id,
   selector: 'context-view',
   templateUrl: './contextualComm.component.html',
 })
-export class ContextualCommComponent implements OnInit, AfterViewInit {
+export class ContextualCommComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @HostBinding('class') hostClass = 'context-view row no-gutters';
   @ViewChild('content', {read: ViewContainerRef}) content: ViewContainerRef;
+  @ViewChild('sidebar', {read: ViewContainerRef}) sidebar: ViewContainerRef;
+
   @ViewChild(AddUserComponent) addUserComponent: AddUserComponent;
 
   allowAddUser = false;
   userList: Subject<User[]> = new BehaviorSubject([]);
+
+  private routeData: Subscription;
+  private currentContext: Subscription;
 
   @HostListener('window:resize', ['$event']) onResize(event: any) {
     this.updateView();
   }
 
   constructor(
-    private el: ElementRef,
     private router: Router,
     private route: ActivatedRoute,
     private appService: RethinkService,
     private contextualCommDataService: ContextualCommDataService,
     private contactService: ContactService) {
 
-    this.route.data.subscribe((data: { context: ContextualComm, users: User[] }) => {
+    this.routeData = this.route.data.subscribe((data: { context: ContextualComm, users: User[] }) => {
       this.updateCurrentContext(data.context);
     });
 
-    this.contextualCommDataService.currentContext().subscribe((context: ContextualComm) => {
+    this.currentContext = this.contextualCommDataService.currentContext().subscribe((context: ContextualComm) => {
       console.log('[ContextualComm View - active context change]:', context);
       this.updateCurrentContext(context);
     });
@@ -94,17 +102,21 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
     this.updateView();
   }
 
+  ngOnDestroy() {
+    this.currentContext.unsubscribe();
+    this.routeData.unsubscribe();
+  }
+
   updateView() {
-    // const parentEl = this.content.element.nativeElement.parentElement;
-    // const currentEl = this.content.element.nativeElement;
 
-    // const parentHeight = parentEl.offsetHeight;
-    // const bottomPadding = 50;
-    // const height = (parentHeight - bottomPadding) + 'px';
+    // TODO: try to put this code in Sidebar Directive
+    // TODO: i tried but i can't do it;
+    const element: HTMLElement = document.getElementById('sidebar');
 
-    // console.log('SIZE:', parentEl, currentEl, height);
+    if (element.classList.contains('opened')) {
+      element.classList.remove('opened');
+    }
 
-    // currentEl.style.height = height;
   }
 
   onInviteEvent(value: any) {
@@ -118,6 +130,5 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
   onContactClick() {
 
   }
-
 
 }

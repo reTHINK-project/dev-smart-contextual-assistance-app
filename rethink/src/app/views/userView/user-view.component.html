@@ -1,6 +1,19 @@
 <div media-view *ngIf="action === 'video' || action === 'audio'" [mode]="action" [user]="user"></div>
-<div contact-box *ngIf="!action" [user]="user" (closeEvent)="onCloseEvent()"></div>
+<contact-box *ngIf="!action" [user]="user" (closeEvent)="onCloseEvent()"></contact-box>
 
-<ul context-activity-list [messages]="messages"></ul>
+
+<div class="overflow-content w-100 h-100">
+  <div class="row h-100 no-gutters">
+    <div class="col-12 col-lg-7 h-100">
+      <ul context-activity-list [messages]="messages"></ul>
+    </div>
+
+    <div class="col-12 col-lg-5 h-100">
+
+    </div>
+
+  </div>
+</div>
+
 
 <chat-view></chat-view>

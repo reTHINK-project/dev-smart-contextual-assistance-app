@@ -1,17 +1,26 @@
-<div class="push-right align-right">
+<div class="float-right align-right">
     <span class="date">{{message.date | amTimeAgo}}</span>
 </div>
+
+<!-- TODO: This should be replaced by the user-identity -->
 <div class="user-identity">
-  <div class="contact-avatar push-left">
-      <img src="{{message.user.avatar}}">
-      <span class="status {{message.user.status}}">
-        <i class="fa fa-circle{{message.user.status==='offline'?'-o':''}}"></i>
-      </span>
+  <div class="user-status float-left">
+    <img class="rounded-circle" src="{{message.user.avatar}}">
+    <span class="status {{message.user.status}}">
+      <i class="fa fa-circle{{message.user.status === 'unavailable' ? '-o' : ''}}"></i>
+    </span>
+  </div>
+
+  <div class="user-profile">
+    <h3 class="contact-name"><a routerLink="{{message.user.username}}">{{message.user.cn}}</a></h3>
+    <span class="extra-info">{{message.user.domain}}</span>
   </div>
 </div>
-<h4 class="contact-name"><a routerLink="{{message.user.username}}">{{message.user.cn}}</a></h4>
+<!-- END OF THE user-identity -->
 
 <!-- message -->
-<p class="quarter-vertical-padding">
-  <span class="chat"><i class="fa fa-keyboard-o"></i>Wrote a Message</span>{{message.message}}
+<p class="message">
+  <span class="chat">
+    <i class="fa fa-keyboard-o"></i>Wrote a Message
+  </span>{{message.message}}
 </p>

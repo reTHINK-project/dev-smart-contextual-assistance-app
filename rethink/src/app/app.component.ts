@@ -1,6 +1,6 @@
 import { Title } from '@angular/platform-browser';
-import { Component, OnInit, EventEmitter, HostListener } from '@angular/core';
-import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
+import { Component, OnInit, EventEmitter, HostListener, ViewChild, AfterViewInit, AfterContentInit, ElementRef } from '@angular/core';
+import { Router, ActivatedRoute, NavigationExtras, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { NotificationsService } from './components/notification/notifications.module';
@@ -12,15 +12,19 @@ import { config } from './config';
 
 // Models
 import { ContextualCommEvent, User,  ContextualComm } from './models/models';
-import { TriggerActions } from './models/app.models';
+import { TriggerActions, PageSection } from './models/app.models';
 
 // Utils
 import { normalizeName, splitFromURL, isAnUser, clearMyUsername } from './utils/utils';
 
 // Services
+import { RoutingService } from './services/routing.service';
+import { BreadcrumbService } from './services/breadcrumb.service';
+import { ContextualCommComponent } from './views/contextualComm/contextualComm.component';
 import { ContextualCommService } from './services/contextualComm.service';
 import { ContextualCommDataService } from './services/contextualCommData.service';
 import { TriggerActionService, RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
+import { NotificationEvent } from "./components/notification/notifications/interfaces/notification-event.type";
 
 @Component({
   moduleId: module.id,
@@ -28,23 +32,31 @@ import { TriggerActionService, RethinkService, ConnectorService, ChatService, Co
   templateUrl: './app.component.html'
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 
   private natNotFeedback: Subscription;
   private contextualCommEvent: Subscription;
   private actionService: Subscription;
   private connectorInvitation: Subscription;
   private chatInvitation: Subscription;
+  private routeData: Subscription;
+  private routerEvent: Subscription;
+  private connectorCancel: Subscription;
 
   private actionResult = new EventEmitter<{}>();
 
+  context: ContextualCommComponent;
+
   notificationStatus;
+  showBreadcrumb = false;
   showAlert = false;
 
   contextOpened = false;
   ready = false;
   myIdentity: User;
   status: string;
+
+  @ViewChild('section') section: ElementRef;
 
   @HostListener('window:blur', ['$event']) onBlurEvent(event: any) {
     // console.log('[App Lost Focus] - blur:', event);
@@ -60,12 +72,14 @@ export class AppComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private route: ActivatedRoute,
+    private routingService: RoutingService,
+    private breadcrumbService: BreadcrumbService,
     private natNotificationsService: NativeNotificationsService,
     private notificationsService: NotificationsService,
     private contactService: ContactService,
     private rethinkService: RethinkService,
     private triggerActionService: TriggerActionService,
-    private contextualComm: ContextualCommService,
+    private contextualCommService: ContextualCommService,
     private contextualCommDataService: ContextualCommDataService,
     private connectorService: ConnectorService,
     private chatService: ChatService) {
@@ -94,7 +108,7 @@ export class AppComponent implements OnInit {
 
     });
 
-    this.contextualCommEvent = this.contextualComm.contextualCommEvent.subscribe((event: ContextualCommEvent) => {
+    this.contextualCommEvent = this.contextualCommService.contextualCommEvent.subscribe((event: ContextualCommEvent) => {
 
       const title = 'New communication channel';
       const content = 'You have a new communication channel ' + event.contextualComm.name;
@@ -160,8 +174,35 @@ export class AppComponent implements OnInit {
 
   }
 
-  onClickClouse(event: any) {
-    console.log('AQUI:', event);
+  ngAfterViewInit() {
+
+    this.routeData = this.routingService.routingChanges.subscribe((pageSection: PageSection) => {
+      console.log('[Routing Service Output] - ', pageSection);
+
+      if (pageSection.section !== 'home') {
+        this.showBreadcrumb = true;
+      } else {
+        this.showBreadcrumb = false;
+      }
+
+      this.section.nativeElement.setAttribute('data-section', pageSection.section );
+    });
+
+  }
+
+  ngAfterContentInit() {
+
+    this.routerEvent = this.router.events.subscribe((navigation: NavigationEnd) => {
+
+      console.log('[App Component] - navigation: ', navigation);
+      if (navigation instanceof NavigationEnd) {
+
+        this.toggleSideBar();
+
+      }
+
+    })
+
   }
 
   hypertiesReady() {
@@ -213,6 +254,43 @@ export class AppComponent implements OnInit {
 
       this.actionEvent(a);
     });
+
+    const currentNotifications: NotificationEvent[] = [];
+
+    this.notificationsService.getChangeEmitter().subscribe((notification: NotificationEvent) => {
+      console.log('NotificationService - notification', notification);
+
+      if (notification.command === 'set') {
+        currentNotifications.push(notification);
+      }
+
+    })
+
+    this.connectorCancel = this.connectorService.onDisconnect.subscribe((event: any) => {
+
+      console.log('Notification Service - onDisconnect', event);
+
+      const currURL = event.url;
+      let selected;
+
+      if (currURL) {
+        selected = currentNotifications.filter((not: NotificationEvent) => {
+
+          if (not.notification.override.metadata.metadata.url === currURL) {
+            return true
+          }
+
+          return false;
+        })
+      }
+
+      if (selected.length === 1) {
+        this.notificationsService.remove(selected[0].notification.id);
+      } else {
+        this.notificationsService.remove();
+      }
+    });
+
   }
 
   private processEvent(event: any) {
@@ -297,14 +375,60 @@ export class AppComponent implements OnInit {
 
   }
 
-  onOpenContext(event?: Event) {
+  onOpenContext(event?: MouseEvent) {
     this.contextOpened = !this.contextOpened;
   }
 
   onClickOutside(event: any) {
-    console.log(event);
+    // console.log(event);
     if (event && ((event.srcElement && event.srcElement.id === 'mp-pusher') || (event.target && event.target.id === 'mp-pusher'))) {
       this.contextOpened = false;
+    }
+  }
+
+  openSecondaryContext(event: MouseEvent) {
+
+    const el: HTMLElement = event.currentTarget as HTMLElement;
+
+    if (el) {
+      if (el.classList.contains('opened')) {
+        el.classList.remove('opened');
+      } else {
+        el.classList.add('opened');
+      }
+    }
+
+    // TODO: try to put this code in Sidebar Directive
+    // TODO: i tried but i can't do it;
+    const element: HTMLElement = document.getElementById('sidebar');
+    if (element) {
+      if (element.classList.contains('opened')) {
+        element.classList.remove('opened');
+      } else {
+        element.classList.add('opened');
+      }
+    }
+
+  }
+
+
+  toggleSideBar() {
+    const element: HTMLElement = document.getElementsByClassName('menu-trigger')[0] as HTMLElement;
+    const e: MouseEvent = new MouseEvent('click');
+
+    console.log('[App Component] - navigation:', element, e);
+
+    if (element && element.classList.contains('opened') ) {
+      element.dispatchEvent(e);
+    }
+
+  }
+
+
+  onActivate(event: any ) {
+
+    if (event instanceof ContextualCommComponent) {
+      this.context = event;
     }
   }
 

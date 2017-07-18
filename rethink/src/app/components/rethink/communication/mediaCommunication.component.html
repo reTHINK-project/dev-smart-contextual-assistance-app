@@ -1,4 +1,4 @@
-<div class="{{mode}}-call ">
+<div class="{{mode}}-call col-12 col-lg-7 h-100">
 
 	<div class="video-wall">
 		<video *ngIf="stream" class="player" [src]="stream" autoplay></video>
@@ -8,35 +8,37 @@
 		<video *ngIf="myStream" class="player" [src]="myStream" autoplay muted></video>
 	</div>
 
-	<div class="contact-me align-center half-horizontal-padding">
+	<div class="contact-me align-center">
 
-		<span class="action audio mute push-left">
+    <span class="counter hidden-sm-up w-100">{{duration | amTimeElapsed}}</span>
+
+    <span class="action audio mute float-left">
 			<a href="javascript:;" (click)="onMute()"><i class="fa fa-microphone-slash"></i></a>
-		</span>
+    </span>
 
-		<span *ngIf="mode === 'audio'"  class="action audio push-center">
-			<a href="javascript:;" [routerLink]="" [queryParams]="{ action: 'video' }" (click)="enableVideo()"><i class="fa fa-video-camera"></i></a>
-		</span>
+    <span *ngIf="mode === 'audio'"  class="action video push-center">
+      <a href="javascript:;" [routerLink]="" [queryParams]="{ action: 'video' }" (click)="enableVideo()"><i class="fa fa-video-camera"></i></a>
+    </span>
 
-		<span *ngIf="mode === 'video'" class="action audio push-center">
-			<a href="javascript:;" [routerLink]="" [queryParams]="{ action: 'audio' }" (click)="disableVideo()"><i class="fa fa-phone"></i></a>
-		</span>
+    <span *ngIf="mode === 'video'" class="action audio push-center">
+      <a href="javascript:;" [routerLink]="" [queryParams]="{ action: 'audio' }" (click)="disableVideo()"><i class="fa fa-phone"></i></a>
+    </span>
 
-		<span *ngIf="mode === 'audio'" class="action audio hangup push-center">
-			<a href="javascript:;" [routerLink]="" [queryParams]="{}"><i class="fa fa-phone"></i></a>
-		</span>
+    <span *ngIf="mode === 'audio'" class="action audio hangup push-center">
+      <a href="javascript:;" [routerLink]="" [queryParams]="{}"><i class="fa fa-phone"></i></a>
+    </span>
 
-		<span *ngIf="mode === 'video'" class="action video hangup push-center">
-			<a href="javascript:;" [routerLink]="" [queryParams]="{}"><i class="fa fa-video-camera"></i></a>
-		</span>
+    <span *ngIf="mode === 'video'" class="action video hangup push-center">
+      <a href="javascript:;" [routerLink]="" [queryParams]="{}"><i class="fa fa-video-camera"></i></a>
+    </span>
 
-		<span class="counter">{{duration | amTimeElapsed}}</span>
+    <span class="counter hidden-xs-down">{{duration | amTimeElapsed}}</span>
 
-		<span class="action volume push-right">
+		<span class="action volume float-right float-left">
 			<a href="javascript:;" (click)="onVolume()"><i class="fa fa-volume-up"></i></a>
 		</span>
 
-		<span class="action full-screen push-right">
+		<span class="action full-screen float-right">
 			<a href="javascript:;" (click)="onFullscreen()"><i class="fa fa-arrows-alt"></i></a>
 		</span>
 	</div>

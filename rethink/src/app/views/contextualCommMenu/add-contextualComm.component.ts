@@ -25,7 +25,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     moduleId: module.id,
-    selector: 'add-contextualComm-view',
+    selector: 'add-contextualcomm-view',
     templateUrl: './add-contextualComm.component.html',
     styleUrls: ['./add-contextualComm.component.css']
 })
@@ -146,6 +146,9 @@ export class AddContextualCommComponent implements OnInit, OnDestroy {
       'parent' : [{value: this.model.parent, disabled: true }],
       'icon' : [this.model.icon]
     });
+
+
+    // console.log('[AddContextualComm] - controls: ', this.complexForm.controls);
   }
 
   open(content: any) {

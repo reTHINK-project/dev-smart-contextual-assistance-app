@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, OnDestroy, HostBinding, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, OnDestroy, HostBinding, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 import { NativeNotificationsService } from '../../notification/native-notifications/services/native-notifications.service';
@@ -16,7 +16,7 @@ import { ContextualCommDataService } from '../../../services/contextualCommData.
 })
 export class ChatCommunicationComponent implements OnInit, OnDestroy {
 
-  @HostBinding('class') hostClass = 'message-sender hide-small hide-tiny float-right';
+  @HostBinding('class') hostClass = 'message-sender';
 
   @Input() active = false;
   @Output() onMessage = new EventEmitter();

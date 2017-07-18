@@ -27,18 +27,14 @@
             </div>
 
             <div class="form-group">
-              <ul class="contactlist">
+              <ul class="contact-list">
                 <li class="item" *ngFor="let user of contactList | async" (click)="contactClick.emit(user)">
-                    <div class="contact-avatar push-left">
-                        <img src="{{user.avatar}}">
-                        <span class="status {{user.status}}"><i class="fa fa-circle"></i></span>
-                    </div>
-                    <div class="all-70">
-                        <h4 class="contact-name"><a href="javascript:;" class="">{{user.cn}}</a></h4>
-                    </div>
-                    <div class="pointer">
-                        <span class="action chat"><i class="fa fa-angle-right"></i></span>
-                    </div>
+                    <a class="link" routerLinkActive="active">
+                      <user-identity [model]="user"></user-identity>
+                      <div class="pointer">
+                          <span class="action chat"><i class="fa fa-angle-right"></i></span>
+                      </div>
+                    </a>
                 </li>
               </ul>
             </div>
@@ -53,28 +49,28 @@
           </div>
 
           <form class="invite" #inviteForm (submit)="submitEvent(inviteForm.value)">
-            
+
             <div class="form-group">
-              <input type="text" [disabled]="busy" [(ngModel)]="model.email" ngControl="email" name="email" 
-              class="quarter-padding" placeholder="someone@mail.com" required>
+              <input type="text" [disabled]="busy" [(ngModel)]="model.email" ngControl="email" name="email"
+              class="form-control" placeholder="someone@mail.com" required>
             </div>
 
             <div class="form-group">
-              <input type="text" [disabled]="busy" [(ngModel)]="model.domain" ngControl="domain" name="domain" 
-                class="quarter-padding" placeholder="some.domain.com" required>
+              <input type="text" [disabled]="busy" [(ngModel)]="model.domain" ngControl="domain" name="domain"
+                class="form-control" placeholder="some.domain.com" required>
             </div>
 
             <div class="progress" [style.display]="!busy ? 'none' : 'block'">
-              <div class="progress-bar progress-bar-striped active" role="progressbar" 
-              aria-valuenow="100" aria-valuemin="0" 
-              aria-valuemax="100" 
+              <div class="progress-bar progress-bar-striped active" role="progressbar"
+              aria-valuenow="100" aria-valuemin="0"
+              aria-valuemax="100"
               style="width: 100%">
                 <span class="sr-only">Inviting</span>
               </div>
             </div>
 
             <div class="fx-login-submit">
-              <button class="" [disabled]="busy" type="submit">Invite</button>
+              <button class="btn btn-success" [disabled]="busy" type="submit">Invite</button>
             </div>
           </form>
         </div>
@@ -87,7 +83,6 @@
 
 
 <!-- Add contact button -->
-<a href="javascript:;" class="float-left w-100 pl-2 pr-2 pt-1 pb-1" (click)="open(addUserContent)">
-  <span class="add-user"><a href="javascript:;">+</a></span>
-  <span class="add-text">Add Contact</span>
+<a href="javascript:;" class="float-left" (click)="open(addUserContent)">
+  <i class="fa fa-plus-circle"></i>Add Contact
 </a>

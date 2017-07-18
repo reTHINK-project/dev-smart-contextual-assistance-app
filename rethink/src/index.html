@@ -1,9 +1,15 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-100">
   <head>
     <title>reThink Project</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="theme-color" content="#364258" />
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <link rel="manifest" href="./manifest.json">
+
     <base href="/">
 
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -11,13 +17,32 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="assets/css/ink.min.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="assets/css/ink.min.css" /> -->
+
+<!--     <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./service-worker.js').then(function(registration) {
+          // Registration was successful
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }).catch(function(err) {
+          // registration failed :(
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      }
+    </script> -->
 
   </head>
 
-  <body class="rethink work">
+  <body class="rethink work h-100">
+
     <rethink-app>
-      Loading Rethink ...
+      <!-- Loading spinner when wait for the auth and app be ready -->
+      <div  class="main-content d-flex flex-row align-items-center h-100">
+        <div class="mx-auto text-center">
+          <i class="fa fa-cog fa-spin fa-4x"></i>
+        </div>
+      </div>
     </rethink-app>
+
   </body>
 </html>

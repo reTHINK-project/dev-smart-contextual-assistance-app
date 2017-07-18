@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, HostBinding, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, HostBinding, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 
 // Models
@@ -13,11 +13,11 @@ import { Subscription } from 'rxjs/Subscription';
   moduleId: module.id,
   selector: 'div[media-view]',
   templateUrl: './mediaCommunication.component.html',
-  styleUrls: ['./mediaCommunication.component.css']
+  styleUrls: ['./mediaCommunication.component.scss']
 })
 export class MediaCommunicationComponent implements OnInit, OnDestroy {
   notificationsService: any;
-  @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100';
+  @HostBinding('class') hostClass = 'video-box row no-gutters h-100';
 
   @Input() user: User;
   @Input() mode: string;
@@ -47,7 +47,7 @@ export class MediaCommunicationComponent implements OnInit, OnDestroy {
     this.subscription = this.router.events.subscribe((event: NavigationEnd) => {
 
       if (event instanceof NavigationEnd) {
-        let action = event['action'];
+        const action = event['action'];
         console.log('[Media Communication Component] - Params Action:', action);
         this.mode = action;
         this.connectorService.mode = action;

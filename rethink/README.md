@@ -18,6 +18,48 @@ make sure you have Visual Studio installed and for the module raising this error
 `npm install node-sass -msvs_version=2008`
 
 
+### Mobile testing
+
+Some notes for testing the application in development mode on the smartphone.
+
+It's a little tricky testing the app in one smartphone. :) 
+
+#### Initial Configuration
+- you should start the msg-node with your choosen domain, like, `local.dev` or `testing.dev`, in my case i have `vitor.dev`
+- start the message-node for the domain you choose.
+- configure the toolkit on the [env file](https://github.com/reTHINK-project/dev-hyperty-toolkit/blob/develop/env) to reflect your domain and start it with `npm run start:dev`;
+- go here [google apps](https://console.cloud.google.com/apis/credentials/oauthclient/808329566012-tqr8qoh111942gd2kg007t0s8f277roi.apps.googleusercontent.com?project=my-openid-project-1138) and add your domain to the `Authorized redirect URIs` list;
+- get your machine IP
+
+#### Application Configuration
+- replace `<your ip address> for your IP in the follwoing entry on the package.json
+```shell
+  "mobile": "ng serve --live-reload false --ec true --host <your ip address>",
+```
+- start the app
+```shell
+npm run start:mobile
+```
+
+#### Smartphone Configuration
+- need to root your smartphone (not recommended, try to use an old smartphone)
+- need to install one application to access your smartphone hosts, and need to add the following domains:
+
+NOTE: we can't use localhost directly, is rejected by the smartphone, we don't understand why.
+in my case i configured the app to responde to my domain: vitor.dev
+
+```shell
+<your ip> <domain.dev>
+<your ip> catalogue.<domain.dev>
+<your ip> msg-node.<domain.dev>
+```
+- connect your smartphone to your current network, your development environment and your smartphone should be in the same network.
+- now open your chrome and write on the address bar: `https://<your ip address>:8080`
+
+If something is not working right please open an [issue](https://github.com/reTHINK-project/dev-smart-contextual-assistance-app/issues/new);
+
+Thank you;
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `https://localhost:8080/`. The app will automatically reload if you change any of the source files.
