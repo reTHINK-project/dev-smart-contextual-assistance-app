@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-100">
   <head>
     <title>reThink Project</title>
     <meta charset="UTF-8">
@@ -13,8 +13,6 @@
     <base href="/">
 
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-
-
 
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -35,9 +33,16 @@
 
   </head>
 
-  <body class="rethink work">
+  <body class="rethink work h-100">
+
     <rethink-app>
-      Loading Rethink ...
+      <!-- Loading spinner when wait for the auth and app be ready -->
+      <div  class="main-content d-flex flex-row align-items-center h-100">
+        <div class="mx-auto text-center">
+          <i class="fa fa-cog fa-spin fa-4x"></i>
+        </div>
+      </div>
     </rethink-app>
+
   </body>
 </html>

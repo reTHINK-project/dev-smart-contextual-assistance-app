@@ -13,11 +13,11 @@ import { Subscription } from 'rxjs/Subscription';
   moduleId: module.id,
   selector: 'div[media-view]',
   templateUrl: './mediaCommunication.component.html',
-  styleUrls: ['./mediaCommunication.component.css']
+  styleUrls: ['./mediaCommunication.component.scss']
 })
 export class MediaCommunicationComponent implements OnInit, OnDestroy {
   notificationsService: any;
-  @HostBinding('class') hostClass = 'all-75 large-65 xlarge-65 medium-100';
+  @HostBinding('class') hostClass = 'video-box row no-gutters';
 
   @Input() user: User;
   @Input() mode: string;
