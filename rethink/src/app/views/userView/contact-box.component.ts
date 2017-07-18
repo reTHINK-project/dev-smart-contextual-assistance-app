@@ -9,7 +9,7 @@ import { User } from '../../models/models';
 })
 export class ContactBoxComponent {
   // TODO: Use with the Bootstrap: user-identity contactbox p-4 col-12
-  @HostBinding('class') hostClass = 'contact-box w-100';
+  @HostBinding('class') hostClass = 'contact-box float-left w-100';
 
   @Input() user: User;
   @Output() closeEvent = new EventEmitter();

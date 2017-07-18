@@ -1,8 +1,10 @@
+import { environment } from '../environments/environment';
+
 export const config = {
   pageTitlePrefix: 'reThink Project - ',
   appPrefix: 'sca',
   splitChar: '/',
-  domain: 'vitor.dev',
+  domain: environment.host,
   images: '../assets/img/',
   sounds: '../assets/sounds/'
 };

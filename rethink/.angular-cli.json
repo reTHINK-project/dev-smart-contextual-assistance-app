@@ -62,7 +62,7 @@
     },
     "serve": {
       "port": 8080,
-      "host": "vitor.dev",
+      "host": "localhost",
       "ssl": true,
       "sslKey": "ssl/server.key",
       "sslCert": "ssl/server.crt"

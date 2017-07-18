@@ -25,7 +25,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     moduleId: module.id,
-    selector: 'add-contextualComm-view',
+    selector: 'add-contextualcomm-view',
     templateUrl: './add-contextualComm.component.html',
     styleUrls: ['./add-contextualComm.component.css']
 })

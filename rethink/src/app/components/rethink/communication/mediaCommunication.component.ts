@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class MediaCommunicationComponent implements OnInit, OnDestroy {
   notificationsService: any;
-  @HostBinding('class') hostClass = 'video-box row no-gutters';
+  @HostBinding('class') hostClass = 'video-box row no-gutters h-100';
 
   @Input() user: User;
   @Input() mode: string;

@@ -1,6 +1,6 @@
 import { Title } from '@angular/platform-browser';
-import { Component, OnInit, EventEmitter, HostListener, ViewChild, ViewContainerRef, AfterViewInit, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
+import { Component, OnInit, EventEmitter, HostListener, ViewChild, AfterViewInit, AfterContentInit, ElementRef } from '@angular/core';
+import { Router, ActivatedRoute, NavigationExtras, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { NotificationsService } from './components/notification/notifications.module';
@@ -31,7 +31,7 @@ import { TriggerActionService, RethinkService, ConnectorService, ChatService, Co
   templateUrl: './app.component.html'
 })
 
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 
   private natNotFeedback: Subscription;
   private contextualCommEvent: Subscription;
@@ -39,13 +39,14 @@ export class AppComponent implements OnInit, AfterViewInit {
   private connectorInvitation: Subscription;
   private chatInvitation: Subscription;
   private routeData: Subscription;
+  private routerEvent: Subscription;
 
-  private showBreadcrumb = false;
   private actionResult = new EventEmitter<{}>();
 
   context: ContextualCommComponent;
 
   notificationStatus;
+  showBreadcrumb = false;
   showAlert = false;
 
   contextOpened = false;
@@ -184,6 +185,21 @@ export class AppComponent implements OnInit, AfterViewInit {
 
       this.section.nativeElement.setAttribute('data-section', pageSection.section );
     });
+
+  }
+
+  ngAfterContentInit() {
+
+    this.routerEvent = this.router.events.subscribe((navigation: NavigationEnd) => {
+
+      console.log('[App Component] - navigation: ', navigation);
+      if (navigation instanceof NavigationEnd) {
+
+        this.toggleSideBar();
+
+      }
+
+    })
 
   }
 
@@ -355,6 +371,20 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
   }
+
+
+  toggleSideBar() {
+    const element: HTMLElement = document.getElementsByClassName('menu-trigger')[0] as HTMLElement;
+    const e: MouseEvent = new MouseEvent('click');
+
+    console.log('[App Component] - navigation:', element, e);
+
+    if (element && element.classList.contains('opened') ) {
+      element.dispatchEvent(e);
+    }
+
+  }
+
 
   onActivate(event: any ) {
 
