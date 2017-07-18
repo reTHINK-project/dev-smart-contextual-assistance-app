@@ -24,6 +24,7 @@ import { ContextualCommComponent } from './views/contextualComm/contextualComm.c
 import { ContextualCommService } from './services/contextualComm.service';
 import { ContextualCommDataService } from './services/contextualCommData.service';
 import { TriggerActionService, RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
+import { NotificationEvent } from "./components/notification/notifications/interfaces/notification-event.type";
 
 @Component({
   moduleId: module.id,
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   private chatInvitation: Subscription;
   private routeData: Subscription;
   private routerEvent: Subscription;
+  private connectorCancel: Subscription;
 
   private actionResult = new EventEmitter<{}>();
 
@@ -252,6 +254,43 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 
       this.actionEvent(a);
     });
+
+    const currentNotifications: NotificationEvent[] = [];
+
+    this.notificationsService.getChangeEmitter().subscribe((notification: NotificationEvent) => {
+      console.log('NotificationService - notification', notification);
+
+      if (notification.command === 'set') {
+        currentNotifications.push(notification);
+      }
+
+    })
+
+    this.connectorCancel = this.connectorService.onDisconnect.subscribe((event: any) => {
+
+      console.log('Notification Service - onDisconnect', event);
+
+      const currURL = event.url;
+      let selected;
+
+      if (currURL) {
+        selected = currentNotifications.filter((not: NotificationEvent) => {
+
+          if (not.notification.override.metadata.metadata.url === currURL) {
+            return true
+          }
+
+          return false;
+        })
+      }
+
+      if (selected.length === 1) {
+        this.notificationsService.remove(selected[0].notification.id);
+      } else {
+        this.notificationsService.remove();
+      }
+    });
+
   }
 
   private processEvent(event: any) {

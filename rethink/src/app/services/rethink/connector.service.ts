@@ -60,6 +60,7 @@ export class ConnectorService {
   }
 
   @Output() onInvitation: EventEmitter<any> = new EventEmitter();
+  @Output() onDisconnect: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private router: Router,
@@ -193,8 +194,8 @@ export class ConnectorService {
 
     });
 
-    controller.onDisconnect((identity: any) => {
-      console.log('[Connector Service - onDisconnect] - onDisconnect:', identity);
+    controller.onDisconnect((event: any) => {
+      console.log('[Connector Service - onDisconnect] - onDisconnect:', event);
 
       const navigationExtras: NavigationExtras = {
         queryParams: {},
@@ -203,6 +204,8 @@ export class ConnectorService {
 
       this.router.navigate([], navigationExtras);
       this._connectorStatus.next(STATUS.END);
+
+      this.onDisconnect.emit({user: event.identity, url: event.url});
     });
 
   }
