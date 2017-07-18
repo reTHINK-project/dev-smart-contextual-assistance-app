@@ -35,15 +35,15 @@ export class ActivateTaskGuard implements CanActivate {
         next: (value: boolean) => {
 
           if (value) {
-            let path = state.url;
-            let context = route.params['context'];
-            let task = route.params['task'];
+            const path = state.url;
+            const context = route.params['context'];
+            const task = route.params['task'];
 
-            let normalizedPath = normalizeFromURL(path, this.contactService.sessionUser.username);
+            const normalizedPath = normalizeFromURL(path, this.contactService.sessionUser.username);
 
             console.log('[Activate Task Guard] - ', context, task, state, normalizedPath);
 
-            let normalizedName = normalizeName(normalizedPath);
+            const normalizedName = normalizeName(normalizedPath);
 
             console.log('[Activate Task Guard - Activate] - normalized path: ', normalizedPath);
             console.log('[Activate Task Guard - Activate] - normalized name: ', normalizedName);

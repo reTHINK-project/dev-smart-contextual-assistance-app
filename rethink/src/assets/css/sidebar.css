@@ -90,7 +90,7 @@
   font-size: 14px;
 }
 
-.sidebar-content .list .item .link:hover .pointer, 
+.sidebar-content .list .item .link:hover .pointer,
 .sidebar-content .list .item .link.active .pointer {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;

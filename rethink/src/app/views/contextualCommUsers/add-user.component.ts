@@ -124,27 +124,27 @@ export class AddUserComponent implements OnInit {
         return currentChat;
       }).then((currentController: any) => {
 
-        if (isALegacyUser(this.model.email)) {
-          throw new Error('Is a legacy user');
+        if (!isALegacyUser(this.model.email)) {
+
+          console.log('[Add User Component] - current controller', currentController);
+          const normalizedPath = normalizeFromURL(path + '/user/' + this.model.email, this.contactService.sessionUser.username);
+          const normalizedName = normalizeName(normalizedPath);
+
+          console.log('[Add User Component] - normalized name: ', normalizedName);
+
+          return this.contextualCommDataService.createAtomicContext(
+              this.model.email,
+              normalizedName.name,
+              normalizedName.id,
+              normalizedName.parent);
         }
-
-        console.log('[Add User Component] - current controller', currentController);
-        const normalizedPath = normalizeFromURL(path + '/user/' + this.model.email, this.contactService.sessionUser.username);
-        const normalizedName = normalizeName(normalizedPath);
-
-        console.log('[Add User Component] - normalized name: ', normalizedName);
-
-        return this.contextualCommDataService.createAtomicContext(
-            this.model.email,
-            normalizedName.name,
-            normalizedName.id,
-            normalizedName.parent);
       }).then((childController: any) => {
 
         console.log('[Add User Component] - one to one controller', childController);
 
         this.busy = false;
         this.clean();
+
       }).catch((reason: any) => { this.errorNotificateSystem(reason); });
 
     }, (reason: any) => {

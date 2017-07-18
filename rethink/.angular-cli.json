@@ -20,6 +20,17 @@
       "prefix": "app",
       "styles": [
         "styles.css",
+        "assets/css/rethink.css",
+        "assets/css/new-rethink.css",
+        "assets/css/context-menu.css",
+        "assets/css/forms.css",
+        "assets/css/breadcrumb.css",
+        "assets/css/current-user.css",
+        "assets/css/notification.css",
+        "assets/css/nested-list.css",
+        "assets/css/search.css",
+        "assets/css/sidebar.css",
+        "assets/css/modals.css",
         "../node_modules/bootstrap/dist/css/bootstrap.css"
       ],
       "scripts": [
@@ -61,8 +72,7 @@
       "host": "localhost",
       "ssl": true,
       "sslCert": "ssl/server.crt",
-      "sslKey": "ssl/server.key",
-      "liveReload": false
+      "sslKey": "ssl/server.key"
     }
   }
 }

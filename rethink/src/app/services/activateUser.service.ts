@@ -47,7 +47,7 @@ export class ActivateUserGuard implements CanActivate {
             console.log('[Activate User Guard - Activate] - normalized path: ', normalizedPath);
             console.log('[Activate User Guard - Activate] - normalized name: ', normalizedName);
 
-            this.contextualCommDataService.getContext(normalizedName.name).subscribe(
+            this.contextualCommDataService.getContextById(normalizedName.id).subscribe(
               (currentContext: ContextualComm) => {
                 this.activateContext(currentContext);
                 resolve(true);
@@ -71,7 +71,9 @@ export class ActivateUserGuard implements CanActivate {
                   }
                 }, (reason: any) => {
 
-                  if (user && this.contactService.getByUserName(user).isLegacy) {
+                  const currentUser = this.contactService.getByUserName(user);
+
+                  if (user && currentUser && currentUser.isLegacy) {
                     reject('This kind of user do not allow private messages');
                   } else {
                     // TODO Handle this logs and the expection

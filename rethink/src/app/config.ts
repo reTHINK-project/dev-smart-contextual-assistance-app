@@ -3,5 +3,6 @@ export const config = {
   appPrefix: 'sca',
   splitChar: '/',
   domain: 'localhost',
+  images: '../assets/img/',
   sounds: '../assets/sounds/'
 };

@@ -59,7 +59,7 @@ export class ConnectorService {
     this._mode = value;
   }
 
-  @Output() onInvitation = new EventEmitter();
+  @Output() onInvitation: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private router: Router,

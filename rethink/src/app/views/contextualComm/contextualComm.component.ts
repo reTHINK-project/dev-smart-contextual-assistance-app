@@ -73,12 +73,7 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
       console.log('[ContextualComm View - get parent active context]:', normalizedName);
 
       let result: Observable<ContextualComm>;
-
-      if (isAnUser(normalizedName.name)) {
-        result = this.contextualCommDataService.getContext(normalizedName.name);
-      } else {
-        result = this.contextualCommDataService.getContextById(normalizedName.id);
-      }
+      result = this.contextualCommDataService.getContextById(normalizedName.id);
 
       result.subscribe((parentContext: ContextualComm) => {
         console.log('[ContextualComm View - get parent context]:', parentContext);
@@ -100,13 +95,16 @@ export class ContextualCommComponent implements OnInit, AfterViewInit {
   }
 
   updateView() {
-    const parentEl = this.content.element.nativeElement.parentElement;
-    const currentEl = this.content.element.nativeElement;
-    const parentHeight = parentEl.offsetHeight;
-    const topMargin = 60;
-    const bottomPadding = 60;
-    const height = parentHeight - (topMargin + bottomPadding) + 'px';
-    currentEl.style.height = height;
+    // const parentEl = this.content.element.nativeElement.parentElement;
+    // const currentEl = this.content.element.nativeElement;
+
+    // const parentHeight = parentEl.offsetHeight;
+    // const bottomPadding = 50;
+    // const height = (parentHeight - bottomPadding) + 'px';
+
+    // console.log('SIZE:', parentEl, currentEl, height);
+
+    // currentEl.style.height = height;
   }
 
   onInviteEvent(value: any) {

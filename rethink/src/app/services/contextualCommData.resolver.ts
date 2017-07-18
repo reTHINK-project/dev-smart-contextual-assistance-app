@@ -1,4 +1,4 @@
-import { Injectable }             from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router, Resolve,
          ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Title } from '@angular/platform-browser';
@@ -34,10 +34,10 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
 
     return new Promise((resolve, reject) => {
 
-      let context = route.params['context'];
-      let task = route.params['task'];
-      let user = route.params['user'];
-      let path = state.url;
+      const context = route.params['context'];
+      const task = route.params['task'];
+      const user = route.params['user'];
+      const path = state.url;
       let name = '';
       let title = '';
 
@@ -49,12 +49,12 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
 
       name = normalizeFromURL(path, this.contactService.sessionUser.username);
 
-      let normalizedName = normalizeName(name);
+      const normalizedName = normalizeName(name);
 
       console.log('[ContextualCommData - Resolve] - normalized name:', name, task, normalizedName, path, user);
 
       if (isAnUser(normalizedName.name)) {
-        this.contextualCommDataService.getContext(normalizedName.name).subscribe({
+        this.contextualCommDataService.getContextById(normalizedName.id).subscribe({
           next: contextualComm => resolve(contextualComm),
           error: reason => {
             console.log('[ContextualCommData - Resolve] - user:', reason);

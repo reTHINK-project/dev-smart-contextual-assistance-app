@@ -14,7 +14,7 @@ export class RethinkValidators {
 
     return (control: AbstractControl): Promise<{[key: string]: any}> | Observable<{[key: string]: any}> => {
 
-      let name: string = control.value.toLowerCase();
+      const name: string = control.value.toLowerCase();
       return new Promise((resolve) => {
 
         contextualCommDataService.getContext(name).subscribe((context: ContextualComm) => {

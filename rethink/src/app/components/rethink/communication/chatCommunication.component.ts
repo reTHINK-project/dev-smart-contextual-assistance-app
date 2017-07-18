@@ -16,7 +16,7 @@ import { ContextualCommDataService } from '../../../services/contextualCommData.
 })
 export class ChatCommunicationComponent implements OnInit, OnDestroy {
 
-  @HostBinding('class') hostClass = 'message-sender all-75 medium-70 xlarge-80 hide-small hide-tiny push-right';
+  @HostBinding('class') hostClass = 'message-sender hide-small hide-tiny float-right';
 
   @Input() active = false;
   @Output() onMessage = new EventEmitter();
@@ -59,7 +59,7 @@ export class ChatCommunicationComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    let message = this.model.message;
+    const message = this.model.message;
 
     if (message) {
       console.log('[Chat Communication View - onMessage] - Message:', message, this.chatService.chatControllerActive);

@@ -78,7 +78,7 @@ export class ContextualCommDataService {
 
         resolve(context);
       }).catch((reason: any) => {
-        console.error('Reason:', reason);
+        // console.error('Reason:', reason);
 
         return this.contextualCommService.create(name, dataObject, parentNameId);
       }).then((context: ContextualComm) => {
@@ -95,9 +95,9 @@ export class ContextualCommDataService {
 
       const activeContext = this.contextualCommService.getActiveContext;
 
-      console.log('[ContextualCommData Service] - normalizedName:', name);
+      console.log('[ContextualCommData Service] - normalizedName:', name, id, parentNameId);
 
-      this.getContext(name).subscribe((context: ContextualComm) => {
+      this.getContextById(id).subscribe((context: ContextualComm) => {
         resolve(context);
       }, (error: any) => {
 

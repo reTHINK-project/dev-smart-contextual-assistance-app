@@ -239,7 +239,6 @@ body.rethink ul.context-menu li.half-padding.search-bar input.search:focus {
 }
 /* line 292, ../sass/rethink.scss */
 body.rethink .scroller {
-  overflow-y: hidden;
   position: relative;
   height: 100%;
 }
@@ -254,13 +253,11 @@ body.rethink div.scroller-inner {
 }
 /* line 308, ../sass/rethink.scss */
 body.rethink div.scroller-inner .message-sender {
-  position: fixed;
-  bottom: 0;
-  right: 0;
+  height: 72px;
+  min-height: 72px;
+  overflow: hidden;
   border-top: 1px solid #ddd;
   background-color: #f6f6f6;
-  margin-top: -46px;
-  max-height: 62px;
             /*span.send-file {
                 font-size: 22px;
                 margin-right: 12px;
@@ -775,13 +772,7 @@ body.rethink.fitness div.sidebar {
 body.rethink.fitness div.full-bar {
   background-color: #ff6600;
 }
-/* line 854, ../sass/rethink.scss */
-body.rethink .bk-login {
-  background-color: transparent;
-  background-image: url("../img/rethink-bk.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
+
 /* line 861, ../sass/rethink.scss */
 body.rethink #map {
   width: 100%;
@@ -1093,14 +1084,6 @@ body.rethink div.wrapper {
   -ms-border-radius: 2px;
   -o-border-radius: 2px;
   border-radius: 2px;
-}
-/* line 1159, ../sass/rethink.scss */
-body.rethink h1.big-logo {
-  background-image: url("../img/rethink-logo-big.png");
-  background-repeat: no-repeat;
-  height: 48px;
-  width: 100px;
-  margin: 0 auto;
 }
 
 /* line 1176, ../sass/rethink.scss */
@@ -1606,10 +1589,9 @@ body.rethink div.archive ul.activity-list li.search-bar form.filter span.fa.fa-s
 /* line 1669, ../sass/rethink.scss */
 body.rethink div.sidebar {
   display: block;
-  height: 100%;
-  position: fixed;
-  min-height: 100vh;
-  padding-top: 60px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
 }
 /* line 1677, ../sass/rethink.scss */
 body.rethink div.inputbox {
@@ -2021,13 +2003,13 @@ body.rethink ul.contactlist .item {
 }
 
 /* line 2069, ../sass/rethink.scss */
-body.rethink ul.contactlist .item:hover, 
+body.rethink ul.contactlist .item:hover,
 body.rethink ul.contactlist .item.active {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.15);
 }
 /* line 2073, ../sass/rethink.scss */
-body.rethink ul.contactlist .item:hover div.pointer, 
+body.rethink ul.contactlist .item:hover div.pointer,
 body.rethink ul.contactlist .item.active div.pointer {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
@@ -2796,10 +2778,6 @@ body.rethink div.content-box.user div.filetransfer {
 /* line 2873, ../sass/rethink.scss */
 body.rethink div.content-box.user span.chat {
   display: block;
-}
-/* line 2879, ../sass/rethink.scss */
-body.rethink div.sidebar {
-  position: fixed;
 }
 
 /* line 2897, ../sass/rethink.scss */
