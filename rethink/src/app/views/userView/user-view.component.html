@@ -1,11 +1,11 @@
-<div media-view *ngIf="action === 'video' || action === 'audio'" [mode]="action" [user]="user"></div>
-<contact-box *ngIf="!action" [user]="user" (closeEvent)="onCloseEvent()"></contact-box>
+<media-view fullscreen [hidden]="action !== 'video' && action !== 'audio'" [mode]="action" [user]="user"></media-view>
+<contact-box *ngIf="!action" [user]="user" (callEvent)="onCallEvent($event)" (closeEvent)="onCloseEvent()"></contact-box>
 
 
 <div class="overflow-content w-100 h-100">
   <div class="row h-100 no-gutters">
     <div class="col-12 col-lg-7 h-100">
-      <ul context-activity-list [messages]="messages"></ul>
+      <context-activity-list [messages]="messages"></context-activity-list>
     </div>
 
     <div class="col-12 col-lg-5 h-100">

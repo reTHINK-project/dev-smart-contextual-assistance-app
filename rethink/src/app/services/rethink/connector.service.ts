@@ -109,15 +109,15 @@ export class ConnectorService {
   acceptCall() {
 
     console.log('[Connector Service] - AcceptCall: ', this.controllers, this.controllers.hasOwnProperty('ansewer'));
-    console.log('[Connector Service] - AcceptCall: ', this._webrtcMode);
+    console.log('[Connector Service] - AcceptCall: ', this.connectorMode);
 
-    if (this.controllers && this.controllers.hasOwnProperty('answer') && this._webrtcMode === 'answer') {
+    if (this.controllers && this.controllers.hasOwnProperty('answer') && this.connectorMode === 'answer') {
 
       const options = {video: true, audio: true};
 
       getUserMedia(options).then((mediaStream: MediaStream) => {
         this._localStream.next(mediaStream);
-        return this.controllers[this._webrtcMode].accept(mediaStream);
+        return this.controllers[this.connectorMode].accept(mediaStream);
       }).then((accepted) => {
         this.callInProgress = true;
 
@@ -126,7 +126,7 @@ export class ConnectorService {
         console.log('[Connector Service] - accept response:', this.mode);
 
       if (this.mode === 'audio') {
-        this.controllers[this._webrtcMode].disableVideo();
+        this.controllers[this.connectorMode].disableVideo();
       }
 
       }).catch((reason) => {
@@ -134,7 +134,7 @@ export class ConnectorService {
       });
 
     } else {
-      // console.error('error accepting call', this.controllers, this.controllers.hasOwnProperty('ansewer'), this._webrtcMode);
+      // console.error('error accepting call', this.controllers, this.controllers.hasOwnProperty('ansewer'), this.connectorMode);
     }
 
   }
@@ -147,7 +147,7 @@ export class ConnectorService {
 
       const metadata = controller.dataObjectObserver.metadata;
       this.mode = controller.dataObjectObserver.data.mode;
-      this._webrtcMode = 'answer';
+      this.connectorMode = 'answer';
       this.prepareController(controller);
 
       const currUser: User = this.contactService.getUser(identity.userURL);
@@ -160,7 +160,7 @@ export class ConnectorService {
 
   connect(userURL: string, options: any, name: string, domain: string) {
 
-    this._webrtcMode = 'offer';
+    this.connectorMode = 'offer';
 
     return getUserMedia(options).then((mediaStream: MediaStream) => {
       this._localStream.next(mediaStream);
@@ -181,8 +181,8 @@ export class ConnectorService {
 
   prepareController(controller: any) {
 
-    console.log('[Connector Service - Prepare Controller] - mode: ' + this._webrtcMode + ' Controllers: ', this.controllers);
-    this.controllers[this._webrtcMode] = controller;
+    console.log('[Connector Service - Prepare Controller] - mode: ' + this.connectorMode + ' Controllers: ', this.controllers);
+    this.controllers[this.connectorMode] = controller;
 
     controller.onAddStream((event: any) => {
       console.log('[Connector Service - Add Stream] - Remote Stream:', event);
@@ -228,29 +228,30 @@ export class ConnectorService {
   }
 
   enableVideo() {
-    this.controllers[this._webrtcMode].disableVideo(true);
+    this.controllers[this.connectorMode].disableVideo(true);
   }
 
   disableVideo() {
-    this.controllers[this._webrtcMode].disableVideo(false);
+    this.controllers[this.connectorMode].disableVideo(false);
   }
 
   disableAudio() {
-    this.controllers[this._webrtcMode].disableAudio();
+    this.controllers[this.connectorMode].disableAudio();
   }
 
   mute() {
-    this.controllers[this._webrtcMode].mute();
+    this.controllers[this.connectorMode].mute();
   }
 
   hangup() {
-    this.callInProgress = false;
-    this.controllers[this._webrtcMode].disconnect();
-    this._connectorStatus.next(STATUS.END);
-    this._remoteStream = new ReplaySubject();
-    this.connectorMode = 'offer';
 
     console.log('[Connector Service - hangup]: ', this);
+
+    this.callInProgress = false;
+    this.controllers[this.connectorMode].disconnect();
+    this._connectorStatus.next(STATUS.END);
+    this.connectorMode = 'offer';
+
   }
 
 }

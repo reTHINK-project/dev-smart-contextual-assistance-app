@@ -108,8 +108,7 @@
     ],
     "directive-selector": [
       true,
-      "attribute",
-      "camelCase"
+      "attribute"
     ],
     "component-selector": [
       true,

@@ -1,11 +1,13 @@
-<div class="{{mode}}-call col-12 col-lg-7 h-100">
+<div fullscreen class="{{mode}}-call col-12 col-lg-7 h-100">
+
+  <video #test class="player" autoplay></video>
 
 	<div class="video-wall">
-		<video *ngIf="stream" class="player" [src]="stream" autoplay></video>
+		<video #remote *ngIf="stream" class="player" [src]="stream" autoplay></video>
 	</div>
 
 	<div *ngIf="mode === 'video'" class="video-wall my-video-wall">
-		<video *ngIf="myStream" class="player" [src]="myStream" autoplay muted></video>
+		<video #local *ngIf="myStream" class="player" [src]="myStream" autoplay muted></video>
 	</div>
 
 	<div class="contact-me align-center">
@@ -25,11 +27,11 @@
     </span>
 
     <span *ngIf="mode === 'audio'" class="action audio hangup push-center">
-      <a href="javascript:;" [routerLink]="" [queryParams]="{}"><i class="fa fa-phone"></i></a>
+      <a (click)="onHangup($event)" [routerLink]="" [queryParams]="{}"><i class="fa fa-phone"></i></a>
     </span>
 
     <span *ngIf="mode === 'video'" class="action video hangup push-center">
-      <a href="javascript:;" [routerLink]="" [queryParams]="{}"><i class="fa fa-video-camera"></i></a>
+      <a (click)="onHangup($event)" [routerLink]="" [queryParams]="{}"><i class="fa fa-video-camera"></i></a>
     </span>
 
     <span class="counter hidden-xs-down">{{duration | amTimeElapsed}}</span>

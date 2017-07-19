@@ -18,6 +18,6 @@
 <!-- END OF USER IDENTITY -->
 
 <div class="contact-me ml-3 mt-3">
-  <span class="action audio"><a [routerLink]="" [queryParams]="{ action: 'audio' }"><i class="fa fa-phone"></i></a></span>
-  <span class="action video"><a [routerLink]="" [queryParams]="{ action: 'video' }"><i class="fa fa-video-camera"></i></a></span>
+  <span class="action audio"><a (click)="makeAudioCall($event)" [routerLink]="" [queryParams]="{ action: 'audio' }"><i class="fa fa-phone"></i></a></span>
+  <span class="action video"><a (click)="makeVideoCall($event)" [routerLink]="" [queryParams]="{ action: 'video' }"><i class="fa fa-video-camera"></i></a></span>
 </div>

@@ -1,4 +1,7 @@
-import { Component, OnInit, OnDestroy, HostBinding, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding,
+  ContentChild,
+  ViewChild, ViewChildren, AfterViewInit, HostListener
+} from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
@@ -12,18 +15,20 @@ import { Message, User, ContextualComm } from '../../models/models';
 
 // Components
 import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component';
+import { MediaCommunicationComponent } from '../../components/rethink/communication/mediaCommunication.component';
 
 @Component({
   moduleId: module.id,
-  selector: 'div[user-view]',
-  templateUrl: './user-view.component.html'
+  selector: 'user-view',
+  templateUrl: './user-view.component.html',
+  providers: [MediaCommunicationComponent]
 })
-export class UserViewComponent implements OnInit, OnDestroy {
+export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @HostBinding('class') hostClass = 'view-content d-flex flex-column';
 
-  @ViewChild(ContextualCommActivityComponent)
-  private contextualCommActivityComponent: ContextualCommActivityComponent;
+  @ViewChild(MediaCommunicationComponent) mediaComponent: MediaCommunicationComponent;
+  @ViewChild(ContextualCommActivityComponent) contextualCommActivityComponent: ContextualCommActivityComponent;
 
   private paramsSubscription: Subscription;
   private currentContextSub: Subscription;
@@ -31,7 +36,6 @@ export class UserViewComponent implements OnInit, OnDestroy {
   action: string;
   user: User;
   messages: Subject<Message[]> = new BehaviorSubject([]);
-
 
   constructor(
     private router: Router,
@@ -68,9 +72,17 @@ export class UserViewComponent implements OnInit, OnDestroy {
 
   }
 
+  ngAfterViewInit(): void {
+    // console.log('[User View] - ViewInit: ', this.fullscreenDirective)
+  }
+
   ngOnDestroy() {
     console.log('[User View] - OnDestroy', this.messages);
     this.currentContextSub.unsubscribe();
+  }
+
+  onCallEvent(event: any) {
+    this.mediaComponent.onFullscreen();
   }
 
   onAcceptCall() {

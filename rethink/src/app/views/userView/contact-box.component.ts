@@ -12,7 +12,23 @@ export class ContactBoxComponent {
   @HostBinding('class') hostClass = 'contact-box float-left w-100';
 
   @Input() user: User;
+
+  @Output() callEvent = new EventEmitter();
   @Output() closeEvent = new EventEmitter();
+
+  makeAudioCall(event) {
+    this.callEvent.emit({
+      type: 'audio',
+      event: event
+    });
+  }
+
+  makeVideoCall(event) {
+    this.callEvent.emit({
+      type: 'video',
+      event: event
+    });
+  }
 
   onCloseClick() {
     this.closeEvent.emit();
