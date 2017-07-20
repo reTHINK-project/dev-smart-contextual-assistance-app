@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CustomUtils } from './utils/CustomUtils';
 
 // Directives
+import { ScreenDirective } from './shared/directive.module';
 // import { SidebarDirective } from './shared/sidebar.directive';
 // import { DirectiveModules  } from './shared/directive.module';
 
@@ -56,6 +57,8 @@ import { servicesInjectables } from './services/services';
     MySelfComponent,
     AddUserComponent,
     LoadingComponent,
+
+    ScreenDirective,
 
     ContextMenuComponent,
     UserIdentityComponent,

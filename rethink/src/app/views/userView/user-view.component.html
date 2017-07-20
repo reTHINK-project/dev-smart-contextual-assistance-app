@@ -1,4 +1,5 @@
-<media-view fullscreen [hidden]="action !== 'video' && action !== 'audio'" [mode]="action" [user]="user"></media-view>
+<!-- <media-view fullscreen [hidden]="action !== 'video' && action !== 'audio'" [mode]="action" [user]="user"></media-view>-->
+<media-view (itIsReady)="mediaComponentReady($event)" *ngIf="action === 'video' || action === 'audio'" [mode]="action" [user]="user"></media-view>
 <contact-box *ngIf="!action" [user]="user" (callEvent)="onCallEvent($event)" (closeEvent)="onCloseEvent()"></contact-box>
 
 

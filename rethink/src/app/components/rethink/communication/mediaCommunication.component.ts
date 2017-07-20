@@ -1,8 +1,10 @@
 import { Component, Input, OnInit, HostBinding,
   OnDestroy, ViewContainerRef, AfterViewInit,
-  ViewChild, ElementRef, Renderer2, ViewChildren
+  ViewChild, ElementRef, Renderer2, ViewChildren, EventEmitter, Output
 } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+
+import { Subscription } from 'rxjs/Subscription';
 
 // Models
 import { User } from '../../../models/models';
@@ -10,7 +12,6 @@ import { User } from '../../../models/models';
 // Services
 import { ContextualCommDataService } from '../../../services/contextualCommData.service';
 import { ContactService, ConnectorService } from '../../../services/services';
-import { Subscription } from 'rxjs/Subscription';
 import { FullscreenDirective } from '../../../shared/fullscreen.directive';
 
 @Component({
@@ -27,6 +28,8 @@ export class MediaCommunicationComponent implements OnInit, AfterViewInit, OnDes
 
   @Input() user: User;
   @Input() mode: string;
+
+  @Output() itIsReady: EventEmitter<any> = new EventEmitter<any>();
 
   myStream: any;
   stream: any;
@@ -51,13 +54,15 @@ export class MediaCommunicationComponent implements OnInit, AfterViewInit, OnDes
     private contextualCommDataService: ContextualCommDataService
   ) {
     console.log('[Media Communication Component] - Constructor:', this.route.queryParams);
+  }
+
+  ngOnInit() {
 
     this.streamingActive = false;
 
     this.localStream = this.connectorService.getLocalStream().subscribe((stream) => {
       console.log('[Media Communication Component] - get local stream: ', stream);
       this.myStream = stream;
-      this.duration = new Date();
     });
 
     this.remoteStream = this.connectorService.getRemoteStream().subscribe((stream) => {
@@ -75,10 +80,6 @@ export class MediaCommunicationComponent implements OnInit, AfterViewInit, OnDes
 
       if (this.mode) {
         this.prepareComponent();
-      } else {
-        if (this.streamingActive && this.mode === 'video') {
-          this.connectorService.enableVideo();
-        }
       }
 
     })
@@ -93,9 +94,6 @@ export class MediaCommunicationComponent implements OnInit, AfterViewInit, OnDes
     });
 
     console.log('[Media Communication Component] - Params Action:', this.mode);
-  }
-
-  ngOnInit() {
 
   }
 
@@ -103,6 +101,12 @@ export class MediaCommunicationComponent implements OnInit, AfterViewInit, OnDes
     // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     // Add 'implements AfterViewInit' to the class.
 
+
+    this.itIsReady.emit({
+      el: this.el,
+      component: this,
+      status: 'ready'
+    });
   }
 
   ngOnDestroy() {
@@ -144,14 +148,20 @@ export class MediaCommunicationComponent implements OnInit, AfterViewInit, OnDes
 
     this.connectorService.connect(user.username, options, contextID, user.domain)
       .then((controller) => {
-        this.streamingActive = true;
-        controller.dataObjectReporter.data.mode = this.mode;
+
 
         if (this.mode === 'video') {
           this.connectorService.enableVideo();
         }
 
+        if (this.mode === 'audio') {
+          this.connectorService.disableVideo();
+        }
+
+        this.streamingActive = true;
+        controller.dataObjectReporter.data.mode = this.mode;
         console.log('[Media Communication Component] - called');
+
       }).catch(function(reason) {
         console.error(reason);
       });
@@ -160,7 +170,7 @@ export class MediaCommunicationComponent implements OnInit, AfterViewInit, OnDes
 
 
   enableVideo() {
-    this.connectorService.disableVideo();
+    this.connectorService.enableVideo();
   }
 
   disableVideo() {
@@ -168,7 +178,7 @@ export class MediaCommunicationComponent implements OnInit, AfterViewInit, OnDes
   }
 
   onFullscreen() {
-    // this.fullscreen.toogleFullscreen();
+    this.fullscreen.toogleFullscreen();
   }
 
   onHangup() {

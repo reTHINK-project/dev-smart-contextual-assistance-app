@@ -43,7 +43,7 @@ export class ConnectorService {
     return this.controllers;
   }
 
-  private _localStream: Subject<MediaStream> = new Subject();
+  private _localStream: ReplaySubject<MediaStream> = new ReplaySubject();
   private _remoteStream: ReplaySubject<MediaStream> = new ReplaySubject();
 
   private _connectorStatus: Subject<string> = new Subject<string>();
@@ -187,11 +187,6 @@ export class ConnectorService {
     controller.onAddStream((event: any) => {
       console.log('[Connector Service - Add Stream] - Remote Stream:', event);
       this._remoteStream.next(event.stream);
-
-      if (this.mode === 'audio') {
-        controller.disableVideo();
-      }
-
     });
 
     controller.onDisconnect((event: any) => {
@@ -249,6 +244,10 @@ export class ConnectorService {
 
     this.callInProgress = false;
     this.controllers[this.connectorMode].disconnect();
+
+    this._localStream = new ReplaySubject();
+    this._remoteStream = new ReplaySubject();
+
     this._connectorStatus.next(STATUS.END);
     this.connectorMode = 'offer';
 

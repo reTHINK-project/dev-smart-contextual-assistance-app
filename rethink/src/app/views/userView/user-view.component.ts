@@ -17,11 +17,12 @@ import { Message, User, ContextualComm } from '../../models/models';
 import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component';
 import { MediaCommunicationComponent } from '../../components/rethink/communication/mediaCommunication.component';
 
+import { ScreenDirective } from '../../shared/directive.module';
+
 @Component({
   moduleId: module.id,
   selector: 'user-view',
-  templateUrl: './user-view.component.html',
-  providers: [MediaCommunicationComponent]
+  templateUrl: './user-view.component.html'
 })
 export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -40,6 +41,7 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private screen: ScreenDirective,
     private contactService: ContactService,
     private contextualCommService: ContextualCommService,
     private chatService: ChatService) {
@@ -50,7 +52,6 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
         this.action = event['action'];
 
       });
-
   }
 
   ngOnInit() {
@@ -72,6 +73,17 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
+  mediaComponentReady(event: any) {
+
+    console.log('[User View] - media component: ', this.screen)
+
+    if (this.screen.getEnvironment().name === 'xs') {
+      const a = event.component as MediaCommunicationComponent;
+      a.onFullscreen();
+    }
+
+  }
+
   ngAfterViewInit(): void {
     // console.log('[User View] - ViewInit: ', this.fullscreenDirective)
   }
@@ -82,7 +94,7 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onCallEvent(event: any) {
-    this.mediaComponent.onFullscreen();
+    // this.mediaComponent.onFullscreen();
   }
 
   onAcceptCall() {
