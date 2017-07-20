@@ -4,7 +4,7 @@ import { Message } from '../../models/models';
 
 @Component({
   moduleId: module.id,
-  selector: 'ul[context-activity-list]',
+  selector: 'context-activity-list',
   templateUrl: './contextualCommActivity.component.html'
 })
 export class ContextualCommActivityComponent implements OnChanges, AfterViewInit {
@@ -53,7 +53,7 @@ export class ContextualCommActivityComponent implements OnChanges, AfterViewInit
   }
 
   scrollToBottom(): void {
-    let scrollPane: any = this.el.nativeElement;
+    const scrollPane: any = this.el.nativeElement;
     scrollPane.scrollTop = scrollPane.scrollHeight;
   }
 

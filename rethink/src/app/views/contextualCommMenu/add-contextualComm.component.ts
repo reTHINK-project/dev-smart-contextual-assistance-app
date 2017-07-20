@@ -74,14 +74,20 @@ export class AddContextualCommComponent implements OnInit, OnDestroy {
 
     this.contextualComms = this.contextualCommDataService.getContexts();
 
-    this.routeEvents = this.router.events.subscribe((navigation: NavigationEnd) => {
-      console.log('[AddContextualComm] - router events:', navigation);
+    //  = this.router.events.subscribe((navigation: NavigationEnd) => {
+    //   console.log('[AddContextualComm] - router events:', navigation);
 
-      if (navigation instanceof NavigationEnd) {
-        this.routeParams = splitFromURL(navigation.url);
-      }
+    //   if (navigation instanceof NavigationEnd) {
+    //     this.routeParams = splitFromURL(navigation.url);
+    //     console.log('[AddContextualComm] - route params:', this.routeParams);
+    //   }
 
-    });
+    // });
+
+    this.routeEvents = this.route.params.subscribe((event: any) => {
+      console.log('[AddContextualComm] - route events:', event);
+      this.routeParams = event;
+    })
 
   }
 
@@ -107,10 +113,10 @@ export class AddContextualCommComponent implements OnInit, OnDestroy {
 
   buildForm() {
 
+    console.log('[AddContextualComm] - build form: ', this.routeParams);
+
     const mainContext: string = this.routeParams.context || '';
     const normalizedName = normalizeName(mainContext);
-
-    console.log('[AddContextualComm] - build form: ', normalizedName, this.routeParams);
 
     const contextNameId = normalizedName.parent ? normalizedName.parent : normalizedName.id;
 

@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { NotificationsService } from './components/notification/notifications.module';
 import { NotificationActionEvent, ActionType } from './components/notification/notifications/interfaces/notification.action-event';
 
+import { NotificationEvent } from './components/notification/notifications/interfaces/notification-event.type';
 import { NativeNotificationsService } from './components/notification/native-notifications.module';
 
 import { config } from './config';
@@ -24,7 +25,6 @@ import { ContextualCommComponent } from './views/contextualComm/contextualComm.c
 import { ContextualCommService } from './services/contextualComm.service';
 import { ContextualCommDataService } from './services/contextualCommData.service';
 import { TriggerActionService, RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
-import { NotificationEvent } from "./components/notification/notifications/interfaces/notification-event.type";
 
 @Component({
   moduleId: module.id,
@@ -124,7 +124,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
         body: content,
         silent: false,
         sound: config.sounds + 'solemn.mp3',
-      }).subscribe(this.nativeNotificationSubscription,
+      }).subscribe(nat => this.nativeNotificationSubscription(nat),
         (reason: any) => { console.log('Native Notification error:', reason); },
         () => { console.log('Native Notification Completed'); });
 
@@ -240,8 +240,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
         body: content,
         data: event,
         silent: false
-      }).subscribe(
-        this.nativeNotificationSubscription,
+      }).subscribe(nat => this.nativeNotificationSubscription(nat),
         (reason: any) => { console.log('Native Notification error:', reason); },
         () => { console.log('Native Notification Completed'); });
 
@@ -276,6 +275,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
       if (currURL) {
         selected = currentNotifications.filter((not: NotificationEvent) => {
 
+          console.log('Notification Service - onDisconnect: ', not.notification);
           if (not.notification.override.metadata.metadata.url === currURL) {
             return true
           }

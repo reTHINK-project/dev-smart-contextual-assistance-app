@@ -12,8 +12,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { CustomUtils } from './utils/CustomUtils';
 
 // Directives
+import { ScreenDirective } from './shared/directive.module';
 // import { SidebarDirective } from './shared/sidebar.directive';
-import { DirectiveModules  } from './shared/directive.module';
+// import { DirectiveModules  } from './shared/directive.module';
 
 // components
 import { AppComponent } from './app.component';
@@ -40,7 +41,7 @@ import { servicesInjectables } from './services/services';
   imports: [
     FormsModule,
     BrowserModule,
-    DirectiveModules,
+    // DirectiveModules,
     ReactiveFormsModule,
     ContextualCommModule,
     BrowserAnimationsModule,
@@ -56,6 +57,8 @@ import { servicesInjectables } from './services/services';
     MySelfComponent,
     AddUserComponent,
     LoadingComponent,
+
+    ScreenDirective,
 
     ContextMenuComponent,
     UserIdentityComponent,

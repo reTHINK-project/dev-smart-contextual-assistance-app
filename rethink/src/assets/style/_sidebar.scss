@@ -57,25 +57,26 @@
 }
 
 .sidebar-content {
-    height: 100%;
-    padding-top: .75em;
-    padding-bottom: .75em;
-    overflow-y: auto;
+  height: 100%;
+  padding-top: .75em;
+  padding-bottom: .75em;
+  overflow-y: auto;
 
-    .users,
-    .contexts {
-      height: 50%;
+  .users,
+  .contexts {
+    height: 50%;
 
-      // border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-    }
+    // border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  }
 
-    .title {
-        color: #fff;
-        font-size: 1em;
-        text-transform: uppercase;
-        padding-left: .75em;
-        padding-right: .75em;
-    }
+  .title {
+      color: #fff;
+      font-size: 1em;
+      text-transform: uppercase;
+      padding-left: .75em;
+      padding-right: .75em;
+  }
+
 }
 
 .sidebar footer {

@@ -13,7 +13,7 @@
 
     <add-contextualcomm-view *ngIf="allowAddUser"></add-contextualcomm-view>
 
-    <ul class="list p-0">
+    <ul class="context-list p-0">
       <li class="item p-0 m-0" *ngFor="let context of contexts | async">
         <a class="link" [routerLink]="[context.name]" routerLinkActive="active">
           <i *ngIf="context.icon" class="fa fa-{{context.icon}}"></i>
