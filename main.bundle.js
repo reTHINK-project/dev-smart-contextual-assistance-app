@@ -69,7 +69,7 @@ var AppRoutingModule = (function () {
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<notifications></notifications>\n\n<!-- container -->\n<div screen class=\"container-fluid\">\n\n  <div class=\"row\">\n\n    <!-- pusher -->\n    <div class=\"mp-pusher wrapper {{contextOpened ? 'mp-pushed' : ''}}\" (click)='onClickOutside($event)' id=\"mp-pusher\">\n      <nav context-menu></nav>\n\n      <!-- scroller -->\n      <div class=\"scroller\">\n\n        <!-- scroller-inner -->\n        <div #section class=\"scroller-inner d-flex flex-column align-items-stretch\">\n\n          <div *ngIf=\"showAlert\" [innerHTML]=\"notificationStatus\" class=\"alert alert-warning m-0 rounded-0\" role=\"alert\"></div>\n\n          <header class=\"header\">\n            <div class=\"primary-menu row no-gutters\">\n\n              <!-- Logotipo -->\n              <div class=\"col align-center\">\n                <a class=\"open-context\" (click)=\"onOpenContext($event)\"><i class=\"fa fa-lightbulb-o\"></i></a>\n                <a routerLink=\"/\"><img src=\"assets/img/rethinklogo2.png\"></a>\n              </div>\n\n              <!-- My Identity -->\n              <div class=\"col-6\">\n                <my-self *ngIf=\"myIdentity\" [model]=\"myIdentity\"></my-self>\n              </div>\n\n            </div>\n\n            <div *ngIf=\"showBreadcrumb\"  class=\"secondary-menu mt-2 mb-2 row no-gutters\">\n\n              <!-- breadcrumb -->\n              <div class=\"col-12\">\n                <ul *ngIf=\"ready\" (openContext)=\"openSecondaryContext($event)\" context-breadcrumb></ul>\n              </div>\n\n            </div>\n\n          </header>\n\n          <router-outlet (activate)='onActivate($event)'></router-outlet>\n\n          <loading *ngIf=\"!ready\"  [status]=\"status\"></loading>\n\n        </div>\n        <!-- /scroller-inner -->\n      </div>\n      <!-- /scroller -->\n    </div>\n\n  </div>\n  <!-- /pusher -->\n</div>\n<!-- /container -->\n"
+module.exports = "<notifications></notifications>\n\n<!-- container -->\n<div screen class=\"container-fluid\">\n\n  <div class=\"row\">\n\n    <!-- pusher -->\n    <div class=\"mp-pusher wrapper {{contextOpened ? 'mp-pushed' : ''}}\" (click)='onClickOutside($event)' id=\"mp-pusher\">\n      <nav context-menu></nav>\n\n      <!-- scroller -->\n      <div class=\"scroller\">\n\n        <!-- scroller-inner -->\n        <div #section class=\"scroller-inner d-flex flex-column align-items-stretch\">\n\n          <div *ngIf=\"showAlert\" [innerHTML]=\"notificationStatus\" class=\"alert alert-warning m-0 rounded-0\" role=\"alert\"></div>\n\n          <header class=\"header\">\n            <div class=\"primary-menu row no-gutters\">\n\n              <!-- Logotipo -->\n              <div class=\"col align-center\">\n                <a class=\"open-context\" (click)=\"onOpenContext($event)\"><i class=\"fa fa-lightbulb-o\"></i></a>\n                <a routerLink=\"/\"><img src=\"{{assetsConfig.images}}/rethinklogo2.png\"></a>\n              </div>\n\n              <!-- My Identity -->\n              <div class=\"col-6\">\n                <my-self *ngIf=\"myIdentity\" [model]=\"myIdentity\"></my-self>\n              </div>\n\n            </div>\n\n            <div *ngIf=\"showBreadcrumb\"  class=\"secondary-menu mt-2 mb-2 row no-gutters\">\n\n              <!-- breadcrumb -->\n              <div class=\"col-12\">\n                <ul *ngIf=\"ready\" (openContext)=\"openSecondaryContext($event)\" context-breadcrumb></ul>\n              </div>\n\n            </div>\n\n          </header>\n\n          <router-outlet (activate)='onActivate($event)'></router-outlet>\n\n          <loading *ngIf=\"!ready\"  [status]=\"status\"></loading>\n\n        </div>\n        <!-- /scroller-inner -->\n      </div>\n      <!-- /scroller -->\n    </div>\n\n  </div>\n  <!-- /pusher -->\n</div>\n<!-- /container -->\n"
 
 /***/ }),
 
@@ -141,6 +141,7 @@ var AppComponent = (function () {
         this.showAlert = false;
         this.contextOpened = false;
         this.ready = false;
+        this.assetsConfig = __WEBPACK_IMPORTED_MODULE_6__config__["a" /* config */];
         this.natNotFeedback = this.natNotificationsService.requestPermission()
             .subscribe(function (success) {
             _this.notificationStatus = success;
@@ -169,7 +170,7 @@ var AppComponent = (function () {
             _this.natNotificationsService.create(title, {
                 body: content,
                 silent: false,
-                sound: __WEBPACK_IMPORTED_MODULE_6__config__["a" /* config */].sounds + 'solemn.mp3',
+                sound: __WEBPACK_IMPORTED_MODULE_6__config__["a" /* config */].sounds + '/solemn.mp3',
             }).subscribe(function (nat) { return _this.nativeNotificationSubscription(nat); }, function (reason) { console.log('Native Notification error:', reason); }, function () { console.log('Native Notification Completed'); });
         });
     }
@@ -687,7 +688,7 @@ var NativeNotificationsService = (function () {
         this.permission = this.isSupported() ? Notification.permission : 'denied';
         // TODO: add a list of sounds to each type of event
         this.audio = new Audio();
-        this.audio.src = __WEBPACK_IMPORTED_MODULE_2__config__["a" /* config */].sounds + 'solemn.mp3';
+        this.audio.src = __WEBPACK_IMPORTED_MODULE_2__config__["a" /* config */].sounds + '/solemn.mp3';
         this.audio.load();
     }
     NativeNotificationsService.prototype.requestPermission = function () {
@@ -2033,14 +2034,16 @@ var UserIdentityComponent = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return config; });
+
 var config = {
     pageTitlePrefix: 'reThink Project - ',
     appPrefix: 'sca',
     splitChar: '/',
-    domain: 'hysmart.rethink.ptinovacao.pt',
-    images: 'assets/img/',
-    sounds: 'assets/sounds/'
+    domain: __WEBPACK_IMPORTED_MODULE_0__environments_environment__["a" /* environment */].host,
+    images: __WEBPACK_IMPORTED_MODULE_0__environments_environment__["a" /* environment */].images,
+    sounds: __WEBPACK_IMPORTED_MODULE_0__environments_environment__["a" /* environment */].sounds
 };
 //# sourceMappingURL=config.js.map
 
@@ -4219,7 +4222,7 @@ var UserAvailabilityService = (function () {
     UserAvailabilityService.prototype.startObservation = function () {
         var _this = this;
         console.log('[UserAvailability service. start observation] ');
-        // let's first start the AvailabilityObserver Hyperty
+        // let's first start the AvailabilityObserver Hyperty 
         this.rethinkService.getHyperty(this.availabilityObserverURL)
             .then(function (hyperty) {
             _this.availabilityObserver = hyperty.instance;
@@ -4230,7 +4233,7 @@ var UserAvailabilityService = (function () {
                 _this.contactService.getUsers().subscribe(function (users) {
                     console.log('[UserAvailability Service - startObservation] users to be observed:', users);
                     var newUsers = [];
-                    //for each User lets start observation
+                    //for each User lets start observation 
                     users.forEach(function (user) {
                         if (user.statustUrl && availabilities[user.statustUrl]) {
                             // TODO: confirm controllers is a list not an array
@@ -5274,7 +5277,7 @@ function isALegacyUser(user) {
 /***/ "../../../../../src/app/views/activityView/activity-view.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h3 class=\"pl-4 pr-4 pt-4\">Recent Activity</h3>\n\n<div class=\"overflow-content w-100 h-100\">\n  <div class=\"row h-100 no-gutters\">\n    <div class=\"col-12 col-lg-7 h-100\">\n      <context-activity-list [messages]=\"messages\"></context-activity-list>\n    </div>\n\n    <div class=\"col-12 col-lg-5 h-100\">\n\n    </div>\n\n  </div>\n</div>\n\n<chat-view></chat-view>\n"
+module.exports = "<h3 class=\"pl-4 pr-4 pt-4\">Recent Activity</h3>\n\n<div class=\"overflow-content w-100 h-100\">\n  <div class=\"row h-100 no-gutters\">\n    <div class=\"col-12 col-lg-7 h-100 v-scroll\">\n      <context-activity-list [messages]=\"messages\"></context-activity-list>\n    </div>\n\n    <div class=\"col-12 col-lg-5 h-100\">\n\n    </div>\n\n  </div>\n</div>\n\n<chat-view></chat-view>\n"
 
 /***/ }),
 
@@ -6307,7 +6310,7 @@ var AddUserComponent = (function () {
 /***/ "../../../../../src/app/views/contextualCommUsers/contextualCommUsers.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Search contact input -->\n<div class=\"search-bar\">\n    <form class=\"filter\">\n        <span class=\"fa fa-search\"></span>\n        <input type=\"text\" placeholder=\"type a name\" class=\"search push-left\" (keyup)=\"onFilterKey($event)\">\n    </form>\n</div>\n\n<div class=\"sidebar-content\">\n\n  <div class=\"contexts float-left w-100 pb-3\">\n    <h4 class=\"title float-left\">Contexts</h4>\n\n    <add-contextualcomm-view *ngIf=\"allowAddUser\"></add-contextualcomm-view>\n\n    <ul class=\"context-list p-0\">\n      <li class=\"item p-0 m-0\" *ngFor=\"let context of contexts | async\">\n        <a class=\"link\" [routerLink]=\"[context.name]\" routerLinkActive=\"active\">\n          <i *ngIf=\"context.icon\" class=\"fa fa-{{context.icon}}\"></i>\n          <span class=\"name\">{{context.name}}</span>\n        </a>\n      </li>\n    </ul>\n  </div>\n\n  <div class=\"users float-left w-100 pb-3 pt-3\">\n    <h4 class=\"title float-left\">Users</h4>\n\n    <add-user-view *ngIf=\"allowAddUser\"></add-user-view>\n\n    <ul class=\"contact-list\">\n      <!-- List of ContactComponent -->\n      <li class=\"item m-0\" *ngFor=\"let contact of contactsFilter | async\">\n        <a class=\"link\" [routerLink]=\"[this.basePath, 'user', contact.username]\" routerLinkActive=\"active\">\n\n          <user-identity *ngIf=\"contact\" [model]=contact></user-identity>\n\n          <div *ngIf=\"contact.unread\" class=\"alert\">\n              <span class=\"new-message\">{{contact.unread}}</span>\n              <i class=\"fa fa-comment-o\"></i>\n          </div>\n          <div class=\"pointer\">\n              <span class=\"action chat\"><i class=\"fa fa-angle-right\"></i></span>\n          </div>\n        </a>\n      </li>\n    </ul>\n  </div>\n</div>\n\n<footer class=\"alt-foot\">\n    Copyright 2016 © Altice Labs - All rights reserved\n</footer>\n"
+module.exports = "<!-- Search contact input -->\n<div class=\"search-bar\">\n    <form class=\"filter\">\n        <span class=\"fa fa-search\"></span>\n        <input type=\"text\" placeholder=\"type a name\" class=\"search push-left\" (keyup)=\"onFilterKey($event)\">\n    </form>\n</div>\n\n<div class=\"sidebar-content\">\n\n  <div class=\"contexts float-left w-100 pb-3\">\n    <h4 class=\"title float-left\">Contexts</h4>\n\n    <add-contextualcomm-view *ngIf=\"allowAddUser\"></add-contextualcomm-view>\n\n    <ul class=\"context-list p-0\">\n      <li class=\"item p-0 m-0\" *ngFor=\"let context of contexts | async\">\n        <a class=\"link action\" title=\"Open {{context.name}} context\" [routerLink]=\"[context.name]\" routerLinkActive=\"active\">\n          <i *ngIf=\"context.icon\" class=\"fa fa-{{context.icon}}\"></i>\n          <span class=\"name\">{{context.name}}</span>\n        </a>\n\n        <a href=\"javascript:;\" title=\"Delete the {{context.name}}\" class=\"remove float-right\"><i class=\"fa fa-remove\"></i></a>\n      </li>\n    </ul>\n  </div>\n\n  <div class=\"users float-left w-100 pb-3 pt-3\">\n    <h4 class=\"title float-left\">Users</h4>\n\n    <add-user-view *ngIf=\"allowAddUser\"></add-user-view>\n\n    <ul class=\"contact-list\">\n      <!-- List of ContactComponent -->\n      <li class=\"item m-0\" *ngFor=\"let contact of contactsFilter | async\">\n        <a class=\"link\" [routerLink]=\"[this.basePath, 'user', contact.username]\" routerLinkActive=\"active\">\n\n          <user-identity *ngIf=\"contact\" [model]=contact></user-identity>\n\n          <div *ngIf=\"contact.unread\" class=\"alert\">\n              <span class=\"new-message\">{{contact.unread}}</span>\n              <i class=\"fa fa-comment-o\"></i>\n          </div>\n          <div class=\"pointer\">\n              <span class=\"action chat\"><i class=\"fa fa-angle-right\"></i></span>\n          </div>\n        </a>\n      </li>\n    </ul>\n  </div>\n</div>\n\n<footer class=\"alt-foot\">\n    Copyright 2016 © Altice Labs - All rights reserved\n</footer>\n"
 
 /***/ }),
 
@@ -6677,7 +6680,7 @@ var ContactBoxComponent = (function () {
 /***/ "../../../../../src/app/views/userView/user-view.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <media-view fullscreen [hidden]=\"action !== 'video' && action !== 'audio'\" [mode]=\"action\" [user]=\"user\"></media-view>-->\n<media-view (itIsReady)=\"mediaComponentReady($event)\" *ngIf=\"action === 'video' || action === 'audio'\" [mode]=\"action\" [user]=\"user\"></media-view>\n<contact-box *ngIf=\"!action\" [user]=\"user\" (callEvent)=\"onCallEvent($event)\" (closeEvent)=\"onCloseEvent()\"></contact-box>\n\n\n<div class=\"overflow-content w-100 h-100\">\n  <div class=\"row h-100 no-gutters\">\n    <div class=\"col-12 col-lg-7 h-100\">\n      <context-activity-list [messages]=\"messages\"></context-activity-list>\n    </div>\n\n    <div class=\"col-12 col-lg-5 h-100\">\n\n    </div>\n\n  </div>\n</div>\n\n\n<chat-view></chat-view>\n"
+module.exports = "<!-- <media-view fullscreen [hidden]=\"action !== 'video' && action !== 'audio'\" [mode]=\"action\" [user]=\"user\"></media-view>-->\n<media-view (itIsReady)=\"mediaComponentReady($event)\" *ngIf=\"action === 'video' || action === 'audio'\" [mode]=\"action\" [user]=\"user\"></media-view>\n<contact-box *ngIf=\"!action\" [user]=\"user\" (callEvent)=\"onCallEvent($event)\" (closeEvent)=\"onCloseEvent()\"></contact-box>\n\n\n<div class=\"overflow-content w-100 h-100\">\n  <div class=\"row h-100 no-gutters\">\n    <div class=\"col-12 col-lg-7 h-100 v-scroll\">\n      <context-activity-list [messages]=\"messages\"></context-activity-list>\n    </div>\n\n    <div class=\"col-12 col-lg-5 h-100\">\n\n    </div>\n\n  </div>\n</div>\n\n\n<chat-view></chat-view>\n"
 
 /***/ }),
 
@@ -6802,13 +6805,11 @@ var UserViewComponent = (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
 var environment = {
-    production: false,
-    host: 'localhost'
+    production: true,
+    host: 'hysmart.rethink.ptinovacao.pt',
+    images: './assets/img',
+    sounds: './assets/sounds'
 };
 //# sourceMappingURL=environment.js.map
 

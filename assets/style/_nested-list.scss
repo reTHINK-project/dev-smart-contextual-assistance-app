@@ -7,24 +7,38 @@
 .list-group.list-group-root {
   padding: 0;
   overflow: hidden;
+
   .list-group {
     margin-bottom: 0;
   }
+
   .list-group-item {
     border-radius: 0;
     border-width: 1px 0 0 0;
+    padding: 0;
+
+    a {
+      padding: 0.75rem 1.25rem;
+    }
+
   }
+
   > {
+
     .list-group-item:first-child {
       border-top-width: 0;
     }
+
     .list-group > {
+
       .list-group-item {
         padding-left: 30px;
       }
+
       .list-group > .list-group-item {
         padding-left: 45px;
       }
+
     }
   }
 }

@@ -65,6 +65,11 @@ form {
 
 }
 
+
+.v-scroll {
+  overflow-y: auto;
+}
+
 .overflow-content {
   overflow: hidden;
 }
@@ -77,6 +82,7 @@ form {
   width: 100%;
 
   .item {
+    position: relative;
     display: block;
     float: left;
     width: 100%;
@@ -85,13 +91,16 @@ form {
       display: block;
       overflow: hidden;
       position: relative;
-      padding-left: 18px;
+      padding-left: 1.125rem;
       padding-top: .25em;
       padding-bottom: .25em;
+      padding-right: 0.375rem;
       color: #fff;
       cursor: pointer;
       border-left: 0px solid rgba(0, 0, 0, 0.15);
       transition: all 150ms ease-in-out;
+
+      text-decoration: none;
 
       &:hover {
         border-left: 6px solid rgba(0, 0, 0, 0.15);
@@ -138,13 +147,52 @@ form {
 
       &:hover .pointer,
       &.active .pointer {
-        filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+        right: 4px;
         opacity: 1;
+        filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+
         transition-duration: 500ms;
         transform: scale(1, 1) translate3d(0, 0, 0);
-        right: 4px;
+
+      }
+
+    }
+
+    .remove {
+      position: absolute;
+      display: block;
+
+      right: 6px;
+      top: 2px;
+      bottom: 0;
+
+      padding: 0 0.5rem;
+      color: #fff;
+
+      opacity: 0;
+
+      @include media-breakpoint-down(xs) {
+        opacity: 1;
+      }
+
+      width: 28px;
+      text-align: center;
+
+      transition: all 250ms ease-in-out;
+
+      &:hover {
+        color: #3bb7f5;
+      }
+
+    }
+
+    &:hover {
+      // Show the remove button when you hover the link
+      .remove {
+        opacity: 1;
       }
     }
+
 
     .alert {
       position: absolute;
