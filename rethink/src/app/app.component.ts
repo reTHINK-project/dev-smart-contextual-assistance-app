@@ -56,6 +56,8 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   myIdentity: User;
   status: string;
 
+  assetsConfig: any = config;
+
   @ViewChild('section') section: ElementRef;
 
   @HostListener('window:blur', ['$event']) onBlurEvent(event: any) {
@@ -123,7 +125,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
       this.natNotificationsService.create(title, {
         body: content,
         silent: false,
-        sound: config.sounds + 'solemn.mp3',
+        sound: config.sounds + '/solemn.mp3',
       }).subscribe(nat => this.nativeNotificationSubscription(nat),
         (reason: any) => { console.log('Native Notification error:', reason); },
         () => { console.log('Native Notification Completed'); });

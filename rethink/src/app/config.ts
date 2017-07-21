@@ -5,6 +5,6 @@ export const config = {
   appPrefix: 'sca',
   splitChar: '/',
   domain: environment.host,
-  images: '../assets/img/',
-  sounds: '../assets/sounds/'
+  images: environment.images,
+  sounds: environment.sounds
 };

@@ -21,7 +21,7 @@ export class NativeNotificationsService {
 
     // TODO: add a list of sounds to each type of event
     this.audio = new Audio();
-    this.audio.src = config.sounds + 'solemn.mp3';
+    this.audio.src = config.sounds + '/solemn.mp3';
     this.audio.load();
   }
 

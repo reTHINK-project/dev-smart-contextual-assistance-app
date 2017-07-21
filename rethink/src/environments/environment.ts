@@ -5,5 +5,7 @@
 
 export const environment = {
   production: false,
-  host: 'localhost'
+  host: 'localhost',
+  images: '../assets/img',
+  sounds: '../assets/sounds'
 };

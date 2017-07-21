@@ -1198,13 +1198,11 @@ body {
         div.filetransfer {
           padding-left: 68px;
           max-width: 200px;
+
           img {
-            -webkit-border-radius: 2px;
-            -moz-border-radius: 2px;
-            -ms-border-radius: 2px;
-            -o-border-radius: 2px;
             border-radius: 2px;
           }
+
         }
         span {
           &.date, &.specs {
