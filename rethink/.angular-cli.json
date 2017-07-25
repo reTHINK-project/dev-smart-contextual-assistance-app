@@ -9,6 +9,8 @@
       "root": "src",
       "outDir": "dist",
       "assets": [
+        "dist",
+        "app",
         "assets",
         "main.js",
         "favicon.ico",

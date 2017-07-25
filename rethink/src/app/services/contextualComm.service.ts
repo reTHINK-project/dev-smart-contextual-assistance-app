@@ -116,7 +116,7 @@ export class ContextualCommService {
     });
 
     if (this.localStorage.hasObject('contexts')) {
-      let mapObj = this.localStorage.getObject('contexts');
+      const mapObj = this.localStorage.getObject('contexts');
       for (const k of Object.keys(mapObj)) {
         const currentContext = new ContextualComm(mapObj[k]);
         this.cxtList.set(k, currentContext);
@@ -147,8 +147,8 @@ export class ContextualCommService {
 
       if (parentContextualComm) {
 
-        const hasChild = parentContextualComm.contexts.find((context: ContextualComm) => {
-          return context && context.url === newContextURL;
+        const hasChild = parentContextualComm.contexts.find((contextualComm: ContextualComm) => {
+          return contextualComm && contextualComm.url === newContextURL;
         });
 
         if (!hasChild) {

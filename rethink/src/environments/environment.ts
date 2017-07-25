@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  host: 'localhost',
+  host: 'vitor.dev',
   images: '../assets/img',
   sounds: '../assets/sounds'
 };

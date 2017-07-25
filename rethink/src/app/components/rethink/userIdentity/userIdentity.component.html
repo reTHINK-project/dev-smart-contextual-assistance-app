@@ -1,10 +1,10 @@
 <div class="user-status float-left">
-  <img class="rounded-circle" src="{{model.avatar}}">
+  <img alt="{{model.avatar}}" class="rounded-circle" src="{{model.avatar}}">
   <span class="status {{model.status}}">
     <i class="fa fa-circle{{model.status === 'unavailable' ? '-o' : ''}}"></i>
   </span>
 </div>
 <div class="user-profile float-left">
   <h3 class="contact-name">{{model.cn}}</h3>
-  <span class="extra-info">{{model.domain}}</span>
+  <span class="extra-info text-truncate">{{model.domain}}</span>
 </div>

@@ -40,7 +40,7 @@ export const defaultIcons: Icons = {
         </svg>
     `,
   custom: (icon: string) => {
-     return `<img class="rounded-circle w-100" src=${icon}>`;
+     return `<img alt="${icon}" class="rounded-circle w-100" src=${icon}>`;
   }
 
 };

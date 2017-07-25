@@ -67,8 +67,6 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
     this.currentContextSub = this.contextualCommService.currentContext().subscribe((contextualComm: ContextualComm) => {
       console.log('[User View - ContextualCommActivity Component - update] - ', contextualComm);
       this.messages.next(contextualComm.messages);
-
-      this.contextualCommActivityComponent.updateView();
     });
 
   }

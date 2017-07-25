@@ -69,6 +69,12 @@ function setOfCachedUrls(cache) {
   });
 }
 
+function firstWindowClient() {
+  return clients.matchAll({ includeUncontrolled: true, type: 'window' }).then(function(windowClients) {
+    return windowClients.length ? windowClients[0] : Promise.reject("No clients");
+  });
+}
+
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(cacheName).then(function(cache) {
@@ -180,22 +186,74 @@ self.addEventListener('fetch', function(event) {
 });
 
 self.addEventListener('notificationclick', function(event) {
-  console.log('On notification click: ', event.notification.tag);
+  console.log('[Service Worker] - On notification click: ', event, clients);
+
+  var notification = event.notification;
+  var promise = Promise.resolve();
+
   event.notification.close();
 
-  // This looks to see if the current is already open and
-  // focuses if it is
-  event.waitUntil(clients.matchAll({
-    type: "window"
-  }).then(function(clientList) {
-    for (var i = 0; i < clientList.length; i++) {
-      var client = clientList[i];
-      // console.log('Client:', client);
-      if (!client.focused && 'focus' in client)
-        return client.focus();
+  if (event.action === 'action.accept' || event.action === 'action.reject') {
+    console.log('[Service Worker] - On action click: ', event.action);
+
+    var data = notification.data;
+
+    firstWindowClient().then(function(client) {
+
+      if (data.hasOwnProperty('actions')) {
+
+        var result = data.actions.filter(function(action) {
+          return action.action === event.action;
+        })[0];
+
+        var message = {
+          notification: {
+            actions: notification.actions,
+            title: notification.title,
+            body: notification.body,
+            data: notification.data,
+            tag: notification.tag,
+          },
+          event: event.action,
+          action: result
+        }
+
+        client.postMessage(message);
+      }
+
+    });
+
+  } else {
+
+    promise = promise.then(function() { return firstWindowClient(); })
+                     .then(function(client) { return client.focus(); });
+  }
+
+  event.waitUntil(promise);
+
+});
+
+
+self.addEventListener('notificationclose', function(event) {
+  var notification = event.notification;
+  var options = notification.data.options;
+
+  firstWindowClient().then(function(client) {
+
+    var message = {
+      notification: {
+        actions: notification.actions,
+        title: notification.title,
+        body: notification.body,
+        data: notification.data,
+        tag: notification.tag,
+      },
+      event: 'close',
+      action: 'close'
     }
 
-  }));
+    client.postMessage(message);
+  });
 });
 
 <% if (swToolboxCode) { %>

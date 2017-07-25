@@ -10,6 +10,7 @@ const { NoEmitOnErrorsPlugin, SourceMapDevToolPlugin, NamedModulesPlugin } = req
 const { GlobCopyWebpackPlugin, BaseHrefWebpackPlugin } = require('@angular/cli/plugins/webpack');
 const { CommonsChunkPlugin } = require('webpack').optimize;
 const { AotPlugin } = require('@ngtools/webpack');
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 
 const nodeModules = path.join(process.cwd(), 'node_modules');
 const realNodeModules = fs.realpathSync(nodeModules);
@@ -54,7 +55,7 @@ const postcssPlugins = function () {
         ].concat(minimizeCss ? [cssnano(minimizeOptions)] : []);
     };
 
-
+const PUBLIC_PATH = 'https://vitor.dev/';
 
 
 module.exports = {
@@ -355,8 +356,12 @@ module.exports = {
     new NoEmitOnErrorsPlugin(),
     new GlobCopyWebpackPlugin({
       "patterns": [
+        "app",
+        "dist",
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        "manifest.json",
+        "service-worker.js"
       ],
       "globOptions": {
         "cwd": "/home/vsilva/pt-inovacao/rethink-project/dev-smart-contextual-assistance-app/rethink/src",
@@ -429,7 +434,22 @@ module.exports = {
       "exclude": [],
       "tsConfigPath": "src/tsconfig.app.json",
       "skipCodeGeneration": true
-    })
+    }),
+    new SWPrecacheWebpackPlugin(
+      {
+        cacheId: 'rethink',
+        dontCacheBustUrlsMatching: /\.\w{8}\./,
+        minify: false,
+        navigateFallback: PUBLIC_PATH + 'index.html',
+        filename: './src/service-worker.js',
+        staticFileGlobs: [
+          'src/**/**.*'
+        ],
+        stripPrefix: 'src/', // stripPrefixMulti is also supported
+        mergeStaticsConfig: true, // if you don't set this to true, you won't see any webpack-emitted assets in your serviceworker config
+        staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
+      }
+    )
   ],
   "node": {
     "fs": "empty",
@@ -453,7 +473,7 @@ module.exports = {
     "quiet": false,
     "https": {
       "key": fs.readFileSync("./ssl/server.key"),
-      "cert": fs.readFileSync("./ssl/server.cert")
+      "cert": fs.readFileSync("./ssl/server.crt")
     }
   },
   "watchOptions": {

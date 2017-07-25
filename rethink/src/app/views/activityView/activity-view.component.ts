@@ -29,7 +29,7 @@ export class ActivityViewComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private chatService: ChatService,
-    private ContextualCommService: ContextualCommService) {
+    private contextualCommService: ContextualCommService) {
 
   }
 
@@ -41,11 +41,9 @@ export class ActivityViewComponent implements OnInit {
       this.messages.next(data.context.messages);
     });
 
-    this.ContextualCommService.currentContext().subscribe((contextualComm: ContextualComm) => {
+    this.contextualCommService.currentContext().subscribe((contextualComm: ContextualComm) => {
       console.log('[ContextualCommActivity Component - update] - ', contextualComm);
       this.messages.next(contextualComm.messages);
-
-      this.contextualCommActivityComponent.updateView();
     });
 
   }
