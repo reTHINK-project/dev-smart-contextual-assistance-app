@@ -6845,7 +6845,7 @@ var UserViewComponent = (function () {
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 var environment = {
     production: true,
-    host: 'hysmart.rethink.ptinovacao.pt',
+    host: 'hybroker.rethink.ptinovacao.pt',
     images: './assets/img',
     sounds: './assets/sounds'
 };
