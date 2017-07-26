@@ -82,7 +82,7 @@ export class NativeNotificationsService {
           console.log('ServiceWorker Registration:', swRegistration);
 
           const persistentOps = options;
-          if (options.data.hasOwnProperty('actions')) {
+          if (options.data && options.data.hasOwnProperty('actions')) {
             persistentOps.actions = options.data.actions;
           };
 

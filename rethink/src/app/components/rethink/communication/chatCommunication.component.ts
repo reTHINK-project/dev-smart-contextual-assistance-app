@@ -38,7 +38,8 @@ export class ChatCommunicationComponent implements OnInit, OnDestroy {
         body: message.message,
         tag: NotificationTag.NEW_MESSAGE,
         vibrate: NotificationVibrate.NEW_MESSAGE,
-        sound: config.sounds + '/solemn.mp3'
+        sound: config.sounds + '/solemn.mp3',
+        persistent: true
       }).subscribe((n: any) => {
         console.log('Native:', n, n.notification, n.event);
 

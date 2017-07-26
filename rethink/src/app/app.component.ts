@@ -124,6 +124,9 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 
       this.natNotificationsService.create(title, {
         body: content,
+        tag: NotificationTag.INCOMING_CALL,
+        vibrate: NotificationVibrate.INCOMING_CALL,
+        persistent: true,
         sound: config.sounds + '/successful.mp3',
       });
 
@@ -234,19 +237,11 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
         vibrate: NotificationVibrate.INCOMING_CALL,
         persistent: true,
         data: {
-          actions: [
-            {
-              action: 'action.accept',
-              title: 'accept',
-              icon: ''
-            },
-            {
-              action: 'action.reject',
-              title: 'reject'
-            }
-          ]
+          metadata: event
         }
-      }).subscribe((not: any) => { console.log('notification:', not)});
+      }).subscribe((notEvent: any) => {
+        console.log('notification:', notEvent)
+      });
 
       this.notificationsService.create(title, content, 'info',
       {
