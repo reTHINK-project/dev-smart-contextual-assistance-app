@@ -31,7 +31,8 @@ export interface ContextValue {
 }
 
 // TODO Apply the Actions and Action Interfaces
-// TODO check here https://raw.githubusercontent.com/reTHINK-project/dev-service-framework/develop/schemas/json-schema/data-objects/Context.json
+// TODO check here
+// https://raw.githubusercontent.com/reTHINK-project/dev-service-framework/develop/schemas/json-schema/data-objects/Context.json
 
 export enum ContextUnitName {
   'meter',

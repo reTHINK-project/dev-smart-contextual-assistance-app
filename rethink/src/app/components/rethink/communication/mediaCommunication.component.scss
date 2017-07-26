@@ -91,8 +91,17 @@
     }
   }
 
-  .audio-call .video-wall {
-    background: none;
-    z-index: -1;
+  .audio-call {
+
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: black;
+
+    .video-wall {
+      display: none;
+      background: none;
+      z-index: -1;
+    }
   }
 }

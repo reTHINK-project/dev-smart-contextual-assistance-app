@@ -5,13 +5,12 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --live-reload false --ec true",
-    "build": "ng build --env=prod && cd dist && live-server --port=8080 --https=../https-config.js --host=vitor.dev --entry-file=/index.html ",
+    "build": "ng build --env=prod && sw-precache --verbose --config=sw-precache-config.prod.js",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "mobile": "ng serve --live-reload false --ec true --host vitor.dev",
-    "webpack": "webpack-dev-server --host vitor.dev",
-    "precache": "sw-precache --verbose --root=src --config=sw-precache-config.js"
+    "webpack": "webpack-dev-server",
+    "precache": "sw-precache --verbose --config=sw-precache-config.js"
   },
   "private": true,
   "dependencies": {

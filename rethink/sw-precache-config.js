@@ -1,5 +1,7 @@
 module.exports = {
   staticFileGlobs: [
+    '*.bundle.js',
+    'dist/*.*',
     'src/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff,mp3}',
     'src/**/**.js',
     'src/**/**.css',

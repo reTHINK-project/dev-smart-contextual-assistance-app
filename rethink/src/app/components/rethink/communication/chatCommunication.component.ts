@@ -63,7 +63,7 @@ export class ChatCommunicationComponent implements OnInit, OnDestroy {
     this.messages.unsubscribe();
   }
 
-  onSubmit() {
+  onSubmit(event: any) {
     const message = this.model.message;
 
     if (message) {
