@@ -6844,10 +6844,10 @@ var UserViewComponent = (function () {
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 var environment = {
-    production: false,
-    host: 'vitor.dev',
-    images: '../assets/img',
-    sounds: '../assets/sounds'
+    production: true,
+    host: 'hysmart.rethink.ptinovacao.pt',
+    images: './assets/img',
+    sounds: './assets/sounds'
 };
 //# sourceMappingURL=environment.js.map
 
