@@ -10,6 +10,7 @@ import { Message } from '../../../../models/models';
 export class ChatEventComponent implements OnInit {
 
   @Input() message: Message;
+  @Input() isAnEvent = false;
 
   ngOnInit() {
 

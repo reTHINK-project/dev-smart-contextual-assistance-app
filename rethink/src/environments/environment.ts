@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  host: 'localhost',
+  host: 'hysmart.rethink.ptinovacao.pt',
   images: '../assets/img',
   sounds: '../assets/sounds'
 };

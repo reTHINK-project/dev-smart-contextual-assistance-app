@@ -20,7 +20,7 @@
 
 <!-- message -->
 <p class="message">
-  <span class="chat">
+  <span *ngIf="isAnEvent" class="chat">
     <i class="fa fa-keyboard-o"></i>Wrote a Message
   </span>{{message.message}}
 </p>

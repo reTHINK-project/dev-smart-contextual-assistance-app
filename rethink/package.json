@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --live-reload false --ec true",
-    "build": "ng build --env=prod && sw-precache --verbose --config=sw-precache-config.prod.js",
+    "build": "ng build --env=prod && sw-precache --verbose --root=dist --config=sw-precache-config.prod.js",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

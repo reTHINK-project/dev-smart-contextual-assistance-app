@@ -12,6 +12,7 @@ export class ContextualCommActivityComponent implements OnChanges, AfterViewInit
   @HostBinding('class') hostClass = 'activity-list w-100 h-100';
 
   @Input() messages: Subject<Message[]>;
+  @Input() eventMode = false;
 
   constructor(private el: ElementRef) {}
 
