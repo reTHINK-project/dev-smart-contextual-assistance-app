@@ -25,7 +25,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "./index.html",
-  "display": "standalone",
+  "start_url": "/index.html",
+  "display": "browser",
   "orientation": "portrait"
 }
