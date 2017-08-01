@@ -6,6 +6,7 @@
     "ng": "ng",
     "start": "ng serve --live-reload false --ec true",
     "build": "ng build --env=prod",
+    "server": "ng build --env=prod && live-server --port=443 --host=app.hybroker.rethink.ptinovacao.pt",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
