@@ -5,7 +5,7 @@
 <!-- TODO: This should be replaced by the user-identity -->
 <div class="user-identity">
   <div class="user-status float-left">
-    <img class="rounded-circle" src="{{message.user.avatar}}">
+    <img alt="{{message.user.avatar}}" class="rounded-circle" src="{{message.user.avatar}}">
     <span class="status {{message.user.status}}">
       <i class="fa fa-circle{{message.user.status === 'unavailable' ? '-o' : ''}}"></i>
     </span>
@@ -20,7 +20,7 @@
 
 <!-- message -->
 <p class="message">
-  <span class="chat">
+  <span *ngIf="isAnEvent" class="chat">
     <i class="fa fa-keyboard-o"></i>Wrote a Message
   </span>{{message.message}}
 </p>

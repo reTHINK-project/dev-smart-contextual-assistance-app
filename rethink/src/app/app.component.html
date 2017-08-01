@@ -23,7 +23,7 @@
               <!-- Logotipo -->
               <div class="col align-center">
                 <a class="open-context" (click)="onOpenContext($event)"><i class="fa fa-lightbulb-o"></i></a>
-                <a routerLink="/"><img src="{{assetsConfig.images}}/rethinklogo2.png"></a>
+                <a routerLink="/" title="go to the reTHINK home" alt="go to the reTHINK home"><img title="reTHINK" alt="reTHINK" src="{{assetsConfig.images}}/rethinklogo2.png"></a>
               </div>
 
               <!-- My Identity -->
@@ -33,7 +33,7 @@
 
             </div>
 
-            <div *ngIf="showBreadcrumb"  class="secondary-menu mt-2 mb-2 row no-gutters">
+            <div *ngIf="showBreadcrumb"  class="secondary-menu row no-gutters">
 
               <!-- breadcrumb -->
               <div class="col-12">

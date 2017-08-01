@@ -7,7 +7,7 @@ import { NotificationsService } from './components/notification/notifications.mo
 import { NotificationActionEvent, ActionType } from './components/notification/notifications/interfaces/notification.action-event';
 
 import { NotificationEvent } from './components/notification/notifications/interfaces/notification-event.type';
-import { NativeNotificationsService } from './components/notification/native-notifications.module';
+import { NativeNotificationsService, NotificationTag, NotificationVibrate } from './components/notification/native-notifications.module';
 
 import { config } from './config';
 
@@ -119,16 +119,16 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
         showProgressBar: true,
         timeOut: 5000,
         pauseOnHover: false,
-        haveActions: false
+        haveActions: false,
       });
 
       this.natNotificationsService.create(title, {
         body: content,
-        silent: false,
-        sound: config.sounds + '/solemn.mp3',
-      }).subscribe(nat => this.nativeNotificationSubscription(nat),
-        (reason: any) => { console.log('Native Notification error:', reason); },
-        () => { console.log('Native Notification Completed'); });
+        tag: NotificationTag.INCOMING_CALL,
+        vibrate: NotificationVibrate.INCOMING_CALL,
+        persistent: true,
+        sound: config.sounds + '/successful.mp3',
+      });
 
     });
 
@@ -229,22 +229,28 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
       const content = 'A ' + event.mode + ' call is Incoming from ' + event.user.username;
       const avatar = event.user.avatar;
 
+      this.natNotificationsService.create(title, {
+        body: content,
+        icon: avatar,
+        sound: config.sounds + '/classic-ringer.mp3',
+        tag: NotificationTag.INCOMING_CALL,
+        vibrate: NotificationVibrate.INCOMING_CALL,
+        persistent: true,
+        data: {
+          metadata: event
+        }
+      }).subscribe((notEvent: any) => {
+        console.log('notification:', notEvent)
+      });
+
       this.notificationsService.create(title, content, 'info',
       {
         showProgressBar: false,
         pauseOnHover: false,
         haveActions: true,
-        metadata: event
-      }, avatar, this.actionResult);
-
-      this.natNotificationsService.create(title, {
-        icon: avatar,
-        body: content,
-        data: event,
-        silent: false
-      }).subscribe(nat => this.nativeNotificationSubscription(nat),
-        (reason: any) => { console.log('Native Notification error:', reason); },
-        () => { console.log('Native Notification Completed'); });
+        metadata: event,
+        sound: config.sounds + '/classic-ringer.mp3',
+      }, avatar, this.actionResult)
 
     }, (error: any) => {
       console.log('[Media Communication Component] - error', error);

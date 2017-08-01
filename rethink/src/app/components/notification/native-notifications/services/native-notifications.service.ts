@@ -9,8 +9,8 @@ declare const Notification: any;
 @Injectable()
 export class NativeNotificationsService {
 
-  private audio: any;
-  private registration: ServiceWorkerRegistration;
+  private audio: HTMLAudioElement;
+  private registration: ServiceWorkerContainer;
 
   permission: Permission;
 
@@ -21,8 +21,6 @@ export class NativeNotificationsService {
 
     // TODO: add a list of sounds to each type of event
     this.audio = new Audio();
-    this.audio.src = config.sounds + '/solemn.mp3';
-    this.audio.load();
   }
 
   requestPermission() {
@@ -41,12 +39,8 @@ export class NativeNotificationsService {
           if (this.permission !== 'granted') {
             obs.error(`You hasn't granted permission to send Native notifications`);
             obs.complete();
-          } else if (this.permission === 'granted') {
-            navigator.serviceWorker.getRegistration().then(registration => {
-              this.registration = registration;
-              obs.complete();
-            });
           }
+
         });
       }
     });
@@ -68,43 +62,71 @@ export class NativeNotificationsService {
       if (!('Notification' in window)) {
         obs.error('Notifications are not available in this environment');
         obs.complete();
+        return;
       }
 
       if (this.permission !== 'granted') {
         obs.error(`The user hasn't granted you permission to send Native notifications`);
         obs.complete();
+        return;
       }
 
-      // try {
+      console.log('ServiceWorker Registration:', this.permission, options);
 
-      //   console.log('ServiceWorker Registration:', this.registration);
+      if (options.persistent) {
 
-      //   this.registration.showNotification(title, Object.assign({requireInteraction: true}, options)).then((n: any) => {
+        console.log('ServiceWorker Registration:', navigator.serviceWorker.onmessage);
 
-      //     this.audio.play();
+        navigator.serviceWorker.ready.then((swRegistration: ServiceWorkerRegistration) => {
 
-      //   }).catch((reason: any) => {
+          console.log('ServiceWorker Registration:', swRegistration);
 
-      //     obs.error({event: reason});
-      //     obs.complete();
+          const persistentOps = options;
+          if (options.data && options.data.hasOwnProperty('actions')) {
+            persistentOps.actions = options.data.actions;
+          };
 
-      //   })
+          swRegistration.showNotification(title, persistentOps).then(() => {
+            console.log('ServiceWorker Registration - show Notification:', title, options);
 
-      // } catch (error) {
+            // console.log('ServiceWorker Registration - show Notification:', title, options, n);
 
-       //  console.log('Error:', error);
+            if (options.sound) {
+              this.audio.src = options.sound;
+              this.audio.load();
+              this.audio.play();
+            }
+
+          }).catch((reason: any) => {
+
+            obs.error({event: reason});
+            obs.complete();
+
+          })
+
+        });
+
+        navigator.serviceWorker.onmessage = (e: ServiceWorkerMessageEvent) => {
+          obs.next({event: e});
+          obs.complete();
+        };
+
+      } else {
 
         const n = new Notification(title, options);
 
-        this.audio.play();
+        if (options.sound) {
+          this.audio.src = options.sound;
+          this.audio.load();
+          this.audio.play();
+        }
 
         n.onshow = (e: any) => obs.next({notification: n, event: e});
         n.onclick = (e: any) => obs.next({notification: n, event: e});
         n.onerror = (e: any) => obs.error({notification: n, event: e});
         n.onclose = () => obs.complete();
 
-      // }
-
+      }
     });
   }
 

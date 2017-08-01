@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, OnDestroy, HostBinding, EventEmitter,
 import { Subscription } from 'rxjs/Subscription';
 
 import { NativeNotificationsService } from '../../notification/native-notifications/services/native-notifications.service';
+import { NotificationTag, NotificationVibrate } from '../../notification/native-notifications.module'
 
 import { config } from '../../../config';
 
@@ -34,7 +35,11 @@ export class ChatCommunicationComponent implements OnInit, OnDestroy {
 
       this.natNotificationsService.create('New Message', {
         icon: message.user.avatar,
-        body: message.message
+        body: message.message,
+        tag: NotificationTag.NEW_MESSAGE,
+        vibrate: NotificationVibrate.NEW_MESSAGE,
+        sound: config.sounds + '/solemn.mp3',
+        persistent: true
       }).subscribe((n: any) => {
         console.log('Native:', n, n.notification, n.event);
 
@@ -58,13 +63,13 @@ export class ChatCommunicationComponent implements OnInit, OnDestroy {
     this.messages.unsubscribe();
   }
 
-  onSubmit() {
+  onSubmit(event: any) {
     const message = this.model.message;
 
     if (message) {
       console.log('[Chat Communication View - onMessage] - Message:', message, this.chatService.chatControllerActive);
-      this.chatService.send(message).then((message: any) => {
-        console.log('[Activity View - onMessage] - message sent', message);
+      this.chatService.send(message).then((sentMessage: any) => {
+        console.log('[Activity View - onMessage] - message sent', sentMessage);
       });
 
       this.clean();

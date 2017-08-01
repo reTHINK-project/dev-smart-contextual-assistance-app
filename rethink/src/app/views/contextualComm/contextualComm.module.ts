@@ -8,7 +8,7 @@ import { ContextualCommRoutingModule } from './contextualComm.routing';
 
 // Generic Components
 import { ContextNameValidatorDirective } from '../../shared/rethink.directive';
-import { FullscreenDirective } from '../../shared/directive.module';
+import { DirectiveModules } from '../../shared/directive.module';
 
 import { MediaCommunicationComponent } from '../../components/rethink/communication/mediaCommunication.component';
 import { ChatCommunicationComponent } from '../../components/rethink/communication/chatCommunication.component';
@@ -44,11 +44,11 @@ import {
     MomentModule,
     CommonModule,
     FormsModule,
+    DirectiveModules,
     ContextualCommRoutingModule
   ],
   declarations: [
     ContextNameValidatorDirective,
-    FullscreenDirective,
 
     ContextualCommActivityComponent,
     ActivityViewComponent,

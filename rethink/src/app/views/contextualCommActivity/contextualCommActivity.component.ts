@@ -12,6 +12,7 @@ export class ContextualCommActivityComponent implements OnChanges, AfterViewInit
   @HostBinding('class') hostClass = 'activity-list w-100 h-100';
 
   @Input() messages: Subject<Message[]>;
+  @Input() eventMode = false;
 
   constructor(private el: ElementRef) {}
 
@@ -30,31 +31,13 @@ export class ContextualCommActivityComponent implements OnChanges, AfterViewInit
 
   }
 
-  updateView(): void {
-
-    // if (!this._canUpdateView()) { return; }
-
-    // console.log('Can Update the view:', this._canUpdateView());
-
-    // let scrollPane: any = this.el.nativeElement;
-    // let parentEl: any = scrollPane.offsetParent;
-    // let top = scrollPane.offsetTop;
-    // let parentElHeight = parentEl.offsetHeight;
-
-    // // TODO: replace the number for the sender box height;
-    // let height = parentElHeight - (top + 62);
-    // scrollPane.style.height = height + 'px';
-
-    // TODO: Check if exits other way to wait the dom have the last item added and remove this setTimeout
-    // setTimeout(() => {
-    //   this.scrollToBottom();
-    // });
-
-  }
-
   scrollToBottom(): void {
     const scrollPane: any = this.el.nativeElement;
-    scrollPane.scrollTop = scrollPane.scrollHeight;
+    const parentEl: any = scrollPane.offsetParent;
+    if (parentEl) {
+      parentEl.scrollTop = parentEl.scrollHeight;
+    }
+
   }
 
 }
