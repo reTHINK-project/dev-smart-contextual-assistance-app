@@ -12,7 +12,7 @@ ENV PATH=/rethink/node_modules/.bin:$PATH
 COPY package.json /rethink/
 
 # Install app dependencies
-RUN npm install
+RUN npm install -g live-server && npm install 
 
 # Copy all structure
 COPY . /rethink/
