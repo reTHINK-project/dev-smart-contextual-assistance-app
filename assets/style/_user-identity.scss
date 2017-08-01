@@ -53,6 +53,18 @@
   .extra-info {
     font-size: 0.75rem;
     color: #d6d6d6;
+    display: inline-block;
+
+    @include media-breakpoint-down(sm) {
+      max-width: 86px;
+    }
+
+    @include media-breakpoint-up(sm) {
+      max-width: 140px;
+    }
+
+
+
   }
 
   .contact-box {
