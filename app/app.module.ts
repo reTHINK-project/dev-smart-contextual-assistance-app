@@ -13,8 +13,6 @@ import { CustomUtils } from './utils/CustomUtils';
 
 // Directives
 import { DirectiveModules } from './shared/directive.module';
-// import { SidebarDirective } from './shared/sidebar.directive';
-// import { DirectiveModules  } from './shared/directive.module';
 
 // components
 import { AppComponent } from './app.component';

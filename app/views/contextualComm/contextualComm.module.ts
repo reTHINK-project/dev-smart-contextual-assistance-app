@@ -27,9 +27,6 @@ import { ContextualCommActivityComponent } from '../contextualCommActivity/conte
 // Custom Pipes
 import { PipesModule } from '../../pipes/pipes';
 
-// reTHinK Services
-import { UserAvailabilityService } from '../../services/rethink/userAvailability.service';
-
 // Services
 import {
   AuthGuard,
@@ -65,7 +62,6 @@ import {
     AuthGuard,
     UserResolver,
     ContextualCommService,
-    UserAvailabilityService,
     ContextualCommDataService,
     ContextualCommDataResolver
   ]

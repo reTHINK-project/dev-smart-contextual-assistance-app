@@ -1,4 +1,5 @@
 // Rethink Services
+import { UserAvailabilityService } from './rethink/userAvailability.service';
 import { ConnectorService } from './rethink/connector.service';
 import { RethinkService } from './rethink/rethink.service';
 import { ChatService } from './rethink/chat.service';
@@ -32,6 +33,7 @@ export {
   ActivateUserGuard,
   TriggerActionService,
   ContextualCommService,
+  UserAvailabilityService,
   ContextualCommDataService,
   ContextualCommDataResolver,
   ContextualCommTriggerService
@@ -48,5 +50,6 @@ export let servicesInjectables: Array<any> = [
   ActivateTaskGuard,
   ActivateUserGuard,
   TriggerActionService,
+  UserAvailabilityService,
   ContextualCommTriggerService
 ];

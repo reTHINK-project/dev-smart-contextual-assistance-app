@@ -69,7 +69,7 @@ var AppRoutingModule = (function () {
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<notifications></notifications>\n\n<!-- container -->\n<div screen class=\"container-fluid\">\n\n  <div class=\"row\">\n\n    <!-- pusher -->\n    <div class=\"mp-pusher wrapper {{contextOpened ? 'mp-pushed' : ''}}\" (click)='onClickOutside($event)' id=\"mp-pusher\">\n      <nav context-menu></nav>\n\n      <!-- scroller -->\n      <div class=\"scroller\">\n\n        <!-- scroller-inner -->\n        <div #section class=\"scroller-inner d-flex flex-column align-items-stretch\">\n\n          <div *ngIf=\"showAlert\" [innerHTML]=\"notificationStatus\" class=\"alert alert-warning m-0 rounded-0\" role=\"alert\"></div>\n\n          <header class=\"header\">\n            <div class=\"primary-menu row no-gutters\">\n\n              <!-- Logotipo -->\n              <div class=\"col align-center\">\n                <a class=\"open-context\" (click)=\"onOpenContext($event)\"><i class=\"fa fa-lightbulb-o\"></i></a>\n                <a routerLink=\"/\" title=\"go to the reTHINK home\" alt=\"go to the reTHINK home\"><img title=\"reTHINK\" alt=\"reTHINK\" src=\"{{assetsConfig.images}}/rethinklogo2.png\"></a>\n              </div>\n\n              <!-- My Identity -->\n              <div class=\"col-6\">\n                <my-self *ngIf=\"myIdentity\" [model]=\"myIdentity\"></my-self>\n              </div>\n\n            </div>\n\n            <div *ngIf=\"showBreadcrumb\"  class=\"secondary-menu row no-gutters\">\n\n              <!-- breadcrumb -->\n              <div class=\"col-12\">\n                <ul *ngIf=\"ready\" (openContext)=\"openSecondaryContext($event)\" context-breadcrumb></ul>\n              </div>\n\n            </div>\n\n          </header>\n\n          <router-outlet (activate)='onActivate($event)'></router-outlet>\n\n          <loading *ngIf=\"!ready\"  [status]=\"status\"></loading>\n\n        </div>\n        <!-- /scroller-inner -->\n      </div>\n      <!-- /scroller -->\n    </div>\n\n  </div>\n  <!-- /pusher -->\n</div>\n<!-- /container -->\n"
+module.exports = "<notifications></notifications>\n\n<!-- container -->\n<div screen class=\"container-fluid\">\n\n  <div class=\"row\">\n\n    <!-- pusher -->\n    <div class=\"mp-pusher wrapper {{contextOpened ? 'mp-pushed' : ''}}\" (click)='onClickOutside($event)' id=\"mp-pusher\">\n      <nav context-menu></nav>\n\n      <!-- scroller -->\n      <div class=\"scroller\">\n\n        <!-- scroller-inner -->\n        <div #section class=\"scroller-inner d-flex flex-column align-items-stretch\">\n\n          <div *ngIf=\"showAlert\" [innerHTML]=\"notificationStatus\" class=\"alert alert-warning m-0 rounded-0\" role=\"alert\"></div>\n\n          <header class=\"header\">\n            <div class=\"primary-menu row no-gutters\">\n\n              <!-- Logotipo -->\n              <div class=\"col align-center\">\n                <a class=\"open-context\" (click)=\"onOpenContext($event)\"><i class=\"fa fa-lightbulb-o\"></i></a>\n                <a routerLink=\"/\" title=\"go to the reTHINK home\" alt=\"go to the reTHINK home\"><img title=\"reTHINK\" alt=\"reTHINK\" src=\"{{assetsConfig.images}}/rethinklogo2.png\"></a>\n              </div>\n\n              <!-- My Identity -->\n              <div class=\"col-6\">\n                <my-self *ngIf=\"myIdentity && ready\" [model]=\"myIdentity\"></my-self>\n              </div>\n\n            </div>\n\n            <div *ngIf=\"showBreadcrumb\"  class=\"secondary-menu row no-gutters\">\n\n              <!-- breadcrumb -->\n              <div class=\"col-12\">\n                <ul *ngIf=\"ready\" (openContext)=\"openSecondaryContext($event)\" context-breadcrumb></ul>\n              </div>\n\n            </div>\n\n          </header>\n\n          <router-outlet (activate)='onActivate($event)'></router-outlet>\n\n          <loading *ngIf=\"!ready\"  [status]=\"status\"></loading>\n\n        </div>\n        <!-- /scroller-inner -->\n      </div>\n      <!-- /scroller -->\n    </div>\n\n  </div>\n  <!-- /pusher -->\n</div>\n<!-- /container -->\n"
 
 /***/ }),
 
@@ -86,12 +86,13 @@ module.exports = "<notifications></notifications>\n\n<!-- container -->\n<div sc
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__config__ = __webpack_require__("../../../../../src/app/config.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__models_app_models__ = __webpack_require__("../../../../../src/app/models/app.models.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_utils__ = __webpack_require__("../../../../../src/app/utils/utils.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_routing_service__ = __webpack_require__("../../../../../src/app/services/routing.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_breadcrumb_service__ = __webpack_require__("../../../../../src/app/services/breadcrumb.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__views_contextualComm_contextualComm_component__ = __webpack_require__("../../../../../src/app/views/contextualComm/contextualComm.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__views_contextualComm_contextualComm_component__ = __webpack_require__("../../../../../src/app/views/contextualComm/contextualComm.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_routing_service__ = __webpack_require__("../../../../../src/app/services/routing.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__services_breadcrumb_service__ = __webpack_require__("../../../../../src/app/services/breadcrumb.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__services_contextualComm_service__ = __webpack_require__("../../../../../src/app/services/contextualComm.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__services_contextualCommData_service__ = __webpack_require__("../../../../../src/app/services/contextualCommData.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__services_rethink_userAvailability_service__ = __webpack_require__("../../../../../src/app/services/rethink/userAvailability.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -112,6 +113,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 // Utils
 
+
 // Services
 
 
@@ -120,22 +122,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var AppComponent = (function () {
-    function AppComponent(router, titleService, route, routingService, breadcrumbService, natNotificationsService, notificationsService, contactService, rethinkService, triggerActionService, contextualCommService, contextualCommDataService, connectorService, chatService) {
+    function AppComponent(router, titleService, route, chatService, rethinkService, contactService, routingService, connectorService, breadcrumbService, notificationsService, triggerActionService, contextualCommService, userAvailabilityService, natNotificationsService, contextualCommDataService) {
         var _this = this;
         this.router = router;
         this.titleService = titleService;
         this.route = route;
-        this.routingService = routingService;
-        this.breadcrumbService = breadcrumbService;
-        this.natNotificationsService = natNotificationsService;
-        this.notificationsService = notificationsService;
-        this.contactService = contactService;
+        this.chatService = chatService;
         this.rethinkService = rethinkService;
+        this.contactService = contactService;
+        this.routingService = routingService;
+        this.connectorService = connectorService;
+        this.breadcrumbService = breadcrumbService;
+        this.notificationsService = notificationsService;
         this.triggerActionService = triggerActionService;
         this.contextualCommService = contextualCommService;
+        this.userAvailabilityService = userAvailabilityService;
+        this.natNotificationsService = natNotificationsService;
         this.contextualCommDataService = contextualCommDataService;
-        this.connectorService = connectorService;
-        this.chatService = chatService;
         this.actionResult = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["EventEmitter"]();
         this.showBreadcrumb = false;
         this.showAlert = false;
@@ -212,15 +215,29 @@ var AppComponent = (function () {
         })
             .then(function (user) {
             _this.myIdentity = _this.contactService.getUser(user.userURL);
+            _this.rethinkService.progress.next('Loading user status availability service');
+            return _this.userAvailabilityService.getHyperty();
+        })
+            .then(function (hyperty) {
             _this.rethinkService.progress.next('The app is ready to be used');
             _this.rethinkService.progress.complete();
             _this.rethinkService.status.next(true);
             _this.ready = true;
             _this.hypertiesReady();
+        }, function (error) {
+            console.log('Error: ', error);
+            _this.rethinkService.progress.error(error);
+            return null;
         });
     };
     AppComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
+        this.routerEvent = this.router.events.subscribe(function (navigation) {
+            console.log('[App Component] - navigation: ', navigation);
+            if (navigation instanceof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* NavigationEnd */]) {
+                _this.toggleSideBar();
+            }
+        });
         this.routeData = this.routingService.routingChanges.subscribe(function (pageSection) {
             console.log('[Routing Service Output] - ', pageSection);
             if (pageSection.section !== 'home') {
@@ -232,24 +249,15 @@ var AppComponent = (function () {
             _this.section.nativeElement.setAttribute('data-section', pageSection.section);
         });
     };
-    AppComponent.prototype.ngAfterContentInit = function () {
-        var _this = this;
-        this.routerEvent = this.router.events.subscribe(function (navigation) {
-            console.log('[App Component] - navigation: ', navigation);
-            if (navigation instanceof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* NavigationEnd */]) {
-                _this.toggleSideBar();
-            }
-        });
-    };
     AppComponent.prototype.hypertiesReady = function () {
         var _this = this;
         // Prepare the chat service to recive invitations
         this.chatInvitation = this.chatService.onInvitation.subscribe(function (event) {
-            console.log('[Chat Communication View - onInvitation] - event:', event);
+            console.log('[App View View - chatService onInvitation] - event:', event);
             _this.processEvent(event).then(function (result) {
-                console.log('[Chat Communication View - onInvitation] - event processed:', result);
+                console.log('[App View View - chatService onInvitation] - event processed:', result);
             }).catch(function (reason) {
-                console.error('[Chat Communication View - onInvitation] - event not processed:', reason);
+                console.error('[App View View - chatService onInvitation] - event not processed:', reason);
             });
         });
         this.connectorInvitation = this.connectorService.onInvitation.subscribe(function (event) {
@@ -411,7 +419,7 @@ var AppComponent = (function () {
         }
     };
     AppComponent.prototype.onActivate = function (event) {
-        if (event instanceof __WEBPACK_IMPORTED_MODULE_11__views_contextualComm_contextualComm_component__["a" /* ContextualCommComponent */]) {
+        if (event instanceof __WEBPACK_IMPORTED_MODULE_9__views_contextualComm_contextualComm_component__["a" /* ContextualCommComponent */]) {
             this.context = event;
         }
     };
@@ -436,10 +444,10 @@ var AppComponent = (function () {
             selector: 'rethink-app',
             template: __webpack_require__("../../../../../src/app/app.component.html")
         }),
-        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["d" /* Title */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["d" /* Title */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_9__services_routing_service__["a" /* RoutingService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__services_routing_service__["a" /* RoutingService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_10__services_breadcrumb_service__["a" /* BreadcrumbService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__services_breadcrumb_service__["a" /* BreadcrumbService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_5__components_notification_native_notifications_module__["d" /* NativeNotificationsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__components_notification_native_notifications_module__["d" /* NativeNotificationsService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_3__components_notification_notifications_module__["NotificationsService"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__components_notification_notifications_module__["NotificationsService"]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_14__services_services__["e" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_14__services_services__["e" /* ContactService */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_14__services_services__["c" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_14__services_services__["c" /* RethinkService */]) === "function" && _k || Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_14__services_services__["b" /* TriggerActionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_14__services_services__["b" /* TriggerActionService */]) === "function" && _l || Object, typeof (_m = typeof __WEBPACK_IMPORTED_MODULE_12__services_contextualComm_service__["a" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__services_contextualComm_service__["a" /* ContextualCommService */]) === "function" && _m || Object, typeof (_o = typeof __WEBPACK_IMPORTED_MODULE_13__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_13__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _o || Object, typeof (_p = typeof __WEBPACK_IMPORTED_MODULE_14__services_services__["g" /* ConnectorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_14__services_services__["g" /* ConnectorService */]) === "function" && _p || Object, typeof (_q = typeof __WEBPACK_IMPORTED_MODULE_14__services_services__["f" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_14__services_services__["f" /* ChatService */]) === "function" && _q || Object])
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["d" /* Title */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["d" /* Title */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_15__services_services__["f" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__services_services__["f" /* ChatService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_15__services_services__["c" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__services_services__["c" /* RethinkService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_15__services_services__["e" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__services_services__["e" /* ContactService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_10__services_routing_service__["a" /* RoutingService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__services_routing_service__["a" /* RoutingService */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_15__services_services__["g" /* ConnectorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__services_services__["g" /* ConnectorService */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_11__services_breadcrumb_service__["a" /* BreadcrumbService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_11__services_breadcrumb_service__["a" /* BreadcrumbService */]) === "function" && _k || Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_3__components_notification_notifications_module__["NotificationsService"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__components_notification_notifications_module__["NotificationsService"]) === "function" && _l || Object, typeof (_m = typeof __WEBPACK_IMPORTED_MODULE_15__services_services__["b" /* TriggerActionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__services_services__["b" /* TriggerActionService */]) === "function" && _m || Object, typeof (_o = typeof __WEBPACK_IMPORTED_MODULE_12__services_contextualComm_service__["a" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__services_contextualComm_service__["a" /* ContextualCommService */]) === "function" && _o || Object, typeof (_p = typeof __WEBPACK_IMPORTED_MODULE_14__services_rethink_userAvailability_service__["a" /* UserAvailabilityService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_14__services_rethink_userAvailability_service__["a" /* UserAvailabilityService */]) === "function" && _p || Object, typeof (_q = typeof __WEBPACK_IMPORTED_MODULE_5__components_notification_native_notifications_module__["d" /* NativeNotificationsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__components_notification_native_notifications_module__["d" /* NativeNotificationsService */]) === "function" && _q || Object, typeof (_r = typeof __WEBPACK_IMPORTED_MODULE_13__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_13__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _r || Object])
     ], AppComponent);
     return AppComponent;
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
 }());
 
 //# sourceMappingURL=app.component.js.map
@@ -491,8 +499,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 // Directives
 
-// import { SidebarDirective } from './shared/sidebar.directive';
-// import { DirectiveModules  } from './shared/directive.module';
 // components
 
 
@@ -1918,7 +1924,7 @@ var MediaCommunicationComponent = (function () {
             template: __webpack_require__("../../../../../src/app/components/rethink/communication/mediaCommunication.component.html"),
             styles: [__webpack_require__("../../../../../src/app/components/rethink/communication/mediaCommunication.component.scss")]
         }),
-        __metadata("design:paramtypes", [typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["e" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["e" /* ContactService */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["g" /* ConnectorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["g" /* ConnectorService */]) === "function" && _k || Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_3__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _l || Object])
+        __metadata("design:paramtypes", [typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["e" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["e" /* ContactService */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["g" /* ConnectorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["g" /* ConnectorService */]) === "function" && _k || Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_3__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _l || Object])
     ], MediaCommunicationComponent);
     return MediaCommunicationComponent;
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
@@ -2664,7 +2670,7 @@ var BreadcrumbService = (function () {
         this.router.events.subscribe(function (navigation) {
             console.log('[Breadcrumb Service] - router events:', navigation);
             _this._urls.length = 0; // Fastest way to clear out array
-            if (navigation instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* NavigationEnd */]) {
+            if (navigation instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* NavigationEnd */]) {
                 _this.generateBreadcrumbTrail(navigation.urlAfterRedirects ? navigation.urlAfterRedirects : navigation.url);
                 _this.paths.next(_this._urls);
             }
@@ -3375,8 +3381,8 @@ var ContextualCommDataService = (function () {
                 }).then(function (context) {
                     console.info('[ContextualCommData Service] -  ContextualComm created: ', context);
                     resolve(context);
-                }).catch(function (reason) {
-                    console.warn('Context not found');
+                }).catch(function (error) {
+                    console.warn('Context not found', error);
                     // console.error('Reason:', reason);
                 });
             });
@@ -3496,7 +3502,7 @@ var ContextualCommDataService = (function () {
     };
     ContextualCommDataService = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common__["a" /* Location */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common__["a" /* Location */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__rethink_chat_service__["a" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__rethink_chat_service__["a" /* ChatService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__contact_service__["a" /* ContactService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */]) === "function" && _e || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* Location */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* Location */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__rethink_chat_service__["a" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__rethink_chat_service__["a" /* ChatService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__contact_service__["a" /* ContactService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */]) === "function" && _e || Object])
     ], ContextualCommDataService);
     return ContextualCommDataService;
     var _a, _b, _c, _d, _e;
@@ -3815,8 +3821,8 @@ var ChatService = (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.chatGroupManager.create(name, users, domains).then(function (chatController) {
-                _this._updateControllersList(chatController.dataObject.url, chatController);
                 console.log('[Chat Created]', chatController);
+                _this._updateControllersList(chatController.dataObject.url, chatController);
                 _this.prepareHyperty();
                 resolve(chatController);
             }).catch(function (reason) {
@@ -3947,7 +3953,7 @@ var ConnectorService = (function () {
         this.onDisconnect = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         console.log('[Connector Service] - constructor', this.router);
         this.paramsSubscription = this.router.events.subscribe(function (event) {
-            if (event instanceof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* NavigationEnd */]) {
+            if (event instanceof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* NavigationEnd */]) {
                 console.log('[Connector Service] - query params changes:', event, event['action'], _this.mode, _this.callInProgress);
                 if (!_this.callInProgress) {
                     _this.acceptCall();
@@ -4120,7 +4126,7 @@ var ConnectorService = (function () {
     ], ConnectorService.prototype, "onDisconnect", void 0);
     ConnectorService = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["c" /* DomSanitizer */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["c" /* DomSanitizer */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_5__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__contact_service__["a" /* ContactService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_4__rethink_service__["a" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__rethink_service__["a" /* RethinkService */]) === "function" && _g || Object])
+        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["c" /* DomSanitizer */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["c" /* DomSanitizer */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_5__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__contact_service__["a" /* ContactService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_4__rethink_service__["a" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__rethink_service__["a" /* RethinkService */]) === "function" && _g || Object])
     ], ConnectorService);
     return ConnectorService;
     var _a, _b, _c, _d, _e, _f, _g;
@@ -4246,27 +4252,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var UserAvailabilityService = (function () {
     function UserAvailabilityService(router, route, rethinkService, contactService) {
-        var _this = this;
         this.router = router;
         this.route = route;
         this.rethinkService = rethinkService;
         this.contactService = contactService;
-        console.log('[UserAvailability Service - constructor] - ');
-        this.availabilityReporterURL = 'hyperty-catalogue://catalogue.' + this.rethinkService.domain + '/.well-known/hyperty/UserAvailabilityReporter';
-        this.availabilityObserverURL = 'hyperty-catalogue://catalogue.' + this.rethinkService.domain + '/.well-known/hyperty/UserAvailabilityObserver';
-        this.rethinkService.getHyperty(this.availabilityReporterURL)
-            .then(function (hyperty) {
-            _this.myAvailabilityReporter = hyperty.instance;
-            console.log('[UserAvailability Service - getHyperty] Reporter hyperty was instantiated ', _this.myAvailabilityReporter);
-            _this.myAvailabilityReporter.start().then(function (availability) {
-                _this.myAvailability = availability;
-                _this.contactService.sessionUser.statustUrl = availability.url;
-                _this.contactService.sessionUser.status = 'available';
-                _this.myAvailabilityReporter.setStatus('available');
-                _this.startObservation();
+        this.domain = this.rethinkService.domain;
+    }
+    UserAvailabilityService.prototype.getHyperty = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            console.log('[UserAvailability Service - get hyperty reporter] - ');
+            var availabilityReporterURL = 'hyperty-catalogue://catalogue.' + _this.domain + '/.well-known/hyperty/UserAvailabilityReporter';
+            _this.rethinkService.getHyperty(availabilityReporterURL)
+                .then(function (hyperty) {
+                _this.myAvailabilityReporter = hyperty.instance;
+                console.log('[UserAvailability Service - getHyperty] Reporter hyperty was instantiated ', _this.myAvailabilityReporter);
+                _this.myAvailabilityReporter.start().then(function (availability) {
+                    _this.myAvailability = availability;
+                    _this.contactService.sessionUser.statustUrl = availability.url;
+                    _this.contactService.sessionUser.status = 'available';
+                    _this.myAvailabilityReporter.setStatus('available');
+                    _this.startObservation();
+                    resolve(_this.myAvailabilityReporter);
+                });
+            }).catch(function (reason) {
+                reject(reason);
             });
         });
-    }
+    };
     UserAvailabilityService.prototype.stopObservation = function (availability) {
         console.log('[UserAvailability service. stop observing] ', availability);
         this.availabilityObserver.unobserve(availability);
@@ -4274,9 +4287,9 @@ var UserAvailabilityService = (function () {
     UserAvailabilityService.prototype.startObservation = function () {
         var _this = this;
         console.log('[UserAvailability service. start observation] ');
-        // let's first start the AvailabilityObserver Hyperty 
-        this.rethinkService.getHyperty(this.availabilityObserverURL)
-            .then(function (hyperty) {
+        var availabilityObserverURL = 'hyperty-catalogue://catalogue.' + this.domain + '/.well-known/hyperty/UserAvailabilityObserver';
+        // let's first start the AvailabilityObserver Hyperty
+        this.rethinkService.getHyperty(availabilityObserverURL).then(function (hyperty) {
             _this.availabilityObserver = hyperty.instance;
             console.log('[UserAvailability Service - getHyperty] Observer hyperty was instantiated ', _this.availabilityObserver);
             // Let's retrieve observers from previous sessions
@@ -4285,7 +4298,6 @@ var UserAvailabilityService = (function () {
                 _this.contactService.getUsers().subscribe(function (users) {
                     console.log('[UserAvailability Service - startObservation] users to be observed:', users);
                     var newUsers = [];
-                    //for each User lets start observation 
                     users.forEach(function (user) {
                         if (user.statustUrl && availabilities[user.statustUrl]) {
                             // TODO: confirm controllers is a list not an array
@@ -4304,11 +4316,11 @@ var UserAvailabilityService = (function () {
         });
     };
     UserAvailabilityService.prototype.subscribeUsers = function (users) {
-        //for each user let's discover reporter Hyperties
+        // for each user let's discover reporter Hyperties
         var _this = this;
         users.forEach(function (user) {
             _this.discoverUserAvailability(user).then(function (availability) {
-                //lets start a new user availability observation
+                // lets start a new user availability observation
                 _this.availabilityObserver.observe(availability).then(function (controller) {
                     user.startStatusObservation(controller);
                 });
@@ -4340,7 +4352,7 @@ var UserAvailabilityService = (function () {
     };
     UserAvailabilityService = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__rethink_service__["a" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__rethink_service__["a" /* RethinkService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__contact_service__["a" /* ContactService */]) === "function" && _d || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__rethink_service__["a" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__rethink_service__["a" /* RethinkService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__contact_service__["a" /* ContactService */]) === "function" && _d || Object])
     ], UserAvailabilityService);
     return UserAvailabilityService;
     var _a, _b, _c, _d;
@@ -4390,7 +4402,7 @@ var RoutingService = (function () {
         this.activatedRoute = activatedRoute;
         this.routingChanges = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         console.log('[Routing Service] - ');
-        router.events.filter(function (event) { return event instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* NavigationEnd */]; })
+        router.events.filter(function (event) { return event instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* NavigationEnd */]; })
             .map(function () { return _this.activatedRoute; })
             .map(function (route) {
             while (route.firstChild) {
@@ -4443,7 +4455,7 @@ var RoutingService = (function () {
     ], RoutingService.prototype, "routingChanges", void 0);
     RoutingService = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["d" /* Title */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["d" /* Title */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _c || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["d" /* Title */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["d" /* Title */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _c || Object])
     ], RoutingService);
     return RoutingService;
     var _a, _b, _c;
@@ -4457,40 +4469,43 @@ var RoutingService = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__rethink_connector_service__ = __webpack_require__("../../../../../src/app/services/rethink/connector.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rethink_rethink_service__ = __webpack_require__("../../../../../src/app/services/rethink/rethink.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__rethink_chat_service__ = __webpack_require__("../../../../../src/app/services/rethink/chat.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__contextualCommTrigger_service__ = __webpack_require__("../../../../../src/app/services/contextualCommTrigger.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__contextualCommData_service__ = __webpack_require__("../../../../../src/app/services/contextualCommData.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__contextualCommData_resolver__ = __webpack_require__("../../../../../src/app/services/contextualCommData.resolver.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__contextualComm_service__ = __webpack_require__("../../../../../src/app/services/contextualComm.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__triggerAction_service__ = __webpack_require__("../../../../../src/app/services/triggerAction.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__activateTask_service__ = __webpack_require__("../../../../../src/app/services/activateTask.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__activateUser_service__ = __webpack_require__("../../../../../src/app/services/activateUser.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__breadcrumb_service__ = __webpack_require__("../../../../../src/app/services/breadcrumb.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__contact_service__ = __webpack_require__("../../../../../src/app/services/contact.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__routing_service__ = __webpack_require__("../../../../../src/app/services/routing.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__storage_service__ = __webpack_require__("../../../../../src/app/services/storage.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__authGuard_service__ = __webpack_require__("../../../../../src/app/services/authGuard.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__user_resolver__ = __webpack_require__("../../../../../src/app/services/user.resolver.ts");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_14__authGuard_service__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_2__rethink_chat_service__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_15__user_resolver__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__rethink_userAvailability_service__ = __webpack_require__("../../../../../src/app/services/rethink/userAvailability.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rethink_connector_service__ = __webpack_require__("../../../../../src/app/services/rethink/connector.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__rethink_rethink_service__ = __webpack_require__("../../../../../src/app/services/rethink/rethink.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__rethink_chat_service__ = __webpack_require__("../../../../../src/app/services/rethink/chat.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__contextualCommTrigger_service__ = __webpack_require__("../../../../../src/app/services/contextualCommTrigger.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__contextualCommData_service__ = __webpack_require__("../../../../../src/app/services/contextualCommData.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__contextualCommData_resolver__ = __webpack_require__("../../../../../src/app/services/contextualCommData.resolver.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__contextualComm_service__ = __webpack_require__("../../../../../src/app/services/contextualComm.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__triggerAction_service__ = __webpack_require__("../../../../../src/app/services/triggerAction.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__activateTask_service__ = __webpack_require__("../../../../../src/app/services/activateTask.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__activateUser_service__ = __webpack_require__("../../../../../src/app/services/activateUser.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__breadcrumb_service__ = __webpack_require__("../../../../../src/app/services/breadcrumb.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__contact_service__ = __webpack_require__("../../../../../src/app/services/contact.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__routing_service__ = __webpack_require__("../../../../../src/app/services/routing.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__storage_service__ = __webpack_require__("../../../../../src/app/services/storage.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__authGuard_service__ = __webpack_require__("../../../../../src/app/services/authGuard.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__user_resolver__ = __webpack_require__("../../../../../src/app/services/user.resolver.ts");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_15__authGuard_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_3__rethink_chat_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_16__user_resolver__["a"]; });
 /* unused harmony reexport LocalStorage */
 /* unused harmony reexport RoutingService */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_1__rethink_rethink_service__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_11__contact_service__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_0__rethink_connector_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_2__rethink_rethink_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_12__contact_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_1__rethink_connector_service__["a"]; });
 /* unused harmony reexport BreadcrumbService */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_8__activateTask_service__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_9__activateUser_service__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_7__triggerAction_service__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_6__contextualComm_service__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_4__contextualCommData_service__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_5__contextualCommData_resolver__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_9__activateTask_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_10__activateUser_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_8__triggerAction_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_7__contextualComm_service__["a"]; });
+/* unused harmony reexport UserAvailabilityService */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_5__contextualCommData_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_6__contextualCommData_resolver__["a"]; });
 /* unused harmony reexport ContextualCommTriggerService */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return servicesInjectables; });
 // Rethink Services
+
 
 
 
@@ -4510,17 +4525,18 @@ var RoutingService = (function () {
 
 
 var servicesInjectables = [
-    __WEBPACK_IMPORTED_MODULE_2__rethink_chat_service__["a" /* ChatService */],
-    __WEBPACK_IMPORTED_MODULE_13__storage_service__["a" /* LocalStorage */],
-    __WEBPACK_IMPORTED_MODULE_12__routing_service__["a" /* RoutingService */],
-    __WEBPACK_IMPORTED_MODULE_1__rethink_rethink_service__["a" /* RethinkService */],
-    __WEBPACK_IMPORTED_MODULE_11__contact_service__["a" /* ContactService */],
-    __WEBPACK_IMPORTED_MODULE_0__rethink_connector_service__["a" /* ConnectorService */],
-    __WEBPACK_IMPORTED_MODULE_10__breadcrumb_service__["a" /* BreadcrumbService */],
-    __WEBPACK_IMPORTED_MODULE_8__activateTask_service__["a" /* ActivateTaskGuard */],
-    __WEBPACK_IMPORTED_MODULE_9__activateUser_service__["a" /* ActivateUserGuard */],
-    __WEBPACK_IMPORTED_MODULE_7__triggerAction_service__["a" /* TriggerActionService */],
-    __WEBPACK_IMPORTED_MODULE_3__contextualCommTrigger_service__["a" /* ContextualCommTriggerService */]
+    __WEBPACK_IMPORTED_MODULE_3__rethink_chat_service__["a" /* ChatService */],
+    __WEBPACK_IMPORTED_MODULE_14__storage_service__["a" /* LocalStorage */],
+    __WEBPACK_IMPORTED_MODULE_13__routing_service__["a" /* RoutingService */],
+    __WEBPACK_IMPORTED_MODULE_2__rethink_rethink_service__["a" /* RethinkService */],
+    __WEBPACK_IMPORTED_MODULE_12__contact_service__["a" /* ContactService */],
+    __WEBPACK_IMPORTED_MODULE_1__rethink_connector_service__["a" /* ConnectorService */],
+    __WEBPACK_IMPORTED_MODULE_11__breadcrumb_service__["a" /* BreadcrumbService */],
+    __WEBPACK_IMPORTED_MODULE_9__activateTask_service__["a" /* ActivateTaskGuard */],
+    __WEBPACK_IMPORTED_MODULE_10__activateUser_service__["a" /* ActivateUserGuard */],
+    __WEBPACK_IMPORTED_MODULE_8__triggerAction_service__["a" /* TriggerActionService */],
+    __WEBPACK_IMPORTED_MODULE_0__rethink_userAvailability_service__["a" /* UserAvailabilityService */],
+    __WEBPACK_IMPORTED_MODULE_4__contextualCommTrigger_service__["a" /* ContextualCommTriggerService */]
 ];
 //# sourceMappingURL=services.js.map
 
@@ -5393,7 +5409,7 @@ var ActivityViewComponent = (function () {
             selector: 'activity-view',
             template: __webpack_require__("../../../../../src/app/views/activityView/activity-view.component.html")
         }),
-        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["f" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["f" /* ChatService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["j" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["j" /* ContextualCommService */]) === "function" && _d || Object])
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["f" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["f" /* ChatService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["j" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["j" /* ContextualCommService */]) === "function" && _d || Object])
     ], ActivityViewComponent);
     return ActivityViewComponent;
     var _a, _b, _c, _d;
@@ -5622,7 +5638,7 @@ var ContextualCommComponent = (function () {
             selector: 'context-view',
             template: __webpack_require__("../../../../../src/app/views/contextualComm/contextualComm.component.html"),
         }),
-        __metadata("design:paramtypes", [typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["c" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["c" /* RethinkService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["d" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["d" /* ContextualCommDataService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["e" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["e" /* ContactService */]) === "function" && _h || Object])
+        __metadata("design:paramtypes", [typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["c" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["c" /* RethinkService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["d" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["d" /* ContextualCommDataService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["e" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["e" /* ContactService */]) === "function" && _h || Object])
     ], ContextualCommComponent);
     return ContextualCommComponent;
     var _a, _b, _c, _d, _e, _f, _g, _h;
@@ -5653,8 +5669,7 @@ var ContextualCommComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__activityView_activity_view_component__ = __webpack_require__("../../../../../src/app/views/activityView/activity-view.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__contextualCommActivity_contextualCommActivity_component__ = __webpack_require__("../../../../../src/app/views/contextualCommActivity/contextualCommActivity.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pipes_pipes__ = __webpack_require__("../../../../../src/app/pipes/pipes.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__services_rethink_userAvailability_service__ = __webpack_require__("../../../../../src/app/services/rethink/userAvailability.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -5681,8 +5696,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 // Components
 
 // Custom Pipes
-
-// reTHinK Services
 
 // Services
 
@@ -5711,12 +5724,11 @@ var ContextualCommModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_10__components_rethink_hypertyResource_file_fileEvent_component__["a" /* FileEventComponent */]
             ],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_17__services_services__["h" /* AuthGuard */],
-                __WEBPACK_IMPORTED_MODULE_17__services_services__["i" /* UserResolver */],
-                __WEBPACK_IMPORTED_MODULE_17__services_services__["j" /* ContextualCommService */],
-                __WEBPACK_IMPORTED_MODULE_16__services_rethink_userAvailability_service__["a" /* UserAvailabilityService */],
-                __WEBPACK_IMPORTED_MODULE_17__services_services__["d" /* ContextualCommDataService */],
-                __WEBPACK_IMPORTED_MODULE_17__services_services__["k" /* ContextualCommDataResolver */]
+                __WEBPACK_IMPORTED_MODULE_16__services_services__["h" /* AuthGuard */],
+                __WEBPACK_IMPORTED_MODULE_16__services_services__["i" /* UserResolver */],
+                __WEBPACK_IMPORTED_MODULE_16__services_services__["j" /* ContextualCommService */],
+                __WEBPACK_IMPORTED_MODULE_16__services_services__["d" /* ContextualCommDataService */],
+                __WEBPACK_IMPORTED_MODULE_16__services_services__["k" /* ContextualCommDataResolver */]
             ]
         })
     ], ContextualCommModule);
@@ -6107,7 +6119,7 @@ var AddContextualCommComponent = (function () {
             template: __webpack_require__("../../../../../src/app/views/contextualCommMenu/add-contextualComm.component.html"),
             styles: [__webpack_require__("../../../../../src/app/views/contextualCommMenu/add-contextualComm.component.css")]
         }),
-        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormBuilder */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_8__services_contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__services_contact_service__["a" /* ContactService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_9__services_services__["b" /* TriggerActionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__services_services__["b" /* TriggerActionService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_10__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _h || Object])
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormBuilder */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_8__services_contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__services_contact_service__["a" /* ContactService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_9__services_services__["b" /* TriggerActionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__services_services__["b" /* TriggerActionService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_10__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _h || Object])
     ], AddContextualCommComponent);
     return AddContextualCommComponent;
     var _a, _b, _c, _d, _e, _f, _g, _h;
@@ -6405,7 +6417,7 @@ var ContextualCommUsersComponent = (function () {
         this.basePath = this.router.url;
         this.events = this.router.events.subscribe(function (navigation) {
             console.log('[ContextualCommUsers] - ', navigation);
-            if (navigation instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* NavigationEnd */]) {
+            if (navigation instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* NavigationEnd */]) {
                 var url = navigation.url;
                 if (url.includes('@')) {
                     url = url.substr(0, url.lastIndexOf('/'));
@@ -6497,7 +6509,7 @@ var ContextualCommUsersComponent = (function () {
             selector: 'context-user-view',
             template: __webpack_require__("../../../../../src/app/views/contextualCommUsers/contextualCommUsers.component.html")
         }),
-        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__components_notification_notifications_module__["NotificationsService"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__components_notification_notifications_module__["NotificationsService"]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_5__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _f || Object])
+        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__components_notification_notifications_module__["NotificationsService"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__components_notification_notifications_module__["NotificationsService"]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_5__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _f || Object])
     ], ContextualCommUsersComponent);
     return ContextualCommUsersComponent;
     var _a, _b, _c, _d, _e, _f;
@@ -6563,7 +6575,7 @@ var HomeComponent = (function () {
             selector: 'home-view',
             template: __webpack_require__("../../../../../src/app/views/home/home.component.html")
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["b" /* TriggerActionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["b" /* TriggerActionService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["c" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["c" /* RethinkService */]) === "function" && _d || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["b" /* TriggerActionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["b" /* TriggerActionService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["c" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["c" /* RethinkService */]) === "function" && _d || Object])
     ], HomeComponent);
     return HomeComponent;
     var _a, _b, _c, _d;
@@ -6833,7 +6845,7 @@ var UserViewComponent = (function () {
             selector: 'user-view',
             template: __webpack_require__("../../../../../src/app/views/userView/user-view.component.html")
         }),
-        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_6__shared_directive_module__["c" /* ScreenDirective */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__shared_directive_module__["c" /* ScreenDirective */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["e" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["e" /* ContactService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["j" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["j" /* ContextualCommService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["f" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["f" /* ChatService */]) === "function" && _h || Object])
+        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_6__shared_directive_module__["c" /* ScreenDirective */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__shared_directive_module__["c" /* ScreenDirective */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["e" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["e" /* ContactService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["j" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["j" /* ContextualCommService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["f" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["f" /* ChatService */]) === "function" && _h || Object])
     ], UserViewComponent);
     return UserViewComponent;
     var _a, _b, _c, _d, _e, _f, _g, _h;
@@ -6853,7 +6865,7 @@ var UserViewComponent = (function () {
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 var environment = {
-    production: true,
+    production: false,
     host: 'hysmart.rethink.ptinovacao.pt',
     images: './assets/img',
     sounds: './assets/sounds'
