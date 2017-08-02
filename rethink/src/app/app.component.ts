@@ -12,18 +12,20 @@ import { NativeNotificationsService, NotificationTag, NotificationVibrate } from
 import { config } from './config';
 
 // Models
-import { ContextualCommEvent, User,  ContextualComm } from './models/models';
+import { ContextualCommEvent, User, ContextualComm, Message } from './models/models';
 import { TriggerActions, PageSection } from './models/app.models';
 
 // Utils
 import { normalizeName, splitFromURL, isAnUser, clearMyUsername } from './utils/utils';
 
+import { ContextualCommComponent } from './views/contextualComm/contextualComm.component';
+
 // Services
 import { RoutingService } from './services/routing.service';
 import { BreadcrumbService } from './services/breadcrumb.service';
-import { ContextualCommComponent } from './views/contextualComm/contextualComm.component';
 import { ContextualCommService } from './services/contextualComm.service';
 import { ContextualCommDataService } from './services/contextualCommData.service';
+import { UserAvailabilityService } from './services/rethink/userAvailability.service';
 import { TriggerActionService, RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
 
 @Component({
@@ -32,7 +34,7 @@ import { TriggerActionService, RethinkService, ConnectorService, ChatService, Co
   templateUrl: './app.component.html'
 })
 
-export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
+export class AppComponent implements OnInit, AfterViewInit {
 
   private natNotFeedback: Subscription;
   private contextualCommEvent: Subscription;
@@ -42,6 +44,7 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
   private routeData: Subscription;
   private routerEvent: Subscription;
   private connectorCancel: Subscription;
+  private chatMessages: Subscription;
 
   private actionResult = new EventEmitter<{}>();
 
@@ -74,17 +77,18 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
     private router: Router,
     private titleService: Title,
     private route: ActivatedRoute,
-    private routingService: RoutingService,
-    private breadcrumbService: BreadcrumbService,
-    private natNotificationsService: NativeNotificationsService,
-    private notificationsService: NotificationsService,
-    private contactService: ContactService,
+    private chatService: ChatService,
     private rethinkService: RethinkService,
+    private contactService: ContactService,
+    private routingService: RoutingService,
+    private connectorService: ConnectorService,
+    private breadcrumbService: BreadcrumbService,
+    private notificationsService: NotificationsService,
     private triggerActionService: TriggerActionService,
     private contextualCommService: ContextualCommService,
-    private contextualCommDataService: ContextualCommDataService,
-    private connectorService: ConnectorService,
-    private chatService: ChatService) {
+    private userAvailabilityService: UserAvailabilityService,
+    private natNotificationsService: NativeNotificationsService,
+    private contextualCommDataService: ContextualCommDataService) {
 
     this.natNotFeedback = this.natNotificationsService.requestPermission()
       .subscribe(
@@ -162,8 +166,12 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
         this.rethinkService.progress.error(error);
       })
       .then((user: any) => {
-
         this.myIdentity = this.contactService.getUser(user.userURL);
+        this.rethinkService.progress.next('Loading user status availability service');
+
+        return this.userAvailabilityService.getHyperty();
+      })
+      .then((hyperty) => {
 
         this.rethinkService.progress.next('The app is ready to be used');
         this.rethinkService.progress.complete();
@@ -171,12 +179,26 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
         this.ready = true;
 
         this.hypertiesReady();
-
-      });
+      }, (error) => {
+        console.log('Error: ', error);
+        this.rethinkService.progress.error(error);
+        return null;
+      })
 
   }
 
   ngAfterViewInit() {
+
+    this.routerEvent = this.router.events.subscribe((navigation: NavigationEnd) => {
+
+      console.log('[App Component] - navigation: ', navigation);
+      if (navigation instanceof NavigationEnd) {
+
+        this.toggleSideBar();
+
+      }
+
+    })
 
     this.routeData = this.routingService.routingChanges.subscribe((pageSection: PageSection) => {
       console.log('[Routing Service Output] - ', pageSection);
@@ -192,31 +214,16 @@ export class AppComponent implements OnInit, AfterViewInit, AfterContentInit {
 
   }
 
-  ngAfterContentInit() {
-
-    this.routerEvent = this.router.events.subscribe((navigation: NavigationEnd) => {
-
-      console.log('[App Component] - navigation: ', navigation);
-      if (navigation instanceof NavigationEnd) {
-
-        this.toggleSideBar();
-
-      }
-
-    })
-
-  }
-
   hypertiesReady() {
 
     // Prepare the chat service to recive invitations
     this.chatInvitation = this.chatService.onInvitation.subscribe((event: any) => {
-      console.log('[Chat Communication View - onInvitation] - event:', event);
+      console.log('[App View View - chatService onInvitation] - event:', event);
 
       this.processEvent(event).then((result: any) => {
-        console.log('[Chat Communication View - onInvitation] - event processed:', result);
+        console.log('[App View View - chatService onInvitation] - event processed:', result);
       }).catch((reason) => {
-        console.error('[Chat Communication View - onInvitation] - event not processed:', reason);
+        console.error('[App View View - chatService onInvitation] - event not processed:', reason);
       });
 
     });

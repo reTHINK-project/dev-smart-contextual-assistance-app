@@ -28,7 +28,7 @@
 
               <!-- My Identity -->
               <div class="col-6">
-                <my-self *ngIf="myIdentity" [model]="myIdentity"></my-self>
+                <my-self *ngIf="myIdentity && ready" [model]="myIdentity"></my-self>
               </div>
 
             </div>

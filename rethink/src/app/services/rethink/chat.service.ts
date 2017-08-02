@@ -181,9 +181,10 @@ export class ChatService {
 
       this.chatGroupManager.create(name, users, domains).then((chatController: any) => {
 
+        console.log('[Chat Created]', chatController);
+
         this._updateControllersList(chatController.dataObject.url, chatController);
 
-        console.log('[Chat Created]', chatController);
 
         this.prepareHyperty();
 

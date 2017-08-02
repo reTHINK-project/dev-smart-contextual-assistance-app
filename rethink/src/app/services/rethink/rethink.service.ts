@@ -68,7 +68,7 @@ export class RethinkService {
 
       hyperty.instance.identityManager.discoverUserRegistered().then((user: User) => {
 
-        let myUser = new User(user);
+        const myUser = new User(user);
         this.contactService.sessionUser = myUser;
         this.contactService.addUser(myUser);
 

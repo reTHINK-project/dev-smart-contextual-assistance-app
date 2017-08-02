@@ -55,8 +55,8 @@ export class ContextualCommDataService {
         }).then((context: ContextualComm) => {
           console.info('[ContextualCommData Service] -  ContextualComm created: ', context);
           resolve(context);
-        }).catch((reason: any) => {
-          console.warn('Context not found');
+        }).catch((error: any) => {
+          console.warn('Context not found', error);
           // console.error('Reason:', reason);
         });
 
