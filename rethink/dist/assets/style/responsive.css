@@ -1,0 +1,345 @@
+/* for xlarge screens */
+/* for large screens */
+/* for medium screens */
+@media screen and (min-width: 681px) and (max-width: 960px) {
+  /* line 32, ../sass/responsive.scss */
+  body.rethink div.content-box.user p {
+    padding: 0;
+  }
+  /* line 36, ../sass/responsive.scss */
+  body.rethink div.content-box.user span.message {
+    display: block;
+  }
+  /* line 41, ../sass/responsive.scss */
+  body.rethink ul.contactlist li.quarter-padding {
+    padding-left: 6px;
+  }
+  /* line 45, ../sass/responsive.scss */
+  body.rethink ul.contactlist li.search-bar {
+    padding-left: 6px;
+  }
+  /* line 49, ../sass/responsive.scss */
+  body.rethink ul.contactlist li.options {
+    padding-left: 6px;
+  }
+}
+/* for small screens */
+@media screen and (min-width: 361px) and (max-width: 680px) {
+  /* line 57, ../sass/responsive.scss */
+  body.rethink {
+    /*div.content-panel {
+        padding-top: 60px;
+    }*/
+  }
+  /* line 58, ../sass/responsive.scss */
+  body.rethink div.content-box.user span.message {
+    display: block;
+  }
+  /* line 62, ../sass/responsive.scss */
+  body.rethink div.content-box.user ul.activity-list {
+    margin-top: 2px;
+  }
+  /* line 66, ../sass/responsive.scss */
+  body.rethink div.ink-tabs div.tabs-content {
+    padding-top: 60px;
+  }
+  /* line 71, ../sass/responsive.scss */
+  body.rethink div.tabs-content header {
+    height: 60px;
+  }
+  /* line 74, ../sass/responsive.scss */
+  body.rethink div.tabs-content header h1.small-logo {
+    margin-top: 8px;
+  }
+  /* line 79, ../sass/responsive.scss */
+  body.rethink div.tabs-content div.contactbox {
+    padding: 22px 0;
+  }
+  /* line 83, ../sass/responsive.scss */
+  body.rethink div.tabs-content div.contactbox ul.contactlist li.user-area h3 {
+    color: #666;
+    font-size: 18px;
+  }
+  /* line 88, ../sass/responsive.scss */
+  body.rethink div.tabs-content div.contactbox ul.contactlist li.user-area div.main-avatar {
+    height: 58px;
+    width: 58px;
+    margin-right: 8px;
+  }
+  /* line 96, ../sass/responsive.scss */
+  body.rethink div.tabs-content ul.activity-list li span.callback {
+    float: right;
+    margin: 0;
+    font-size: 11px;
+    height: 24px;
+  }
+  /* line 106, ../sass/responsive.scss */
+  body.rethink div.tabs-content ul.contactlist li.search-bar {
+    padding-left: 12px;
+    margin-top: -25px;
+  }
+  /* line 111, ../sass/responsive.scss */
+  body.rethink div.tabs-content ul.contactlist li.options {
+    padding-left: 12px;
+  }
+  /* line 122, ../sass/responsive.scss */
+  body.rethink div.main-content {
+    font-size: 80%;
+  }
+  /* line 125, ../sass/responsive.scss */
+  body.rethink div.main-content div.contactbox.small {
+    position: relative;
+    padding: 12px;
+  }
+  /* line 129, ../sass/responsive.scss */
+  body.rethink div.main-content div.contactbox.small div.contact-avatar {
+    height: 62px;
+    width: 62px;
+  }
+  /* line 135, ../sass/responsive.scss */
+  body.rethink div.main-content div.contactbox.small h4.contact-name a {
+    padding-top: 0;
+  }
+  /* line 140, ../sass/responsive.scss */
+  body.rethink div.main-content div.contactbox.small div.contact-me {
+    bottom: -20px;
+    display: inline-block;
+    margin-top: 18px;
+    position: absolute;
+    right: 8px;
+    text-align: right;
+    width: 100%;
+  }
+  /* line 149, ../sass/responsive.scss */
+  body.rethink div.main-content div.contactbox.small div.contact-me span.action {
+    width: 42px;
+    height: 42px;
+    margin-right: 16px;
+  }
+  /* line 154, ../sass/responsive.scss */
+  body.rethink div.main-content div.contactbox.small div.contact-me span.action a {
+    width: auto;
+    height: auto;
+    padding: 13px;
+    line-height: 40px;
+  }
+  /* line 164, ../sass/responsive.scss */
+  body.rethink div.main-content span.close {
+    display: none;
+  }
+  /* line 168, ../sass/responsive.scss */
+  body.rethink div.main-content span.message {
+    display: inline-block;
+  }
+  /* line 173, ../sass/responsive.scss */
+  body.rethink div.container div.message-sender {
+    padding: 8px;
+  }
+  /* line 177, ../sass/responsive.scss */
+  body.rethink div.container div.message-sender input.chat-sender {
+    padding: 4px 8px;
+  }
+  /* line 181, ../sass/responsive.scss */
+  body.rethink div.ink-tabs div.tabs-content {
+    margin-top: 0;
+    font-size: 80%;
+  }
+  /* line 190, ../sass/responsive.scss */
+  body.rethink ul.contactlist li.quarter-padding {
+    padding: 6px 0 6px 12px;
+  }
+  /* line 193, ../sass/responsive.scss */
+  body.rethink ul.contactlist li.quarter-padding.options {
+    padding-top: 7px;
+  }
+  /* line 203, ../sass/responsive.scss */
+  body.rethink div.content-box.user ul.activity-list div.tagline span.archive {
+    left: 48px;
+  }
+}
+/* for tiny screens */
+@media screen and (max-width: 360px) {
+  /* line 212, ../sass/responsive.scss */
+  body.rethink.work {
+    /*div.content-panel {
+        padding-top: 60px;
+    }*/
+  }
+  /* line 213, ../sass/responsive.scss */
+  body.rethink.work header {
+    height: 60px;
+  }
+  /* line 216, ../sass/responsive.scss */
+  body.rethink.work header h1.small-logo {
+    margin-top: 0;
+    background-size: 85% auto;
+  }
+  /* line 222, ../sass/responsive.scss */
+  body.rethink.work div.content-box.user ul.activity-list {
+    margin-top: 14px;
+  }
+  /* line 226, ../sass/responsive.scss */
+  body.rethink.work div.ink-tabs div.tabs-content {
+    padding-top: 60px;
+  }
+  /* line 231, ../sass/responsive.scss */
+  body.rethink.work div.tabs-content div.contactbox {
+    padding: 22px 0;
+  }
+  /* line 235, ../sass/responsive.scss */
+  body.rethink.work div.tabs-content div.contactbox ul.contactlist li.user-area h3 {
+    color: #666;
+    font-size: 18px;
+  }
+  /* line 240, ../sass/responsive.scss */
+  body.rethink.work div.tabs-content div.contactbox ul.contactlist li.user-area div.main-avatar {
+    height: 58px;
+    width: 58px;
+    margin-right: 8px;
+  }
+  /* line 248, ../sass/responsive.scss */
+  body.rethink.work div.tabs-content ul.activity-list li span.callback {
+    float: right;
+    margin: 0;
+    margin-top: 4px;
+    font-size: 11px;
+    height: 24px;
+    line-height: 11px;
+    padding: 6px 8px;
+  }
+  /* line 261, ../sass/responsive.scss */
+  body.rethink.work div.tabs-content ul.contactlist li.search-bar {
+    padding-left: 12px;
+    margin-top: -25px;
+  }
+  /* line 266, ../sass/responsive.scss */
+  body.rethink.work div.tabs-content ul.contactlist li.options {
+    padding-left: 12px;
+  }
+  /* line 272, ../sass/responsive.scss */
+  body.rethink.work div.main-content {
+    font-size: 80%;
+  }
+  /* line 275, ../sass/responsive.scss */
+  body.rethink.work div.main-content div.contactbox.small {
+    position: relative;
+    padding: 12px;
+  }
+  /* line 279, ../sass/responsive.scss */
+  body.rethink.work div.main-content div.contactbox.small div.contact-avatar {
+    height: 62px;
+    width: 62px;
+  }
+  /* line 285, ../sass/responsive.scss */
+  body.rethink.work div.main-content div.contactbox.small h4.contact-name a {
+    padding-top: 0;
+  }
+  /* line 290, ../sass/responsive.scss */
+  body.rethink.work div.main-content div.contactbox.small div.contact-me {
+    bottom: -20px;
+    display: inline-block;
+    margin-top: 18px;
+    position: absolute;
+    right: 8px;
+    text-align: right;
+    width: 100%;
+  }
+  /* line 299, ../sass/responsive.scss */
+  body.rethink.work div.main-content div.contactbox.small div.contact-me span.action {
+    width: 42px;
+    height: 42px;
+    margin-right: 16px;
+  }
+  /* line 304, ../sass/responsive.scss */
+  body.rethink.work div.main-content div.contactbox.small div.contact-me span.action a {
+    width: auto;
+    height: auto;
+    padding: 13px;
+    line-height: 40px;
+  }
+  /* line 314, ../sass/responsive.scss */
+  body.rethink.work div.main-content span.close {
+    display: none;
+  }
+  /* line 318, ../sass/responsive.scss */
+  body.rethink.work div.main-content span.message {
+    display: inline-block;
+  }
+  /* line 323, ../sass/responsive.scss */
+  body.rethink.work div.container div.message-sender {
+    padding: 8px;
+    height: 52px;
+  }
+  /* line 328, ../sass/responsive.scss */
+  body.rethink.work div.container div.message-sender input.chat-sender {
+    padding: 4px 8px;
+  }
+  /* line 332, ../sass/responsive.scss */
+  body.rethink.work div.ink-tabs div.tabs-content {
+    margin-top: 0;
+    font-size: 80%;
+  }
+  /* line 341, ../sass/responsive.scss */
+  body.rethink.work ul.contactlist li.quarter-padding {
+    padding: 6px 0 6px 12px;
+  }
+  /* line 344, ../sass/responsive.scss */
+  body.rethink.work ul.contactlist li.quarter-padding.options {
+    padding-top: 7px;
+  }
+  /* line 349, ../sass/responsive.scss */
+  body.rethink.work div.content-box.user ul.activity-list div.tagline span.archive {
+    left: 48px;
+  }
+  /* line 353, ../sass/responsive.scss */
+  body.rethink.work nav.menu {
+    -webkit-transform: scale(0.68, 0.68) translate3d(0, 0, 0);
+    -ms-transform: scale(0.68, 0.68) translate3d(0, 0, 0);
+    -moz-transform: scale(0.68, 0.68) translate3d(0, 0, 0);
+    transform: scale(0.68, 0.68) translate3d(0, 0, 0);
+    margin-top: -20px;
+  }
+  /* line 356, ../sass/responsive.scss */
+  body.rethink.work nav.menu .menu-open-button {
+    z-index: 900;
+    transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition-duration: 400ms;
+    transform: scale(1, 1) translate3d(0, 0, 0);
+    cursor: pointer;
+  }
+  /* line 366, ../sass/responsive.scss */
+  body.rethink.work nav.menu .menu-open-button:hover {
+    transform: scale(1.1, 1.1) translate3d(0, 0, 0);
+  }
+  /* line 370, ../sass/responsive.scss */
+  body.rethink.work nav.menu .menu-open:checked + .menu-open-button {
+    transition-timing-function: linear;
+    transition-duration: 200ms;
+    transform: scale(0.5, 0.5) translate3d(0, 0, 0);
+  }
+  /* line 376, ../sass/responsive.scss */
+  body.rethink.work nav.menu .menu-open:checked ~ .menu-item {
+    transition-timing-function: cubic-bezier(0.935, 0, 0.34, 1.33);
+  }
+  /* line 382, ../sass/responsive.scss */
+  body.rethink.work nav.menu .menu-open:checked ~ .menu-item:nth-child(3) {
+    transition-duration: 160ms;
+    transform: translate3d(109.45046px, 10.98168px, 0);
+  }
+  /* line 382, ../sass/responsive.scss */
+  body.rethink.work nav.menu .menu-open:checked ~ .menu-item:nth-child(4) {
+    transition-duration: 240ms;
+    transform: translate3d(0.0876px, 109.99997px, 0);
+  }
+  /* line 382, ../sass/responsive.scss */
+  body.rethink.work nav.menu .menu-open:checked ~ .menu-item:nth-child(5) {
+    transition-duration: 320ms;
+    transform: translate3d(-109.43283px, 11.15598px, 0);
+  }
+  /* line 389, ../sass/responsive.scss */
+  body.rethink.work nav.menu .menu-open:checked ~ .menu-item a.menu-item.work, body.rethink.work nav.menu .menu-open:checked ~ .menu-item a.menu-item.new, body.rethink.work nav.menu .menu-open:checked ~ .menu-item a.menu-item.fitness {
+    -webkit-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+  }
+}

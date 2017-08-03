@@ -1,0 +1,38 @@
+.form-control {
+
+  &.form-group-control {
+    padding: 0;
+    background: none;
+    border: none;
+    flex-basis: 100%;
+
+    .btn {
+      flex-grow: 1;
+      flex-shrink: 1;
+      min-width: 0;
+    }
+  }
+
+  &.custom-radio-group {
+    label {
+      width: 45px;
+    }
+    input {
+      display: none;
+    }
+  }
+
+
+  &.btn-group {
+
+    display: inline-block;
+    text-align: center;
+
+    .btn {
+      border-radius: 0.25rem !important;
+      margin-right: 0.5rem;
+      width: 45px;
+    }
+
+  }
+}

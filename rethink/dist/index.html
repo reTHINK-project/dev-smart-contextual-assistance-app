@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" class="h-100">
+  <head>
+    <title>reThink Project</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+
+    <meta name="theme-color" content="#364258" />
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- On github put: /dev-smart-contextual-assistance-app/ -->
+    <base href="/">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./service-worker.js').then(function(registration) {
+          // Registration was successful
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }).catch(function(err) {
+          // registration failed :(
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      }
+    </script>
+
+    <script>
+      (function(){
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect != location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
+
+  </head>
+
+  <body class="rethink work h-100">
+
+    <rethink-app>
+      <!-- Loading spinner when wait for the auth and app be ready -->
+      <div  class="main-content d-flex flex-row align-items-center h-100">
+        <div class="mx-auto text-center">
+          <i class="fa fa-cog fa-spin fa-4x"></i>
+        </div>
+      </div>
+    </rethink-app>
+
+  <script type="text/javascript" src="inline.bundle.js"></script><script type="text/javascript" src="polyfills.bundle.js"></script><script type="text/javascript" src="scripts.bundle.js"></script><script type="text/javascript" src="styles.bundle.js"></script><script type="text/javascript" src="vendor.bundle.js"></script><script type="text/javascript" src="main.bundle.js"></script></body>
+</html>

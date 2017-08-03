@@ -236,7 +236,6 @@ self.addEventListener('notificationclick', function(event) {
 
 self.addEventListener('notificationclose', function(event) {
   var notification = event.notification;
-  var options = notification.data.options;
 
   firstWindowClient().then(function(client) {
 
