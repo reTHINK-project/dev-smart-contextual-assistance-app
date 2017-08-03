@@ -1,5 +1,0 @@
-<li class="list-item" *ngFor="let message of messages | async" [ngSwitch]="message.type">
-  <chat-event *ngSwitchCase="'message'" [message]="message" [isAnEvent]="eventMode"></chat-event>
-  <file-event *ngSwitchCase="'file'" [message]="message"></file-event>
-  <span *ngSwitchDefault>other</span>
-</li>
