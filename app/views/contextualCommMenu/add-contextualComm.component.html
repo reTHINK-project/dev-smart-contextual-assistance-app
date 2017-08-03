@@ -39,9 +39,9 @@
           <div class="form-group">
             <label for="icon">Icons</label>
 
-            <div id="icons" class="form-control" formControlName="icon" [formControl]="complexForm.controls['icon']" ngbRadioGroup name="icon">
-              <label *ngFor="let icon of icons; let i = index" class="btn btn-primary">
-                <input type="radio" name="icon-{{icon}}" id="icon-{{icon}}" value="{{icon}}" autocomplete="off"><i class="fa fa-{{icon}}"></i>
+            <div ngbRadioGroup id="icons" class="form-control" formControlName="icon" [formControl]="complexForm.controls['icon']" name="icon">
+              <label ngbButtonLabel *ngFor="let icon of icons; let i = index" class="btn btn-primary">
+                <input ngbButton type="radio" name="icon-{{icon}}" id="icon-{{icon}}" value="{{icon}}" autocomplete="off"><i class="fa fa-{{icon}}"></i>
               </label>
             </div>
 
