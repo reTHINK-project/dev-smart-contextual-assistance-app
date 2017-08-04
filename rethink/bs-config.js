@@ -35,7 +35,7 @@ module.exports = {
     "port": 8080,
     "middleware": [
       require('connect-logger')(),
-      require('connect-history-api-fallback')()
+      require('connect-history-api-fallback')({ disableDotRule: true }),
     ],
     "serveStatic": ['dist/*.*'],
     "ghostMode": false,
@@ -52,7 +52,7 @@ module.exports = {
     "hostnameSuffix": false,
     "reloadOnRestart": false,
     "notify": true,
-    "scrollProportionally": true,
+    "scrollProportionally": false,
     "scrollThrottle": 0,
     "scrollRestoreTechnique": "window.name",
     "scrollElements": [],
