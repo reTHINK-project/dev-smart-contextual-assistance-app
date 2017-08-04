@@ -35,7 +35,10 @@ module.exports = {
     "port": 8080,
     "middleware": [
       require('connect-logger')(),
-      require('connect-history-api-fallback')({ disableDotRule: true }),
+      require('connect-history-api-fallback')({
+        htmlAcceptHeaders: ['text/html', 'application/xhtml+xml'],
+        disableDotRule: true
+      }),
     ],
     "serveStatic": ['dist/*.*'],
     "ghostMode": false,
@@ -60,13 +63,15 @@ module.exports = {
     "reloadDelay": 0,
     "reloadDebounce": 0,
     "reloadThrottle": 0,
-    "plugins": [],
+    "plugins": [
+      "browser-sync-logger"
+    ],
     "injectChanges": true,
     "startPath": null,
     "minify": true,
     "host": null,
     "localOnly": false,
-    "codeSync": true,
+    "codeSync": false,
     "timestamps": true,
     "clientEvents": [
         "scroll",
