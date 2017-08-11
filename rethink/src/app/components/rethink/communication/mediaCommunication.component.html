@@ -3,11 +3,11 @@
   <video #test class="player" autoplay></video>
 
 	<div class="video-wall">
-		<video #remote *ngIf="stream" class="player" [src]="stream" autoplay></video>
+		<video #remote *ngIf="stream" class="player" [srcObject]="stream" autoplay></video>
 	</div>
 
 	<div *ngIf="mode === 'video'" class="video-wall my-video-wall">
-		<video #local *ngIf="myStream" class="player" [src]="myStream" autoplay muted></video>
+		<video #local *ngIf="myStream" class="player" [srcObject]="myStream" autoplay muted></video>
 	</div>
 
 	<div class="contact-me align-center">

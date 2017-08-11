@@ -248,6 +248,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         }
       }).subscribe((notEvent: any) => {
         console.log('notification:', notEvent)
+      }, (error: any) => {
+        console.warn('warning:', error);
       });
 
       this.notificationsService.create(title, content, 'info',

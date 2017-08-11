@@ -207,13 +207,15 @@ export class ConnectorService {
 
   getRemoteStream(): Observable<SafeUrl> {
     return this._remoteStream.map((stream: MediaStream) => {
-      return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(stream));
+      // return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(stream));
+      return stream;
     }).publishReplay(1).refCount();
   }
 
   getLocalStream(): Observable<SafeUrl> {
     return this._localStream.map((stream: MediaStream) => {
-      return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(stream));
+      // return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(stream));
+      return stream;
     }).publishReplay(1).refCount();
   }
 
