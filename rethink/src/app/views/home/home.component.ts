@@ -41,4 +41,18 @@ export class HomeComponent implements OnInit {
     this.triggerActionService.trigger(TriggerActions.OpenContextMenuCreator);
   }
 
+  removeContext(event: any, context: ContextualComm) {
+
+    console.log('Context to be removed: ', event, context);
+
+    if (event.type === 'remove') {
+
+      this.contextualCommDataService.removeContext(event.context)
+        .subscribe((result: boolean) => { console.log('Success:', result); },
+        (error: any) => { console.warn('Error:', error); })
+
+    }
+
+  }
+
 }

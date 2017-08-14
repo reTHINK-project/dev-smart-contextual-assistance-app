@@ -49,26 +49,35 @@ export class ContextualCommService {
   ) {
 
     this._contextualCommList = this._contextualCommUpdates
-    .map((context: ContextualComm) => {
+    .scan((contextualCommList: ContextualComm[], operation: any) => {
 
-      context.users = context.users.map((user: User) => {
-        return this.contactService.getUser(user.userURL);
-      }).filter((user: User) => {
-        return user.userURL !== this.contactService.sessionUser.userURL;
-      });
+      let context: any;
 
-      context.messages = context.messages.map((message: Message) => {
-        const currentMessage = new Message(message);
-        currentMessage.user = this.contactService.getUser(currentMessage.user.userURL);
-        return currentMessage;
-      });
+      console.log('[Context Service - contextualCommUpdates] - scan', operation, this.currentActiveContext);
 
-      console.log('[Context Service - contextualCommUpdates] - map', context.url, context);
+      if (operation.type === 'add') {
+        context = operation.context;
+      }
 
-      return context;
-    }).scan((contextualCommList: ContextualComm[], context: ContextualComm) => {
+      if (operation.type === 'remove') {
+        context = operation.context;
 
-      console.log('[Context Service - contextualCommUpdates] - scan', context, this.currentActiveContext);
+        const parentContextURL = context.parent;
+        const parentContext = this._searchByURL(parentContextURL);
+
+        // Remove reference from it parent
+        parentContext.removeContext(context.url);
+
+        // Remove reference it self;
+        const index = contextualCommList.findIndex(current => current.url === context.url);
+        const result = contextualCommList.splice(index, 1);
+
+        // Update the references;
+        this.cxtList.delete(context.url);
+        this.updateStorage();
+
+        return contextualCommList;
+      }
 
       if (this.currentActiveContext && this.currentActiveContext.url === context.url) {
 
@@ -92,7 +101,6 @@ export class ContextualCommService {
           }
 
         });
-
       }
 
       this.updateContexts(context.url, context);
@@ -108,12 +116,28 @@ export class ContextualCommService {
     .publishReplay(1)
     .refCount();
 
-    this._newContextualComm.subscribe(this._contextualCommUpdates);
+    this._newContextualComm.map((context: ContextualComm) => {
 
-    // TODO: check why we need this, HOT something
-    this._contextualCommList.subscribe((list: any) => {
-      console.log('LIST:', list);
-    });
+      context.users = context.users.map((user: User) => {
+        return this.contactService.getUser(user.userURL);
+      }).filter((user: User) => {
+        return user.userURL !== this.contactService.sessionUser.userURL;
+      });
+
+      context.messages = context.messages.map((message: Message) => {
+        const currentMessage = new Message(message);
+        currentMessage.user = this.contactService.getUser(currentMessage.user.userURL);
+        return currentMessage;
+      });
+
+      console.log('[Context Service - contextualCommUpdates] - map', context.url, context);
+
+      return {type: 'add', context: context}
+    }).subscribe(this._contextualCommUpdates);
+
+
+    // TODO: this should be removed, the hot something
+    this._contextualCommList.subscribe(result => console.log('LIST: ', result));
 
     if (this.localStorage.hasObject('contexts')) {
       const mapObj = this.localStorage.getObject('contexts');
@@ -131,6 +155,15 @@ export class ContextualCommService {
     this.cxtList.forEach((context: ContextualComm) => {
       console.log('[Contextual Comm Service] - ', context, idName);
       if (!found) { found = context.id === idName ? context : null; }
+    });
+    return found;
+  }
+
+  _searchByURL(url: string): ContextualComm {
+    let found: ContextualComm;
+    this.cxtList.forEach((context: ContextualComm) => {
+      console.log('[Contextual Comm Service] - search by URL', context, url);
+      if (!found) { found = context.url === url ? context : null; }
     });
     return found;
   }
@@ -183,6 +216,12 @@ export class ContextualCommService {
     });
   }
 
+  removeContextualComm(context: ContextualComm) {
+
+    this._contextualCommUpdates.next({ type: 'remove', context: context });
+
+  }
+
   private createContextualComm(name: string, dataObject: any, parent?: ContextualComm, contextInfo?: any): ContextualComm {
 
     const data: any = JSON.parse(JSON.stringify(dataObject.data));
@@ -233,6 +272,10 @@ export class ContextualCommService {
 
   updateContexts(url: string, context: ContextualComm) {
     this.cxtList.set(url, context);
+    this.updateStorage();
+  }
+
+  private updateStorage() {
     this.localStorage.setObject('contexts', strMapToObj(this.cxtList));
   }
 
@@ -344,6 +387,7 @@ export class ContextualCommService {
   getContextualCommList(): Observable<ContextualComm[]> {
 
     const all = [];
+
     for (const cxt of this.cxtList.values()) {
       all.push(cxt);
     }

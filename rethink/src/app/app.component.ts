@@ -50,7 +50,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   context: ContextualCommComponent;
 
-  notificationStatus;
+  notificationStatus: any;
   showBreadcrumb = false;
   showAlert = false;
 

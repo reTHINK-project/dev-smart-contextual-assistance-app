@@ -4,15 +4,18 @@
     <user-identity [model]="model"></user-identity>
   </div>
 
-  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownConfig">
+  <div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownConfig">
     <h6 class="dropdown-header">User Availability</h6>
     <div class="dropdown-item dropdown-item-action" href="#">
-      <span>Availability:</span>
-      <div ngbRadioGroup [(ngModel)]="model.status" class="btn-group-sm" name="status">
-        <label ngbButtonLabel class="btn btn-secondary mb-0 {{ model.status === 'available' ? 'btn-success' : '' }}">
+      <span class="d-block pb-1">Availability:</span>
+      <div ngbRadioGroup [(ngModel)]="model.status" class="btn-group-vertical w-100" name="status">
+        <label ngbButtonLabel class="btn btn-sm mb-0 text-left {{ model.status === 'available' ? 'btn-success' : 'btn-outline-secondary' }}">
           <input ngbButton type="radio" autocomplete="off" value="available" (click)="onChangeEvent('available')">On
         </label>
-        <label ngbButtonLabel class="btn btn-secondary mb-0 {{ model.status === 'unavailable' ? 'btn-danger' : '' }}">
+        <label ngbButtonLabel class="btn btn-sm mb-0 text-left {{ model.status === 'busy' ? 'btn-danger' : 'btn-outline-secondary' }}">
+          <input ngbButton type="radio" autocomplete="off" value="busy" (click)="onChangeEvent('busy')">Busy
+        </label>
+        <label ngbButtonLabel class="btn btn-sm mb-0 text-left {{ model.status === 'unavailable' ? 'btn-secondary' : 'btn-outline-secondary' }}">
           <input ngbButton type="radio" autocomplete="off" value="unavailable" (click)="onChangeEvent('unavailable')">Off
         </label>
       </div>

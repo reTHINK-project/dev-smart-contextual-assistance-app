@@ -15,16 +15,16 @@
 
         <div class="modal-body">
 
-          <div class="form-group {{ complexForm.controls['name'].errors ? 'has-danger' : 'has-success' }}">
+          <div class="form-group">
             <label for="name">Context Name</label>
 
-            <input type="text" id="name" formControlName="name" class="form-control {{ complexForm.controls['name'].errors ? 'form-control-danger' : 'form-control-success' }}"
+            <input type="text" id="name" formControlName="name" class="form-control {{ complexForm.controls['name'].errors ? 'is-invalid' : 'is-valid' }}"
                [formControl]="complexForm.controls['name']" (blur)="onLostFocus($event)"
                aria-describedby="nameHelp" placeholder="Context name">
 
             <!-- <div class="form-control-feedback">Success! You've done it.</div> -->
 
-            <div *ngIf="complexForm.controls['name'].errors" class="form-control-feedback">
+            <div *ngIf="complexForm.controls['name'].errors" class="invalid-feedback">
               <span [hidden]="!complexForm.controls['name'].errors.exist">This context name already taken</span>
               <span [hidden]="!complexForm.controls['name'].errors.required">Don't forget the context name.</span>
               <span [hidden]="!complexForm.controls['name'].errors.pattern">Contexts names can't contain spaces, periods, or most punctuation.</span>
@@ -39,15 +39,15 @@
           <div class="form-group">
             <label for="icon">Icons</label>
 
-            <div ngbRadioGroup id="icons" class="form-control" formControlName="icon" [formControl]="complexForm.controls['icon']" name="icon">
-              <label ngbButtonLabel *ngFor="let icon of icons; let i = index" class="btn btn-primary">
-                <input ngbButton type="radio" name="icon-{{icon}}" id="icon-{{icon}}" value="{{icon}}" autocomplete="off"><i class="fa fa-{{icon}}"></i>
+            <div ngbRadioGroup id="icons" class="form-control btn-group" formControlName="icon" [formControl]="complexForm.controls['icon']" name="icon">
+              <label ngbButtonLabel *ngFor="let icon of icons; let i = index" class="btn btn-primary mt-1 mb-1">
+                <input ngbButton type="radio" name="icon" id="icon-{{icon}}" value="{{icon}}" autocomplete="off"><i class="fa fa-{{icon}}"></i>
               </label>
             </div>
 
           </div>
 
-          <div *ngIf="complexForm.controls['parent'].value"  class="form-group {{ complexForm.controls['parent'].errors ? 'has-danger' : 'has-success' }}">
+          <div *ngIf="complexForm.controls['parent'].value"  class="form-group {{ complexForm.controls['parent'].errors ? 'is-invalid' : 'is-valid' }}">
             <label>Select the main context</label>
 
             <select class="form-control" formControlName="parent" [formControl]="complexForm.controls['parent']">
@@ -55,7 +55,7 @@
               <option *ngFor="let context of contextualComms | async" [value]="context.id">{{context.name}}</option>
             </select>
 
-            <div *ngIf="complexForm.controls['parent'].errors" class="form-control-feedback">
+            <div *ngIf="complexForm.controls['parent'].errors" class="invalid-feedback">
               <span [hidden]="!complexForm.controls['parent'].errors.required">Main context is required</span>
             </div>
 

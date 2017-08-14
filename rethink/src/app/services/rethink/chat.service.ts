@@ -263,6 +263,15 @@ export class ChatService {
 
   }
 
+  close(url: string): Promise<boolean> {
+
+    const found = this.controllerList.get(url);
+
+    console.log(this.controllerList);
+    return found.close().then((result: any) => this.controllerList.delete(url))
+
+  }
+
   discovery() {
     return this._discovery;
   }

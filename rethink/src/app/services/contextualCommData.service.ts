@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 
+import 'rxjs/add/observable/fromPromise';
+
 // Models
 import { ContextualComm } from '../models/models';
 
@@ -119,6 +121,16 @@ export class ContextualCommDataService {
       });
 
     });
+
+  }
+
+  removeContext(context: ContextualComm): Observable<boolean> {
+
+    return Observable.fromPromise(new Promise((resolve, reject) => {
+      return this.chatService.close(context.url)
+        .then(result => { this.contextualCommService.removeContextualComm(context); resolve(true); })
+        .catch(error => reject(error));
+    }));
 
   }
 

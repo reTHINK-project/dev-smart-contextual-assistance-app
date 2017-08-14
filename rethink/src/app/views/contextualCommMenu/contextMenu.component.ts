@@ -9,7 +9,7 @@ import { ContextualCommDataService } from '../../services/services';
 
 @Component({
   moduleId: module.id,
-  selector: 'nav[context-menu]',
+  selector: 'context-menu',
   templateUrl: './contextMenu.component.html'
 })
 export class ContextMenuComponent {

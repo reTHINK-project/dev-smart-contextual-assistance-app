@@ -33,7 +33,7 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
   @Input() users: Observable<User[]>;
   @Input() allowAddUser: boolean;
 
-  contexts: Observable<ContextualComm[]>;
+  contexts: ContextualComm[];
 
   contactsFilter: Observable<User[]> = new Observable();
 
@@ -44,6 +44,7 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
   private events: Subscription;
   private currentUsers: Subscription;
   private paramsObserver: Subscription;
+  private contextSubscription: Subscription;
 
   constructor(
     private router: Router,
@@ -86,7 +87,11 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
         const id = config.appPrefix + '/' + context;
 
         this.rootContext = context;
-        this.contexts = this.contextualCommDataService.getContextTask(id);
+        this.contextSubscription = this.contextualCommDataService.getContextTask(id)
+          .subscribe(contexts => {
+            console.log('[ContextualCommUsers] - contexts: ', contexts);
+            this.contexts = contexts
+          });
 
       });
 
@@ -130,7 +135,7 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
 
   }
 
-  onCloseSidebarEvent($event) {
+  onCloseSidebarEvent($event: Event) {
 
     // TODO: try to put this code in Sidebar Directive
     // TODO: i tried but i can't do it;
@@ -140,6 +145,20 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
       element.classList.remove('opened');
     } else {
       element.classList.add('opened');
+    }
+
+  }
+
+  removeContext(event: any, context: ContextualComm) {
+
+    console.log('Context to be removed: ', event, context);
+
+    if (event.type === 'remove') {
+
+      this.contextualCommDataService.removeContext(event.context)
+        .subscribe((result: boolean) => { console.log('Success:', result); },
+        (error: any) => { console.warn('Error:', error); })
+
     }
 
   }

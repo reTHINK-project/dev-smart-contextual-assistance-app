@@ -63,7 +63,7 @@ export class UserAvailabilityService {
 
   }
 
-  stopObservation(availability) {
+  stopObservation(availability: any) {
     console.log('[UserAvailability service. stop observing] ', availability);
     this.availabilityObserver.unobserve(availability);
   }

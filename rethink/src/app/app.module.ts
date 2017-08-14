@@ -31,6 +31,7 @@ import { ContextMenuComponent } from './views/contextualCommMenu/contextMenu.com
 import { ContextualCommComponent } from './views/contextualComm/contextualComm.component';
 import { AddContextualCommComponent } from './views/contextualCommMenu/add-contextualComm.component';
 import { ContextualCommUsersComponent } from './views/contextualCommUsers/contextualCommUsers.component';
+import { RemoveContextualCommComponent } from './views/contextualCommMenu/remove-contextualComm.component';
 
 // Services
 import { servicesInjectables } from './services/services';
@@ -61,7 +62,8 @@ import { servicesInjectables } from './services/services';
     ContextualCommComponent,
     AddContextualCommComponent,
     ContextBreadcrumbComponent,
-    ContextualCommUsersComponent
+    ContextualCommUsersComponent,
+    RemoveContextualCommComponent,
   ],
   entryComponents: [
     UserIdentityComponent,
