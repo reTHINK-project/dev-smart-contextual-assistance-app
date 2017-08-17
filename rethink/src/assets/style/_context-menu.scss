@@ -54,6 +54,17 @@
 
     text-decoration: none;
 
+    &.search-bar {
+      cursor: default;
+      background-color: transparent;
+      overflow: visible;
+      margin: 0;
+
+      &:hover {
+        background: none;
+      }
+    }
+
     i,
     .fa,
     .title {
@@ -77,6 +88,7 @@
       color: #fff;
       cursor: pointer;
       background-color: rgba(0, 0, 0, 0.15);
+      border-left: 6px solid rgba(0, 0, 0, 0.15);
     }
 
     &.active {

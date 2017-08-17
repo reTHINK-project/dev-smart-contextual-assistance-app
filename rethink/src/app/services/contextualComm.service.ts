@@ -66,7 +66,9 @@ export class ContextualCommService {
         const parentContext = this._searchByURL(parentContextURL);
 
         // Remove reference from it parent
-        parentContext.removeContext(context.url);
+        if (parentContext) {
+          parentContext.removeContext(context.url);
+        }
 
         // Remove reference it self;
         const index = contextualCommList.findIndex(current => current.url === context.url);
