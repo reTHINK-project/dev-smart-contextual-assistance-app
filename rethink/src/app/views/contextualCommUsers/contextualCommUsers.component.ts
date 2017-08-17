@@ -13,9 +13,11 @@ import { ContextualCommDataService } from '../../services/contextualCommData.ser
 
 // Models
 import { User, ContextualComm } from '../../models/models';
+import { RemoveContextEventType, RemoveContextEvent } from '../../models/app.models';
 
 // Directives
 import { SidebarDirective } from '../../shared/directive.module';
+import { splitFromURL, normalizeName } from '../../utils/utils';
 
 @Component({
   moduleId: module.id,
@@ -49,7 +51,7 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private notificationService: NotificationsService,
+    private notificationsService: NotificationsService,
     private contextualCommDataService: ContextualCommDataService
     ) {
 
@@ -70,7 +72,7 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
 
         if (navigation instanceof NavigationError) {
 
-          this.notificationService.error('Error', navigation.error, {
+          this.notificationsService.error('Error', navigation.error, {
             showProgressBar: false,
             timeOut: 3000,
             pauseOnHover: false,
@@ -114,6 +116,7 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
     this.currentUsers.unsubscribe();
     this.events.unsubscribe();
     this.paramsObserver.unsubscribe();
+    this.contextSubscription.unsubscribe();
 
     console.log('[contextualCommUsers - ngOnDestroy]', this.events, this.paramsObserver);
 
@@ -149,16 +152,38 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
 
   }
 
-  removeContext(event: any, context: ContextualComm) {
+  removeContext(event: RemoveContextEvent, context: ContextualComm) {
 
     console.log('Context to be removed: ', event, context);
 
-    if (event.type === 'remove') {
+    const contextPathObj = normalizeName(context.id);
+
+    if (event.type === RemoveContextEventType.Remove) {
 
       this.contextualCommDataService.removeContext(event.context)
-        .subscribe((result: boolean) => { console.log('Success:', result); },
-        (error: any) => { console.warn('Error:', error); })
+        .subscribe((result: boolean) => {
+          console.log('Success:', result);
+          console.log('Context Remove Path:', this.basePath);
 
+          const basePathObj = normalizeName(this.basePath);
+
+          if (contextPathObj.id === basePathObj.id) {
+            const parent = splitFromURL(basePathObj.id);
+            console.log('Context Remove Path: ', parent);
+            this.router.navigate([parent.context]);
+          }
+
+          console.log('Context Remove Path:', contextPathObj, basePathObj);
+
+      },
+        (error: any) => {
+          this.notificationsService.error('Error removing context', error);
+        })
+
+    }
+
+    if (event.type === RemoveContextEventType.Error) {
+      this.notificationsService.error('Error removing context', event.reason);
     }
 
   }

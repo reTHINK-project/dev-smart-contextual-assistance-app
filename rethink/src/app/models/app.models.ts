@@ -1,4 +1,4 @@
-import { User } from './models';
+import { User, ContextualComm } from './models';
 
 export enum AlertType {
   SUCCESS = <any>'success',
@@ -33,3 +33,15 @@ export interface PageSection {
   section: string;
   title: string;
 };
+
+export enum RemoveContextEventType {
+  Remove = <any>'remove',
+  Dismissed = <any>'dismissed',
+  Error = <any>'error'
+}
+
+export interface RemoveContextEvent {
+  type: RemoveContextEventType;
+  context?: ContextualComm;
+  reason?: string;
+}

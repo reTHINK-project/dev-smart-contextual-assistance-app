@@ -13,7 +13,7 @@ import { config } from './config';
 
 // Models
 import { ContextualCommEvent, User, ContextualComm, Message } from './models/models';
-import { TriggerActions, PageSection } from './models/app.models';
+import { TriggerActions, PageSection, RemoveContextEventType } from './models/app.models';
 
 // Utils
 import { normalizeName, splitFromURL, isAnUser, clearMyUsername } from './utils/utils';
@@ -45,6 +45,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   private routerEvent: Subscription;
   private connectorCancel: Subscription;
   private chatMessages: Subscription;
+  private closeEvent: Subscription;
 
   private actionResult = new EventEmitter<{}>();
 
@@ -227,6 +228,22 @@ export class AppComponent implements OnInit, AfterViewInit {
       });
 
     });
+
+    this.closeEvent = this.chatService.onCloseEvent.subscribe((event: any) => {
+
+      console.log('Context to be removed: ', event, event.url);
+
+      this.contextualCommDataService.getContextByResource(event.url).subscribe((context: ContextualComm) => {
+
+        this.contextualCommDataService.removeContext(context)
+          .subscribe((result: boolean) => { console.log('Success:', result); },
+          (error: any) => {
+            this.notificationsService.error('Error removing context', error.reason);
+          });
+
+      })
+
+    })
 
     this.connectorInvitation = this.connectorService.onInvitation.subscribe((event: any) => {
 

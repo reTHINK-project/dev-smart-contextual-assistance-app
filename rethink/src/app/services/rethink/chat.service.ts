@@ -38,6 +38,7 @@ export class ChatService {
   }
 
   @Output() onInvitation: EventEmitter<any> = new EventEmitter();
+  @Output() onCloseEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private rethinkService: RethinkService,
@@ -171,6 +172,10 @@ export class ChatService {
         console.info('The message was rejected because the user ' + message.identity.userProfile.userURL + ' is unknown');
       }
     });
+
+    chatController.onClose((event: any) => {
+      this.onCloseEvent.emit(event);
+    })
 
     // this._updateControllersList(chatController.dataObject.url, chatController);
   }

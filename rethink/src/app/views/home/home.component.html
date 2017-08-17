@@ -22,7 +22,7 @@
 
               <span class="badge badge-default badge-pill">{{context.contexts.length}}</span>
 
-              <remove-contextualcomm-view (removeEvent)="removeContext($event, context)" [context]="context"></remove-contextualcomm-view>
+              <remove-contextualcomm-view *ngIf="context.reporter" (removeEvent)="removeContext($event, context)" [context]="context"></remove-contextualcomm-view>
             </div>
 
 <!--            <div class="list-group" *ngFor="let item of context.contexts;">

@@ -51,7 +51,7 @@ export class ContextualCommService {
     this._contextualCommList = this._contextualCommUpdates
     .scan((contextualCommList: ContextualComm[], operation: any) => {
 
-      let context: any;
+      let context: ContextualComm;
 
       console.log('[Context Service - contextualCommUpdates] - scan', operation, this.currentActiveContext);
 
@@ -68,6 +68,13 @@ export class ContextualCommService {
         // Remove reference from it parent
         if (parentContext) {
           parentContext.removeContext(context.url);
+        } else {
+          // remove all childs of the main content;
+
+          console.log('Contexts:', context.contexts);
+          const listOfChilds = context.contexts.map((child: any) => child.url);
+          console.log('Contexts:', listOfChilds);
+          context.removeContexts(listOfChilds);
         }
 
         // Remove reference it self;
