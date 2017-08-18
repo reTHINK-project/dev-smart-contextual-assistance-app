@@ -227,7 +227,7 @@ export class ContextualCommService {
 
   removeContextualComm(context: ContextualComm) {
 
-    this._contextualCommUpdates.next({ type: 'remove', context: context });
+    this._contextualCommUpdates.next({ type: 'remove', context: context })
 
   }
 

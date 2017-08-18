@@ -22,9 +22,16 @@ export class RemoveContextualCommComponent implements OnInit {
 
   open(content: ElementRef) {
 
-    if (this.context.contexts.length !== 0 && this.context.parent.length === 0) {
+    const numOfAtomic = this.context.contexts.filter(context => context.id.includes('@')).length;
+    const numOfComposite = this.context.contexts.length - numOfAtomic;
+    const isMainContext = (this.context.parent.length === 0);
+
+    console.log(numOfAtomic, numOfComposite, isMainContext)
+
+    if (numOfComposite > 0 && isMainContext) {
       this.removeEvent.emit({
         type: RemoveContextEventType.Error,
+        context: this.context,
         reason: 'You can\'t remove a context which contains sub contexts'
       })
 

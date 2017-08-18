@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit {
       this.contextualCommDataService.removeContext(event.context)
         .subscribe((result: boolean) => { console.log('Success:', result); },
         (error: any) => {
-          this.notificationsService.error('Error removing context', error.reason);
+          this.notificationsService.error('Error removing context', error);
         });
 
     }

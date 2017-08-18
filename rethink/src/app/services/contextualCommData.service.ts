@@ -127,9 +127,25 @@ export class ContextualCommDataService {
   removeContext(context: ContextualComm): Observable<boolean> {
 
     return Observable.fromPromise(new Promise((resolve, reject) => {
-      return this.chatService.close(context.url)
-        .then(result => { this.contextualCommService.removeContextualComm(context); resolve(true); })
+
+      const chatToClose = context.contexts.map(sub => this.chatService.close(sub.url));
+      const contextToRemove = context.contexts.map(sub => this.contextualCommService.removeContextualComm(sub));
+
+      // add the main context
+      chatToClose.push(this.chatService.close(context.url));
+      contextToRemove.push(this.contextualCommService.removeContextualComm(context));
+
+      console.log('Childs to remove:', chatToClose, contextToRemove);
+
+      return Promise.all([chatToClose])
+        .then(result => Promise.all(contextToRemove))
+        .then(() => resolve(true))
         .catch(error => reject(error));
+
+      // return this.chatService.close(context.url)
+      //   .then(result => { this.contextualCommService.removeContextualComm(context); resolve(true); })
+      //   .catch(error => reject(error));
+
     }));
 
   }
