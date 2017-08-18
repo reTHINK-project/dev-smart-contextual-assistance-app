@@ -49,6 +49,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   private actionResult = new EventEmitter<{}>();
 
+  basePath: string;
+
   context: ContextualCommComponent;
 
   notificationStatus: any;
@@ -197,7 +199,16 @@ export class AppComponent implements OnInit, AfterViewInit {
 
         this.toggleSideBar();
 
+        let url = navigation.url;
+
+        if (url.includes('@')) {
+          url = url.substr(0, url.lastIndexOf('/'));
+        }
+
+        this.basePath = url;
+
       }
+
 
     })
 
@@ -235,10 +246,23 @@ export class AppComponent implements OnInit, AfterViewInit {
 
       this.contextualCommDataService.getContextByResource(event.url).subscribe((context: ContextualComm) => {
 
+        const contextPathObj = normalizeName(context.id);
+
         this.contextualCommDataService.removeContext(context)
-          .subscribe((result: boolean) => { console.log('Success:', result); },
+          .subscribe((result: boolean) => {
+            console.log('Success:', result);
+
+            const basePathObj = normalizeName(this.basePath);
+            console.log('Context Remove Path: ', basePathObj, contextPathObj);
+            if (contextPathObj.parent === basePathObj.id) {
+              const parent = splitFromURL(basePathObj.id);
+
+              this.router.navigate(['/']);
+            }
+
+          },
           (error: any) => {
-            this.notificationsService.error('Error removing context', error.reason);
+            this.notificationsService.error('Error removing context', error);
           });
 
       })
