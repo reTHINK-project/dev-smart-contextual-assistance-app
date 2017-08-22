@@ -16,7 +16,7 @@ import { ContextualCommEvent, User, ContextualComm, Message } from './models/mod
 import { TriggerActions, PageSection, RemoveContextEventType } from './models/app.models';
 
 // Utils
-import { normalizeName, splitFromURL, isAnUser, clearMyUsername } from './utils/utils';
+import { normalizeName, splitFromURL, isAnUser, clearMyUsername, objectToPath } from './utils/utils';
 
 import { ContextualCommComponent } from './views/contextualComm/contextualComm.component';
 
@@ -205,8 +205,6 @@ export class AppComponent implements OnInit, AfterViewInit {
           url = url.substr(0, url.lastIndexOf('/'));
         }
 
-        this.basePath = url;
-
       }
 
 
@@ -246,20 +244,17 @@ export class AppComponent implements OnInit, AfterViewInit {
 
       this.contextualCommDataService.getContextByResource(event.url).subscribe((context: ContextualComm) => {
 
-        const contextPathObj = normalizeName(context.id);
-
         this.contextualCommDataService.removeContext(context)
           .subscribe((result: boolean) => {
-            console.log('Success:', result);
-
-            const basePathObj = normalizeName(this.basePath);
-            console.log('Context Remove Path: ', basePathObj, contextPathObj);
-            if (contextPathObj.parent === basePathObj.id) {
-              const parent = splitFromURL(basePathObj.id);
-
-              this.router.navigate(['/']);
-            }
-
+            this.notificationsService.info(
+              'Context Removed',
+              'The context ' + context.name + ' was been removed',
+              {
+                showProgressBar: false,
+                timeOut: 5000,
+                pauseOnHover: false,
+                haveActions: false
+              });
           },
           (error: any) => {
             this.notificationsService.error('Error removing context', error);

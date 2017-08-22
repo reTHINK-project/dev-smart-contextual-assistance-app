@@ -114,6 +114,8 @@ export class ChatService {
 
     this.chatGroupManager.onInvitation((event: any) => {
 
+      console.log('[Chat Service - OnInvitation] - ', event);
+
       this.onInvitation.emit(event);
 
     });

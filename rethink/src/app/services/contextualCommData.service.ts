@@ -9,7 +9,7 @@ import 'rxjs/add/observable/fromPromise';
 // Models
 import { ContextualComm } from '../models/models';
 
-import { filterContextsByName, normalizeName } from '../utils/utils';
+import { filterContextsByName, normalizeName, objectToPath } from '../utils/utils';
 
 // Services
 import { ContextualCommService } from './contextualComm.service';
@@ -139,15 +139,22 @@ export class ContextualCommDataService {
 
       return Promise.all([chatToClose])
         .then(result => Promise.all(contextToRemove))
-        .then(() => resolve(true))
+        .then(() => { resolve(true); this._redirect(context); })
         .catch(error => reject(error));
-
-      // return this.chatService.close(context.url)
-      //   .then(result => { this.contextualCommService.removeContextualComm(context); resolve(true); })
-      //   .catch(error => reject(error));
 
     }));
 
+  }
+
+  _redirect(context: ContextualComm) {
+    const basePath = this.router.url;
+    const contextPathObj = normalizeName(context.id);
+    const basePathObj = normalizeName(basePath);
+
+    if (contextPathObj.id === basePathObj.id) {
+      console.log('Navigate to the parent object path: ', contextPathObj);
+      this.router.navigate([objectToPath(contextPathObj.parent)]);
+    }
   }
 
   /**

@@ -1,7 +1,8 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
 // Models
 import { ContextualComm } from '../../models/models';
@@ -17,9 +18,11 @@ import { NotificationsService } from '../../components/notification/notification
   selector: 'home-view',
   templateUrl: './home.component.html'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   @HostBinding('class') hostClass = 'home-view col';
+
+  private removeContextSubscription: Subscription;
 
   contextualComms: Observable<ContextualComm[]>;
 
@@ -39,6 +42,10 @@ export class HomeComponent implements OnInit {
 
   }
 
+  ngOnDestroy() {
+    if (this.removeContextSubscription) { this.removeContextSubscription.unsubscribe(); }
+  }
+
   onCreateEvent() {
     this.triggerActionService.trigger(TriggerActions.OpenContextMenuCreator);
   }
@@ -49,7 +56,7 @@ export class HomeComponent implements OnInit {
 
     if (event.type === RemoveContextEventType.Remove) {
 
-      this.contextualCommDataService.removeContext(event.context)
+      this.removeContextSubscription = this.contextualCommDataService.removeContext(event.context)
         .subscribe((result: boolean) => { console.log('Success:', result); },
         (error: any) => {
           this.notificationsService.error('Error removing context', error);
