@@ -48,7 +48,7 @@ export class ContextualCommDataService {
         console.info('[ContextualCommData Service] - no contexts was found: ', reason);
         console.info('[ContextualCommData Service] - creating new context: ', name, normalizedName);
 
-        this.chatService.create(normalizedName.id, [], []).then((controller: any) => {
+        this.chatService.create(normalizedName.id, [], [], contextInfo).then((controller: any) => {
 
           console.info('[ContextualCommData Service] - communication objects was created successfully: ', controller);
           console.info('[ContextualCommData Service] - creating new contexts: ', controller, normalizedName.parent);

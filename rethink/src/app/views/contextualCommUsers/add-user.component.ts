@@ -2,6 +2,8 @@ import { Component, Output, Input, OnInit, HostBinding, EventEmitter } from '@an
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 // config
 import { config } from '../../config';
@@ -21,6 +23,8 @@ import { ContextualCommDataService } from '../../services/contextualCommData.ser
 import { ContactService, ChatService } from '../../services/services';
 import { User } from '../../models/models';
 
+let searchResult: any[];
+
 @Component({
   moduleId: module.id,
   selector: 'add-user-view',
@@ -35,6 +39,8 @@ export class AddUserComponent implements OnInit {
   @Output() contactClick = new EventEmitter();
 
   model = <any>{email: '', domain: ''};
+
+  searchResultModel: any;
 
   @Input() busy = false;
 
@@ -55,6 +61,24 @@ export class AddUserComponent implements OnInit {
 
   ngOnInit() {
     this.contactList = this.contactService.getUsers();
+
+
+    this.contactList.subscribe((contacts: any) => {
+      console.log('Contacts:', contacts);
+      searchResult = contacts;
+    });
+
+  }
+
+  search(text$: Observable<string>) {
+    return text$
+      .distinctUntilChanged()
+      .map(term => term.length < 2 ?
+        [] :
+        searchResult.filter(v => {
+          console.log(v, term);
+          return v.username.toLowerCase().indexOf(term.toLowerCase()) > -1
+        }).slice(0, 10));
   }
 
   open(content: any) {

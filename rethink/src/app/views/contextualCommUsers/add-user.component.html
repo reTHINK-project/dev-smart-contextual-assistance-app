@@ -12,34 +12,22 @@
 
       <div class="modal-body row">
 
-        <div class="col-sm-12 col-md-6 divider-right">
+        <div class="col-sm-12 col-md-6">
           <div class="modal-header">
             <h5 class="modal-title" id="addUserTitle">Add User</h5>
           </div>
 
-          <form class="list">
+          <ng-template #rt let-user="result" let-t="term">
+            <user-identity [model]="user"></user-identity>
+          </ng-template>
 
-            <div class="form-group">
-              <div class="input-group">
-                <input type="text" class="form-control" value="" placeholder="Search users" id="search-field3"/>
-                <span class="input-group-addon"><i class="fa fa-search"></i></span>
-              </div>
+          <div class="form-group search-group">
+            <div class="input-group">
+              <input id="typeahead-template" type="text" class="form-control" value="" placeholder="Search users"
+                [(ngModel)]="searchResultModel" [ngbTypeahead]="search" [resultTemplate]="rt" />
+              <span class="input-group-addon"><i class="fa fa-search"></i></span>
             </div>
-
-            <div class="form-group">
-              <ul class="contact-list">
-                <li class="item" *ngFor="let user of contactList | async" (click)="contactClick.emit(user)">
-                    <a class="link" routerLinkActive="active">
-                      <user-identity [model]="user"></user-identity>
-                      <div class="pointer">
-                          <span class="action chat"><i class="fa fa-angle-right"></i></span>
-                      </div>
-                    </a>
-                </li>
-              </ul>
-            </div>
-
-          </form>
+          </div>
 
         </div>
 
