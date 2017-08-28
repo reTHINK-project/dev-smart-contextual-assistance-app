@@ -107,3 +107,24 @@
     }
   }
 }
+
+.search-group {
+
+  .dropdown-menu {
+    right: 0;
+  }
+
+  .dropdown-item:active,
+  .dropdown-item.active {
+    background-color: #dedede;
+
+    .user-identity {
+
+      .user-profile .extra-info,
+      .user-profile .contact-name {
+        color: #000;
+      }
+    }
+  }
+
+}

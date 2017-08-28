@@ -45,3 +45,8 @@ export interface RemoveContextEvent {
   context?: ContextualComm;
   reason?: string;
 }
+
+export interface InviteUser {
+  email: string
+  domain: string
+}

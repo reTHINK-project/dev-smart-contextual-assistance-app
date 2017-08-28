@@ -15,13 +15,13 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { isALegacyUser, normalizeName, normalizeFromURL } from '../../utils/utils';
 
 // Models
-import { ContextualComm } from '../../models/models';
+import { ContextualComm, User } from '../../models/models';
+import { InviteUser } from '../../models/app.models';
 
 // Services
 import { NotificationsService } from '../../components/notification/notifications.module';
 import { ContextualCommDataService } from '../../services/contextualCommData.service';
 import { ContactService, ChatService } from '../../services/services';
-import { User } from '../../models/models';
 
 let searchResult: any[];
 
@@ -40,7 +40,7 @@ export class AddUserComponent implements OnInit {
 
   model = <any>{email: '', domain: ''};
 
-  searchResultModel: any;
+  searchResultModel: User;
 
   @Input() busy = false;
 
@@ -49,6 +49,8 @@ export class AddUserComponent implements OnInit {
   private closeResult: string;
 
   contactList: Observable<User[]>;
+
+  formatter = (user: User) => user.username;
 
   constructor(
     private router: Router,
@@ -105,10 +107,39 @@ export class AddUserComponent implements OnInit {
       }
   }
 
+  addUser() {
+
+    this.busy = true;
+
+    console.log('THIS:', this.searchResultModel);
+
+    if (this.searchResultModel && this.searchResultModel.username) {
+
+      this._invite({
+        email: this.searchResultModel.username,
+        domain: this.searchResultModel.domain
+      });
+
+
+      this.searchResultModel
+    }
+
+  }
+
   submitEvent() {
     // this.inviteEvent.emit( JSON.parse(JSON.stringify(this.model)) );
 
     this.busy = true;
+
+    this._invite({
+      email: this.model.email,
+      domain: this.model.domain
+    });
+
+  }
+
+  _invite(data: InviteUser) {
+
     const path = this.router.url;
     const normalizedName = normalizeName(path);
     let parentNameId = '';
@@ -126,14 +157,14 @@ export class AddUserComponent implements OnInit {
       const parentURL = context.url;
       const currentURL = this.chatService.activeDataObjectURL;
 
-      const parentChat = this.chatService.invite(parentURL, [this.model.email], [this.model.domain || config.domain]);
+      const parentChat = this.chatService.invite(parentURL, [data.email], [data.domain || config.domain]);
       let currentChat: any;
 
-      if (parentURL !== currentURL || !isALegacyUser(this.model.email)) {
-        currentChat = this.chatService.invite(currentURL, [this.model.email], [this.model.domain || config.domain]);
+      if (parentURL !== currentURL || !isALegacyUser(data.email)) {
+        currentChat = this.chatService.invite(currentURL, [data.email], [data.domain || config.domain]);
       }
 
-      console.log('[Add User Component] - invite: ', this.model);
+      console.log('[Add User Component] - invite: ', data);
       console.log('[Add User Component] - invite: ', parentURL, currentURL);
       console.log('[Add User Component] - invite: ', parentChat, currentChat);
 
@@ -148,19 +179,19 @@ export class AddUserComponent implements OnInit {
         return currentChat;
       }).then((currentController: any) => {
 
-        if (!isALegacyUser(this.model.email)) {
+        if (!isALegacyUser(data.email)) {
 
           console.log('[Add User Component] - current controller', currentController);
-          const normalizedPath = normalizeFromURL(path + '/user/' + this.model.email, this.contactService.sessionUser.username);
-          const normalizedName = normalizeName(normalizedPath);
+          const normalizedPath = normalizeFromURL(path + '/user/' + data.email, this.contactService.sessionUser.username);
+          const normalizedUserName = normalizeName(normalizedPath);
 
-          console.log('[Add User Component] - normalized name: ', normalizedName);
+          console.log('[Add User Component] - normalized name: ', normalizedUserName);
 
           return this.contextualCommDataService.createAtomicContext(
-              this.model.email,
-              normalizedName.name,
-              normalizedName.id,
-              normalizedName.parent);
+            data.email,
+            normalizedUserName.name,
+            normalizedUserName.id,
+            normalizedUserName.parent);
         }
       }).then((childController: any) => {
 
@@ -174,6 +205,7 @@ export class AddUserComponent implements OnInit {
     }, (reason: any) => {
       this.errorNotificateSystem(reason);
     });
+
   }
 
   errorNotificateSystem(error: any) {
@@ -193,6 +225,10 @@ export class AddUserComponent implements OnInit {
   clean() {
     this.model.email = '';
     this.model.domain = '';
+
+    if (this.searchResultModel) {
+      this.searchResultModel = null;
+    }
   }
 
 }
