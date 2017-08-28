@@ -194,6 +194,20 @@ export function normalizeFromURL(path: string, username: string): string {
   return joined;
 }
 
+export function objectToPath(value: string): string {
+  const prefix = config.appPrefix;
+  const splitChar = config.splitChar;
+
+  let path = '';
+
+  if (value.includes(prefix)) {
+    path = value.replace(prefix + splitChar, '');
+  }
+
+  console.log('ObjectToPath: ', value, ' | ', path);
+
+  return path;
+}
 
 export function clearMyUsername(name: string, username: string): string {
 

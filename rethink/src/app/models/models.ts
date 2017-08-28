@@ -151,6 +151,14 @@ export class ContextualComm {
     this.messages.push(message);
   }
 
+  removeContexts(urls: string[]) {
+    urls.forEach(url => this.removeContext(url));
+  }
+
+  removeContext(url: string) {
+    this.contexts.splice(this.contexts.findIndex(current => current.url === url), 1);
+  }
+
 }
 
 export class ContextualCommTrigger {

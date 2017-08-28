@@ -462,10 +462,11 @@ module.exports = {
     "clearImmediate": false,
     "setImmediate": false
   },
+  "devtool": 'inline-source-map',
   "devServer": {
     "historyApiFallback": true,
     "port": 8080,
-    "host": "vitor.dev",
+    "host": "localhost",
     "watchContentBase": false,
     "watchOptions": {
       "watch": false

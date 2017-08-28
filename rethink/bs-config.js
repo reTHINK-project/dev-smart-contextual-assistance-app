@@ -26,7 +26,9 @@ module.exports = {
     "watchOptions": {
         "ignoreInitial": true
     },
-    "server": "./dist",
+    "server": {
+      "baseDir": "/",
+    },
     "https": {
       "key": "./ssl/server.key",
       "cert": "./ssl/server.crt"

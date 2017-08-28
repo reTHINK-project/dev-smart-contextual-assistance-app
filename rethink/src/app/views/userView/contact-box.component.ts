@@ -16,14 +16,14 @@ export class ContactBoxComponent {
   @Output() callEvent = new EventEmitter();
   @Output() closeEvent = new EventEmitter();
 
-  makeAudioCall(event) {
+  makeAudioCall(event: any) {
     this.callEvent.emit({
       type: 'audio',
       event: event
     });
   }
 
-  makeVideoCall(event) {
+  makeVideoCall(event: any) {
     this.callEvent.emit({
       type: 'video',
       event: event

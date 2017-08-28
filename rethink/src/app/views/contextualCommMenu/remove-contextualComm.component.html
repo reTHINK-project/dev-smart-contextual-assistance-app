@@ -1,0 +1,18 @@
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">DELETE {{context.name}}?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+     <p>Do you really want to <b>delete</b> the {{context.name}} context?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="c('no')">No</button>
+    <button type="button" class="btn btn-success" (click)="c('yes')">Yes</button>
+  </div>
+</ng-template>
+
+<a href="javascript:;" title="Delete the {{context.name}}" (click)="open(content)" class="remove float-right"><i class="fa fa-remove"></i></a>
+
