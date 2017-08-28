@@ -182,11 +182,11 @@ export class ChatService {
     // this._updateControllersList(chatController.dataObject.url, chatController);
   }
 
-  create(name: string, users: string[], domains: string[]) {
+  create(name: string, users: string[], domains: string[], contextInfo?: any) {
 
     return new Promise((resolve, reject) => {
 
-      this.chatGroupManager.create(name, users, domains).then((chatController: any) => {
+      this.chatGroupManager.create(name, users, domains, contextInfo).then((chatController: any) => {
 
         console.log('[Chat Created]', chatController);
 

@@ -1,32 +1,7 @@
 .custom-modal {
   background: #eff0f4;
   opacity: 0;
-  .divider-left {
-    position: relative;
-  }
-  .divider-right {
-    position: relative;
-    &::after {
-      position: absolute;
-      content: "";
-      top: 0;
-      bottom: 0;
-    }
-  }
-  .divider-left::before {
-    position: absolute;
-    content: "";
-    top: 0;
-    bottom: 0;
-  }
-  .divider-right::after {
-    border-right: 1px solid #ddd;
-    right: 0;
-  }
-  .divider-left::before {
-    border-left: 1px solid #ddd;
-    left: 0;
-  }
+
   .fade {
     transition: opacity 300ms;
     opacity: 0;

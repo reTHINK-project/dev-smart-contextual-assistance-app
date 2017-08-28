@@ -123,7 +123,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       const content = 'You have a new communication channel ' + event.contextualComm.name;
 
       this.notificationsService.success(title, content, {
-        showProgressBar: true,
+        showProgressBar: false,
         timeOut: 5000,
         pauseOnHover: false,
         haveActions: false,
@@ -257,7 +257,12 @@ export class AppComponent implements OnInit, AfterViewInit {
               });
           },
           (error: any) => {
-            this.notificationsService.error('Error removing context', error);
+            this.notificationsService.error('Error removing context', error, {
+              showProgressBar: false,
+              timeOut: 5000,
+              pauseOnHover: false,
+              haveActions: false
+            });
           });
 
       })
