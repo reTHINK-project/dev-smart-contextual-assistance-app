@@ -1,0 +1,9 @@
+/* https://stackoverflow.com/questions/29063244/consistent-styling-for-nested-lists-with-bootstrap?answertab=active#tab-top */
+
+.list-group {
+  margin-bottom: 0;
+
+  a {
+    text-decoration: none;
+  }
+}

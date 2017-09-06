@@ -1,7 +1,28 @@
 <div class="mp-level">
 
-	<h2 class="p-3">Contexts</h2>
+  <h2 class="p-3">Contexts</h2>
 
+  <div class="list-group">
+
+    <div class="list-group-item border-0 list-group-item-action flex-column align-items-start search-bar">
+
+      <form class="filter d-flex w-100 justify-content-between">
+        <span class="fa fa-search"></span>
+        <label for="search-field"></label>
+        <input id="search-field" name="search-field" type="text" value="" placeholder="type a team's name" class="search float-left">
+      </form>
+
+    </div>
+
+    <a class="list-group-item"
+      *ngFor="let context of contextualComm | async; let i = index;"
+       routerLink="{{context.name | lowercase}}" routerLinkActive="active">
+      <i class="fa fa-{{context.icon}}"></i><span class="title">{{context.name}}</span>
+    </a>
+
+  </div>
+
+<!--
 	<ngb-accordion class="context-menu" #acc="ngbAccordion" activeIds="form" (panelChange)="beforeChange($event)">
 
 		<ngb-panel id="form">
@@ -24,7 +45,7 @@
 
 			<ng-template ngbPanelTitle>
 				<span class="fa fa-angle-down float-right"></span>
-				<span class="title"><i class="fa fa-{{context.icon}}"></i>{{context.name}}</span>
+				<a class="title" routerLink="{{context.name | lowercase}}" routerLinkActive="active"><i class="fa fa-{{context.icon}}"></i>{{context.name}}</a>
 			</ng-template>
 
 			<ng-template ngbPanelContent>
@@ -37,7 +58,7 @@
 
 			</ng-template>
 		</ngb-panel>
-	</ngb-accordion>
+	</ngb-accordion> -->
 
 	<add-contextualcomm-view></add-contextualcomm-view>
 </div>

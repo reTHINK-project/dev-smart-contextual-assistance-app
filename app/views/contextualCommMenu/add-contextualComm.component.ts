@@ -63,6 +63,11 @@ export class AddContextualCommComponent implements OnInit, OnDestroy {
 
   complexForm: FormGroup;
 
+  pattern = '[a-zA-Z0-9- ]*';
+  minLenght = 4;
+  maxLenght = 22;
+  required = true;
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -142,9 +147,9 @@ export class AddContextualCommComponent implements OnInit, OnDestroy {
       'name': [this.model.name,
       Validators.compose([
         Validators.required,
-        Validators.pattern('[a-zA-Z0-9- ]*'),
-        Validators.minLength(4),
-        Validators.maxLength(22)]
+        Validators.pattern(this.pattern),
+        Validators.minLength(this.minLenght),
+        Validators.maxLength(this.maxLenght)]
       ),
       Validators.composeAsync([
         RethinkValidators.contextName(this.contextualCommDataService)

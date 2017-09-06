@@ -13,10 +13,10 @@ import { config } from './config';
 
 // Models
 import { ContextualCommEvent, User, ContextualComm, Message } from './models/models';
-import { TriggerActions, PageSection } from './models/app.models';
+import { TriggerActions, PageSection, RemoveContextEventType } from './models/app.models';
 
 // Utils
-import { normalizeName, splitFromURL, isAnUser, clearMyUsername } from './utils/utils';
+import { normalizeName, splitFromURL, isAnUser, clearMyUsername, objectToPath } from './utils/utils';
 
 import { ContextualCommComponent } from './views/contextualComm/contextualComm.component';
 
@@ -45,12 +45,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   private routerEvent: Subscription;
   private connectorCancel: Subscription;
   private chatMessages: Subscription;
+  private closeEvent: Subscription;
 
   private actionResult = new EventEmitter<{}>();
 
+  basePath: string;
+
   context: ContextualCommComponent;
 
-  notificationStatus;
+  notificationStatus: any;
   showBreadcrumb = false;
   showAlert = false;
 
@@ -120,7 +123,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       const content = 'You have a new communication channel ' + event.contextualComm.name;
 
       this.notificationsService.success(title, content, {
-        showProgressBar: true,
+        showProgressBar: false,
         timeOut: 5000,
         pauseOnHover: false,
         haveActions: false,
@@ -196,7 +199,14 @@ export class AppComponent implements OnInit, AfterViewInit {
 
         this.toggleSideBar();
 
+        let url = navigation.url;
+
+        if (url.includes('@')) {
+          url = url.substr(0, url.lastIndexOf('/'));
+        }
+
       }
+
 
     })
 
@@ -228,6 +238,37 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     });
 
+    this.closeEvent = this.chatService.onCloseEvent.subscribe((event: any) => {
+
+      console.log('Context to be removed: ', event, event.url);
+
+      this.contextualCommDataService.getContextByResource(event.url).subscribe((context: ContextualComm) => {
+
+        this.contextualCommDataService.removeContext(context)
+          .subscribe((result: boolean) => {
+            this.notificationsService.info(
+              'Context Removed',
+              'The context ' + context.name + ' was been removed',
+              {
+                showProgressBar: false,
+                timeOut: 5000,
+                pauseOnHover: false,
+                haveActions: false
+              });
+          },
+          (error: any) => {
+            this.notificationsService.error('Error removing context', error, {
+              showProgressBar: false,
+              timeOut: 5000,
+              pauseOnHover: false,
+              haveActions: false
+            });
+          });
+
+      })
+
+    })
+
     this.connectorInvitation = this.connectorService.onInvitation.subscribe((event: any) => {
 
       console.log('[Media Communication Component] - event', event);
@@ -248,6 +289,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         }
       }).subscribe((notEvent: any) => {
         console.log('notification:', notEvent)
+      }, (error: any) => {
+        console.warn('warning:', error);
       });
 
       this.notificationsService.create(title, content, 'info',

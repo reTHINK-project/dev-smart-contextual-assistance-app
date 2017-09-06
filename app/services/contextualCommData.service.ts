@@ -4,10 +4,12 @@ import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 
+import 'rxjs/add/observable/fromPromise';
+
 // Models
 import { ContextualComm } from '../models/models';
 
-import { filterContextsByName, normalizeName } from '../utils/utils';
+import { filterContextsByName, normalizeName, objectToPath } from '../utils/utils';
 
 // Services
 import { ContextualCommService } from './contextualComm.service';
@@ -46,7 +48,7 @@ export class ContextualCommDataService {
         console.info('[ContextualCommData Service] - no contexts was found: ', reason);
         console.info('[ContextualCommData Service] - creating new context: ', name, normalizedName);
 
-        this.chatService.create(normalizedName.id, [], []).then((controller: any) => {
+        this.chatService.create(normalizedName.id, [], [], contextInfo).then((controller: any) => {
 
           console.info('[ContextualCommData Service] - communication objects was created successfully: ', controller);
           console.info('[ContextualCommData Service] - creating new contexts: ', controller, normalizedName.parent);
@@ -122,6 +124,39 @@ export class ContextualCommDataService {
 
   }
 
+  removeContext(context: ContextualComm): Observable<boolean> {
+
+    return Observable.fromPromise(new Promise((resolve, reject) => {
+
+      const chatToClose = context.contexts.map(sub => this.chatService.close(sub.url));
+      const contextToRemove = context.contexts.map(sub => this.contextualCommService.removeContextualComm(sub));
+
+      // add the main context
+      chatToClose.push(this.chatService.close(context.url));
+      contextToRemove.push(this.contextualCommService.removeContextualComm(context));
+
+      console.log('Childs to remove:', chatToClose, contextToRemove);
+
+      return Promise.all([chatToClose])
+        .then(result => Promise.all(contextToRemove))
+        .then(() => { resolve(true); this._redirect(context); })
+        .catch(error => reject(error));
+
+    }));
+
+  }
+
+  _redirect(context: ContextualComm) {
+    const basePath = this.router.url;
+    const contextPathObj = normalizeName(context.id);
+    const basePathObj = normalizeName(basePath);
+
+    if (contextPathObj.id === basePathObj.id) {
+      console.log('Navigate to the parent object path: ', contextPathObj);
+      this.router.navigate([objectToPath(contextPathObj.parent)]);
+    }
+  }
+
   /**
    *
    *
@@ -160,7 +195,10 @@ export class ContextualCommDataService {
 
   getContextTask(id: string): Observable<ContextualComm[]> {
     return this.contextualCommService.getContextualComms()
-      .map(contexts => contexts.filter(context => context.id === id)[0].contexts.filter(context => !context.id.includes('@')));
+      .map(contexts =>
+        contexts.filter(context => context.id === id)
+        [0].contexts.filter(context => !context.id.includes('@'))
+      );
   }
 
   getContextById(id: string): Observable<ContextualComm> {

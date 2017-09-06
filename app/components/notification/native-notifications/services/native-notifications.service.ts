@@ -89,8 +89,6 @@ export class NativeNotificationsService {
           swRegistration.showNotification(title, persistentOps).then(() => {
             console.log('ServiceWorker Registration - show Notification:', title, options);
 
-            // console.log('ServiceWorker Registration - show Notification:', title, options, n);
-
             if (options.sound) {
               this.audio.src = options.sound;
               this.audio.load();

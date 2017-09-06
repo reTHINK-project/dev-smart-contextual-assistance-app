@@ -13,14 +13,16 @@
             <a class="btn btn-outline-primary" href="javascript:;" (click)="onCreateEvent()"><strong>new context</strong></a>
           </div>
 
-          <div class="list-group list-group-root" *ngFor="let context of contextualComms | async;">
+          <div class="list-group">
 
-            <div class="list-group-item justify-content-between">
+            <div class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let context of contextualComms | async;">
               <a routerLink="{{context.name | lowercase}}" routerLinkActive="active">
                 <i *ngIf="context.icon" class="pr-3 fa fa-{{context.icon}}"></i>{{context.name}}
               </a>
 
               <span class="badge badge-default badge-pill">{{context.contexts.length}}</span>
+
+              <remove-contextualcomm-view *ngIf="context.reporter" (removeEvent)="removeContext($event, context)" [context]="context"></remove-contextualcomm-view>
             </div>
 
 <!--            <div class="list-group" *ngFor="let item of context.contexts;">

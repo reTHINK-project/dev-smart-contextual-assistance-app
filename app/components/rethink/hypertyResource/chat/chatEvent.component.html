@@ -12,7 +12,7 @@
   </div>
 
   <div class="user-profile">
-    <h3 class="contact-name"><a routerLink="{{message.user.username}}">{{message.user.cn}}</a></h3>
+    <h3 class="contact-name"><a [routerLink]="['user', message.user.username]">{{message.user.cn}}</a></h3>
     <span class="extra-info">{{message.user.domain}}</span>
   </div>
 </div>

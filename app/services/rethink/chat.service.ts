@@ -38,6 +38,7 @@ export class ChatService {
   }
 
   @Output() onInvitation: EventEmitter<any> = new EventEmitter();
+  @Output() onCloseEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private rethinkService: RethinkService,
@@ -113,6 +114,8 @@ export class ChatService {
 
     this.chatGroupManager.onInvitation((event: any) => {
 
+      console.log('[Chat Service - OnInvitation] - ', event);
+
       this.onInvitation.emit(event);
 
     });
@@ -172,14 +175,18 @@ export class ChatService {
       }
     });
 
+    chatController.onClose((event: any) => {
+      this.onCloseEvent.emit(event);
+    })
+
     // this._updateControllersList(chatController.dataObject.url, chatController);
   }
 
-  create(name: string, users: string[], domains: string[]) {
+  create(name: string, users: string[], domains: string[], contextInfo?: any) {
 
     return new Promise((resolve, reject) => {
 
-      this.chatGroupManager.create(name, users, domains).then((chatController: any) => {
+      this.chatGroupManager.create(name, users, domains, contextInfo).then((chatController: any) => {
 
         console.log('[Chat Created]', chatController);
 
@@ -260,6 +267,15 @@ export class ChatService {
       }).catch(reject);
 
     });
+
+  }
+
+  close(url: string): Promise<boolean> {
+
+    const found = this.controllerList.get(url);
+
+    console.log(this.controllerList);
+    return found.close().then((result: any) => this.controllerList.delete(url))
 
   }
 

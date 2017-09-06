@@ -1,15 +1,15 @@
-webpackJsonp([1],{
+webpackJsonp(["main"],{
 
-/***/ "../../../../../src async recursive":
+/***/ "../../../../../src/$$_gendir lazy recursive":
 /***/ (function(module, exports) {
 
-function webpackEmptyContext(req) {
-	throw new Error("Cannot find module '" + req + "'.");
+function webpackEmptyAsyncContext(req) {
+	return new Promise(function(resolve, reject) { reject(new Error("Cannot find module '" + req + "'.")); });
 }
-webpackEmptyContext.keys = function() { return []; };
-webpackEmptyContext.resolve = webpackEmptyContext;
-module.exports = webpackEmptyContext;
-webpackEmptyContext.id = "../../../../../src async recursive";
+webpackEmptyAsyncContext.keys = function() { return []; };
+webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
+module.exports = webpackEmptyAsyncContext;
+webpackEmptyAsyncContext.id = "../../../../../src/$$_gendir lazy recursive";
 
 /***/ }),
 
@@ -17,11 +17,11 @@ webpackEmptyContext.id = "../../../../../src async recursive";
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppRoutingModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__views_home_home_component__ = __webpack_require__("../../../../../src/app/views/home/home.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,7 +38,7 @@ var routes = [
         path: '',
         component: __WEBPACK_IMPORTED_MODULE_2__views_home_home_component__["a" /* HomeComponent */],
         canActivate: [
-            __WEBPACK_IMPORTED_MODULE_3__services_services__["h" /* AuthGuard */]
+            __WEBPACK_IMPORTED_MODULE_3__services_services__["c" /* AuthGuard */]
         ],
         data: {
             pageTitle: 'Home',
@@ -50,13 +50,13 @@ var routes = [
         redirectTo: '/'
     }
 ];
-var AppRoutingModule = (function () {
+var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
     }
     AppRoutingModule = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["g" /* RouterModule */].forRoot(routes)],
-            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["g" /* RouterModule */]]
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["f" /* RouterModule */].forRoot(routes)],
+            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["f" /* RouterModule */]]
         })
     ], AppRoutingModule);
     return AppRoutingModule;
@@ -69,7 +69,7 @@ var AppRoutingModule = (function () {
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<notifications></notifications>\n\n<!-- container -->\n<div screen class=\"container-fluid\">\n\n  <div class=\"row\">\n\n    <!-- pusher -->\n    <div class=\"mp-pusher wrapper {{contextOpened ? 'mp-pushed' : ''}}\" (click)='onClickOutside($event)' id=\"mp-pusher\">\n      <nav context-menu></nav>\n\n      <!-- scroller -->\n      <div class=\"scroller\">\n\n        <!-- scroller-inner -->\n        <div #section class=\"scroller-inner d-flex flex-column align-items-stretch\">\n\n          <div *ngIf=\"showAlert\" [innerHTML]=\"notificationStatus\" class=\"alert alert-warning m-0 rounded-0\" role=\"alert\"></div>\n\n          <header class=\"header\">\n            <div class=\"primary-menu row no-gutters\">\n\n              <!-- Logotipo -->\n              <div class=\"col align-center\">\n                <a class=\"open-context\" (click)=\"onOpenContext($event)\"><i class=\"fa fa-lightbulb-o\"></i></a>\n                <a routerLink=\"/\" title=\"go to the reTHINK home\" alt=\"go to the reTHINK home\"><img title=\"reTHINK\" alt=\"reTHINK\" src=\"{{assetsConfig.images}}/rethinklogo2.png\"></a>\n              </div>\n\n              <!-- My Identity -->\n              <div class=\"col-6\">\n                <my-self *ngIf=\"myIdentity && ready\" [model]=\"myIdentity\"></my-self>\n              </div>\n\n            </div>\n\n            <div *ngIf=\"showBreadcrumb\"  class=\"secondary-menu row no-gutters\">\n\n              <!-- breadcrumb -->\n              <div class=\"col-12\">\n                <ul *ngIf=\"ready\" (openContext)=\"openSecondaryContext($event)\" context-breadcrumb></ul>\n              </div>\n\n            </div>\n\n          </header>\n\n          <router-outlet (activate)='onActivate($event)'></router-outlet>\n\n          <loading *ngIf=\"!ready\"  [status]=\"status\"></loading>\n\n        </div>\n        <!-- /scroller-inner -->\n      </div>\n      <!-- /scroller -->\n    </div>\n\n  </div>\n  <!-- /pusher -->\n</div>\n<!-- /container -->\n"
+module.exports = "<notifications></notifications>\n\n<!-- container -->\n<div screen class=\"container-fluid\">\n\n  <div class=\"row\">\n\n    <!-- pusher -->\n    <div class=\"mp-pusher wrapper {{contextOpened ? 'mp-pushed' : ''}}\" (click)='onClickOutside($event)' id=\"mp-pusher\">\n      <context-menu></context-menu>\n\n      <!-- scroller -->\n      <div class=\"scroller\">\n\n        <!-- scroller-inner -->\n        <div #section class=\"scroller-inner d-flex flex-column align-items-stretch\">\n\n          <div *ngIf=\"showAlert\" [innerHTML]=\"notificationStatus\" class=\"alert alert-warning m-0 rounded-0\" role=\"alert\"></div>\n\n          <header class=\"header\">\n            <div class=\"primary-menu row no-gutters\">\n\n              <!-- Logotipo -->\n              <div class=\"col align-center\">\n                <a class=\"open-context\" (click)=\"onOpenContext($event)\"><i class=\"fa fa-lightbulb-o\"></i></a>\n                <a routerLink=\"/\" title=\"go to the reTHINK home\" alt=\"go to the reTHINK home\"><img title=\"reTHINK\" alt=\"reTHINK\" src=\"{{assetsConfig.images}}/rethinklogo2.png\"></a>\n              </div>\n\n              <!-- My Identity -->\n              <div class=\"col-6\">\n                <my-self *ngIf=\"myIdentity && ready\" [model]=\"myIdentity\"></my-self>\n              </div>\n\n            </div>\n\n            <div *ngIf=\"showBreadcrumb\"  class=\"secondary-menu row no-gutters\">\n\n              <!-- breadcrumb -->\n              <div class=\"col-12\">\n                <ul *ngIf=\"ready\" (openContext)=\"openSecondaryContext($event)\" context-breadcrumb></ul>\n              </div>\n\n            </div>\n\n          </header>\n\n          <router-outlet (activate)='onActivate($event)'></router-outlet>\n\n          <loading *ngIf=\"!ready\"  [status]=\"status\"></loading>\n\n        </div>\n        <!-- /scroller-inner -->\n      </div>\n      <!-- /scroller -->\n    </div>\n\n  </div>\n  <!-- /pusher -->\n</div>\n<!-- /container -->\n"
 
 /***/ }),
 
@@ -77,6 +77,7 @@ module.exports = "<notifications></notifications>\n\n<!-- container -->\n<div sc
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
@@ -93,7 +94,6 @@ module.exports = "<notifications></notifications>\n\n<!-- container -->\n<div sc
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__services_contextualCommData_service__ = __webpack_require__("../../../../../src/app/services/contextualCommData.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__services_rethink_userAvailability_service__ = __webpack_require__("../../../../../src/app/services/rethink/userAvailability.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -121,7 +121,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var AppComponent = (function () {
+var AppComponent = /** @class */ (function () {
     function AppComponent(router, titleService, route, chatService, rethinkService, contactService, routingService, connectorService, breadcrumbService, notificationsService, triggerActionService, contextualCommService, userAvailabilityService, natNotificationsService, contextualCommDataService) {
         var _this = this;
         this.router = router;
@@ -157,7 +157,7 @@ var AppComponent = (function () {
         });
         this.actionService = this.triggerActionService.action().subscribe(function (action) {
             console.log('[App Component - TriggerActionService] - action: ', action);
-            if (action === __WEBPACK_IMPORTED_MODULE_7__models_app_models__["a" /* TriggerActions */].OpenContextMenu) {
+            if (action === __WEBPACK_IMPORTED_MODULE_7__models_app_models__["b" /* TriggerActions */].OpenContextMenu) {
                 _this.onOpenContext();
             }
         });
@@ -165,15 +165,15 @@ var AppComponent = (function () {
             var title = 'New communication channel';
             var content = 'You have a new communication channel ' + event.contextualComm.name;
             _this.notificationsService.success(title, content, {
-                showProgressBar: true,
+                showProgressBar: false,
                 timeOut: 5000,
                 pauseOnHover: false,
                 haveActions: false,
             });
             _this.natNotificationsService.create(title, {
                 body: content,
-                tag: __WEBPACK_IMPORTED_MODULE_5__components_notification_native_notifications_module__["b" /* NotificationTag */].INCOMING_CALL,
-                vibrate: __WEBPACK_IMPORTED_MODULE_5__components_notification_native_notifications_module__["c" /* NotificationVibrate */].INCOMING_CALL,
+                tag: __WEBPACK_IMPORTED_MODULE_5__components_notification_native_notifications_module__["c" /* NotificationTag */].INCOMING_CALL,
+                vibrate: __WEBPACK_IMPORTED_MODULE_5__components_notification_native_notifications_module__["d" /* NotificationVibrate */].INCOMING_CALL,
                 persistent: true,
                 sound: __WEBPACK_IMPORTED_MODULE_6__config__["a" /* config */].sounds + '/successful.mp3',
             });
@@ -236,6 +236,10 @@ var AppComponent = (function () {
             console.log('[App Component] - navigation: ', navigation);
             if (navigation instanceof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* NavigationEnd */]) {
                 _this.toggleSideBar();
+                var url = navigation.url;
+                if (url.includes('@')) {
+                    url = url.substr(0, url.lastIndexOf('/'));
+                }
             }
         });
         this.routeData = this.routingService.routingChanges.subscribe(function (pageSection) {
@@ -260,6 +264,27 @@ var AppComponent = (function () {
                 console.error('[App View View - chatService onInvitation] - event not processed:', reason);
             });
         });
+        this.closeEvent = this.chatService.onCloseEvent.subscribe(function (event) {
+            console.log('Context to be removed: ', event, event.url);
+            _this.contextualCommDataService.getContextByResource(event.url).subscribe(function (context) {
+                _this.contextualCommDataService.removeContext(context)
+                    .subscribe(function (result) {
+                    _this.notificationsService.info('Context Removed', 'The context ' + context.name + ' was been removed', {
+                        showProgressBar: false,
+                        timeOut: 5000,
+                        pauseOnHover: false,
+                        haveActions: false
+                    });
+                }, function (error) {
+                    _this.notificationsService.error('Error removing context', error, {
+                        showProgressBar: false,
+                        timeOut: 5000,
+                        pauseOnHover: false,
+                        haveActions: false
+                    });
+                });
+            });
+        });
         this.connectorInvitation = this.connectorService.onInvitation.subscribe(function (event) {
             console.log('[Media Communication Component] - event', event);
             var title = 'Incoming call';
@@ -269,14 +294,16 @@ var AppComponent = (function () {
                 body: content,
                 icon: avatar,
                 sound: __WEBPACK_IMPORTED_MODULE_6__config__["a" /* config */].sounds + '/classic-ringer.mp3',
-                tag: __WEBPACK_IMPORTED_MODULE_5__components_notification_native_notifications_module__["b" /* NotificationTag */].INCOMING_CALL,
-                vibrate: __WEBPACK_IMPORTED_MODULE_5__components_notification_native_notifications_module__["c" /* NotificationVibrate */].INCOMING_CALL,
+                tag: __WEBPACK_IMPORTED_MODULE_5__components_notification_native_notifications_module__["c" /* NotificationTag */].INCOMING_CALL,
+                vibrate: __WEBPACK_IMPORTED_MODULE_5__components_notification_native_notifications_module__["d" /* NotificationVibrate */].INCOMING_CALL,
                 persistent: true,
                 data: {
                     metadata: event
                 }
             }).subscribe(function (notEvent) {
                 console.log('notification:', notEvent);
+            }, function (error) {
+                console.warn('warning:', error);
             });
             _this.notificationsService.create(title, content, 'info', {
                 showProgressBar: false,
@@ -327,7 +354,7 @@ var AppComponent = (function () {
             var metadata = event.value;
             var name = metadata.name;
             _this.chatService.join(url).then(function (dataObject) {
-                var normalizedName = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils_utils__["c" /* normalizeName */])(name);
+                var normalizedName = Object(__WEBPACK_IMPORTED_MODULE_8__utils_utils__["g" /* normalizeName */])(name);
                 console.log('[App Component - Join the to the context: ', name, dataObject, normalizedName);
                 return _this.contextualCommDataService.joinContext(normalizedName.name, normalizedName.id, dataObject, normalizedName.parent);
             }).then(function (currentContext) {
@@ -345,7 +372,7 @@ var AppComponent = (function () {
         var metadata = actionEvent.metadata;
         var mode = metadata.mode;
         var currentUser = this.contactService.sessionUser.username;
-        var paths = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils_utils__["h" /* splitFromURL */])(metadata.metadata.name, currentUser);
+        var paths = Object(__WEBPACK_IMPORTED_MODULE_8__utils_utils__["i" /* splitFromURL */])(metadata.metadata.name, currentUser);
         if (actionEvent.action === __WEBPACK_IMPORTED_MODULE_4__components_notification_notifications_interfaces_notification_action_event__["a" /* ActionType */].ACCEPT) {
             var navigationExtras = {
                 queryParams: { 'action': mode }
@@ -354,12 +381,12 @@ var AppComponent = (function () {
             console.log('[Media Communication Component] -  navigate to: ', paths.context, paths.task, paths.user);
             var navigationArgs = [paths.context];
             var userTo = void 0;
-            if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils_utils__["f" /* isAnUser */])(paths.task)) {
-                userTo = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils_utils__["i" /* clearMyUsername */])(paths.task, currentUser);
+            if (Object(__WEBPACK_IMPORTED_MODULE_8__utils_utils__["e" /* isAnUser */])(paths.task)) {
+                userTo = Object(__WEBPACK_IMPORTED_MODULE_8__utils_utils__["a" /* clearMyUsername */])(paths.task, currentUser);
             }
             else {
                 navigationArgs.push(paths.task);
-                userTo = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils_utils__["i" /* clearMyUsername */])(paths.user, currentUser);
+                userTo = Object(__WEBPACK_IMPORTED_MODULE_8__utils_utils__["a" /* clearMyUsername */])(paths.user, currentUser);
             }
             navigationArgs.push('user');
             navigationArgs.push(userTo);
@@ -424,27 +451,27 @@ var AppComponent = (function () {
         }
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewChild"])('section'),
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewChild"])('section'),
         __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_core__["ElementRef"]) === "function" && _a || Object)
     ], AppComponent.prototype, "section", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["HostListener"])('window:blur', ['$event']),
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["HostListener"])('window:blur', ['$event']),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", void 0)
     ], AppComponent.prototype, "onBlurEvent", null);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["HostListener"])('window:focus', ['$event']),
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["HostListener"])('window:focus', ['$event']),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", void 0)
     ], AppComponent.prototype, "onFocusEvent", null);
     AppComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
             selector: 'rethink-app',
             template: __webpack_require__("../../../../../src/app/app.component.html")
         }),
-        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["d" /* Title */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["d" /* Title */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_15__services_services__["f" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__services_services__["f" /* ChatService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_15__services_services__["c" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__services_services__["c" /* RethinkService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_15__services_services__["e" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__services_services__["e" /* ContactService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_10__services_routing_service__["a" /* RoutingService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__services_routing_service__["a" /* RoutingService */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_15__services_services__["g" /* ConnectorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__services_services__["g" /* ConnectorService */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_11__services_breadcrumb_service__["a" /* BreadcrumbService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_11__services_breadcrumb_service__["a" /* BreadcrumbService */]) === "function" && _k || Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_3__components_notification_notifications_module__["NotificationsService"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__components_notification_notifications_module__["NotificationsService"]) === "function" && _l || Object, typeof (_m = typeof __WEBPACK_IMPORTED_MODULE_15__services_services__["b" /* TriggerActionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__services_services__["b" /* TriggerActionService */]) === "function" && _m || Object, typeof (_o = typeof __WEBPACK_IMPORTED_MODULE_12__services_contextualComm_service__["a" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__services_contextualComm_service__["a" /* ContextualCommService */]) === "function" && _o || Object, typeof (_p = typeof __WEBPACK_IMPORTED_MODULE_14__services_rethink_userAvailability_service__["a" /* UserAvailabilityService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_14__services_rethink_userAvailability_service__["a" /* UserAvailabilityService */]) === "function" && _p || Object, typeof (_q = typeof __WEBPACK_IMPORTED_MODULE_5__components_notification_native_notifications_module__["d" /* NativeNotificationsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__components_notification_native_notifications_module__["d" /* NativeNotificationsService */]) === "function" && _q || Object, typeof (_r = typeof __WEBPACK_IMPORTED_MODULE_13__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_13__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _r || Object])
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["e" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["d" /* Title */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["d" /* Title */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_15__services_services__["d" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__services_services__["d" /* ChatService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_15__services_services__["j" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__services_services__["j" /* RethinkService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_15__services_services__["f" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__services_services__["f" /* ContactService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_10__services_routing_service__["a" /* RoutingService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__services_routing_service__["a" /* RoutingService */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_15__services_services__["e" /* ConnectorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__services_services__["e" /* ConnectorService */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_11__services_breadcrumb_service__["a" /* BreadcrumbService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_11__services_breadcrumb_service__["a" /* BreadcrumbService */]) === "function" && _k || Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_3__components_notification_notifications_module__["NotificationsService"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__components_notification_notifications_module__["NotificationsService"]) === "function" && _l || Object, typeof (_m = typeof __WEBPACK_IMPORTED_MODULE_15__services_services__["k" /* TriggerActionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_15__services_services__["k" /* TriggerActionService */]) === "function" && _m || Object, typeof (_o = typeof __WEBPACK_IMPORTED_MODULE_12__services_contextualComm_service__["a" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12__services_contextualComm_service__["a" /* ContextualCommService */]) === "function" && _o || Object, typeof (_p = typeof __WEBPACK_IMPORTED_MODULE_14__services_rethink_userAvailability_service__["a" /* UserAvailabilityService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_14__services_rethink_userAvailability_service__["a" /* UserAvailabilityService */]) === "function" && _p || Object, typeof (_q = typeof __WEBPACK_IMPORTED_MODULE_5__components_notification_native_notifications_module__["b" /* NativeNotificationsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__components_notification_native_notifications_module__["b" /* NativeNotificationsService */]) === "function" && _q || Object, typeof (_r = typeof __WEBPACK_IMPORTED_MODULE_13__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_13__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _r || Object])
     ], AppComponent);
     return AppComponent;
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
@@ -458,6 +485,7 @@ var AppComponent = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/@angular/platform-browser/animations.es5.js");
@@ -480,8 +508,8 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__views_contextualComm_contextualComm_component__ = __webpack_require__("../../../../../src/app/views/contextualComm/contextualComm.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__views_contextualCommMenu_add_contextualComm_component__ = __webpack_require__("../../../../../src/app/views/contextualCommMenu/add-contextualComm.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__views_contextualCommUsers_contextualCommUsers_component__ = __webpack_require__("../../../../../src/app/views/contextualCommUsers/contextualCommUsers.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__views_contextualCommMenu_remove_contextualComm_component__ = __webpack_require__("../../../../../src/app/views/contextualCommMenu/remove-contextualComm.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -515,21 +543,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 // Services
 
-var AppModule = (function () {
+var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             imports: [
-                __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormsModule */],
+                __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormsModule */],
                 __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["a" /* BrowserModule */],
                 __WEBPACK_IMPORTED_MODULE_7__shared_directive_module__["a" /* DirectiveModules */],
-                __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* ReactiveFormsModule */],
+                __WEBPACK_IMPORTED_MODULE_3__angular_forms__["f" /* ReactiveFormsModule */],
                 __WEBPACK_IMPORTED_MODULE_16__views_contextualComm_contextualComm_module__["a" /* ContextualCommModule */],
                 __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
-                __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["a" /* NgbModule */].forRoot(),
+                __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["d" /* NgbModule */].forRoot(),
                 __WEBPACK_IMPORTED_MODULE_10__components_notification_notifications_module__["NotificationsModule"].forRoot(),
                 __WEBPACK_IMPORTED_MODULE_12__components_notification_native_notifications_module__["a" /* NativeNotificationsModule */],
                 __WEBPACK_IMPORTED_MODULE_5__app_routing_module__["a" /* AppRoutingModule */]
@@ -545,7 +574,8 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_19__views_contextualComm_contextualComm_component__["a" /* ContextualCommComponent */],
                 __WEBPACK_IMPORTED_MODULE_20__views_contextualCommMenu_add_contextualComm_component__["a" /* AddContextualCommComponent */],
                 __WEBPACK_IMPORTED_MODULE_17__views_breadcrumb_breadcrumb_component__["a" /* ContextBreadcrumbComponent */],
-                __WEBPACK_IMPORTED_MODULE_21__views_contextualCommUsers_contextualCommUsers_component__["a" /* ContextualCommUsersComponent */]
+                __WEBPACK_IMPORTED_MODULE_21__views_contextualCommUsers_contextualCommUsers_component__["a" /* ContextualCommUsersComponent */],
+                __WEBPACK_IMPORTED_MODULE_22__views_contextualCommMenu_remove_contextualComm_component__["a" /* RemoveContextualCommComponent */],
             ],
             entryComponents: [
                 __WEBPACK_IMPORTED_MODULE_11__components_rethink_userIdentity_userIdentity_component__["a" /* UserIdentityComponent */],
@@ -553,7 +583,7 @@ var AppModule = (function () {
             ],
             providers: [
                 __WEBPACK_IMPORTED_MODULE_6__utils_CustomUtils__["a" /* CustomUtils */],
-                __WEBPACK_IMPORTED_MODULE_22__services_services__["a" /* servicesInjectables */]
+                __WEBPACK_IMPORTED_MODULE_23__services_services__["m" /* servicesInjectables */]
             ],
             bootstrap: [
                 __WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]
@@ -570,7 +600,7 @@ var AppModule = (function () {
 /***/ "../../../../../src/app/components/mySelf/my-self.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"current-user\" ngbDropdown #myDrop=\"ngbDropdown\">\n\n  <div id=\"dropdownConfig\" class=\"d-flex justify-content-around align-items-center user-area\" ngbDropdownToggle>\n    <user-identity [model]=\"model\"></user-identity>\n  </div>\n\n  <div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"dropdownConfig\">\n    <h6 class=\"dropdown-header\">User Availability</h6>\n    <div class=\"dropdown-item dropdown-item-action\" href=\"#\">\n      <span>Availability:</span>\n      <div ngbRadioGroup [(ngModel)]=\"model.status\" class=\"btn-group-sm\" name=\"status\">\n        <label ngbButtonLabel class=\"btn btn-secondary mb-0 {{ model.status === 'available' ? 'btn-success' : '' }}\">\n          <input ngbButton type=\"radio\" autocomplete=\"off\" value=\"available\" (click)=\"onChangeEvent('available')\">On\n        </label>\n        <label ngbButtonLabel class=\"btn btn-secondary mb-0 {{ model.status === 'unavailable' ? 'btn-danger' : '' }}\">\n          <input ngbButton type=\"radio\" autocomplete=\"off\" value=\"unavailable\" (click)=\"onChangeEvent('unavailable')\">Off\n        </label>\n      </div>\n    </div>\n    <div class=\"dropdown-divider\"></div>\n    <button class=\"dropdown-item\">soon</button>\n  </div>\n</div>\n"
+module.exports = "<div class=\"current-user\" ngbDropdown #myDrop=\"ngbDropdown\">\n\n  <div ngbDropdownToggle id=\"dropdownConfig\" class=\"d-flex justify-content-around align-items-center user-area\">\n    <user-identity [model]=\"model\"></user-identity>\n  </div>\n\n  <div ngbDropdownMenu class=\"dropdown-menu-right\" aria-labelledby=\"dropdownConfig\">\n    <h6 class=\"dropdown-header\">User Availability</h6>\n    <div class=\"dropdown-item dropdown-item-action\" href=\"#\">\n      <span class=\"d-block pb-1\">Availability:</span>\n      <div ngbRadioGroup [(ngModel)]=\"model.status\" class=\"btn-group-vertical w-100\" name=\"status\">\n        <label ngbButtonLabel class=\"btn btn-sm mb-0 text-left {{ model.status === 'available' ? 'btn-success' : 'btn-outline-secondary' }}\">\n          <input ngbButton type=\"radio\" autocomplete=\"off\" value=\"available\" (click)=\"onChangeEvent('available')\">On\n        </label>\n        <label ngbButtonLabel class=\"btn btn-sm mb-0 text-left {{ model.status === 'busy' ? 'btn-danger' : 'btn-outline-secondary' }}\">\n          <input ngbButton type=\"radio\" autocomplete=\"off\" value=\"busy\" (click)=\"onChangeEvent('busy')\">Busy\n        </label>\n        <label ngbButtonLabel class=\"btn btn-sm mb-0 text-left {{ model.status === 'unavailable' ? 'btn-secondary' : 'btn-outline-secondary' }}\">\n          <input ngbButton type=\"radio\" autocomplete=\"off\" value=\"unavailable\" (click)=\"onChangeEvent('unavailable')\">Off\n        </label>\n      </div>\n    </div>\n    <div class=\"dropdown-divider\"></div>\n    <button class=\"dropdown-item\">soon</button>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -578,13 +608,13 @@ module.exports = "<div class=\"current-user\" ngbDropdown #myDrop=\"ngbDropdown\
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MySelfComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_observable_from__ = __webpack_require__("../../../../rxjs/add/observable/from.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_observable_from___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_observable_from__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_models__ = __webpack_require__("../../../../../src/app/models/models.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_rethink_userAvailability_service__ = __webpack_require__("../../../../../src/app/services/rethink/userAvailability.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MySelfComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -599,7 +629,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var MySelfComponent = (function () {
+var MySelfComponent = /** @class */ (function () {
     function MySelfComponent(config, userAvailabilityService) {
         this.userAvailabilityService = userAvailabilityService;
         this.hostClass = 'float-right';
@@ -612,19 +642,19 @@ var MySelfComponent = (function () {
         this.userAvailabilityService.setStatus(status);
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__models_models__["d" /* User */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__models_models__["d" /* User */]) === "function" && _a || Object)
     ], MySelfComponent.prototype, "model", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
         __metadata("design:type", Object)
     ], MySelfComponent.prototype, "hostClass", void 0);
     MySelfComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'my-self',
             template: __webpack_require__("../../../../../src/app/components/mySelf/my-self.component.html")
         }),
-        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["d" /* NgbDropdownConfig */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["d" /* NgbDropdownConfig */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__services_rethink_userAvailability_service__["a" /* UserAvailabilityService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_rethink_userAvailability_service__["a" /* UserAvailabilityService */]) === "function" && _c || Object])
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbDropdownConfig */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbDropdownConfig */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__services_rethink_userAvailability_service__["a" /* UserAvailabilityService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_rethink_userAvailability_service__["a" /* UserAvailabilityService */]) === "function" && _c || Object])
     ], MySelfComponent);
     return MySelfComponent;
     var _a, _b, _c;
@@ -638,13 +668,13 @@ var MySelfComponent = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NativeNotificationsModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__native_notifications_services_native_notifications_service__ = __webpack_require__("../../../../../src/app/components/notification/native-notifications/services/native-notifications.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__native_notifications_interfaces_native_notification_type__ = __webpack_require__("../../../../../src/app/components/notification/native-notifications/interfaces/native-notification.type.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__native_notifications_interfaces_native_notification_type__["a"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_2__native_notifications_interfaces_native_notification_type__["b"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_1__native_notifications_services_native_notifications_service__["a"]; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NativeNotificationsModule; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_2__native_notifications_interfaces_native_notification_type__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_2__native_notifications_interfaces_native_notification_type__["b"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__native_notifications_services_native_notifications_service__["a"]; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -655,11 +685,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var NativeNotificationsModule = (function () {
+var NativeNotificationsModule = /** @class */ (function () {
     function NativeNotificationsModule() {
     }
     NativeNotificationsModule = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             providers: [__WEBPACK_IMPORTED_MODULE_1__native_notifications_services_native_notifications_service__["a" /* NativeNotificationsService */]]
         })
     ], NativeNotificationsModule);
@@ -696,10 +726,10 @@ var NotificationVibrate;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NativeNotificationsService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__ = __webpack_require__("../../../../rxjs/Observable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NativeNotificationsService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -711,7 +741,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var NativeNotificationsService = (function () {
+var NativeNotificationsService = /** @class */ (function () {
     function NativeNotificationsService() {
         this.permission = this.isSupported() ? Notification.permission : 'denied';
         // TODO: add a list of sounds to each type of event
@@ -766,7 +796,6 @@ var NativeNotificationsService = (function () {
                     ;
                     swRegistration.showNotification(title, persistentOps).then(function () {
                         console.log('ServiceWorker Registration - show Notification:', title, options);
-                        // console.log('ServiceWorker Registration - show Notification:', title, options, n);
                         if (options.sound) {
                             _this.audio.src = options.sound;
                             _this.audio.load();
@@ -797,11 +826,11 @@ var NativeNotificationsService = (function () {
         });
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", Boolean)
     ], NativeNotificationsService.prototype, "haveFocus", void 0);
     NativeNotificationsService = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [])
     ], NativeNotificationsService);
     return NativeNotificationsService;
@@ -815,6 +844,7 @@ var NativeNotificationsService = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NotificationsModule", function() { return NotificationsModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__notifications_components_notifications_component__ = __webpack_require__("../../../../../src/app/components/notification/notifications/components/notifications.component.ts");
@@ -833,7 +863,6 @@ var NativeNotificationsService = (function () {
 /* unused harmony namespace reexport */
 /* unused harmony namespace reexport */
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "NotificationsService", function() { return __WEBPACK_IMPORTED_MODULE_5__notifications_services_notifications_service__["a"]; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NotificationsModule", function() { return NotificationsModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -854,7 +883,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var NotificationsModule = (function () {
+var NotificationsModule = /** @class */ (function () {
     function NotificationsModule() {
     }
     NotificationsModule_1 = NotificationsModule;
@@ -865,9 +894,9 @@ var NotificationsModule = (function () {
         };
     };
     NotificationsModule = NotificationsModule_1 = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_common__["k" /* CommonModule */]
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]
             ],
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_2__notifications_components_notifications_component__["a" /* NotificationsComponent */],
@@ -914,6 +943,7 @@ module.exports = "<div class=\"notification\"\n    [@enterLeave]=\"item.state\"\
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotificationComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_animations__ = __webpack_require__("../../../animations/@angular/animations.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__ = __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js");
@@ -921,7 +951,6 @@ module.exports = "<div class=\"notification\"\n    [@enterLeave]=\"item.state\"\
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__interfaces_notification_type___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__interfaces_notification_type__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_notifications_service__ = __webpack_require__("../../../../../src/app/components/notification/notifications/services/notifications.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__interfaces_notification_action_event__ = __webpack_require__("../../../../../src/app/components/notification/notifications/interfaces/notification.action-event.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotificationComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -937,7 +966,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var NotificationComponent = (function () {
+var NotificationComponent = /** @class */ (function () {
     function NotificationComponent(notificationService, domSanitizer, zone) {
         var _this = this;
         this.notificationService = notificationService;
@@ -1048,98 +1077,98 @@ var NotificationComponent = (function () {
         }
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", Number)
     ], NotificationComponent.prototype, "timeOut", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", Boolean)
     ], NotificationComponent.prototype, "showProgressBar", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", Boolean)
     ], NotificationComponent.prototype, "pauseOnHover", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", Boolean)
     ], NotificationComponent.prototype, "clickToClose", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", Number)
     ], NotificationComponent.prototype, "maxLength", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", String)
     ], NotificationComponent.prototype, "theClass", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", Boolean)
     ], NotificationComponent.prototype, "rtl", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", String)
     ], NotificationComponent.prototype, "animate", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", Number)
     ], NotificationComponent.prototype, "position", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__interfaces_notification_type__["Notification"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__interfaces_notification_type__["Notification"]) === "function" && _a || Object)
     ], NotificationComponent.prototype, "item", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", Boolean)
     ], NotificationComponent.prototype, "haveActions", void 0);
     NotificationComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'notification',
             encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewEncapsulation"].None,
             animations: [
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["a" /* trigger */])('enterLeave', [
+                Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["j" /* trigger */])('enterLeave', [
                     // Enter from right
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["b" /* state */])('fromRight', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["c" /* style */])({ opacity: 1, transform: 'translateX(0)' })),
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["d" /* transition */])('* => fromRight', [
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["c" /* style */])({ opacity: 0, transform: 'translateX(5%)' }),
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('400ms ease-in-out')
+                    Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["g" /* state */])('fromRight', Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ opacity: 1, transform: 'translateX(0)' })),
+                    Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["i" /* transition */])('* => fromRight', [
+                        Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ opacity: 0, transform: 'translateX(5%)' }),
+                        Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('400ms ease-in-out')
                     ]),
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["b" /* state */])('fromRightOut', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["c" /* style */])({ opacity: 0, transform: 'translateX(-5%)' })),
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["d" /* transition */])('fromRight => fromRightOut', [
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["c" /* style */])({ opacity: 1, transform: 'translateX(0)' }),
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('300ms ease-in-out')
+                    Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["g" /* state */])('fromRightOut', Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ opacity: 0, transform: 'translateX(-5%)' })),
+                    Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["i" /* transition */])('fromRight => fromRightOut', [
+                        Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ opacity: 1, transform: 'translateX(0)' }),
+                        Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('300ms ease-in-out')
                     ]),
                     // Enter from left
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["b" /* state */])('fromLeft', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["c" /* style */])({ opacity: 1, transform: 'translateX(0)' })),
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["d" /* transition */])('* => fromLeft', [
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["c" /* style */])({ opacity: 0, transform: 'translateX(-5%)' }),
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('400ms ease-in-out')
+                    Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["g" /* state */])('fromLeft', Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ opacity: 1, transform: 'translateX(0)' })),
+                    Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["i" /* transition */])('* => fromLeft', [
+                        Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ opacity: 0, transform: 'translateX(-5%)' }),
+                        Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('400ms ease-in-out')
                     ]),
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["b" /* state */])('fromLeftOut', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["c" /* style */])({ opacity: 0, transform: 'translateX(5%)' })),
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["d" /* transition */])('fromLeft => fromLeftOut', [
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["c" /* style */])({ opacity: 1, transform: 'translateX(0)' }),
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('300ms ease-in-out')
+                    Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["g" /* state */])('fromLeftOut', Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ opacity: 0, transform: 'translateX(5%)' })),
+                    Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["i" /* transition */])('fromLeft => fromLeftOut', [
+                        Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ opacity: 1, transform: 'translateX(0)' }),
+                        Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('300ms ease-in-out')
                     ]),
                     // Rotate
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["b" /* state */])('scale', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["c" /* style */])({ opacity: 1, transform: 'scale(1)' })),
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["d" /* transition */])('* => scale', [
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["c" /* style */])({ opacity: 0, transform: 'scale(0)' }),
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('400ms ease-in-out')
+                    Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["g" /* state */])('scale', Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ opacity: 1, transform: 'scale(1)' })),
+                    Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["i" /* transition */])('* => scale', [
+                        Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ opacity: 0, transform: 'scale(0)' }),
+                        Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('400ms ease-in-out')
                     ]),
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["b" /* state */])('scaleOut', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["c" /* style */])({ opacity: 0, transform: 'scale(0)' })),
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["d" /* transition */])('scale => scaleOut', [
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["c" /* style */])({ opacity: 1, transform: 'scale(1)' }),
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('400ms ease-in-out')
+                    Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["g" /* state */])('scaleOut', Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ opacity: 0, transform: 'scale(0)' })),
+                    Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["i" /* transition */])('scale => scaleOut', [
+                        Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ opacity: 1, transform: 'scale(1)' }),
+                        Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('400ms ease-in-out')
                     ]),
                     // Scale
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["b" /* state */])('rotate', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["c" /* style */])({ opacity: 1, transform: 'rotate(0deg)' })),
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["d" /* transition */])('* => rotate', [
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["c" /* style */])({ opacity: 0, transform: 'rotate(5deg)' }),
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('400ms ease-in-out')
+                    Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["g" /* state */])('rotate', Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ opacity: 1, transform: 'rotate(0deg)' })),
+                    Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["i" /* transition */])('* => rotate', [
+                        Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ opacity: 0, transform: 'rotate(5deg)' }),
+                        Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('400ms ease-in-out')
                     ]),
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["b" /* state */])('rotateOut', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["c" /* style */])({ opacity: 0, transform: 'rotate(-5deg)' })),
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["d" /* transition */])('rotate => rotateOut', [
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["c" /* style */])({ opacity: 1, transform: 'rotate(0deg)' }),
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('400ms ease-in-out')
+                    Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["g" /* state */])('rotateOut', Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ opacity: 0, transform: 'rotate(-5deg)' })),
+                    Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["i" /* transition */])('rotate => rotateOut', [
+                        Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ opacity: 1, transform: 'rotate(0deg)' }),
+                        Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('400ms ease-in-out')
                     ])
                 ])
             ],
@@ -1160,11 +1189,11 @@ var NotificationComponent = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotificationsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__interfaces_options_type__ = __webpack_require__("../../../../../src/app/components/notification/notifications/interfaces/options.type.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__interfaces_options_type___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__interfaces_options_type__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_notifications_service__ = __webpack_require__("../../../../../src/app/components/notification/notifications/services/notifications.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotificationsComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1177,7 +1206,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var NotificationsComponent = (function () {
+var NotificationsComponent = /** @class */ (function () {
     function NotificationsComponent(_service) {
         this._service = _service;
         this.onCreate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
@@ -1348,24 +1377,24 @@ var NotificationsComponent = (function () {
         }
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__interfaces_options_type__["Options"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__interfaces_options_type__["Options"]) === "function" && _a || Object),
         __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__interfaces_options_type__["Options"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__interfaces_options_type__["Options"]) === "function" && _b || Object])
     ], NotificationsComponent.prototype, "options", null);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", Object)
     ], NotificationsComponent.prototype, "onCreate", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", Object)
     ], NotificationsComponent.prototype, "onDestroy", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", Object)
     ], NotificationsComponent.prototype, "onActionEvent", void 0);
     NotificationsComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'notifications',
             encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewEncapsulation"].None,
             template: "\n        <div class=\"notification-wrapper\" [ngClass]=\"position\">\n            <notification *ngFor=\"let a of notifications; let i = index\"\n                [haveActions]=\"actions\"\n                [item]=\"a\"\n                [timeOut]=\"timeOut\"\n                [clickToClose]=\"clickToClose\"\n                [maxLength]=\"maxLength\"\n                [showProgressBar]=\"showProgressBar\"\n                [pauseOnHover]=\"pauseOnHover\"\n                [theClass]=\"theClass\"\n                [rtl]=\"rtl\"\n                [animate]=\"animate\"\n                [position]=\"i\"\n                >\n            </notification>\n        </div>\n    ",
@@ -1434,8 +1463,8 @@ var ActionType;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MaxPipe; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1443,7 +1472,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 
-var MaxPipe = (function () {
+var MaxPipe = /** @class */ (function () {
     function MaxPipe() {
     }
     MaxPipe.prototype.transform = function (value) {
@@ -1462,7 +1491,7 @@ var MaxPipe = (function () {
         return value;
     };
     MaxPipe = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Pipe"])({ name: 'max' })
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Pipe"])({ name: 'max' })
     ], MaxPipe);
     return MaxPipe;
 }());
@@ -1475,11 +1504,11 @@ var MaxPipe = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotificationsService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__interfaces_icons__ = __webpack_require__("../../../../../src/app/components/notification/notifications/interfaces/icons.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotificationsService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1489,7 +1518,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var NotificationsService = (function () {
+var NotificationsService = /** @class */ (function () {
     function NotificationsService() {
         this.emitter = new __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__["Subject"]();
         this.icons = __WEBPACK_IMPORTED_MODULE_2__interfaces_icons__["a" /* defaultIcons */];
@@ -1600,7 +1629,7 @@ var NotificationsService = (function () {
         }
     };
     NotificationsService = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])()
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])()
     ], NotificationsService);
     return NotificationsService;
 }());
@@ -1620,13 +1649,13 @@ module.exports = "<form class=\"w-100 row no-gutters float-left\" #sendForm=\"ng
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatCommunicationComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__notification_native_notifications_services_native_notifications_service__ = __webpack_require__("../../../../../src/app/components/notification/native-notifications/services/native-notifications.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__notification_native_notifications_module__ = __webpack_require__("../../../../../src/app/components/notification/native-notifications.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__config__ = __webpack_require__("../../../../../src/app/config.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_contextualCommData_service__ = __webpack_require__("../../../../../src/app/services/contextualCommData.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatCommunicationComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1642,7 +1671,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var ChatCommunicationComponent = (function () {
+var ChatCommunicationComponent = /** @class */ (function () {
     function ChatCommunicationComponent(chatService, natNotificationsService, contextualCommDataService) {
         var _this = this;
         this.chatService = chatService;
@@ -1656,8 +1685,8 @@ var ChatCommunicationComponent = (function () {
             _this.natNotificationsService.create('New Message', {
                 icon: message.user.avatar,
                 body: message.message,
-                tag: __WEBPACK_IMPORTED_MODULE_2__notification_native_notifications_module__["b" /* NotificationTag */].NEW_MESSAGE,
-                vibrate: __WEBPACK_IMPORTED_MODULE_2__notification_native_notifications_module__["c" /* NotificationVibrate */].NEW_MESSAGE,
+                tag: __WEBPACK_IMPORTED_MODULE_2__notification_native_notifications_module__["c" /* NotificationTag */].NEW_MESSAGE,
+                vibrate: __WEBPACK_IMPORTED_MODULE_2__notification_native_notifications_module__["d" /* NotificationVibrate */].NEW_MESSAGE,
                 sound: __WEBPACK_IMPORTED_MODULE_3__config__["a" /* config */].sounds + '/solemn.mp3',
                 persistent: true
             }).subscribe(function (n) {
@@ -1696,23 +1725,23 @@ var ChatCommunicationComponent = (function () {
         this.model.message = '';
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
         __metadata("design:type", Object)
     ], ChatCommunicationComponent.prototype, "hostClass", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", Object)
     ], ChatCommunicationComponent.prototype, "active", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", Object)
     ], ChatCommunicationComponent.prototype, "onMessage", void 0);
     ChatCommunicationComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'chat-view',
             template: __webpack_require__("../../../../../src/app/components/rethink/communication/chatCommunication.component.html")
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["f" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["f" /* ChatService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__notification_native_notifications_services_native_notifications_service__["a" /* NativeNotificationsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__notification_native_notifications_services_native_notifications_service__["a" /* NativeNotificationsService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _c || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["d" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["d" /* ChatService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__notification_native_notifications_services_native_notifications_service__["a" /* NativeNotificationsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__notification_native_notifications_services_native_notifications_service__["a" /* NativeNotificationsService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _c || Object])
     ], ChatCommunicationComponent);
     return ChatCommunicationComponent;
     var _a, _b, _c;
@@ -1725,7 +1754,7 @@ var ChatCommunicationComponent = (function () {
 /***/ "../../../../../src/app/components/rethink/communication/mediaCommunication.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div fullscreen class=\"{{mode}}-call col-12 col-lg-7 h-100\">\n\n  <video #test class=\"player\" autoplay></video>\n\n\t<div class=\"video-wall\">\n\t\t<video #remote *ngIf=\"stream\" class=\"player\" [src]=\"stream\" autoplay></video>\n\t</div>\n\n\t<div *ngIf=\"mode === 'video'\" class=\"video-wall my-video-wall\">\n\t\t<video #local *ngIf=\"myStream\" class=\"player\" [src]=\"myStream\" autoplay muted></video>\n\t</div>\n\n\t<div class=\"contact-me align-center\">\n\n    <span class=\"counter hidden-sm-up w-100\">{{duration | amTimeElapsed}}</span>\n\n    <span class=\"action audio mute float-left\">\n\t\t\t<a (click)=\"onMute()\"><i class=\"fa fa-microphone-slash\"></i></a>\n    </span>\n\n    <span *ngIf=\"mode === 'audio'\"  class=\"action video push-center\">\n      <a [routerLink]=\"\" [queryParams]=\"{ action: 'video' }\" (click)=\"enableVideo()\"><i class=\"fa fa-video-camera\"></i></a>\n    </span>\n\n    <span *ngIf=\"mode === 'video'\" class=\"action audio push-center\">\n      <a [routerLink]=\"\" [queryParams]=\"{ action: 'audio' }\" (click)=\"disableVideo()\"><i class=\"fa fa-phone\"></i></a>\n    </span>\n\n    <span *ngIf=\"mode === 'audio'\" class=\"action audio hangup push-center\">\n      <a [routerLink]=\"\" [queryParams]=\"{}\"><i class=\"fa fa-phone\"></i></a>\n    </span>\n\n    <span *ngIf=\"mode === 'video'\" class=\"action video hangup push-center\">\n      <a [routerLink]=\"\" [queryParams]=\"{}\"><i class=\"fa fa-video-camera\"></i></a>\n    </span>\n\n    <span class=\"counter hidden-xs-down\">{{duration | amTimeElapsed}}</span>\n\n\t\t<span class=\"action volume float-right float-left\">\n\t\t\t<a (click)=\"onVolume()\"><i class=\"fa fa-volume-up\"></i></a>\n\t\t</span>\n\n\t\t<span class=\"action full-screen float-right\">\n\t\t\t<a (click)=\"onFullscreen()\"><i class=\"fa fa-arrows-alt\"></i></a>\n\t\t</span>\n\t</div>\n</div>\n"
+module.exports = "<div fullscreen class=\"{{mode}}-call col-12 col-lg-7 h-100\">\n\n  <video #test class=\"player\" autoplay></video>\n\n\t<div class=\"video-wall\">\n\t\t<video #remote *ngIf=\"stream\" class=\"player\" [srcObject]=\"stream\" autoplay></video>\n\t</div>\n\n\t<div *ngIf=\"mode === 'video'\" class=\"video-wall my-video-wall\">\n\t\t<video #local *ngIf=\"myStream\" class=\"player\" [srcObject]=\"myStream\" autoplay muted></video>\n\t</div>\n\n\t<div class=\"contact-me align-center\">\n\n    <span class=\"counter hidden-sm-up w-100\">{{duration | amTimeElapsed}}</span>\n\n    <span class=\"action audio mute float-left\">\n\t\t\t<a (click)=\"onMute()\"><i class=\"fa fa-microphone-slash\"></i></a>\n    </span>\n\n    <span *ngIf=\"mode === 'audio'\"  class=\"action video push-center\">\n      <a [routerLink]=\"\" [queryParams]=\"{ action: 'video' }\" (click)=\"enableVideo()\"><i class=\"fa fa-video-camera\"></i></a>\n    </span>\n\n    <span *ngIf=\"mode === 'video'\" class=\"action audio push-center\">\n      <a [routerLink]=\"\" [queryParams]=\"{ action: 'audio' }\" (click)=\"disableVideo()\"><i class=\"fa fa-phone\"></i></a>\n    </span>\n\n    <span *ngIf=\"mode === 'audio'\" class=\"action audio hangup push-center\">\n      <a [routerLink]=\"\" [queryParams]=\"{}\"><i class=\"fa fa-phone\"></i></a>\n    </span>\n\n    <span *ngIf=\"mode === 'video'\" class=\"action video hangup push-center\">\n      <a [routerLink]=\"\" [queryParams]=\"{}\"><i class=\"fa fa-video-camera\"></i></a>\n    </span>\n\n    <span class=\"counter hidden-xs-down\">{{duration | amTimeElapsed}}</span>\n\n\t\t<span class=\"action volume float-right float-left\">\n\t\t\t<a (click)=\"onVolume()\"><i class=\"fa fa-volume-up\"></i></a>\n\t\t</span>\n\n\t\t<span class=\"action full-screen float-right\">\n\t\t\t<a (click)=\"onFullscreen()\"><i class=\"fa fa-arrows-alt\"></i></a>\n\t\t</span>\n\t</div>\n</div>\n"
 
 /***/ }),
 
@@ -1751,13 +1780,13 @@ module.exports = module.exports.toString();
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MediaCommunicationComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_models__ = __webpack_require__("../../../../../src/app/models/models.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_contextualCommData_service__ = __webpack_require__("../../../../../src/app/services/contextualCommData.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_fullscreen_directive__ = __webpack_require__("../../../../../src/app/shared/fullscreen.directive.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MediaCommunicationComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1775,7 +1804,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var MediaCommunicationComponent = (function () {
+var MediaCommunicationComponent = /** @class */ (function () {
     function MediaCommunicationComponent(rd, el, router, route, vcRef, contactService, connectorService, contextualCommDataService) {
         this.rd = rd;
         this.el = el;
@@ -1899,32 +1928,32 @@ var MediaCommunicationComponent = (function () {
         this.connectorService.disableAudio();
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
         __metadata("design:type", Object)
     ], MediaCommunicationComponent.prototype, "hostClass", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_5__shared_fullscreen_directive__["a" /* FullscreenDirective */]),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_5__shared_fullscreen_directive__["a" /* FullscreenDirective */]),
         __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_5__shared_fullscreen_directive__["a" /* FullscreenDirective */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__shared_fullscreen_directive__["a" /* FullscreenDirective */]) === "function" && _a || Object)
     ], MediaCommunicationComponent.prototype, "fullscreen", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__models_models__["d" /* User */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__models_models__["d" /* User */]) === "function" && _b || Object)
     ], MediaCommunicationComponent.prototype, "user", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", String)
     ], MediaCommunicationComponent.prototype, "mode", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]) === "function" && _c || Object)
     ], MediaCommunicationComponent.prototype, "itIsReady", void 0);
     MediaCommunicationComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'media-view',
             template: __webpack_require__("../../../../../src/app/components/rethink/communication/mediaCommunication.component.html"),
             styles: [__webpack_require__("../../../../../src/app/components/rethink/communication/mediaCommunication.component.scss")]
         }),
-        __metadata("design:paramtypes", [typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["e" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["e" /* ContactService */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["g" /* ConnectorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["g" /* ConnectorService */]) === "function" && _k || Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_3__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _l || Object])
+        __metadata("design:paramtypes", [typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["f" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["f" /* ContactService */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["e" /* ConnectorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["e" /* ConnectorService */]) === "function" && _k || Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_3__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _l || Object])
     ], MediaCommunicationComponent);
     return MediaCommunicationComponent;
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
@@ -1937,7 +1966,7 @@ var MediaCommunicationComponent = (function () {
 /***/ "../../../../../src/app/components/rethink/hypertyResource/chat/chatEvent.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"float-right align-right\">\n    <span class=\"date\">{{message.date | amTimeAgo}}</span>\n</div>\n\n<!-- TODO: This should be replaced by the user-identity -->\n<div class=\"user-identity\">\n  <div class=\"user-status float-left\">\n    <img alt=\"{{message.user.avatar}}\" class=\"rounded-circle\" src=\"{{message.user.avatar}}\">\n    <span class=\"status {{message.user.status}}\">\n      <i class=\"fa fa-circle{{message.user.status === 'unavailable' ? '-o' : ''}}\"></i>\n    </span>\n  </div>\n\n  <div class=\"user-profile\">\n    <h3 class=\"contact-name\"><a routerLink=\"{{message.user.username}}\">{{message.user.cn}}</a></h3>\n    <span class=\"extra-info\">{{message.user.domain}}</span>\n  </div>\n</div>\n<!-- END OF THE user-identity -->\n\n<!-- message -->\n<p class=\"message\">\n  <span *ngIf=\"isAnEvent\" class=\"chat\">\n    <i class=\"fa fa-keyboard-o\"></i>Wrote a Message\n  </span>{{message.message}}\n</p>\n"
+module.exports = "<div class=\"float-right align-right\">\n    <span class=\"date\">{{message.date | amTimeAgo}}</span>\n</div>\n\n<!-- TODO: This should be replaced by the user-identity -->\n<div class=\"user-identity\">\n  <div class=\"user-status float-left\">\n    <img alt=\"{{message.user.avatar}}\" class=\"rounded-circle\" src=\"{{message.user.avatar}}\">\n    <span class=\"status {{message.user.status}}\">\n      <i class=\"fa fa-circle{{message.user.status === 'unavailable' ? '-o' : ''}}\"></i>\n    </span>\n  </div>\n\n  <div class=\"user-profile\">\n    <h3 class=\"contact-name\"><a [routerLink]=\"['user', message.user.username]\">{{message.user.cn}}</a></h3>\n    <span class=\"extra-info\">{{message.user.domain}}</span>\n  </div>\n</div>\n<!-- END OF THE user-identity -->\n\n<!-- message -->\n<p class=\"message\">\n  <span *ngIf=\"isAnEvent\" class=\"chat\">\n    <i class=\"fa fa-keyboard-o\"></i>Wrote a Message\n  </span>{{message.message}}\n</p>\n"
 
 /***/ }),
 
@@ -1945,9 +1974,9 @@ module.exports = "<div class=\"float-right align-right\">\n    <span class=\"dat
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatEventComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_models__ = __webpack_require__("../../../../../src/app/models/models.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatEventComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1959,22 +1988,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var ChatEventComponent = (function () {
+var ChatEventComponent = /** @class */ (function () {
     function ChatEventComponent() {
         this.isAnEvent = false;
     }
     ChatEventComponent.prototype.ngOnInit = function () {
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__models_models__["b" /* Message */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__models_models__["b" /* Message */]) === "function" && _a || Object)
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__models_models__["c" /* Message */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__models_models__["c" /* Message */]) === "function" && _a || Object)
     ], ChatEventComponent.prototype, "message", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", Object)
     ], ChatEventComponent.prototype, "isAnEvent", void 0);
     ChatEventComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'chat-event',
             template: __webpack_require__("../../../../../src/app/components/rethink/hypertyResource/chat/chatEvent.component.html")
         })
@@ -1998,9 +2027,9 @@ module.exports = "<div class=\"push-right align-right\">\n    <span class=\"date
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FileEventComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_models__ = __webpack_require__("../../../../../src/app/models/models.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FileEventComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2012,17 +2041,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var FileEventComponent = (function () {
+var FileEventComponent = /** @class */ (function () {
     function FileEventComponent() {
     }
     FileEventComponent.prototype.ngOnInit = function () {
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__models_models__["b" /* Message */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__models_models__["b" /* Message */]) === "function" && _a || Object)
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__models_models__["c" /* Message */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__models_models__["c" /* Message */]) === "function" && _a || Object)
     ], FileEventComponent.prototype, "message", void 0);
     FileEventComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'file-event',
             template: __webpack_require__("../../../../../src/app/components/rethink/hypertyResource/file/fileEvent.component.html")
         })
@@ -2046,9 +2075,9 @@ module.exports = "<div class=\"user-status float-left\">\n  <img alt=\"{{model.a
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserIdentityComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_models__ = __webpack_require__("../../../../../src/app/models/models.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserIdentityComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2060,21 +2089,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var UserIdentityComponent = (function () {
+var UserIdentityComponent = /** @class */ (function () {
     function UserIdentityComponent() {
         this.hostClass = 'user-identity';
     }
     UserIdentityComponent.prototype.ngOnInit = function () { };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
         __metadata("design:type", Object)
     ], UserIdentityComponent.prototype, "hostClass", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__models_models__["d" /* User */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__models_models__["d" /* User */]) === "function" && _a || Object)
     ], UserIdentityComponent.prototype, "model", void 0);
     UserIdentityComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'user-identity',
             template: __webpack_require__("../../../../../src/app/components/rethink/userIdentity/userIdentity.component.html")
         }),
@@ -2092,8 +2121,8 @@ var UserIdentityComponent = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return config; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 
 var config = {
     pageTitlePrefix: 'reThink Project - ',
@@ -2112,7 +2141,8 @@ var config = {
 
 "use strict";
 /* unused harmony export AlertType */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TriggerActions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return TriggerActions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RemoveContextEventType; });
 var AlertType;
 (function (AlertType) {
     AlertType[AlertType["SUCCESS"] = 'success'] = "SUCCESS";
@@ -2129,6 +2159,12 @@ var TriggerActions;
 })(TriggerActions || (TriggerActions = {}));
 ;
 ;
+var RemoveContextEventType;
+(function (RemoveContextEventType) {
+    RemoveContextEventType[RemoveContextEventType["Remove"] = 'remove'] = "Remove";
+    RemoveContextEventType[RemoveContextEventType["Dismissed"] = 'dismissed'] = "Dismissed";
+    RemoveContextEventType[RemoveContextEventType["Error"] = 'error'] = "Error";
+})(RemoveContextEventType || (RemoveContextEventType = {}));
 //# sourceMappingURL=app.models.js.map
 
 /***/ }),
@@ -2137,13 +2173,13 @@ var TriggerActions;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_config__ = __webpack_require__("../../../../../src/app/config.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return User; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Message; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return ContextualComm; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommTrigger; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return Message; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualComm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ContextualCommTrigger; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_config__ = __webpack_require__("../../../../../src/app/config.ts");
 
-var User = (function () {
+var User = /** @class */ (function () {
     function User(obj) {
         this.username = obj && obj.username;
         this.cn = obj && obj.cn;
@@ -2176,7 +2212,7 @@ var User = (function () {
     return User;
 }());
 
-var Message = (function () {
+var Message = /** @class */ (function () {
     function Message(obj) {
         this.isRead = false;
         this.type = obj && obj.type;
@@ -2187,7 +2223,7 @@ var Message = (function () {
     return Message;
 }());
 
-var ContextualComm = (function () {
+var ContextualComm = /** @class */ (function () {
     function ContextualComm(obj) {
         this.id = obj && String(obj.id).toLowerCase();
         this.url = obj && obj.url;
@@ -2216,10 +2252,17 @@ var ContextualComm = (function () {
         console.log('[Models - ContextualComm] - addMessage: ', this.messages, message);
         this.messages.push(message);
     };
+    ContextualComm.prototype.removeContexts = function (urls) {
+        var _this = this;
+        urls.forEach(function (url) { return _this.removeContext(url); });
+    };
+    ContextualComm.prototype.removeContext = function (url) {
+        this.contexts.splice(this.contexts.findIndex(function (current) { return current.url === url; }), 1);
+    };
     return ContextualComm;
 }());
 
-var ContextualCommTrigger = (function () {
+var ContextualCommTrigger = /** @class */ (function () {
     function ContextualCommTrigger(value) {
         Object.assign(this, value);
     }
@@ -2273,10 +2316,10 @@ var direction;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PipesModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__timeElapsedPipe__ = __webpack_require__("../../../../../src/app/pipes/timeElapsedPipe.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PipesModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2286,13 +2329,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var PipesModule = (function () {
+var PipesModule = /** @class */ (function () {
     function PipesModule() {
     }
     PipesModule = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             declarations: [__WEBPACK_IMPORTED_MODULE_2__timeElapsedPipe__["a" /* TimeElapsedPipe */]],
-            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["k" /* CommonModule */]],
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]],
             exports: [__WEBPACK_IMPORTED_MODULE_2__timeElapsedPipe__["a" /* TimeElapsedPipe */]]
         })
     ], PipesModule);
@@ -2308,12 +2351,12 @@ var PipesModule = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimeElapsedPipe; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__("../../../../moment/moment.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment_duration_format__ = __webpack_require__("../../../../moment-duration-format/lib/moment-duration-format.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment_duration_format___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment_duration_format__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimeElapsedPipe; });
 /* angular2-moment (c) 2015, 2016 Uri Shaked / MIT Licence */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2327,7 +2370,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var TimeElapsedPipe = (function () {
+var TimeElapsedPipe = /** @class */ (function () {
     function TimeElapsedPipe(cdRef, ngZone) {
         this.cdRef = cdRef;
         this.ngZone = ngZone;
@@ -2367,7 +2410,7 @@ var TimeElapsedPipe = (function () {
         }
     };
     TimeElapsedPipe = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Pipe"])({ name: 'amTimeElapsed', pure: false }),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Pipe"])({ name: 'amTimeElapsed', pure: false }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectorRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectorRef"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgZone"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgZone"]) === "function" && _b || Object])
     ], TimeElapsedPipe);
     return TimeElapsedPipe;
@@ -2382,6 +2425,7 @@ var TimeElapsedPipe = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ActivateTaskGuard; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_utils__ = __webpack_require__("../../../../../src/app/utils/utils.ts");
@@ -2390,7 +2434,6 @@ var TimeElapsedPipe = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__rethink_rethink_service__ = __webpack_require__("../../../../../src/app/services/rethink/rethink.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__rethink_chat_service__ = __webpack_require__("../../../../../src/app/services/rethink/chat.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__contact_service__ = __webpack_require__("../../../../../src/app/services/contact.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ActivateTaskGuard; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2410,7 +2453,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var ActivateTaskGuard = (function () {
+var ActivateTaskGuard = /** @class */ (function () {
     function ActivateTaskGuard(router, chatService, rethinkService, contactService, contextualCommService, contextualCommDataService) {
         this.router = router;
         this.chatService = chatService;
@@ -2428,9 +2471,9 @@ var ActivateTaskGuard = (function () {
                         var path = state.url;
                         var context = route.params['context'];
                         var task = route.params['task'];
-                        var normalizedPath = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils_utils__["b" /* normalizeFromURL */])(path, _this.contactService.sessionUser.username);
+                        var normalizedPath = Object(__WEBPACK_IMPORTED_MODULE_2__utils_utils__["f" /* normalizeFromURL */])(path, _this.contactService.sessionUser.username);
                         console.log('[Activate Task Guard] - ', context, task, state, normalizedPath);
-                        var normalizedName = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils_utils__["c" /* normalizeName */])(normalizedPath);
+                        var normalizedName = Object(__WEBPACK_IMPORTED_MODULE_2__utils_utils__["g" /* normalizeName */])(normalizedPath);
                         console.log('[Activate Task Guard - Activate] - normalized path: ', normalizedPath);
                         console.log('[Activate Task Guard - Activate] - normalized name: ', normalizedName);
                         _this.contextualCommDataService.getContextById(normalizedName.id).subscribe(function (context) {
@@ -2456,8 +2499,8 @@ var ActivateTaskGuard = (function () {
         this.contextualCommService.setActiveContext = context.url;
     };
     ActivateTaskGuard = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_6__rethink_chat_service__["a" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__rethink_chat_service__["a" /* ChatService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__rethink_rethink_service__["a" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__rethink_rethink_service__["a" /* RethinkService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_7__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__contact_service__["a" /* ContactService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _f || Object])
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_6__rethink_chat_service__["a" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__rethink_chat_service__["a" /* ChatService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__rethink_rethink_service__["a" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__rethink_rethink_service__["a" /* RethinkService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_7__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__contact_service__["a" /* ContactService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _f || Object])
     ], ActivateTaskGuard);
     return ActivateTaskGuard;
     var _a, _b, _c, _d, _e, _f;
@@ -2471,6 +2514,7 @@ var ActivateTaskGuard = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ActivateUserGuard; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_utils__ = __webpack_require__("../../../../../src/app/utils/utils.ts");
@@ -2479,7 +2523,6 @@ var ActivateTaskGuard = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__rethink_rethink_service__ = __webpack_require__("../../../../../src/app/services/rethink/rethink.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__rethink_chat_service__ = __webpack_require__("../../../../../src/app/services/rethink/chat.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__contact_service__ = __webpack_require__("../../../../../src/app/services/contact.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ActivateUserGuard; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2499,7 +2542,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var ActivateUserGuard = (function () {
+var ActivateUserGuard = /** @class */ (function () {
     function ActivateUserGuard(router, chatService, contactService, rethinkService, contextualCommService, contextualCommDataService) {
         this.router = router;
         this.chatService = chatService;
@@ -2517,9 +2560,9 @@ var ActivateUserGuard = (function () {
                         var path = state.url;
                         var context = route.params['context'];
                         var user_1 = route.params['user'];
-                        var normalizedPath_1 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils_utils__["b" /* normalizeFromURL */])(path, _this.contactService.sessionUser.username);
+                        var normalizedPath_1 = Object(__WEBPACK_IMPORTED_MODULE_2__utils_utils__["f" /* normalizeFromURL */])(path, _this.contactService.sessionUser.username);
                         console.log('[Activate User Guard] - ', context, user_1, state, normalizedPath_1);
-                        var normalizedName_1 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils_utils__["c" /* normalizeName */])(normalizedPath_1);
+                        var normalizedName_1 = Object(__WEBPACK_IMPORTED_MODULE_2__utils_utils__["g" /* normalizeName */])(normalizedPath_1);
                         console.log('[Activate User Guard - Activate] - normalized path: ', normalizedPath_1);
                         console.log('[Activate User Guard - Activate] - normalized name: ', normalizedName_1);
                         _this.contextualCommDataService.getContextById(normalizedName_1.id).subscribe(function (currentContext) {
@@ -2567,8 +2610,8 @@ var ActivateUserGuard = (function () {
         this.contextualCommService.setActiveContext = context.url;
     };
     ActivateUserGuard = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_6__rethink_chat_service__["a" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__rethink_chat_service__["a" /* ChatService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_7__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__contact_service__["a" /* ContactService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__rethink_rethink_service__["a" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__rethink_rethink_service__["a" /* RethinkService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _f || Object])
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_6__rethink_chat_service__["a" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__rethink_chat_service__["a" /* ChatService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_7__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__contact_service__["a" /* ContactService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__rethink_rethink_service__["a" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__rethink_rethink_service__["a" /* RethinkService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _f || Object])
     ], ActivateUserGuard);
     return ActivateUserGuard;
     var _a, _b, _c, _d, _e, _f;
@@ -2582,10 +2625,10 @@ var ActivateUserGuard = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthGuard; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__rethink_rethink_service__ = __webpack_require__("../../../../../src/app/services/rethink/rethink.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthGuard; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2598,7 +2641,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var AuthGuard = (function () {
+var AuthGuard = /** @class */ (function () {
     function AuthGuard(rethinkService, router) {
         this.rethinkService = rethinkService;
         this.router = router;
@@ -2615,8 +2658,8 @@ var AuthGuard = (function () {
         });
     };
     AuthGuard = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__rethink_rethink_service__["a" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__rethink_rethink_service__["a" /* RethinkService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _b || Object])
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__rethink_rethink_service__["a" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__rethink_rethink_service__["a" /* RethinkService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */]) === "function" && _b || Object])
     ], AuthGuard);
     return AuthGuard;
     var _a, _b;
@@ -2630,6 +2673,7 @@ var AuthGuard = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BreadcrumbService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
@@ -2640,7 +2684,6 @@ var AuthGuard = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_take___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_take__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_bufferCount__ = __webpack_require__("../../../../rxjs/add/operator/bufferCount.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_bufferCount___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_bufferCount__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BreadcrumbService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2656,7 +2699,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var BreadcrumbService = (function () {
+var BreadcrumbService = /** @class */ (function () {
     function BreadcrumbService(router) {
         // this.paths.take(2)
         var _this = this;
@@ -2685,8 +2728,8 @@ var BreadcrumbService = (function () {
         }
     };
     BreadcrumbService = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _a || Object])
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */]) === "function" && _a || Object])
     ], BreadcrumbService);
     return BreadcrumbService;
     var _a;
@@ -2700,6 +2743,7 @@ var BreadcrumbService = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__);
@@ -2714,7 +2758,6 @@ var BreadcrumbService = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__utils_utils__ = __webpack_require__("../../../../../src/app/utils/utils.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__models_models__ = __webpack_require__("../../../../../src/app/models/models.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__storage_service__ = __webpack_require__("../../../../../src/app/services/storage.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2747,7 +2790,7 @@ var __values = (this && this.__values) || function (o) {
 
 // Services
 
-var ContactService = (function () {
+var ContactService = /** @class */ (function () {
     function ContactService(localStorage) {
         var _this = this;
         this.localStorage = localStorage;
@@ -2794,7 +2837,7 @@ var ContactService = (function () {
             console.log('[Contact Service] - create user:', user);
             if (!_this._userList.has(user.userURL)) {
                 _this._userList.set(user.userURL, user);
-                _this.localStorage.setObject('contacts', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__utils_utils__["a" /* strMapToObj */])(_this._userList));
+                _this.localStorage.setObject('contacts', Object(__WEBPACK_IMPORTED_MODULE_6__utils_utils__["j" /* strMapToObj */])(_this._userList));
             }
             else {
                 user = _this._userList.get(user.userURL);
@@ -2873,7 +2916,7 @@ var ContactService = (function () {
         return user;
     };
     ContactService = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_8__storage_service__["a" /* LocalStorage */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__storage_service__["a" /* LocalStorage */]) === "function" && _a || Object])
     ], ContactService);
     return ContactService;
@@ -2888,6 +2931,7 @@ var ContactService = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__ = __webpack_require__("../../../../rxjs/Observable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__);
@@ -2904,7 +2948,6 @@ var ContactService = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__contact_service__ = __webpack_require__("../../../../../src/app/services/contact.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__models_models__ = __webpack_require__("../../../../../src/app/models/models.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__models_rethink_HypertyResource__ = __webpack_require__("../../../../../src/app/models/rethink/HypertyResource.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2938,7 +2981,7 @@ var __values = (this && this.__values) || function (o) {
 // Interfaces
 
 
-var ContextualCommService = (function () {
+var ContextualCommService = /** @class */ (function () {
     function ContextualCommService(localStorage, contactService) {
         var _this = this;
         this.localStorage = localStorage;
@@ -2949,21 +2992,35 @@ var ContextualCommService = (function () {
         this._currentContext = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__["Subject"]();
         this.contextualCommEvent = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this._contextualCommList = this._contextualCommUpdates
-            .map(function (context) {
-            context.users = context.users.map(function (user) {
-                return _this.contactService.getUser(user.userURL);
-            }).filter(function (user) {
-                return user.userURL !== _this.contactService.sessionUser.userURL;
-            });
-            context.messages = context.messages.map(function (message) {
-                var currentMessage = new __WEBPACK_IMPORTED_MODULE_9__models_models__["b" /* Message */](message);
-                currentMessage.user = _this.contactService.getUser(currentMessage.user.userURL);
-                return currentMessage;
-            });
-            console.log('[Context Service - contextualCommUpdates] - map', context.url, context);
-            return context;
-        }).scan(function (contextualCommList, context) {
-            console.log('[Context Service - contextualCommUpdates] - scan', context, _this.currentActiveContext);
+            .scan(function (contextualCommList, operation) {
+            var context;
+            console.log('[Context Service - contextualCommUpdates] - scan', operation, _this.currentActiveContext);
+            if (operation.type === 'add') {
+                context = operation.context;
+            }
+            if (operation.type === 'remove') {
+                context = operation.context;
+                var parentContextURL = context.parent;
+                var parentContext = _this._searchByURL(parentContextURL);
+                // Remove reference from it parent
+                if (parentContext) {
+                    parentContext.removeContext(context.url);
+                }
+                else {
+                    // remove all childs of the main content;
+                    console.log('Contexts:', context.contexts);
+                    var listOfChilds = context.contexts.map(function (child) { return child.url; });
+                    console.log('Contexts:', listOfChilds);
+                    context.removeContexts(listOfChilds);
+                }
+                // Remove reference it self;
+                var index = contextualCommList.findIndex(function (current) { return current.url === context.url; });
+                var result = contextualCommList.splice(index, 1);
+                // Update the references;
+                _this.cxtList.delete(context.url);
+                _this.updateStorage();
+                return contextualCommList;
+            }
             if (_this.currentActiveContext && _this.currentActiveContext.url === context.url) {
                 context.messages = context.messages.map(function (message) {
                     message.isRead = true;
@@ -2996,17 +3053,28 @@ var ContextualCommService = (function () {
             .startWith([])
             .publishReplay(1)
             .refCount();
-        this._newContextualComm.subscribe(this._contextualCommUpdates);
-        // TODO: check why we need this, HOT something
-        this._contextualCommList.subscribe(function (list) {
-            console.log('LIST:', list);
-        });
+        this._newContextualComm.map(function (context) {
+            context.users = context.users.map(function (user) {
+                return _this.contactService.getUser(user.userURL);
+            }).filter(function (user) {
+                return user.userURL !== _this.contactService.sessionUser.userURL;
+            });
+            context.messages = context.messages.map(function (message) {
+                var currentMessage = new __WEBPACK_IMPORTED_MODULE_9__models_models__["c" /* Message */](message);
+                currentMessage.user = _this.contactService.getUser(currentMessage.user.userURL);
+                return currentMessage;
+            });
+            console.log('[Context Service - contextualCommUpdates] - map', context.url, context);
+            return { type: 'add', context: context };
+        }).subscribe(this._contextualCommUpdates);
+        // TODO: this should be removed, the hot something
+        this._contextualCommList.subscribe(function (result) { return console.log('LIST: ', result); });
         if (this.localStorage.hasObject('contexts')) {
             var mapObj = this.localStorage.getObject('contexts');
             try {
                 for (var _a = __values(Object.keys(mapObj)), _b = _a.next(); !_b.done; _b = _a.next()) {
                     var k = _b.value;
-                    var currentContext = new __WEBPACK_IMPORTED_MODULE_9__models_models__["c" /* ContextualComm */](mapObj[k]);
+                    var currentContext = new __WEBPACK_IMPORTED_MODULE_9__models_models__["a" /* ContextualComm */](mapObj[k]);
                     this.cxtList.set(k, currentContext);
                     this._newContextualComm.next(currentContext);
                 }
@@ -3047,6 +3115,16 @@ var ContextualCommService = (function () {
         });
         return found;
     };
+    ContextualCommService.prototype._searchByURL = function (url) {
+        var found;
+        this.cxtList.forEach(function (context) {
+            console.log('[Contextual Comm Service] - search by URL', context, url);
+            if (!found) {
+                found = context.url === url ? context : null;
+            }
+        });
+        return found;
+    };
     ContextualCommService.prototype.create = function (name, dataObject, parentNameId, contextInfo) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -3079,6 +3157,9 @@ var ContextualCommService = (function () {
             resolve(context);
         });
     };
+    ContextualCommService.prototype.removeContextualComm = function (context) {
+        this._contextualCommUpdates.next({ type: 'remove', context: context });
+    };
     ContextualCommService.prototype.createContextualComm = function (name, dataObject, parent, contextInfo) {
         var _this = this;
         var data = JSON.parse(JSON.stringify(dataObject.data));
@@ -3086,7 +3167,7 @@ var ContextualCommService = (function () {
         var isReporter = contextInfo && contextInfo.reporter ? contextInfo.reporter : false;
         var icon = contextInfo && contextInfo.icon ? contextInfo.icon : '';
         console.log('[Contextual Comm Service] -  createContextualComm: ', name, data, metadata, parent, dataObject);
-        var contextualComm = new __WEBPACK_IMPORTED_MODULE_9__models_models__["c" /* ContextualComm */]({
+        var contextualComm = new __WEBPACK_IMPORTED_MODULE_9__models_models__["a" /* ContextualComm */]({
             icon: icon,
             name: name,
             url: metadata.url,
@@ -3118,7 +3199,10 @@ var ContextualCommService = (function () {
     };
     ContextualCommService.prototype.updateContexts = function (url, context) {
         this.cxtList.set(url, context);
-        this.localStorage.setObject('contexts', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__utils_utils__["a" /* strMapToObj */])(this.cxtList));
+        this.updateStorage();
+    };
+    ContextualCommService.prototype.updateStorage = function () {
+        this.localStorage.setObject('contexts', Object(__WEBPACK_IMPORTED_MODULE_6__utils_utils__["j" /* strMapToObj */])(this.cxtList));
     };
     ContextualCommService.prototype.updateContextMessages = function (message, url) {
         console.log('[Context Service - Update Context Message:', message, url);
@@ -3212,7 +3296,7 @@ var ContextualCommService = (function () {
         var e_2, _c;
     };
     ContextualCommService = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_7__storage_service__["a" /* LocalStorage */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__storage_service__["a" /* LocalStorage */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_8__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__contact_service__["a" /* ContactService */]) === "function" && _b || Object])
     ], ContextualCommService);
     return ContextualCommService;
@@ -3227,6 +3311,7 @@ var ContextualCommService = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommDataResolver; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_utils__ = __webpack_require__("../../../../../src/app/utils/utils.ts");
@@ -3234,7 +3319,6 @@ var ContextualCommService = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__ = __webpack_require__("../../../../../src/app/services/contextualComm.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__triggerAction_service__ = __webpack_require__("../../../../../src/app/services/triggerAction.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__contact_service__ = __webpack_require__("../../../../../src/app/services/contact.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommDataResolver; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3253,7 +3337,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var ContextualCommDataResolver = (function () {
+var ContextualCommDataResolver = /** @class */ (function () {
     function ContextualCommDataResolver(router, contactService, triggerActionService, contextualCommService, contextualCommDataService) {
         this.router = router;
         this.contactService = contactService;
@@ -3285,10 +3369,10 @@ var ContextualCommDataResolver = (function () {
                 title = user;
             }
             ;
-            name = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils_utils__["b" /* normalizeFromURL */])(path, _this.contactService.sessionUser.username);
-            var normalizedName = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils_utils__["c" /* normalizeName */])(name);
+            name = Object(__WEBPACK_IMPORTED_MODULE_2__utils_utils__["f" /* normalizeFromURL */])(path, _this.contactService.sessionUser.username);
+            var normalizedName = Object(__WEBPACK_IMPORTED_MODULE_2__utils_utils__["g" /* normalizeName */])(name);
             console.log('[ContextualCommData - Resolve] - normalized name:', name, task, normalizedName, path, user);
-            if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils_utils__["f" /* isAnUser */])(normalizedName.name)) {
+            if (Object(__WEBPACK_IMPORTED_MODULE_2__utils_utils__["e" /* isAnUser */])(normalizedName.name)) {
                 _this.contextualCommDataService.getContextById(normalizedName.id).subscribe({
                     next: function (contextualComm) { return resolve(contextualComm); },
                     error: function (reason) {
@@ -3315,8 +3399,8 @@ var ContextualCommDataResolver = (function () {
         this.router.navigate(['/']);
     };
     ContextualCommDataResolver = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_6__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__contact_service__["a" /* ContactService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__triggerAction_service__["a" /* TriggerActionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__triggerAction_service__["a" /* TriggerActionService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _e || Object])
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_6__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__contact_service__["a" /* ContactService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__triggerAction_service__["a" /* TriggerActionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__triggerAction_service__["a" /* TriggerActionService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _e || Object])
     ], ContextualCommDataResolver);
     return ContextualCommDataResolver;
     var _a, _b, _c, _d, _e;
@@ -3330,14 +3414,18 @@ var ContextualCommDataResolver = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommDataService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_utils__ = __webpack_require__("../../../../../src/app/utils/utils.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__ = __webpack_require__("../../../../../src/app/services/contextualComm.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__rethink_chat_service__ = __webpack_require__("../../../../../src/app/services/rethink/chat.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__contact_service__ = __webpack_require__("../../../../../src/app/services/contact.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommDataService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__("../../../../rxjs/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_observable_fromPromise__ = __webpack_require__("../../../../rxjs/add/observable/fromPromise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_observable_fromPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_observable_fromPromise__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_utils__ = __webpack_require__("../../../../../src/app/utils/utils.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__contextualComm_service__ = __webpack_require__("../../../../../src/app/services/contextualComm.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__rethink_chat_service__ = __webpack_require__("../../../../../src/app/services/rethink/chat.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__contact_service__ = __webpack_require__("../../../../../src/app/services/contact.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3351,11 +3439,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 // Services
 
 
 
-var ContextualCommDataService = (function () {
+var ContextualCommDataService = /** @class */ (function () {
     function ContextualCommDataService(location, router, chatService, contactService, contextualCommService) {
         this.router = router;
         this.chatService = chatService;
@@ -3371,10 +3461,10 @@ var ContextualCommDataService = (function () {
                 console.info('[ContextualCommData Service] - context found: ', context);
                 resolve(context);
             }).catch(function (reason) {
-                var normalizedName = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_utils__["c" /* normalizeName */])(name, parentNameId);
+                var normalizedName = Object(__WEBPACK_IMPORTED_MODULE_5__utils_utils__["g" /* normalizeName */])(name, parentNameId);
                 console.info('[ContextualCommData Service] - no contexts was found: ', reason);
                 console.info('[ContextualCommData Service] - creating new context: ', name, normalizedName);
-                _this.chatService.create(normalizedName.id, [], []).then(function (controller) {
+                _this.chatService.create(normalizedName.id, [], [], contextInfo).then(function (controller) {
                     console.info('[ContextualCommData Service] - communication objects was created successfully: ', controller);
                     console.info('[ContextualCommData Service] - creating new contexts: ', controller, normalizedName.parent);
                     return _this.contextualCommService.create(name, controller.dataObject, normalizedName.parent, contextInfo);
@@ -3426,6 +3516,30 @@ var ContextualCommDataService = (function () {
             });
         });
     };
+    ContextualCommDataService.prototype.removeContext = function (context) {
+        var _this = this;
+        return __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"].fromPromise(new Promise(function (resolve, reject) {
+            var chatToClose = context.contexts.map(function (sub) { return _this.chatService.close(sub.url); });
+            var contextToRemove = context.contexts.map(function (sub) { return _this.contextualCommService.removeContextualComm(sub); });
+            // add the main context
+            chatToClose.push(_this.chatService.close(context.url));
+            contextToRemove.push(_this.contextualCommService.removeContextualComm(context));
+            console.log('Childs to remove:', chatToClose, contextToRemove);
+            return Promise.all([chatToClose])
+                .then(function (result) { return Promise.all(contextToRemove); })
+                .then(function () { resolve(true); _this._redirect(context); })
+                .catch(function (error) { return reject(error); });
+        }));
+    };
+    ContextualCommDataService.prototype._redirect = function (context) {
+        var basePath = this.router.url;
+        var contextPathObj = Object(__WEBPACK_IMPORTED_MODULE_5__utils_utils__["g" /* normalizeName */])(context.id);
+        var basePathObj = Object(__WEBPACK_IMPORTED_MODULE_5__utils_utils__["g" /* normalizeName */])(basePath);
+        if (contextPathObj.id === basePathObj.id) {
+            console.log('Navigate to the parent object path: ', contextPathObj);
+            this.router.navigate([Object(__WEBPACK_IMPORTED_MODULE_5__utils_utils__["h" /* objectToPath */])(contextPathObj.parent)]);
+        }
+    };
     /**
      *
      *
@@ -3449,7 +3563,7 @@ var ContextualCommDataService = (function () {
     ContextualCommDataService.prototype.getContext = function (name) {
         return this.contextualCommService.getContextualCommList()
             .map(function (contexts) {
-            var found = contexts.filter(function (context) { return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_utils__["d" /* filterContextsByName */])(name, context); })[0];
+            var found = contexts.filter(function (context) { return Object(__WEBPACK_IMPORTED_MODULE_5__utils_utils__["b" /* filterContextsByName */])(name, context); })[0];
             console.log('[ContextualCommData Service] - found: ', found);
             if (!found) {
                 throw new Error('Context not found');
@@ -3459,7 +3573,9 @@ var ContextualCommDataService = (function () {
     };
     ContextualCommDataService.prototype.getContextTask = function (id) {
         return this.contextualCommService.getContextualComms()
-            .map(function (contexts) { return contexts.filter(function (context) { return context.id === id; })[0].contexts.filter(function (context) { return !context.id.includes('@'); }); });
+            .map(function (contexts) {
+            return contexts.filter(function (context) { return context.id === id; })[0].contexts.filter(function (context) { return !context.id.includes('@'); });
+        });
     };
     ContextualCommDataService.prototype.getContextById = function (id) {
         var _this = this;
@@ -3501,8 +3617,8 @@ var ContextualCommDataService = (function () {
         return context.id === id;
     };
     ContextualCommDataService = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* Location */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* Location */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__rethink_chat_service__["a" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__rethink_chat_service__["a" /* ChatService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__contact_service__["a" /* ContactService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__contextualComm_service__["a" /* ContextualCommService */]) === "function" && _e || Object])
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common__["f" /* Location */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common__["f" /* Location */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["e" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_7__rethink_chat_service__["a" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__rethink_chat_service__["a" /* ChatService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_8__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__contact_service__["a" /* ContactService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_6__contextualComm_service__["a" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__contextualComm_service__["a" /* ContextualCommService */]) === "function" && _e || Object])
     ], ContextualCommDataService);
     return ContextualCommDataService;
     var _a, _b, _c, _d, _e;
@@ -3516,6 +3632,7 @@ var ContextualCommDataService = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommTriggerService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__);
@@ -3523,7 +3640,6 @@ var ContextualCommDataService = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__storage_service__ = __webpack_require__("../../../../../src/app/services/storage.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_rethink_HypertyResource__ = __webpack_require__("../../../../../src/app/models/rethink/HypertyResource.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__models_models__ = __webpack_require__("../../../../../src/app/models/models.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommTriggerService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3552,7 +3668,7 @@ var __values = (this && this.__values) || function (o) {
 // Interfaces
 
 
-var ContextualCommTriggerService = (function () {
+var ContextualCommTriggerService = /** @class */ (function () {
     // Temporary data for initial contexts;
     // private work: ContextualCommTrigger = {
     //   contextName: 'Work',
@@ -3588,7 +3704,7 @@ var ContextualCommTriggerService = (function () {
             try {
                 for (var _a = __values(Object.keys(mapObj)), _b = _a.next(); !_b.done; _b = _a.next()) {
                     var k = _b.value;
-                    var currentTrigger = new __WEBPACK_IMPORTED_MODULE_5__models_models__["a" /* ContextualCommTrigger */](mapObj[k]);
+                    var currentTrigger = new __WEBPACK_IMPORTED_MODULE_5__models_models__["b" /* ContextualCommTrigger */](mapObj[k]);
                     console.log('[ContextualCommTriggerService - storage]', mapObj[k], currentTrigger);
                     this.cxtTrigger.set(k, currentTrigger);
                     this._contextualCommTrigger.next(currentTrigger);
@@ -3627,7 +3743,7 @@ var ContextualCommTriggerService = (function () {
                     values: [],
                     trigger: []
                 };
-                contextTrigger = new __WEBPACK_IMPORTED_MODULE_5__models_models__["a" /* ContextualCommTrigger */](context);
+                contextTrigger = new __WEBPACK_IMPORTED_MODULE_5__models_models__["b" /* ContextualCommTrigger */](context);
                 /*let contextValue:ContextValues = {
                   name: 'location',
                   unit: 'rad',
@@ -3655,7 +3771,7 @@ var ContextualCommTriggerService = (function () {
             contextTriggerName = 'trigger-' + name;
         }
         this.cxtTrigger.set(contextTriggerName, contextTrigger);
-        this.localStorage.setObject('context-triggers', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils_utils__["a" /* strMapToObj */])(this.cxtTrigger));
+        this.localStorage.setObject('context-triggers', Object(__WEBPACK_IMPORTED_MODULE_2__utils_utils__["j" /* strMapToObj */])(this.cxtTrigger));
         console.info('[ContextualCommTriggerService - updateContextTrigger]', name, contextTrigger);
         this._contextualCommTrigger.next(contextTrigger);
     };
@@ -3663,7 +3779,7 @@ var ContextualCommTriggerService = (function () {
         return this._contextualCommTriggerList;
     };
     ContextualCommTriggerService = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__storage_service__["a" /* LocalStorage */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__storage_service__["a" /* LocalStorage */]) === "function" && _a || Object])
     ], ContextualCommTriggerService);
     return ContextualCommTriggerService;
@@ -3678,12 +3794,12 @@ var ContextualCommTriggerService = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rethink_service__ = __webpack_require__("../../../../../src/app/services/rethink/rethink.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__contact_service__ = __webpack_require__("../../../../../src/app/services/contact.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__contextualComm_service__ = __webpack_require__("../../../../../src/app/services/contextualComm.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_models__ = __webpack_require__("../../../../../src/app/models/models.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3699,7 +3815,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var ChatService = (function () {
+var ChatService = /** @class */ (function () {
     function ChatService(rethinkService, contextualCommService, contactService) {
         this.rethinkService = rethinkService;
         this.contextualCommService = contextualCommService;
@@ -3707,6 +3823,7 @@ var ChatService = (function () {
         this.controllerList = new Map();
         this.onMessageEvent = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.onInvitation = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.onCloseEvent = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
     }
     Object.defineProperty(ChatService.prototype, "activeDataObjectURL", {
         get: function () {
@@ -3768,6 +3885,7 @@ var ChatService = (function () {
             });
         });
         this.chatGroupManager.onInvitation(function (event) {
+            console.log('[Chat Service - OnInvitation] - ', event);
             _this.onInvitation.emit(event);
         });
     };
@@ -3807,7 +3925,7 @@ var ChatService = (function () {
                     message: message.value.content,
                     user: user
                 };
-                var currentMessage = new __WEBPACK_IMPORTED_MODULE_4__models_models__["b" /* Message */](msg);
+                var currentMessage = new __WEBPACK_IMPORTED_MODULE_4__models_models__["c" /* Message */](msg);
                 _this.contextualCommService.updateContextMessages(currentMessage, dataObjectURL);
                 _this.onMessageEvent.emit(currentMessage);
             }
@@ -3815,12 +3933,15 @@ var ChatService = (function () {
                 console.info('The message was rejected because the user ' + message.identity.userProfile.userURL + ' is unknown');
             }
         });
+        chatController.onClose(function (event) {
+            _this.onCloseEvent.emit(event);
+        });
         // this._updateControllersList(chatController.dataObject.url, chatController);
     };
-    ChatService.prototype.create = function (name, users, domains) {
+    ChatService.prototype.create = function (name, users, domains, contextInfo) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.chatGroupManager.create(name, users, domains).then(function (chatController) {
+            _this.chatGroupManager.create(name, users, domains, contextInfo).then(function (chatController) {
                 console.log('[Chat Created]', chatController);
                 _this._updateControllersList(chatController.dataObject.url, chatController);
                 _this.prepareHyperty();
@@ -3868,11 +3989,17 @@ var ChatService = (function () {
                     message: result.value.content,
                     user: user
                 };
-                var currentMessage = new __WEBPACK_IMPORTED_MODULE_4__models_models__["b" /* Message */](msg);
+                var currentMessage = new __WEBPACK_IMPORTED_MODULE_4__models_models__["c" /* Message */](msg);
                 _this.contextualCommService.updateContextMessages(currentMessage, _this.chatControllerActive.dataObject.url);
                 resolve(currentMessage);
             }).catch(reject);
         });
+    };
+    ChatService.prototype.close = function (url) {
+        var _this = this;
+        var found = this.controllerList.get(url);
+        console.log(this.controllerList);
+        return found.close().then(function (result) { return _this.controllerList.delete(url); });
     };
     ChatService.prototype.discovery = function () {
         return this._discovery;
@@ -3884,15 +4011,19 @@ var ChatService = (function () {
         this._onMessage = callback;
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]) === "function" && _a || Object)
     ], ChatService.prototype, "onInvitation", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]) === "function" && _b || Object)
+    ], ChatService.prototype, "onCloseEvent", void 0);
     ChatService = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__rethink_service__["a" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__rethink_service__["a" /* RethinkService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__contextualComm_service__["a" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__contextualComm_service__["a" /* ContextualCommService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__contact_service__["a" /* ContactService */]) === "function" && _d || Object])
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__rethink_service__["a" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__rethink_service__["a" /* RethinkService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__contextualComm_service__["a" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__contextualComm_service__["a" /* ContextualCommService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__contact_service__["a" /* ContactService */]) === "function" && _e || Object])
     ], ChatService);
     return ChatService;
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=chat.service.js.map
@@ -3903,6 +4034,7 @@ var ChatService = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConnectorService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
@@ -3913,7 +4045,6 @@ var ChatService = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rxjs_Subject__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_ReplaySubject__ = __webpack_require__("../../../../rxjs/ReplaySubject.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_ReplaySubject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rxjs_ReplaySubject__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConnectorService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3934,7 +4065,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var STATUS = { INPROGRESS: 'in-progress', END: 'end' };
-var ConnectorService = (function () {
+var ConnectorService = /** @class */ (function () {
     function ConnectorService(router, route, sanitizer, contactService, rethinkService) {
         var _this = this;
         this.router = router;
@@ -4016,7 +4147,7 @@ var ConnectorService = (function () {
         console.log('[Connector Service] - AcceptCall: ', this.connectorMode);
         if (this.controllers && this.controllers.hasOwnProperty('answer') && this.connectorMode === 'answer') {
             var options = { video: true, audio: true };
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_utils__["e" /* getUserMedia */])(options).then(function (mediaStream) {
+            Object(__WEBPACK_IMPORTED_MODULE_3__utils_utils__["c" /* getUserMedia */])(options).then(function (mediaStream) {
                 _this._localStream.next(mediaStream);
                 return _this.controllers[_this.connectorMode].accept(mediaStream);
             }).then(function (accepted) {
@@ -4049,7 +4180,7 @@ var ConnectorService = (function () {
     ConnectorService.prototype.connect = function (userURL, options, name, domain) {
         var _this = this;
         this.connectorMode = 'offer';
-        return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_utils__["e" /* getUserMedia */])(options).then(function (mediaStream) {
+        return Object(__WEBPACK_IMPORTED_MODULE_3__utils_utils__["c" /* getUserMedia */])(options).then(function (mediaStream) {
             _this._localStream.next(mediaStream);
             return _this.hypertyVideo.connect(userURL, mediaStream, name, domain);
         }).then(function (controller) {
@@ -4081,15 +4212,15 @@ var ConnectorService = (function () {
         });
     };
     ConnectorService.prototype.getRemoteStream = function () {
-        var _this = this;
         return this._remoteStream.map(function (stream) {
-            return _this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(stream));
+            // return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(stream));
+            return stream;
         }).publishReplay(1).refCount();
     };
     ConnectorService.prototype.getLocalStream = function () {
-        var _this = this;
         return this._localStream.map(function (stream) {
-            return _this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(stream));
+            // return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(stream));
+            return stream;
         }).publishReplay(1).refCount();
     };
     ConnectorService.prototype.connectorStatus = function () {
@@ -4117,16 +4248,16 @@ var ConnectorService = (function () {
         this.connectorMode = 'offer';
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]) === "function" && _a || Object)
     ], ConnectorService.prototype, "onInvitation", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]) === "function" && _b || Object)
     ], ConnectorService.prototype, "onDisconnect", void 0);
     ConnectorService = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["c" /* DomSanitizer */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["c" /* DomSanitizer */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_5__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__contact_service__["a" /* ContactService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_4__rethink_service__["a" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__rethink_service__["a" /* RethinkService */]) === "function" && _g || Object])
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["e" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["c" /* DomSanitizer */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["c" /* DomSanitizer */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_5__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__contact_service__["a" /* ContactService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_4__rethink_service__["a" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__rethink_service__["a" /* RethinkService */]) === "function" && _g || Object])
     ], ConnectorService);
     return ConnectorService;
     var _a, _b, _c, _d, _e, _f, _g;
@@ -4140,6 +4271,7 @@ var ConnectorService = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RethinkService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__ = __webpack_require__("../../../../rxjs/BehaviorSubject.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__);
@@ -4147,7 +4279,6 @@ var ConnectorService = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__config__ = __webpack_require__("../../../../../src/app/config.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__contact_service__ = __webpack_require__("../../../../../src/app/services/contact.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__storage_service__ = __webpack_require__("../../../../../src/app/services/storage.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RethinkService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4163,7 +4294,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var RethinkService = (function () {
+var RethinkService = /** @class */ (function () {
     function RethinkService(localstorage, contactService) {
         this.localstorage = localstorage;
         this.contactService = contactService;
@@ -4216,7 +4347,7 @@ var RethinkService = (function () {
         });
     };
     RethinkService = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_5__storage_service__["a" /* LocalStorage */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__storage_service__["a" /* LocalStorage */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__contact_service__["a" /* ContactService */]) === "function" && _b || Object])
     ], RethinkService);
     return RethinkService;
@@ -4231,11 +4362,11 @@ var RethinkService = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserAvailabilityService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__rethink_service__ = __webpack_require__("../../../../../src/app/services/rethink/rethink.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__contact_service__ = __webpack_require__("../../../../../src/app/services/contact.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserAvailabilityService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4250,7 +4381,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 // Services
 
 
-var UserAvailabilityService = (function () {
+var UserAvailabilityService = /** @class */ (function () {
     function UserAvailabilityService(router, route, rethinkService, contactService) {
         this.router = router;
         this.route = route;
@@ -4351,8 +4482,8 @@ var UserAvailabilityService = (function () {
         this.myAvailabilityReporter.setStatus(status);
     };
     UserAvailabilityService = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__rethink_service__["a" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__rethink_service__["a" /* RethinkService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__contact_service__["a" /* ContactService */]) === "function" && _d || Object])
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["e" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__rethink_service__["a" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__rethink_service__["a" /* RethinkService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__contact_service__["a" /* ContactService */]) === "function" && _d || Object])
     ], UserAvailabilityService);
     return UserAvailabilityService;
     var _a, _b, _c, _d;
@@ -4366,6 +4497,7 @@ var UserAvailabilityService = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RoutingService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__ = __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js");
@@ -4376,7 +4508,6 @@ var UserAvailabilityService = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_mergeMap__ = __webpack_require__("../../../../rxjs/add/operator/mergeMap.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_mergeMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_mergeMap__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__config__ = __webpack_require__("../../../../../src/app/config.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RoutingService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4394,7 +4525,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 // Config
 
-var RoutingService = (function () {
+var RoutingService = /** @class */ (function () {
     function RoutingService(titleService, router, activatedRoute) {
         var _this = this;
         this.titleService = titleService;
@@ -4450,12 +4581,12 @@ var RoutingService = (function () {
         // })
     }
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", Object)
     ], RoutingService.prototype, "routingChanges", void 0);
     RoutingService = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["d" /* Title */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["d" /* Title */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _c || Object])
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["d" /* Title */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["d" /* Title */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _c || Object])
     ], RoutingService);
     return RoutingService;
     var _a, _b, _c;
@@ -4469,6 +4600,7 @@ var RoutingService = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return servicesInjectables; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__rethink_userAvailability_service__ = __webpack_require__("../../../../../src/app/services/rethink/userAvailability.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rethink_connector_service__ = __webpack_require__("../../../../../src/app/services/rethink/connector.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__rethink_rethink_service__ = __webpack_require__("../../../../../src/app/services/rethink/rethink.service.ts");
@@ -4486,24 +4618,23 @@ var RoutingService = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__storage_service__ = __webpack_require__("../../../../../src/app/services/storage.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__authGuard_service__ = __webpack_require__("../../../../../src/app/services/authGuard.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__user_resolver__ = __webpack_require__("../../../../../src/app/services/user.resolver.ts");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_15__authGuard_service__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_3__rethink_chat_service__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_16__user_resolver__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_15__authGuard_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_3__rethink_chat_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_16__user_resolver__["a"]; });
 /* unused harmony reexport LocalStorage */
 /* unused harmony reexport RoutingService */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_2__rethink_rethink_service__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_12__contact_service__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_1__rethink_connector_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_2__rethink_rethink_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_12__contact_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_1__rethink_connector_service__["a"]; });
 /* unused harmony reexport BreadcrumbService */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_9__activateTask_service__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_10__activateUser_service__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_8__triggerAction_service__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_7__contextualComm_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_9__activateTask_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_10__activateUser_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_8__triggerAction_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_7__contextualComm_service__["a"]; });
 /* unused harmony reexport UserAvailabilityService */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_5__contextualCommData_service__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_6__contextualCommData_resolver__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_5__contextualCommData_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_6__contextualCommData_resolver__["a"]; });
 /* unused harmony reexport ContextualCommTriggerService */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return servicesInjectables; });
 // Rethink Services
 
 
@@ -4547,7 +4678,7 @@ var servicesInjectables = [
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocalStorage; });
-var LocalStorage = (function () {
+var LocalStorage = /** @class */ (function () {
     function LocalStorage() {
         if (!localStorage) {
             throw new Error('Current browser does not support Local Storage');
@@ -4583,10 +4714,10 @@ var LocalStorage = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TriggerActionService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TriggerActionService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4598,7 +4729,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var TriggerActionService = (function () {
+var TriggerActionService = /** @class */ (function () {
     function TriggerActionService() {
         this.triggerAction = new __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__["Subject"]();
     }
@@ -4623,7 +4754,7 @@ var TriggerActionService = (function () {
         return this.triggerAction;
     };
     TriggerActionService = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [])
     ], TriggerActionService);
     return TriggerActionService;
@@ -4637,10 +4768,10 @@ var TriggerActionService = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserResolver; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__contact_service__ = __webpack_require__("../../../../../src/app/services/contact.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserResolver; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4655,7 +4786,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 // Service
 
 // import { RethinkService, ChatService, ContextualCommService } from './services';
-var UserResolver = (function () {
+var UserResolver = /** @class */ (function () {
     function UserResolver(contactService, router) {
         this.contactService = contactService;
         this.router = router;
@@ -4676,8 +4807,8 @@ var UserResolver = (function () {
         });
     };
     UserResolver = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__contact_service__["a" /* ContactService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _b || Object])
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__contact_service__["a" /* ContactService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */]) === "function" && _b || Object])
     ], UserResolver);
     return UserResolver;
     var _a, _b;
@@ -4691,14 +4822,14 @@ var UserResolver = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DirectiveModules; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__screen_directive__ = __webpack_require__("../../../../../src/app/shared/screen.directive.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sidebar_directive__ = __webpack_require__("../../../../../src/app/shared/sidebar.directive.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__fullscreen_directive__ = __webpack_require__("../../../../../src/app/shared/fullscreen.directive.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_1__screen_directive__["a"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__sidebar_directive__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__screen_directive__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_2__sidebar_directive__["a"]; });
 /* unused harmony namespace reexport */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DirectiveModules; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4713,11 +4844,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var DirectiveModules = (function () {
+var DirectiveModules = /** @class */ (function () {
     function DirectiveModules() {
     }
     DirectiveModules = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_1__screen_directive__["a" /* ScreenDirective */],
                 __WEBPACK_IMPORTED_MODULE_2__sidebar_directive__["a" /* SidebarDirective */],
@@ -4742,8 +4873,8 @@ var DirectiveModules = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FullscreenDirective; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4754,7 +4885,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var FullscreenDirective = (function () {
+var FullscreenDirective = /** @class */ (function () {
     function FullscreenDirective(el, renderer) {
         this.el = el;
         this.renderer = renderer;
@@ -4822,7 +4953,7 @@ var FullscreenDirective = (function () {
         }
     };
     FullscreenDirective = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
             selector: '[fullscreen]',
         }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"]) === "function" && _b || Object])
@@ -4839,11 +4970,11 @@ var FullscreenDirective = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextNameValidatorDirective; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__rethink_validator__ = __webpack_require__("../../../../../src/app/shared/rethink.validator.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_contextualCommData_service__ = __webpack_require__("../../../../../src/app/services/contextualCommData.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextNameValidatorDirective; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4864,10 +4995,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * @class NameValidator
  * @implements {Validator}
  */
-var ContextNameValidatorDirective = (function () {
+var ContextNameValidatorDirective = /** @class */ (function () {
     function ContextNameValidatorDirective(contextualCommDataService) {
         this.contextualCommDataService = contextualCommDataService;
-        this.valFn = __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].composeAsync(null);
+        this.valFn = __WEBPACK_IMPORTED_MODULE_1__angular_forms__["g" /* Validators */].composeAsync(null);
     }
     ContextNameValidatorDirective.prototype.ngOnChanges = function (changes) {
         var change = changes['name'];
@@ -4875,20 +5006,20 @@ var ContextNameValidatorDirective = (function () {
             this.valFn = __WEBPACK_IMPORTED_MODULE_2__rethink_validator__["a" /* RethinkValidators */].contextName(this.contextualCommDataService);
         }
         else {
-            this.valFn = __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].composeAsync(null);
+            this.valFn = __WEBPACK_IMPORTED_MODULE_1__angular_forms__["g" /* Validators */].composeAsync(null);
         }
     };
     ContextNameValidatorDirective.prototype.validate = function (control) {
         return this.valFn(control);
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", String)
     ], ContextNameValidatorDirective.prototype, "name", void 0);
     ContextNameValidatorDirective = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
             selector: '[exist]',
-            providers: [{ provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["g" /* NG_ASYNC_VALIDATORS */], useExisting: __WEBPACK_IMPORTED_MODULE_2__rethink_validator__["a" /* RethinkValidators */], multi: true }]
+            providers: [{ provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* NG_ASYNC_VALIDATORS */], useExisting: __WEBPACK_IMPORTED_MODULE_2__rethink_validator__["a" /* RethinkValidators */], multi: true }]
         }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _a || Object])
     ], ContextNameValidatorDirective);
@@ -4904,11 +5035,11 @@ var ContextNameValidatorDirective = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RethinkValidators; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/add/operator/toPromise.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_add_operator_toPromise__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RethinkValidators; });
 
-var RethinkValidators = (function () {
+var RethinkValidators = /** @class */ (function () {
     function RethinkValidators() {
     }
     RethinkValidators.contextName = function (contextualCommDataService) {
@@ -4939,8 +5070,8 @@ var RethinkValidators = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ScreenDirective; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4951,7 +5082,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var ScreenDirective = (function () {
+var ScreenDirective = /** @class */ (function () {
     function ScreenDirective(el, renderer) {
         this.el = el;
         this.renderer = renderer;
@@ -4995,13 +5126,13 @@ var ScreenDirective = (function () {
         }
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])('window:resize', ['$event']),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])('window:resize', ['$event']),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", void 0)
     ], ScreenDirective.prototype, "onResize", null);
     ScreenDirective = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
             selector: '[screen]'
         }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"]) === "function" && _b || Object])
@@ -5018,8 +5149,8 @@ var ScreenDirective = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SidebarDirective; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5030,7 +5161,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var SidebarDirective = (function () {
+var SidebarDirective = /** @class */ (function () {
     function SidebarDirective(el, renderer) {
         this.el = el;
         this.renderer = renderer;
@@ -5063,11 +5194,11 @@ var SidebarDirective = (function () {
         this.renderer.setElementClass(this.el.nativeElement, className, false);
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", Object)
     ], SidebarDirective.prototype, "statusEmitter", void 0);
     SidebarDirective = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
             selector: '[showSidebar]',
         }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer"]) === "function" && _b || Object])
@@ -5084,18 +5215,18 @@ var SidebarDirective = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CustomUrlSerializer; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 
-var CustomUrlSerializer = (function () {
+var CustomUrlSerializer = /** @class */ (function () {
     function CustomUrlSerializer() {
     }
     CustomUrlSerializer.prototype.parse = function (url) {
-        var dus = new __WEBPACK_IMPORTED_MODULE_0__angular_router__["e" /* DefaultUrlSerializer */]();
+        var dus = new __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* DefaultUrlSerializer */]();
         return dus.parse(url);
     };
     CustomUrlSerializer.prototype.serialize = function (tree) {
-        var dus = new __WEBPACK_IMPORTED_MODULE_0__angular_router__["e" /* DefaultUrlSerializer */](), path = dus.serialize(tree);
+        var dus = new __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* DefaultUrlSerializer */](), path = dus.serialize(tree);
         var at = new RegExp(/%40/g);
         // use your regex to replace as per your requirement.
         return path.replace(at, '@');
@@ -5111,9 +5242,9 @@ var CustomUrlSerializer = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CustomUtils; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CustomURLSerializer__ = __webpack_require__("../../../../../src/app/utils/CustomURLSerializer.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CustomUtils; });
 
 
 // @NgModule({
@@ -5121,7 +5252,7 @@ var CustomUrlSerializer = (function () {
 //   imports: [ CommonModule],
 //   exports: [ TimeElapsedPipe ]
 // })
-var CustomUtils = [{ provide: __WEBPACK_IMPORTED_MODULE_0__angular_router__["d" /* UrlSerializer */], useClass: __WEBPACK_IMPORTED_MODULE_1__CustomURLSerializer__["a" /* CustomUrlSerializer */] }];
+var CustomUtils = [{ provide: __WEBPACK_IMPORTED_MODULE_0__angular_router__["g" /* UrlSerializer */], useClass: __WEBPACK_IMPORTED_MODULE_1__CustomURLSerializer__["a" /* CustomUrlSerializer */] }];
 //# sourceMappingURL=CustomUtils.js.map
 
 /***/ }),
@@ -5130,17 +5261,18 @@ var CustomUtils = [{ provide: __WEBPACK_IMPORTED_MODULE_0__angular_router__["d" 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config__ = __webpack_require__("../../../../../src/app/config.ts");
-/* harmony export (immutable) */ __webpack_exports__["a"] = strMapToObj;
+/* harmony export (immutable) */ __webpack_exports__["j"] = strMapToObj;
 /* unused harmony export objToStrMap */
-/* harmony export (immutable) */ __webpack_exports__["e"] = getUserMedia;
-/* harmony export (immutable) */ __webpack_exports__["f"] = isAnUser;
-/* harmony export (immutable) */ __webpack_exports__["c"] = normalizeName;
-/* harmony export (immutable) */ __webpack_exports__["h"] = splitFromURL;
-/* harmony export (immutable) */ __webpack_exports__["b"] = normalizeFromURL;
-/* harmony export (immutable) */ __webpack_exports__["i"] = clearMyUsername;
-/* harmony export (immutable) */ __webpack_exports__["d"] = filterContextsByName;
-/* harmony export (immutable) */ __webpack_exports__["g"] = isALegacyUser;
+/* harmony export (immutable) */ __webpack_exports__["c"] = getUserMedia;
+/* harmony export (immutable) */ __webpack_exports__["e"] = isAnUser;
+/* harmony export (immutable) */ __webpack_exports__["g"] = normalizeName;
+/* harmony export (immutable) */ __webpack_exports__["i"] = splitFromURL;
+/* harmony export (immutable) */ __webpack_exports__["f"] = normalizeFromURL;
+/* harmony export (immutable) */ __webpack_exports__["h"] = objectToPath;
+/* harmony export (immutable) */ __webpack_exports__["a"] = clearMyUsername;
+/* harmony export (immutable) */ __webpack_exports__["b"] = filterContextsByName;
+/* harmony export (immutable) */ __webpack_exports__["d"] = isALegacyUser;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config__ = __webpack_require__("../../../../../src/app/config.ts");
 var __values = (this && this.__values) || function (o) {
     var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
     if (m) return m.call(o);
@@ -5311,6 +5443,16 @@ function normalizeFromURL(path, username) {
     console.log('AQUI:', path, username, pathSplited, joined);
     return joined;
 }
+function objectToPath(value) {
+    var prefix = __WEBPACK_IMPORTED_MODULE_0__config__["a" /* config */].appPrefix;
+    var splitChar = __WEBPACK_IMPORTED_MODULE_0__config__["a" /* config */].splitChar;
+    var path = '';
+    if (value.includes(prefix)) {
+        path = value.replace(prefix + splitChar, '');
+    }
+    console.log('ObjectToPath: ', value, ' | ', path);
+    return path;
+}
 function clearMyUsername(name, username) {
     if (name.indexOf('-') !== -1 && name.indexOf('@') !== -1 && name.includes(username)) {
         return name.replace(username, '').replace('-', '');
@@ -5353,13 +5495,13 @@ module.exports = "<h3 class=\"pl-4 pr-4 pt-4\">Recent Activity</h3>\n\n<div clas
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ActivityViewComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("../../../../rxjs/BehaviorSubject.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__contextualCommActivity_contextualCommActivity_component__ = __webpack_require__("../../../../../src/app/views/contextualCommActivity/contextualCommActivity.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ActivityViewComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5376,7 +5518,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 // Services
 
-var ActivityViewComponent = (function () {
+var ActivityViewComponent = /** @class */ (function () {
     function ActivityViewComponent(route, chatService, contextualCommService) {
         this.route = route;
         this.chatService = chatService;
@@ -5397,19 +5539,19 @@ var ActivityViewComponent = (function () {
         });
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
         __metadata("design:type", Object)
     ], ActivityViewComponent.prototype, "hostClass", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_3__contextualCommActivity_contextualCommActivity_component__["a" /* ContextualCommActivityComponent */]),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_3__contextualCommActivity_contextualCommActivity_component__["a" /* ContextualCommActivityComponent */]),
         __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__contextualCommActivity_contextualCommActivity_component__["a" /* ContextualCommActivityComponent */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__contextualCommActivity_contextualCommActivity_component__["a" /* ContextualCommActivityComponent */]) === "function" && _a || Object)
     ], ActivityViewComponent.prototype, "contextualCommActivityComponent", void 0);
     ActivityViewComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'activity-view',
             template: __webpack_require__("../../../../../src/app/views/activityView/activity-view.component.html")
         }),
-        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["f" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["f" /* ChatService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["j" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["j" /* ContextualCommService */]) === "function" && _d || Object])
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["d" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["d" /* ChatService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__services_services__["i" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_services__["i" /* ContextualCommService */]) === "function" && _d || Object])
     ], ActivityViewComponent);
     return ActivityViewComponent;
     var _a, _b, _c, _d;
@@ -5430,10 +5572,10 @@ module.exports = "<li class=\"breadcrumb-trigger hidden-sm-up\">\n  <a href=\"ja
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextBreadcrumbComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_breadcrumb_service__ = __webpack_require__("../../../../../src/app/services/breadcrumb.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextBreadcrumbComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5446,7 +5588,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var ContextBreadcrumbComponent = (function () {
+var ContextBreadcrumbComponent = /** @class */ (function () {
     function ContextBreadcrumbComponent(router, breadcrumbService) {
         this.router = router;
         this.breadcrumbService = breadcrumbService;
@@ -5480,19 +5622,19 @@ var ContextBreadcrumbComponent = (function () {
         this.openContext.emit($event);
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
         __metadata("design:type", Object)
     ], ContextBreadcrumbComponent.prototype, "hostClass", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", Object)
     ], ContextBreadcrumbComponent.prototype, "openContext", void 0);
     ContextBreadcrumbComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'ul[context-breadcrumb]',
             template: __webpack_require__("../../../../../src/app/views/breadcrumb/breadcrumb.component.html")
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__services_breadcrumb_service__["a" /* BreadcrumbService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_breadcrumb_service__["a" /* BreadcrumbService */]) === "function" && _b || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__services_breadcrumb_service__["a" /* BreadcrumbService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_breadcrumb_service__["a" /* BreadcrumbService */]) === "function" && _b || Object])
     ], ContextBreadcrumbComponent);
     return ContextBreadcrumbComponent;
     var _a, _b;
@@ -5513,6 +5655,7 @@ module.exports = "<div id=\"sidebar\" #sidebar showSidebar class=\"col-sm-4 col-
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("../../../../rxjs/BehaviorSubject.js");
@@ -5520,7 +5663,6 @@ module.exports = "<div id=\"sidebar\" #sidebar showSidebar class=\"col-sm-4 col-
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_utils__ = __webpack_require__("../../../../../src/app/utils/utils.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__contextualCommUsers_add_user_component__ = __webpack_require__("../../../../../src/app/views/contextualCommUsers/add-user.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5539,7 +5681,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 // Components
 
-var ContextualCommComponent = (function () {
+var ContextualCommComponent = /** @class */ (function () {
     function ContextualCommComponent(router, route, appService, contextualCommDataService, contactService) {
         var _this = this;
         this.router = router;
@@ -5572,8 +5714,8 @@ var ContextualCommComponent = (function () {
             this.userList.next(context.users);
         }
         else {
-            var normalizedPath = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__utils_utils__["b" /* normalizeFromURL */])(this.router.url, this.contactService.sessionUser.username);
-            var normalizedName = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__utils_utils__["c" /* normalizeName */])(normalizedPath);
+            var normalizedPath = Object(__WEBPACK_IMPORTED_MODULE_4__utils_utils__["f" /* normalizeFromURL */])(this.router.url, this.contactService.sessionUser.username);
+            var normalizedName = Object(__WEBPACK_IMPORTED_MODULE_4__utils_utils__["g" /* normalizeName */])(normalizedPath);
             console.log('[ContextualComm View - get parent active context]:', normalizedPath);
             console.log('[ContextualComm View - get parent active context]:', normalizedName);
             var result = void 0;
@@ -5612,33 +5754,33 @@ var ContextualCommComponent = (function () {
     ContextualCommComponent.prototype.onContactClick = function () {
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
         __metadata("design:type", Object)
     ], ContextualCommComponent.prototype, "hostClass", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('content', { read: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"] }),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('content', { read: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"] }),
         __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"]) === "function" && _a || Object)
     ], ContextualCommComponent.prototype, "content", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('sidebar', { read: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"] }),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('sidebar', { read: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"] }),
         __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"]) === "function" && _b || Object)
     ], ContextualCommComponent.prototype, "sidebar", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_5__contextualCommUsers_add_user_component__["a" /* AddUserComponent */]),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_5__contextualCommUsers_add_user_component__["a" /* AddUserComponent */]),
         __metadata("design:type", typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__contextualCommUsers_add_user_component__["a" /* AddUserComponent */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__contextualCommUsers_add_user_component__["a" /* AddUserComponent */]) === "function" && _c || Object)
     ], ContextualCommComponent.prototype, "addUserComponent", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])('window:resize', ['$event']),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])('window:resize', ['$event']),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", void 0)
     ], ContextualCommComponent.prototype, "onResize", null);
     ContextualCommComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'context-view',
             template: __webpack_require__("../../../../../src/app/views/contextualComm/contextualComm.component.html"),
         }),
-        __metadata("design:paramtypes", [typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["c" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["c" /* RethinkService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["d" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["d" /* ContextualCommDataService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["e" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["e" /* ContactService */]) === "function" && _h || Object])
+        __metadata("design:paramtypes", [typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["j" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["j" /* RethinkService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["h" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["h" /* ContextualCommDataService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["f" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["f" /* ContactService */]) === "function" && _h || Object])
     ], ContextualCommComponent);
     return ContextualCommComponent;
     var _a, _b, _c, _d, _e, _f, _g, _h;
@@ -5652,6 +5794,7 @@ var ContextualCommComponent = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
@@ -5670,7 +5813,6 @@ var ContextualCommComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__contextualCommActivity_contextualCommActivity_component__ = __webpack_require__("../../../../../src/app/views/contextualCommActivity/contextualCommActivity.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pipes_pipes__ = __webpack_require__("../../../../../src/app/pipes/pipes.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5699,16 +5841,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 // Services
 
-var ContextualCommModule = (function () {
+var ContextualCommModule = /** @class */ (function () {
     function ContextualCommModule() {
     }
     ContextualCommModule = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             imports: [
                 __WEBPACK_IMPORTED_MODULE_15__pipes_pipes__["a" /* PipesModule */],
                 __WEBPACK_IMPORTED_MODULE_3_angular2_moment__["MomentModule"],
-                __WEBPACK_IMPORTED_MODULE_2__angular_common__["k" /* CommonModule */],
-                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */],
+                __WEBPACK_IMPORTED_MODULE_2__angular_common__["b" /* CommonModule */],
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormsModule */],
                 __WEBPACK_IMPORTED_MODULE_6__shared_directive_module__["a" /* DirectiveModules */],
                 __WEBPACK_IMPORTED_MODULE_4__contextualComm_routing__["a" /* ContextualCommRoutingModule */]
             ],
@@ -5724,11 +5866,11 @@ var ContextualCommModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_10__components_rethink_hypertyResource_file_fileEvent_component__["a" /* FileEventComponent */]
             ],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_16__services_services__["h" /* AuthGuard */],
-                __WEBPACK_IMPORTED_MODULE_16__services_services__["i" /* UserResolver */],
-                __WEBPACK_IMPORTED_MODULE_16__services_services__["j" /* ContextualCommService */],
-                __WEBPACK_IMPORTED_MODULE_16__services_services__["d" /* ContextualCommDataService */],
-                __WEBPACK_IMPORTED_MODULE_16__services_services__["k" /* ContextualCommDataResolver */]
+                __WEBPACK_IMPORTED_MODULE_16__services_services__["c" /* AuthGuard */],
+                __WEBPACK_IMPORTED_MODULE_16__services_services__["l" /* UserResolver */],
+                __WEBPACK_IMPORTED_MODULE_16__services_services__["i" /* ContextualCommService */],
+                __WEBPACK_IMPORTED_MODULE_16__services_services__["h" /* ContextualCommDataService */],
+                __WEBPACK_IMPORTED_MODULE_16__services_services__["g" /* ContextualCommDataResolver */]
             ]
         })
     ], ContextualCommModule);
@@ -5743,6 +5885,7 @@ var ContextualCommModule = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommRoutingModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
@@ -5751,7 +5894,6 @@ var ContextualCommModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__contextualComm_component__ = __webpack_require__("../../../../../src/app/views/contextualComm/contextualComm.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__activityView_activity_view_component__ = __webpack_require__("../../../../../src/app/views/activityView/activity-view.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__userView_user_view_component__ = __webpack_require__("../../../../../src/app/views/userView/user-view.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5772,7 +5914,7 @@ var contextualCommRoutes = [
     {
         path: ':context',
         component: __WEBPACK_IMPORTED_MODULE_5__contextualComm_component__["a" /* ContextualCommComponent */],
-        canActivate: [__WEBPACK_IMPORTED_MODULE_2__services_services__["h" /* AuthGuard */]],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_2__services_services__["c" /* AuthGuard */]],
         resolve: {
             context: __WEBPACK_IMPORTED_MODULE_3__services_contextualCommData_resolver__["a" /* ContextualCommDataResolver */]
         },
@@ -5780,7 +5922,7 @@ var contextualCommRoutes = [
             {
                 path: '',
                 component: __WEBPACK_IMPORTED_MODULE_6__activityView_activity_view_component__["a" /* ActivityViewComponent */],
-                canActivate: [__WEBPACK_IMPORTED_MODULE_2__services_services__["l" /* ActivateTaskGuard */]],
+                canActivate: [__WEBPACK_IMPORTED_MODULE_2__services_services__["a" /* ActivateTaskGuard */]],
                 resolve: {
                     context: __WEBPACK_IMPORTED_MODULE_3__services_contextualCommData_resolver__["a" /* ContextualCommDataResolver */]
                 }
@@ -5788,7 +5930,7 @@ var contextualCommRoutes = [
             {
                 path: ':task',
                 component: __WEBPACK_IMPORTED_MODULE_6__activityView_activity_view_component__["a" /* ActivityViewComponent */],
-                canActivate: [__WEBPACK_IMPORTED_MODULE_2__services_services__["l" /* ActivateTaskGuard */]],
+                canActivate: [__WEBPACK_IMPORTED_MODULE_2__services_services__["a" /* ActivateTaskGuard */]],
                 resolve: {
                     context: __WEBPACK_IMPORTED_MODULE_3__services_contextualCommData_resolver__["a" /* ContextualCommDataResolver */]
                 },
@@ -5796,7 +5938,7 @@ var contextualCommRoutes = [
             {
                 path: 'user/:user',
                 component: __WEBPACK_IMPORTED_MODULE_7__userView_user_view_component__["a" /* UserViewComponent */],
-                canActivate: [__WEBPACK_IMPORTED_MODULE_2__services_services__["m" /* ActivateUserGuard */]],
+                canActivate: [__WEBPACK_IMPORTED_MODULE_2__services_services__["b" /* ActivateUserGuard */]],
                 resolve: {
                     user: __WEBPACK_IMPORTED_MODULE_4__services_user_resolver__["a" /* UserResolver */],
                     context: __WEBPACK_IMPORTED_MODULE_3__services_contextualCommData_resolver__["a" /* ContextualCommDataResolver */]
@@ -5805,7 +5947,7 @@ var contextualCommRoutes = [
             {
                 path: ':task/user/:user',
                 component: __WEBPACK_IMPORTED_MODULE_7__userView_user_view_component__["a" /* UserViewComponent */],
-                canActivate: [__WEBPACK_IMPORTED_MODULE_2__services_services__["m" /* ActivateUserGuard */]],
+                canActivate: [__WEBPACK_IMPORTED_MODULE_2__services_services__["b" /* ActivateUserGuard */]],
                 resolve: {
                     user: __WEBPACK_IMPORTED_MODULE_4__services_user_resolver__["a" /* UserResolver */],
                     context: __WEBPACK_IMPORTED_MODULE_3__services_contextualCommData_resolver__["a" /* ContextualCommDataResolver */]
@@ -5814,16 +5956,16 @@ var contextualCommRoutes = [
         ]
     }
 ];
-var ContextualCommRoutingModule = (function () {
+var ContextualCommRoutingModule = /** @class */ (function () {
     function ContextualCommRoutingModule() {
     }
     ContextualCommRoutingModule = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_router__["g" /* RouterModule */].forChild(contextualCommRoutes)
+                __WEBPACK_IMPORTED_MODULE_1__angular_router__["f" /* RouterModule */].forChild(contextualCommRoutes)
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_router__["g" /* RouterModule */]
+                __WEBPACK_IMPORTED_MODULE_1__angular_router__["f" /* RouterModule */]
             ]
         })
     ], ContextualCommRoutingModule);
@@ -5845,10 +5987,10 @@ module.exports = "<li class=\"list-item\" *ngFor=\"let message of messages | asy
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommActivityComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommActivityComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5860,7 +6002,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var ContextualCommActivityComponent = (function () {
+var ContextualCommActivityComponent = /** @class */ (function () {
     function ContextualCommActivityComponent(el) {
         this.el = el;
         this.hostClass = 'activity-list w-100 h-100';
@@ -5884,19 +6026,19 @@ var ContextualCommActivityComponent = (function () {
         }
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
         __metadata("design:type", Object)
     ], ContextualCommActivityComponent.prototype, "hostClass", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__["Subject"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__["Subject"]) === "function" && _a || Object)
     ], ContextualCommActivityComponent.prototype, "messages", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", Object)
     ], ContextualCommActivityComponent.prototype, "eventMode", void 0);
     ContextualCommActivityComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'context-activity-list',
             template: __webpack_require__("../../../../../src/app/views/contextualCommActivity/contextualCommActivity.component.html")
         }),
@@ -5931,7 +6073,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/views/contextualCommMenu/add-contextualComm.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ng-template #content let-c=\"close\" let-d=\"dismiss\">\n\n  <div class=\"row justify-content-center\">\n    <div class=\"col-12 col-md-8\">\n\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"exampleModalLabel\">{{title}}</h5>\n\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n\n      <form class=\"context\" [formGroup]=\"complexForm\" (ngSubmit)=\"submitForm(complexForm.value)\" (submit)=\"d('success')\">\n\n        <div class=\"modal-body\">\n\n          <div class=\"form-group {{ complexForm.controls['name'].errors ? 'has-danger' : 'has-success' }}\">\n            <label for=\"name\">Context Name</label>\n\n            <input type=\"text\" id=\"name\" formControlName=\"name\" class=\"form-control {{ complexForm.controls['name'].errors ? 'form-control-danger' : 'form-control-success' }}\"\n               [formControl]=\"complexForm.controls['name']\" (blur)=\"onLostFocus($event)\"\n               aria-describedby=\"nameHelp\" placeholder=\"Context name\">\n\n            <!-- <div class=\"form-control-feedback\">Success! You've done it.</div> -->\n\n            <div *ngIf=\"complexForm.controls['name'].errors\" class=\"form-control-feedback\">\n              <span [hidden]=\"!complexForm.controls['name'].errors.exist\">This context name already taken</span>\n              <span [hidden]=\"!complexForm.controls['name'].errors.required\">Don't forget the context name.</span>\n              <span [hidden]=\"!complexForm.controls['name'].errors.pattern\">Contexts names can't contain spaces, periods, or most punctuation.</span>\n              <span [hidden]=\"!complexForm.controls['name'].errors.minlength\">Name must be at least 4 characters long.</span>\n              <span [hidden]=\"!complexForm.controls['name'].errors.maxlength\">Name cannot be more than 22 characters long.</span>\n            </div>\n            <!-- Contexts names can't contain spaces, periods, or most punctuation. Try again?-->\n            <small id=\"nameHelp\" class=\"form-text text-muted\">Contexts names must be lowercase, without spaces or periods, and shorter than 22 characters</small>\n\n          </div>\n\n          <div class=\"form-group\">\n            <label for=\"icon\">Icons</label>\n\n            <div ngbRadioGroup id=\"icons\" class=\"form-control\" formControlName=\"icon\" [formControl]=\"complexForm.controls['icon']\" name=\"icon\">\n              <label ngbButtonLabel *ngFor=\"let icon of icons; let i = index\" class=\"btn btn-primary\">\n                <input ngbButton type=\"radio\" name=\"icon-{{icon}}\" id=\"icon-{{icon}}\" value=\"{{icon}}\" autocomplete=\"off\"><i class=\"fa fa-{{icon}}\"></i>\n              </label>\n            </div>\n\n          </div>\n\n          <div *ngIf=\"complexForm.controls['parent'].value\"  class=\"form-group {{ complexForm.controls['parent'].errors ? 'has-danger' : 'has-success' }}\">\n            <label>Select the main context</label>\n\n            <select class=\"form-control\" formControlName=\"parent\" [formControl]=\"complexForm.controls['parent']\">\n              <option selected value=null>Choose...</option>\n              <option *ngFor=\"let context of contextualComms | async\" [value]=\"context.id\">{{context.name}}</option>\n            </select>\n\n            <div *ngIf=\"complexForm.controls['parent'].errors\" class=\"form-control-feedback\">\n              <span [hidden]=\"!complexForm.controls['parent'].errors.required\">Main context is required</span>\n            </div>\n\n          </div>\n        </div>\n\n        <div class=\"modal-footer\">\n          <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\" (click)=\"c('Close click')\">Close</button>\n          <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!complexForm.valid\">Save changes</button>\n        </div>\n\n<!--        <p>Form value: {{ complexForm.value | json }}</p>\n        <p>Form status: {{ complexForm.status | json }}</p>-->\n\n      </form>\n    </div>\n  </div>\n\n</ng-template>\n\n<!-- Add context button -->\n<a href=\"javascript:;\" class=\"float-left\" (click)=\"open(content)\">\n  <i class=\"fa fa-plus-circle\"></i>new context\n</a>\n"
+module.exports = "<ng-template #content let-c=\"close\" let-d=\"dismiss\">\n\n  <div class=\"row justify-content-center\">\n    <div class=\"col-12 col-md-8\">\n\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"exampleModalLabel\">{{title}}</h5>\n\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n\n      <form class=\"context\" [formGroup]=\"complexForm\" (ngSubmit)=\"submitForm(complexForm.value)\" (submit)=\"d('success')\">\n\n        <div class=\"modal-body\">\n\n          <div class=\"form-group\">\n            <label for=\"name\">Context Name</label>\n\n            <input type=\"text\" id=\"name\" formControlName=\"name\" class=\"form-control {{ complexForm.controls['name'].errors ? 'is-invalid' : 'is-valid' }}\"\n               [formControl]=\"complexForm.controls['name']\" (blur)=\"onLostFocus($event)\"\n               aria-describedby=\"nameHelp\" placeholder=\"Context name\">\n\n            <!-- <div class=\"form-control-feedback\">Success! You've done it.</div> -->\n\n            <div *ngIf=\"complexForm.controls['name'].errors\" class=\"invalid-feedback\">\n              <span [hidden]=\"!complexForm.controls['name'].errors.exist\">This context name already taken</span>\n              <span [hidden]=\"!complexForm.controls['name'].errors.required\">Don't forget the context name.</span>\n              <span [hidden]=\"!complexForm.controls['name'].errors.pattern\">Contexts names can't contain spaces, periods, or most punctuation.</span>\n              <span [hidden]=\"!complexForm.controls['name'].errors.minlength\">Name must be at least 4 characters long.</span>\n              <span [hidden]=\"!complexForm.controls['name'].errors.maxlength\">Name cannot be more than 22 characters long.</span>\n            </div>\n            <!-- Contexts names can't contain spaces, periods, or most punctuation. Try again?-->\n            <small id=\"nameHelp\" class=\"form-text text-muted\">Contexts names must be lowercase, without spaces or periods, and shorter than 22 characters</small>\n\n          </div>\n\n          <div class=\"form-group\">\n            <label for=\"icon\">Icons</label>\n\n            <div ngbRadioGroup id=\"icons\" class=\"form-control btn-group\" formControlName=\"icon\" [formControl]=\"complexForm.controls['icon']\" name=\"icon\">\n              <label ngbButtonLabel *ngFor=\"let icon of icons; let i = index\" class=\"btn btn-primary mt-1 mb-1\">\n                <input ngbButton type=\"radio\" name=\"icon\" id=\"icon-{{icon}}\" value=\"{{icon}}\" autocomplete=\"off\"><i class=\"fa fa-{{icon}}\"></i>\n              </label>\n            </div>\n\n          </div>\n\n          <div *ngIf=\"complexForm.controls['parent'].value\"  class=\"form-group {{ complexForm.controls['parent'].errors ? 'is-invalid' : 'is-valid' }}\">\n            <label>Select the main context</label>\n\n            <select class=\"form-control\" formControlName=\"parent\" [formControl]=\"complexForm.controls['parent']\">\n              <option selected value=null>Choose...</option>\n              <option *ngFor=\"let context of contextualComms | async\" [value]=\"context.id\">{{context.name}}</option>\n            </select>\n\n            <div *ngIf=\"complexForm.controls['parent'].errors\" class=\"invalid-feedback\">\n              <span [hidden]=\"!complexForm.controls['parent'].errors.required\">Main context is required</span>\n            </div>\n\n          </div>\n        </div>\n\n        <div class=\"modal-footer\">\n          <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\" (click)=\"c('Close click')\">Close</button>\n          <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!complexForm.valid\">Save changes</button>\n        </div>\n\n<!--        <p>Form value: {{ complexForm.value | json }}</p>\n        <p>Form status: {{ complexForm.status | json }}</p>-->\n\n      </form>\n    </div>\n  </div>\n\n</ng-template>\n\n<!-- Add context button -->\n<a href=\"javascript:;\" class=\"float-left\" (click)=\"open(content)\">\n  <i class=\"fa fa-plus-circle\"></i>new context\n</a>\n"
 
 /***/ }),
 
@@ -5939,6 +6081,7 @@ module.exports = "<ng-template #content let-c=\"close\" let-d=\"dismiss\">\n\n  
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddContextualCommComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
@@ -5951,7 +6094,6 @@ module.exports = "<ng-template #content let-c=\"close\" let-d=\"dismiss\">\n\n  
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_contact_service__ = __webpack_require__("../../../../../src/app/services/contact.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_contextualCommData_service__ = __webpack_require__("../../../../../src/app/services/contextualCommData.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddContextualCommComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5976,7 +6118,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var AddContextualCommComponent = (function () {
+var AddContextualCommComponent = /** @class */ (function () {
     function AddContextualCommComponent(router, fb, route, modalService, contactService, triggerActionService, contextualCommDataService) {
         var _this = this;
         this.router = router;
@@ -6002,6 +6144,10 @@ var AddContextualCommComponent = (function () {
             'users'
         ];
         this.title = 'Add New context';
+        this.pattern = '[a-zA-Z0-9- ]*';
+        this.minLenght = 4;
+        this.maxLenght = 22;
+        this.required = true;
         this.contextualComms = this.contextualCommDataService.getContexts();
         //  = this.router.events.subscribe((navigation: NavigationEnd) => {
         //   console.log('[AddContextualComm] - router events:', navigation);
@@ -6018,7 +6164,7 @@ var AddContextualCommComponent = (function () {
     AddContextualCommComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.triggerActions = this.triggerActionService.action().subscribe(function (action) {
-            if (action === __WEBPACK_IMPORTED_MODULE_6__models_app_models__["a" /* TriggerActions */].OpenContextMenuCreator) {
+            if (action === __WEBPACK_IMPORTED_MODULE_6__models_app_models__["b" /* TriggerActions */].OpenContextMenuCreator) {
                 _this.open(_this.el);
             }
         });
@@ -6032,7 +6178,7 @@ var AddContextualCommComponent = (function () {
         var _this = this;
         console.log('[AddContextualComm] - build form: ', this.routeParams);
         var mainContext = this.routeParams.context || '';
-        var normalizedName = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__utils_utils__["c" /* normalizeName */])(mainContext);
+        var normalizedName = Object(__WEBPACK_IMPORTED_MODULE_4__utils_utils__["g" /* normalizeName */])(mainContext);
         var contextNameId = normalizedName.parent ? normalizedName.parent : normalizedName.id;
         this.contextualCommDataService
             .getContextById(contextNameId)
@@ -6052,13 +6198,13 @@ var AddContextualCommComponent = (function () {
         }
         this.complexForm = this.fb.group({
             'name': [this.model.name,
-                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].compose([
-                    __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required,
-                    __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].pattern('[a-zA-Z0-9- ]*'),
-                    __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].minLength(4),
-                    __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].maxLength(22)
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["g" /* Validators */].compose([
+                    __WEBPACK_IMPORTED_MODULE_1__angular_forms__["g" /* Validators */].required,
+                    __WEBPACK_IMPORTED_MODULE_1__angular_forms__["g" /* Validators */].pattern(this.pattern),
+                    __WEBPACK_IMPORTED_MODULE_1__angular_forms__["g" /* Validators */].minLength(this.minLenght),
+                    __WEBPACK_IMPORTED_MODULE_1__angular_forms__["g" /* Validators */].maxLength(this.maxLenght)
                 ]),
-                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].composeAsync([
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["g" /* Validators */].composeAsync([
                     __WEBPACK_IMPORTED_MODULE_7__shared_rethink_validator__["a" /* RethinkValidators */].contextName(this.contextualCommDataService)
                 ])],
             'parent': [{ value: this.model.parent, disabled: true }],
@@ -6078,10 +6224,10 @@ var AddContextualCommComponent = (function () {
         });
     };
     AddContextualCommComponent.prototype.getDismissReason = function (reason) {
-        if (reason === __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["b" /* ModalDismissReasons */].ESC) {
+        if (reason === __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["a" /* ModalDismissReasons */].ESC) {
             return 'by pressing ESC';
         }
-        else if (reason === __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["b" /* ModalDismissReasons */].BACKDROP_CLICK) {
+        else if (reason === __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["a" /* ModalDismissReasons */].BACKDROP_CLICK) {
             return 'by clicking on a backdrop';
         }
         else {
@@ -6106,20 +6252,20 @@ var AddContextualCommComponent = (function () {
         });
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
         __metadata("design:type", Object)
     ], AddContextualCommComponent.prototype, "hostClass", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('content'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('content'),
         __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]) === "function" && _a || Object)
     ], AddContextualCommComponent.prototype, "el", void 0);
     AddContextualCommComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'add-contextualcomm-view',
             template: __webpack_require__("../../../../../src/app/views/contextualCommMenu/add-contextualComm.component.html"),
             styles: [__webpack_require__("../../../../../src/app/views/contextualCommMenu/add-contextualComm.component.css")]
         }),
-        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormBuilder */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_8__services_contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__services_contact_service__["a" /* ContactService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_9__services_services__["b" /* TriggerActionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__services_services__["b" /* TriggerActionService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_10__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _h || Object])
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["e" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormBuilder */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_8__services_contact_service__["a" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__services_contact_service__["a" /* ContactService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_9__services_services__["k" /* TriggerActionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__services_services__["k" /* TriggerActionService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_10__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _h || Object])
     ], AddContextualCommComponent);
     return AddContextualCommComponent;
     var _a, _b, _c, _d, _e, _f, _g, _h;
@@ -6132,7 +6278,7 @@ var AddContextualCommComponent = (function () {
 /***/ "../../../../../src/app/views/contextualCommMenu/contextMenu.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"mp-level\">\n\n\t<h2 class=\"p-3\">Contexts</h2>\n\n\t<ngb-accordion class=\"context-menu\" #acc=\"ngbAccordion\" activeIds=\"form\" (panelChange)=\"beforeChange($event)\">\n\n\t\t<ngb-panel id=\"form\">\n\n\t\t\t<ng-template ngbPanelContent>\n\t\t\t\t<div class=\"search-bar\">\n\n\t\t\t\t\t<form class=\"filter\">\n            <span class=\"fa fa-search\"></span>\n            <label for=\"search-field\"></label>\n\t\t\t\t\t\t<input id=\"search-field\" name=\"search-field\" type=\"text\" value=\"\" placeholder=\"type a team's name\" class=\"search float-left\">\n\t\t\t\t\t</form>\n\n\t\t\t\t</div>\n\t\t\t</ng-template>\n\n\t\t</ngb-panel>\n\n\t\t<ngb-panel *ngFor=\"let context of contextualComm | async; let i = index;\">\n\n\t\t\t<ng-template ngbPanelTitle>\n\t\t\t\t<span class=\"fa fa-angle-down float-right\"></span>\n\t\t\t\t<span class=\"title\"><i class=\"fa fa-{{context.icon}}\"></i>{{context.name}}</span>\n\t\t\t</ng-template>\n\n\t\t\t<ng-template ngbPanelContent>\n\n\t\t\t\t<ul>\n\t\t\t\t\t\t<li [hidden]=\"sub.name.includes('@')\" *ngFor=\"let sub of context.contexts\">\n\t\t\t\t\t\t\t<a class=\"sub-level\" routerLink=\"{{context.name | lowercase}}/{{sub.name | lowercase}}\" routerLinkActive=\"active\">{{sub.name}}</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\n\t\t\t</ng-template>\n\t\t</ngb-panel>\n\t</ngb-accordion>\n\n\t<add-contextualcomm-view></add-contextualcomm-view>\n</div>\n"
+module.exports = "<div class=\"mp-level\">\n\n  <h2 class=\"p-3\">Contexts</h2>\n\n  <div class=\"list-group\">\n\n    <div class=\"list-group-item border-0 list-group-item-action flex-column align-items-start search-bar\">\n\n      <form class=\"filter d-flex w-100 justify-content-between\">\n        <span class=\"fa fa-search\"></span>\n        <label for=\"search-field\"></label>\n        <input id=\"search-field\" name=\"search-field\" type=\"text\" value=\"\" placeholder=\"type a team's name\" class=\"search float-left\">\n      </form>\n\n    </div>\n\n    <a class=\"list-group-item\"\n      *ngFor=\"let context of contextualComm | async; let i = index;\"\n       routerLink=\"{{context.name | lowercase}}\" routerLinkActive=\"active\">\n      <i class=\"fa fa-{{context.icon}}\"></i><span class=\"title\">{{context.name}}</span>\n    </a>\n\n  </div>\n\n<!--\n\t<ngb-accordion class=\"context-menu\" #acc=\"ngbAccordion\" activeIds=\"form\" (panelChange)=\"beforeChange($event)\">\n\n\t\t<ngb-panel id=\"form\">\n\n\t\t\t<ng-template ngbPanelContent>\n\t\t\t\t<div class=\"search-bar\">\n\n\t\t\t\t\t<form class=\"filter\">\n            <span class=\"fa fa-search\"></span>\n            <label for=\"search-field\"></label>\n\t\t\t\t\t\t<input id=\"search-field\" name=\"search-field\" type=\"text\" value=\"\" placeholder=\"type a team's name\" class=\"search float-left\">\n\t\t\t\t\t</form>\n\n\t\t\t\t</div>\n\t\t\t</ng-template>\n\n\t\t</ngb-panel>\n\n\t\t<ngb-panel *ngFor=\"let context of contextualComm | async; let i = index;\">\n\n\t\t\t<ng-template ngbPanelTitle>\n\t\t\t\t<span class=\"fa fa-angle-down float-right\"></span>\n\t\t\t\t<a class=\"title\" routerLink=\"{{context.name | lowercase}}\" routerLinkActive=\"active\"><i class=\"fa fa-{{context.icon}}\"></i>{{context.name}}</a>\n\t\t\t</ng-template>\n\n\t\t\t<ng-template ngbPanelContent>\n\n\t\t\t\t<ul>\n\t\t\t\t\t\t<li [hidden]=\"sub.name.includes('@')\" *ngFor=\"let sub of context.contexts\">\n\t\t\t\t\t\t\t<a class=\"sub-level\" routerLink=\"{{context.name | lowercase}}/{{sub.name | lowercase}}\" routerLinkActive=\"active\">{{sub.name}}</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\n\t\t\t</ng-template>\n\t\t</ngb-panel>\n\t</ngb-accordion> -->\n\n\t<add-contextualcomm-view></add-contextualcomm-view>\n</div>\n"
 
 /***/ }),
 
@@ -6140,9 +6286,9 @@ module.exports = "<div class=\"mp-level\">\n\n\t<h2 class=\"p-3\">Contexts</h2>\
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextMenuComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextMenuComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6154,7 +6300,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var ContextMenuComponent = (function () {
+var ContextMenuComponent = /** @class */ (function () {
     function ContextMenuComponent(contextualCommDataService) {
         this.contextualCommDataService = contextualCommDataService;
         this.hostClass = 'mp-menu';
@@ -6167,15 +6313,15 @@ var ContextMenuComponent = (function () {
     };
     ;
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
         __metadata("design:type", Object)
     ], ContextMenuComponent.prototype, "hostClass", void 0);
     ContextMenuComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'nav[context-menu]',
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'context-menu',
             template: __webpack_require__("../../../../../src/app/views/contextualCommMenu/contextMenu.component.html")
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_services__["d" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_services__["d" /* ContextualCommDataService */]) === "function" && _a || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_services__["h" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_services__["h" /* ContextualCommDataService */]) === "function" && _a || Object])
     ], ContextMenuComponent);
     return ContextMenuComponent;
     var _a;
@@ -6185,26 +6331,22 @@ var ContextMenuComponent = (function () {
 
 /***/ }),
 
-/***/ "../../../../../src/app/views/contextualCommUsers/add-user.component.html":
+/***/ "../../../../../src/app/views/contextualCommMenu/remove-contextualComm.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ng-template #addUserContent let-c=\"close\" let-d=\"dismiss\">\n\n  <div class=\"row justify-content-md-center add-user-view fade {{ready ? 'visible' : ''}}\">\n    <div class=\"col-12\">\n\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"modalTitle\"></h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n\n      <div class=\"modal-body row\">\n\n        <div class=\"col-sm-12 col-md-6 divider-right\">\n          <div class=\"modal-header\">\n            <h5 class=\"modal-title\" id=\"addUserTitle\">Add User</h5>\n          </div>\n\n          <form class=\"list\">\n\n            <div class=\"form-group\">\n              <div class=\"input-group\">\n                <input type=\"text\" class=\"form-control\" value=\"\" placeholder=\"Search users\" id=\"search-field3\"/>\n                <span class=\"input-group-addon\"><i class=\"fa fa-search\"></i></span>\n              </div>\n            </div>\n\n            <div class=\"form-group\">\n              <ul class=\"contact-list\">\n                <li class=\"item\" *ngFor=\"let user of contactList | async\" (click)=\"contactClick.emit(user)\">\n                    <a class=\"link\" routerLinkActive=\"active\">\n                      <user-identity [model]=\"user\"></user-identity>\n                      <div class=\"pointer\">\n                          <span class=\"action chat\"><i class=\"fa fa-angle-right\"></i></span>\n                      </div>\n                    </a>\n                </li>\n              </ul>\n            </div>\n\n          </form>\n\n        </div>\n\n        <div class=\"col-sm-12 col-md-6\">\n          <div class=\"modal-header\">\n            <h5 class=\"modal-title\" id=\"inviteUserTitle\">Invite Users</h5>\n          </div>\n\n          <form class=\"invite\" #inviteForm (submit)=\"submitEvent(inviteForm.value)\">\n\n            <div class=\"form-group\">\n              <input type=\"text\" [disabled]=\"busy\" [(ngModel)]=\"model.email\" ngControl=\"email\" name=\"email\"\n              class=\"form-control\" placeholder=\"someone@mail.com\" required>\n            </div>\n\n            <div class=\"form-group\">\n              <input type=\"text\" [disabled]=\"busy\" [(ngModel)]=\"model.domain\" ngControl=\"domain\" name=\"domain\"\n                class=\"form-control\" placeholder=\"some.domain.com\" required>\n            </div>\n\n            <div class=\"progress\" [style.display]=\"!busy ? 'none' : 'block'\">\n              <div class=\"progress-bar progress-bar-striped active\" role=\"progressbar\"\n              aria-valuenow=\"100\" aria-valuemin=\"0\"\n              aria-valuemax=\"100\"\n              style=\"width: 100%\">\n                <span class=\"sr-only\">Inviting</span>\n              </div>\n            </div>\n\n            <div class=\"fx-login-submit\">\n              <button class=\"btn btn-success\" [disabled]=\"busy\" type=\"submit\">Invite</button>\n            </div>\n          </form>\n        </div>\n\n      </div>\n    </div>\n  </div>\n\n</ng-template>\n\n\n<!-- Add contact button -->\n<a href=\"javascript:;\" class=\"float-left\" (click)=\"open(addUserContent)\">\n  <i class=\"fa fa-plus-circle\"></i>Add Contact\n</a>\n"
+module.exports = "<ng-template #content let-c=\"close\" let-d=\"dismiss\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">DELETE {{context.name}}?</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"modal-body\">\n     <p>Do you really want to <b>delete</b> the {{context.name}} context?</p>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-danger\" (click)=\"c('no')\">No</button>\n    <button type=\"button\" class=\"btn btn-success\" (click)=\"c('yes')\">Yes</button>\n  </div>\n</ng-template>\n\n<a href=\"javascript:;\" title=\"Delete the {{context.name}}\" (click)=\"open(content)\" class=\"remove float-right\"><i class=\"fa fa-remove\"></i></a>\n\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/views/contextualCommUsers/add-user.component.ts":
+/***/ "../../../../../src/app/views/contextualCommMenu/remove-contextualComm.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RemoveContextualCommComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__config__ = __webpack_require__("../../../../../src/app/config.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_utils__ = __webpack_require__("../../../../../src/app/utils/utils.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_notification_notifications_module__ = __webpack_require__("../../../../../src/app/components/notification/notifications.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_contextualCommData_service__ = __webpack_require__("../../../../../src/app/services/contextualCommData.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddUserComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_models__ = __webpack_require__("../../../../../src/app/models/models.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_app_models__ = __webpack_require__("../../../../../src/app/models/app.models.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6214,6 +6356,125 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
+
+
+
+var RemoveContextualCommComponent = /** @class */ (function () {
+    function RemoveContextualCommComponent(modalService) {
+        this.modalService = modalService;
+        this.removeEvent = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"](true);
+    }
+    RemoveContextualCommComponent.prototype.open = function (content) {
+        var _this = this;
+        var numOfAtomic = this.context.contexts.filter(function (context) { return context.id.includes('@'); }).length;
+        var numOfComposite = this.context.contexts.length - numOfAtomic;
+        var isMainContext = (this.context.parent.length === 0);
+        console.log(numOfAtomic, numOfComposite, isMainContext);
+        if (numOfComposite > 0 && isMainContext) {
+            this.removeEvent.emit({
+                type: __WEBPACK_IMPORTED_MODULE_3__models_app_models__["a" /* RemoveContextEventType */].Error,
+                context: this.context,
+                reason: 'You can\'t remove a context which contains sub contexts'
+            });
+            return false;
+        }
+        this.modalService.open(content).result.then(function (result) {
+            if (result === 'yes') {
+                _this.removeEvent.emit({
+                    type: __WEBPACK_IMPORTED_MODULE_3__models_app_models__["a" /* RemoveContextEventType */].Remove,
+                    context: _this.context
+                });
+            }
+            else {
+                _this.removeEvent.emit({
+                    type: __WEBPACK_IMPORTED_MODULE_3__models_app_models__["a" /* RemoveContextEventType */].Dismissed,
+                    reason: _this.getDismissReason(result)
+                });
+            }
+        }, function (reason) {
+            _this.removeEvent.emit({
+                type: __WEBPACK_IMPORTED_MODULE_3__models_app_models__["a" /* RemoveContextEventType */].Dismissed,
+                reason: _this.getDismissReason(reason)
+            });
+        });
+    };
+    RemoveContextualCommComponent.prototype.getDismissReason = function (reason) {
+        if (reason === __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["a" /* ModalDismissReasons */].ESC) {
+            return 'by pressing ESC';
+        }
+        else if (reason === __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["a" /* ModalDismissReasons */].BACKDROP_CLICK) {
+            return 'by clicking on a backdrop';
+        }
+        else {
+            return "with: " + reason;
+        }
+    };
+    RemoveContextualCommComponent.prototype.ngOnInit = function () {
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        __metadata("design:type", String)
+    ], RemoveContextualCommComponent.prototype, "modalTitle", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__models_models__["a" /* ContextualComm */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__models_models__["a" /* ContextualComm */]) === "function" && _a || Object)
+    ], RemoveContextualCommComponent.prototype, "context", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]) === "function" && _b || Object)
+    ], RemoveContextualCommComponent.prototype, "removeEvent", void 0);
+    RemoveContextualCommComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'remove-contextualcomm-view',
+            encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewEncapsulation"].None,
+            template: __webpack_require__("../../../../../src/app/views/contextualCommMenu/remove-contextualComm.component.html")
+        }),
+        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */]) === "function" && _c || Object])
+    ], RemoveContextualCommComponent);
+    return RemoveContextualCommComponent;
+    var _a, _b, _c;
+}());
+
+//# sourceMappingURL=remove-contextualComm.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/views/contextualCommUsers/add-user.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<ng-template #addUserContent let-c=\"close\" let-d=\"dismiss\">\n\n  <div class=\"row justify-content-md-center add-user-view fade {{ready ? 'visible' : ''}}\">\n    <div class=\"col-12\">\n\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"modalTitle\"></h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n\n      <div class=\"modal-body row\">\n\n        <div class=\"col-sm-12 col-md-6\">\n          <div class=\"modal-header\">\n            <h5 class=\"modal-title\" id=\"addUserTitle\">Add User</h5>\n          </div>\n\n          <ng-template #rt let-user=\"result\" let-t=\"term\">\n            <user-identity [model]=\"user\"></user-identity>\n          </ng-template>\n\n          <div class=\"form-group search-group\">\n            <div class=\"input-group\">\n              <input id=\"typeahead-template\" type=\"text\" class=\"form-control\" placeholder=\"Search users\"\n                [inputFormatter]=\"formatter\"\n                [(ngModel)]=\"searchResultModel\" [ngbTypeahead]=\"search\" [resultTemplate]=\"rt\" />\n              <span class=\"input-group-addon\"><i class=\"fa fa-search\"></i></span>\n            </div>\n          </div>\n\n          <ngb-progressbar [style.display]=\"!busy ? 'none' : 'block'\" type=\"info\" [value]=\"100\" [striped]=\"true\" [animated]=\"true\"><i>Inviting</i></ngb-progressbar>\n\n          <div class=\"fx-login-submit\">\n            <button class=\"btn btn-success\" [disabled]=\"busy\" type=\"submit\" (click)=\"addUser()\">Add user</button>\n          </div>\n\n        </div>\n\n        <div class=\"col-sm-12 col-md-6\">\n          <div class=\"modal-header\">\n            <h5 class=\"modal-title\" id=\"inviteUserTitle\">Invite Users</h5>\n          </div>\n\n          <form class=\"invite\" #inviteForm (submit)=\"submitEvent(inviteForm.value)\">\n\n            <div class=\"form-group\">\n              <input type=\"text\" [disabled]=\"busy\" [(ngModel)]=\"model.email\" ngControl=\"email\" name=\"email\"\n              class=\"form-control\" placeholder=\"someone@mail.com\" required>\n            </div>\n\n            <div class=\"form-group\">\n              <input type=\"text\" [disabled]=\"busy\" [(ngModel)]=\"model.domain\" ngControl=\"domain\" name=\"domain\"\n                class=\"form-control\" placeholder=\"some.domain.com\" required>\n            </div>\n\n            <ngb-progressbar [style.display]=\"!busy ? 'none' : 'block'\" type=\"info\" [value]=\"100\" [striped]=\"true\" [animated]=\"true\"><i>Inviting</i></ngb-progressbar>\n\n            <div class=\"fx-login-submit\">\n              <button class=\"btn btn-success\" [disabled]=\"busy\" type=\"submit\">Invite</button>\n            </div>\n          </form>\n        </div>\n\n      </div>\n    </div>\n  </div>\n\n</ng-template>\n\n\n<!-- Add contact button -->\n<a href=\"javascript:;\" class=\"float-left\" (click)=\"open(addUserContent)\">\n  <i class=\"fa fa-plus-circle\"></i>Add Contact\n</a>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/views/contextualCommUsers/add-user.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddUserComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_distinctUntilChanged__ = __webpack_require__("../../../../rxjs/add/operator/distinctUntilChanged.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_distinctUntilChanged___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_distinctUntilChanged__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__config__ = __webpack_require__("../../../../../src/app/config.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__utils_utils__ = __webpack_require__("../../../../../src/app/utils/utils.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_notification_notifications_module__ = __webpack_require__("../../../../../src/app/components/notification/notifications.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_contextualCommData_service__ = __webpack_require__("../../../../../src/app/services/contextualCommData.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
 
 
 // config
@@ -6226,7 +6487,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var AddUserComponent = (function () {
+var searchResult;
+var AddUserComponent = /** @class */ (function () {
     function AddUserComponent(router, modalService, chatService, contactService, notificationsService, contextualCommDataService) {
         this.router = router;
         this.modalService = modalService;
@@ -6241,9 +6503,24 @@ var AddUserComponent = (function () {
         this.model = { email: '', domain: '' };
         this.busy = false;
         this.ready = false;
+        this.formatter = function (user) { return user.username; };
     }
     AddUserComponent.prototype.ngOnInit = function () {
         this.contactList = this.contactService.getUsers();
+        this.contactList.subscribe(function (contacts) {
+            console.log('Contacts:', contacts);
+            searchResult = contacts;
+        });
+    };
+    AddUserComponent.prototype.search = function (text$) {
+        return text$
+            .distinctUntilChanged()
+            .map(function (term) { return term.length < 2 ?
+            [] :
+            searchResult.filter(function (v) {
+                console.log(v, term);
+                return v.username.toLowerCase().indexOf(term.toLowerCase()) > -1;
+            }).slice(0, 10); });
     };
     AddUserComponent.prototype.open = function (content) {
         var _this = this;
@@ -6256,22 +6533,39 @@ var AddUserComponent = (function () {
         });
     };
     AddUserComponent.prototype.getDismissReason = function (reason) {
-        if (reason === __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["b" /* ModalDismissReasons */].ESC) {
+        if (reason === __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["a" /* ModalDismissReasons */].ESC) {
             return 'by pressing ESC';
         }
-        else if (reason === __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["b" /* ModalDismissReasons */].BACKDROP_CLICK) {
+        else if (reason === __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["a" /* ModalDismissReasons */].BACKDROP_CLICK) {
             return 'by clicking on a backdrop';
         }
         else {
             return "with: " + reason;
         }
     };
+    AddUserComponent.prototype.addUser = function () {
+        this.busy = true;
+        console.log('THIS:', this.searchResultModel);
+        if (this.searchResultModel && this.searchResultModel.username) {
+            this._invite({
+                email: this.searchResultModel.username,
+                domain: this.searchResultModel.domain
+            });
+            this.searchResultModel;
+        }
+    };
     AddUserComponent.prototype.submitEvent = function () {
         // this.inviteEvent.emit( JSON.parse(JSON.stringify(this.model)) );
-        var _this = this;
         this.busy = true;
+        this._invite({
+            email: this.model.email,
+            domain: this.model.domain
+        });
+    };
+    AddUserComponent.prototype._invite = function (data) {
+        var _this = this;
         var path = this.router.url;
-        var normalizedName = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__utils_utils__["c" /* normalizeName */])(path);
+        var normalizedName = Object(__WEBPACK_IMPORTED_MODULE_6__utils_utils__["g" /* normalizeName */])(path);
         var parentNameId = '';
         console.log('[Add User Component] - parent: ', normalizedName, this.chatService.activeDataObjectURL);
         parentNameId = normalizedName.parent;
@@ -6281,12 +6575,12 @@ var AddUserComponent = (function () {
         this.contextualCommDataService.getContextById(parentNameId).subscribe(function (context) {
             var parentURL = context.url;
             var currentURL = _this.chatService.activeDataObjectURL;
-            var parentChat = _this.chatService.invite(parentURL, [_this.model.email], [_this.model.domain || __WEBPACK_IMPORTED_MODULE_2__config__["a" /* config */].domain]);
+            var parentChat = _this.chatService.invite(parentURL, [data.email], [data.domain || __WEBPACK_IMPORTED_MODULE_4__config__["a" /* config */].domain]);
             var currentChat;
-            if (parentURL !== currentURL || !__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__utils_utils__["g" /* isALegacyUser */])(_this.model.email)) {
-                currentChat = _this.chatService.invite(currentURL, [_this.model.email], [_this.model.domain || __WEBPACK_IMPORTED_MODULE_2__config__["a" /* config */].domain]);
+            if (parentURL !== currentURL || !Object(__WEBPACK_IMPORTED_MODULE_6__utils_utils__["d" /* isALegacyUser */])(data.email)) {
+                currentChat = _this.chatService.invite(currentURL, [data.email], [data.domain || __WEBPACK_IMPORTED_MODULE_4__config__["a" /* config */].domain]);
             }
-            console.log('[Add User Component] - invite: ', _this.model);
+            console.log('[Add User Component] - invite: ', data);
             console.log('[Add User Component] - invite: ', parentURL, currentURL);
             console.log('[Add User Component] - invite: ', parentChat, currentChat);
             parentChat.then(function (parentController) {
@@ -6297,12 +6591,12 @@ var AddUserComponent = (function () {
                 }
                 return currentChat;
             }).then(function (currentController) {
-                if (!__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__utils_utils__["g" /* isALegacyUser */])(_this.model.email)) {
+                if (!Object(__WEBPACK_IMPORTED_MODULE_6__utils_utils__["d" /* isALegacyUser */])(data.email)) {
                     console.log('[Add User Component] - current controller', currentController);
-                    var normalizedPath = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__utils_utils__["b" /* normalizeFromURL */])(path + '/user/' + _this.model.email, _this.contactService.sessionUser.username);
-                    var normalizedName_1 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__utils_utils__["c" /* normalizeName */])(normalizedPath);
-                    console.log('[Add User Component] - normalized name: ', normalizedName_1);
-                    return _this.contextualCommDataService.createAtomicContext(_this.model.email, normalizedName_1.name, normalizedName_1.id, normalizedName_1.parent);
+                    var normalizedPath = Object(__WEBPACK_IMPORTED_MODULE_6__utils_utils__["f" /* normalizeFromURL */])(path + '/user/' + data.email, _this.contactService.sessionUser.username);
+                    var normalizedUserName = Object(__WEBPACK_IMPORTED_MODULE_6__utils_utils__["g" /* normalizeName */])(normalizedPath);
+                    console.log('[Add User Component] - normalized name: ', normalizedUserName);
+                    return _this.contextualCommDataService.createAtomicContext(data.email, normalizedUserName.name, normalizedUserName.id, normalizedUserName.parent);
                 }
             }).then(function (childController) {
                 console.log('[Add User Component] - one to one controller', childController);
@@ -6327,33 +6621,36 @@ var AddUserComponent = (function () {
     AddUserComponent.prototype.clean = function () {
         this.model.email = '';
         this.model.domain = '';
+        if (this.searchResultModel) {
+            this.searchResultModel = null;
+        }
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
         __metadata("design:type", Object)
     ], AddUserComponent.prototype, "hostClass", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", Object)
     ], AddUserComponent.prototype, "closeEvent", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", Object)
     ], AddUserComponent.prototype, "inviteEvent", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", Object)
     ], AddUserComponent.prototype, "contactClick", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", Object)
     ], AddUserComponent.prototype, "busy", void 0);
     AddUserComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'add-user-view',
             template: __webpack_require__("../../../../../src/app/views/contextualCommUsers/add-user.component.html")
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_7__services_services__["f" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__services_services__["f" /* ChatService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_7__services_services__["e" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__services_services__["e" /* ContactService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_5__components_notification_notifications_module__["NotificationsService"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__components_notification_notifications_module__["NotificationsService"]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_6__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _f || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["c" /* NgbModal */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_9__services_services__["d" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__services_services__["d" /* ChatService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_9__services_services__["f" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__services_services__["f" /* ContactService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_7__components_notification_notifications_module__["NotificationsService"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__components_notification_notifications_module__["NotificationsService"]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_8__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _f || Object])
     ], AddUserComponent);
     return AddUserComponent;
     var _a, _b, _c, _d, _e, _f;
@@ -6366,7 +6663,7 @@ var AddUserComponent = (function () {
 /***/ "../../../../../src/app/views/contextualCommUsers/contextualCommUsers.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Search contact input -->\n<div class=\"search-bar\">\n    <form class=\"filter\">\n        <span class=\"fa fa-search\"></span>\n        <input type=\"text\" placeholder=\"type a name\" class=\"search push-left\" (keyup)=\"onFilterKey($event)\">\n    </form>\n</div>\n\n<div class=\"sidebar-content\">\n\n  <div class=\"contexts float-left w-100 pb-3\">\n    <h4 class=\"title float-left\">Contexts</h4>\n\n    <add-contextualcomm-view *ngIf=\"allowAddUser\"></add-contextualcomm-view>\n\n    <ul class=\"context-list p-0\">\n      <li class=\"item p-0 m-0\" *ngFor=\"let context of contexts | async\">\n        <a class=\"link action\" title=\"Open {{context.name}} context\" [routerLink]=\"[context.name]\" routerLinkActive=\"active\">\n          <i *ngIf=\"context.icon\" class=\"fa fa-{{context.icon}}\"></i>\n          <span class=\"name\">{{context.name}}</span>\n        </a>\n\n        <a href=\"javascript:;\" title=\"Delete the {{context.name}}\" class=\"remove float-right\"><i class=\"fa fa-remove\"></i></a>\n      </li>\n    </ul>\n  </div>\n\n  <div class=\"users float-left w-100 pb-3 pt-3\">\n    <h4 class=\"title float-left\">Users</h4>\n\n    <add-user-view *ngIf=\"allowAddUser\"></add-user-view>\n\n    <ul class=\"contact-list\">\n      <!-- List of ContactComponent -->\n      <li class=\"item m-0\" *ngFor=\"let contact of contactsFilter | async\">\n        <a class=\"link\" [routerLink]=\"[this.basePath, 'user', contact.username]\" routerLinkActive=\"active\">\n\n          <user-identity *ngIf=\"contact\" [model]=contact></user-identity>\n\n          <div *ngIf=\"contact.unread\" class=\"alert\">\n              <span class=\"new-message\">{{contact.unread}}</span>\n              <i class=\"fa fa-comment-o\"></i>\n          </div>\n          <div class=\"pointer\">\n              <span class=\"action chat\"><i class=\"fa fa-angle-right\"></i></span>\n          </div>\n        </a>\n      </li>\n    </ul>\n  </div>\n</div>\n\n<footer class=\"alt-foot\">\n    Copyright 2016 © Altice Labs - All rights reserved\n</footer>\n"
+module.exports = "<!-- Search contact input -->\n<div class=\"search-bar\">\n    <form class=\"filter\">\n        <span class=\"fa fa-search\"></span>\n        <input type=\"text\" placeholder=\"type a name\" class=\"search push-left\" (keyup)=\"onFilterKey($event)\">\n    </form>\n</div>\n\n<div class=\"sidebar-content\">\n\n  <div class=\"contexts float-left w-100 pb-3\">\n    <h4 class=\"title float-left\">Contexts</h4>\n\n    <add-contextualcomm-view *ngIf=\"allowAddUser\"></add-contextualcomm-view>\n\n    <ul class=\"context-list p-0\">\n      <li class=\"item p-0 m-0\" *ngFor=\"let context of contexts\">\n        <a class=\"link action\" title=\"Open {{context.name}} context\" [routerLink]=\"[context.name]\" routerLinkActive=\"active\">\n          <i *ngIf=\"context.icon\" class=\"fa fa-{{context.icon}}\"></i>\n          <span class=\"name\">{{context.name}}</span>\n        </a>\n\n        <remove-contextualcomm-view *ngIf=\"allowAddUser\" (removeEvent)=\"removeContext($event, context)\" [context]=\"context\"></remove-contextualcomm-view>\n\n      </li>\n    </ul>\n  </div>\n\n  <div class=\"users float-left w-100 pb-3 pt-3\">\n    <h4 class=\"title float-left\">Users</h4>\n\n    <add-user-view *ngIf=\"allowAddUser\"></add-user-view>\n\n    <ul class=\"contact-list\">\n      <!-- List of ContactComponent -->\n      <li class=\"item m-0\" *ngFor=\"let contact of contactsFilter | async\">\n        <a class=\"link\" [routerLink]=\"[this.basePath, 'user', contact.username]\" routerLinkActive=\"active\">\n\n          <user-identity *ngIf=\"contact\" [model]=contact></user-identity>\n\n          <div *ngIf=\"contact.unread\" class=\"alert\">\n              <span class=\"new-message\">{{contact.unread}}</span>\n              <i class=\"fa fa-comment-o\"></i>\n          </div>\n          <div class=\"pointer\">\n              <span class=\"action chat\"><i class=\"fa fa-angle-right\"></i></span>\n          </div>\n        </a>\n      </li>\n    </ul>\n  </div>\n</div>\n\n<footer class=\"alt-foot\">\n    Copyright 2016 © Altice Labs - All rights reserved\n</footer>\n"
 
 /***/ }),
 
@@ -6374,6 +6671,7 @@ module.exports = "<!-- Search contact input -->\n<div class=\"search-bar\">\n   
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommUsersComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/Observable.js");
@@ -6381,8 +6679,9 @@ module.exports = "<!-- Search contact input -->\n<div class=\"search-bar\">\n   
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__config__ = __webpack_require__("../../../../../src/app/config.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_notification_notifications_module__ = __webpack_require__("../../../../../src/app/components/notification/notifications.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_contextualCommData_service__ = __webpack_require__("../../../../../src/app/services/contextualCommData.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_directive_module__ = __webpack_require__("../../../../../src/app/shared/directive.module.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextualCommUsersComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__models_app_models__ = __webpack_require__("../../../../../src/app/models/app.models.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_directive_module__ = __webpack_require__("../../../../../src/app/shared/directive.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils_utils__ = __webpack_require__("../../../../../src/app/utils/utils.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6400,14 +6699,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 // Services
 
 
+
 // Directives
 
-var ContextualCommUsersComponent = (function () {
-    function ContextualCommUsersComponent(router, route, notificationService, contextualCommDataService) {
+
+var ContextualCommUsersComponent = /** @class */ (function () {
+    function ContextualCommUsersComponent(router, route, notificationsService, contextualCommDataService) {
         var _this = this;
         this.router = router;
         this.route = route;
-        this.notificationService = notificationService;
+        this.notificationsService = notificationsService;
         this.contextualCommDataService = contextualCommDataService;
         this.hostClass = 'context-user-view d-flex flex-column justify-content-between';
         this.contactClick = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
@@ -6424,8 +6725,8 @@ var ContextualCommUsersComponent = (function () {
                 }
                 _this.basePath = url;
             }
-            if (navigation instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["f" /* NavigationError */]) {
-                _this.notificationService.error('Error', navigation.error, {
+            if (navigation instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* NavigationError */]) {
+                _this.notificationsService.error('Error', navigation.error, {
                     showProgressBar: false,
                     timeOut: 3000,
                     pauseOnHover: false,
@@ -6438,7 +6739,11 @@ var ContextualCommUsersComponent = (function () {
             var context = params['context'];
             var id = __WEBPACK_IMPORTED_MODULE_3__config__["a" /* config */].appPrefix + '/' + context;
             _this.rootContext = context;
-            _this.contexts = _this.contextualCommDataService.getContextTask(id);
+            _this.contextSubscription = _this.contextualCommDataService.getContextTask(id)
+                .subscribe(function (contexts) {
+                console.log('[ContextualCommUsers] - contexts: ', contexts);
+                _this.contexts = contexts;
+            });
         });
         console.log('[ContextualCommUsers - constructor]', this.router, this.router.url);
     }
@@ -6455,6 +6760,7 @@ var ContextualCommUsersComponent = (function () {
         this.currentUsers.unsubscribe();
         this.events.unsubscribe();
         this.paramsObserver.unsubscribe();
+        this.contextSubscription.unsubscribe();
         console.log('[contextualCommUsers - ngOnDestroy]', this.events, this.paramsObserver);
     };
     ContextualCommUsersComponent.prototype.onFilterKey = function (event) {
@@ -6480,36 +6786,60 @@ var ContextualCommUsersComponent = (function () {
             element.classList.add('opened');
         }
     };
+    ContextualCommUsersComponent.prototype.removeContext = function (event, context) {
+        var _this = this;
+        console.log('Context to be removed: ', event, context);
+        var contextPathObj = Object(__WEBPACK_IMPORTED_MODULE_8__utils_utils__["g" /* normalizeName */])(context.id);
+        if (event.type === __WEBPACK_IMPORTED_MODULE_6__models_app_models__["a" /* RemoveContextEventType */].Remove) {
+            this.contextualCommDataService.removeContext(event.context)
+                .subscribe(function (result) {
+                console.log('Success:', result);
+                console.log('Context Remove Path:', _this.basePath);
+                var basePathObj = Object(__WEBPACK_IMPORTED_MODULE_8__utils_utils__["g" /* normalizeName */])(_this.basePath);
+                if (contextPathObj.id === basePathObj.id) {
+                    var parent = Object(__WEBPACK_IMPORTED_MODULE_8__utils_utils__["i" /* splitFromURL */])(basePathObj.id);
+                    console.log('Context Remove Path: ', parent);
+                    _this.router.navigate([parent.context]);
+                }
+                console.log('Context Remove Path:', contextPathObj, basePathObj);
+            }, function (error) {
+                _this.notificationsService.error('Error removing context', error);
+            });
+        }
+        if (event.type === __WEBPACK_IMPORTED_MODULE_6__models_app_models__["a" /* RemoveContextEventType */].Error) {
+            this.notificationsService.error('Error removing context', event.reason);
+        }
+    };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_6__shared_directive_module__["b" /* SidebarDirective */]),
-        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_6__shared_directive_module__["b" /* SidebarDirective */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__shared_directive_module__["b" /* SidebarDirective */]) === "function" && _a || Object)
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_7__shared_directive_module__["c" /* SidebarDirective */]),
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_7__shared_directive_module__["c" /* SidebarDirective */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__shared_directive_module__["c" /* SidebarDirective */]) === "function" && _a || Object)
     ], ContextualCommUsersComponent.prototype, "sidebar", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
         __metadata("design:type", Object)
     ], ContextualCommUsersComponent.prototype, "hostClass", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", Object)
     ], ContextualCommUsersComponent.prototype, "contactClick", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", Object)
     ], ContextualCommUsersComponent.prototype, "contactAdd", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"]) === "function" && _b || Object)
     ], ContextualCommUsersComponent.prototype, "users", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", Boolean)
     ], ContextualCommUsersComponent.prototype, "allowAddUser", void 0);
     ContextualCommUsersComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'context-user-view',
             template: __webpack_require__("../../../../../src/app/views/contextualCommUsers/contextualCommUsers.component.html")
         }),
-        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__components_notification_notifications_module__["NotificationsService"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__components_notification_notifications_module__["NotificationsService"]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_5__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _f || Object])
+        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__components_notification_notifications_module__["NotificationsService"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__components_notification_notifications_module__["NotificationsService"]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_5__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _f || Object])
     ], ContextualCommUsersComponent);
     return ContextualCommUsersComponent;
     var _a, _b, _c, _d, _e, _f;
@@ -6522,7 +6852,7 @@ var ContextualCommUsersComponent = (function () {
 /***/ "../../../../../src/app/views/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"main-content\">\n  <div class=\"content-panel\">\n\n    <div class=\"pt-3 pb-3\">\n      <h2>Dashboard</h2>\n\n      <div class=\"pt-3 row\">\n\n        <div class=\"col-12 col-sm-6\">\n          <h3>Contexts List</h3>\n\n          <div class=\"pt-3 pb-3\">\n            <a class=\"btn btn-outline-primary\" href=\"javascript:;\" (click)=\"onCreateEvent()\"><strong>new context</strong></a>\n          </div>\n\n          <div class=\"list-group list-group-root\" *ngFor=\"let context of contextualComms | async;\">\n\n            <div class=\"list-group-item justify-content-between\">\n              <a routerLink=\"{{context.name | lowercase}}\" routerLinkActive=\"active\">\n                <i *ngIf=\"context.icon\" class=\"pr-3 fa fa-{{context.icon}}\"></i>{{context.name}}\n              </a>\n\n              <span class=\"badge badge-default badge-pill\">{{context.contexts.length}}</span>\n            </div>\n\n<!--            <div class=\"list-group\" *ngFor=\"let item of context.contexts;\">\n              <div class=\"list-group-item justify-content-between\">\n                <a routerLink=\"{{context.name}}/{{item.name | lowercase}}\" routerLinkActive=\"active\">\n                  <i *ngIf=\"item.icon\" class=\"pr-3 fa fa-{{item.icon}}\"></i>{{item.name}}\n                </a>\n              </div>\n            </div>-->\n\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"main-content\">\n  <div class=\"content-panel\">\n\n    <div class=\"pt-3 pb-3\">\n      <h2>Dashboard</h2>\n\n      <div class=\"pt-3 row\">\n\n        <div class=\"col-12 col-sm-6\">\n          <h3>Contexts List</h3>\n\n          <div class=\"pt-3 pb-3\">\n            <a class=\"btn btn-outline-primary\" href=\"javascript:;\" (click)=\"onCreateEvent()\"><strong>new context</strong></a>\n          </div>\n\n          <div class=\"list-group\">\n\n            <div class=\"list-group-item d-flex justify-content-between align-items-center\" *ngFor=\"let context of contextualComms | async;\">\n              <a routerLink=\"{{context.name | lowercase}}\" routerLinkActive=\"active\">\n                <i *ngIf=\"context.icon\" class=\"pr-3 fa fa-{{context.icon}}\"></i>{{context.name}}\n              </a>\n\n              <span class=\"badge badge-default badge-pill\">{{context.contexts.length}}</span>\n\n              <remove-contextualcomm-view *ngIf=\"context.reporter\" (removeEvent)=\"removeContext($event, context)\" [context]=\"context\"></remove-contextualcomm-view>\n            </div>\n\n<!--            <div class=\"list-group\" *ngFor=\"let item of context.contexts;\">\n              <div class=\"list-group-item justify-content-between\">\n                <a routerLink=\"{{context.name}}/{{item.name | lowercase}}\" routerLinkActive=\"active\">\n                  <i *ngIf=\"item.icon\" class=\"pr-3 fa fa-{{item.icon}}\"></i>{{item.name}}\n                </a>\n              </div>\n            </div>-->\n\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -6530,12 +6860,13 @@ module.exports = "<div class=\"main-content\">\n  <div class=\"content-panel\">\
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomeComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_app_models__ = __webpack_require__("../../../../../src/app/models/app.models.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_services__ = __webpack_require__("../../../../../src/app/services/services.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_contextualCommData_service__ = __webpack_require__("../../../../../src/app/services/contextualCommData.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomeComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_notification_notifications_module__ = __webpack_require__("../../../../../src/app/components/notification/notifications.module.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6551,34 +6882,54 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 // Services
 
 
-var HomeComponent = (function () {
-    function HomeComponent(route, triggerActionService, contextualCommDataService, rethinkService) {
+
+var HomeComponent = /** @class */ (function () {
+    function HomeComponent(route, rethinkService, triggerActionService, notificationsService, contextualCommDataService) {
         this.route = route;
-        this.triggerActionService = triggerActionService;
-        this.contextualCommDataService = contextualCommDataService;
         this.rethinkService = rethinkService;
+        this.triggerActionService = triggerActionService;
+        this.notificationsService = notificationsService;
+        this.contextualCommDataService = contextualCommDataService;
         this.hostClass = 'home-view col';
     }
     // Load data ones componet is ready
     HomeComponent.prototype.ngOnInit = function () {
         this.contextualComms = this.contextualCommDataService.getContexts();
     };
+    HomeComponent.prototype.ngOnDestroy = function () {
+        if (this.removeContextSubscription) {
+            this.removeContextSubscription.unsubscribe();
+        }
+    };
     HomeComponent.prototype.onCreateEvent = function () {
-        this.triggerActionService.trigger(__WEBPACK_IMPORTED_MODULE_2__models_app_models__["a" /* TriggerActions */].OpenContextMenuCreator);
+        this.triggerActionService.trigger(__WEBPACK_IMPORTED_MODULE_2__models_app_models__["b" /* TriggerActions */].OpenContextMenuCreator);
+    };
+    HomeComponent.prototype.removeContext = function (event, context) {
+        var _this = this;
+        console.log('Context to be removed: ', event, context);
+        if (event.type === __WEBPACK_IMPORTED_MODULE_2__models_app_models__["a" /* RemoveContextEventType */].Remove) {
+            this.removeContextSubscription = this.contextualCommDataService.removeContext(event.context)
+                .subscribe(function (result) { console.log('Success:', result); }, function (error) {
+                _this.notificationsService.error('Error removing context', error);
+            });
+        }
+        if (event.type === __WEBPACK_IMPORTED_MODULE_2__models_app_models__["a" /* RemoveContextEventType */].Error) {
+            this.notificationsService.error('Error removing context', event.reason);
+        }
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
         __metadata("design:type", Object)
     ], HomeComponent.prototype, "hostClass", void 0);
     HomeComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'home-view',
             template: __webpack_require__("../../../../../src/app/views/home/home.component.html")
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["b" /* TriggerActionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["b" /* TriggerActionService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["c" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["c" /* RethinkService */]) === "function" && _d || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["j" /* RethinkService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["j" /* RethinkService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["k" /* TriggerActionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["k" /* TriggerActionService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__components_notification_notifications_module__["NotificationsService"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__components_notification_notifications_module__["NotificationsService"]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__services_contextualCommData_service__["a" /* ContextualCommDataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_contextualCommData_service__["a" /* ContextualCommDataService */]) === "function" && _e || Object])
     ], HomeComponent);
     return HomeComponent;
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=home.component.js.map
@@ -6614,8 +6965,8 @@ module.exports = module.exports.toString();
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoadingComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6626,7 +6977,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var LoadingComponent = (function () {
+var LoadingComponent = /** @class */ (function () {
     function LoadingComponent() {
         this.hostClass = 'main-content d-flex flex-row align-items-center';
     }
@@ -6634,15 +6985,15 @@ var LoadingComponent = (function () {
         console.log('Status:', status);
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
         __metadata("design:type", Object)
     ], LoadingComponent.prototype, "hostClass", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", String)
     ], LoadingComponent.prototype, "status", void 0);
     LoadingComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'loading',
             template: __webpack_require__("../../../../../src/app/views/loading/loading.component.html"),
             styles: [__webpack_require__("../../../../../src/app/views/loading/loading.component.scss")]
@@ -6667,9 +7018,9 @@ module.exports = "<div class=\"float-right\">\n  <span class=\"close\"><a href=\
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactBoxComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_models__ = __webpack_require__("../../../../../src/app/models/models.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactBoxComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6681,7 +7032,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var ContactBoxComponent = (function () {
+var ContactBoxComponent = /** @class */ (function () {
     function ContactBoxComponent() {
         // TODO: Use with the Bootstrap: user-identity contactbox p-4 col-12
         this.hostClass = 'contact-box float-left w-100';
@@ -6704,23 +7055,23 @@ var ContactBoxComponent = (function () {
         this.closeEvent.emit();
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
         __metadata("design:type", Object)
     ], ContactBoxComponent.prototype, "hostClass", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
         __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__models_models__["d" /* User */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__models_models__["d" /* User */]) === "function" && _a || Object)
     ], ContactBoxComponent.prototype, "user", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", Object)
     ], ContactBoxComponent.prototype, "callEvent", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", Object)
     ], ContactBoxComponent.prototype, "closeEvent", void 0);
     ContactBoxComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'contact-box',
             template: __webpack_require__("../../../../../src/app/views/userView/contact-box.component.html")
         })
@@ -6744,6 +7095,7 @@ module.exports = "<!-- <media-view fullscreen [hidden]=\"action !== 'video' && a
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserViewComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("../../../../rxjs/BehaviorSubject.js");
@@ -6752,7 +7104,6 @@ module.exports = "<!-- <media-view fullscreen [hidden]=\"action !== 'video' && a
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__contextualCommActivity_contextualCommActivity_component__ = __webpack_require__("../../../../../src/app/views/contextualCommActivity/contextualCommActivity.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_rethink_communication_mediaCommunication_component__ = __webpack_require__("../../../../../src/app/components/rethink/communication/mediaCommunication.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_directive_module__ = __webpack_require__("../../../../../src/app/shared/directive.module.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserViewComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6771,7 +7122,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var UserViewComponent = (function () {
+var UserViewComponent = /** @class */ (function () {
     function UserViewComponent(router, route, screen, contactService, contextualCommService, chatService) {
         var _this = this;
         this.router = router;
@@ -6829,23 +7180,23 @@ var UserViewComponent = (function () {
         this.router.navigate([url], { relativeTo: this.route });
     };
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"])('class'),
         __metadata("design:type", Object)
     ], UserViewComponent.prototype, "hostClass", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_5__components_rethink_communication_mediaCommunication_component__["a" /* MediaCommunicationComponent */]),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_5__components_rethink_communication_mediaCommunication_component__["a" /* MediaCommunicationComponent */]),
         __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_5__components_rethink_communication_mediaCommunication_component__["a" /* MediaCommunicationComponent */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__components_rethink_communication_mediaCommunication_component__["a" /* MediaCommunicationComponent */]) === "function" && _a || Object)
     ], UserViewComponent.prototype, "mediaComponent", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_4__contextualCommActivity_contextualCommActivity_component__["a" /* ContextualCommActivityComponent */]),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_4__contextualCommActivity_contextualCommActivity_component__["a" /* ContextualCommActivityComponent */]),
         __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__contextualCommActivity_contextualCommActivity_component__["a" /* ContextualCommActivityComponent */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__contextualCommActivity_contextualCommActivity_component__["a" /* ContextualCommActivityComponent */]) === "function" && _b || Object)
     ], UserViewComponent.prototype, "contextualCommActivityComponent", void 0);
     UserViewComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'user-view',
             template: __webpack_require__("../../../../../src/app/views/userView/user-view.component.html")
         }),
-        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_6__shared_directive_module__["c" /* ScreenDirective */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__shared_directive_module__["c" /* ScreenDirective */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["e" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["e" /* ContactService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["j" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["j" /* ContextualCommService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["f" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["f" /* ChatService */]) === "function" && _h || Object])
+        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_6__shared_directive_module__["b" /* ScreenDirective */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__shared_directive_module__["b" /* ScreenDirective */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["f" /* ContactService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["f" /* ContactService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["i" /* ContextualCommService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["i" /* ContextualCommService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_3__services_services__["d" /* ChatService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_services__["d" /* ChatService */]) === "function" && _h || Object])
     ], UserViewComponent);
     return UserViewComponent;
     var _a, _b, _c, _d, _e, _f, _g, _h;
@@ -6867,8 +7218,8 @@ var UserViewComponent = (function () {
 var environment = {
     production: false,
     host: 'hysmart.rethink.ptinovacao.pt',
-    images: './assets/img',
-    sounds: './assets/sounds'
+    images: '../assets/img',
+    sounds: '../assets/sounds'
 };
 //# sourceMappingURL=environment.js.map
 
@@ -6888,9 +7239,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 if (__WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].production) {
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["enableProdMode"])();
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["enableProdMode"])();
 }
-__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_app_module__["a" /* AppModule */]);
+Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_app_module__["a" /* AppModule */]);
 //# sourceMappingURL=main.js.map
 
 /***/ }),
