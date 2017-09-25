@@ -15,5 +15,6 @@
 "workbench.colorTheme": "Sublime Material Theme - Dark",
 "workbench.iconTheme": "material-icon-theme",
 "editor.minimap.enabled": true,
-"editor.tabSize": 2
+"editor.tabSize": 2,
+"typescript.tsdk": "node_modules/typescript/lib"
 }
