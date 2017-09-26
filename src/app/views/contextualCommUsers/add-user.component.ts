@@ -184,13 +184,26 @@ export class AddUserComponent implements OnInit {
     this.contextualCommDataService.getContextById(nameID).toPromise().then((contextualComm: ContextualComm) => {
 
       console.log('[Add User Component] - found contextualComm: ', contextualComm);
+      const existingUser = contextualComm.users.find(user => user.username === data.email);
+      console.log('[Add user component] - search for current user: ', existingUser);
+
+      if (existingUser) {
+
+        if (index <= contexts.length) {
+          index++;
+          console.log('[Add User Component] - the context already have the user: ', contexts.length, index);
+          this._recursiveCreateContext(contexts, data, index);
+          return;
+        }
+
+      }
 
       this.chatService.invite(contextualComm.url, [data.email], [data.domain || config.domain]).then((controller: any) => {
 
         interval = setTimeout(() => {
           this.busy = false;
           this.clean();
-          this.errorNotificateSystem('The user is not on-line');
+          this.errorNotificateSystem('The user ' + data.email + ' is not reachable.');
         }, 5000);
 
         controller.onUserAdded((userAdded: any) => {
@@ -203,8 +216,7 @@ export class AddUserComponent implements OnInit {
           console.log('[Add User Component] - data: ', normalizedName);
 
           if (!isALegacyUser(data.email)) {
-            this.contextualCommDataService
-              .createAtomicContext(
+            this.contextualCommDataService.createAtomicContext(
                 data.email,
                 normalizedName.name,
                 normalizedName.id,
@@ -220,11 +232,7 @@ export class AddUserComponent implements OnInit {
                 if (index <= contexts.length) {
                   index++;
                   console.log('[Add User Component] - user added: ', contexts.length, index);
-                  this._recursiveCreateContext(
-                    contexts,
-                    data,
-                    index
-                  );
+                  this._recursiveCreateContext(contexts, data, index);
                 }
               });
           }
@@ -247,7 +255,7 @@ export class AddUserComponent implements OnInit {
 
     this.notificationsService.error('Error', error, {
       showProgressBar: false,
-      timeOut: 3000,
+      timeOut: 5000,
       pauseOnHover: false,
       haveActions: false
     });
