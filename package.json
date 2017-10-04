@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --live-reload false --ec true",
-    "build": "ng build --env=prod && sw-precache --verbose --root=dist --config=sw-precache-config.prod.js",
+    "build": "ng build --prod --env=prod && sw-precache --verbose --root=dist --config=sw-precache-config.prod.js",
     "server": "npm run build && browser-sync start --config ./bs-config.js",
     "test": "ng test",
     "lint": "ng lint",

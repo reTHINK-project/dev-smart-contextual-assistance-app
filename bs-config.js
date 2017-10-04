@@ -27,7 +27,7 @@ module.exports = {
         "ignoreInitial": true
     },
     "server": {
-      "baseDir": "/",
+      "baseDir": "./dist",
     },
     "https": {
       "key": "./ssl/server.key",

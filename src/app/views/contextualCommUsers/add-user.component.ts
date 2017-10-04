@@ -215,6 +215,8 @@ export class AddUserComponent implements OnInit {
 
           console.log('[Add User Component] - data: ', normalizedName);
 
+          this.chatService.controllerUserAdded(controller, userAdded);
+
           if (!isALegacyUser(data.email)) {
             this.contextualCommDataService.createAtomicContext(
                 data.email,
@@ -226,8 +228,6 @@ export class AddUserComponent implements OnInit {
                 console.log( '[Add User Component] - one to one controller', childController );
                 this.busy = false;
                 this.clean();
-
-                this.chatService.controllerUserAdded(controller, userAdded);
 
                 if (index <= contexts.length) {
                   index++;
