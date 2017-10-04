@@ -23,8 +23,8 @@
               <!-- Logotipo -->
               <div class="col-5 align-center">
                 <nav class="navbar navbar-dark">
-                  <a class="navbar-toggler open-context" (click)="onOpenContext($event)" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                  <a class="navbar-toggler open-context {{contextOpened ? 'open' : ''}}" (click)="onOpenContext($event)" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
                   </a>
                 </nav>
               </div>
@@ -35,7 +35,7 @@
 
               <!-- My Identity -->
               <div class="col-5">
-                <my-self *ngIf="myIdentity && ready" [model]="myIdentity"></my-self>
+                <my-self class="my-self" *ngIf="myIdentity && ready" [model]="myIdentity"></my-self>
               </div>
 
             </div>
