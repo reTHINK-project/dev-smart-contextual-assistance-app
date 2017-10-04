@@ -21,13 +21,20 @@
             <div class="primary-menu row no-gutters">
 
               <!-- Logotipo -->
-              <div class="col align-center">
-                <a class="open-context" (click)="onOpenContext($event)"><i class="fa fa-lightbulb-o"></i></a>
-                <a routerLink="/" title="go to the reTHINK home" alt="go to the reTHINK home"><img title="reTHINK" alt="reTHINK" src="{{assetsConfig.images}}/rethinklogo2.png"></a>
+              <div class="col-5 align-center">
+                <nav class="navbar navbar-dark">
+                  <a class="navbar-toggler open-context" (click)="onOpenContext($event)" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </a>
+                </nav>
+              </div>
+
+              <div class="col-2 align-center">
+                <a class="open-context" routerLink="/" title="go to the reTHINK home" alt="go to the reTHINK home"><img src="{{assetsConfig.images}}/rethink-logo.png" class="img-fluid" ></a>
               </div>
 
               <!-- My Identity -->
-              <div class="col-6">
+              <div class="col-5">
                 <my-self *ngIf="myIdentity && ready" [model]="myIdentity"></my-self>
               </div>
 
