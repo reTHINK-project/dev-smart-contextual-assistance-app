@@ -635,7 +635,7 @@ module.exports = function (css) {
 
 /***/ }),
 
-/***/ 3:
+/***/ 2:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("../../../../../src/styles.scss");
@@ -643,5 +643,5 @@ module.exports = __webpack_require__("../../../../../src/styles.scss");
 
 /***/ })
 
-},[3]);
+},[2]);
 //# sourceMappingURL=styles.bundle.js.map
