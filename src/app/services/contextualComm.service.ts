@@ -14,7 +14,7 @@ import { LocalStorage } from './storage.service';
 import { ContactService } from './contact.service';
 
 // Interfaces
-import { ContextualCommEvent, ContextualComm, User, Message } from '../models/models';
+import { ContextualCommEvent, ContextualComm, User, Message, Resource } from '../models/models';
 import { HypertyResourceType } from '../models/rethink/HypertyResource';
 import { Communication } from '../models/rethink/Communication';
 
@@ -110,6 +110,15 @@ export class ContextualCommService {
           }
 
         });
+
+
+        context.resources.forEach((resource: Resource) => {
+          let currentUser;
+          if (resource.author.userURL !== this.contactService.sessionUser.userURL) {
+            currentUser = this.contactService.getUser(resource.author.userURL);
+          }
+        });
+
       }
 
       this.updateContexts(context.url, context);
@@ -137,6 +146,12 @@ export class ContextualCommService {
         const currentMessage = new Message(message);
         currentMessage.user = this.contactService.getUser(currentMessage.user.userURL);
         return currentMessage;
+      });
+
+      context.resources = context.resources.map((resource: Resource) => {
+        const currentResource = new Resource(resource);
+        currentResource.author = this.contactService.getUser(currentResource.author.userURL);
+        return currentResource;
       });
 
       console.log('[Context Service - contextualCommUpdates] - map', context.url, context);
@@ -294,6 +309,18 @@ export class ContextualCommService {
 
     const context: ContextualComm = this.cxtList.get(url);
     context.addMessage(message);
+
+    this._newContextualComm.next(context);
+
+    console.log('[Context Service - update messages]', context.name, context.url, context);
+  }
+
+  updateContextResources(resource: Resource, url: string) {
+    console.log('[Context Service - Update Context Resource:', resource, url);
+    console.log('[Context Service - Active Context:', this.cxtList.get(url));
+
+    const context: ContextualComm = this.cxtList.get(url);
+    context.addResource(resource);
 
     this._newContextualComm.next(context);
 

@@ -10,6 +10,7 @@ import { Message } from '../../../../models/models';
 export class FileEventComponent implements OnInit {
 
   @Input() message: Message;
+  @Input() isAnEvent = false;
 
   ngOnInit() {
   }

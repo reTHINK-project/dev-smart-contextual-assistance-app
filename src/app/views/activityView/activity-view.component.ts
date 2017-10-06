@@ -6,11 +6,10 @@ import { Subject } from 'rxjs/Subject';
 // Components
 import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component';
 
-// Services
-import { ChatService, ContextualCommService } from '../../services/services';
-
 // Models
 import { Message, ContextualComm } from '../../models/models';
+import { ContextualCommService } from '../../services/contextualComm.service';
+import { ChatService } from '../../services/rethink/chat.service';
 
 @Component({
   moduleId: module.id,

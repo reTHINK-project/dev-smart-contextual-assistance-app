@@ -1,5 +1,5 @@
-<li class="list-item" *ngFor="let message of messages | async" [ngSwitch]="message.type">
-  <chat-event *ngSwitchCase="'message'" [message]="message" [isAnEvent]="eventMode"></chat-event>
-  <file-event *ngSwitchCase="'file'" [message]="message"></file-event>
-  <span *ngSwitchDefault>other</span>
+<li class="list-item" *ngFor="let resource of resources | async" [ngSwitch]="resource.type">
+  <chat-event *ngSwitchCase="hypertyResourceType.Chat" [message]="resource" [isAnEvent]="eventMode"></chat-event>
+  <file-event *ngSwitchCase="hypertyResourceType.File" [message]="resource" [isAnEvent]="eventMode"></file-event>
+  <span *ngSwitchDefault>{{ resource }}</span>
 </li>

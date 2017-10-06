@@ -6,7 +6,8 @@ import { RethinkService } from './rethink.service';
 import { ContactService } from '../contact.service';
 import { ContextualCommService } from '../contextualComm.service';
 
-import { User, Message } from '../../models/models';
+import { User, Message, Resource } from '../../models/models';
+import { HypertyResourceType, HypertyResource, HypertyResourceDirection } from '../../models/rethink/HypertyResource';
 
 @Injectable()
 export class ChatService {
@@ -21,9 +22,8 @@ export class ChatService {
   chatGroupManager: any;
 
   public onMessageEvent = new EventEmitter<Message>();
+  public onUserAdded = new EventEmitter<User>();
 
-  private _onUserAdded: Function;
-  private _onMessage: Function;
   private _discovery: any;
 
   private _activeDataObjectURL: string;
@@ -141,7 +141,7 @@ export class ChatService {
 
       if (user) {
         const msg = {
-          type: 'message',
+          type: HypertyResourceType.Chat,
           message: message.value.content,
           user: user
         };
@@ -275,7 +275,7 @@ export class ChatService {
         console.log('[Chat Service] - user:', user, result.identity.userProfile.userURL);
 
         const msg = {
-          type: 'message',
+          type: HypertyResourceType.Chat,
           message: result.value.content,
           user: user
         };
@@ -285,6 +285,38 @@ export class ChatService {
         resolve(currentMessage);
       }).catch(reject);
 
+    });
+
+  }
+
+  sendFile(file: File) {
+
+    return new Promise<any>((resolve, reject) => {
+
+      console.log('[Chat Service - Send File]', this.chatControllerActive, file);
+
+      this.chatControllerActive.sendFile(file).then((result: any) => {
+
+        console.log('[Chat Service - Sended File]', file, result, this.chatControllerActive);
+        const user: User = this.contactService.getUser(result.identity.userProfile.userURL);
+        console.log('[Chat Service] - user:', user, result.identity.userProfile.userURL);
+
+        const resource: Resource = {
+          type: result.value.metadata.resourceType,
+          direction: HypertyResourceDirection.OUT,
+          content: result.value.content,
+          contentURL: result.value.metadata.contentURL,
+          mimetype: result.value.metadata.mimetype,
+          size: result.value.metadata.size,
+          preview: result.value.metadata.preview,
+          author: user
+        };
+
+        const currentResource = new Resource(resource);
+        this.contextualCommService.updateContextResources(currentResource, this.chatControllerActive.dataObject.url);
+        resolve(currentResource);
+
+      }).catch(reject);
     });
 
   }
@@ -300,14 +332,6 @@ export class ChatService {
 
   discovery() {
     return this._discovery;
-  }
-
-  onUserAdded(callback: Function) {
-    this._onUserAdded = callback;
-  }
-
-  onMessage(callback: Function) {
-    this._onMessage = callback;
   }
 
 }

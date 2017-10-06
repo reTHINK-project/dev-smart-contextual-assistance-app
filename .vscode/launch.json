@@ -7,7 +7,7 @@
 
     {
       "name": "Launch",
-      "runtimeExecutable": "google-chrome-stable",
+      "runtimeExecutable": "/usr/bin/google-chrome-stable",
       "type": "chrome",
       "request": "launch",
       "url": "https://localhost:8080",

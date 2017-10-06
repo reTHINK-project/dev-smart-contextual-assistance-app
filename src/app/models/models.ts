@@ -1,5 +1,6 @@
+import { Resolve } from '@angular/router';
 // Rethink Interfaces
-import { HypertyResourceType } from './rethink/HypertyResource';
+import { HypertyResourceType, HypertyResource, HypertyResourceDirection } from './rethink/HypertyResource';
 import { Communication } from './rethink/Communication';
 import { ContextValue } from './rethink/Context';
 import { UserIdentity } from './rethink/UserIdentity';
@@ -69,7 +70,7 @@ export class User implements UserIdentity {
 
 export class Message {
   type: string;
-  message: string;
+  message: any;
   user: User;
   date: Date;
   isRead: boolean;
@@ -81,6 +82,40 @@ export class Message {
     this.user             = obj && obj.user;
     this.date             = obj && obj.date || new Date().toISOString();
   }
+}
+
+export class Resource {
+
+  type: HypertyResourceType;
+  direction?: HypertyResourceDirection;
+  author?: User;
+  content?: any;
+  contentURL?: string;
+  preview?: string;
+  mimetype?: string;
+  size?: number;
+  player?: string;
+
+  constructor(obj: Resource ) {
+
+    try {
+      this.type = obj.type;
+      this.direction = obj.direction ? obj.direction : HypertyResourceDirection.IN;
+
+      if (obj.author) { this.author = obj.author }
+      if (obj.content) { this.content = obj.content }
+      if (obj.contentURL) { this.contentURL = obj.contentURL }
+      if (obj.preview) { this.preview = obj.preview }
+      if (obj.mimetype) { this.mimetype = obj.mimetype }
+      if (obj.size) { this.size = obj.size }
+      if (obj.player) { this.player = obj.player }
+
+    } catch (error) {
+      throw error;
+    }
+
+  }
+
 }
 
 export interface ContextualCommEvent {
@@ -102,10 +137,7 @@ export class ContextualComm {
   context?: string;
 
   messages?: Message[];
-  files?: HypertyResourceType[];
-  photos?: HypertyResourceType[];
-  audios?: HypertyResourceType[];
-  videos?: HypertyResourceType[];
+  resources?: Resource[];
 
   parent?: string;
   contexts?: ContextualComm[];
@@ -124,6 +156,7 @@ export class ContextualComm {
     this.contexts          = obj && obj.contexts      || [];
     this.users             = obj && obj.users         || [];
     this.messages          = obj && obj.messages      || [];
+    this.resources         = obj && obj.resources     || [];
 
     this.icon              = obj && obj.icon          || '';
 
@@ -149,6 +182,11 @@ export class ContextualComm {
   addMessage(message: Message) {
     console.log('[Models - ContextualComm] - addMessage: ', this.messages, message);
     this.messages.push(message);
+  }
+
+  addResource(resource: Resource) {
+    console.log('[Models - ContextualComm] - addMessage: ', this.resources, resource);
+    this.resources.push(resource);
   }
 
   removeContexts(urls: string[]) {
