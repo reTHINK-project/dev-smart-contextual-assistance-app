@@ -162,11 +162,11 @@ export class ChatService {
     // this._updateControllersList(chatController.dataObject.url, chatController);
   }
 
-  create(name: string, users: string[], domains: string[], contextInfo?: any) {
+  create(name: string, invitingUsers: any[], contextInfo?: any) {
 
     return new Promise((resolve, reject) => {
 
-      this.chatGroupManager.create(name, users, domains, contextInfo).then((chatController: any) => {
+      this.chatGroupManager.create(name, invitingUsers, contextInfo).then((chatController: any) => {
 
         console.log('[Chat Created]', chatController);
 
@@ -239,16 +239,16 @@ export class ChatService {
 
   }
 
-  invite(dataObjectURL: string, listOfEmails: String[], listOfDomains: String[]): Promise<any> {
+  invite(dataObjectURL: string, invitingUsers: any[]): Promise<any> {
 
     return new Promise((resolve, reject) => {
 
-      console.log('[Invite]', listOfEmails, ' - ', listOfDomains);
+      console.log('[Invite]', invitingUsers);
       console.log('[Chat Service - invite]: ', this.controllerList, dataObjectURL, this.controllerList.get(dataObjectURL));
 
       const currentController = this.controllerList.get(dataObjectURL);
 
-      return currentController.addUser(listOfEmails, listOfDomains)
+      return currentController.addUser(invitingUsers)
         .then((result: any) => {
           console.log('[Chat Service - invite]: ', result);
           resolve(currentController)

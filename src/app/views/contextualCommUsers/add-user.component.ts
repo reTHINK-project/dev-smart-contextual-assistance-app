@@ -198,7 +198,14 @@ export class AddUserComponent implements OnInit {
 
       }
 
-      this.chatService.invite(contextualComm.url, [data.email], [data.domain || config.domain]).then((controller: any) => {
+      const users: any[] = [];
+
+      users.push({
+        user: data.email,
+        domain: data.domain || config.domain
+      })
+
+      this.chatService.invite(contextualComm.url, users).then((controller: any) => {
 
         interval = setTimeout(() => {
           this.busy = false;
@@ -216,10 +223,14 @@ export class AddUserComponent implements OnInit {
           console.log('[Add User Component] - data: ', normalizedName);
 
           this.chatService.controllerUserAdded(controller, userAdded);
+          const user: any[] = [{
+            user: userAdded.identity.userProfile.username,
+            domain: userAdded.domain
+          }];
 
           if (!isALegacyUser(data.email)) {
             this.contextualCommDataService.createAtomicContext(
-                data.email,
+                user,
                 normalizedName.name,
                 normalizedName.id,
                 normalizedName.parent
@@ -234,7 +245,7 @@ export class AddUserComponent implements OnInit {
                   console.log('[Add User Component] - user added: ', contexts.length, index);
                   this._recursiveCreateContext(contexts, data, index);
                 }
-              });
+              }).catch(console.error);
           }
 
         });
