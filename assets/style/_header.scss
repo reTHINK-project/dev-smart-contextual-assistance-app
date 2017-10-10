@@ -8,16 +8,8 @@
   // z-index: -1;
   // box-shadow: 0px 0px 3px 0px #000;
 
-  .my-self {
-    padding: 0.5rem 1rem;
-  }
-
   .open-context {
     width: 48px;
-    height: 40px;
-
-    line-height: 30px;
-
     display: inline-block;
     text-align: center;
 
@@ -25,17 +17,16 @@
 
     .fa {
       color: #fff;
-      font-size: 26px;
+      font-size: 30px;
       vertical-align: middle;
 
       transition: all 200ms ease-in-out;
     }
 
-    &.open,
     &:hover {
 
       .fa {
-        color: #1ba5bc;
+        color: #fdfdb3;
       }
 
     }
@@ -44,32 +35,14 @@
     &.active {
 
       .fa {
-        color: #28ddfa;
+        color: #ffff8b;
       }
 
     }
   }
 
-  .primary-menu {
+  .breadcrumb {
 
-    .navbar-toggler {
-      border-color: transparent;
-
-      &.open {
-        border-color: #1ba5bc;
-        background-color: rgba(0, 0, 0, 0.1);
-      }
-
-      &:hover {
-        border-color: #1ba5bc;
-        background-color: rgba(0, 0, 0, 0.1);
-      }
-    }
-
-  }
-
-  .secondary-menu {
-    padding-left: 1rem;
   }
 
 }

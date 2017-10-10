@@ -48,7 +48,7 @@ export class ContextualCommDataService {
         console.info('[ContextualCommData Service] - no contexts was found: ', reason);
         console.info('[ContextualCommData Service] - creating new context: ', name, normalizedName);
 
-        this.chatService.create(normalizedName.id, [], contextInfo).then((controller: any) => {
+        this.chatService.create(normalizedName.id, [], [], contextInfo).then((controller: any) => {
 
           console.info('[ContextualCommData Service] - communication objects was created successfully: ', controller);
           console.info('[ContextualCommData Service] - creating new contexts: ', controller, normalizedName.parent);
@@ -92,7 +92,7 @@ export class ContextualCommDataService {
     });
   }
 
-  createAtomicContext(user: any[], name: string, id: string, parentNameId?: string): Promise<ContextualComm> {
+  createAtomicContext(username: string, name: string, id: string, parentNameId?: string): Promise<ContextualComm> {
 
     return new Promise((resolve, reject) => {
 
@@ -104,7 +104,7 @@ export class ContextualCommDataService {
         resolve(context);
       }, (error: any) => {
 
-        this.chatService.create(id, user).then((controller: any) => {
+        this.chatService.create(id, [username], []).then((controller: any) => {
 
           console.info('[ContextualCommData Service] - communication objects was created successfully: ', controller);
           console.info('[ContextualCommData Service] - creating new contexts: ', controller, activeContext);

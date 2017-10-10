@@ -1,10 +1,9 @@
 export type Permission = 'denied' | 'granted' | 'default';
 
 export enum NotificationTag {
-  NONE,
-  NEW_MESSAGE = <any>'new-message',
-  INCOMING_CALL = <any>'incoming-call',
-  NEW_CONTEXT = <any>'new-context'
+  NEW_MESSAGE = 'new-message',
+  INCOMING_CALL = 'incoming-call',
+  NEW_CONTEXT = 'new-context'
 }
 
 export enum NotificationVibrate {
@@ -18,7 +17,6 @@ export interface NotificationAction {
   title?: string;
   icon?: string;
 }
-
 
 export interface NativeNotification {
     body: string;
