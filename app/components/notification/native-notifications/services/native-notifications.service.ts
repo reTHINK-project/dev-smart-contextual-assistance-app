@@ -17,7 +17,7 @@ export class NativeNotificationsService {
   @Input() haveFocus: boolean;
 
   constructor() {
-    this.permission  = this.isSupported() ? Notification.permission : 'denied';
+    this.permission = this.isSupported() ? Notification.permission : 'denied';
 
     // TODO: add a list of sounds to each type of event
     this.audio = new Audio();
@@ -81,7 +81,7 @@ export class NativeNotificationsService {
 
           console.log('ServiceWorker Registration:', swRegistration);
 
-          const persistentOps = options;
+          const persistentOps: any = options;
           if (options.data && options.data.hasOwnProperty('actions')) {
             persistentOps.actions = options.data.actions;
           };

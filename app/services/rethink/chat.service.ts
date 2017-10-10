@@ -1,3 +1,4 @@
+import { concat } from 'rxjs/operator/concat';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 
 // Services
@@ -127,28 +128,7 @@ export class ChatService {
     console.log('[Chat Service - prepareController]', chatController);
 
     chatController.onUserAdded((user: any) => {
-      const dataObjectURL = chatController.dataObject.url;
-
-      console.log('[Chat Service - prepareController] - onUserAdded', chatController, user, dataObjectURL);
-      let current: User;
-      const userInfo: any = {};
-
-      if (user.hasOwnProperty('data')) {
-        current = this.contactService.getUser(user.data.identity.userProfile.userURL);
-        userInfo.domain = user.data.domain;
-        userInfo.idp = user.data.identity.idp;
-        Object.assign(userInfo, user.data.identity.userProfile);
-      } else {
-        current = this.contactService.getUser(user.identity.userProfile.userURL);
-        userInfo.domain = user.domain;
-        userInfo.idp = user.identity.idp;
-        Object.assign(userInfo, user.identity.userProfile);
-      }
-
-      if (!current) { current = new User(userInfo); }
-
-      console.log('[Chat Service - prepareController] - current user:', userInfo, current);
-      this.contextualCommService.updateContextUsers(current, dataObjectURL);
+      this.controllerUserAdded(chatController, user);
     });
 
 
@@ -182,11 +162,11 @@ export class ChatService {
     // this._updateControllersList(chatController.dataObject.url, chatController);
   }
 
-  create(name: string, users: string[], domains: string[], contextInfo?: any) {
+  create(name: string, invitingUsers: any[], contextInfo?: any) {
 
     return new Promise((resolve, reject) => {
 
-      this.chatGroupManager.create(name, users, domains, contextInfo).then((chatController: any) => {
+      this.chatGroupManager.create(name, invitingUsers, contextInfo).then((chatController: any) => {
 
         console.log('[Chat Created]', chatController);
 
@@ -202,6 +182,33 @@ export class ChatService {
 
     });
 
+  }
+
+  controllerUserAdded(chatController: any, user: any) {
+    const dataObjectURL = chatController.dataObject.url;
+
+    console.log('[Chat Service - prepareController] - onUserAdded', chatController, user, dataObjectURL);
+    let current: User;
+    const userInfo: any = {};
+
+    if (user.hasOwnProperty('data')) {
+      current = this.contactService.getUser(user.data.identity.userProfile.userURL);
+      userInfo.domain = user.data.domain;
+      userInfo.idp = user.data.identity.idp;
+      Object.assign(userInfo, user.data.identity.userProfile);
+    } else {
+      current = this.contactService.getUser(user.identity.userProfile.userURL);
+      userInfo.domain = user.domain;
+      userInfo.idp = user.identity.idp;
+      Object.assign(userInfo, user.identity.userProfile);
+    }
+
+    if (!current) {
+      current = new User(userInfo);
+    }
+
+    console.log('[Chat Service - prepareController] - current user:', userInfo, current);
+    this.contextualCommService.updateContextUsers(current, dataObjectURL);
   }
 
   /**
@@ -232,14 +239,26 @@ export class ChatService {
 
   }
 
-  invite(dataObjectURL: string, listOfEmails: String[], listOfDomains: String[]): Promise<any> {
+  invite(dataObjectURL: string, invitingUsers: any[]): Promise<any> {
 
-    console.log('[Invite]', listOfEmails, ' - ', listOfDomains);
-    console.log('[Chat Service - invite]: ', this.controllerList, dataObjectURL, this.controllerList.get(dataObjectURL));
+    return new Promise((resolve, reject) => {
 
-    const currentController = this.controllerList.get(dataObjectURL);
+      console.log('[Invite]', invitingUsers);
+      console.log('[Chat Service - invite]: ', this.controllerList, dataObjectURL, this.controllerList.get(dataObjectURL));
 
-    return currentController.addUser(listOfEmails, listOfDomains);
+      const currentController = this.controllerList.get(dataObjectURL);
+
+      return currentController.addUser(invitingUsers)
+        .then((result: any) => {
+          console.log('[Chat Service - invite]: ', result);
+          resolve(currentController)
+        })
+        .catch((reason: any) => {
+          console.log('[Chat Service - invite]: ', reason);
+          reject(reason);
+        });
+
+    });
 
   }
 

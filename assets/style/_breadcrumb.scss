@@ -6,9 +6,11 @@
     padding: 0.5em 1em;
     color: #fff;
     background: #364258;
-    border-radius: 5px;
+    border-radius: 4px;
 
-    display: inline-block;
+    border: 1px solid transparent;
+
+    display: inline;
     text-decoration: none;
     text-align: center;
 
@@ -34,6 +36,9 @@
 
     &.opened {
 
+      border: 1px solid #1ba5bc;
+      background-color: rgba(0, 0, 0, 0.1);
+
       .icon-back {
         opacity: 1;
         transform: translate(-4px, 0);
@@ -47,6 +52,7 @@
     }
 
     &:hover {
+      border: 1px solid #1ba5bc;
       background-color: rgba(0, 0, 0, 0.1);
     }
 
@@ -55,7 +61,7 @@
   .breadcrumb-path,
   .breadcrumb-trigger {
     display: inline-block;
-    vertical-align: top;
+    vertical-align: middle;
   }
 
   .breadcrumb-path {
