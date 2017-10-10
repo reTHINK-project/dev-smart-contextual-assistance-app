@@ -237,7 +237,7 @@ export class ContextualCommService {
     const metadata: any = JSON.parse(JSON.stringify(dataObject.metadata));
 
     const isReporter: boolean = contextInfo && contextInfo.reporter ? contextInfo.reporter : false;
-    const icon: string = contextInfo && contextInfo.icon ? contextInfo.icon : '';
+    const icon: string = dataObject.metadata && dataObject.metadata.icon ? dataObject.metadata.icon : '';
 
     console.log('[Contextual Comm Service] -  createContextualComm: ', name, data, metadata, parent, dataObject);
 

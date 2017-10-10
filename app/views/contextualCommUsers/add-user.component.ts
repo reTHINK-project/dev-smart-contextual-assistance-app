@@ -121,7 +121,7 @@ export class AddUserComponent implements OnInit {
       });
 
 
-      this.searchResultModel
+      // this.searchResultModel
     }
 
   }
@@ -143,67 +143,120 @@ export class AddUserComponent implements OnInit {
     const path = this.router.url;
     const normalizedName = normalizeName(path);
     let parentNameId = '';
+    let contexts: string[] = [];
 
     console.log('[Add User Component] - parent: ', normalizedName, this.chatService.activeDataObjectURL);
 
     parentNameId = normalizedName.parent;
 
-    if (!parentNameId) {
-      parentNameId = normalizedName.id;
-    }
-
-    this.contextualCommDataService.getContextById(parentNameId).subscribe((context: ContextualComm) => {
-
-      const parentURL = context.url;
-      const currentURL = this.chatService.activeDataObjectURL;
-
-      const parentChat = this.chatService.invite(parentURL, [data.email], [data.domain || config.domain]);
-      let currentChat: any;
-
-      if (parentURL !== currentURL || !isALegacyUser(data.email)) {
-        currentChat = this.chatService.invite(currentURL, [data.email], [data.domain || config.domain]);
+    contexts = normalizedName.id.split('/').slice(1);
+    contexts = contexts.reduce((acc, key) => {
+      let first: string;
+      let second: string;
+      if (contexts[0] === key) {
+        first = config.appPrefix + '/' + key;
+        second = config.appPrefix + '/' + key + '/' + data.email + '-' + this.contactService.sessionUser.username;
+      } else {
+        first = config.appPrefix + '/' + contexts[0] + '/' + key;
+        second = config.appPrefix + '/' + contexts[0] + '/' + key + '/' + data.email + '-' + this.contactService.sessionUser.username;
       }
 
-      console.log('[Add User Component] - invite: ', data);
-      console.log('[Add User Component] - invite: ', parentURL, currentURL);
-      console.log('[Add User Component] - invite: ', parentChat, currentChat);
+      acc.push(first);
+      acc.push(second);
+      return acc;
+    }, []);
 
-      parentChat.then((parentController: any) => {
-        console.log('[Add User Component] - parent controller:', parentController);
-        console.log('[Add User Component] - check controllers: ', parentController, currentURL, parentController.url === currentURL);
+    console.log('[Add User Component] - contexts', contexts);
 
-        if (!currentChat) {
-          return parentController;
+    this._recursiveCreateContext(contexts, data);
+
+  }
+
+  _recursiveCreateContext(contexts: string[], data: any, index: number = 0) {
+
+    const path = this.router.url;
+    const nameID: string = contexts[index];
+    const parentID: string = contexts[index - 1];
+
+    console.log('[Add User Component] - check: ', nameID);
+    let interval: any;
+
+    this.contextualCommDataService.getContextById(nameID).toPromise().then((contextualComm: ContextualComm) => {
+
+      console.log('[Add User Component] - found contextualComm: ', contextualComm);
+      const existingUser = contextualComm.users.find(user => user.username === data.email);
+      console.log('[Add user component] - search for current user: ', existingUser);
+
+      if (existingUser) {
+
+        if (index <= contexts.length) {
+          index++;
+          console.log('[Add User Component] - the context already have the user: ', contexts.length, index);
+          this._recursiveCreateContext(contexts, data, index);
+          return;
         }
 
-        return currentChat;
-      }).then((currentController: any) => {
+      }
 
-        if (!isALegacyUser(data.email)) {
+      const users: any[] = [];
 
-          console.log('[Add User Component] - current controller', currentController);
-          const normalizedPath = normalizeFromURL(path + '/user/' + data.email, this.contactService.sessionUser.username);
-          const normalizedUserName = normalizeName(normalizedPath);
+      users.push({
+        user: data.email,
+        domain: data.domain || config.domain
+      })
 
-          console.log('[Add User Component] - normalized name: ', normalizedUserName);
+      this.chatService.invite(contextualComm.url, users).then((controller: any) => {
 
-          return this.contextualCommDataService.createAtomicContext(
-            data.email,
-            normalizedUserName.name,
-            normalizedUserName.id,
-            normalizedUserName.parent);
-        }
-      }).then((childController: any) => {
+        interval = setTimeout(() => {
+          this.busy = false;
+          this.clean();
+          this.errorNotificateSystem('The user ' + data.email + ' is not reachable.');
+        }, 5000);
 
-        console.log('[Add User Component] - one to one controller', childController);
+        controller.onUserAdded((userAdded: any) => {
+          console.log('[Add User Component] - user added: ', userAdded);
 
-        this.busy = false;
-        this.clean();
+          clearInterval(interval);
 
-      }).catch((reason: any) => { this.errorNotificateSystem(reason); });
+          const normalizedName = normalizeName(contexts[index + 1]);
 
-    }, (reason: any) => {
-      this.errorNotificateSystem(reason);
+          console.log('[Add User Component] - data: ', normalizedName);
+
+          this.chatService.controllerUserAdded(controller, userAdded);
+          const user: any[] = [{
+            user: userAdded.identity.userProfile.username,
+            domain: userAdded.domain
+          }];
+
+          if (!isALegacyUser(data.email)) {
+            this.contextualCommDataService.createAtomicContext(
+                user,
+                normalizedName.name,
+                normalizedName.id,
+                normalizedName.parent
+              )
+              .then((childController: any) => {
+                console.log( '[Add User Component] - one to one controller', childController );
+                this.busy = false;
+                this.clean();
+
+                if (index <= contexts.length) {
+                  index++;
+                  console.log('[Add User Component] - user added: ', contexts.length, index);
+                  this._recursiveCreateContext(contexts, data, index);
+                }
+              }).catch(console.error);
+          }
+
+        });
+
+      }).catch((reason) => {
+        console.error('[Add User Component] - error:', reason);
+        this.errorNotificateSystem(reason)
+      });
+
+    }).catch((reason) => {
+      console.log('[Add User Component] - Context Not Found: ', reason);
     });
 
   }
@@ -213,7 +266,7 @@ export class AddUserComponent implements OnInit {
 
     this.notificationsService.error('Error', error, {
       showProgressBar: false,
-      timeOut: 3000,
+      timeOut: 5000,
       pauseOnHover: false,
       haveActions: false
     });
