@@ -4,8 +4,12 @@ import { Subject } from 'rxjs/Subject';
 import { Message } from '../../models/models';
 import { HypertyResourceType } from '../../models/rethink/HypertyResource';
 
-import 'rxjs/add/operator/merge';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+
+import 'rxjs/add/operator/merge';
+import 'rxjs/add/operator/concat';
+import 'rxjs/add/operator/concatAll';
 
 @Component({
   moduleId: module.id,
@@ -17,14 +21,14 @@ export class ContextualCommActivityComponent implements OnChanges, OnInit, After
   @HostBinding('class') hostClass = 'activity-list w-100 h-100';
 
   @Input() messages: Subject<Message[]>;
+  @Input() resources: Subject<Resource[]>;
   @Input() eventMode = false;
 
-  resources: Subject<any[]> = new Subject();
+  mergedResources: Observable<Message[] | Resource[]>;
 
   hypertyResourceType = HypertyResourceType;
 
-  messageSubscription: Subscription;
-  resourcesSubscription: Subscription;
+  mergedResourcesSubscription: Subscription;
 
   constructor(private el: ElementRef) {}
 
@@ -33,17 +37,14 @@ export class ContextualCommActivityComponent implements OnChanges, OnInit, After
   }
 
   ngOnInit() {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-
-    this.resources.merge(this.messages);
 
   }
 
   ngAfterViewInit() {
 
-    this.resourcesSubscription = this.resources.subscribe((resources: Message[] | Resource[]) => {
+    this.mergedResources = this.resources.mergeMap(v => this.messages, 1);
 
+    this.mergedResourcesSubscription = this.mergedResources.subscribe((resources: Message[] | Resource[]) => {
 
       console.log('RESOURCEs: ', resources);
 

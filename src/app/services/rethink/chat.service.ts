@@ -140,11 +140,40 @@ export class ChatService {
       const user: User = this.contactService.getUser(message.identity.userProfile.userURL);
 
       if (user) {
-        const msg = {
-          type: HypertyResourceType.Chat,
-          message: message.value.content,
-          user: user
-        };
+
+        let msg;
+
+        if (message.child.metadata.resourceType === HypertyResourceType.File) {
+
+          msg = {
+            type: HypertyResourceType.File,
+            message: message.value.metadata,
+            user: user
+          };
+
+          const resource: Resource = {
+            type: message.child.value.metadata.resourceType,
+            direction: HypertyResourceDirection.IN,
+            content: message.child.value.content,
+            contentURL: message.child.value.metadata.contentURL,
+            mimetype: message.child.value.metadata.mimetype,
+            size: message.child.value.metadata.size,
+            preview: message.child.value.metadata.preview,
+            author: user
+          };
+
+          const currentResource = new Resource(resource);
+          this.contextualCommService.updateContextResources(currentResource, dataObjectURL);
+
+        } else {
+
+          msg = {
+            type: HypertyResourceType.Chat,
+            message: message.value.content,
+            user: user
+          };
+
+        }
 
         const currentMessage = new Message(msg);
         this.contextualCommService.updateContextMessages(currentMessage, dataObjectURL);
@@ -311,6 +340,15 @@ export class ChatService {
           preview: result.value.metadata.preview,
           author: user
         };
+
+        const msg = {
+          type: result.value.metadata.resourceType,
+          message: result.value.metadata,
+          user: user
+        };
+
+        const currentMessage = new Message(msg);
+        this.contextualCommService.updateContextMessages(currentMessage, this.chatControllerActive.dataObject.url);
 
         const currentResource = new Resource(resource);
         this.contextualCommService.updateContextResources(currentResource, this.chatControllerActive.dataObject.url);
