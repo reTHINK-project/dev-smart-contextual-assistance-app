@@ -21,11 +21,20 @@
 <!-- message -->
 <p class="message">
   <span *ngIf="isAnEvent" class="{{ message.type }}">
-    <i class="fa fa-file-o"></i>Shared a file
-  </span>{{message.message.name}} - {{ message.message.size | size }}
+    <i class="fa fa-{{ message.type }}-o"></i>Shared a {{ message.type }}
+  </span>
+
+  <span class="specs">
+    <a href="javascript:;" class="info" title="{{message.message.name}}">{{message.message.name}}</a>
+    <span class="info">({{ message.message.size | size }})</span>
+    <a class="info" href="javascript:;" role="button" (click)="onOpenResource($event)">
+      <i *ngIf="previewOpen" class="fa fa-arrow-circle-o-up"></i>
+      <i *ngIf="!previewOpen" class="fa fa-arrow-circle-o-down"></i>
+    </a>
+  </span>
 </p>
 
 <!-- preview -->
-<div class="filetransfer">
+<div #filetransfer class="filetransfer">
   <a href="#file-view"><img src="{{ message.message.preview }}"></a>
 </div>

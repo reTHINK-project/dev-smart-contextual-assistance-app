@@ -14,7 +14,8 @@ import { ChatService } from '../../services/rethink/chat.service';
 @Component({
   moduleId: module.id,
   selector: 'activity-view',
-  templateUrl: './activity-view.component.html'
+  templateUrl: './activity-view.component.html',
+  styleUrls: ['./activity-view.component.scss']
 })
 export class ActivityViewComponent implements OnInit {
 

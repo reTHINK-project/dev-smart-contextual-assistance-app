@@ -37,11 +37,6 @@ export class ContextualCommActivityComponent implements OnChanges, OnInit, After
   }
 
   ngOnInit() {
-
-  }
-
-  ngAfterViewInit() {
-
     this.mergedResources = this.resources.mergeMap(v => this.messages, 1);
 
     this.mergedResourcesSubscription = this.mergedResources.subscribe((resources: Message[] | Resource[]) => {
@@ -52,6 +47,9 @@ export class ContextualCommActivityComponent implements OnChanges, OnInit, After
       setTimeout(() => { this.scrollToBottom(); });
 
     });
+  }
+
+  ngAfterViewInit() {
 
   }
 

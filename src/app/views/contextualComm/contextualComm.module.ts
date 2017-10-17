@@ -20,6 +20,7 @@ import { FileEventComponent } from '../../components/rethink/hypertyResource/fil
 import { ContactBoxComponent } from '../userView/contact-box.component';
 import { UserViewComponent } from '../userView/user-view.component';
 import { ActivityViewComponent } from '../activityView/activity-view.component';
+import { SharedResourcesComponent } from '../sharedResources/sharedResources.component';
 
 // Components
 import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component';
@@ -48,6 +49,7 @@ import {
     ContextNameValidatorDirective,
 
     ContextualCommActivityComponent,
+    SharedResourcesComponent,
     ActivityViewComponent,
     UserViewComponent,
 

@@ -147,18 +147,18 @@ export class ChatService {
 
           msg = {
             type: HypertyResourceType.File,
-            message: message.value.metadata,
+            message: message.child.metadata,
             user: user
           };
 
           const resource: Resource = {
-            type: message.child.value.metadata.resourceType,
+            type: message.child.metadata.resourceType,
             direction: HypertyResourceDirection.IN,
-            content: message.child.value.content,
-            contentURL: message.child.value.metadata.contentURL,
-            mimetype: message.child.value.metadata.mimetype,
-            size: message.child.value.metadata.size,
-            preview: message.child.value.metadata.preview,
+            content: message.child.metadata,
+            contentURL: message.child.metadata.contentURL,
+            mimetype: message.child.metadata.mimetype,
+            size: message.child.metadata.size,
+            preview: message.child.metadata.preview,
             author: user
           };
 
