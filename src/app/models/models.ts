@@ -88,7 +88,7 @@ export class Resource {
 
   type: HypertyResourceType;
   direction?: HypertyResourceDirection;
-  author?: User;
+  author?: string;
   content?: any;
   contentURL?: string;
   preview?: string;

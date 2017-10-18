@@ -1,15 +1,22 @@
-import { Resource } from './../../models/models';
-import { Component, HostBinding, AfterViewInit, ElementRef, OnChanges, SimpleChange, Input, OnInit } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Message } from '../../models/models';
-import { HypertyResourceType } from '../../models/rethink/HypertyResource';
+import { Component, HostBinding, AfterViewInit, ElementRef, OnChanges, SimpleChange, Input, OnInit, ViewChild } from '@angular/core';
 
-import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/concat';
 import 'rxjs/add/operator/concatAll';
+
+import { Message } from '../../models/models';
+import { Resource } from './../../models/models';
+import { HypertyResourceType } from '../../models/rethink/HypertyResource';
+
+import { ChatService } from '../../services/rethink/chat.service';
+import { MediaModalModule } from '../../components/modal/mediaModal.module';
+import { MediaModalComponent } from '../../components/modal/components/mediaModal.component';
+import { MediaModalService } from '../../components/modal/services/mediaModal.service';
+import { MediaModalType } from '../../components/modal/interfaces/mediaModal.type';
 
 @Component({
   moduleId: module.id,
@@ -30,7 +37,10 @@ export class ContextualCommActivityComponent implements OnChanges, OnInit, After
 
   mergedResourcesSubscription: Subscription;
 
-  constructor(private el: ElementRef) {}
+  constructor(
+    private el: ElementRef,
+    private mediaModalService: MediaModalService,
+    private chatService: ChatService) {}
 
   ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
     console.log('CHANGES:', changes);
@@ -59,6 +69,29 @@ export class ContextualCommActivityComponent implements OnChanges, OnInit, After
     if (parentEl) {
       parentEl.scrollTop = parentEl.scrollHeight;
     }
+
+  }
+
+  onViewImageEvent(data: any): void {
+    console.log('DATA:', data);
+
+    const resource: any = this.chatService.resourceList.get(data.url);
+
+    resource.read().then((result: any) => {
+      console.log('FILE READED:', result);
+
+      const media: MediaModalType = {
+        title: result.metadata.name,
+        size: result.metadata.size,
+        type: result.metadata.mimetype,
+        mediaContentURL: result.content
+      }
+
+      this.mediaModalService.open(media);
+
+    }).catch((reason: any) => {
+      console.log('ERROR READING FILE:', reason);
+    })
 
   }
 

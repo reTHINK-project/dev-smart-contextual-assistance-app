@@ -111,14 +111,6 @@ export class ContextualCommService {
 
         });
 
-
-        context.resources.forEach((resource: Resource) => {
-          let currentUser;
-          if (resource.author.userURL !== this.contactService.sessionUser.userURL) {
-            currentUser = this.contactService.getUser(resource.author.userURL);
-          }
-        });
-
       }
 
       this.updateContexts(context.url, context);
@@ -150,7 +142,7 @@ export class ContextualCommService {
 
       context.resources = context.resources.map((resource: Resource) => {
         const currentResource = new Resource(resource);
-        currentResource.author = this.contactService.getUser(currentResource.author.userURL);
+        currentResource.author = currentResource.author;
         return currentResource;
       });
 

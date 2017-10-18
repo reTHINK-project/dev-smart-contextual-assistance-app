@@ -11,7 +11,7 @@ import { Subject } from 'rxjs/Subject';
 import { ContactService, ChatService, ContextualCommService } from '../../services/services';
 
 // Models
-import { Message, User, ContextualComm } from '../../models/models';
+import { Message, User, ContextualComm, Resource } from '../../models/models';
 
 // Components
 import { ContextualCommActivityComponent } from '../contextualCommActivity/contextualCommActivity.component';
@@ -36,7 +36,9 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   action: string;
   user: User;
+
   messages: Subject<Message[]> = new BehaviorSubject([]);
+  resources: Subject<Resource[]> = new BehaviorSubject([]);
 
   constructor(
     private router: Router,
@@ -62,11 +64,13 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
       this.user = data.user;
 
       this.messages.next(data.context.messages);
+      this.resources.next(data.context.resources);
     });
 
     this.currentContextSub = this.contextualCommService.currentContext().subscribe((contextualComm: ContextualComm) => {
       console.log('[User View - ContextualCommActivity Component - update] - ', contextualComm);
       this.messages.next(contextualComm.messages);
+      this.resources.next(contextualComm.resources);
     });
 
   }

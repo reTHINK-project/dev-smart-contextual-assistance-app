@@ -15,6 +15,7 @@ export class ChatService {
   public chatControllerActive: any;
 
   controllerList: Map<string, any> = new Map<string, any>();
+  resourceList: Map<string, any> = new Map<string, any>();
 
   hyperty: any;
   hypertyURL: string;
@@ -131,7 +132,6 @@ export class ChatService {
       this.controllerUserAdded(chatController, user);
     });
 
-
     chatController.onMessage((message: any) => {
 
       console.log('[Chat Service - prepareController] - onMessage', message, this.chatControllerActive);
@@ -159,8 +159,10 @@ export class ChatService {
             mimetype: message.child.metadata.mimetype,
             size: message.child.metadata.size,
             preview: message.child.metadata.preview,
-            author: user
+            author: message.identity.userProfile.userURL
           };
+
+          this.resourceList.set(message.child.childId, message.child);
 
           const currentResource = new Resource(resource);
           this.contextualCommService.updateContextResources(currentResource, dataObjectURL);
@@ -333,13 +335,15 @@ export class ChatService {
         const resource: Resource = {
           type: result.value.metadata.resourceType,
           direction: HypertyResourceDirection.OUT,
-          content: result.value.content,
+          content: result.value.metadata,
           contentURL: result.value.metadata.contentURL,
           mimetype: result.value.metadata.mimetype,
           size: result.value.metadata.size,
           preview: result.value.metadata.preview,
-          author: user
+          author: result.identity.userProfile.userURL
         };
+
+        this.resourceList.set(result.resource.childId, result.resource);
 
         const msg = {
           type: result.value.metadata.resourceType,
@@ -356,6 +360,10 @@ export class ChatService {
 
       }).catch(reject);
     });
+
+  }
+
+  read() {
 
   }
 

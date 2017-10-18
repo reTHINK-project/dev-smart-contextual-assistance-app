@@ -45,8 +45,10 @@
       margin-top: 0;
       margin-bottom: 0;
       overflow: hidden;
+      color: #292b2c;
 
       span {
+        color: #3bb7f5;
         font-size: 0.875rem;
         text-align: top;
         margin-right: 12px;
@@ -74,14 +76,32 @@
         display: block;
         color: #d16a3f;
 
-        i {
+        i,
+        span {
           color: #d16a3f;
         }
 
-        .specs {
-          font-size: 1rem;
+        .file-info {
+          display: block;
+
+          .name {
+            display: inline;
+            padding: 0 4px;
+            margin: 0;
+            font-size: 1rem;
+            color: #444;
+          }
+
+          .size {
+            font-size: 0.8125rem;;
+          }
+
+          .action {
+          }
+
         }
 
+        font-size: 1rem;
       }
     }
 

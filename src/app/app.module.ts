@@ -17,9 +17,11 @@ import { DirectiveModules } from './shared/directive.module';
 // components
 import { AppComponent } from './app.component';
 import { MySelfComponent } from './components/mySelf/my-self.component';
+import { MediaModalModule } from './components/modal/mediaModal.module';
 import { NotificationsModule } from './components/notification/notifications.module';
 import { UserIdentityComponent } from './components/rethink/userIdentity/userIdentity.component';
 import { NativeNotificationsModule } from './components/notification/native-notifications.module';
+
 
 // View Components
 import { HomeComponent } from './views/home/home.component';
@@ -35,6 +37,7 @@ import { RemoveContextualCommComponent } from './views/contextualCommMenu/remove
 
 // Services
 import { servicesInjectables } from './services/services';
+import { MediaModalComponent } from './components/modal/components/mediaModal.component';
 
 @NgModule({
   imports: [
@@ -45,6 +48,7 @@ import { servicesInjectables } from './services/services';
     ContextualCommModule,
     BrowserAnimationsModule,
     NgbModule.forRoot(),
+    MediaModalModule.forRoot(),
     NotificationsModule.forRoot(),
     NativeNotificationsModule,
     AppRoutingModule

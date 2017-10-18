@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, ViewEncapsulation, ViewChild, ViewContainerRef, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input,
+  ViewEncapsulation, ViewChild, ViewContainerRef,
+  ElementRef, AfterViewInit,
+  EventEmitter, Output } from '@angular/core';
 
 import { Message } from '../../../../models/models';
-import { concat } from 'rxjs/operator/concat';
-import { style } from '@angular/animations';
 
 @Component({
   moduleId: module.id,
@@ -15,6 +16,8 @@ export class FileEventComponent implements OnInit, AfterViewInit {
 
   @Input() message: Message;
   @Input() isAnEvent = false;
+
+  @Output() viewImageEvent: EventEmitter<any> = new EventEmitter();
 
   previewOpen = true;
 
@@ -32,7 +35,6 @@ export class FileEventComponent implements OnInit, AfterViewInit {
 
   }
 
-
   onOpenResource(event: MouseEvent) {
     event.preventDefault();
 
@@ -47,4 +49,16 @@ export class FileEventComponent implements OnInit, AfterViewInit {
     }
 
   }
+
+  onViewImage(event: MouseEvent) {
+    event.preventDefault();
+
+    const el: HTMLElement = event.currentTarget as HTMLElement;
+
+    this.viewImageEvent.emit({
+      url: el.getAttribute('data-url')
+    });
+
+  }
+
 }
