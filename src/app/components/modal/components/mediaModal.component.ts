@@ -5,6 +5,8 @@ import { Component,
   ViewChild,
   ViewContainerRef } from '@angular/core';
 
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { MediaModalService } from '../services/mediaModal.service';
@@ -32,6 +34,7 @@ export class MediaModalComponent implements OnInit, AfterViewInit {
 
   constructor(
     private modalService: NgbModal,
+    private sanitizer: DomSanitizer,
     private mediaModalService: MediaModalService) { }
 
   open() {
@@ -57,7 +60,7 @@ export class MediaModalComponent implements OnInit, AfterViewInit {
         data.type = 'file';
       }
 
-      data.mediaContentURL = URL.createObjectURL(data.mediaContentURL);
+      data.mediaContentURL = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(data.mediaContentURL));
 
       this.modalData = data;
 

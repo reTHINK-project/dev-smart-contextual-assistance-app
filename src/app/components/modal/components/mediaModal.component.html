@@ -9,7 +9,7 @@
   <div class="modal-body">
 
     <div [ngSwitch]="modalData.type">
-      <img *ngSwitchCase="'image'" src="{{modalData.mediaContentURL}}" />
+      <img *ngSwitchCase="'image'" class="img-fluid" [src]="modalData.mediaContentURL" />
       <a *ngSwitchCase="'file'" title="{{modalData.title}}" href="{{modalData.mediaContentURL}}">{{modalData.title}}</a>
     </div>
 
