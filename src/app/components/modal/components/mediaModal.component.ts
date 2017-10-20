@@ -11,6 +11,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { MediaModalService } from '../services/mediaModal.service';
 import { MediaModalType } from '../interfaces/mediaModal.type';
+import { deepClone } from '../../../utils/utils';
 
 @Component({
   selector: 'media-modal-view',
@@ -21,11 +22,13 @@ import { MediaModalType } from '../interfaces/mediaModal.type';
 export class MediaModalComponent implements OnInit, AfterViewInit {
 
   @ViewChild('content') content: ElementRef;
+
   @Input() title: string;
   @Input() description: string;
   @Input() mediaContentURL: string;
   @Input() size: string;
   @Input() type: string;
+  @Input() user: string;
 
   modalData: MediaModalType = <MediaModalType>{};
 
@@ -41,7 +44,7 @@ export class MediaModalComponent implements OnInit, AfterViewInit {
 
     console.log('This Content: ', this.content);
 
-    this.modalService.open(this.content, { windowClass: 'dark-modal' }).result.then((result) => {
+    this.modalService.open(this.content, { windowClass: 'media-modal' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -53,6 +56,9 @@ export class MediaModalComponent implements OnInit, AfterViewInit {
 
     this.mediaModalService.openEvent.subscribe((data: MediaModalType) => {
 
+      this.modalData = deepClone(data);
+
+      const mimetype = data.type;
       // TODO: improve the mimetype discovery
       if (data.type.includes('image') ) {
         data.type = 'image';
@@ -60,11 +66,19 @@ export class MediaModalComponent implements OnInit, AfterViewInit {
         data.type = 'file';
       }
 
-      data.mediaContentURL = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(data.mediaContentURL));
+      try {
+        const b = new Blob(data.mediaContentURL, { type: mimetype });
+        const secureBlob = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(b));
+        this.modalData.mediaContentURL = secureBlob;
 
-      this.modalData = data;
+        console.log('MODAL:', this.modalData);
 
-      this.open();
+        this.open();
+
+      } catch (error) {
+        console.error(error);
+      }
+
     });
 
   }
@@ -74,6 +88,7 @@ export class MediaModalComponent implements OnInit, AfterViewInit {
     if (this.title) { this.modalData.title = this.title; }
     if (this.description) { this.modalData.description = this.description; }
     if (this.mediaContentURL) { this.modalData.mediaContentURL = this.mediaContentURL; }
+    if (this.user) { this.modalData.user = this.user; }
     if (this.size) { this.modalData.size = this.size; }
     if (this.type) { this.modalData.type = this.type; }
   }
@@ -88,3 +103,4 @@ export class MediaModalComponent implements OnInit, AfterViewInit {
     }
   }
 }
+

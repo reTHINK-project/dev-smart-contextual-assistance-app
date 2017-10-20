@@ -8,7 +8,7 @@ import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/concat';
 import 'rxjs/add/operator/concatAll';
 
-import { Message } from '../../models/models';
+import { Message, User } from '../../models/models';
 import { Resource } from './../../models/models';
 import { HypertyResourceType } from '../../models/rethink/HypertyResource';
 
@@ -77,6 +77,11 @@ export class ContextualCommActivityComponent implements OnChanges, OnInit, After
 
     const resource: any = this.chatService.resourceList.get(data.url);
 
+    console.log('AQUI:', resource);
+    // TODO: check why sometimes the identity comes empty;
+
+    // const identity: User = JSON.parse(JSON.stringify(resource.identity.userProfile));
+
     resource.read().then((result: any) => {
       console.log('FILE READED:', result);
 
@@ -84,9 +89,11 @@ export class ContextualCommActivityComponent implements OnChanges, OnInit, After
         title: result.metadata.name,
         size: result.metadata.size,
         type: result.metadata.mimetype,
+        // user: identity.userURL,
         mediaContentURL: result.content
       }
 
+      console.log('MEDIA:', media, this.mediaModalService.open);
       this.mediaModalService.open(media);
 
     }).catch((reason: any) => {

@@ -8,6 +8,7 @@ import { ContextualCommService } from '../contextualComm.service';
 
 import { User, Message, Resource } from '../../models/models';
 import { HypertyResourceType, HypertyResource, HypertyResourceDirection } from '../../models/rethink/HypertyResource';
+import { isEmpty } from '../../utils/utils';
 
 @Injectable()
 export class ChatService {
@@ -90,29 +91,9 @@ export class ChatService {
 
     console.log('[Chat Service - prepareHyperty]', this.chatGroupManager);
 
-    this.chatGroupManager.onResumeReporter((controllers: any) => {
-      console.log('[Chat Service - prepareHyperty] - onResume reporters: ', controllers);
+    this.chatGroupManager.onResumeReporter((controllers: any) => this._processResume(controllers));
 
-      Object.keys(controllers).forEach((url: string) => {
-
-        this.controllerList.set(url, controllers[url]);
-        this._updateControllersList(url, controllers[url]);
-
-      });
-
-    });
-
-    this.chatGroupManager.onResumeObserver((controllers: any) => {
-      console.log('[Chat Service - prepareHyperty] - onResume observers: ', controllers);
-
-      Object.keys(controllers).forEach((url: string) => {
-
-        this.controllerList.set(url, controllers[url]);
-        this._updateControllersList(url, controllers[url]);
-
-      });
-
-    });
+    this.chatGroupManager.onResumeObserver((controllers: any) => this._processResume(controllers));
 
     this.chatGroupManager.onInvitation((event: any) => {
 
@@ -122,6 +103,28 @@ export class ChatService {
 
     });
 
+  }
+
+  _processResume(controllers: any) {
+
+    console.log('[Chat Service - prepareHyperty] - onResume dataObjects: ', controllers);
+
+    Object.keys(controllers).forEach((url: string) => {
+
+      const current = controllers[url];
+      const dataObject = current.dataObject;
+      const childrens = isEmpty(dataObject) ? {} : dataObject.childrens;
+
+      if (!isEmpty(childrens)) { this._processResources(childrens) }
+
+      this.controllerList.set(url, current);
+      this._updateControllersList(url, current);
+
+    });
+  }
+
+  _processResources(childrens: any) {
+    Object.keys(childrens).forEach(children => this.resourceList.set(children, childrens[children]) );
   }
 
   prepareController(chatController: any) {
@@ -363,9 +366,6 @@ export class ChatService {
 
   }
 
-  read() {
-
-  }
 
   close(url: string): Promise<boolean> {
 

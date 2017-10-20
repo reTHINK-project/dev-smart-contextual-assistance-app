@@ -3,6 +3,6 @@ export interface MediaModalType {
   description?: string;
   mediaContentURL: any;
   size: string;
-  type: string
+  type: string;
+  user?: string;
 }
-
