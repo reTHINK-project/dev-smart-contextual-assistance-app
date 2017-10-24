@@ -10,9 +10,9 @@
 		<video #local *ngIf="myStream" class="player" [srcObject]="myStream" autoplay muted></video>
 	</div>
 
-	<div class="contact-me align-center">
+	<div class="contact-me text-center">
 
-    <span class="counter hidden-sm-up w-100">{{duration | amTimeElapsed}}</span>
+    <span class="counter d-sm-none w-100">{{duration | amTimeElapsed}}</span>
 
     <span class="action audio mute float-left">
 			<a (click)="onMute()"><i class="fa fa-microphone-slash"></i></a>
@@ -34,7 +34,7 @@
       <a [routerLink]="" [queryParams]="{}"><i class="fa fa-video-camera"></i></a>
     </span>
 
-    <span class="counter hidden-xs-down">{{duration | amTimeElapsed}}</span>
+    <span class="counter d-xs-none">{{duration | amTimeElapsed}}</span>
 
 		<span class="action volume float-right float-left">
 			<a (click)="onVolume()"><i class="fa fa-volume-up"></i></a>

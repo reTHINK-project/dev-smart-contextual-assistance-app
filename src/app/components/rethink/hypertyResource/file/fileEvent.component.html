@@ -1,19 +1,42 @@
-<div class="push-right align-right">
-    <span class="date">{{message.date}}</span>
+<div class="float-right align-right">
+    <span class="date">{{message.date | amTimeAgo}}</span>
 </div>
-<div class="contact-avatar push-left">
-    <img src="{{message.user.avatar}}">
-    <span class="status {{message.user.status}}">
-      <i class="fa fa-circle{{message.user.status==='offline'?'-o':''}}"></i>
-    </span>
-</div>
-<h4 class="contact-name"><a href="#">{{message.user.cn}}</a></h4>
 
-<!-- File -->
-<p class="quarter-vertical-padding">
-  <span class="file"><i class="fa fa-file-o"></i>Shared a file</span>
-  <span class="specs">foto.jpg</span>
+<!-- TODO: This should be replaced by the user-identity -->
+<div class="user-identity">
+  <div class="user-status float-left">
+    <img alt="{{message.user.avatar}}" class="rounded-circle" src="{{message.user.avatar}}">
+    <span class="status {{message.user.status}}">
+      <i class="fa fa-circle{{message.user.status === 'unavailable' ? '-o' : ''}}"></i>
+    </span>
+  </div>
+
+  <div class="user-profile">
+    <h3 class="contact-name"><a [routerLink]="['user', message.user.username]">{{message.user.cn}}</a></h3>
+    <span class="extra-info">{{message.user.domain}}</span>
+  </div>
+</div>
+<!-- END OF THE user-identity -->
+
+<!-- message -->
+<p class="message">
+  <span *ngIf="isAnEvent" class="{{ message.type }}">
+    <i class="fa fa-{{ message.type }}-o"></i>Shared a {{ message.type }}
+  </span>
+
+  <span class="file-info">
+
+    <a href="javascript:;" attr.data-url="{{ message.message.url }}" (click)="onViewImage($event)" class="name" title="{{message.message.name}}">{{message.message.name}}</a>
+    <span class="size">({{ message.message.size | size }})</span>
+    <a class="action" href="javascript:;" role="button" (click)="onOpenResource($event)">
+      <i *ngIf="previewOpen" class="fa fa-arrow-up"></i>
+      <i *ngIf="!previewOpen" class="fa fa-arrow-right"></i>
+    </a>
+  </span>
+
 </p>
-<div class="filetransfer">
-  <a href="#file-view"><img src="../../../../assets/img/fileteste.jpg"></a>
+
+<!-- preview -->
+<div #filetransfer class="filetransfer">
+  <a href="javascript:;"  attr.data-url="{{ message.message.url }}" (click)="onViewImage($event)"><img src="{{ message.message.preview }}"></a>
 </div>
