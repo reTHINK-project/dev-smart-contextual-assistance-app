@@ -3,11 +3,12 @@
   <div class="modal-header">
 
     <div class="user">
-      {{modalData.user}}
+      <!-- {{modalData.user}} -->
+      <img class="rounded" src="{{modalData.user.avatar}}" alt="{{modalData.user.cn}}" title="{{modalData.user.cn}}" />
     </div>
     <div class="info">
       <h4 class="modal-title">{{modalData.title}}</h4>
-      <span class="modal-description">{{modalData.description}} - {{modalData.size}} - {{modalData.type}}</span>
+      <span class="modal-description"><b>{{modalData.user.cn}}</b> | {{modalData.size | size}} - {{modalData.mimetype}}</span>
     </div>
 
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -15,17 +16,19 @@
     </button>
   </div>
 
-  <div class="modal-body">
+  <div class="modal-body v-center" [ngSwitch]="modalData.type">
 
-    <div [ngSwitch]="modalData.type">
-      <img *ngSwitchCase="'image'" class="img-fluid" [src]="modalData.mediaContentURL" />
-      <a *ngSwitchCase="'file'" title="{{modalData.title}}" href="{{modalData.mediaContentURL}}">{{modalData.title}}</a>
-    </div>
-
+    <img *ngSwitchCase="'image'" class="img-fluid" [src]="modalData.mediaContentURL" />
+    <video class="img-fluid" *ngSwitchCase="'video'" controls autoplay>
+      <source [src]="modalData.mediaContentURL" type="{{modalData.mimetype}}">
+      Your browser does not support the video tag.
+    </video>
+    <a target="_blank" *ngSwitchCase="'file'" title="{{modalData.title}}" class="btn btn-outline-info" [href]="modalData.mediaContentURL">{{modalData.title}}</a>
 
   </div>
+
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-light" (click)="c('Close click')">Close</button>
+    <button type="button" class="btn btn-info" (click)="c('Close click')">Close</button>
   </div>
 </ng-template>
 
