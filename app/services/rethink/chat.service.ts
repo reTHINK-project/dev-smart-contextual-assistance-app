@@ -6,7 +6,9 @@ import { RethinkService } from './rethink.service';
 import { ContactService } from '../contact.service';
 import { ContextualCommService } from '../contextualComm.service';
 
-import { User, Message } from '../../models/models';
+import { User, Message, Resource } from '../../models/models';
+import { HypertyResourceType, HypertyResource, HypertyResourceDirection } from '../../models/rethink/HypertyResource';
+import { isEmpty } from '../../utils/utils';
 
 @Injectable()
 export class ChatService {
@@ -14,6 +16,7 @@ export class ChatService {
   public chatControllerActive: any;
 
   controllerList: Map<string, any> = new Map<string, any>();
+  resourceList: Map<string, any> = new Map<string, any>();
 
   hyperty: any;
   hypertyURL: string;
@@ -21,9 +24,8 @@ export class ChatService {
   chatGroupManager: any;
 
   public onMessageEvent = new EventEmitter<Message>();
+  public onUserAdded = new EventEmitter<User>();
 
-  private _onUserAdded: Function;
-  private _onMessage: Function;
   private _discovery: any;
 
   private _activeDataObjectURL: string;
@@ -89,29 +91,9 @@ export class ChatService {
 
     console.log('[Chat Service - prepareHyperty]', this.chatGroupManager);
 
-    this.chatGroupManager.onResumeReporter((controllers: any) => {
-      console.log('[Chat Service - prepareHyperty] - onResume reporters: ', controllers);
+    this.chatGroupManager.onResumeReporter((controllers: any) => this._processResume(controllers));
 
-      Object.keys(controllers).forEach((url: string) => {
-
-        this.controllerList.set(url, controllers[url]);
-        this._updateControllersList(url, controllers[url]);
-
-      });
-
-    });
-
-    this.chatGroupManager.onResumeObserver((controllers: any) => {
-      console.log('[Chat Service - prepareHyperty] - onResume observers: ', controllers);
-
-      Object.keys(controllers).forEach((url: string) => {
-
-        this.controllerList.set(url, controllers[url]);
-        this._updateControllersList(url, controllers[url]);
-
-      });
-
-    });
+    this.chatGroupManager.onResumeObserver((controllers: any) => this._processResume(controllers));
 
     this.chatGroupManager.onInvitation((event: any) => {
 
@@ -123,6 +105,28 @@ export class ChatService {
 
   }
 
+  _processResume(controllers: any) {
+
+    console.log('[Chat Service - prepareHyperty] - onResume dataObjects: ', controllers);
+
+    Object.keys(controllers).forEach((url: string) => {
+
+      const current = controllers[url];
+      const dataObject = current.dataObject;
+      const childrens = isEmpty(dataObject) ? {} : dataObject.childrens;
+
+      if (!isEmpty(childrens)) { this._processResources(childrens) }
+
+      this.controllerList.set(url, current);
+      this._updateControllersList(url, current);
+
+    });
+  }
+
+  _processResources(childrens: any) {
+    Object.keys(childrens).forEach(children => this.resourceList.set(children, childrens[children]) );
+  }
+
   prepareController(chatController: any) {
 
     console.log('[Chat Service - prepareController]', chatController);
@@ -130,7 +134,6 @@ export class ChatService {
     chatController.onUserAdded((user: any) => {
       this.controllerUserAdded(chatController, user);
     });
-
 
     chatController.onMessage((message: any) => {
 
@@ -140,11 +143,42 @@ export class ChatService {
       const user: User = this.contactService.getUser(message.identity.userProfile.userURL);
 
       if (user) {
-        const msg = {
-          type: 'message',
-          message: message.value.content,
-          user: user
-        };
+
+        let msg;
+
+        if (message.child.metadata.resourceType === HypertyResourceType.File) {
+
+          msg = {
+            type: HypertyResourceType.File,
+            message: message.child.metadata,
+            user: user
+          };
+
+          const resource: Resource = {
+            type: message.child.metadata.resourceType,
+            direction: HypertyResourceDirection.IN,
+            content: message.child.metadata,
+            contentURL: message.child.metadata.contentURL,
+            mimetype: message.child.metadata.mimetype,
+            size: message.child.metadata.size,
+            preview: message.child.metadata.preview,
+            author: message.identity.userProfile.userURL
+          };
+
+          this.resourceList.set(message.child.childId, message.child);
+
+          const currentResource = new Resource(resource);
+          this.contextualCommService.updateContextResources(currentResource, dataObjectURL);
+
+        } else {
+
+          msg = {
+            type: HypertyResourceType.Chat,
+            message: message.value.content,
+            user: user
+          };
+
+        }
 
         const currentMessage = new Message(msg);
         this.contextualCommService.updateContextMessages(currentMessage, dataObjectURL);
@@ -275,7 +309,7 @@ export class ChatService {
         console.log('[Chat Service] - user:', user, result.identity.userProfile.userURL);
 
         const msg = {
-          type: 'message',
+          type: HypertyResourceType.Chat,
           message: result.value.content,
           user: user
         };
@@ -289,6 +323,50 @@ export class ChatService {
 
   }
 
+  sendFile(file: File) {
+
+    return new Promise<any>((resolve, reject) => {
+
+      console.log('[Chat Service - Send File]', this.chatControllerActive, file);
+
+      this.chatControllerActive.sendFile(file).then((result: any) => {
+
+        console.log('[Chat Service - Sended File]', file, result, this.chatControllerActive);
+        const user: User = this.contactService.getUser(result.identity.userProfile.userURL);
+        console.log('[Chat Service] - user:', user, result.identity.userProfile.userURL);
+
+        const resource: Resource = {
+          type: result.value.metadata.resourceType,
+          direction: HypertyResourceDirection.OUT,
+          content: result.value.metadata,
+          contentURL: result.value.metadata.contentURL,
+          mimetype: result.value.metadata.mimetype,
+          size: result.value.metadata.size,
+          preview: result.value.metadata.preview,
+          author: result.identity.userProfile.userURL
+        };
+
+        this.resourceList.set(result.resource.childId, result.resource);
+
+        const msg = {
+          type: result.value.metadata.resourceType,
+          message: result.value.metadata,
+          user: user
+        };
+
+        const currentMessage = new Message(msg);
+        this.contextualCommService.updateContextMessages(currentMessage, this.chatControllerActive.dataObject.url);
+
+        const currentResource = new Resource(resource);
+        this.contextualCommService.updateContextResources(currentResource, this.chatControllerActive.dataObject.url);
+        resolve(currentResource);
+
+      }).catch(reject);
+    });
+
+  }
+
+
   close(url: string): Promise<boolean> {
 
     const found = this.controllerList.get(url);
@@ -300,14 +378,6 @@ export class ChatService {
 
   discovery() {
     return this._discovery;
-  }
-
-  onUserAdded(callback: Function) {
-    this._onUserAdded = callback;
-  }
-
-  onMessage(callback: Function) {
-    this._onMessage = callback;
   }
 
 }

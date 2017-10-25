@@ -1,12 +1,10 @@
-
-
 .activity-list {
   padding: 0;
   margin-bottom: 0;
 
   .list-item {
     display: block;
-    padding: .75em;
+    padding: .75rem;
 
     overflow: hidden;
     position: relative;
@@ -47,8 +45,10 @@
       margin-top: 0;
       margin-bottom: 0;
       overflow: hidden;
+      color: #292b2c;
 
       span {
+        color: #3bb7f5;
         font-size: 0.875rem;
         text-align: top;
         margin-right: 12px;
@@ -62,18 +62,81 @@
         margin-left: 1px;
       }
 
-      .chat {
-        color: #3bb7f5;
+
+    }
+
+    &.chat {
+      color: #3bb7f5;
+    }
+
+    &.file {
+
+      .message {
+
+        display: block;
+        color: #d16a3f;
+
+        i,
+        span {
+          color: #d16a3f;
+        }
+
+        .file-info {
+          display: block;
+
+          .name {
+            display: inline;
+            padding: 0 4px;
+            margin: 0;
+            font-size: 1rem;
+            color: #444;
+          }
+
+          .size {
+            font-size: 0.8125rem;;
+          }
+
+          .action {
+          }
+
+        }
+
+        font-size: 1rem;
       }
     }
 
+    .filetransfer {
+      padding-left: 58px;
+
+      height: 0;
+      overflow: hidden;
+
+      @include transition(all 220s ease-in);
+
+      &.open {
+        height: auto;
+      }
+
+    }
+
+    .info,
     .date,
     .specs {
       font-size: 0.8125rem;
       color: #444;
       text-transform: none;
-      display: block;
       margin-left: 22px;
+    }
+
+    .info {
+      display: inline;
+      padding: 0 4px;
+      margin: 0;
+    }
+
+    .date,
+    .specs {
+      display: block;
     }
 
   }

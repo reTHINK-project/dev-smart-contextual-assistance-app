@@ -1,0 +1,22 @@
+.list-item {
+
+  padding: .75rem;
+
+  border-bottom: 1px solid #ddd;
+
+  i {
+    font-size: 1rem;
+    margin-right: 6px;
+    margin-left: 1px;
+  }
+
+  .specs {
+    padding-left: 20px;
+    display: block;
+  }
+
+  .file,
+  .file i {
+    color: #d16a3f;
+  }
+}

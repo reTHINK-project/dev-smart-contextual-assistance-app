@@ -1,10 +1,13 @@
 export interface HypertyResource {
   type: HypertyResourceType;
-  direction: direction;
-  author: string;
-  content: any;
-  contentURL: string;
-  player: string;
+  direction?: HypertyResourceDirection;
+  mimetype?: string;
+  author?: string;
+  content?: any;
+  contentURL?: string;
+  preview?: any;
+  size?: number;
+  player?: string;
 }
 
 export enum HypertyResourceType {
@@ -29,7 +32,7 @@ export enum HypertyResourceType {
   UserCommunicationContext = <any>'user_communication_context'
 }
 
-export enum direction {
+export enum HypertyResourceDirection {
   IN = <any>'in',
   OUT = <any>'out',
   IN_OUT = <any>'inout'

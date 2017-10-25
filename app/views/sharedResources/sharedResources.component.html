@@ -1,0 +1,13 @@
+<ul *ngFor="let resource of resources | async" >
+  <li class="list-item" *ngIf="resource.content">
+    <div class="float-right align-right">
+      <span class="date">{{ resource.content.created | amCalendar }}</span>
+    </div>
+
+    <p class="">
+      <span class="file"><i class="fa fa-{{ resource.type }}-o"></i>{{ resource.type }} uploaded</span>
+      <span class="specs">{{ resource.content.name }}</span>
+      <span class="specs">{{ resource.size | size}}</span>
+    </p>
+  </li>
+</ul>

@@ -4,16 +4,25 @@
 
 
 <div class="overflow-content w-100 h-100">
+
   <div class="row h-100 no-gutters">
-    <div class="col-12 col-lg-7 h-100 v-scroll">
-      <context-activity-list [messages]="messages"></context-activity-list>
+    <div class="activity-wrapper col-12 col-md-7 col-lg-8 float-left h-100 d-flex flex-column">
+      <h3 class="pl-3 pr-4 pt-4">Recent Activity</h3>
+      <div class="v-scroll h-100">
+        <context-activity-list [resources]="resources" [messages]="messages"></context-activity-list>
+      </div>
     </div>
 
-    <div class="col-12 col-lg-5 h-100">
+    <div class="resources-wrapper col-12 col-md-5 col-lg-4 mb-0 pt-3 pt-md-0 float-left h-100 d-flex flex-column">
 
+      <h3 class="pl-3 pr-4 pt-4">Shared Files</h3>
+      <div class="v-scroll h-100">
+        <shared-resources [resources]="resources"></shared-resources>
+      </div>
     </div>
 
   </div>
+
 </div>
 
 

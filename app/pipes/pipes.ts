@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { TimeElapsedPipe } from './timeElapsedPipe';
+import { SizePipe } from './sizePipe';
 
 @NgModule({
-  declarations: [ TimeElapsedPipe ],
+  declarations: [ TimeElapsedPipe, SizePipe ],
   imports: [ CommonModule],
-  exports: [ TimeElapsedPipe ]
+  exports: [ TimeElapsedPipe, SizePipe]
 })
 
 export class PipesModule {};
