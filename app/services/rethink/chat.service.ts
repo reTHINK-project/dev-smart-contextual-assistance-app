@@ -112,8 +112,7 @@ export class ChatService {
     Object.keys(controllers).forEach((url: string) => {
 
       const current = controllers[url];
-      const dataObject = current.dataObject;
-      const childrens = isEmpty(dataObject) ? {} : dataObject.childrens;
+      const childrens = current.messages
 
       if (!isEmpty(childrens)) { this._processResources(childrens) }
 
