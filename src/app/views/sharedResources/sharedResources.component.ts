@@ -30,9 +30,13 @@ export class SharedResourcesComponent implements OnInit, AfterViewInit {
   ngOnInit() { }
 
   ngAfterViewInit() {
-    const el: HTMLElement = this.fileTranfer.element.nativeElement;
-    el.classList.add('open');
-    this.previewOpen = true;
+
+    if (this.fileTranfer) {
+      const el: HTMLElement = this.fileTranfer.element.nativeElement;
+      el.classList.add('open');
+      this.previewOpen = true;
+    }
+
   }
 
   onOpenResource(event: MouseEvent) {
