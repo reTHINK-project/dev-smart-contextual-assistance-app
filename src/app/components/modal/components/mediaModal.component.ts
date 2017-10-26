@@ -106,7 +106,7 @@ export class MediaModalComponent implements OnInit, AfterViewInit {
     if (this.title) { this.modalData.title = this.title; }
     if (this.description) { this.modalData.description = this.description; }
     if (this.mediaContentURL) { this.modalData.mediaContentURL = this.mediaContentURL; }
-    /* if (this.user) { this.modalData.user = this.user; } */
+    if (this.user) { this.modalData.user = this.user; }
     if (this.size) { this.modalData.size = this.size; }
     if (this.type) { this.modalData.type = this.type; }
   }
