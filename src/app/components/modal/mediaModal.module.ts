@@ -1,15 +1,17 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, Pipe } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MediaModalComponent } from './components/mediaModal.component';
 import { MediaModalService } from './services/mediaModal.service';
+import { PipesModule } from '../../pipes/pipes';
 
 export * from './components/mediaModal.component';
 export * from './services/mediaModal.service';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    PipesModule
   ],
   declarations: [
     MediaModalComponent,

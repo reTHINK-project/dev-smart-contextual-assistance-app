@@ -4,10 +4,26 @@
       <span class="date">{{ resource.content.created | amCalendar }}</span>
     </div>
 
-    <p class="">
-      <span class="file"><i class="fa fa-{{ resource.type }}-o"></i>{{ resource.type }} uploaded</span>
-      <span class="specs">{{ resource.content.name }}</span>
+    <div class="file-info">
+      <i class="fa fa-{{ resource.type }}-o"></i>{{ resource.type }} uploaded
+    </div>
+
+    <div class="file">
+      <a href="javascript:;" attr.data-url="{{ resource.content.url }}" (click)="onViewImageEvent($event)" class="name specs" title="{{resource.content.name}}">{{resource.content.name}}</a>
       <span class="specs">{{ resource.size | size}}</span>
-    </p>
+
+      <a class="action" href="javascript:;" role="button" (click)="onOpenResource($event)">
+        <i *ngIf="previewOpen" class="fa fa-arrow-up"></i>
+        <i *ngIf="!previewOpen" class="fa fa-arrow-right"></i>
+      </a>
+    </div>
+
+    <!-- preview -->
+    <div #filetransfer class="filetransfer">
+      <a href="javascript:;" attr.data-url="{{ resource.content.url }}" (click)="onViewImageEvent($event)">
+        <img src="{{ resource.content.preview }}">
+      </a>
+    </div>
+
   </li>
 </ul>

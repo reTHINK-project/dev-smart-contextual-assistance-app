@@ -17,6 +17,7 @@ import { MediaModalModule } from '../../components/modal/mediaModal.module';
 import { MediaModalComponent } from '../../components/modal/components/mediaModal.component';
 import { MediaModalService } from '../../components/modal/services/mediaModal.service';
 import { MediaModalType } from '../../components/modal/interfaces/mediaModal.type';
+import { ContactService } from '../../services/contact.service';
 
 @Component({
   moduleId: module.id,
@@ -40,6 +41,7 @@ export class ContextualCommActivityComponent implements OnChanges, OnInit, After
   constructor(
     private el: ElementRef,
     private mediaModalService: MediaModalService,
+    private contactService: ContactService,
     private chatService: ChatService) {}
 
   ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
@@ -73,27 +75,24 @@ export class ContextualCommActivityComponent implements OnChanges, OnInit, After
   }
 
   onViewImageEvent(data: any): void {
-    console.log('DATA:', data);
 
     const resource: any = this.chatService.resourceList.get(data.url);
 
-    console.log('AQUI:', resource);
     // TODO: check why sometimes the identity comes empty;
-
-    // const identity: User = JSON.parse(JSON.stringify(resource.identity.userProfile));
+    const identity: User = JSON.parse(JSON.stringify(resource.identity.userProfile));
+    const user = this.contactService.getUser(identity.userURL);
 
     resource.read().then((result: any) => {
-      console.log('FILE READED:', result);
 
       const media: MediaModalType = {
         title: result.metadata.name,
         size: result.metadata.size,
         type: result.metadata.mimetype,
-        // user: identity.userURL,
+        user: user,
+        mimetype: result.metadata.mimetype,
         mediaContentURL: result.content
       }
 
-      console.log('MEDIA:', media, this.mediaModalService.open);
       this.mediaModalService.open(media);
 
     }).catch((reason: any) => {
