@@ -29,14 +29,20 @@
   .modal-dialog {
     max-width: none;
     margin: auto 0;
-    overflow: hidden;
+    height: 100%;
   }
+
   .close {
+    margin: 0;
+    padding: 0;
+
     width: 38px;
     height: 36px;
     border: 1px solid #000;
     border-radius: 30px;
+    cursor: pointer;
   }
+
   .modal-content {
     display: flex;
     flex-direction: column;

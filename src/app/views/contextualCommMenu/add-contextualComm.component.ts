@@ -26,8 +26,7 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
     moduleId: module.id,
     selector: 'add-contextualcomm-view',
-    templateUrl: './add-contextualComm.component.html',
-    styleUrls: ['./add-contextualComm.component.css']
+    templateUrl: './add-contextualComm.component.html'
 })
 
 export class AddContextualCommComponent implements OnInit, OnDestroy {
@@ -158,7 +157,6 @@ export class AddContextualCommComponent implements OnInit, OnDestroy {
       'icon' : [this.model.icon]
     });
 
-
     // console.log('[AddContextualComm] - controls: ', this.complexForm.controls);
   }
 
@@ -185,6 +183,14 @@ export class AddContextualCommComponent implements OnInit, OnDestroy {
       } else {
           return  `with: ${reason}`;
       }
+  }
+
+  onTextChange(event: KeyboardEvent) {
+    console.log(event);
+
+    const nameEl: HTMLInputElement = (<HTMLInputElement>event.target);
+    const value = nameEl.value.replace(/\s+/g, '-');
+    nameEl.value = value;
   }
 
   onLostFocus(event: FocusEvent) {

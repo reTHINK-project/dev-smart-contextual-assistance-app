@@ -10,59 +10,67 @@
         </button>
       </div>
 
-      <div class="modal-body row">
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
 
-        <div class="col-sm-12 col-md-6">
-          <div class="modal-header">
-            <h5 class="modal-title" id="addUserTitle">Add User</h5>
-          </div>
+            <div class="col-sm-12 col-md-6">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addUserTitle">Add User</h5>
+              </div>
 
-          <ng-template #rt let-user="result" let-t="term">
-            <user-identity [model]="user"></user-identity>
-          </ng-template>
+              <ng-template #rt let-user="result" let-t="term">
+                <user-identity [model]="user"></user-identity>
+              </ng-template>
 
-          <div class="form-group search-group">
-            <div class="input-group">
-              <input id="typeahead-template" type="text" class="form-control" placeholder="Type the name of the user"
-                [inputFormatter]="formatter"
-                [(ngModel)]="searchResultModel" [ngbTypeahead]="search" [resultTemplate]="rt" />
-              <span class="input-group-addon"><i class="fa fa-search"></i></span>
+              <div class="form-group search-group">
+                <div class="input-group">
+                  <input id="typeahead-template" type="text" class="form-control" placeholder="Type the name of the user" [inputFormatter]="formatter"
+                    [(ngModel)]="searchResultModel" [ngbTypeahead]="search" [resultTemplate]="rt" />
+                  <span class="input-group-addon">
+                    <i class="fa fa-search"></i>
+                  </span>
+                </div>
+              </div>
+
+              <ngb-progressbar [style.display]="!busy ? 'none' : 'block'" type="info" [value]="100" [striped]="true" [animated]="true">
+                <i>Inviting</i>
+              </ngb-progressbar>
+
+              <div class="fx-login-submit">
+                <button class="btn btn-success float-right" [disabled]="busy" type="submit" (click)="addUser()">Add user</button>
+              </div>
+
+            </div>
+
+            <div class="col-sm-12 col-md-6">
+              <div class="modal-header">
+                <h5 class="modal-title" id="inviteUserTitle">Invite Users</h5>
+              </div>
+
+              <form class="invite" #inviteForm (submit)="submitEvent(inviteForm.value)">
+
+                <div class="form-group">
+                  <input type="text" [disabled]="busy" [(ngModel)]="model.email" ngControl="email" name="email" class="form-control" placeholder="someone@mail.com"
+                    required>
+                </div>
+
+                <div class="form-group">
+                  <input type="text" [disabled]="busy" [(ngModel)]="model.domain" ngControl="domain" name="domain" class="form-control" placeholder="some.domain.com"
+                    required>
+                </div>
+
+                <ngb-progressbar [style.display]="!busy ? 'none' : 'block'" type="info" [value]="100" [striped]="true" [animated]="true">
+                  <i>Inviting</i>
+                </ngb-progressbar>
+
+                <div class="fx-login-submit">
+                  <button class="btn btn-success float-right" [disabled]="busy" type="submit">Invite</button>
+                </div>
+              </form>
             </div>
           </div>
-
-          <ngb-progressbar [style.display]="!busy ? 'none' : 'block'" type="info" [value]="100" [striped]="true" [animated]="true"><i>Inviting</i></ngb-progressbar>
-
-          <div class="fx-login-submit">
-            <button class="btn btn-success" [disabled]="busy" type="submit" (click)="addUser()">Add user</button>
-          </div>
-
         </div>
-
-        <div class="col-sm-12 col-md-6">
-          <div class="modal-header">
-            <h5 class="modal-title" id="inviteUserTitle">Invite Users</h5>
-          </div>
-
-          <form class="invite" #inviteForm (submit)="submitEvent(inviteForm.value)">
-
-            <div class="form-group">
-              <input type="text" [disabled]="busy" [(ngModel)]="model.email" ngControl="email" name="email"
-              class="form-control" placeholder="someone@mail.com" required>
-            </div>
-
-            <div class="form-group">
-              <input type="text" [disabled]="busy" [(ngModel)]="model.domain" ngControl="domain" name="domain"
-                class="form-control" placeholder="some.domain.com" required>
-            </div>
-
-            <ngb-progressbar [style.display]="!busy ? 'none' : 'block'" type="info" [value]="100" [striped]="true" [animated]="true"><i>Inviting</i></ngb-progressbar>
-
-            <div class="fx-login-submit">
-              <button class="btn btn-success" [disabled]="busy" type="submit">Invite</button>
-            </div>
-          </form>
-        </div>
-
       </div>
     </div>
   </div>

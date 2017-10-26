@@ -114,8 +114,6 @@ export class ChatService {
       const current = controllers[url];
       const childrens = current.messages
 
-      console.log('Childrens:', childrens);
-
       if (!isEmpty(childrens)) { this._processResources(childrens) }
 
       this.controllerList.set(url, current);
