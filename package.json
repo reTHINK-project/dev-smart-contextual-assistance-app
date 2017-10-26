@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve true --live-reload false --ec true",
+    "start": "ng serve true --watch true --live-reload false --ec true",
     "build": "ng build --prod --env=prod && sw-precache --verbose --root=dist --config=sw-precache-config.prod.js",
     "server": "npm run build && browser-sync start --config ./bs-config.js",
     "test": "ng test",
@@ -86,7 +86,7 @@
     "sw-precache-webpack-plugin": "^0.11.4",
     "ts-node": "~3.2.1",
     "tslint": "~5.5.0",
-    "typescript": "^2.5.3",
+    "typescript": "^2.3.4",
     "url-loader": "^0.5.7",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.3"
