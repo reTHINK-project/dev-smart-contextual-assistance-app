@@ -186,8 +186,6 @@ export class AddContextualCommComponent implements OnInit, OnDestroy {
   }
 
   onTextChange(event: KeyboardEvent) {
-    console.log(event);
-
     const nameEl: HTMLInputElement = (<HTMLInputElement>event.target);
     const value = nameEl.value.replace(/\s+/g, '-');
     nameEl.value = value;
@@ -200,7 +198,6 @@ export class AddContextualCommComponent implements OnInit, OnDestroy {
   }
 
   submitForm(value: any) {
-    console.log('Submit:', value);
     const name = value.name.trim();
     const parent = value.parent || this.model.parent;
 
@@ -212,7 +209,7 @@ export class AddContextualCommComponent implements OnInit, OnDestroy {
       this.buildForm();
 
     }).catch((reason) => {
-
+      console.error(reason);
     });
 
   }

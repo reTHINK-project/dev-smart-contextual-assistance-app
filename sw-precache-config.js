@@ -9,6 +9,8 @@ module.exports = {
     'favicon.ico',
     'mainifest.json'
   ],
+  root: 'src',
+  stripPrefix: 'src/',
   templateFilePath: './service-worker.tmpl',
   navigateFallback: './index.html',
   maximumFileSizeToCacheInBytes: 5097152,

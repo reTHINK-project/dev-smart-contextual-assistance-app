@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  host: 'hybroker.rethink.ptinovacao.pt',
+  host: 'hysmart.rethink.ptinovacao.pt',
   images: './assets/img',
   sounds: './assets/sounds'
 };

@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve true --watch true --live-reload false --ec true",
+    "start": "ng serve --watch true --live-reload false --ec true",
     "build": "ng build --prod --env=prod && sw-precache --verbose --root=dist --config=sw-precache-config.prod.js",
     "server": "npm run build && browser-sync start --config ./bs-config.js",
     "test": "ng test",
