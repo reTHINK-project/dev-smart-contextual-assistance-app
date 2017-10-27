@@ -2,7 +2,7 @@
 
   <div class="row justify-content-center">
 
-    <div class="col-12 col-md-10 col-lg-5">
+    <div class="col-12 col-md-10 col-xl-8">
 
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
@@ -16,7 +16,7 @@
 
           <div class="container-fluid">
 
-            <form class="w-100 text-left" #createContextForm="ngForm" [formGroup]="complexForm" (ngSubmit)="submitForm(complexForm.value)" (submit)="d('success')">
+            <form class="w-100 text-left" #createContextForm="ngForm" [formGroup]="complexForm" (ngSubmit)="submitForm(complexForm.value)" (ngSubmit)="d('success')" novalidate>
 
               <div class="form-group">
                 <label for="name">Context Name</label>
