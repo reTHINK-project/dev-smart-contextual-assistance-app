@@ -21,8 +21,12 @@
               <div class="form-group">
                 <label for="name">Context Name</label>
 
-                <input type="text" id="name" formControlName="name" class="form-control {{ complexForm.controls['name'].errors ? 'is-invalid' : 'is-valid' }}"
-                  [formControl]="complexForm.controls['name']" (keyup)="onTextChange($event)"  (blur)="onLostFocus($event)" aria-describedby="nameHelp" placeholder="Context name">
+                <input type="text" id="name" formControlName="name"
+                  class="form-control {{ complexForm.controls['name'].errors ? 'is-invalid' : 'is-valid' }}"
+                  [formControl]="complexForm.controls['name']"
+                  (keyup)="onTextChange($event)"
+                  (blur)="onLostFocus($event)"
+                  aria-describedby="nameHelp" placeholder="Context name">
 
                 <!-- <div class="form-control-feedback">Success! You've done it.</div> -->
 
