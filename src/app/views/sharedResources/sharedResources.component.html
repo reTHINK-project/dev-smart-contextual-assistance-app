@@ -1,5 +1,5 @@
-<ul *ngFor="let resource of resources | async" >
-  <li class="list-item" *ngIf="resource.content">
+<ul>
+  <li *ngFor="let resource of resources | async" class="list-item">
     <div class="float-right align-right">
       <span class="date">{{ resource.content.created | amCalendar }}</span>
     </div>

@@ -67,7 +67,7 @@ export class ContextualCommActivityComponent implements OnChanges, OnInit, After
 
   scrollToBottom(): void {
     const scrollPane: any = this.el.nativeElement;
-    const parentEl: any = scrollPane.offsetParent;
+    const parentEl: any = scrollPane.parentElement;
     if (parentEl) {
       parentEl.scrollTop = parentEl.scrollHeight;
     }

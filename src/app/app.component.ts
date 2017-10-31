@@ -27,6 +27,7 @@ import { ContextualCommService } from './services/contextualComm.service';
 import { ContextualCommDataService } from './services/contextualCommData.service';
 import { UserAvailabilityService } from './services/rethink/userAvailability.service';
 import { TriggerActionService, RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
+import { NativeNotification } from './components/notification/native-notifications/interfaces/native-notification.type';
 
 @Component({
   moduleId: module.id,
@@ -46,6 +47,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   private connectorCancel: Subscription;
   private chatMessages: Subscription;
   private closeEvent: Subscription;
+  private messagesEvent: Subscription;
 
   private actionResult = new EventEmitter<{}>();
 
@@ -138,6 +140,44 @@ export class AppComponent implements OnInit, AfterViewInit {
       });
 
     });
+
+
+    this.messagesEvent = this.chatService.onMessageEvent.subscribe((message: Message) => {
+
+      console.log('MESSAGE:', message);
+
+      let title = 'New Message';
+      const not: NativeNotification = {
+        icon: '',
+        body: '',
+        tag: NotificationTag.NEW_MESSAGE,
+        vibrate: NotificationVibrate.NEW_MESSAGE,
+        sound: config.sounds + '/solemn.mp3',
+        persistent: true
+      };
+
+      if (message.type === 'chat') {
+        not.icon = message.user.avatar;
+        not.body = message.message;
+      } else {
+        title = 'New ' + message.type.charAt(0).toUpperCase() + message.type.substr(1);
+        not.icon = message.user.avatar;
+        not.body = message.message.name;
+      }
+
+      this.natNotificationsService.create(title, not).subscribe((n: any) => {
+        console.log('Native:', n, n.notification, n.event);
+
+        n.notification.onclick = function (x: any) {
+          console.log('Native:', x);
+          window.focus();
+          this.close();
+        };
+
+      });
+
+    });
+
 
   }
 

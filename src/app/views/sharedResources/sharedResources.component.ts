@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, ViewContainerRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewContainerRef, ViewChild, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 
 import { Resource } from './../../models/models';
+import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 
 import { ChatService } from '../../services/rethink/chat.service';
@@ -14,20 +15,27 @@ import { MediaModalService } from '../../components/modal/services/mediaModal.se
   templateUrl: './sharedResources.component.html',
   styleUrls: ['./sharedResources.component.scss']
 })
-export class SharedResourcesComponent implements OnInit, AfterViewInit {
+export class SharedResourcesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() resources: Subject<Resource>;
+
+  private resourcesSubscription: Subscription;
 
   previewOpen = true;
 
   @ViewChild('filetransfer', { read: ViewContainerRef }) fileTranfer: ViewContainerRef;
 
   constructor(
+    private el: ElementRef,
     private chatService: ChatService,
     private contactService: ContactService,
     private mediaModalService: MediaModalService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+    this.resourcesSubscription = this.resources.subscribe(resource => this.scrollToBottom());
+
+  }
 
   ngAfterViewInit() {
 
@@ -35,6 +43,21 @@ export class SharedResourcesComponent implements OnInit, AfterViewInit {
       const el: HTMLElement = this.fileTranfer.element.nativeElement;
       el.classList.add('open');
       this.previewOpen = true;
+    }
+
+    this.scrollToBottom();
+
+  }
+
+  ngOnDestroy() {
+    this.resourcesSubscription.unsubscribe();
+  }
+
+  scrollToBottom(): void {
+    const scrollPane: any = this.el.nativeElement;
+    const parentEl: any = scrollPane.parentElement;
+    if (parentEl) {
+      parentEl.scrollTop = parentEl.scrollHeight;
     }
 
   }
