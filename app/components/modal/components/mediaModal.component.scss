@@ -3,13 +3,24 @@
 }
 
 .user {
-  margin-right: 20px;
+  margin-right: 10px;
   height: 48px;
 
   img {
     width: auto;
     height: 100%;
   }
+}
+
+.info {
+  overflow: hidden;
+  width: 100%;
+}
+
+.modal-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .modal-dialog {
@@ -19,6 +30,15 @@
 
   .modal-header {
     align-items: center;
+
+    .close {
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      margin: 0;
+      border-left: 1px solid #e9ecef;
+
+    }
   }
 
   .modal-content {

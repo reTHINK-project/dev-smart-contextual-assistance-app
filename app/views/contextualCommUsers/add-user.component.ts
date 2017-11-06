@@ -153,16 +153,22 @@ export class AddUserComponent implements OnInit {
     contexts = contexts.reduce((acc, key) => {
       let first: string;
       let second: string;
+
+      const legacyUser = isALegacyUser(data.email)
+
       if (contexts[0] === key) {
         first = config.appPrefix + '/' + key;
-        second = config.appPrefix + '/' + key + '/' + data.email + '-' + this.contactService.sessionUser.username;
+        second = !legacyUser ? config.appPrefix + '/' + key + '/' + data.email + '-' + this.contactService.sessionUser.username : undefined;
       } else {
         first = config.appPrefix + '/' + contexts[0] + '/' + key;
-        second = config.appPrefix + '/' + contexts[0] + '/' + key + '/' + data.email + '-' + this.contactService.sessionUser.username;
+        second = !legacyUser ?
+          config.appPrefix + '/' + contexts[0] + '/' + key + '/' + data.email + '-' + this.contactService.sessionUser.username :
+          undefined
       }
 
       acc.push(first);
-      acc.push(second);
+      if (second) { acc.push(second); }
+
       return acc;
     }, []);
 
@@ -199,6 +205,7 @@ export class AddUserComponent implements OnInit {
       }
 
       const users: any[] = [];
+      const legacyUser = isALegacyUser(data.email)
 
       users.push({
         user: data.email,
@@ -207,28 +214,36 @@ export class AddUserComponent implements OnInit {
 
       this.chatService.invite(contextualComm.url, users).then((controller: any) => {
 
-        interval = setTimeout(() => {
-          this.busy = false;
-          this.clean();
-          this.errorNotificateSystem('The user ' + data.email + ' is not reachable.');
-        }, 5000);
+        if (!legacyUser) {
+          interval = setTimeout(() => {
+            this.busy = false;
+            this.clean();
+            this.errorNotificateSystem('The user ' + data.email + ' is not reachable.');
+          }, 5000);
+        }
 
         controller.onUserAdded((userAdded: any) => {
           console.log('[Add User Component] - user added: ', userAdded);
 
           clearInterval(interval);
+          let normalizedName;
 
-          const normalizedName = normalizeName(contexts[index + 1]);
+          if (!legacyUser) {
+            normalizedName = normalizeName(contexts[index + 1]);
+          } else {
+            normalizedName = normalizeName(contexts[index]);
+          }
 
           console.log('[Add User Component] - data: ', normalizedName);
 
           this.chatService.controllerUserAdded(controller, userAdded);
+
           const user: any[] = [{
             user: userAdded.identity.userProfile.username,
             domain: userAdded.domain
           }];
 
-          if (!isALegacyUser(data.email)) {
+          if (!legacyUser) {
             this.contextualCommDataService.createAtomicContext(
                 user,
                 normalizedName.name,
@@ -246,9 +261,19 @@ export class AddUserComponent implements OnInit {
                   this._recursiveCreateContext(contexts, data, index);
                 }
               }).catch(console.error);
+          } else {
+            if (index < (contexts.length - 1)) {
+              index++;
+              console.log('[Add User Component] - user added: ', contexts.length, index);
+              clearInterval(interval);
+              this._recursiveCreateContext(contexts, data, index);
+            } else {
+              this.busy = false;
+              this.clean();
+            }
           }
 
-        });
+        })
 
       }).catch((reason) => {
         console.error('[Add User Component] - error:', reason);

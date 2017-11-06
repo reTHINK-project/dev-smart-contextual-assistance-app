@@ -37,29 +37,6 @@ export class ChatCommunicationComponent implements OnInit, AfterViewInit, OnDest
     private chatService: ChatService,
     private natNotificationsService: NativeNotificationsService,
     private contextualCommDataService: ContextualCommDataService) {
-
-    this.messages = this.chatService.onMessageEvent.subscribe((message: Message) => {
-
-      this.natNotificationsService.create('New Message', {
-        icon: message.user.avatar,
-        body: message.message,
-        tag: NotificationTag.NEW_MESSAGE,
-        vibrate: NotificationVibrate.NEW_MESSAGE,
-        sound: config.sounds + '/solemn.mp3',
-        persistent: true
-      }).subscribe((n: any) => {
-        console.log('Native:', n, n.notification, n.event);
-
-        n.notification.onclick = function(x: any) {
-          console.log('Native:', x);
-          window.focus();
-          this.close();
-        };
-
-      });
-
-    });
-
   }
 
   ngOnInit() {
@@ -91,7 +68,7 @@ export class ChatCommunicationComponent implements OnInit, AfterViewInit, OnDest
   }
 
   ngOnDestroy() {
-    this.messages.unsubscribe();
+
   }
 
   onSubmit(event: any) {
