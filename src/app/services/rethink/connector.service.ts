@@ -16,7 +16,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-const STATUS = { INPROGRESS: 'in-progress', END: 'end'};
+const STATUS = { ERROR: 'error', INPROGRESS: 'in-progress', END: 'end'};
 
 @Injectable()
 export class ConnectorService {
@@ -61,6 +61,7 @@ export class ConnectorService {
 
   @Output() onInvitation: EventEmitter<any> = new EventEmitter();
   @Output() onDisconnect: EventEmitter<any> = new EventEmitter();
+  @Output() onError: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private router: Router,
@@ -69,16 +70,16 @@ export class ConnectorService {
     private contactService: ContactService,
     private rethinkService: RethinkService) {
 
-      console.log('[Connector Service] - constructor', this.router);
+    console.log('[Connector Service] - constructor', this.router);
 
-      this.paramsSubscription = this.router.events.subscribe((event: NavigationEnd) => {
+    this.paramsSubscription = this.router.events.subscribe((event: NavigationEnd) => {
 
-        if (event instanceof NavigationEnd) {
-          console.log('[Connector Service] - query params changes:', event, event['action'], this.mode, this.callInProgress);
-          if (!this.callInProgress) { this.acceptCall(); }
-        }
+      if (event instanceof NavigationEnd) {
+        console.log('[Connector Service] - query params changes:', event, event['action'], this.mode, this.callInProgress);
+        if (!this.callInProgress) { this.acceptCall(); }
+      }
 
-      });
+    });
 
   }
 
@@ -108,7 +109,7 @@ export class ConnectorService {
 
   acceptCall() {
 
-    console.log('[Connector Service] - AcceptCall: ', this.controllers, this.controllers.hasOwnProperty('ansewer'));
+    console.log('[Connector Service] - AcceptCall: ', this.controllers, this.controllers.hasOwnProperty('answer'));
     console.log('[Connector Service] - AcceptCall: ', this.connectorMode);
 
     if (this.controllers && this.controllers.hasOwnProperty('answer') && this.connectorMode === 'answer') {
@@ -118,6 +119,9 @@ export class ConnectorService {
       getUserMedia(options).then((mediaStream: MediaStream) => {
         this._localStream.next(mediaStream);
         return this.controllers[this.connectorMode].accept(mediaStream);
+      }, (reason) => {
+        console.log('REASON: ', reason);
+        this.onExeception('Error on getting device', reason.name);
       }).then((accepted) => {
         this.callInProgress = true;
 
@@ -125,12 +129,13 @@ export class ConnectorService {
 
         console.log('[Connector Service] - accept response:', this.mode);
 
-      if (this.mode === 'audio') {
-        this.controllers[this.connectorMode].disableVideo();
-      }
+        if (this.mode === 'audio') {
+          this.controllers[this.connectorMode].disableVideo();
+        }
 
       }).catch((reason) => {
         console.error(reason);
+        // this.onExeception('Error on getting user device', reason.name);
       });
 
     } else {
@@ -165,6 +170,8 @@ export class ConnectorService {
     return getUserMedia(options).then((mediaStream: MediaStream) => {
       this._localStream.next(mediaStream);
       return this.hypertyVideo.connect(userURL, mediaStream, name, domain);
+    }, (reason) => {
+      this.onExeception('Error on getting device', reason.name);
     }).then((controller: any) => {
       console.log('[Connector Service] - connect:', controller);
 
@@ -253,6 +260,19 @@ export class ConnectorService {
     this._connectorStatus.next(STATUS.END);
     this.connectorMode = 'offer';
 
+  }
+
+  private onExeception(title: string, description: string) {
+    this.callInProgress = false;
+    this._connectorStatus.next(STATUS.END);
+
+    this.getControllers[this.connectorMode].decline();
+    // this.controllers[this.connectorMode].disconnect();
+
+    const navigationExtras: NavigationExtras = { queryParams: {}, relativeTo: this.route };
+    this.router.navigate([], navigationExtras);
+
+    this.onError.emit({ title: title, description: description });
   }
 
 }

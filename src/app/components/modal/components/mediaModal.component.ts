@@ -5,8 +5,6 @@ import { Component,
   ViewChild,
   ViewContainerRef } from '@angular/core';
 
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { MediaModalService } from '../services/mediaModal.service';
@@ -41,7 +39,6 @@ export class MediaModalComponent implements OnInit, AfterViewInit {
 
   constructor(
     private modalService: NgbModal,
-    private sanitizer: DomSanitizer,
     private mediaModalService: MediaModalService) { }
 
   open() {
@@ -60,42 +57,8 @@ export class MediaModalComponent implements OnInit, AfterViewInit {
 
     this.mediaModalService.openEvent.subscribe((data: MediaModalType) => {
 
-      this.modalData = deepClone(data);
-
-      const mimetype = data.type;
-      let type;
-
-      // TODO: improve the mimetype discovery
-      if (mimetype.includes('image') ) {
-        type = 'image';
-      } else if (mimetype.includes('video')) {
-        type = 'video';
-      } else {
-        type = 'file';
-      }
-
-      this.modalData.type = type;
-      this.modalData.mimetype = mimetype;
-
-      try {
-        let blob;
-
-        if (Array.isArray(data.mediaContentURL)) {
-          blob = new Blob(data.mediaContentURL, { type: mimetype });
-        } else {
-          blob = new Blob([data.mediaContentURL], { type: mimetype });
-        }
-
-        const secureBlob = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-        this.modalData.mediaContentURL = secureBlob;
-
-        console.log('MODAL:', this.modalData);
-
-        this.open();
-
-      } catch (error) {
-        console.error(error);
-      }
+      this.modalData = data;
+      this.open();
 
     });
 

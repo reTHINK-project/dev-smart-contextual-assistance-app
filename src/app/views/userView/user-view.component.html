@@ -1,29 +1,24 @@
-<!-- <media-view fullscreen [hidden]="action !== 'video' && action !== 'audio'" [mode]="action" [user]="user"></media-view>-->
-<media-view (itIsReady)="mediaComponentReady($event)" *ngIf="action === 'video' || action === 'audio'" [mode]="action" [user]="user"></media-view>
-<contact-box *ngIf="!action" [user]="user" (callEvent)="onCallEvent($event)" (closeEvent)="onCloseEvent()"></contact-box>
+<div class="overflow-content w-100 h-100 d-flex flex-column">
 
+  <contact-box *ngIf="!action" [user]="user" (callEvent)="onCallEvent($event)" (closeEvent)="onCloseEvent()"></contact-box>
 
-<div class="overflow-content w-100 h-100">
+  <div class="row w-100 h-100 no-gutters d-flex flex-row">
 
-  <div class="row h-100 no-gutters">
     <div class="activity-wrapper col-12 col-md-7 col-lg-8 float-left h-100 d-flex flex-column">
+
+      <!-- <media-view fullscreen [hidden]="action !== 'video' && action !== 'audio'" [mode]="action" [user]="user"></media-view>-->
+      <media-view (itIsReady)="mediaComponentReady($event)" *ngIf="action === 'video' || action === 'audio'" [mode]="action" [user]="user"></media-view>
+
       <h3 class="pl-3 pr-4 pt-4">Recent Activity</h3>
       <div class="v-scroll h-100">
         <context-activity-list [resources]="resources" [messages]="messages"></context-activity-list>
       </div>
     </div>
 
-    <div class="resources-wrapper col-12 col-md-5 col-lg-4 mb-0 pt-3 pt-md-0 float-left h-100 d-flex flex-column">
-
-      <h3 class="pl-3 pr-4 pt-4">Shared Files</h3>
-      <div class="v-scroll h-100">
-        <shared-resources [resources]="resources"></shared-resources>
-      </div>
-    </div>
+    <shared-resources [resources]="resources"></shared-resources>
 
   </div>
 
 </div>
-
 
 <chat-view></chat-view>

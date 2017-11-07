@@ -222,10 +222,13 @@ export class AddUserComponent implements OnInit {
           }, 5000);
         }
 
+        console.log(controller.onUserAdded instanceof Function);
+
         controller.onUserAdded((userAdded: any) => {
-          console.log('[Add User Component] - user added: ', userAdded);
+          console.log('[Add User Component] - user added: ', userAdded, controller);
 
           clearInterval(interval);
+
           let normalizedName;
 
           if (!legacyUser) {
@@ -255,16 +258,20 @@ export class AddUserComponent implements OnInit {
                 this.busy = false;
                 this.clean();
 
-                if (index <= contexts.length) {
-                  index++;
-                  console.log('[Add User Component] - user added: ', contexts.length, index);
+                index++;
+                console.log('[Add User Component] - user added: ', contexts.length, index);
+
+                if (index < (contexts.length - 1) ) {
                   this._recursiveCreateContext(contexts, data, index);
                 }
+
               }).catch(console.error);
           } else {
-            if (index < (contexts.length - 1)) {
-              index++;
-              console.log('[Add User Component] - user added: ', contexts.length, index);
+
+            index++;
+            console.log('[Add User Component] - user added: ', contexts.length, index);
+
+            if (index < (contexts.length - 1) ) {
               clearInterval(interval);
               this._recursiveCreateContext(contexts, data, index);
             } else {

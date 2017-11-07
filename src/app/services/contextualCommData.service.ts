@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/operator/first';
 
 // Models
 import { ContextualComm } from '../models/models';
@@ -153,7 +154,12 @@ export class ContextualCommDataService {
 
     if (contextPathObj.id === basePathObj.id) {
       console.log('Navigate to the parent object path: ', contextPathObj);
-      this.router.navigate([objectToPath(contextPathObj.parent)]);
+
+      let parent = objectToPath(contextPathObj.parent);
+
+      if (!parent) { parent = '/'; }
+
+      this.router.navigate([parent]);
     }
   }
 
@@ -195,10 +201,8 @@ export class ContextualCommDataService {
 
   getContextTask(id: string): Observable<ContextualComm[]> {
     return this.contextualCommService.getContextualComms()
-      .map(contexts =>
-        contexts.filter(context => context.id === id)
-        [0].contexts.filter(context => !context.id.includes('@'))
-      );
+      .map(contexts => contexts.find(context => context.id === id))
+      .map(context => context ? context.contexts.filter(current => !current.id.includes('@')) : []);
   }
 
   getContextById(id: string): Observable<ContextualComm> {

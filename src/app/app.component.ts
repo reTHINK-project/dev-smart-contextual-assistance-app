@@ -48,6 +48,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   private chatMessages: Subscription;
   private closeEvent: Subscription;
   private messagesEvent: Subscription;
+  private connectorError: Subscription;
 
   private actionResult = new EventEmitter<{}>();
 
@@ -387,6 +388,25 @@ export class AppComponent implements OnInit, AfterViewInit {
       } else {
         this.notificationsService.remove();
       }
+
+    });
+
+
+    this.connectorError = this.connectorService.onError.subscribe((event: any) => {
+
+      console.log('AQUI:', event);
+
+      setTimeout(() => {
+
+        this.notificationsService.error(event.title, event.description, {
+         showProgressBar: false,
+         timeOut: 5000,
+         pauseOnHover: false,
+         haveActions: false
+       });
+
+      }, 200);
+
     });
 
   }

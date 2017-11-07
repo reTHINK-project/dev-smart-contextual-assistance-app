@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewContainerRef, ViewChild, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ViewContainerRef, ViewChild, AfterViewInit, ElementRef, OnDestroy, HostBinding } from '@angular/core';
 
 import { Resource } from './../../models/models';
 import { Subscription } from 'rxjs/Subscription';
@@ -16,6 +16,8 @@ import { MediaModalService } from '../../components/modal/services/mediaModal.se
   styleUrls: ['./sharedResources.component.scss']
 })
 export class SharedResourcesComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  @HostBinding('class') hostClass = 'resources-wrapper col-12 col-md-5 col-lg-4 mb-0 pt-3 pt-md-0 float-left h-100 d-flex flex-column';
 
   @Input() resources: Subject<Resource>;
 
@@ -65,14 +67,18 @@ export class SharedResourcesComponent implements OnInit, AfterViewInit, OnDestro
   onOpenResource(event: MouseEvent) {
     event.preventDefault();
 
-    const el: HTMLElement = this.fileTranfer.element.nativeElement;
+    if (this.fileTranfer) {
 
-    if (el.classList.contains('open')) {
-      el.classList.remove('open');
-      this.previewOpen = false;
-    } else {
-      el.classList.add('open');
-      this.previewOpen = true;
+      const el: HTMLElement = this.fileTranfer.element.nativeElement;
+
+      if (el.classList.contains('open')) {
+        el.classList.remove('open');
+        this.previewOpen = false;
+      } else {
+        el.classList.add('open');
+        this.previewOpen = true;
+      }
+
     }
 
   }
@@ -85,30 +91,9 @@ export class SharedResourcesComponent implements OnInit, AfterViewInit, OnDestro
     const el: HTMLElement = event.currentTarget as HTMLElement;
     const url = el.getAttribute('data-url')
 
-    const resource: any = this.chatService.resourceList.get(url);
-
-    // TODO: check why sometimes the identity comes empty;
-    const identity: User = JSON.parse(JSON.stringify(resource.identity.userProfile));
-    const user = this.contactService.getUser(identity.userURL);
-
-    resource.read().then((result: any) => {
-
-      const media: MediaModalType = {
-        title: result.metadata.name,
-        size: result.metadata.size,
-        type: result.metadata.mimetype,
-        user: user,
-        mimetype: result.metadata.mimetype,
-        mediaContentURL: result.content
-      }
-
-      this.mediaModalService.open(media);
-
-    }).catch((reason: any) => {
-      console.log('ERROR READING FILE:', reason);
-    })
-
+    this.chatService.readResource({url: url})
+      .then(resource => this.mediaModalService.open(resource))
+      .catch(reason => console.error(reason));
   }
-
 
 }

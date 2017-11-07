@@ -50,3 +50,15 @@ export interface InviteUser {
   email: string
   domain: string
 }
+
+
+export enum ProgressEventType {
+  START = <any>'start',
+  UPDATE = <any>'update',
+  END = <any>'end'
+}
+
+export interface ProgressEvent {
+  type: ProgressEventType;
+  value?: number;
+}
