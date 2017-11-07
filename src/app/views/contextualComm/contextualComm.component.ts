@@ -89,6 +89,7 @@ export class ContextualCommComponent implements OnInit, AfterViewInit, OnDestroy
       }
 
       if (event.type === ProgressEventType.END) {
+        this.progressEvent = 1;
         this.showProgressEvent = false;
       }
 
