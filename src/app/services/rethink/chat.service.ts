@@ -1,5 +1,8 @@
-import { concat } from 'rxjs/operator/concat';
 import { Injectable, EventEmitter, Output } from '@angular/core';
+
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
+import { concat } from 'rxjs/operator/concat';
 
 // Services
 import { RethinkService } from './rethink.service';
@@ -8,7 +11,11 @@ import { ContextualCommService } from '../contextualComm.service';
 
 import { User, Message, Resource } from '../../models/models';
 import { HypertyResourceType, HypertyResource, HypertyResourceDirection } from '../../models/rethink/HypertyResource';
+
 import { isEmpty } from '../../utils/utils';
+
+import { MediaModalType } from '../../components/modal/interfaces/mediaModal.type';
+import { ProgressEvent, ProgressEventType } from '../../models/app.models';
 
 @Injectable()
 export class ChatService {
@@ -25,6 +32,7 @@ export class ChatService {
 
   public onMessageEvent = new EventEmitter<Message>();
   public onUserAdded = new EventEmitter<User>();
+  public onResourceProgress = new EventEmitter<ProgressEvent>();
 
   private _discovery: any;
 
@@ -44,6 +52,7 @@ export class ChatService {
   @Output() onCloseEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(
+    private sanitizer: DomSanitizer,
     private rethinkService: RethinkService,
     private contextualCommService: ContextualCommService,
     private contactService: ContactService
@@ -377,6 +386,78 @@ export class ChatService {
 
   discovery() {
     return this._discovery;
+  }
+
+  readResource(data: any): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+
+      const resource: any = this.resourceList.get(data.url);
+
+      // TODO: check why sometimes the identity comes empty;
+      const identity: User = JSON.parse(JSON.stringify(resource.identity.userProfile));
+      const user = this.contactService.getUser(identity.userURL);
+
+      this.onResourceProgress.emit({ type: ProgressEventType.START });
+
+      resource.read((progress: any) => {
+        console.log('[ContextualComm Activity Progress: ', progress);
+        this.onResourceProgress.emit({ type: ProgressEventType.UPDATE, value: progress});
+      }).then((result: any) => {
+
+        const title = result.metadata.name;
+        const size = result.metadata.size;
+        const mimetype = result.metadata.mimetype;
+        const content = result.content;
+
+        let type = mimetype;
+        let mediaContentURL: SafeUrl
+
+        // TODO: improve the mimetype discovery
+        if (mimetype.includes('image') ) {
+          type = 'image';
+        } else if (mimetype.includes('video')) {
+          type = 'video';
+        } else {
+          type = 'file';
+        }
+
+        try {
+          let blob;
+
+          if (Array.isArray(content)) {
+            blob = new Blob(content, { type: mimetype });
+          } else {
+            blob = new Blob([content], { type: mimetype });
+          }
+
+          const secureBlob = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+          mediaContentURL = secureBlob;
+
+          const media: MediaModalType = {
+            title: title,
+            size: size,
+            type: type,
+            user: user,
+            mimetype: mimetype,
+            mediaContentURL: mediaContentURL
+          }
+
+          resolve(media);
+
+          this.onResourceProgress.emit({ type: ProgressEventType.END });
+
+        } catch (error) {
+          console.error(error);
+          reject(error);
+        }
+
+      }).catch((reason: any) => {
+        console.log('ERROR READING FILE:', reason);
+        reject(reason);
+      })
+
+    })
   }
 
 }

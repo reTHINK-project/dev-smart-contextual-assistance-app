@@ -1,4 +1,7 @@
-import { Component, HostBinding, AfterViewInit, ElementRef, OnChanges, SimpleChange, Input, OnInit, ViewChild } from '@angular/core';
+import { Component,
+  HostBinding, AfterViewInit,
+  ElementRef, OnChanges, SimpleChange,
+  Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
@@ -31,6 +34,8 @@ export class ContextualCommActivityComponent implements OnChanges, OnInit, After
   @Input() messages: Subject<Message[]>;
   @Input() resources: Subject<Resource[]>;
   @Input() eventMode = false;
+
+  @Output() progressEvent: EventEmitter<any> = new EventEmitter();
 
   mergedResources: Observable<Message[] | Resource[]>;
 
@@ -76,28 +81,17 @@ export class ContextualCommActivityComponent implements OnChanges, OnInit, After
 
   onViewImageEvent(data: any): void {
 
-    const resource: any = this.chatService.resourceList.get(data.url);
+    this.chatService.readResource(data)
+      .then(resource => this.mediaModalService.open(resource))
+      .catch(reason => console.error(reason));
 
-    // TODO: check why sometimes the identity comes empty;
-    const identity: User = JSON.parse(JSON.stringify(resource.identity.userProfile));
-    const user = this.contactService.getUser(identity.userURL);
+  }
 
-    resource.read().then((result: any) => {
+  onDownloadEvent(data: any) {
 
-      const media: MediaModalType = {
-        title: result.metadata.name,
-        size: result.metadata.size,
-        type: result.metadata.mimetype,
-        user: user,
-        mimetype: result.metadata.mimetype,
-        mediaContentURL: result.content
-      }
-
-      this.mediaModalService.open(media);
-
-    }).catch((reason: any) => {
-      console.log('ERROR READING FILE:', reason);
-    })
+    this.chatService.readResource(data)
+      .then(resource => this.mediaModalService.open(resource))
+      .catch(reason => console.error(reason));
 
   }
 

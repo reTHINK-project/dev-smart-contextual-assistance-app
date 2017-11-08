@@ -26,9 +26,11 @@
 
   <span class="file-info">
 
-    <a href="javascript:;" attr.data-url="{{ message.message.url }}" (click)="onViewImage($event)" class="name" title="{{message.message.name}}">{{message.message.name}}</a>
+    <a *ngIf="message.message.mimetype.includes('image') || message.message.mimetype.includes('video')" href="javascript:;" attr.data-url="{{ message.message.url }}" (click)="onViewImage($event)" class="name" title="{{message.message.name}}">{{message.message.name}}</a>
+    <a *ngIf="message.message.mimetype.includes('application')" target="_blank" href="javascript:;" (click)="onDownloadFile($event)" attr.data-url="{{ message.message.url }}" class="name" title="{{message.message.name}}">{{message.message.name}}</a>
+
     <span class="size">({{ message.message.size | size }})</span>
-    <a class="action" href="javascript:;" role="button" (click)="onOpenResource($event)">
+    <a *ngIf="message.message.mimetype.includes('image')" class="action" href="javascript:;" role="button" (click)="onOpenResource($event)">
       <i *ngIf="previewOpen" class="fa fa-arrow-up"></i>
       <i *ngIf="!previewOpen" class="fa fa-arrow-right"></i>
     </a>
@@ -37,6 +39,6 @@
 </p>
 
 <!-- preview -->
-<div #filetransfer class="filetransfer">
+<div *ngIf="message.message.mimetype.includes('image')" #filetransfer class="filetransfer">
   <a href="javascript:;"  attr.data-url="{{ message.message.url }}" (click)="onViewImage($event)"><img src="{{ message.message.preview }}"></a>
 </div>

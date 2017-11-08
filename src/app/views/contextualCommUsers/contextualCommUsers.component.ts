@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy, HostBinding, Output, EventEmitter, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component,
+  OnInit, OnDestroy, HostBinding, Output, EventEmitter, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -24,7 +25,7 @@ import { splitFromURL, normalizeName } from '../../utils/utils';
   selector: 'context-user-view',
   templateUrl: './contextualCommUsers.component.html'
 })
-export class ContextualCommUsersComponent implements OnInit, OnDestroy {
+export class ContextualCommUsersComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild(SidebarDirective) sidebar: SidebarDirective;
 
@@ -53,11 +54,15 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private notificationsService: NotificationsService,
     private contextualCommDataService: ContextualCommDataService
-    ) {
+    ) {}
 
-      this.basePath = this.router.url;
+  // Load data ones componet is ready
+  ngOnInit() {
 
-      this.events = this.router.events.subscribe((navigation: NavigationEnd | NavigationError) => {
+    this.basePath = this.router.url;
+
+    this.events = this.router.events.subscribe(
+      (navigation: NavigationEnd | NavigationError) => {
         console.log('[ContextualCommUsers] - ', navigation);
 
         if (navigation instanceof NavigationEnd) {
@@ -71,7 +76,6 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
         }
 
         if (navigation instanceof NavigationError) {
-
           this.notificationsService.error('Error', navigation.error, {
             showProgressBar: false,
             timeOut: 3000,
@@ -79,29 +83,25 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
             haveActions: false
           });
         }
+      }
+    );
 
+    console.log('[ContextualCommUsers - constructor]', this.router, this.router.url);
+
+    this.paramsObserver = this.route.params.subscribe((params: any) => {
+      console.log('[ContextualCommUsers] - params:', params);
+
+      const context = params['context'];
+      const id = config.appPrefix + config.splitChar + context;
+
+      this.rootContext = context;
+      this.contextSubscription = this.contextualCommDataService.getContextTask(id).subscribe(contexts => {
+        console.log('[ContextualCommUsers] - contexts: ', contexts);
+        this.contexts = contexts;
       });
 
-      this.paramsObserver = this.route.params.subscribe((params: any) => {
-        console.log('[ContextualCommUsers] - params:', params);
+    });
 
-        const context = params['context'];
-        const id = config.appPrefix + '/' + context;
-
-        this.rootContext = context;
-        this.contextSubscription = this.contextualCommDataService.getContextTask(id)
-          .subscribe(contexts => {
-            console.log('[ContextualCommUsers] - contexts: ', contexts);
-            this.contexts = contexts
-          });
-
-      });
-
-      console.log('[ContextualCommUsers - constructor]', this.router, this.router.url);
-    }
-
-  // Load data ones componet is ready
-  ngOnInit() {
 
     this.currentUsers = this.users.subscribe((users: User[]) => {
       console.log('[contextualCommUsers - subscribe]', users);
@@ -111,12 +111,16 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy {
     console.log('[contextualCommUsers - ngOnInit]', this.currentUsers);
   }
 
+  ngAfterViewInit() {
+
+  }
+
   ngOnDestroy() {
 
-    this.currentUsers.unsubscribe();
-    this.events.unsubscribe();
-    this.paramsObserver.unsubscribe();
-    this.contextSubscription.unsubscribe();
+    if (this.currentUsers) { this.currentUsers.unsubscribe(); }
+    if (this.events) { this.events.unsubscribe(); }
+    if (this.paramsObserver) { this.paramsObserver.unsubscribe(); }
+    if (this.contextSubscription) { this.contextSubscription.unsubscribe(); }
 
     console.log('[contextualCommUsers - ngOnDestroy]', this.events, this.paramsObserver);
 

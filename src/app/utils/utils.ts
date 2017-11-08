@@ -200,7 +200,7 @@ export function objectToPath(value: string): string {
 
   let path = '';
 
-  if (value.includes(prefix)) {
+  if (value && value.includes(prefix)) {
     path = value.replace(prefix + splitChar, '');
   }
 
