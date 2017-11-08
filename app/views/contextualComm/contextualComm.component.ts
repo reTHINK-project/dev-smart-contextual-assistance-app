@@ -5,8 +5,11 @@ import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
+// Bootstrap
+import { NgbProgressbarConfig } from '@ng-bootstrap/ng-bootstrap';
+
 // Services
-import { ContactService, RethinkService, ContextualCommDataService } from '../../services/services';
+import { ContactService, RethinkService, ContextualCommDataService, ChatService } from '../../services/services';
 
 // Models
 import { User, ContextualComm } from '../../models/models';
@@ -19,6 +22,7 @@ import { AddUserComponent } from '../contextualCommUsers/add-user.component';
 
 // Directives
 import { SidebarDirective } from '../../shared/directive.module';
+import { ProgressEventType, ProgressEvent } from '../../models/app.models';
 
 @Component({
   moduleId: module.id,
@@ -36,6 +40,10 @@ export class ContextualCommComponent implements OnInit, AfterViewInit, OnDestroy
   allowAddUser = false;
   userList: Subject<User[]> = new BehaviorSubject([]);
 
+  showProgressEvent = false;
+  progressEvent = 1;
+
+  private resourceProgressEvent: Subscription;
   private routeData: Subscription;
   private currentContext: Subscription;
 
@@ -46,9 +54,21 @@ export class ContextualCommComponent implements OnInit, AfterViewInit, OnDestroy
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private chatService: ChatService,
     private appService: RethinkService,
+    private config: NgbProgressbarConfig,
     private contextualCommDataService: ContextualCommDataService,
     private contactService: ContactService) {
+
+      config.max = 100;
+      config.animated = true;
+      config.striped = true;
+      config.type = 'info';
+  }
+
+  // Load data ones componet is ready
+  ngOnInit() {
+    console.log('[ContextualComm View - onInit]', this.content);
 
     this.routeData = this.route.data.subscribe((data: { context: ContextualComm, users: User[] }) => {
       this.updateCurrentContext(data.context);
@@ -58,6 +78,43 @@ export class ContextualCommComponent implements OnInit, AfterViewInit, OnDestroy
       console.log('[ContextualComm View - active context change]:', context);
       this.updateCurrentContext(context);
     });
+
+    this.resourceProgressEvent = this.chatService.onResourceProgress.subscribe((event: ProgressEvent) => {
+      if (event.type === ProgressEventType.START) {
+        this.showProgressEvent = true;
+      }
+
+      if (event.type === ProgressEventType.UPDATE) {
+        this.progressEvent = event.value;
+      }
+
+      if (event.type === ProgressEventType.END) {
+        this.progressEvent = 1;
+        this.showProgressEvent = false;
+      }
+
+    });
+
+  }
+
+  ngAfterViewInit() {
+    this.updateView();
+  }
+
+  ngOnDestroy() {
+    this.currentContext.unsubscribe();
+    this.routeData.unsubscribe();
+  }
+
+  updateView() {
+
+    // TODO: try to put this code in Sidebar Directive
+    // TODO: i tried but i can't do it;
+    const element: HTMLElement = document.getElementById('sidebar');
+
+    if (element.classList.contains('opened')) {
+      element.classList.remove('opened');
+    }
 
   }
 
@@ -89,32 +146,6 @@ export class ContextualCommComponent implements OnInit, AfterViewInit, OnDestroy
       });
 
       this.allowAddUser = false;
-    }
-
-  }
-
-  // Load data ones componet is ready
-  ngOnInit() {
-    console.log('[ContextualComm View - onInit]', this.content);
-  }
-
-  ngAfterViewInit() {
-    this.updateView();
-  }
-
-  ngOnDestroy() {
-    this.currentContext.unsubscribe();
-    this.routeData.unsubscribe();
-  }
-
-  updateView() {
-
-    // TODO: try to put this code in Sidebar Directive
-    // TODO: i tried but i can't do it;
-    const element: HTMLElement = document.getElementById('sidebar');
-
-    if (element.classList.contains('opened')) {
-      element.classList.remove('opened');
     }
 
   }

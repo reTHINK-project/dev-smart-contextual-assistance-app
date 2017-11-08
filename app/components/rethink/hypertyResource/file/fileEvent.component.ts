@@ -16,8 +16,10 @@ export class FileEventComponent implements OnInit, AfterViewInit {
 
   @Input() message: Message;
   @Input() isAnEvent = false;
+  @Input() progress: string;
 
   @Output() viewImageEvent: EventEmitter<any> = new EventEmitter();
+  @Output() downloadEvent: EventEmitter<any> = new EventEmitter();
 
   previewOpen = true;
 
@@ -29,24 +31,33 @@ export class FileEventComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
 
-    const el: HTMLElement = this.fileTranfer.element.nativeElement;
-    el.classList.add('open');
-    this.previewOpen = true;
+    if (this.fileTranfer) {
+
+      const el: HTMLElement = this.fileTranfer.element.nativeElement;
+      el.classList.add('open');
+      this.previewOpen = true;
+
+    }
 
   }
 
   onOpenResource(event: MouseEvent) {
     event.preventDefault();
 
-    const el: HTMLElement = this.fileTranfer.element.nativeElement;
+    if (this.fileTranfer) {
 
-    if (el.classList.contains('open')) {
-      el.classList.remove('open');
-      this.previewOpen = false;
-    } else {
-      el.classList.add('open');
-      this.previewOpen = true;
+      const el: HTMLElement = this.fileTranfer.element.nativeElement;
+
+      if (el.classList.contains('open')) {
+        el.classList.remove('open');
+        this.previewOpen = false;
+      } else {
+        el.classList.add('open');
+        this.previewOpen = true;
+      }
+
     }
+
 
   }
 
@@ -59,6 +70,16 @@ export class FileEventComponent implements OnInit, AfterViewInit {
       url: el.getAttribute('data-url')
     });
 
+  }
+
+  onDownloadFile(event: MouseEvent) {
+    event.preventDefault();
+
+    const el: HTMLElement = event.currentTarget as HTMLElement;
+
+    this.downloadEvent.emit({
+      url: el.getAttribute('data-url')
+    });
   }
 
 }
