@@ -3,10 +3,6 @@
 </div>
 
 <div class="col-12 col-sm-8 push-sm-4 col-lg-9 push-lg-3 col-xl-10 push-xl-2 main-content">
-    <div *ngIf="showProgressEvent" class="alert alert-secondary" role="alert">
-      <ngb-progressbar [value]="progressEvent"></ngb-progressbar>
-    </div>
-
     <div #content class="content-panel">
         <router-outlet></router-outlet>
     </div>

@@ -1,0 +1,30 @@
+<div class="float-left align-right w-100 mb-2">
+  <span class="date"><i class="fa fa-{{ resource.type }}-o"></i>{{ resource.type }} uploaded at {{ resource.content.created | amCalendar }}</span>
+</div>
+
+<!-- preview -->
+<div *ngIf="resource.mimetype.includes('image')" #filetransfer class="filetransfer">
+  <a href="javascript:;" attr.data-url="{{ resource.content.url }}" (click)="onViewImage($event)">
+    <img class="rounded mx-auto d-block img-fluid" src="{{ resource.content.preview }}">
+  </a>
+</div>
+
+<!-- <div class="file-info">
+  <i class="fa fa-{{ resource.type }}-o"></i>{{ resource.type }} uploaded
+</div> -->
+
+<div class="file">
+
+  <a class="name" title="{{resource.content.name}}" *ngIf="resource.mimetype.includes('image') || resource.mimetype.includes('video')" href="javascript:;" attr.data-url="{{ resource.content.url }}" (click)="onViewImage($event)">{{resource.content.name}}</a>
+  <a class="name" title="{{resource.content.name}}" *ngIf="resource.mimetype.includes('application')" target="_blank" href="javascript:;" attr.data-url="{{ resource.content.url }}" (click)="onDownloadFile($event)">{{resource.content.name}}</a>
+
+  <span class="specs">{{ resource.size | size}}
+    <!-- <a *ngIf="resource.mimetype.includes('image')" class="action" href="javascript:;" role="button" (click)="onOpenResource($event)">
+        <i *ngIf="previewOpen" class="fa fa-arrow-up"></i>
+        <i *ngIf="!previewOpen" class="fa fa-arrow-right"></i>
+    </a> -->
+  </span>
+
+  <ngb-progressbar *ngIf="showProgressEvent" [value]="progress"></ngb-progressbar>
+
+</div>

@@ -15,6 +15,7 @@ import { ChatCommunicationComponent } from '../../components/rethink/communicati
 
 import { ChatEventComponent } from '../../components/rethink/hypertyResource/chat/chatEvent.component';
 import { FileEventComponent } from '../../components/rethink/hypertyResource/file/fileEvent.component';
+import { ResourceEventComponent } from '../../components/rethink/hypertyResource/resource/resourceEvent.component';
 
 // Components views
 import { ContactBoxComponent } from '../userView/contact-box.component';
@@ -27,6 +28,7 @@ import { ContextualCommActivityComponent } from '../contextualCommActivity/conte
 
 // Custom Pipes
 import { PipesModule } from '../../pipes/pipes';
+import { NgbProgressbar, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Services
 import {
@@ -38,6 +40,7 @@ import {
 
 @NgModule({
   imports: [
+    NgbModule,
     PipesModule,
     MomentModule,
     CommonModule,
@@ -56,6 +59,7 @@ import {
     ChatCommunicationComponent,
     MediaCommunicationComponent,
 
+    ResourceEventComponent,
     ContactBoxComponent,
     ChatEventComponent,
     FileEventComponent

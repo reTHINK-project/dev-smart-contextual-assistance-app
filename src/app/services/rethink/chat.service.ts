@@ -32,7 +32,6 @@ export class ChatService {
 
   public onMessageEvent = new EventEmitter<Message>();
   public onUserAdded = new EventEmitter<User>();
-  public onResourceProgress = new EventEmitter<ProgressEvent>();
 
   private _discovery: any;
 
@@ -388,7 +387,7 @@ export class ChatService {
     return this._discovery;
   }
 
-  readResource(data: any): Promise<any> {
+  readResource(data: any, progressEvent: EventEmitter<ProgressEvent>): Promise<any> {
 
     return new Promise((resolve, reject) => {
 
@@ -398,11 +397,20 @@ export class ChatService {
       const identity: User = JSON.parse(JSON.stringify(resource.identity.userProfile));
       const user = this.contactService.getUser(identity.userURL);
 
-      this.onResourceProgress.emit({ type: ProgressEventType.START });
+      progressEvent.emit({
+        resource: data.url,
+        type: ProgressEventType.START
+      });
 
       resource.read((progress: any) => {
         console.log('[ContextualComm Activity Progress: ', progress);
-        this.onResourceProgress.emit({ type: ProgressEventType.UPDATE, value: progress});
+
+        progressEvent.emit({
+          resource: data.url,
+          type: ProgressEventType.UPDATE,
+          value: progress
+        });
+
       }).then((result: any) => {
 
         const title = result.metadata.name;
@@ -445,15 +453,16 @@ export class ChatService {
 
           resolve(media);
 
-          this.onResourceProgress.emit({ type: ProgressEventType.END });
+          progressEvent.emit({resource: data.url, type: ProgressEventType.END });
 
         } catch (error) {
-          console.error(error);
+          progressEvent.emit({resource: data.url, type: ProgressEventType.END });
           reject(error);
         }
 
       }).catch((reason: any) => {
         console.log('ERROR READING FILE:', reason);
+        progressEvent.emit({resource: data.url, type: ProgressEventType.END });
         reject(reason);
       })
 

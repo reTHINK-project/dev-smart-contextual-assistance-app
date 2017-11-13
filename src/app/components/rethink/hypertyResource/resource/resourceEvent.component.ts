@@ -3,19 +3,18 @@ import { Component, OnInit, Input,
   ElementRef, AfterViewInit,
   EventEmitter, Output } from '@angular/core';
 
-import { Message } from '../../../../models/models';
+import { Resource } from '../../../../models/models';
 import { ProgressEvent, DownloadFileEvent, ProgressEventType } from '../../../../models/app.models';
 
 @Component({
   moduleId: module.id,
-  encapsulation: ViewEncapsulation.None,
-  selector: 'file-event',
-  templateUrl: './fileEvent.component.html',
-  styleUrls: ['./fileEvent.component.scss']
+  selector: 'resource-event',
+  templateUrl: './resourceEvent.component.html',
+  styleUrls: ['./resourceEvent.component.scss']
 })
-export class FileEventComponent implements OnInit, AfterViewInit {
+export class ResourceEventComponent implements OnInit, AfterViewInit {
 
-  @Input() message: Message;
+  @Input() resource: Resource;
   @Input() isAnEvent = false;
   @Input() progress = 1;
 

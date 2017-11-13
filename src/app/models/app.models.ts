@@ -1,4 +1,5 @@
 import { User, ContextualComm } from './models';
+import { EventEmitter } from '@angular/core';
 
 export enum AlertType {
   SUCCESS = <any>'success',
@@ -60,5 +61,11 @@ export enum ProgressEventType {
 
 export interface ProgressEvent {
   type: ProgressEventType;
+  resource: string,
   value?: number;
+}
+
+export interface DownloadFileEvent {
+  url: string,
+  callback: EventEmitter<ProgressEvent>
 }

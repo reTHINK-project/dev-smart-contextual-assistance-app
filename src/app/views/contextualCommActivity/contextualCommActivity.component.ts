@@ -21,13 +21,15 @@ import { MediaModalComponent } from '../../components/modal/components/mediaModa
 import { MediaModalService } from '../../components/modal/services/mediaModal.service';
 import { MediaModalType } from '../../components/modal/interfaces/mediaModal.type';
 import { ContactService } from '../../services/contact.service';
+import { OnDestroy } from '@angular/core';
+import { DownloadFileEvent } from '../../models/app.models';
 
 @Component({
   moduleId: module.id,
   selector: 'context-activity-list',
   templateUrl: './contextualCommActivity.component.html'
 })
-export class ContextualCommActivityComponent implements OnChanges, OnInit, AfterViewInit {
+export class ContextualCommActivityComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
   @HostBinding('class') hostClass = 'activity-list w-100 h-100';
 
@@ -70,6 +72,10 @@ export class ContextualCommActivityComponent implements OnChanges, OnInit, After
 
   }
 
+  ngOnDestroy() {
+    this.mergedResourcesSubscription.unsubscribe();
+  }
+
   scrollToBottom(): void {
     const scrollPane: any = this.el.nativeElement;
     const parentEl: any = scrollPane.parentElement;
@@ -79,17 +85,17 @@ export class ContextualCommActivityComponent implements OnChanges, OnInit, After
 
   }
 
-  onViewImageEvent(data: any): void {
+  onViewImageEvent(data: DownloadFileEvent): void {
 
-    this.chatService.readResource(data)
+    this.chatService.readResource(data, data.callback)
       .then(resource => this.mediaModalService.open(resource))
       .catch(reason => console.error(reason));
 
   }
 
-  onDownloadEvent(data: any) {
+  onDownloadEvent(data: DownloadFileEvent) {
 
-    this.chatService.readResource(data)
+    this.chatService.readResource(data, data.callback)
       .then(resource => this.mediaModalService.open(resource))
       .catch(reason => console.error(reason));
 

@@ -1,4 +1,6 @@
-import { Component, OnInit, Input, ViewContainerRef, ViewChild, AfterViewInit, ElementRef, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, Input, ViewContainerRef, ViewChild,
+  AfterViewInit, ElementRef, OnDestroy, HostBinding,
+  EventEmitter } from '@angular/core';
 
 import { Resource } from './../../models/models';
 import { Subscription } from 'rxjs/Subscription';
@@ -9,6 +11,8 @@ import { ContactService } from '../../services/contact.service';
 import { User } from '../../models/models';
 import { MediaModalType } from '../../components/modal/interfaces/mediaModal.type';
 import { MediaModalService } from '../../components/modal/services/mediaModal.service';
+
+import { DownloadFileEvent, ProgressEvent, ProgressEventType } from '../../models/app.models';
 
 @Component({
   selector: 'shared-resources',
@@ -22,6 +26,11 @@ export class SharedResourcesComponent implements OnInit, AfterViewInit, OnDestro
   @Input() resources: Subject<Resource>;
 
   private resourcesSubscription: Subscription;
+
+
+  progressEvent: EventEmitter<ProgressEvent> = new EventEmitter();
+  showProgressEvent = false;
+  progress = 1;
 
   previewOpen = true;
 
@@ -46,6 +55,23 @@ export class SharedResourcesComponent implements OnInit, AfterViewInit, OnDestro
       el.classList.add('open');
       this.previewOpen = true;
     }
+
+    this.progressEvent.subscribe((progress: ProgressEvent) => {
+      console.log('Progress Event: ', progress);
+
+      if (progress.type === ProgressEventType.START) {
+        this.showProgressEvent = true;
+      }
+
+      if (progress.type === ProgressEventType.UPDATE) {
+        this.progress = progress.value;
+      }
+
+      if (progress.type === ProgressEventType.END) {
+        this.showProgressEvent = false;
+      }
+
+    })
 
     this.scrollToBottom();
 
@@ -84,16 +110,33 @@ export class SharedResourcesComponent implements OnInit, AfterViewInit, OnDestro
   }
 
 
-  onViewImageEvent(event: any): void {
+  // onViewImageEvent(event: MouseEvent): void {
 
-    event.preventDefault();
+  //   event.preventDefault();
 
-    const el: HTMLElement = event.currentTarget as HTMLElement;
-    const url = el.getAttribute('data-url')
+  //   const el: HTMLElement = event.currentTarget as HTMLElement;
+  //   const url = el.getAttribute('data-url')
 
-    this.chatService.readResource({url: url})
+  //   this.chatService.readResource({ url: url }, this.progressEvent)
+  //     .then(resource => this.mediaModalService.open(resource))
+  //     .catch(reason => console.error(reason));
+  // }
+
+
+  onViewImageEvent(data: DownloadFileEvent): void {
+
+    this.chatService.readResource(data, data.callback)
       .then(resource => this.mediaModalService.open(resource))
       .catch(reason => console.error(reason));
+
+  }
+
+  onDownloadEvent(data: DownloadFileEvent) {
+
+    this.chatService.readResource(data, data.callback)
+      .then(resource => this.mediaModalService.open(resource))
+      .catch(reason => console.error(reason));
+
   }
 
 }

@@ -1,36 +1,7 @@
 <h3 class="pl-3 pr-4 pt-4">Shared Files</h3>
 <div class="v-scroll h-100">
   <ul>
-    <li *ngFor="let resource of resources | async" class="list-item">
-      <div class="float-right align-right">
-        <span class="date">{{ resource.content.created | amCalendar }}</span>
-      </div>
-
-      <div class="file-info">
-        <i class="fa fa-{{ resource.type }}-o"></i>{{ resource.type }} uploaded
-      </div>
-
-      <div class="file">
-
-        <a *ngIf="resource.mimetype.includes('image') || resource.mimetype.includes('video')" href="javascript:;" attr.data-url="{{ resource.content.url }}" (click)="onViewImageEvent($event)" class="name specs" title="{{resource.content.name}}">{{resource.content.name}}</a>
-        <a *ngIf="resource.mimetype.includes('application')" target="_blank" href="javascript:;" attr.data-url="{{ resource.content.url }}" (click)="onViewImageEvent($event)" class="name specs" title="{{resource.content.name}}">{{resource.content.name}}</a>
-
-        <span class="specs">{{ resource.size | size}}</span>
-
-        <a *ngIf="resource.mimetype.includes('image')" class="action" href="javascript:;" role="button" (click)="onOpenResource($event)">
-          <i *ngIf="previewOpen" class="fa fa-arrow-up"></i>
-          <i *ngIf="!previewOpen" class="fa fa-arrow-right"></i>
-        </a>
-      </div>
-
-      <!-- preview -->
-      <div *ngIf="resource.mimetype.includes('image')" #filetransfer class="filetransfer">
-        <a href="javascript:;" attr.data-url="{{ resource.content.url }}" (click)="onViewImageEvent($event)">
-          <img src="{{ resource.content.preview }}">
-        </a>
-      </div>
-
-    </li>
+    <resource-event *ngFor="let resource of resources | async" class="list-item" (downloadEvent)="onDownloadEvent($event)" (viewImageEvent)="onViewImageEvent($event)" [resource]="resource" ></resource-event>
   </ul>
 
 </div>

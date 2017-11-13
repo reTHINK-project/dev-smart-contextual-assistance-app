@@ -3,7 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+// Service Worker Service
+import { ServiceWorkerModule } from '@angular/service-worker'
+
+import { NgbModule, NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
 
 // routing
 import { AppRoutingModule } from './app-routing.module';
@@ -47,6 +50,7 @@ import { MediaModalComponent } from './components/modal/components/mediaModal.co
     ReactiveFormsModule,
     ContextualCommModule,
     BrowserAnimationsModule,
+    ServiceWorkerModule.register('../service-worker.js'),
     NgbModule.forRoot(),
     MediaModalModule.forRoot(),
     NotificationsModule.forRoot(),
