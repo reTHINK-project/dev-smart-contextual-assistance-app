@@ -1,5 +1,5 @@
-FROM node
-MAINTAINER vitor-t-silva@telecom.pt
+FROM node:boron
+LABEL maintainer=vitor-t-silva@telecom.pt
 
 RUN mkdir -p /rethink
 
@@ -12,7 +12,7 @@ ENV PATH=/rethink/node_modules/.bin:$PATH
 COPY package.json /rethink/
 
 # Install app dependencies
-RUN npm install -g live-server && npm install 
+RUN npm install -g live-server && npm install
 
 # Copy all structure
 COPY . /rethink/

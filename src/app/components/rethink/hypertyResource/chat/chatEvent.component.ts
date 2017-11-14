@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 
 import { Message } from '../../../../models/models';
 
 @Component({
   moduleId: module.id,
+  encapsulation: ViewEncapsulation.None,
   selector: 'chat-event',
   templateUrl: './chatEvent.component.html'
 })

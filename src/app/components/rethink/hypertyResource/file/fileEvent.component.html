@@ -18,6 +18,8 @@
 </div>
 <!-- END OF THE user-identity -->
 
+
+<!-- TODO: this should be extended by the resourceEvent Component to avoid duplicated tempaltes -->
 <!-- message -->
 <p class="message">
   <span *ngIf="isAnEvent" class="{{ message.type }}">
@@ -36,7 +38,10 @@
     </a>
   </span>
 
+  <ngb-progressbar *ngIf="showProgressEvent" [value]="progress"></ngb-progressbar>
+
 </p>
+
 
 <!-- preview -->
 <div *ngIf="message.message.mimetype.includes('image')" #filetransfer class="filetransfer">

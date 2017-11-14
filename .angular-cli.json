@@ -17,11 +17,13 @@
         "service-worker.js"
       ],
       "index": "index.html",
+      "platform": "browser",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
       "test": "test.ts",
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
+      "serviceWorker": true,
       "prefix": "app",
       "styles": [
         "styles.scss"

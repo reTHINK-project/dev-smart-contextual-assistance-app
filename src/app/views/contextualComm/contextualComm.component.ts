@@ -79,21 +79,21 @@ export class ContextualCommComponent implements OnInit, AfterViewInit, OnDestroy
       this.updateCurrentContext(context);
     });
 
-    this.resourceProgressEvent = this.chatService.onResourceProgress.subscribe((event: ProgressEvent) => {
-      if (event.type === ProgressEventType.START) {
-        this.showProgressEvent = true;
-      }
+    // this.resourceProgressEvent = this.chatService.onResourceProgress.subscribe((event: ProgressEvent) => {
+    //   if (event.type === ProgressEventType.START) {
+    //     this.showProgressEvent = true;
+    //   }
 
-      if (event.type === ProgressEventType.UPDATE) {
-        this.progressEvent = event.value;
-      }
+    //   if (event.type === ProgressEventType.UPDATE) {
+    //     this.progressEvent = event.value;
+    //   }
 
-      if (event.type === ProgressEventType.END) {
-        this.progressEvent = 1;
-        this.showProgressEvent = false;
-      }
+    //   if (event.type === ProgressEventType.END) {
+    //     this.progressEvent = 1;
+    //     this.showProgressEvent = false;
+    //   }
 
-    });
+    // });
 
   }
 
