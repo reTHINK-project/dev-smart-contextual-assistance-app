@@ -56,12 +56,14 @@ export interface InviteUser {
 export enum ProgressEventType {
   START = <any>'start',
   UPDATE = <any>'update',
+  ERROR = <any>'error',
   END = <any>'end'
 }
 
 export interface ProgressEvent {
   type: ProgressEventType;
   resource: string,
+  description?: string,
   value?: number;
 }
 

@@ -3,6 +3,8 @@ import { Component, OnInit, Input,
   ElementRef, AfterViewInit,
   EventEmitter, Output } from '@angular/core';
 
+import { NotificationsService } from '../../../../components/notification/notifications.module';
+
 import { Message } from '../../../../models/models';
 import { ProgressEvent, DownloadFileEvent, ProgressEventType } from '../../../../models/app.models';
 
@@ -29,6 +31,8 @@ export class FileEventComponent implements OnInit, AfterViewInit {
   previewOpen = true;
 
   @ViewChild('filetransfer', { read: ViewContainerRef }) fileTranfer: ViewContainerRef;
+
+  constructor(private notificationsService: NotificationsService) {}
 
   ngOnInit() {
 
@@ -57,6 +61,18 @@ export class FileEventComponent implements OnInit, AfterViewInit {
 
       if (progress.type === ProgressEventType.END) {
         this.showProgressEvent = false;
+      }
+
+      if (progress.type === ProgressEventType.ERROR) {
+        this.showProgressEvent = false;
+
+        this.notificationsService.error('ERROR', progress.description, {
+          showProgressBar: false,
+          timeOut: 5000,
+          pauseOnHover: false,
+          haveActions: false
+        });
+
       }
 
     })

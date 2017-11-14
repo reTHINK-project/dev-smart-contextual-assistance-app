@@ -456,13 +456,13 @@ export class ChatService {
           progressEvent.emit({resource: data.url, type: ProgressEventType.END });
 
         } catch (error) {
-          progressEvent.emit({resource: data.url, type: ProgressEventType.END });
+          progressEvent.emit({resource: data.url, type: ProgressEventType.ERROR });
           reject(error);
         }
 
       }).catch((reason: any) => {
         console.log('ERROR READING FILE:', reason);
-        progressEvent.emit({resource: data.url, type: ProgressEventType.END });
+        progressEvent.emit({resource: data.url, type: ProgressEventType.ERROR, description: reason });
         reject(reason);
       })
 

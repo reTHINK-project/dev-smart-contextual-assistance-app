@@ -58,6 +58,7 @@
     "@types/jasminewd2": "^2.0.3",
     "@types/node": "^6.0.45",
     "autoprefixer": "^7.1.6",
+    "chrome-launcher": "^0.8.1",
     "codelyzer": "^4.0.1",
     "css-loader": "^0.28.5",
     "cssnano": "^3.10.0",
