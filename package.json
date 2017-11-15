@@ -1,17 +1,16 @@
 {
   "name": "rethink",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --aot --live-reload false --ec true",
-    "build": "ng build --prod --env=prod && sw-precache --verbose --root=dist --config=sw-precache-config.prod.js",
-    "server": "npm run build && ng serve --aot --prod",
+    "start": "ng serve --aot --live-reload true --ec true",
+    "build": "ng build --aot --prod --env=prod && npm run sw",
+    "sw": "node_modules/.bin/ngsw-config dist src/ngsw-config.json",
+    "server": "https-server ./dist",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "webpack": "webpack-dev-server",
-    "precache": "sw-precache --verbose --config=sw-precache-config.js"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -52,7 +51,7 @@
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
-    "@angular/cli": "1.5.0",
+    "@angular/cli": "v1.6.0-beta.0",
     "@angular/language-service": "^5.0.1",
     "@types/jasmine": "~2.5.53",
     "@types/jasminewd2": "^2.0.3",

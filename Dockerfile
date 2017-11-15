@@ -12,13 +12,14 @@ ENV PATH=/rethink/node_modules/.bin:$PATH
 COPY package.json /rethink/
 
 # Install app dependencies
-RUN npm install -g live-server && npm install
+RUN npm install -g http-server && npm install
 
 # Copy all structure
 COPY . /rethink/
 
 # Start the gulp server task
-ENTRYPOINT npm run server
+ENTRYPOINT http-server ./dist -p 8080
 
 # Expose HTTPS Port
 EXPOSE 443
+EXPOSE 8080

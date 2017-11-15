@@ -28,6 +28,7 @@ import { ContextualCommDataService } from './services/contextualCommData.service
 import { UserAvailabilityService } from './services/rethink/userAvailability.service';
 import { TriggerActionService, RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
 import { NativeNotification } from './components/notification/native-notifications/interfaces/native-notification.type';
+import { SwPush } from '@angular/service-worker';
 
 @Component({
   moduleId: module.id,
@@ -95,6 +96,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     private userAvailabilityService: UserAvailabilityService,
     private natNotificationsService: NativeNotificationsService,
     private contextualCommDataService: ContextualCommDataService) {
+  }
+
+  ngOnInit() {
 
     this.natNotFeedback = this.natNotificationsService.requestPermission()
       .subscribe(
@@ -179,10 +183,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     });
 
-
-  }
-
-  ngOnInit() {
 
     this.rethinkService.progress.next('Loading runtime');
 
