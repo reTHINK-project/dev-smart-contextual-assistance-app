@@ -3,7 +3,10 @@ import { Component, OnInit, Input,
   ElementRef, AfterViewInit,
   EventEmitter, Output } from '@angular/core';
 
+import { NotificationsService } from '../../../../components/notification/notifications.module';
+
 import { Message } from '../../../../models/models';
+import { ProgressEvent, DownloadFileEvent, ProgressEventType } from '../../../../models/app.models';
 
 @Component({
   moduleId: module.id,
@@ -16,14 +19,20 @@ export class FileEventComponent implements OnInit, AfterViewInit {
 
   @Input() message: Message;
   @Input() isAnEvent = false;
-  @Input() progress: string;
+  @Input() progress = 1;
 
-  @Output() viewImageEvent: EventEmitter<any> = new EventEmitter();
-  @Output() downloadEvent: EventEmitter<any> = new EventEmitter();
+  @Output() viewImageEvent: EventEmitter<DownloadFileEvent> = new EventEmitter();
+  @Output() downloadEvent: EventEmitter<DownloadFileEvent> = new EventEmitter();
+
+  progressEvent: EventEmitter<ProgressEvent> = new EventEmitter();
+
+  showProgressEvent = false;
 
   previewOpen = true;
 
   @ViewChild('filetransfer', { read: ViewContainerRef }) fileTranfer: ViewContainerRef;
+
+  constructor(private notificationsService: NotificationsService) {}
 
   ngOnInit() {
 
@@ -38,6 +47,35 @@ export class FileEventComponent implements OnInit, AfterViewInit {
       this.previewOpen = true;
 
     }
+
+    this.progressEvent.subscribe((progress: ProgressEvent) => {
+      console.log('Progress Event: ', progress);
+
+      if (progress.type === ProgressEventType.START) {
+        this.showProgressEvent = true;
+      }
+
+      if (progress.type === ProgressEventType.UPDATE) {
+        this.progress = progress.value;
+      }
+
+      if (progress.type === ProgressEventType.END) {
+        this.showProgressEvent = false;
+      }
+
+      if (progress.type === ProgressEventType.ERROR) {
+        this.showProgressEvent = false;
+
+        this.notificationsService.error('ERROR', progress.description, {
+          showProgressBar: false,
+          timeOut: 5000,
+          pauseOnHover: false,
+          haveActions: false
+        });
+
+      }
+
+    })
 
   }
 
@@ -67,7 +105,8 @@ export class FileEventComponent implements OnInit, AfterViewInit {
     const el: HTMLElement = event.currentTarget as HTMLElement;
 
     this.viewImageEvent.emit({
-      url: el.getAttribute('data-url')
+      url: el.getAttribute('data-url'),
+      callback: this.progressEvent
     });
 
   }
@@ -78,7 +117,8 @@ export class FileEventComponent implements OnInit, AfterViewInit {
     const el: HTMLElement = event.currentTarget as HTMLElement;
 
     this.downloadEvent.emit({
-      url: el.getAttribute('data-url')
+      url: el.getAttribute('data-url'),
+      callback: this.progressEvent
     });
   }
 

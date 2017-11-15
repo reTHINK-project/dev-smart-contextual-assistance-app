@@ -2,35 +2,3 @@
   background: #f7f7f6;
   border-left: 1px solid #dddddd;
 }
-
-.list-item {
-
-  padding: .75rem;
-
-  border-bottom: 1px solid #ddd;
-
-  i {
-    font-size: 1rem;
-    margin-right: 6px;
-    margin-left: 1px;
-  }
-
-  .specs {
-    padding-left: 20px;
-    display: block;
-  }
-
-  .file,
-  .file i {
-    color: #d16a3f;
-  }
-
-  .name {
-    display: inline;
-    padding: 0 4px;
-    margin: 0;
-    font-size: 1rem;
-    color: #444;
-  }
-
-}
