@@ -52,7 +52,7 @@ import { environment } from '../environments/environment';
     ReactiveFormsModule,
     ContextualCommModule,
     BrowserAnimationsModule,
-    environment.production ? ServiceWorkerModule.register('/ngsw-worker.js') : [],
+    environment.production ? ServiceWorkerModule.register('./ngsw-worker.js') : [],
     NgbModule.forRoot(),
     MediaModalModule.forRoot(),
     NotificationsModule.forRoot(),
