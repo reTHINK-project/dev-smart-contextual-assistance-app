@@ -231,7 +231,7 @@
     {
       "name": "hyperties",
       "patterns": [
-        "\\/\\.well-known\\/hyperty\\/[^\\/]+"
+        "https:\\/\\\\/\\rethink-project.github.io\\/\\dev-smart-contextual-assistance-app\\/\\.well-known\\/hyperty\\/[^\\/]+"
       ],
       "strategy": "freshness",
       "maxSize": 100,
