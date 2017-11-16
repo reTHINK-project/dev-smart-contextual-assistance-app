@@ -7,6 +7,8 @@
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "urls": [
+        "/favicon.ico",
+        "/manifest.json",
         "/inline.64b8417feb4f22f8352d.bundle.js",
         "/main.556f6b9388b0d1c55a00.bundle.js",
         "/polyfills.43165fd830e212c52938.bundle.js",
@@ -293,7 +295,9 @@
     "/assets/fonts/Roboto/roboto-black-webfont.woff2": "adf8b876b591de0b25c294e231c1a4c3987b54d5",
     "/styles.203db879300c81484f0e.bundle.css": "794103fe56f82f43b2f8f40d0f3fef9393ba0916",
     "/assets/fonts/Roboto/roboto-blackitalic-webfont.eot": "f60b71522861b3ca23e5d8d129802e8c6def920e",
+    "/favicon.ico": "f9662ac6b5983960d04c8e9b6aa738a68d339cdd",
     "/assets/fonts/Roboto/roboto-blackitalic-webfont.ttf": "e4c91a676a8262221fae20835bcae97da21a00fe",
+    "/manifest.json": "5ce8e064d17022612571851f07bddc87a8716a4c",
     "/assets/fonts/Roboto/roboto-blackitalic-webfont.woff": "78ee9d59f7019f97ad4760eee6df4212111efc1f",
     "/assets/fonts/Roboto/roboto-blackitalic-webfont.woff2": "0c2fba01b17b78387c59b68382e8e0bcc91a8b09",
     "/assets/fonts/Roboto/roboto-bold-webfont.eot": "a4cb10d3a1145a835aecd8b653849298137146ac",
