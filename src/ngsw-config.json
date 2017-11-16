@@ -6,8 +6,8 @@
       "installMode": "prefetch",
       "resources": {
         "files": [
-          "./manifest.json",
-          "./favicon.ico",
+          "/manifest.json",
+          "/favicon.ico",
           "./index.html"
         ],
         "versionedFiles": [
@@ -23,6 +23,8 @@
       "updateMode": "prefetch",
       "resources": {
         "files": [
+          "/manifest.json",
+          "/favicon.ico",
           "/assets/**"
         ]
       }
