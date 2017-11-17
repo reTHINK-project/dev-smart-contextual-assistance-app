@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import { BreadcrumbService } from '../../services/breadcrumb.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   moduleId: module.id,
@@ -16,13 +17,16 @@ export class ContextBreadcrumbComponent implements OnInit, AfterViewInit, OnDest
 
   @Output() openContext = new EventEmitter();
 
-  breadcrumb: Observable<Array<any>>;
+  // breadcrumb: Observable<Array<any>>;
+  breadcrumb: Array<any>;
+
+  breadcrumbSubscription: Subscription;
 
   constructor(
     private router: Router,
     private breadcrumbService: BreadcrumbService) {
 
-    this.breadcrumb = this.breadcrumbService.breadcrumb.map((paths: string[]) => {
+    this.breadcrumbSubscription = this.breadcrumbService.breadcrumb.map((paths: string[]) => {
 
       console.log('[Breadcrumb Service] - Component: ', paths);
 
@@ -34,7 +38,7 @@ export class ContextBreadcrumbComponent implements OnInit, AfterViewInit, OnDest
         item = item.replace('/', '').substr(item.lastIndexOf('/'));
         if (item && item.length > 0) {return item; }
       }).filter(item => item ? true : false);
-    });
+    }).subscribe(paths => this.breadcrumb = paths);
 
   }
 
@@ -47,6 +51,8 @@ export class ContextBreadcrumbComponent implements OnInit, AfterViewInit, OnDest
   }
 
   ngOnDestroy(): void {
+
+    if (this.breadcrumbSubscription) { this.breadcrumbSubscription.unsubscribe() }
   }
 
   onClickEvent($event: MouseEvent) {

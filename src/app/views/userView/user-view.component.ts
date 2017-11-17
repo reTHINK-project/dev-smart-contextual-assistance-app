@@ -36,6 +36,7 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   action: string;
   user: User;
+  isReady = false;
 
   messages: Subject<Message[]> = new BehaviorSubject([]);
   resources: Subject<Resource[]> = new BehaviorSubject([]);
@@ -48,12 +49,13 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
     private contextualCommService: ContextualCommService,
     private chatService: ChatService) {
 
-      this.paramsSubscription = this.route.queryParams.subscribe((event: any) => {
+    this.paramsSubscription = this.route.queryParams.subscribe((event: any) => {
 
-        console.log('[User View] - router event change:', event, event['action']);
-        this.action = event['action'];
+      console.log('[User View] - router event change:', event, event['action']);
+      this.action = event['action'];
 
-      });
+    });
+
   }
 
   ngOnInit() {
@@ -65,6 +67,8 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.messages.next(data.context.messages);
       this.resources.next(data.context.resources);
+
+      this.isReady = true;
     });
 
     this.currentContextSub = this.contextualCommService.currentContext().subscribe((contextualComm: ContextualComm) => {
@@ -92,7 +96,11 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     console.log('[User View] - OnDestroy', this.messages);
-    this.currentContextSub.unsubscribe();
+
+    if (this.currentContextSub) { this.currentContextSub.unsubscribe(); }
+    if (this.paramsSubscription) { this.paramsSubscription.unsubscribe(); }
+
+    this.isReady = false;
   }
 
   onCallEvent(event: any) {

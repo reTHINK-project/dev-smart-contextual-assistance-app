@@ -296,3 +296,31 @@ export function isEmpty(obj: any) {
 
   return true;
 }
+
+export function buildContexts(contextID: string, remoteEmail: string, ownerEmail: string): string[] {
+
+  let contexts = contextID.split('/').slice(1);
+  contexts = contexts.reduce((acc, key) => {
+    let first: string;
+    let second: string;
+
+    const legacyUser = isALegacyUser(remoteEmail)
+
+    if (contexts[0] === key) {
+      first = config.appPrefix + '/' + key;
+      second = !legacyUser ? config.appPrefix + '/' + key + '/' + remoteEmail + '-' + ownerEmail : undefined;
+    } else {
+      first = config.appPrefix + '/' + contexts[0] + '/' + key;
+      second = !legacyUser ?
+        config.appPrefix + '/' + contexts[0] + '/' + key + '/' + remoteEmail + '-' + ownerEmail :
+        undefined
+    }
+
+    acc.push(first);
+    if (second) { acc.push(second); }
+
+    return acc;
+  }, []);
+
+  return contexts;
+}

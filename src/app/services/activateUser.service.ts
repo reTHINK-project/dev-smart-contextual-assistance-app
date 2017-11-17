@@ -5,7 +5,7 @@ import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, Router } from
 import { isALegacyUser, normalizeName, normalizeFromURL } from '../utils/utils';
 
 // Model
-import { ContextualComm } from '../models/models';
+import { ContextualComm, User } from '../models/models';
 
 // Services
 import { ContextualCommDataService } from './contextualCommData.service';
@@ -69,7 +69,7 @@ export class ActivateUserGuard implements CanActivate {
                     this.goHome();
                     resolve(false);
                   }
-                }, (reason: any) => {
+                }, (error: any) => {
 
                   const currentUser = this.contactService.getByUserName(user);
 
@@ -77,7 +77,7 @@ export class ActivateUserGuard implements CanActivate {
                     reject('This kind of user do not allow private messages');
                   } else {
                     // TODO Handle this logs and the expection
-                    console.log('[Activate User Guard - Activate] - Can Not Activate Route:', reason);
+                    console.log('[Activate User Guard - Activate] - Can Not Activate Route:', error);
                     this.goHome();
                     resolve(false);
                   }

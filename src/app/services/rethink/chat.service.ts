@@ -278,7 +278,7 @@ export class ChatService {
 
     return new Promise((resolve, reject) => {
 
-      console.log('[Chat Service - Join] - event: ', event);
+      console.log('[Chat Service - Join] - event: ', url);
 
       this.chatGroupManager.join(url).then((chatController: any) => {
 

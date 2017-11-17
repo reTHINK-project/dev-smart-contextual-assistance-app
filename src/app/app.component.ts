@@ -233,8 +233,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     this.routerEvent = this.router.events.subscribe((navigation: NavigationEnd) => {
 
-      console.log('[App Component] - navigation: ', navigation);
       if (navigation instanceof NavigationEnd) {
+
+        console.log('[App Component] - navigation: ', navigation);
 
         this.toggleSideBar();
 
@@ -531,8 +532,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   toggleSideBar() {
     const element: HTMLElement = document.getElementsByClassName('menu-trigger')[0] as HTMLElement;
     const e: MouseEvent = new MouseEvent('click');
-
-    console.log('[App Component] - navigation:', element, e);
 
     if (element && element.classList.contains('opened') ) {
       element.dispatchEvent(e);

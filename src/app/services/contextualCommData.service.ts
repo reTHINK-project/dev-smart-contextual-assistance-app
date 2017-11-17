@@ -2,13 +2,14 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/first';
 
 // Models
-import { ContextualComm, ContextualCommEvent } from '../models/models';
+import { ContextualComm, ContextualCommEvent, InvitationEvent } from '../models/models';
 
 import { isALegacyUser, filterContextsByName, normalizeName, objectToPath } from '../utils/utils';
 
@@ -23,6 +24,9 @@ export class ContextualCommDataService {
 
   private location: Location;
 
+  private onUserAddeSubscription: Subscription;
+  private chatInvitationSubscription: Subscription;
+
   public contextualCommEvent  = new EventEmitter<ContextualCommEvent>();
 
   constructor(
@@ -35,27 +39,30 @@ export class ContextualCommDataService {
     this.location = location;
 
 
-    this.chatService.onUserAdded.subscribe((userData: UserAdded) => {
+    this.onUserAddeSubscription = this.chatService.onUserAdded.subscribe((userData: UserAdded) => {
 
       const currentUser: any = userData.user;
       const controller: any = userData.controller;
-      const username = currentUser.identity.userProfile.username;
-      const controllerName = controller.dataObject.metadata.name;
-      const islegacyUser = isALegacyUser(username);
-      const normalizedName = normalizeName(controller.dataObject.metadata.name);
-
-      const user: any = {
-        email: username,
-        domain: currentUser.domain
-      };
-
-      if (!islegacyUser && controllerName.includes('@')) {
-        this.createAtomicContext(user, normalizedName.name, normalizedName.id, normalizedName.parent);
-      }
 
       this.chatService.controllerUserAdded(controller, currentUser);
 
     });
+
+    this.chatInvitationSubscription = chatService.onInvitation.subscribe((event: InvitationEvent) => {
+
+
+      const url = event.url;
+      const metadata = event.value;
+      const name = metadata.name;
+
+      const normalizedName = normalizeName(name);
+
+      this.joinContext(normalizedName.name, normalizedName.id, metadata, normalizedName.parent)
+        .then(context => console.log('created'))
+        .catch((reason: any) => {
+        });
+
+    })
 
   }
 
@@ -108,7 +115,7 @@ export class ContextualCommDataService {
 
   }
 
-  joinContext(name: string, id: string, dataObject: any, parentNameId?: string): Promise<ContextualComm> {
+  joinContext(name: string, id: string, metadata: any, parentNameId?: string): Promise<ContextualComm> {
 
     return new Promise((resolve, reject) => {
 
@@ -116,19 +123,23 @@ export class ContextualCommDataService {
 
       this.getContextById(id).toPromise().then((context: ContextualComm) => {
 
-        console.info('[ContextualCommData Service] - communication objects was created successfully: ', dataObject);
-        console.info('[ContextualCommData Service] - creating new contexts: ', dataObject, parentNameId);
+        console.info('[ContextualCommData Service] - already exists joinning: ', name, id);
 
         this.contextualCommEvent.emit({
           type: 'add',
           contextualComm: JSON.parse(JSON.stringify(context))
         });
 
-        resolve(context);
+        return reject('already exist');
 
       }).catch((reason: any) => {
-        // console.error('Reason:', reason);
 
+        console.info('[ContextualCommData Service] - communication objects was created successfully: ', metadata);
+        console.info('[ContextualCommData Service] - creating new contexts: ', metadata, parentNameId);
+
+        const url = metadata.url
+        return this.chatService.join(url);
+      }).then((dataObject: any) => {
         return this.contextualCommService.create(name, dataObject, parentNameId);
       }).then((context: ContextualComm) => {
 
@@ -137,8 +148,12 @@ export class ContextualCommDataService {
           contextualComm: JSON.parse(JSON.stringify(context))
         });
 
-        resolve(context);
-      });
+        return resolve(context);
+      }).catch((error: any) => {
+
+        console.error('ERROR:', error);
+
+      })
 
     });
   }
@@ -263,14 +278,8 @@ export class ContextualCommDataService {
 
   getContextById(id: string): Observable<ContextualComm> {
     return this.contextualCommService.getContextualCommList()
-      .map(contexts => {
-        const found = contexts.filter(context => this.filterContextsById(id, context))[0];
-        if (!found) {
-          throw new Error('Context not found');
-        }
-
-        return found;
-      });
+      .map(contexts => contexts.filter(context => this.filterContextsById(id, context)))
+      .map(contexts => contexts.find(this.filterByOlderContext));
   }
 
   getContextByResource(resource: string): Observable<ContextualComm> {
@@ -305,6 +314,29 @@ export class ContextualCommDataService {
 
     console.log('[ContextualCommData Service] - getting Context By Id: ', context.id, id, context.id === id);
     return context.id === id;
+  }
+
+  private filterByOlderContext(context: ContextualComm, index: number, contexts: ContextualComm[]) {
+
+    console.log(context.communication.created)
+    let found: any;
+
+    found = contexts.reduce((acc, current: ContextualComm) => {
+
+      const date1 = new Date(current.communication.created).getTime();
+      const date2 = new Date(context.communication.created).getTime();
+
+      if (date2 > date1) {
+        return current;
+      } else {
+        return context;
+      }
+
+    })
+
+    if (!found) {throw new Error('Context not found')}
+
+    return true;
   }
 
 }

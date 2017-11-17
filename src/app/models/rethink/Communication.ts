@@ -9,6 +9,8 @@ export interface Communication {
   resources: HypertyResourceType[];
   children: string;
 
+  created?: Date;
+
   id?: string;
   name?: string;
   duration?: Date;

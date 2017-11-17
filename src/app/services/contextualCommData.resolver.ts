@@ -16,6 +16,7 @@ import { ContextualCommDataService } from './contextualCommData.service';
 import { ContextualCommService } from './contextualComm.service';
 import { TriggerActionService } from './triggerAction.service';
 import { ContactService } from './contact.service';
+import { User } from '../models/models';
 
 @Injectable()
 export class ContextualCommDataResolver implements Resolve<ContextualComm> {
@@ -54,9 +55,29 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
         this.contextualCommDataService.getContextById(normalizedName.id).subscribe({
           next: contextualComm => resolve(contextualComm),
           error: reason => {
-            console.log('[ContextualCommData - Resolve] - user:', reason);
-            reject(reason);
-            this.goHome();
+
+            const currentUser: User = this.contactService.getByUserName(user);
+
+            const current: any = <any>[];
+
+            current.push({
+              user: currentUser.username,
+              domain: currentUser.domain
+            });
+
+            console.log('current:', current);
+
+            this.contextualCommDataService.createAtomicContext(current, normalizedName.name, normalizedName.id, normalizedName.parent)
+              .then((contextualComm: ContextualComm) => {
+                console.log('AQUI:', contextualComm);
+                resolve(contextualComm)
+              })
+              .catch((error) => {
+                console.log('[ContextualCommData - Resolve] - user:', reason);
+                reject(reason);
+                this.goHome();
+              })
+
           }
         });
       } else {

@@ -61,30 +61,30 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy, AfterVie
 
     this.basePath = this.router.url;
 
-    this.events = this.router.events.subscribe(
-      (navigation: NavigationEnd | NavigationError) => {
+    this.events = this.router.events.subscribe((navigation: NavigationEnd | NavigationError) => {
+
+      if (navigation instanceof NavigationEnd) {
         console.log('[ContextualCommUsers] - ', navigation);
 
-        if (navigation instanceof NavigationEnd) {
-          let url = navigation.url;
+        let url = navigation.url;
 
-          if (url.includes('@')) {
-            url = url.substr(0, url.lastIndexOf('/'));
-          }
-
-          this.basePath = url;
+        if (url.includes('@')) {
+          url = url.substr(0, url.lastIndexOf('/'));
         }
 
-        if (navigation instanceof NavigationError) {
-          this.notificationsService.error('Error', navigation.error, {
-            showProgressBar: false,
-            timeOut: 3000,
-            pauseOnHover: false,
-            haveActions: false
-          });
-        }
+        this.basePath = url;
       }
-    );
+
+      if (navigation instanceof NavigationError) {
+        this.notificationsService.error('Error', navigation.error, {
+          showProgressBar: false,
+          timeOut: 3000,
+          pauseOnHover: false,
+          haveActions: false
+        });
+      }
+
+    });
 
     console.log('[ContextualCommUsers - constructor]', this.router, this.router.url);
 
