@@ -31,8 +31,6 @@ export class ContextualCommService {
 
   private _currentContext: Subject<ContextualComm> = new Subject<ContextualComm>();
 
-  public contextualCommEvent  = new EventEmitter<ContextualCommEvent>();
-
   public get getActiveContext(): ContextualComm {
     return this.currentActiveContext;
   }
@@ -277,11 +275,6 @@ export class ContextualCommService {
     contextualComm.communication = communication;
 
     console.log('[Context Service - createContextualComm] - New ContextualComm:', contextualComm);
-
-    this.contextualCommEvent.emit({
-      type: 'add',
-      contextualComm: JSON.parse(JSON.stringify(contextualComm))
-    });
 
     return contextualComm;
   }

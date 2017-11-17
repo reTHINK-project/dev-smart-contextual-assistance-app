@@ -1,4 +1,4 @@
-import { Component, Output, Input, OnInit, HostBinding, EventEmitter } from '@angular/core';
+import { Component, Output, Input, OnInit, HostBinding, EventEmitter, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
@@ -16,12 +16,13 @@ import { isALegacyUser, normalizeName, normalizeFromURL } from '../../utils/util
 
 // Models
 import { ContextualComm, User } from '../../models/models';
-import { InviteUser } from '../../models/app.models';
+import { InviteUser, UserAdded } from '../../models/app.models';
 
 // Services
 import { NotificationsService } from '../../components/notification/notifications.module';
 import { ContextualCommDataService } from '../../services/contextualCommData.service';
 import { ContactService, ChatService } from '../../services/services';
+import { Subscription } from 'rxjs/Subscription';
 
 let searchResult: any[];
 
@@ -30,7 +31,7 @@ let searchResult: any[];
   selector: 'add-user-view',
   templateUrl: './add-user.component.html'
 })
-export class AddUserComponent implements OnInit {
+export class AddUserComponent implements OnInit, OnDestroy {
 
   @HostBinding('class') hostClass = 'add-user-action';
 
@@ -47,8 +48,15 @@ export class AddUserComponent implements OnInit {
   ready = false;
 
   private closeResult: string;
+  private countDown: any;
 
   contactList: Observable<User[]>;
+
+  private contextToBeCreated: string[] = [];
+
+  private contextualCommEvent: Subscription;
+  private contactListSubscription: Subscription;
+  private getContextByIDSubscription: Subscription;
 
   formatter = (user: User) => user.username;
 
@@ -64,11 +72,33 @@ export class AddUserComponent implements OnInit {
   ngOnInit() {
     this.contactList = this.contactService.getUsers();
 
-
-    this.contactList.subscribe((contacts: any) => {
+    this.contactListSubscription = this.contactList.subscribe((contacts: any) => {
       console.log('Contacts:', contacts);
       searchResult = contacts;
     });
+
+    this.contextualCommEvent = this.contextualCommDataService.contextualCommEvent.subscribe((contextualComm: ContextualComm) => {
+
+      clearInterval(this.countDown);
+
+      const contextID = contextualComm.id;
+
+      const result = this.contextToBeCreated.findIndex(item => item === contextID);
+
+      this._recursiveCreateContext(this.contextToBeCreated, result);
+
+      this.busy = false;
+      this.clean();
+
+    });
+
+  }
+
+  ngOnDestroy() {
+
+    if (this.contextualCommEvent) { this.contextualCommEvent.unsubscribe(); }
+    if (this.contactListSubscription) { this.contactListSubscription.unsubscribe(); }
+    if (this.getContextByIDSubscription) { this.getContextByIDSubscription.unsubscribe(); }
 
   }
 
@@ -174,20 +204,26 @@ export class AddUserComponent implements OnInit {
 
     console.log('[Add User Component] - contexts', contexts);
 
-    this._recursiveCreateContext(contexts, data);
+    this.contextToBeCreated.concat(contexts);
+
+    this._recursiveCreateContext(contexts);
 
   }
 
-  _recursiveCreateContext(contexts: string[], data: any, index: number = 0) {
+  _recursiveCreateContext(contexts: string[], index: number = 0) {
 
+    const data = this.model;
     const path = this.router.url;
     const nameID: string = contexts[index];
     const parentID: string = contexts[index - 1];
+    const legacyUser = isALegacyUser(data.email);
+
+    let normalizedName: any;
+    normalizedName = normalizeName(contexts[index]);
 
     console.log('[Add User Component] - check: ', nameID);
-    let interval: any;
 
-    this.contextualCommDataService.getContextById(nameID).toPromise().then((contextualComm: ContextualComm) => {
+    this.getContextByIDSubscription = this.contextualCommDataService.getContextById(nameID).subscribe((contextualComm: ContextualComm) => {
 
       console.log('[Add User Component] - found contextualComm: ', contextualComm);
       const existingUser = contextualComm.users.find(user => user.username === data.email);
@@ -198,14 +234,13 @@ export class AddUserComponent implements OnInit {
         if (index <= contexts.length) {
           index++;
           console.log('[Add User Component] - the context already have the user: ', contexts.length, index);
-          this._recursiveCreateContext(contexts, data, index);
+          this._recursiveCreateContext(contexts, index);
           return;
         }
 
       }
 
       const users: any[] = [];
-      const legacyUser = isALegacyUser(data.email)
 
       users.push({
         user: data.email,
@@ -215,80 +250,37 @@ export class AddUserComponent implements OnInit {
       this.chatService.invite(contextualComm.url, users).then((controller: any) => {
 
         if (!legacyUser) {
-          interval = setTimeout(() => {
+          this.countDown = setTimeout(() => {
             this.busy = false;
             this.clean();
             this.errorNotificateSystem('The user ' + data.email + ' is not reachable.');
           }, 5000);
         }
 
-        console.log(controller.onUserAdded instanceof Function);
-
-        controller.onUserAdded((userAdded: any) => {
-          console.log('[Add User Component] - user added: ', userAdded, controller);
-
-          clearInterval(interval);
-
-          let normalizedName;
-
-          if (!legacyUser) {
-            normalizedName = normalizeName(contexts[index + 1]);
-          } else {
-            normalizedName = normalizeName(contexts[index]);
-          }
-
-          console.log('[Add User Component] - data: ', normalizedName);
-
-          this.chatService.controllerUserAdded(controller, userAdded);
-
-          const user: any[] = [{
-            user: userAdded.identity.userProfile.username,
-            domain: userAdded.domain
-          }];
-
-          if (!legacyUser) {
-            this.contextualCommDataService.createAtomicContext(
-                user,
-                normalizedName.name,
-                normalizedName.id,
-                normalizedName.parent
-              )
-              .then((childController: any) => {
-                console.log( '[Add User Component] - one to one controller', childController );
-                this.busy = false;
-                this.clean();
-
-                index++;
-                console.log('[Add User Component] - user added: ', contexts.length, index);
-
-                if (index < (contexts.length - 1) ) {
-                  this._recursiveCreateContext(contexts, data, index);
-                }
-
-              }).catch(console.error);
-          } else {
-
-            index++;
-            console.log('[Add User Component] - user added: ', contexts.length, index);
-
-            if (index < (contexts.length - 1) ) {
-              clearInterval(interval);
-              this._recursiveCreateContext(contexts, data, index);
-            } else {
-              this.busy = false;
-              this.clean();
-            }
-          }
-
-        })
-
       }).catch((reason) => {
         console.error('[Add User Component] - error:', reason);
         this.errorNotificateSystem(reason)
       });
 
-    }).catch((reason) => {
+    }, (reason: any) => {
       console.log('[Add User Component] - Context Not Found: ', reason);
+
+      if (!legacyUser) {
+      this.contextualCommDataService.createAtomicContext(
+          data,
+          normalizedName.name,
+          normalizedName.id,
+          normalizedName.parent
+        )
+        .then((childController: any) => {
+          console.log( '[Add User Component] - one to one controller', childController );
+          this.busy = false;
+          this.clean();
+        }).catch((error: any) => {
+          console.error('REASON:', reason);
+        });
+      }
+
     });
 
   }

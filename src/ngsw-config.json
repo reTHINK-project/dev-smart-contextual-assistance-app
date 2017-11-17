@@ -43,7 +43,7 @@
     {
       "name": "hyperties",
       "urls": [
-        "/.well-known/hyperty/*"
+        "/.well-known/hyperty/**"
       ],
       "cacheConfig": {
         "strategy": "freshness",
@@ -55,7 +55,7 @@
     {
       "name": "protocolstub",
       "urls": [
-        "/.well-known/protocolstub/*"
+        "/.well-known/protocolstub/**"
       ],
       "cacheConfig": {
         "strategy": "freshness",
@@ -67,7 +67,7 @@
     {
       "name": "runtime",
       "urls": [
-        "/.well-known/runtime/*"
+        "/.well-known/runtime/**"
       ],
       "cacheConfig": {
         "strategy": "freshness",
@@ -79,7 +79,7 @@
     {
       "name": "dataschema",
       "urls": [
-        "/.well-known/dataschema/*"
+        "/.well-known/dataschema/**"
       ],
       "cacheConfig": {
         "strategy": "freshness",
@@ -91,7 +91,7 @@
     {
       "name": "idp-proxy",
       "urls": [
-        "/.well-known/idp-proxy/*"
+        "/.well-known/idp-proxy/**"
       ],
       "cacheConfig": {
         "strategy": "freshness",

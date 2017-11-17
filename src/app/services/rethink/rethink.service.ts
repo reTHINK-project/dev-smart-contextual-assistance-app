@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import Rethink from 'runtime-browser';
+import * as rethink from 'runtime-browser';
 
 import { User } from '../../models/models';
 

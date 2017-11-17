@@ -23,7 +23,6 @@ import { ContextualCommComponent } from './views/contextualComm/contextualComm.c
 // Services
 import { RoutingService } from './services/routing.service';
 import { BreadcrumbService } from './services/breadcrumb.service';
-import { ContextualCommService } from './services/contextualComm.service';
 import { ContextualCommDataService } from './services/contextualCommData.service';
 import { UserAvailabilityService } from './services/rethink/userAvailability.service';
 import { TriggerActionService, RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
@@ -92,7 +91,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     private breadcrumbService: BreadcrumbService,
     private notificationsService: NotificationsService,
     private triggerActionService: TriggerActionService,
-    private contextualCommService: ContextualCommService,
     private userAvailabilityService: UserAvailabilityService,
     private natNotificationsService: NativeNotificationsService,
     private contextualCommDataService: ContextualCommDataService) {
@@ -124,7 +122,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     });
 
-    this.contextualCommEvent = this.contextualCommService.contextualCommEvent.subscribe((event: ContextualCommEvent) => {
+    this.contextualCommEvent = this.contextualCommDataService.contextualCommEvent.subscribe((event: ContextualCommEvent) => {
 
       const title = 'New communication channel';
       const content = 'You have a new communication channel ' + event.contextualComm.name;

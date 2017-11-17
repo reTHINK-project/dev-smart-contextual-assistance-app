@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -8,19 +8,22 @@ import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/first';
 
 // Models
-import { ContextualComm } from '../models/models';
+import { ContextualComm, ContextualCommEvent } from '../models/models';
 
-import { filterContextsByName, normalizeName, objectToPath } from '../utils/utils';
+import { isALegacyUser, filterContextsByName, normalizeName, objectToPath } from '../utils/utils';
 
 // Services
 import { ContextualCommService } from './contextualComm.service';
 import { ChatService } from './rethink/chat.service';
 import { ContactService } from './contact.service';
+import { UserAdded } from '../models/app.models';
 
 @Injectable()
 export class ContextualCommDataService {
 
   private location: Location;
+
+  public contextualCommEvent  = new EventEmitter<ContextualCommEvent>();
 
   constructor(
     location: Location,
@@ -30,6 +33,30 @@ export class ContextualCommDataService {
     private contextualCommService: ContextualCommService
   ) {
     this.location = location;
+
+
+    this.chatService.onUserAdded.subscribe((userData: UserAdded) => {
+
+      const currentUser: any = userData.user;
+      const controller: any = userData.controller;
+      const username = currentUser.identity.userProfile.username;
+      const controllerName = controller.dataObject.metadata.name;
+      const islegacyUser = isALegacyUser(username);
+      const normalizedName = normalizeName(controller.dataObject.metadata.name);
+
+      const user: any = {
+        email: username,
+        domain: currentUser.domain
+      };
+
+      if (!islegacyUser && controllerName.includes('@')) {
+        this.createAtomicContext(user, normalizedName.name, normalizedName.id, normalizedName.parent);
+      }
+
+      this.chatService.controllerUserAdded(controller, currentUser);
+
+    });
+
   }
 
   createContext(name: string, parentNameId?: string, contextInfo?: any): Promise<ContextualComm> {
@@ -40,6 +67,12 @@ export class ContextualCommDataService {
       .then((context) => {
 
         console.info('[ContextualCommData Service] - context found: ', context);
+
+        this.contextualCommEvent.emit({
+          type: 'add',
+          contextualComm: JSON.parse(JSON.stringify(context))
+        });
+
         resolve(context);
 
       }).catch((reason: any) => {
@@ -57,6 +90,12 @@ export class ContextualCommDataService {
           return this.contextualCommService.create(name, controller.dataObject, normalizedName.parent, contextInfo);
         }).then((context: ContextualComm) => {
           console.info('[ContextualCommData Service] -  ContextualComm created: ', context);
+
+          this.contextualCommEvent.emit({
+            type: 'add',
+            contextualComm: JSON.parse(JSON.stringify(context))
+          });
+
           resolve(context);
         }).catch((error: any) => {
           console.warn('Context not found', error);
@@ -80,12 +119,23 @@ export class ContextualCommDataService {
         console.info('[ContextualCommData Service] - communication objects was created successfully: ', dataObject);
         console.info('[ContextualCommData Service] - creating new contexts: ', dataObject, parentNameId);
 
+        this.contextualCommEvent.emit({
+          type: 'add',
+          contextualComm: JSON.parse(JSON.stringify(context))
+        });
+
         resolve(context);
+
       }).catch((reason: any) => {
         // console.error('Reason:', reason);
 
         return this.contextualCommService.create(name, dataObject, parentNameId);
       }).then((context: ContextualComm) => {
+
+        this.contextualCommEvent.emit({
+          type: 'add',
+          contextualComm: JSON.parse(JSON.stringify(context))
+        });
 
         resolve(context);
       });
@@ -113,6 +163,12 @@ export class ContextualCommDataService {
           return this.contextualCommService.create(name, controller.dataObject, parentNameId);
         }).then((context: ContextualComm) => {
           console.info('[ContextualCommData Service] -  ContextualComm created: ', context);
+
+          this.contextualCommEvent.emit({
+            type: 'add',
+            contextualComm: JSON.parse(JSON.stringify(context))
+          });
+
           resolve(context);
         }).catch((reason: any) => {
           console.error('Reason:', reason);

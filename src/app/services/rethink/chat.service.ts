@@ -15,7 +15,7 @@ import { HypertyResourceType, HypertyResource, HypertyResourceDirection } from '
 import { isEmpty } from '../../utils/utils';
 
 import { MediaModalType } from '../../components/modal/interfaces/mediaModal.type';
-import { ProgressEvent, ProgressEventType } from '../../models/app.models';
+import { ProgressEvent, ProgressEventType, UserAdded } from '../../models/app.models';
 
 @Injectable()
 export class ChatService {
@@ -31,7 +31,10 @@ export class ChatService {
   chatGroupManager: any;
 
   public onMessageEvent = new EventEmitter<Message>();
-  public onUserAdded = new EventEmitter<User>();
+
+  // TODO: should be created an interface to handle the userAdded with controller and user;
+  // something like: { controller: chatController, user: User }
+  public onUserAdded = new EventEmitter<UserAdded>();
 
   private _discovery: any;
 
@@ -138,8 +141,19 @@ export class ChatService {
 
     console.log('[Chat Service - prepareController]', chatController);
 
-    chatController.onUserAdded((user: any) => {
-      this.controllerUserAdded(chatController, user);
+    chatController.onUserAdded((event: any) => {
+
+      const user: any = event.data || event;
+
+      const current: any = JSON.parse(JSON.stringify(user));
+
+      const e: UserAdded = {
+        controller: chatController,
+        user: current
+      }
+
+      this.onUserAdded.emit(e);
+
     });
 
     chatController.onMessage((message: any) => {

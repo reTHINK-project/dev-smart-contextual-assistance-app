@@ -4,7 +4,10 @@
   "compilerOptions": {
     "module": "es2015",
     "baseUrl": "",
-    "types": []
+    "paths": {
+      "runtime-browser": ["../node_modules/runtime-browser/bin/rethink"]
+    },
+    "typeRoots" : ["./typings"]
   },
   "exclude": [
     "test.ts",
