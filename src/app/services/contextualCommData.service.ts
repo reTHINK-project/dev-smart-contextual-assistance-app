@@ -58,8 +58,10 @@ export class ContextualCommDataService {
       const normalizedName = normalizeName(name);
 
       this.joinContext(normalizedName.name, normalizedName.id, metadata, normalizedName.parent)
-        .then(context => console.log('created'))
+        .then(context => event.ack(200))
         .catch((reason: any) => {
+          console.log(reason);
+          event.ack(406);
         });
 
     })
@@ -125,12 +127,14 @@ export class ContextualCommDataService {
 
         console.info('[ContextualCommData Service] - already exists joinning: ', name, id);
 
-        this.contextualCommEvent.emit({
-          type: 'add',
-          contextualComm: context
-        });
+        // this.contextualCommEvent.emit({
+        //   type: 'add',
+        //   contextualComm: context
+        // });
 
-        resolve(context);
+        return reject('already exists');
+
+        // resolve(context);
 
       }).catch((reason: any) => {
 
