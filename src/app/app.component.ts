@@ -266,17 +266,17 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   hypertiesReady() {
 
-    // Prepare the chat service to recive invitations
-    this.chatInvitation = this.chatService.onInvitation.subscribe((event: any) => {
-      console.log('[App View View - chatService onInvitation] - event:', event);
+    // // Prepare the chat service to recive invitations
+    // this.chatInvitation = this.chatService.onInvitation.subscribe((event: any) => {
+    //   console.log('[App View View - chatService onInvitation] - event:', event);
 
-      this.processEvent(event).then((result: any) => {
-        console.log('[App View View - chatService onInvitation] - event processed:', result);
-      }).catch((reason) => {
-        console.error('[App View View - chatService onInvitation] - event not processed:', reason);
-      });
+    //   this.processEvent(event).then((result: any) => {
+    //     console.log('[App View View - chatService onInvitation] - event processed:', result);
+    //   }).catch((reason) => {
+    //     console.error('[App View View - chatService onInvitation] - event not processed:', reason);
+    //   });
 
-    });
+    // });
 
     this.closeEvent = this.chatService.onCloseEvent.subscribe((event: any) => {
 
@@ -410,31 +410,31 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   }
 
-  private processEvent(event: any) {
+  // private processEvent(event: any) {
 
-    return new Promise((resolve, reject) => {
+  //   return new Promise((resolve, reject) => {
 
-      const url = event.url;
-      const metadata = event.value;
-      const name = metadata.name;
+  //     const url = event.url;
+  //     const metadata = event.value;
+  //     const name = metadata.name;
 
-      this.chatService.join(url).then((dataObject: any) => {
+  //     this.chatService.join(url).then((dataObject: any) => {
 
-        const normalizedName = normalizeName(name);
-        console.log('[App Component - Join the to the context: ', name, dataObject, normalizedName);
+  //       const normalizedName = normalizeName(name);
+  //       console.log('[App Component - Join the to the context: ', name, dataObject, normalizedName);
 
-        return this.contextualCommDataService.joinContext(normalizedName.name, normalizedName.id, dataObject, normalizedName.parent);
-      }).then((currentContext: ContextualComm) => {
-        console.log('[App Component] - current context created: ', currentContext);
-        resolve(currentContext);
-      }).catch((reason: any) => {
-        console.log('Error:', reason);
-        reject(reason);
-      });
+  //       return this.contextualCommDataService.joinContext(normalizedName.name, normalizedName.id, dataObject, normalizedName.parent);
+  //     }).then((currentContext: ContextualComm) => {
+  //       console.log('[App Component] - current context created: ', currentContext);
+  //       resolve(currentContext);
+  //     }).catch((reason: any) => {
+  //       console.log('Error:', reason);
+  //       reject(reason);
+  //     });
 
-    });
+  //   });
 
-  }
+  // }
 
   actionEvent(actionEvent: NotificationActionEvent) {
 

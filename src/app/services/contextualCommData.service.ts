@@ -77,7 +77,7 @@ export class ContextualCommDataService {
 
         this.contextualCommEvent.emit({
           type: 'add',
-          contextualComm: JSON.parse(JSON.stringify(context))
+          contextualComm: context
         });
 
         resolve(context);
@@ -100,7 +100,7 @@ export class ContextualCommDataService {
 
           this.contextualCommEvent.emit({
             type: 'add',
-            contextualComm: JSON.parse(JSON.stringify(context))
+            contextualComm: context
           });
 
           resolve(context);
@@ -127,10 +127,10 @@ export class ContextualCommDataService {
 
         this.contextualCommEvent.emit({
           type: 'add',
-          contextualComm: JSON.parse(JSON.stringify(context))
+          contextualComm: context
         });
 
-        return reject('already exist');
+        resolve(context);
 
       }).catch((reason: any) => {
 
@@ -140,12 +140,13 @@ export class ContextualCommDataService {
         const url = metadata.url
         return this.chatService.join(url);
       }).then((dataObject: any) => {
+        console.log('AQUI:', dataObject);
         return this.contextualCommService.create(name, dataObject, parentNameId);
       }).then((context: ContextualComm) => {
 
         this.contextualCommEvent.emit({
           type: 'add',
-          contextualComm: JSON.parse(JSON.stringify(context))
+          contextualComm: context
         });
 
         return resolve(context);
@@ -181,7 +182,7 @@ export class ContextualCommDataService {
 
           this.contextualCommEvent.emit({
             type: 'add',
-            contextualComm: JSON.parse(JSON.stringify(context))
+            contextualComm: context
           });
 
           resolve(context);
@@ -278,8 +279,14 @@ export class ContextualCommDataService {
 
   getContextById(id: string): Observable<ContextualComm> {
     return this.contextualCommService.getContextualCommList()
-      .map(contexts => contexts.filter(context => this.filterContextsById(id, context)))
-      .map(contexts => contexts.find(this.filterByOlderContext));
+    .map(contexts => {
+      const found = contexts.filter(context => this.filterContextsById(id, context))[0];
+      if (!found) {
+        throw new Error('Context not found');
+      }
+
+      return found;
+    });
   }
 
   getContextByResource(resource: string): Observable<ContextualComm> {

@@ -53,6 +53,7 @@ export class AddUserComponent implements OnInit, OnDestroy {
   contactList: Observable<User[]>;
 
   private contextToBeCreated: string[] = [];
+  private currentContext = 0;
 
   private contextualCommEvent: Subscription;
   private userAddedSubscription: Subscription;
@@ -80,8 +81,18 @@ export class AddUserComponent implements OnInit, OnDestroy {
 
     this.userAddedSubscription = this.chatService.onUserAdded.subscribe((dataUser: any) => {
 
-      this.busy = false;
-      this.clean();
+      clearTimeout(this.countDown);
+
+      const numOfContexts = this.contextToBeCreated.length;
+
+      this.currentContext++;
+
+      if (this.currentContext >= numOfContexts) {
+        this.busy = false;
+        this.clean();
+      } else {
+        this._recursiveCreateContext(this.contextToBeCreated, this.currentContext);
+      }
 
     });
 
@@ -166,13 +177,16 @@ export class AddUserComponent implements OnInit, OnDestroy {
 
     const path = this.router.url;
     const normalizedName = normalizeName(path);
-    let contexts: string[] = [];
+    const contexts: string[] = [];
 
     console.log('[Add User Component] - parent: ', normalizedName, this.chatService.activeDataObjectURL);
 
-    contexts = buildContexts(normalizedName.id, data.email, this.contactService.sessionUser.username);
+    // contexts = buildContexts(normalizedName.id, data.email, this.contactService.sessionUser.username);
 
     console.log('[Add User Component] - contexts', contexts);
+
+    if (normalizedName.parent) { contexts.push(normalizedName.parent); }
+    contexts.push(normalizedName.id);
 
     this.contextToBeCreated = contexts;
 
@@ -198,22 +212,28 @@ export class AddUserComponent implements OnInit, OnDestroy {
 
     console.log('[Add User Component] - check: ', nameID);
 
-    this.getContextByIDSubscription = this.contextualCommDataService.getContextById(nameID).subscribe((contextualComm: ContextualComm) => {
+    this.contextualCommDataService.getContextById(nameID).toPromise().then((contextualComm: ContextualComm) => {
+
+      if (!contextualComm) {
+        console.log('[Add User Component] - Context Not Found: ');
+        return;
+      }
 
       console.log('[Add User Component] - found contextualComm: ', contextualComm);
       const existingUser = contextualComm.users.find(user => user.username === data.email);
       console.log('[Add user component] - search for current user: ', existingUser);
 
-      // if (existingUser) {
+      if (existingUser) {
 
-      //   if (index <= contexts.length) {
-      //     index++;
-      //     console.log('[Add User Component] - the context already have the user: ', contexts.length, index);
-      //     this._recursiveCreateContext(contexts, index);
-      //     return;
-      //   }
+        if (index <= contexts.length) {
+          this.currentContext++;
+          console.log('[Add User Component] - the context already have the user: ', contexts.length, this.currentContext);
+          this._recursiveCreateContext(contexts, this.currentContext);
+          this.busy = false;
+          return;
+        }
 
-      // }
+      }
 
       this.chatService.invite(contextualComm.url, users).then((controller: any) => {
 
@@ -232,8 +252,6 @@ export class AddUserComponent implements OnInit, OnDestroy {
 
     }, (reason: any) => {
       console.log('[Add User Component] - Context Not Found: ', reason);
-
-      this.contextualCommDataService.createAtomicContext(users, normalizedName.name, normalizedName.id, normalizedName.parent);
 
     });
 

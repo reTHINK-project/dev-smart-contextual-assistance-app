@@ -238,8 +238,16 @@ export class ContextualCommService {
 
   private createContextualComm(name: string, dataObject: any, parent?: ContextualComm, contextInfo?: any): ContextualComm {
 
-    const data: any = JSON.parse(JSON.stringify(dataObject.data));
-    const metadata: any = JSON.parse(JSON.stringify(dataObject.metadata));
+    let data: any;
+    let metadata: any;
+
+    try {
+      data = JSON.parse(JSON.stringify(dataObject.data));
+      metadata = JSON.parse(JSON.stringify(dataObject.metadata));
+    } catch (e) {
+      data = dataObject.data;
+      metadata = dataObject.metadata;
+    }
 
     const isReporter: boolean = contextInfo && contextInfo.reporter ? contextInfo.reporter : false;
     const icon: string = dataObject.metadata && dataObject.metadata.icon ? dataObject.metadata.icon : '';
