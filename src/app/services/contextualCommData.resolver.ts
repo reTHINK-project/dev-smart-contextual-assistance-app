@@ -16,7 +16,7 @@ import { ContextualCommDataService } from './contextualCommData.service';
 import { ContextualCommService } from './contextualComm.service';
 import { TriggerActionService } from './triggerAction.service';
 import { ContactService } from './contact.service';
-import { User } from '../models/models';
+import { User, ContextualCommEvent } from '../models/models';
 
 @Injectable()
 export class ContextualCommDataResolver implements Resolve<ContextualComm> {
@@ -52,34 +52,27 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
       console.log('[ContextualCommData - Resolve] - normalized name:', name, task, normalizedName, path, user);
 
       if (isAnUser(normalizedName.name)) {
+
+
+        // this.contextualCommDataService.contextualCommEvent.subscribe((event: ContextualCommEvent) => {
+
+        //   const contextualComm = event.contextualComm;
+
+        //   console.log('[ContextualCommData - Resolve] - Context Created:', contextualComm);
+
+        //   resolve(contextualComm);
+
+        // })
+
         this.contextualCommDataService.getContextById(normalizedName.id).subscribe({
           next: contextualComm => resolve(contextualComm),
           error: reason => {
-
-            const currentUser: User = this.contactService.getByUserName(user);
-
-            const current: any = <any>[];
-
-            current.push({
-              user: currentUser.username,
-              domain: currentUser.domain
-            });
-
-            console.log('current:', current);
-
-            this.contextualCommDataService.createAtomicContext(current, normalizedName.name, normalizedName.id, normalizedName.parent)
-              .then((contextualComm: ContextualComm) => {
-                console.log('AQUI:', contextualComm);
-                resolve(contextualComm)
-              })
-              .catch((error) => {
-                console.log('[ContextualCommData - Resolve] - user:', reason);
-                reject(reason);
-                this.goHome();
-              })
-
+            console.log('[ContextualCommData - Resolve] - user:', reason);
+            reject(reason);
+            this.goHome();
           }
         });
+
       } else {
         this.contextualCommDataService.getContextById(normalizedName.id).subscribe({
           next: contextualComm => resolve(contextualComm),

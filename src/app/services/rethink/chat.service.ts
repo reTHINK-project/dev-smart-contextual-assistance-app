@@ -141,6 +141,30 @@ export class ChatService {
 
     console.log('[Chat Service - prepareController]', chatController);
 
+    chatController.onInvitationResponse((result: any) => {
+
+      console.log('On Response to Invitation:', result);
+
+      const url: string = chatController.dataObject.url;
+
+      if (result.hasOwnProperty('code')) {
+
+        switch (result.code) {
+
+          case 401:
+          case 406: {
+            const found = this.controllerList.get(url);
+            console.log('Close Chat:', found);
+            found.close();
+            break;
+          }
+
+        }
+
+      }
+
+    });
+
     chatController.onUserAdded((event: any) => {
 
       const user: any = event.data || event;
@@ -288,7 +312,10 @@ export class ChatService {
 
         resolve(dataObject);
 
-      });
+      }).catch((reason: any) => {
+        console.error('REASON: ', reason);
+        reject(reason);
+      })
 
     });
 
@@ -392,7 +419,7 @@ export class ChatService {
 
     const found = this.controllerList.get(url);
 
-    console.log(this.controllerList);
+    console.log('Close Chat:', this.controllerList);
     return found.close().then((result: any) => this.controllerList.delete(url))
 
   }

@@ -5,7 +5,7 @@ import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, Router } from
 import { isALegacyUser, normalizeName, normalizeFromURL } from '../utils/utils';
 
 // Model
-import { ContextualComm, User } from '../models/models';
+import { ContextualComm, User, ContextualCommEvent } from '../models/models';
 
 // Services
 import { ContextualCommDataService } from './contextualCommData.service';
@@ -43,46 +43,34 @@ export class ActivateUserGuard implements CanActivate {
             console.log('[Activate User Guard] - ', context, user, state, normalizedPath);
 
             const normalizedName = normalizeName(normalizedPath);
+            const currentUser = this.contactService.getByUserName(user);
 
             console.log('[Activate User Guard - Activate] - normalized path: ', normalizedPath);
             console.log('[Activate User Guard - Activate] - normalized name: ', normalizedName);
 
-            this.contextualCommDataService.getContextById(normalizedName.id).subscribe(
+            this.contextualCommDataService.getContextById(normalizedName.id).toPromise().then(
               (currentContext: ContextualComm) => {
-                this.activateContext(currentContext);
-                resolve(true);
-              },
-              (reason: any) => {
 
-                // Get the parent
-                this.contextualCommDataService.getContextById(normalizedName.parent).subscribe(
-                  (parentContext: ContextualComm) => {
+                if (user && currentUser && currentUser.isLegacy) {
+                  reject('This kind of user do not allow private messages');
+                } else {
+                  this.activateContext(currentContext);
+                  resolve(true);
+                }
 
-                  console.log('[Activate User Guard - Activate] - parent context and user found: ', normalizedPath);
-                  console.log('[Activate User Guard - Activate] - parent context and user found: ', parentContext, user);
+              }).catch((reason: any) => {
 
-                  if (parentContext && user) {
-                    this.activateContext(parentContext);
+
+                this.contextualCommDataService.createAtomicContext(
+                  [{user: currentUser.username, domain: currentUser.domain}],
+                  normalizedName.name, normalizedName.id, normalizedName.parent).then((contextualComm: ContextualComm) => {
+                    console.log('[Activate User Guard - Activate] - Can Activate route:', contextualComm);
                     resolve(true);
-                  } else {
-                    console.log('[Activate User Guard - Activate] - Can Not Activate Route:', 'Parent context not found');
-                    this.goHome();
-                    resolve(false);
-                  }
-                }, (error: any) => {
-
-                  const currentUser = this.contactService.getByUserName(user);
-
-                  if (user && currentUser && currentUser.isLegacy) {
-                    reject('This kind of user do not allow private messages');
-                  } else {
+                  }).catch((error: any) => {
                     // TODO Handle this logs and the expection
                     console.log('[Activate User Guard - Activate] - Can Not Activate Route:', error);
-                    this.goHome();
                     resolve(false);
-                  }
-
-                });
+                  })
 
               });
           }

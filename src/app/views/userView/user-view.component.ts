@@ -67,7 +67,6 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.messages.next(data.context.messages);
       this.resources.next(data.context.resources);
-
       this.isReady = true;
     });
 

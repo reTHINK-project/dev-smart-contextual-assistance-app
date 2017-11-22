@@ -1,6 +1,6 @@
 import { Component,
   OnInit, OnDestroy, HostBinding, Output, EventEmitter, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
+import { Router, ActivatedRoute, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -59,20 +59,13 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy, AfterVie
   // Load data ones componet is ready
   ngOnInit() {
 
-    this.basePath = this.router.url;
+    this.basePath = this._cleanUserFromURL(this.router.url);
 
-    this.events = this.router.events.subscribe((navigation: NavigationEnd | NavigationError) => {
+    this.events = this.router.events.subscribe((navigation: NavigationStart | NavigationEnd | NavigationError) => {
 
       if (navigation instanceof NavigationEnd) {
         console.log('[ContextualCommUsers] - ', navigation);
-
-        let url = navigation.url;
-
-        if (url.includes('@')) {
-          url = url.substr(0, url.lastIndexOf('/'));
-        }
-
-        this.basePath = url;
+        this.basePath = this._cleanUserFromURL(navigation.url);
       }
 
       if (navigation instanceof NavigationError) {
@@ -124,6 +117,19 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy, AfterVie
 
     console.log('[contextualCommUsers - ngOnDestroy]', this.events, this.paramsObserver);
 
+  }
+
+  _cleanUserFromURL(url: string) {
+    let initialURL = url;
+    if (initialURL.includes('user')) {
+      initialURL = initialURL.substr(0, initialURL.indexOf('/user/'))
+    }
+
+    if (initialURL.includes('@')) {
+      initialURL = initialURL.substr(0, initialURL.lastIndexOf('/'));
+    }
+
+    return initialURL;
   }
 
   onFilterKey(event: any) {

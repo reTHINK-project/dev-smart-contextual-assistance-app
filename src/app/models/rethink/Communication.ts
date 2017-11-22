@@ -16,6 +16,8 @@ export interface Communication {
   duration?: Date;
   participants?: UserIdentity[];
   owner?: string;
+
+  url: string;
 }
 
 export enum CommunictionStatus {
