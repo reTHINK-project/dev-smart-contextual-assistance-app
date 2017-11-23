@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/first';
@@ -26,10 +27,15 @@ export class ContextualCommDataService {
   private location: Location;
 
   private onUserAddeSubscription: Subscription;
+  private onInvitationSubscription: Subscription;
   private chatInvitationSubscription: Subscription;
 
   public contextualCommEvent  = new EventEmitter<ContextualCommEvent>();
   public atomiContextualCommEvent = new EventEmitter<ContextualCommEvent>();
+
+  private onReady: Subject<ContextualComm> = new Subject();
+
+  private mapIDtoURL: Map<string, string> = new Map();
 
   constructor(
     location: Location,
@@ -40,6 +46,25 @@ export class ContextualCommDataService {
   ) {
     this.location = location;
 
+    this.contextualCommService.getContextualComms().forEach(
+      (contexts: ContextualComm[]) => contexts.forEach(context => this.mapIDtoURL.set(context.id, context.url)));
+
+    console.log('READY:', this.mapIDtoURL);
+
+
+    this.onReady.subscribe((a) => {
+      console.log('ON READY: ', a);
+    })
+
+    this.onInvitationSubscription = chatService.onInvitationResponse.subscribe((event: InvitationEvent) => {
+
+      console.log('[ContextualCommData Service] - onInvitationResponse: ', event);
+
+      if (event.type === 'success') {
+        this.getContextByResource(event.url).subscribe(result => result ? this.onReady.next(result) : Error('context not found'));
+      }
+
+    });
 
     this.onUserAddeSubscription = chatService.onUserAdded.subscribe((userData: UserAdded) => {
 
@@ -61,6 +86,32 @@ export class ContextualCommDataService {
       this.joinContext(normalizedName.name, normalizedName.id, metadata, normalizedName.parent)
         .then(context => event.ack(200))
         .catch(reason => event.ack(406));
+
+    })
+
+  }
+
+  getWhenReady(id: string): Promise<ContextualComm> {
+
+    return new Promise((resolve, reject) => {
+
+      const currentURL = this.getIdVariation(id);
+
+      console.log('[ContextualCommData Service] - getWhenReady: ', id, currentURL);
+
+      this.getContextByResource(currentURL).subscribe(
+        current => resolve(current),
+        reason => {
+          console.error('[ContextualCommData Service] - getWhenReady: ', reason);
+          this.onReady.subscribe(resolved => {
+            console.log('[ContextualCommData Service] - getWhenReady: ', resolved);
+            resolve(resolved);
+          }, error => {
+            console.error('[ContextualCommData Service] - getWhenReady: ', error);
+            reject(error);
+          }).unsubscribe();
+        }
+      ).unsubscribe();
 
     })
 
@@ -98,6 +149,8 @@ export class ContextualCommDataService {
         }).then((context: ContextualComm) => {
           console.info('[ContextualCommData Service] -  ContextualComm created: ', context);
 
+          this.mapIDtoURL.set(context.id, context.url);
+
           this.contextualCommEvent.emit({
             type: 'add',
             contextualComm: context
@@ -130,10 +183,12 @@ export class ContextualCommDataService {
         console.info('[ContextualCommData Service] - already found the most recent:', found);
 
         if (found) {
-          this.processJoin(name, found, parentNameId).then((result) => {
+          this.processJoin(name, found, parentNameId).then((result: ContextualComm) => {
             console.log('JOINED', result);
+            resolve(result);
           }).catch((reason: any) => {
             console.error('NOT JOINED', reason);
+            reject(reason);
           });
         } else {
           reject('An older context already exists');
@@ -141,10 +196,12 @@ export class ContextualCommDataService {
 
       }, (reason: any) => {
 
-        this.processJoin(name, metadata, parentNameId).then((result) => {
+        this.processJoin(name, metadata, parentNameId).then((result: ContextualComm) => {
           console.log('JOINED', result);
+          resolve(result);
         }).catch((error: any) => {
           console.error('NOT JOINED', error);
+          reject(reason);
         });
 
       })
@@ -166,6 +223,8 @@ export class ContextualCommDataService {
       }).catch((error: any) => {
         reject(error);
       }).then((context: ContextualComm) => {
+
+        this.mapIDtoURL.set(context.id, context.url);
 
         this.contextualCommEvent.emit({
           type: 'add',
@@ -223,22 +282,19 @@ export class ContextualCommDataService {
 
     return Observable.fromPromise(new Promise((resolve, reject) => {
 
-      if (context) {
+      const chatToClose = context.contexts ? context.contexts.map(sub => this.chatService.close(sub.url)) : [];
+      const contextToRemove = context.contexts ? context.contexts.map(sub => this.contextualCommService.removeContextualComm(sub)) : [];
 
-        const chatToClose = context.contexts ? context.contexts.map(sub => this.chatService.close(sub.url)) : [];
-        const contextToRemove = context.contexts ? context.contexts.map(sub => this.contextualCommService.removeContextualComm(sub)) : [];
+      // add the main context
+      chatToClose.push(this.chatService.close(context.url));
+      contextToRemove.push(this.contextualCommService.removeContextualComm(context));
 
-        // add the main context
-        chatToClose.push(this.chatService.close(context.url));
-        contextToRemove.push(this.contextualCommService.removeContextualComm(context));
+      console.log('Childs to remove:', chatToClose, contextToRemove);
 
-        console.log('Childs to remove:', chatToClose, contextToRemove);
-
-        return Promise.all([chatToClose])
-          .then(result => Promise.all(contextToRemove))
-          .then(() => { resolve(true); this._redirect(context); })
-          .catch(error => reject(error));
-      }
+      return Promise.all([chatToClose])
+        .then(result => Promise.all(contextToRemove))
+        .then(() => { resolve(true); this._redirect(context); })
+        .catch(error => reject(error));
 
     }));
 
@@ -309,9 +365,7 @@ export class ContextualCommDataService {
 
         console.log('[ContextualCommData Service] - found: ', found);
 
-        if (!found) {
-          throw new Error('Context not found');
-        }
+        if (!found) { throw new Error('Context not found'); }
 
         return found;
       });
@@ -320,9 +374,11 @@ export class ContextualCommDataService {
   getContextByResource(resource: string): Observable<ContextualComm> {
     return this.contextualCommService.getContextualCommList()
       .map(contexts => {
-        return contexts.filter((context: ContextualComm) => {
-          return context.url === resource;
-        })[0];
+        const found = contexts.filter(context => context.url === resource)[0];
+
+        if (!found) { throw new Error('Context not found'); }
+
+        return found;
       });
   }
 
@@ -351,48 +407,6 @@ export class ContextualCommDataService {
     return context.id === id;
   }
 
-  private findContextsById(id: string, context: ContextualComm) {
-
-    console.log('AQII:', id);
-
-    if (id.includes('@')) {
-      const base = id.substr(0, id.lastIndexOf('/') + 1);
-      const user = id.substr(id.lastIndexOf('/') + 1);
-      const users = user.split('-');
-
-      const variation1 = base + users[0] + '-' + users[1];
-      const variation2 = base + users[1] + '-' + users[0];
-
-      if (context.id === variation1) {
-        id = variation1;
-      } else if (context.id === variation2) {
-        id = variation2;
-      }
-    }
-
-    console.log('[ContextualCommData Service] - getting Context By Id: ', context.id, id, context.id === id);
-    return context.id === id;
-  }
-
-  private findByOlderContext(context: ContextualComm, index: number, contexts: ContextualComm[]) {
-
-    const result = contexts.reduce((acc, current: ContextualComm) => {
-
-      const date1 = new Date(current.communication.created).getTime();
-      const date2 = new Date(context.communication.created).getTime();
-
-      if (date2 > date1) {
-        return current;
-      } else {
-        return context;
-      }
-
-    })
-
-    return result ? true : false;
-
-  }
-
   private compareMetadata(communicationNew: Communication, communicationOld: Communication): Communication {
 
     const date1 = new Date(communicationNew.created).getTime();
@@ -403,6 +417,30 @@ export class ContextualCommDataService {
     } else {
       return null
     }
+
+  }
+
+  private getIdVariation(id: string): string {
+
+    let url: string = id;
+
+    if (id.includes('@')) {
+      const base = id.substr(0, id.lastIndexOf('/') + 1);
+      const user = id.substr(id.lastIndexOf('/') + 1);
+      const users = user.split('-');
+
+      const variation1 = base + users[0] + '-' + users[1];
+      const variation2 = base + users[1] + '-' + users[0];
+
+      if (this.mapIDtoURL.has(variation1)) {
+        url = this.mapIDtoURL.get(variation1);
+      } else if (this.mapIDtoURL.has(variation2)) {
+        url = this.mapIDtoURL.get(variation2);
+      }
+
+    }
+
+    return url;
 
   }
 

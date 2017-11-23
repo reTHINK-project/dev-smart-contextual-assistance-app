@@ -15,7 +15,7 @@ import { HypertyResourceType, HypertyResource, HypertyResourceDirection } from '
 import { isEmpty } from '../../utils/utils';
 
 import { MediaModalType } from '../../components/modal/interfaces/mediaModal.type';
-import { ProgressEvent, ProgressEventType, UserAdded } from '../../models/app.models';
+import { ProgressEvent, ProgressEventType, UserAdded, InvitationEvent } from '../../models/app.models';
 
 @Injectable()
 export class ChatService {
@@ -29,12 +29,6 @@ export class ChatService {
   hypertyURL: string;
 
   chatGroupManager: any;
-
-  public onMessageEvent = new EventEmitter<Message>();
-
-  // TODO: should be created an interface to handle the userAdded with controller and user;
-  // something like: { controller: chatController, user: User }
-  public onUserAdded = new EventEmitter<UserAdded>();
 
   private _discovery: any;
 
@@ -50,8 +44,15 @@ export class ChatService {
     console.info('[Chat Service] - active controller: ', this.chatControllerActive);
   }
 
+  @Output() onMessageEvent = new EventEmitter<Message>();
+
+  // TODO: should be created an interface to handle the userAdded with controller and user;
+  // something like: { controller: chatController, user: User }
+  @Output() onUserAdded = new EventEmitter<UserAdded>();
+
   @Output() onInvitation: EventEmitter<any> = new EventEmitter();
   @Output() onCloseEvent: EventEmitter<any> = new EventEmitter();
+  @Output() onInvitationResponse: EventEmitter<InvitationEvent> = new EventEmitter();
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -151,6 +152,15 @@ export class ChatService {
 
         switch (result.code) {
 
+          case 200: {
+            this.onInvitationResponse.emit({
+              type: 'success',
+              code: result.code,
+              url: url
+            })
+            break;
+          }
+
           case 401:
           case 406: {
             const found = this.controllerList.get(url);
@@ -158,6 +168,14 @@ export class ChatService {
             found.close();
             break;
           }
+
+          default:
+            this.onInvitationResponse.emit({
+              type: 'unknown',
+              code: result.code,
+              url: url
+            })
+            break;
 
         }
 

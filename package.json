@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --aot --live-reload false --ec true",
+    "start": "ng serve --live-reload false --ec true",
     "build": "ng build --aot --prod --env=prod && npm run sw",
     "sw": "node_modules/.bin/ngsw-config dist src/ngsw-config.json && cp ./src/ngsw-worker.js ./dist/ngsw-worker.js",
     "server": "http-server ./dist -p 8080",

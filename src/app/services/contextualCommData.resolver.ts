@@ -16,6 +16,7 @@ import { ContextualCommDataService } from './contextualCommData.service';
 import { ContextualCommService } from './contextualComm.service';
 import { TriggerActionService } from './triggerAction.service';
 import { ContactService } from './contact.service';
+import { ChatService } from './rethink/chat.service';
 import { User, ContextualCommEvent } from '../models/models';
 
 @Injectable()
@@ -23,6 +24,7 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
 
   constructor(
     private router: Router,
+    private chatService: ChatService,
     private contactService: ContactService,
     private triggerActionService: TriggerActionService,
     private contextualCommService: ContextualCommService,
@@ -53,29 +55,22 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
 
       if (isAnUser(normalizedName.name)) {
 
-
-        // this.contextualCommDataService.contextualCommEvent.subscribe((event: ContextualCommEvent) => {
-
-        //   const contextualComm = event.contextualComm;
-
-        //   console.log('[ContextualCommData - Resolve] - Context Created:', contextualComm);
-
-        //   resolve(contextualComm);
-
-        // })
-
-        this.contextualCommDataService.getContextById(normalizedName.id).subscribe({
-          next: contextualComm => resolve(contextualComm),
-          error: reason => {
+        this.contextualCommDataService.getWhenReady(normalizedName.id).then((current) => {
+          console.log('[ContextualCommData - Resolve] - ', current);
+          this.activateContext(current);
+          resolve(current);
+        }).catch((reason: any) => {
             console.log('[ContextualCommData - Resolve] - user:', reason);
             reject(reason);
             this.goHome();
-          }
-        });
+        })
 
       } else {
         this.contextualCommDataService.getContextById(normalizedName.id).subscribe({
-          next: contextualComm => resolve(contextualComm),
+          next: contextualComm => {
+            this.activateContext(contextualComm);
+            resolve(contextualComm)
+          },
           error: reason => {
             console.log('[ContextualCommData - Resolve] - task or context:', reason);
             reject(reason);
@@ -91,6 +86,12 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
   goHome() {
     console.log('[ContextualCommData - Resolve] - Can not resolve - Home ');
     this.router.navigate(['/']);
+  }
+
+  activateContext(context: ContextualComm) {
+    console.log('[Activate User Guard - Activate] - Can Activate Route - ', context.url);
+    this.chatService.activeDataObjectURL = context.url;
+    this.contextualCommService.setActiveContext = context.url;
   }
 
 }

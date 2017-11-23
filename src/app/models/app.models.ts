@@ -76,3 +76,9 @@ export interface UserAdded {
   controller: any;
   user: User;
 }
+
+export interface InvitationEvent {
+  type: 'success' | 'rejected' | 'time out' | 'unknown';
+  code: number;
+  url: string;
+}

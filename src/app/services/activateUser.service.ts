@@ -19,7 +19,6 @@ export class ActivateUserGuard implements CanActivate {
 
   constructor(
     private router: Router,
-    private chatService: ChatService,
     private contactService: ContactService,
     private rethinkService: RethinkService,
     private contextualCommService: ContextualCommService,
@@ -54,7 +53,6 @@ export class ActivateUserGuard implements CanActivate {
                 if (user && currentUser && currentUser.isLegacy) {
                   reject('This kind of user do not allow private messages');
                 } else {
-                  this.activateContext(currentContext);
                   resolve(true);
                 }
 
@@ -88,9 +86,4 @@ export class ActivateUserGuard implements CanActivate {
     this.router.navigate(['/']);
   }
 
-  activateContext(context: ContextualComm) {
-    console.log('[Activate User Guard - Activate] - Can Activate Route - ', context.url);
-    this.chatService.activeDataObjectURL = context.url;
-    this.contextualCommService.setActiveContext = context.url;
-  }
 }

@@ -61,6 +61,14 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
 
     this.route.data.forEach((data: { user: User, context: ContextualComm }) => {
+
+      if (!data.context) {
+        const user: string = this.user.username;
+        const url = this.router.url.replace('user/' + user, '');
+        this.router.navigate([url], {relativeTo: this.route});
+        return;
+      }
+
       console.log('Resolve data User: ', data.user);
       console.log('Resolve data Context: ', data.context);
       this.user = data.user;

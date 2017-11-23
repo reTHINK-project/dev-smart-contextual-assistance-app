@@ -1,4 +1,4 @@
-<div *ngIf="!isReady" class="overflow-content w-100 h-100 d-flex flex-column">
+<div *ngIf="!isReady && !messages && !resources" class="overflow-content w-100 h-100 d-flex flex-column">
   <!-- Loading spinner when wait for the auth and app be ready -->
   <div  class="main-content d-flex flex-row align-items-center h-100">
     <div class="mx-auto text-center">
@@ -7,7 +7,7 @@
   </div>
 </div>
 
-<div *ngIf="isReady" class="overflow-content w-100 h-100 d-flex flex-column">
+<div *ngIf="isReady && messages && resources" class="overflow-content w-100 h-100 d-flex flex-column">
 
   <contact-box *ngIf="!action" [user]="user" (callEvent)="onCallEvent($event)" (closeEvent)="onCloseEvent()"></contact-box>
 
