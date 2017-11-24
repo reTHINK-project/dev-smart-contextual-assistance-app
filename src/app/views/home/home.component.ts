@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   // Load data ones componet is ready
   ngOnInit() {
 
-    this.contextualComms = this.contextualCommDataService.getContexts();
+    this.contextualComms = this.contextualCommDataService.getChildContexts();
 
   }
 

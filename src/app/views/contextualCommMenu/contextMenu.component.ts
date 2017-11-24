@@ -21,7 +21,7 @@ export class ContextMenuComponent {
     private contextualCommDataService: ContextualCommDataService
   ) {
 
-    this.contextualComm = this.contextualCommDataService.getContexts();
+    this.contextualComm = this.contextualCommDataService.getChildContexts();
 
   }
 

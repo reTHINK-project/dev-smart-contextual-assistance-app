@@ -1,13 +1,17 @@
-<div *ngIf="!isReady && !messages && !resources" class="overflow-content w-100 h-100 d-flex flex-column">
+<div *ngIf="!isReady" class="overflow-content w-100 h-100 d-flex flex-column">
   <!-- Loading spinner when wait for the auth and app be ready -->
-  <div  class="main-content d-flex flex-row align-items-center h-100">
-    <div class="mx-auto text-center">
-      <i class="fa fa-cog fa-spin fa-4x"></i>
+
+  <div class="row w-100 h-100 no-gutters d-flex flex-row">
+    <div  class="activity-wrapper col-12 float-left h-100 d-flex flex-column  justify-content-center">
+      <div class="mx-auto text-center">
+        <i class="fa fa-cog fa-spin fa-4x"></i>
+      </div>
     </div>
   </div>
+
 </div>
 
-<div *ngIf="isReady && messages && resources" class="overflow-content w-100 h-100 d-flex flex-column">
+<div *ngIf="isReady" class="overflow-content w-100 h-100 d-flex flex-column">
 
   <contact-box *ngIf="!action" [user]="user" (callEvent)="onCallEvent($event)" (closeEvent)="onCloseEvent()"></contact-box>
 
@@ -30,4 +34,4 @@
 
 </div>
 
-<chat-view></chat-view>
+<chat-view *ngIf="isReady"></chat-view>

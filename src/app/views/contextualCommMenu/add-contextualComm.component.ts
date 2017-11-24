@@ -76,7 +76,7 @@ export class AddContextualCommComponent implements OnInit, OnDestroy {
     private triggerActionService: TriggerActionService,
     private contextualCommDataService: ContextualCommDataService) {
 
-    this.contextualComms = this.contextualCommDataService.getContexts();
+    this.contextualComms = this.contextualCommDataService.getChildContexts();
 
     //  = this.router.events.subscribe((navigation: NavigationEnd) => {
     //   console.log('[AddContextualComm] - router events:', navigation);

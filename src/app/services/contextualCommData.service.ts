@@ -46,8 +46,10 @@ export class ContextualCommDataService {
   ) {
     this.location = location;
 
-    this.contextualCommService.getContextualComms().forEach(
-      (contexts: ContextualComm[]) => contexts.forEach(context => this.mapIDtoURL.set(context.id, context.url)));
+    this.contextualCommService.getContextualComms().subscribe((contexts: ContextualComm[]) => contexts.forEach(context => {
+        console.log('READY UPDATE:', context);
+        this.mapIDtoURL.set(context.id, context.url);
+      })).unsubscribe();
 
     console.log('READY:', this.mapIDtoURL);
 
@@ -61,7 +63,9 @@ export class ContextualCommDataService {
       console.log('[ContextualCommData Service] - onInvitationResponse: ', event);
 
       if (event.type === 'success') {
-        this.getContextByResource(event.url).subscribe(result => result ? this.onReady.next(result) : Error('context not found'));
+        this.getContextByResource(event.url)
+          .subscribe(result => result ? this.onReady.next(result) : Error('context not found'))
+          .unsubscribe()
       }
 
     });
@@ -100,18 +104,21 @@ export class ContextualCommDataService {
       console.log('[ContextualCommData Service] - getWhenReady: ', id, currentURL);
 
       this.getContextByResource(currentURL).subscribe(
-        current => resolve(current),
+        current => {
+          return resolve(current)
+        },
         reason => {
           console.error('[ContextualCommData Service] - getWhenReady: ', reason);
+
           this.onReady.subscribe(resolved => {
-            console.log('[ContextualCommData Service] - getWhenReady: ', resolved);
-            resolve(resolved);
+            console.log('[ContextualCommData Service] - ON READY: ', resolved);
+            return resolve(resolved);
           }, error => {
             console.error('[ContextualCommData Service] - getWhenReady: ', error);
-            reject(error);
-          }).unsubscribe();
-        }
-      ).unsubscribe();
+            return reject(error);
+          })
+
+        })
 
     })
 
@@ -148,8 +155,6 @@ export class ContextualCommDataService {
           return this.contextualCommService.create(name, controller.dataObject, normalizedName.parent, contextInfo);
         }).then((context: ContextualComm) => {
           console.info('[ContextualCommData Service] -  ContextualComm created: ', context);
-
-          this.mapIDtoURL.set(context.id, context.url);
 
           this.contextualCommEvent.emit({
             type: 'add',
@@ -225,6 +230,7 @@ export class ContextualCommDataService {
       }).then((context: ContextualComm) => {
 
         this.mapIDtoURL.set(context.id, context.url);
+        this.onReady.next(context);
 
         this.contextualCommEvent.emit({
           type: 'add',
@@ -294,7 +300,10 @@ export class ContextualCommDataService {
       return Promise.all([chatToClose])
         .then(result => Promise.all(contextToRemove))
         .then(() => { resolve(true); this._redirect(context); })
-        .catch(error => reject(error));
+        .catch(error => {
+          console.error('ERROR:', error);
+          reject(error)
+        });
 
     }));
 
@@ -324,6 +333,11 @@ export class ContextualCommDataService {
    * @memberof ContextualCommDataService
    */
   getContexts(): Observable<ContextualComm[]> {
+    return this.contextualCommService.getContextualComms();
+  }
+
+
+  getChildContexts(): Observable<ContextualComm[]> {
     return this.contextualCommService.getContextualComms()
       .map(contexts => contexts.filter(context => context.parent === ''));
   }
