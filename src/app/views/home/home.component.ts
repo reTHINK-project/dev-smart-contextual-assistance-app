@@ -56,11 +56,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     if (event.type === RemoveContextEventType.Remove) {
 
-      this.removeContextSubscription = this.contextualCommDataService.removeContext(event.context)
+      this.contextualCommDataService.removeContext(event.context)
         .subscribe((result: boolean) => { console.log('Success:', result); },
         (error: any) => {
           this.notificationsService.error('Error removing context', error);
-        });
+        }).unsubscribe();
 
     }
 

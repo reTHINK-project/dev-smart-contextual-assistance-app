@@ -266,18 +266,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   hypertiesReady() {
 
-    // // Prepare the chat service to recive invitations
-    // this.chatInvitation = this.chatService.onInvitation.subscribe((event: any) => {
-    //   console.log('[App View View - chatService onInvitation] - event:', event);
-
-    //   this.processEvent(event).then((result: any) => {
-    //     console.log('[App View View - chatService onInvitation] - event processed:', result);
-    //   }).catch((reason) => {
-    //     console.error('[App View View - chatService onInvitation] - event not processed:', reason);
-    //   });
-
-    // });
-
     this.closeEvent = this.chatService.onCloseEvent.subscribe((event: any) => {
 
       console.log('Context to be removed: ', event, event.url);
@@ -305,6 +293,8 @@ export class AppComponent implements OnInit, AfterViewInit {
             });
           });
 
+      }, (reason: any) => {
+        console.log('Context already been removed');
       }).unsubscribe();
 
     })

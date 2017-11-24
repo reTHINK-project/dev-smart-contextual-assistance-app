@@ -76,6 +76,7 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
       this.messages.next(contextualComm.messages);
       this.resources.next(contextualComm.resources);
     });
+
   }
 
   mediaComponentReady(event: any) {

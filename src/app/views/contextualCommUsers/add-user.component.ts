@@ -146,17 +146,17 @@ export class AddUserComponent implements OnInit, OnDestroy {
 
     this.busy = true;
 
-    console.log('THIS:', this.searchResultModel);
 
     if (this.searchResultModel && this.searchResultModel.username) {
 
+      this.model.email = this.searchResultModel.username;
+      this.model.domain = this.searchResultModel.domain;
+
       this._invite({
-        email: this.searchResultModel.username,
-        domain: this.searchResultModel.domain
+        email: this.model.email,
+        domain: this.model.domain
       });
 
-
-      // this.searchResultModel
     }
 
   }

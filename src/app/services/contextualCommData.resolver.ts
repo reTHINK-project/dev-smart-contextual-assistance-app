@@ -40,6 +40,8 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
       const task = route.params['task'];
       const user = route.params['user'];
       const path = state.url;
+      let wait: any;
+
       let name = '';
       let title = '';
 
@@ -55,14 +57,20 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
 
       if (isAnUser(normalizedName.name)) {
 
+        wait = setTimeout(() => {
+          reject('Something went wrong');
+        }, 5000);
+
         this.contextualCommDataService.getWhenReady(normalizedName.id).then((current) => {
           console.log('[ContextualCommData - Resolve] - ', current);
           this.activateContext(current);
+          clearTimeout(wait);
           resolve(current);
         }).catch((reason: any) => {
-            console.log('[ContextualCommData - Resolve] - user:', reason);
-            reject(reason);
-            this.goHome();
+          clearTimeout(wait);
+          console.log('[ContextualCommData - Resolve] - user:', reason);
+          reject(reason);
+          this.goHome();
         })
 
       } else {

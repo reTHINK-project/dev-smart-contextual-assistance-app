@@ -188,10 +188,57 @@ export function normalizeFromURL(path: string, username: string): string {
     pathSplited[lastIndex] = updated;
   }
 
-  const joined = pathSplited.join(splitChar);
+  const userWordIndex = pathSplited.findIndex(key => key === 'user');
+  if (userWordIndex !== -1) { pathSplited.splice(userWordIndex, 1); }
 
-  console.log('AQUI:', path, username, pathSplited, joined);
-  return joined;
+  return pathSplited.join(splitChar);
+
+}
+
+export function normalizeNameFromURL(path: string, username: string) {
+
+  const splitChar = config.splitChar;
+
+  const at = new RegExp(/%40/g);
+  path = path.replace(at, '@');
+
+  // Clear path from attributes
+  if (path.indexOf('?') !== -1) {
+    path = path.substring(0, path.lastIndexOf('?'));
+  }
+
+  const pathSplited = path.split('/');
+  pathSplited[0] = config.appPrefix;
+
+  if (path.includes('@') && username) {
+    const lastIndex = pathSplited.length - 1;
+    const last = pathSplited[lastIndex];
+
+    let updated = last;
+    if (!last.includes(username)) {
+      updated = username + '-' + last;
+    }
+
+    pathSplited[lastIndex] = updated;
+  }
+
+  const userWordIndex = pathSplited.findIndex(key => key === 'user');
+  if (userWordIndex !== -1) { pathSplited.splice(userWordIndex, 1); }
+
+  const size = pathSplited.length;
+
+  const id = pathSplited.join(config.splitChar);
+  const name = pathSplited[size - 1];
+  let parent = id.substr(0, id.indexOf(name) - 1);
+
+  if (parent === config.appPrefix) { parent = null; }
+
+  return {
+    id: id,
+    name: name,
+    parent: parent
+  }
+
 }
 
 export function objectToPath(value: string): string {

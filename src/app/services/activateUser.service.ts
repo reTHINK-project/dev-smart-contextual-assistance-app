@@ -58,17 +58,30 @@ export class ActivateUserGuard implements CanActivate {
 
               }).catch((reason: any) => {
 
+                if (user && currentUser && currentUser.isLegacy) {
+                  reject('This kind of user do not allow private messages');
+                } else {
 
-                this.contextualCommDataService.createAtomicContext(
-                  [{user: currentUser.username, domain: currentUser.domain}],
-                  normalizedName.name, normalizedName.id, normalizedName.parent).then((contextualComm: ContextualComm) => {
-                    console.log('[Activate User Guard - Activate] - Can Activate route:', contextualComm);
-                    resolve(true);
-                  }).catch((error: any) => {
-                    // TODO Handle this logs and the expection
+                  this.contextualCommDataService.getContextById(normalizedName.parent).subscribe((parentContext: ContextualComm) => {
+
+                    this.contextualCommDataService.createAtomicContext(
+                      [{user: currentUser.username, domain: currentUser.domain}],
+                      normalizedName.name, normalizedName.id, normalizedName.parent).then((contextualComm: ContextualComm) => {
+                        console.log('[Activate User Guard - Activate] - Can Activate route:', contextualComm);
+                        resolve(true);
+                      }).catch((error: any) => {
+                        // TODO Handle this logs and the expection
+                        console.log('[Activate User Guard - Activate] - Can Not Activate Route:', error);
+                        resolve(false);
+                      });
+
+                  }, (error: any) => {
                     console.log('[Activate User Guard - Activate] - Can Not Activate Route:', error);
+                    this.goHome();
                     resolve(false);
                   })
+
+                }
 
               });
           }

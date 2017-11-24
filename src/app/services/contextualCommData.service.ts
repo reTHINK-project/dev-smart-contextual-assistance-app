@@ -12,7 +12,7 @@ import 'rxjs/add/operator/first';
 // Models
 import { ContextualComm, ContextualCommEvent, InvitationEvent } from '../models/models';
 
-import { isALegacyUser, filterContextsByName, normalizeName, objectToPath } from '../utils/utils';
+import { isALegacyUser, filterContextsByName, normalizeName, objectToPath, normalizeFromURL, normalizeNameFromURL } from '../utils/utils';
 
 // Services
 import { ContextualCommService } from './contextualComm.service';
@@ -51,12 +51,10 @@ export class ContextualCommDataService {
         this.mapIDtoURL.set(context.id, context.url);
       })).unsubscribe();
 
-    console.log('READY:', this.mapIDtoURL);
-
-
-    this.onReady.subscribe((a) => {
-      console.log('ON READY: ', a);
-    })
+    this.onReady.subscribe((context: ContextualComm) => {
+      this.mapIDtoURL.set(context.id, context.url);
+      console.log('ON READY: ', context, this.mapIDtoURL);
+    });
 
     this.onInvitationSubscription = chatService.onInvitationResponse.subscribe((event: InvitationEvent) => {
 
@@ -99,7 +97,7 @@ export class ContextualCommDataService {
 
     return new Promise((resolve, reject) => {
 
-      const currentURL = this.getIdVariation(id);
+      const currentURL = this.getURLFromID(id);
 
       console.log('[ContextualCommData Service] - getWhenReady: ', id, currentURL);
 
@@ -108,7 +106,7 @@ export class ContextualCommDataService {
           return resolve(current)
         },
         reason => {
-          console.error('[ContextualCommData Service] - getWhenReady: ', reason);
+          // console.error('[ContextualCommData Service] - getWhenReady: ', reason);
 
           this.onReady.subscribe(resolved => {
             console.log('[ContextualCommData Service] - ON READY: ', resolved);
@@ -229,7 +227,6 @@ export class ContextualCommDataService {
         reject(error);
       }).then((context: ContextualComm) => {
 
-        this.mapIDtoURL.set(context.id, context.url);
         this.onReady.next(context);
 
         this.contextualCommEvent.emit({
@@ -299,11 +296,15 @@ export class ContextualCommDataService {
 
       return Promise.all([chatToClose])
         .then(result => Promise.all(contextToRemove))
-        .then(() => { resolve(true); this._redirect(context); })
+        .then((all) => {
+          resolve(true);
+          console.log('REMOVED CONTEXTS: ', all);
+          this._redirect(context);
+        })
         .catch(error => {
           console.error('ERROR:', error);
           reject(error)
-        });
+      });
 
     }));
 
@@ -312,7 +313,9 @@ export class ContextualCommDataService {
   _redirect(context: ContextualComm) {
     const basePath = this.router.url;
     const contextPathObj = normalizeName(context.id);
-    const basePathObj = normalizeName(basePath);
+    const basePathObj = normalizeNameFromURL(basePath, this.contactService.sessionUser.username);
+
+    console.log('[ContextualCommData Service] - redirect', contextPathObj, basePathObj);
 
     if (contextPathObj.id === basePathObj.id) {
       console.log('Navigate to the parent object path: ', contextPathObj);
@@ -434,7 +437,29 @@ export class ContextualCommDataService {
 
   }
 
-  private getIdVariation(id: string): string {
+  private compareIdVariation(id1: string, id2: string): string | any {
+
+    const result = id1;
+
+    if (id1.includes('@') && id2.includes('@')) {
+      const base = id1.substr(0, id1.lastIndexOf('/') + 1);
+      const user = id1.substr(id1.lastIndexOf('/') + 1);
+      const users = user.split('-');
+
+      const variation1 = base + users[0] + '-' + users[1];
+      const variation2 = base + users[1] + '-' + users[0];
+
+      if (variation1 === id2) {
+        return variation1;
+      }
+
+    }
+
+    return result;
+
+  }
+
+  private getURLFromID(id: string): string {
 
     let url: string = id;
 
