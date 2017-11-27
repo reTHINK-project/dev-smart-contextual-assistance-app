@@ -198,4 +198,12 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy, AfterVie
 
   }
 
+  onUserEvent(event: MouseEvent) {
+    event.preventDefault();
+
+    console.log('AQUI:', event);
+
+    //this.contextualCommDataService.getWhenReady(())
+  }
+
 }

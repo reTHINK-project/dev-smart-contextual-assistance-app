@@ -74,7 +74,7 @@ export class ContextualCommComponent implements OnInit, AfterViewInit, OnDestroy
       this.updateCurrentContext(data.context);
     });
 
-    this.currentContext = this.contextualCommDataService.currentContext().subscribe((context: ContextualComm) => {
+    this.currentContext = this.contextualCommDataService.getCurrentContext().subscribe((context: ContextualComm) => {
       console.log('[ContextualComm View - active context change]:', context);
       this.updateCurrentContext(context);
     });

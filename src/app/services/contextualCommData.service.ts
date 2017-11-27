@@ -47,13 +47,11 @@ export class ContextualCommDataService {
     this.location = location;
 
     this.contextualCommService.getContextualComms().subscribe((contexts: ContextualComm[]) => contexts.forEach(context => {
-        console.log('READY UPDATE:', context);
         this.mapIDtoURL.set(context.id, context.url);
       })).unsubscribe();
 
     this.onReady.subscribe((context: ContextualComm) => {
       this.mapIDtoURL.set(context.id, context.url);
-      console.log('ON READY: ', context, this.mapIDtoURL);
     });
 
     this.onInvitationSubscription = chatService.onInvitationResponse.subscribe((event: InvitationEvent) => {
@@ -187,10 +185,8 @@ export class ContextualCommDataService {
 
         if (found) {
           this.processJoin(name, found, parentNameId).then((result: ContextualComm) => {
-            console.log('JOINED', result);
             resolve(result);
           }).catch((reason: any) => {
-            console.error('NOT JOINED', reason);
             reject(reason);
           });
         } else {
@@ -200,10 +196,8 @@ export class ContextualCommDataService {
       }, (reason: any) => {
 
         this.processJoin(name, metadata, parentNameId).then((result: ContextualComm) => {
-          console.log('JOINED', result);
           resolve(result);
         }).catch((error: any) => {
-          console.error('NOT JOINED', error);
           reject(reason);
         });
 
@@ -399,8 +393,12 @@ export class ContextualCommDataService {
       });
   }
 
-  currentContext(): Observable<ContextualComm> {
+  getCurrentContext(): Observable<ContextualComm> {
     return this.contextualCommService.currentContext();
+  }
+
+  setCurrentContext(context: ContextualComm) {
+    this.contextualCommService.setActiveContext = context.url;
   }
 
   private filterContextsById(id: string, context: ContextualComm) {

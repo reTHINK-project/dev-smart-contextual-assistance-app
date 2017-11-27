@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 
 // Services
-import { ContactService, ChatService, ContextualCommService } from '../../services/services';
+import { ContactService, ChatService, ContextualCommDataService } from '../../services/services';
 
 // Models
 import { Message, User, ContextualComm, Resource } from '../../models/models';
@@ -18,6 +18,8 @@ import { ContextualCommActivityComponent } from '../contextualCommActivity/conte
 import { MediaCommunicationComponent } from '../../components/rethink/communication/mediaCommunication.component';
 
 import { ScreenDirective } from '../../shared/directive.module';
+import { ParamMap } from '@angular/router/src/shared';
+import { normalizeName, normalizeFromURL, splitFromURL } from 'app/utils/utils';
 
 @Component({
   moduleId: module.id,
@@ -46,7 +48,7 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private screen: ScreenDirective,
     private contactService: ContactService,
-    private contextualCommService: ContextualCommService,
+    private contextualCommDataService: ContextualCommDataService ,
     private chatService: ChatService) {
 
     this.paramsSubscription = this.route.queryParams.subscribe((event: any) => {
@@ -60,22 +62,36 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
 
-    this.route.data.forEach((data: { user: User, context: ContextualComm }) => {
+    const path = this.router.url;
+    const name = normalizeFromURL(path, this.contactService.sessionUser.username);
+    const normalizedName: any = normalizeName(name);
 
-      console.log('Resolve data User: ', data.user);
-      console.log('Resolve data Context: ', data.context);
-      this.user = data.user;
+    this.contextualCommDataService.getWhenReady(normalizedName.id).then((current) => {
+      console.log('[User View] - ContextualCommData - Resolve - ', current);
+      this.messages.next(current.messages);
+      this.resources.next(current.resources);
 
-      this.messages.next(data.context.messages);
-      this.resources.next(data.context.resources);
+      this.activateContext(current);
+
       this.isReady = true;
+
+    }).catch((reason: any) => {
+      console.log('[User View] - ContextualCommData - Resolve - user:', reason);
+      this.goParent(normalizedName.parent);
+    })
+
+    this.route.data.forEach((data: { user: User, context: ContextualComm }) => {
+      console.log('[User View] - Resolve data User: ', data.user);
+      this.user = data.user;
     });
 
-    this.currentContextSub = this.contextualCommService.currentContext().subscribe((contextualComm: ContextualComm) => {
-      console.log('[User View - ContextualCommActivity Component - update] - ', contextualComm);
+    this.currentContextSub = this.contextualCommDataService.getCurrentContext().subscribe((contextualComm: ContextualComm) => {
+      console.log('[User View] - ContextualCommActivity Component - update - ', contextualComm);
       this.messages.next(contextualComm.messages);
       this.resources.next(contextualComm.resources);
     });
+
+    console.log('[User View] - onInit: ', this.isReady);
 
   }
 
@@ -91,7 +107,7 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    // console.log('[User View] - ViewInit: ', this.fullscreenDirective)
+
   }
 
   ngOnDestroy() {
@@ -105,6 +121,24 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onCallEvent(event: any) {
     // this.mediaComponent.onFullscreen();
+  }
+
+  private activateContext(context: ContextualComm) {
+    console.log('[User View] - Set current context - ', context.url);
+    this.chatService.activeDataObjectURL = context.url;
+    this.contextualCommDataService.setCurrentContext(context);
+  }
+
+  private goParent(parent: string) {
+
+    const pathObject = splitFromURL(parent, this.contactService.sessionUser.username);
+
+    let path = pathObject.context || '/';
+    if (pathObject.task) { path += pathObject.task; }
+
+    console.log('[User View] - Something went wrong: ', pathObject, path);
+
+    this.router.navigate([path]);
   }
 
   onAcceptCall() {
