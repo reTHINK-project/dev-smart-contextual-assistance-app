@@ -23,11 +23,11 @@ import { ContextualCommComponent } from './views/contextualComm/contextualComm.c
 // Services
 import { RoutingService } from './services/routing.service';
 import { BreadcrumbService } from './services/breadcrumb.service';
-import { ContextualCommService } from './services/contextualComm.service';
 import { ContextualCommDataService } from './services/contextualCommData.service';
 import { UserAvailabilityService } from './services/rethink/userAvailability.service';
 import { TriggerActionService, RethinkService, ConnectorService, ChatService, ContactService } from './services/services';
 import { NativeNotification } from './components/notification/native-notifications/interfaces/native-notification.type';
+import { SwPush } from '@angular/service-worker';
 
 @Component({
   moduleId: module.id,
@@ -91,10 +91,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     private breadcrumbService: BreadcrumbService,
     private notificationsService: NotificationsService,
     private triggerActionService: TriggerActionService,
-    private contextualCommService: ContextualCommService,
     private userAvailabilityService: UserAvailabilityService,
     private natNotificationsService: NativeNotificationsService,
     private contextualCommDataService: ContextualCommDataService) {
+  }
+
+  ngOnInit() {
 
     this.natNotFeedback = this.natNotificationsService.requestPermission()
       .subscribe(
@@ -120,7 +122,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     });
 
-    this.contextualCommEvent = this.contextualCommService.contextualCommEvent.subscribe((event: ContextualCommEvent) => {
+    this.contextualCommEvent = this.contextualCommDataService.contextualCommEvent.subscribe((event: ContextualCommEvent) => {
 
       const title = 'New communication channel';
       const content = 'You have a new communication channel ' + event.contextualComm.name;
@@ -180,10 +182,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
 
-  }
-
-  ngOnInit() {
-
     this.rethinkService.progress.next('Loading runtime');
 
     this.rethinkService.loadRuntime()
@@ -235,8 +233,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     this.routerEvent = this.router.events.subscribe((navigation: NavigationEnd) => {
 
-      console.log('[App Component] - navigation: ', navigation);
       if (navigation instanceof NavigationEnd) {
+
+        console.log('[App Component] - navigation: ', navigation);
 
         this.toggleSideBar();
 
@@ -267,18 +266,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   hypertiesReady() {
 
-    // Prepare the chat service to recive invitations
-    this.chatInvitation = this.chatService.onInvitation.subscribe((event: any) => {
-      console.log('[App View View - chatService onInvitation] - event:', event);
-
-      this.processEvent(event).then((result: any) => {
-        console.log('[App View View - chatService onInvitation] - event processed:', result);
-      }).catch((reason) => {
-        console.error('[App View View - chatService onInvitation] - event not processed:', reason);
-      });
-
-    });
-
     this.closeEvent = this.chatService.onCloseEvent.subscribe((event: any) => {
 
       console.log('Context to be removed: ', event, event.url);
@@ -306,7 +293,9 @@ export class AppComponent implements OnInit, AfterViewInit {
             });
           });
 
-      })
+      }, (reason: any) => {
+        console.log('Context already been removed');
+      }).unsubscribe();
 
     })
 
@@ -411,31 +400,31 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   }
 
-  private processEvent(event: any) {
+  // private processEvent(event: any) {
 
-    return new Promise((resolve, reject) => {
+  //   return new Promise((resolve, reject) => {
 
-      const url = event.url;
-      const metadata = event.value;
-      const name = metadata.name;
+  //     const url = event.url;
+  //     const metadata = event.value;
+  //     const name = metadata.name;
 
-      this.chatService.join(url).then((dataObject: any) => {
+  //     this.chatService.join(url).then((dataObject: any) => {
 
-        const normalizedName = normalizeName(name);
-        console.log('[App Component - Join the to the context: ', name, dataObject, normalizedName);
+  //       const normalizedName = normalizeName(name);
+  //       console.log('[App Component - Join the to the context: ', name, dataObject, normalizedName);
 
-        return this.contextualCommDataService.joinContext(normalizedName.name, normalizedName.id, dataObject, normalizedName.parent);
-      }).then((currentContext: ContextualComm) => {
-        console.log('[App Component] - current context created: ', currentContext);
-        resolve(currentContext);
-      }).catch((reason: any) => {
-        console.log('Error:', reason);
-        reject(reason);
-      });
+  //       return this.contextualCommDataService.joinContext(normalizedName.name, normalizedName.id, dataObject, normalizedName.parent);
+  //     }).then((currentContext: ContextualComm) => {
+  //       console.log('[App Component] - current context created: ', currentContext);
+  //       resolve(currentContext);
+  //     }).catch((reason: any) => {
+  //       console.log('Error:', reason);
+  //       reject(reason);
+  //     });
 
-    });
+  //   });
 
-  }
+  // }
 
   actionEvent(actionEvent: NotificationActionEvent) {
 
@@ -533,8 +522,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   toggleSideBar() {
     const element: HTMLElement = document.getElementsByClassName('menu-trigger')[0] as HTMLElement;
     const e: MouseEvent = new MouseEvent('click');
-
-    console.log('[App Component] - navigation:', element, e);
 
     if (element && element.classList.contains('opened') ) {
       element.dispatchEvent(e);

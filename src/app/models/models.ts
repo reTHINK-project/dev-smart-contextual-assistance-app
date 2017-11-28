@@ -9,6 +9,17 @@ import { isALegacyUser } from '../utils/utils';
 
 import { config } from '../../app/config';
 
+export interface InvitationEvent {
+  ack: Function;
+  domain: string;
+  from: string; // should be an url
+  identity: any; // should be an Identity with domain and userProfile
+  schema: string;
+  type: string;
+  url: string;
+  value: any;
+}
+
 export class User implements UserIdentity {
 
   guid: string;
@@ -119,7 +130,7 @@ export class Resource {
 }
 
 export interface ContextualCommEvent {
-  type: 'add' | 'update' | 'remove';
+  type: 'add' | 'update' | 'remove' | 'error';
   contextualComm: ContextualComm;
 }
 

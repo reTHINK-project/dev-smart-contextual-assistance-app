@@ -42,8 +42,7 @@ const contextualCommRoutes: Routes = [
         component: UserViewComponent,
         canActivate: [ ActivateUserGuard ],
         resolve: {
-          user: UserResolver,
-          context: ContextualCommDataResolver
+          user: UserResolver
         }
       },
       {
@@ -51,8 +50,7 @@ const contextualCommRoutes: Routes = [
         component: UserViewComponent,
         canActivate: [ ActivateUserGuard ],
         resolve: {
-          user: UserResolver,
-          context: ContextualCommDataResolver
+          user: UserResolver
         }
       }
     ]

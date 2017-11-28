@@ -62,12 +62,23 @@ export enum ProgressEventType {
 
 export interface ProgressEvent {
   type: ProgressEventType;
-  resource: string,
-  description?: string,
+  resource: string;
+  description?: string;
   value?: number;
 }
 
 export interface DownloadFileEvent {
-  url: string,
-  callback: EventEmitter<ProgressEvent>
+  url: string;
+  callback: EventEmitter<ProgressEvent>;
+}
+
+export interface UserAdded {
+  controller: any;
+  user: User;
+}
+
+export interface InvitationEvent {
+  type: 'success' | 'rejected' | 'time out' | 'unknown';
+  code: number;
+  url: string;
 }

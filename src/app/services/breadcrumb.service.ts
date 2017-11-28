@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/bufferCount';
+import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class BreadcrumbService {
@@ -16,29 +17,35 @@ export class BreadcrumbService {
 
   breadcrumb: BehaviorSubject<Array<string>> = new BehaviorSubject<Array<string>>([]);
 
-  constructor(
-    private router: Router) {
+  private pathsSubscription: Subscription;
+  private routerEventSubscription: Subscription;
+
+  constructor(private router: Router) {
 
     // this.paths.take(2)
 
-    this.paths.subscribe(this.breadcrumb)
+    this.pathsSubscription = this.paths.subscribe(this.breadcrumb);
 
-    console.log('[Breadcrumb Service] - router events:', this.router);
+    console.log('[Breadcrumb Service] - router events constructor:', this.router);
 
     // Subscribe to route params
     this._urls = new Array();
-    this.router.events.subscribe((navigation: NavigationEnd) => {
-
-      console.log('[Breadcrumb Service] - router events:', navigation);
-
-      this._urls.length = 0; // Fastest way to clear out array
+    this.routerEventSubscription = this.router.events.subscribe((navigation: NavigationEnd) => {
 
       if (navigation instanceof NavigationEnd) {
+
+        console.log('[Breadcrumb Service] - router events:', navigation);
+        
+        this._urls.length = 0; // Fastest way to clear out array
+
         this.generateBreadcrumbTrail(navigation.urlAfterRedirects ? navigation.urlAfterRedirects : navigation.url);
         this.paths.next(this._urls);
       }
 
     });
+
+    // this.routerEventSubscription.unsubscribe();
+    // this.pathsSubscription.unsubscribe();
 
   }
 

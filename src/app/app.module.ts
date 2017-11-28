@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Service Worker Service
-import { ServiceWorkerModule } from '@angular/service-worker'
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { NgbModule, NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
 
@@ -42,6 +42,8 @@ import { RemoveContextualCommComponent } from './views/contextualCommMenu/remove
 import { servicesInjectables } from './services/services';
 import { MediaModalComponent } from './components/modal/components/mediaModal.component';
 
+import { environment } from '../environments/environment';
+
 @NgModule({
   imports: [
     FormsModule,
@@ -50,7 +52,7 @@ import { MediaModalComponent } from './components/modal/components/mediaModal.co
     ReactiveFormsModule,
     ContextualCommModule,
     BrowserAnimationsModule,
-    ServiceWorkerModule.register('../service-worker.js'),
+    environment.production ? ServiceWorkerModule.register('./ngsw-worker.js') : [],
     NgbModule.forRoot(),
     MediaModalModule.forRoot(),
     NotificationsModule.forRoot(),

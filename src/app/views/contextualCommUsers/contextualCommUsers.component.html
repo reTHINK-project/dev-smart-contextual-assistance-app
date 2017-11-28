@@ -34,7 +34,10 @@
     <ul class="contact-list">
       <!-- List of ContactComponent -->
       <li class="item m-0" *ngFor="let contact of contactsFilter | async">
-        <a class="link" [routerLink]="[this.basePath, 'user', contact.username]" routerLinkActive="active">
+        <a class="link"
+          [routerLink]="[this.basePath, 'user', contact.username]"
+          routerLinkActive="active"
+          (click)="onUserEvent($event)">
 
           <user-identity *ngIf="contact" [model]=contact></user-identity>
 
