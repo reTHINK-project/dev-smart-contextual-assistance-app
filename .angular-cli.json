@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "./dist",
+      "outDir": "dist",
       "assets": [
         "dist",
         "app",
@@ -14,8 +14,7 @@
         "main.js",
         "favicon.ico",
         "manifest.json",
-        "ngsw-worker.js",
-        "service-worker.js"
+        "ngsw-worker.js"
       ],
       "platform": "browser",
       "index": "index.html",
@@ -29,7 +28,7 @@
       "styles": [
         "styles.scss"
       ],
-      "deployUrl": "../dist",
+      "deployUrl": "./",
       "scripts": [
         "../node_modules/runtime-browser/bin/rethink.js"
       ],

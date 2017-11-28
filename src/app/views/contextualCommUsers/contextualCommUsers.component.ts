@@ -204,6 +204,7 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy, AfterVie
     console.log('AQUI:', event);
 
     //this.contextualCommDataService.getWhenReady(())
+
   }
 
 }
