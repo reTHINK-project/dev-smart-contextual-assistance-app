@@ -1,15 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="h-100">
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1, minimum-scale=1">
 
     <!-- On github put: /dev-smart-contextual-assistance-app/ -->
-    <base href="<%= htmlWebpackPlugin.options.baseHref %>">
+    <base href="/dev-smart-contextual-assistance-app/">
 
-    <title><%= htmlWebpackPlugin.options.title || 'Webpack App'%></title>
-
+    <title>reThink Project</title>
     <link rel="canonical" href="./index.html">
 
     <link rel="apple-touch-icon" type="image/png" sizes="57x57" href="./assets/img/icons/apple-icon-57x57.png">
@@ -31,21 +31,10 @@
     <meta name="msapplication-TileImage" content="./assets/img/icons/ms-icon-144x144.png">
 
     <meta name="theme-color" content="#364258" />
-    <meta name="mobile-web-app-capable" content="yes"/>
+    <meta name="mobile-web-app-capable" content="yes">
 
-    <link rel="manifest" href="./manifest.json" />
-
-    <% if (htmlWebpackPlugin.files.favicon) { %>
-    <link rel="shortcut icon" type="image/x-icon" href="<%= htmlWebpackPlugin.files.favicon %>">
-    <% } %>
-
-    <% if (htmlWebpackPlugin.options.mobile) { %>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1, minimum-scale=1">
-    <% } %>
-
-    <% for (var css in htmlWebpackPlugin.files.css) { %>
-    <link href="<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet">
-    <% } %>
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
 
     <script>
       (function(){
@@ -69,13 +58,6 @@
         </div>
       </div>
     </rethink-app>
-
-
-    <noscript>
-        <p>
-          Sorry, JavaScript must be enabled to use this app
-        </p>
-    </noscript>
 
   </body>
 </html>

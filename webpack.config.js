@@ -493,7 +493,7 @@ module.exports = {
       "failOnError": false
     }),
     new HtmlWebpackPlugin({
-      "template": "./src/index.html",
+      "template": "./src/index.ejs",
       "filename": "./index.html",
       "hash": false,
       "inject": true,
