@@ -49,8 +49,8 @@ export class ActivateTaskGuard implements CanActivate {
             console.log('[Activate Task Guard - Activate] - normalized name: ', normalizedName);
 
             this.contextualCommDataService.getContextById(normalizedName.id).subscribe(
-              (context: ContextualComm) => {
-                this.activateContext(context);
+              (contextualComm: ContextualComm) => {
+                this.activateContext(contextualComm);
                 resolve(true);
             }, (reason: any) => {
 

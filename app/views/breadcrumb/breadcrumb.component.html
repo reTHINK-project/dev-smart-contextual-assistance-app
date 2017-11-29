@@ -5,7 +5,7 @@
   </a>
 </li>
 
-<li class="breadcrumb-path" *ngFor="let item of breadcrumb | async; let i = index; let $first = first; let $last = last; " [class.first]="$first" [class.last]="$last" >
+<li class="breadcrumb-path" *ngFor="let item of breadcrumb; let i = index; let $first = first; let $last = last; " [class.first]="$first" [class.last]="$last" >
   <h3 class="level-{{i}}">
 
     <a class="name" *ngIf="!$last" routerLink="{{item}}" routerLinkActive="active">

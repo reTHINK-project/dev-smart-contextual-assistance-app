@@ -15,7 +15,7 @@ import { HypertyResourceType, HypertyResource, HypertyResourceDirection } from '
 import { isEmpty } from '../../utils/utils';
 
 import { MediaModalType } from '../../components/modal/interfaces/mediaModal.type';
-import { ProgressEvent, ProgressEventType } from '../../models/app.models';
+import { ProgressEvent, ProgressEventType, UserAdded, InvitationEvent } from '../../models/app.models';
 
 @Injectable()
 export class ChatService {
@@ -29,9 +29,6 @@ export class ChatService {
   hypertyURL: string;
 
   chatGroupManager: any;
-
-  public onMessageEvent = new EventEmitter<Message>();
-  public onUserAdded = new EventEmitter<User>();
 
   private _discovery: any;
 
@@ -47,8 +44,15 @@ export class ChatService {
     console.info('[Chat Service] - active controller: ', this.chatControllerActive);
   }
 
+  @Output() onMessageEvent = new EventEmitter<Message>();
+
+  // TODO: should be created an interface to handle the userAdded with controller and user;
+  // something like: { controller: chatController, user: User }
+  @Output() onUserAdded = new EventEmitter<UserAdded>();
+
   @Output() onInvitation: EventEmitter<any> = new EventEmitter();
   @Output() onCloseEvent: EventEmitter<any> = new EventEmitter();
+  @Output() onInvitationResponse: EventEmitter<InvitationEvent> = new EventEmitter();
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -138,8 +142,60 @@ export class ChatService {
 
     console.log('[Chat Service - prepareController]', chatController);
 
-    chatController.onUserAdded((user: any) => {
-      this.controllerUserAdded(chatController, user);
+    chatController.onInvitationResponse((result: any) => {
+
+      console.log('On Response to Invitation:', result);
+
+      const url: string = chatController.dataObject.url;
+
+      if (result.hasOwnProperty('code')) {
+
+        switch (result.code) {
+
+          case 200: {
+            this.onInvitationResponse.emit({
+              type: 'success',
+              code: result.code,
+              url: url
+            })
+            break;
+          }
+
+          case 401:
+          case 406: {
+            const found = this.controllerList.get(url);
+            console.log('Close Chat:', found);
+            found.close();
+            break;
+          }
+
+          default:
+            this.onInvitationResponse.emit({
+              type: 'unknown',
+              code: result.code,
+              url: url
+            })
+            break;
+
+        }
+
+      }
+
+    });
+
+    chatController.onUserAdded((event: any) => {
+
+      const user: any = event.data || event;
+
+      const current: any = JSON.parse(JSON.stringify(user));
+
+      const e: UserAdded = {
+        controller: chatController,
+        user: current
+      }
+
+      this.onUserAdded.emit(e);
+
     });
 
     chatController.onMessage((message: any) => {
@@ -264,7 +320,7 @@ export class ChatService {
 
     return new Promise((resolve, reject) => {
 
-      console.log('[Chat Service - Join] - event: ', event);
+      console.log('[Chat Service - Join] - event: ', url);
 
       this.chatGroupManager.join(url).then((chatController: any) => {
 
@@ -274,7 +330,10 @@ export class ChatService {
 
         resolve(dataObject);
 
-      });
+      }).catch((reason: any) => {
+        console.error('REASON: ', reason);
+        reject(reason);
+      })
 
     });
 
@@ -378,7 +437,7 @@ export class ChatService {
 
     const found = this.controllerList.get(url);
 
-    console.log(this.controllerList);
+    console.log('Close Chat:', this.controllerList);
     return found.close().then((result: any) => this.controllerList.delete(url))
 
   }

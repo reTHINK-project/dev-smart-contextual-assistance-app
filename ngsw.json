@@ -1,21 +1,23 @@
 {
   "configVersion": 1,
-  "index": "/./index.html",
+  "index": "/index.html",
   "assetGroups": [
     {
       "name": "app",
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "urls": [
-        "/favicon.ico",
-        "/manifest.json",
-        "/inline.64b8417feb4f22f8352d.bundle.js",
-        "/main.556f6b9388b0d1c55a00.bundle.js",
-        "/polyfills.43165fd830e212c52938.bundle.js",
-        "/scripts.032dfcd4f8a1f93a74cf.bundle.js",
-        "/styles.203db879300c81484f0e.bundle.css"
+        "/index.html",
+        "/inline.cb50c0127a89b5df37f3.bundle.js",
+        "/main.a53e9ba1a21cf7e8380c.bundle.js",
+        "/polyfills.10e1f877ff2510b03448.bundle.js",
+        "/scripts.b203fe1c637534bc3694.bundle.js",
+        "/styles.b7245be266c7d6f655d7.bundle.css"
       ],
-      "patterns": []
+      "patterns": [
+        "https:\\/\\/fonts\\.googleapis\\.com\\/css\\?family=Material\\+Icons",
+        "https:\\/\\/fonts\\.gstatic\\.com\\/.*"
+      ]
     },
     {
       "name": "assets",
@@ -215,67 +217,13 @@
         "/assets/style/mixins/_transform.scss"
       ],
       "patterns": []
-    },
-    {
-      "name": "fonts",
-      "installMode": "prefetch",
-      "updateMode": "prefetch",
-      "urls": [],
-      "patterns": [
-        "https:\\/\\/fonts\\.googleapis\\.com\\/css\\?family=Material\\+Icons",
-        "https:\\/\\/fonts\\.gstatic\\.com\\/.*"
-      ]
     }
   ],
   "dataGroups": [
     {
-      "name": "hyperties",
+      "name": "rethink",
       "patterns": [
-        "https:\\/\\\\/\\rethink-project.github.io\\/\\dev-smart-contextual-assistance-app\\/\\.well-known\\/hyperty\\/[^\\/]+"
-      ],
-      "strategy": "freshness",
-      "maxSize": 100,
-      "maxAge": 259200000,
-      "timeoutMs": 10000,
-      "version": 1
-    },
-    {
-      "name": "protocolstub",
-      "patterns": [
-        "\\/\\.well-known\\/protocolstub\\/[^\\/]+"
-      ],
-      "strategy": "freshness",
-      "maxSize": 100,
-      "maxAge": 259200000,
-      "timeoutMs": 10000,
-      "version": 1
-    },
-    {
-      "name": "runtime",
-      "patterns": [
-        "\\/\\.well-known\\/runtime\\/[^\\/]+"
-      ],
-      "strategy": "freshness",
-      "maxSize": 100,
-      "maxAge": 259200000,
-      "timeoutMs": 10000,
-      "version": 1
-    },
-    {
-      "name": "dataschema",
-      "patterns": [
-        "\\/\\.well-known\\/dataschema\\/[^\\/]+"
-      ],
-      "strategy": "freshness",
-      "maxSize": 100,
-      "maxAge": 259200000,
-      "timeoutMs": 10000,
-      "version": 1
-    },
-    {
-      "name": "idp-proxy",
-      "patterns": [
-        "\\/\\.well-known\\/idp-proxy\\/[^\\/]+"
+        "\\/\\.well-known"
       ],
       "strategy": "freshness",
       "maxSize": 100,
@@ -285,19 +233,18 @@
     }
   ],
   "hashTable": {
-    "/inline.64b8417feb4f22f8352d.bundle.js": "15c9ce3cd0d94a91a3b42cf03c7774b0cff2d0c5",
+    "/inline.cb50c0127a89b5df37f3.bundle.js": "aa0d8c9f39c366c451b0145f252c3f2fa9a8a932",
     "/assets/fonts/Roboto/roboto-black-webfont.eot": "444e2a7c295f97340dd8586218841643c98b5feb",
-    "/main.556f6b9388b0d1c55a00.bundle.js": "f9db3a0b70e2a707005091b68f668bec46f7873f",
+    "/main.a53e9ba1a21cf7e8380c.bundle.js": "4c3a1b82e80c7250e22b760f85f00b5f8fa38e64",
     "/assets/fonts/Roboto/roboto-black-webfont.ttf": "4f499f32d4fffa3eb4c7869fc5c8d4d75d8c2e86",
-    "/polyfills.43165fd830e212c52938.bundle.js": "6036ff130b7e66f950b064562ea99917ea7774f8",
+    "/polyfills.10e1f877ff2510b03448.bundle.js": "eb28314b3aa82eb7b73f3eb571988cd47c0c2628",
     "/assets/fonts/Roboto/roboto-black-webfont.woff": "6066572fc194b52040d36420114087d4febad417",
-    "/scripts.032dfcd4f8a1f93a74cf.bundle.js": "5ee74147f2be6fbff5580132bdac9afec435597b",
+    "/scripts.b203fe1c637534bc3694.bundle.js": "443b2e5c5bd3872125e0dbe881d1f383c4b72b11",
     "/assets/fonts/Roboto/roboto-black-webfont.woff2": "adf8b876b591de0b25c294e231c1a4c3987b54d5",
-    "/styles.203db879300c81484f0e.bundle.css": "794103fe56f82f43b2f8f40d0f3fef9393ba0916",
+    "/styles.b7245be266c7d6f655d7.bundle.css": "7c6e3ef5d0e7b5a20efe71a4ce8ceda0c01181b5",
     "/assets/fonts/Roboto/roboto-blackitalic-webfont.eot": "f60b71522861b3ca23e5d8d129802e8c6def920e",
-    "/favicon.ico": "f9662ac6b5983960d04c8e9b6aa738a68d339cdd",
+    "/index.html": "78aed573b94b9f46fb7e9efadeb7a8c7546329dc",
     "/assets/fonts/Roboto/roboto-blackitalic-webfont.ttf": "e4c91a676a8262221fae20835bcae97da21a00fe",
-    "/manifest.json": "5ce8e064d17022612571851f07bddc87a8716a4c",
     "/assets/fonts/Roboto/roboto-blackitalic-webfont.woff": "78ee9d59f7019f97ad4760eee6df4212111efc1f",
     "/assets/fonts/Roboto/roboto-blackitalic-webfont.woff2": "0c2fba01b17b78387c59b68382e8e0bcc91a8b09",
     "/assets/fonts/Roboto/roboto-bold-webfont.eot": "a4cb10d3a1145a835aecd8b653849298137146ac",
@@ -467,7 +414,7 @@
     "/assets/style/_activity-list.scss": "f2120d9607a9417691cd1aa620a58c0d4590e97f",
     "/assets/style/_breadcrumb.scss": "6c6ce5fb00e9f88449f690f3d81f476cdfc92a7c",
     "/assets/style/_chat-view.scss": "68a0ea02289e402b43f0bd750ea52e25d9a0fb5f",
-    "/assets/style/_common.scss": "bb7d6453a6827fe71699411bdc9f42137ef21829",
+    "/assets/style/_common.scss": "55d6f51b8b4429edebed82639f881e155ddcf7b8",
     "/assets/style/_context-menu.scss": "91a86075f4b8cefb91cd91478b7f94b32e5c3e16",
     "/assets/style/_custom.scss": "02f9aa5582a53738dea6a2c299669dc73c26b45d",
     "/assets/style/_forms.scss": "01876dcf9580986c0e67bf61bc2a592937e1bab7",

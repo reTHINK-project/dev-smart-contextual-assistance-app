@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { APP_BASE_HREF, Location } from '@angular/common';
+
 // Service Worker Service
 import { ServiceWorkerModule } from '@angular/service-worker';
 
@@ -12,7 +14,7 @@ import { NgbModule, NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 
 // Utils
-import { CustomUtils } from './utils/CustomUtils';
+import { CustomUtils, getBaseLocation } from './utils/CustomUtils';
 
 // Directives
 import { DirectiveModules } from './shared/directive.module';
@@ -82,7 +84,11 @@ import { environment } from '../environments/environment';
 
   providers: [
     CustomUtils,
-    servicesInjectables
+    servicesInjectables,
+    {
+        provide: APP_BASE_HREF,
+        useFactory: getBaseLocation
+    },
   ],
 
   bootstrap: [
