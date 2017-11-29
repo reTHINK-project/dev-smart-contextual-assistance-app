@@ -1,7 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "reTHINK Smart Contextual App"
+    "name": "reTHINK Smart Contextual App",
+    "ejected": true
   },
   "apps": [
     {
@@ -16,6 +17,7 @@
         "manifest.json",
         "ngsw-worker.js"
       ],
+      "deployUrl": "./",
       "platform": "browser",
       "index": "index.html",
       "main": "main.ts",
@@ -28,7 +30,6 @@
       "styles": [
         "styles.scss"
       ],
-      "deployUrl": "./",
       "scripts": [
         "../node_modules/runtime-browser/bin/rethink.js"
       ],
