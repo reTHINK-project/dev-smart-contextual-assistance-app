@@ -1,8 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "reTHINK Smart Contextual App",
-    "ejected": true
+    "name": "reTHINK Smart Contextual App"
   },
   "apps": [
     {
