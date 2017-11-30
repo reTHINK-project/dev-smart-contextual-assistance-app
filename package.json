@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve --live-reload false --ec true",
     "build": "webpack && npm run sw",
-    "sw": "node_modules/.bin/ngsw-config dist ./src/ngsw-config.json && cp node_modules/@angular/service-worker/ngsw-worker.js ./dist/ngsw-worker.js",
+    "sw": "node_modules/.bin/ngsw-config dist ./src/ngsw-config.json && cp ./src/ngsw-worker.js ./dist/ngsw-worker.js",
     "server": "http-server ./dist -p 8080 -S -K ./ssl/server.key -C ./ssl/server.crt",
     "webpack": "webpack && npm run sw",
     "test": "karma start ./karma.conf.js",
