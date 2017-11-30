@@ -49,6 +49,11 @@ export class RoutingService {
           section = 'context';
           title = event.context.name;
 
+        } else if (event.hasOwnProperty('user') && event.user.hasOwnProperty('username')) {
+
+          section = 'context';
+          title = event.user.username;
+
         } else {
 
           section = event.pageSection || 'home';
@@ -64,31 +69,6 @@ export class RoutingService {
         });
 
       });
-
-    // const context = route.root.params['context'];
-    // const task = route.root.params['task'];
-    // const user = route.root.params['user'];
-    // let name = '';
-    // let title = '';
-
-    // if (context) { name = 'context';  title = context; };
-    // if (task) { name = 'context'; title = task; };
-    // if (user) { name = 'context'; title = user; };
-
-    // if (title.length === 0) {
-    //   name = 'home';
-    //   title = 'Home';
-    // }
-
-    // this.titleService.setTitle(config.pageTitlePrefix + title);
-
-    // console.log('[Routing Service] - ', this.titleService.getTitle());
-
-    // this.routingChanges.emit({
-    //   section: name,
-    //   title: title
-    // })
-
   }
 
 }

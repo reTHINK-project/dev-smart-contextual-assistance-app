@@ -79,22 +79,6 @@ export class ContextualCommComponent implements OnInit, AfterViewInit, OnDestroy
       this.updateCurrentContext(context);
     });
 
-    // this.resourceProgressEvent = this.chatService.onResourceProgress.subscribe((event: ProgressEvent) => {
-    //   if (event.type === ProgressEventType.START) {
-    //     this.showProgressEvent = true;
-    //   }
-
-    //   if (event.type === ProgressEventType.UPDATE) {
-    //     this.progressEvent = event.value;
-    //   }
-
-    //   if (event.type === ProgressEventType.END) {
-    //     this.progressEvent = 1;
-    //     this.showProgressEvent = false;
-    //   }
-
-    // });
-
   }
 
   ngAfterViewInit() {
@@ -138,14 +122,14 @@ export class ContextualCommComponent implements OnInit, AfterViewInit, OnDestroy
       console.log('[ContextualComm View - get parent active context]:', normalizedName);
 
       let result: Observable<ContextualComm>;
-      result = this.contextualCommDataService.getContextById(normalizedName.id);
+
+      result = this.contextualCommDataService.getContextById(normalizedName.parent);
 
       result.subscribe((parentContext: ContextualComm) => {
         console.log('[ContextualComm View - get parent context]:', parentContext);
         this.userList.next(parentContext.users);
-      });
+      }).unsubscribe();
 
-      this.allowAddUser = false;
     }
 
   }
