@@ -1,0 +1,5 @@
+<li class="list-item {{resource.type}}" *ngFor="let resource of mergedResources | async" [ngSwitch]="resource.type">
+  <chat-event *ngSwitchCase="hypertyResourceType.Chat" [message]="resource" [isAnEvent]="eventMode"></chat-event>
+  <file-event *ngSwitchCase="hypertyResourceType.File" (downloadEvent)="onDownloadEvent($event)" (viewImageEvent)="onViewImageEvent($event)" [message]="resource" [isAnEvent]="eventMode"></file-event>
+  <span *ngSwitchDefault>{{ resource }}</span>
+</li>

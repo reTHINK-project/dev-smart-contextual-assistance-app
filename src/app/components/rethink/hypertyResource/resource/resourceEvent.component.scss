@@ -1,0 +1,52 @@
+@import '../../../../../../node_modules/bootstrap/scss/bootstrap-grid.scss';
+
+:host(.list-item) {
+    float: left;
+    width: 100%;
+    padding: .75rem;
+    border-bottom: 1px solid #ddd;
+
+    i {
+      font-size: 1rem;
+      margin-right: 6px;
+      margin-left: 1px;
+    }
+
+    .name {
+      display: block;
+      padding: 0 20px 0 0;
+      margin: 0;
+      font-size: 1rem;
+      color: #444;
+
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .specs {
+      overflow: hidden;
+      display: block;
+    }
+
+    .file,
+    .file i {
+      color: #d16a3f;
+      overflow: initial;
+    }
+
+    .file {
+      padding: 0.25rem 0;
+    }
+
+    .file-info {
+      white-space: nowrap;
+    }
+
+    .filetransfer {
+      float: left;
+      max-width: 80px;
+      margin-right: 10px;
+    }
+
+}

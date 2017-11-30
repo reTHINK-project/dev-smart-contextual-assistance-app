@@ -1,0 +1,16 @@
+<div class="overflow-content w-100 h-100">
+
+  <div class="row h-100 no-gutters">
+    <div class="activity-wrapper col-12 col-md-7 col-lg-8 float-left h-100 d-flex flex-column">
+      <h3 class="pl-3 pr-4 pt-4">Recent Activity</h3>
+      <div class="v-scroll h-100">
+        <context-activity-list [eventMode]="true" [resources]="resources" [messages]="messages"></context-activity-list>
+      </div>
+    </div>
+
+    <shared-resources [resources]="resources"></shared-resources>
+
+  </div>
+</div>
+
+<chat-view></chat-view>

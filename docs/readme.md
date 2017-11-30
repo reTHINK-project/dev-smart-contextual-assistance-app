@@ -41,7 +41,13 @@ More Studies about user experience and user interfaces can be found [here](gui-s
 
 The Application uses ContextName, ContextScheme and ContextResource defined by ContextualCommTrigger,  to discover and subscribe to Context Data Objects which will provide the data required to trigger the execution of each Contextual Communication session.
 
-![Context Communication model](contextual-communication-design.png)
+![Context Communication model](datamodel/contextual-communication-design.png)
+
+More details about the Contextual Communication model are provided [here](datamodel/readme.md)
+
+### [GUI Studies](gui-sketches.md)
+
+### [Implementation with Angular 2.0](angular.md)
 
 
 ### User Journey

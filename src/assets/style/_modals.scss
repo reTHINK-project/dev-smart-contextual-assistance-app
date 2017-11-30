@@ -1,0 +1,56 @@
+.custom-modal {
+  background: #eff0f4;
+  opacity: 0;
+
+  .fade {
+    transition: opacity 300ms;
+    opacity: 0;
+  }
+
+  .visible {
+    opacity: 1;
+    z-index: 500;
+  }
+
+  .modal-header {
+    padding: 2em 0;
+    border: none;
+  }
+
+  .modal-footer {
+    border: none;
+  }
+
+  .modal-title {
+    font-weight: 300;
+    color: #666;
+    text-transform: uppercase;
+  }
+  .modal-dialog {
+    max-width: none;
+    margin: auto 0;
+    height: 100%;
+  }
+
+  .close {
+    margin: 0;
+    padding: 0;
+
+    width: 38px;
+    height: 36px;
+    border: 1px solid #000;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    height: auto;
+    max-width: 90%;
+    margin: 0 auto;
+    border: none;
+    background: none;
+  }
+}

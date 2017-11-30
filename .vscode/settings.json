@@ -1,0 +1,20 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/*.js": {"when": "$(basename).ts"},
+    "**/*.map": {"when": "$(basename).map"}
+  },
+"eslint.enable": false,
+"vsicons.presets.angular": true,
+"window.zoomLevel": 0,
+"vsicons.projectDetection.disableDetect": true,
+"workbench.colorTheme": "Sublime Material Theme - Dark",
+"workbench.iconTheme": "material-icon-theme",
+"editor.minimap.enabled": true,
+"editor.tabSize": 2,
+"typescript.tsdk": "node_modules/typescript/lib"
+}

@@ -1,0 +1,69 @@
+<notifications></notifications>
+
+<media-modal-view></media-modal-view>
+
+<!-- container -->
+<div screen class="container-fluid">
+
+  <div class="row">
+
+    <!-- pusher -->
+    <div class="mp-pusher wrapper {{contextOpened ? 'mp-pushed' : ''}}" (click)='onClickOutside($event)' id="mp-pusher">
+      <context-menu></context-menu>
+
+      <!-- scroller -->
+      <div class="scroller">
+
+        <!-- scroller-inner -->
+        <div #section class="scroller-inner d-flex flex-column align-items-stretch">
+
+          <div *ngIf="showAlert" [innerHTML]="notificationStatus" class="alert alert-warning m-0 rounded-0" role="alert"></div>
+
+          <header class="header">
+            <div class="primary-menu row no-gutters">
+
+              <!-- Logotipo -->
+              <div class="col-5 text-center">
+                <nav class="navbar navbar-dark">
+                  <a class="navbar-toggler open-context {{contextOpened ? 'open' : ''}}" (click)="onOpenContext($event)" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                  </a>
+                </nav>
+              </div>
+
+              <div class="col-2 text-center">
+                <a class="open-context" routerLink="/" title="go to the reTHINK home" alt="go to the reTHINK home"><img src="{{assetsConfig.images}}/rethink-logo.png" class="img-fluid" ></a>
+              </div>
+
+              <!-- My Identity -->
+              <div class="col-5">
+                <my-self class="my-self" *ngIf="myIdentity && ready" [model]="myIdentity"></my-self>
+              </div>
+
+            </div>
+
+            <div *ngIf="showBreadcrumb"  class="secondary-menu row no-gutters">
+
+              <!-- breadcrumb -->
+              <div class="col-12">
+                <ul *ngIf="ready" (openContext)="openSecondaryContext($event)" context-breadcrumb></ul>
+              </div>
+
+            </div>
+
+          </header>
+
+          <router-outlet (activate)='onActivate($event)'></router-outlet>
+
+          <loading *ngIf="!ready"  [status]="status"></loading>
+
+        </div>
+        <!-- /scroller-inner -->
+      </div>
+      <!-- /scroller -->
+    </div>
+
+  </div>
+  <!-- /pusher -->
+</div>
+<!-- /container -->

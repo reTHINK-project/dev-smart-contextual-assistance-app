@@ -1,0 +1,24 @@
+<li class="breadcrumb-trigger d-sm-none">
+  <a href="javascript:;" class="menu-trigger" (click)="onClickEvent($event)">
+    <i class="icon-ellipsis fa fa-ellipsis-v"></i>
+    <i class="icon-back fa fa-chevron-left"></i>
+  </a>
+</li>
+
+<li class="breadcrumb-path" *ngFor="let item of breadcrumb; let i = index; let $first = first; let $last = last; " [class.first]="$first" [class.last]="$last" >
+  <h3 class="level-{{i}}">
+
+    <a class="name" *ngIf="!$last" routerLink="{{item}}" routerLinkActive="active">
+      <!--<span *ngIf="!$last" class="fa fa-lock"></span>-->
+      <!--{{item.replace('/', '').substr(item.lastIndexOf('/'))}}-->
+      {{item}}
+    </a>
+
+    <!-- TODO apply an PIPE here to replace the address -->
+    <span class="name" *ngIf="$last">
+      <!--<span *ngIf="!$last" class="fa fa-lock"></span>-->
+      <!--{{item.replace('/', '').substr(item.lastIndexOf('/'))}}-->
+      {{item}}
+    </span>
+  </h3>
+</li>

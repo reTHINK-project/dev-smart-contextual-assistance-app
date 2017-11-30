@@ -1,0 +1,144 @@
+.activity-list {
+  padding: 0;
+  margin-bottom: 0;
+
+  .list-item {
+    display: block;
+    padding: .75rem;
+
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid #dedede;
+    margin: 0;
+
+    &:last-child {
+      border: none;
+    }
+
+    .user-identity {
+
+      .user-status {
+        margin-right: 20px;
+      }
+
+      .extra-info {
+        color: #444;
+      }
+
+      .contact-name {
+        display: inline-block;
+
+        a {
+          color: #444;
+          margin: 0;
+          display: block;
+          font-size: 1.0625rem;
+          text-transform: none;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .message {
+      padding-top: .375em;
+      padding-bottom: .375em;
+      margin-top: 0;
+      margin-bottom: 0;
+      overflow: hidden;
+      color: #292b2c;
+
+      span {
+        color: #3bb7f5;
+        font-size: 0.875rem;
+        text-align: top;
+        margin-right: 12px;
+        font-weight: 400;
+      }
+
+      i {
+        color: #3bb7f5;
+        font-size: 1rem;
+        margin-right: 6px;
+        margin-left: 1px;
+      }
+
+
+    }
+
+    &.chat {
+      color: #3bb7f5;
+    }
+
+    &.file {
+
+      .message {
+
+        display: block;
+        color: #d16a3f;
+
+        i,
+        span {
+          color: #d16a3f;
+        }
+
+        .file-info {
+          display: block;
+
+          .name {
+            display: inline;
+            padding: 0 4px;
+            margin: 0;
+            font-size: 1rem;
+            color: #444;
+          }
+
+          .size {
+            font-size: 0.8125rem;;
+          }
+
+          .action {
+          }
+
+        }
+
+        font-size: 1rem;
+      }
+    }
+
+    .filetransfer {
+      padding-left: 58px;
+
+      height: 0;
+      overflow: hidden;
+
+      @include transition(all 220s ease-in);
+
+      &.open {
+        height: auto;
+      }
+
+    }
+
+    .info,
+    .date,
+    .specs {
+      font-size: 0.8125rem;
+      color: #444;
+      text-transform: none;
+      margin-left: 22px;
+    }
+
+    .info {
+      display: inline;
+      padding: 0 4px;
+      margin: 0;
+    }
+
+    .date,
+    .specs {
+      display: block;
+    }
+
+  }
+
+}

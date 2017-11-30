@@ -1,0 +1,20 @@
+{
+  "extends": "../tsconfig.json",
+  "sourceMap": true,
+  "compilerOptions": {
+    "module": "es2015",
+    "baseUrl": "",
+    "paths": {
+      "runtime-browser": [
+        "../node_modules/runtime-browser/bin/rethink"
+      ]
+    },
+    "typeRoots": [
+      "./typings"
+    ]
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ]
+}

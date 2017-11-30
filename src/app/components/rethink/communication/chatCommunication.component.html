@@ -1,0 +1,20 @@
+<form class="w-100 row no-gutters float-left" #sendForm="ngForm" (submit)="onSubmit(sendForm.value)">
+
+    <div class="message col-12 col-md-7 col-lg-8 float-left">
+        <input type="text" placeholder="your message goes here"
+        class="form-control w-100 chat-sender"
+        [(ngModel)]="model.message" ngControl="message" name="message">
+
+        <span class="line mt-3 d-md-none"></span>
+    </div>
+
+    <ul class="uploader col-12 col-md-5 col-lg-4 float-left">
+        <li class="send-file w-50 float-left text-center">
+          <input type="file" #formControlFile class="form-control-file send-file d-none">
+          <a class="send-file" (click)="uploadFile($event)" href="javascript:;"><i class="fa fa-file-o"></i> add file</a>
+        </li>
+        <li class="take-pic w-50 float-left text-center">
+          <a class="snap" (click)="uploadFile($event)" hre="javascript:;"><i class="fa fa-camera-retro"></i> take a photo</a>
+        </li>
+    </ul>
+</form>

@@ -1,0 +1,83 @@
+@startuml "contextual-communication-design.png"
+
+Package ContextualComm {
+
+	class ContextualComm {
+	url : URL.URL
+	name : string
+	description ?: string
+	communication : Communication.Communication
+	context : Context.Context
+	users ?: ContextualCommUser[]
+	messages ?: Communication.ChatMessage[]
+	files ?: HypertyResource[]
+	photos ?: HypertyResource[]
+	audios ?: HypertyResource[]
+	videos ?: HypertyResource[]
+	}
+
+	class ContextualCommTrigger {
+	contextName ?: string
+	contextScheme ?: string
+	contextResource ?: HypertyResource.HypertyResourceType
+	values : Context.ConntextValue[]
+	trigger : ContextualComm
+	}
+
+	note bottom : Context Values that triggers ContextualComm.\n Discovered with one of these: Context Object name,\n Context scheme or Hyperty Resource
+
+	class CompositeContextualComm {
+	}
+
+	class AtomicContextualComm {
+	parent : CompositeContextualComm
+	users : ContextualCommUser[]
+	}
+
+	class CompositeContextualComm {
+	parent ?: CompositeContextualComm
+	contexts : ContextualComm[]
+	users ?: ContextualCommUser[]
+	}
+
+	class ContextualCommUser {
+	commProviders: HypertyProvider[]
+	contextProviders: HypertyProvider[]
+	connectionProviders: HypertyProvider[]
+	}
+
+	class HypertyProvider {
+	domain: string
+	domainIcon ?: FontIcon
+	scheme: string
+	resources: HypertyResource.HypertyResourceType[]
+	url: URL.HypertyURL
+	status: 'live' | 'disconnected'
+	interworking ?: boolean
+	value ?: Context.ContextValue
+	}
+
+	class Identity.Identity {
+	 guid: User.UserGUIDURL
+	 identifiers: User.UserURL[]
+	}
+
+
+	ContextualComm *-left-> ContextualCommUser
+
+	ContextualComm *-up-> Context.Context
+
+	ContextualComm *-up-> Communication.Communication
+
+	ContextualCommUser -up-|> Identity.Identity
+
+	ContextualCommUser *-down-> HypertyProvider
+
+	CompositeContextualComm -up-|> ContextualComm
+
+	AtomicContextualComm -up-|> ContextualComm
+
+	ContextualComm <---"1..*" ContextualCommTrigger
+}
+
+@enduml

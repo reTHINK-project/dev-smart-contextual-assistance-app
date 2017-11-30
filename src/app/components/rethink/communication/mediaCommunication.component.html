@@ -1,0 +1,47 @@
+<div fullscreen class="{{mode}}-call col-12 col-lg-7 h-100">
+
+  <video #test class="player" autoplay></video>
+
+	<div class="video-wall">
+		<video #remote *ngIf="stream" class="player" [srcObject]="stream" autoplay></video>
+	</div>
+
+	<div *ngIf="mode === 'video'" class="video-wall my-video-wall">
+		<video #local *ngIf="myStream" class="player" [srcObject]="myStream" autoplay muted></video>
+	</div>
+
+	<div class="contact-me text-center">
+
+    <span class="counter d-sm-none w-100">{{duration | amTimeElapsed}}</span>
+
+    <span class="action audio mute float-left">
+			<a (click)="onMute()"><i class="fa fa-microphone-slash"></i></a>
+    </span>
+
+    <span *ngIf="mode === 'audio'"  class="action video push-center">
+      <a [routerLink]="" [queryParams]="{ action: 'video' }" (click)="enableVideo()"><i class="fa fa-video-camera"></i></a>
+    </span>
+
+    <span *ngIf="mode === 'video'" class="action audio push-center">
+      <a [routerLink]="" [queryParams]="{ action: 'audio' }" (click)="disableVideo()"><i class="fa fa-phone"></i></a>
+    </span>
+
+    <span *ngIf="mode === 'audio'" class="action audio hangup push-center">
+      <a [routerLink]="" [queryParams]="{}"><i class="fa fa-phone"></i></a>
+    </span>
+
+    <span *ngIf="mode === 'video'" class="action video hangup push-center">
+      <a [routerLink]="" [queryParams]="{}"><i class="fa fa-video-camera"></i></a>
+    </span>
+
+    <span class="counter d-xs-none">{{duration | amTimeElapsed}}</span>
+
+		<span class="action volume float-right float-left">
+			<a (click)="onVolume()"><i class="fa fa-volume-up"></i></a>
+		</span>
+
+		<span class="action full-screen float-right">
+			<a (click)="onFullscreen()"><i class="fa fa-arrows-alt"></i></a>
+		</span>
+	</div>
+</div>

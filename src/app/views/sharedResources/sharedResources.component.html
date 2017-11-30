@@ -1,0 +1,7 @@
+<h3 class="pl-3 pr-4 pt-4">Shared Files</h3>
+<div class="v-scroll h-100">
+  <ul>
+    <resource-event *ngFor="let resource of resources | async" class="list-item" (downloadEvent)="onDownloadEvent($event)" (viewImageEvent)="onViewImageEvent($event)" [resource]="resource" ></resource-event>
+  </ul>
+
+</div>
