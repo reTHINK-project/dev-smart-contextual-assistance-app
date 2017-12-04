@@ -562,7 +562,7 @@ module.exports = {
         "license.txt"
       ],
       "perChunkOutput": false,
-      "outputTemplate": "/home/vsilva/pt-inovacao/rethink-project/dev-smart-contextual-assistance-app/node_modules/license-webpack-plugin/output.template.ejs",
+      "outputTemplate": "./node_modules/license-webpack-plugin/output.template.ejs",
       "outputFilename": "3rdpartylicenses.txt",
       "suppressErrors": true,
       "includePackagesWithoutLicense": false,
