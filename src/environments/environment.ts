@@ -6,6 +6,7 @@
 export const environment = {
   production: false,
   host: 'localhost',
+  baseHref: '/',
   images: '../assets/img',
   sounds: '../assets/sounds'
 };
