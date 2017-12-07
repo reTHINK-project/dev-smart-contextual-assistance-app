@@ -33,9 +33,11 @@ ADD docker/.htaccess .
 
 # Update the default apache site with the config we created.
 ADD docker/default.conf /etc/apache2/sites-available/smart-contextual-assistance-app.conf
+# ADD docker/default-ssl.conf /etc/apache2/sites-available/smart-contextual-assistance-app-ssl.conf
 
 RUN a2dissite 000-default.conf
 RUN a2ensite smart-contextual-assistance-app.conf
+# RUN a2ensite smart-contextual-assistance-app-ssl.conf
 
 RUN chmod -R 755 .
 
