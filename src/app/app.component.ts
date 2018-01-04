@@ -208,7 +208,12 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.rethinkService.progress.error(error);
       })
       .then((user: any) => {
+
+        console.log('AQUI:', user);
+
         this.myIdentity = this.contactService.getUser(user.userURL);
+        this.contactService.sessionUser = this.myIdentity;
+
         this.rethinkService.progress.next('Loading user status availability service');
 
         return this.userAvailabilityService.getHyperty();

@@ -419,9 +419,9 @@ module.exports = {
         "node_modules/runtime-browser/bin/rethink.js"
       ]
     }),
-    new InsertConcatAssetsWebpackPlugin([
-      "scripts"
-    ]),
+    // new InsertConcatAssetsWebpackPlugin([
+    //   "scripts"
+    // ]),
     new CopyWebpackPlugin([
       {
         "context": "src",

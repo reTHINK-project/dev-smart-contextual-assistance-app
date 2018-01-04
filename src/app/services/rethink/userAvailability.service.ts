@@ -48,6 +48,9 @@ export class UserAvailabilityService {
           console.log('[UserAvailability Service - getHyperty] Reporter hyperty was instantiated ', this.myAvailabilityReporter);
           this.myAvailabilityReporter.start().then((availability: any) => {
             this.myAvailability = availability;
+
+            console.log('[UserAvailability Service - User Session] ', this.contactService.sessionUser);
+
             this.contactService.sessionUser.statustUrl = availability.url;
             this.contactService.sessionUser.status = 'available';
             this.myAvailabilityReporter.setStatus('available');

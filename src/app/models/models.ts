@@ -53,7 +53,7 @@ export class User implements UserIdentity {
   // userURL: "user://google.com/vitorsilva@boldint.com"
 
   constructor(obj: any) {
-    this.email    = obj && obj.email;
+    this.email    = obj && obj.email || obj.name;
     this.name       = obj && obj.name;
     this.picture   = obj && obj.picture;
     this.locale   = obj && obj.locale;
