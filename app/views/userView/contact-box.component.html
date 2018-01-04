@@ -5,13 +5,13 @@
 <!-- TODO: Replace this for the user-identity view -->
 <div class="user-identity">
   <div class="user-status float-left">
-    <img alt="{{user.avatar}}" class="rounded-circle" src="{{user.avatar}}">
+    <img alt="{{user.picture}}" class="rounded-circle" src="{{user.picture}}">
     <span class="status {{user.status}}">
       <i class="fa fa-circle{{user.status === 'unavailable' ? '-o' : ''}}"></i>
     </span>
   </div>
   <div class="user-profile float-left">
-    <h3 class="contact-name">{{user.cn}}</h3>
+    <h3 class="contact-name">{{user.name}}</h3>
     <span class="extra-info">{{user.domain}}</span>
   </div>
 </div>

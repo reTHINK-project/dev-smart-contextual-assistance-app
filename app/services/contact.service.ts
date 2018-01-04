@@ -123,7 +123,7 @@ export class ContactService {
   }
 
   getUsers(): Observable<User[]> {
-    return this._users.map(users => users.filter(user => user.username !== this.sessionUser.username));
+    return this._users.map(users => users.filter(user => user.email !== this.sessionUser.email));
   }
 
   getUserList(): Observable<User[]> {
@@ -140,12 +140,12 @@ export class ContactService {
     return this._userList.get(userURL);
   }
 
-  getByUserName(username: string): User {
-    console.log('[Contact Service - get user: ', this._userList, username);
+  getByUserName(email: string): User {
+    console.log('[Contact Service - get user: ', this._userList, email);
 
     let user: User;
     this._userList.forEach((value: User) => {
-      if (value.username === username) { user = value; }
+      if (value.email === email) { user = value; }
     });
 
     return user;

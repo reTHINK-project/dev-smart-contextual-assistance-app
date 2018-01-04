@@ -40,7 +40,7 @@ export class ActivateUserGuard implements CanActivate {
             const context = route.params['context'];
             const user = route.params['user'];
 
-            const normalizedPath = normalizeFromURL(path, this.contactService.sessionUser.username);
+            const normalizedPath = normalizeFromURL(path, this.contactService.sessionUser.email);
 
             console.log('[Activate User Guard] - ', context, user, state, normalizedPath);
 
@@ -74,7 +74,7 @@ export class ActivateUserGuard implements CanActivate {
                     this.contextualCommDataService.getContextById(normalizedName.parent).subscribe((parentContext: ContextualComm) => {
 
                       this.contextualCommDataService.createAtomicContext(
-                        [{user: currentUser.username, domain: currentUser.domain}],
+                        [{user: currentUser.email, domain: currentUser.domain}],
                         normalizedName.name, normalizedName.id, normalizedName.parent).then((contextualComm: ContextualComm) => {
                           console.log('[Activate User Guard - Activate] - Can Activate route:', contextualComm);
                           resolve(true);
@@ -119,7 +119,7 @@ export class ActivateUserGuard implements CanActivate {
 
   private goParent(parent: string) {
 
-    const pathObject = splitFromURL(parent, this.contactService.sessionUser.username);
+    const pathObject = splitFromURL(parent, this.contactService.sessionUser.email);
 
     let path = pathObject.context || '/';
     if (pathObject.task) { path += pathObject.task; }

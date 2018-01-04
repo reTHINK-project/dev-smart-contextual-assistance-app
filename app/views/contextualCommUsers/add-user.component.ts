@@ -60,7 +60,7 @@ export class AddUserComponent implements OnInit, OnDestroy {
   private contactListSubscription: Subscription;
   private getContextByIDSubscription: Subscription;
 
-  formatter = (user: User) => user.username;
+  formatter = (user: User) => user.email;
 
   constructor(
     private router: Router,
@@ -147,9 +147,9 @@ export class AddUserComponent implements OnInit, OnDestroy {
     this.busy = true;
 
 
-    if (this.searchResultModel && this.searchResultModel.username) {
+    if (this.searchResultModel && this.searchResultModel.email) {
 
-      this.model.email = this.searchResultModel.username;
+      this.model.email = this.searchResultModel.email;
       this.model.domain = this.searchResultModel.domain;
 
       this._invite({
@@ -220,7 +220,7 @@ export class AddUserComponent implements OnInit, OnDestroy {
       }
 
       console.log('[Add User Component] - found contextualComm: ', contextualComm);
-      const existingUser = contextualComm.users.find(user => user.username === data.email);
+      const existingUser = contextualComm.users.find(user => user.email === data.email);
       console.log('[Add user component] - search for current user: ', existingUser);
 
       if (existingUser) {

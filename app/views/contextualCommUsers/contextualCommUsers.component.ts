@@ -142,7 +142,7 @@ export class ContextualCommUsersComponent implements OnInit, OnDestroy, AfterVie
       console.log('[contextualCommUsers - filter]:', users, value);
       return users.filter((user: User) => {
         console.log('[contextualCommUsers - filter]:', user, value);
-        return user.cn.includes(value);
+        return user.name.includes(value);
       });
     });
 

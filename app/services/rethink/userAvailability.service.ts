@@ -48,6 +48,9 @@ export class UserAvailabilityService {
           console.log('[UserAvailability Service - getHyperty] Reporter hyperty was instantiated ', this.myAvailabilityReporter);
           this.myAvailabilityReporter.start().then((availability: any) => {
             this.myAvailability = availability;
+
+            console.log('[UserAvailability Service - User Session] ', this.contactService.sessionUser);
+
             this.contactService.sessionUser.statustUrl = availability.url;
             this.contactService.sessionUser.status = 'available';
             this.myAvailabilityReporter.setStatus('available');
@@ -90,7 +93,7 @@ export class UserAvailabilityService {
             if (user.statustUrl && availabilities[user.statustUrl]) {
               // TODO: confirm controllers is a list not an array
               user.startStatusObservation(availabilities[user.statustUrl]);
-            } else if (user.username !== this.contactService.sessionUser.username) { // don't observe myself
+            } else if (user.email !== this.contactService.sessionUser.email) { // don't observe myself
               newUsers.push(user);
             }
 
@@ -130,7 +133,7 @@ export class UserAvailabilityService {
     // discover and return last modified user availability hyperty
 
     return new Promise((resolve, reject) => {
-      this.availabilityObserver.discoverUsers(user.username, this.rethinkService.domain).then((discovered: Array <any>) => {
+      this.availabilityObserver.discoverUsers(user.email, this.rethinkService.domain).then((discovered: Array <any>) => {
         resolve( this.getLastModifiedAvailability(discovered) );
 
       });

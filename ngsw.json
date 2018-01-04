@@ -1,29 +1,17 @@
 {
   "configVersion": 1,
   "index": "/index.html",
+  "appData": {
+    "test": true
+  },
   "assetGroups": [
     {
       "name": "app",
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "urls": [
+        "/favicon.ico",
         "/index.html",
-        "/inline.97d4afe5ac212b59f1c3.bundle.js",
-        "/main.ecfc7cfccf135298e240.bundle.js",
-        "/polyfills.10e1f877ff2510b03448.bundle.js",
-        "/scripts.b203fe1c637534bc3694.bundle.js",
-        "/styles.4e8b4fb7bd2ab630d494.bundle.css"
-      ],
-      "patterns": [
-        "https:\\/\\/fonts\\.googleapis\\.com\\/css\\?family=Material\\+Icons",
-        "https:\\/\\/fonts\\.gstatic\\.com\\/.*"
-      ]
-    },
-    {
-      "name": "assets",
-      "installMode": "lazy",
-      "updateMode": "prefetch",
-      "urls": [
         "/assets/fonts/Roboto/roboto-black-webfont.eot",
         "/assets/fonts/Roboto/roboto-black-webfont.ttf",
         "/assets/fonts/Roboto/roboto-black-webfont.woff",
@@ -214,7 +202,14 @@
         "/assets/style/_user-view.scss",
         "/assets/style/ink.min.css",
         "/assets/style/responsive.css",
-        "/assets/style/mixins/_transform.scss"
+        "/assets/style/mixins/_transform.scss",
+        "/inline.5a3ba4a225f2031e0d2f.bundle.js",
+        "/inline.730f195b7c5c2658a7d8.bundle.js",
+        "/main.254a8cfb7561ca81ee75.bundle.js",
+        "/main.9e1c250a106565d03334.bundle.js",
+        "/polyfills.3acd1492e361c3904bc2.bundle.js",
+        "/scripts.f555775ee8299b013b51.bundle.js",
+        "/styles.4e8b4fb7bd2ab630d494.bundle.css"
       ],
       "patterns": []
     }
@@ -223,27 +218,37 @@
     {
       "name": "rethink",
       "patterns": [
-        "\\/\\.well-known"
+        "https:\\/\\/hysmart\\.rethink\\.ptinovacao\\.pt\\/(?:.+\\/)?[^\\/]+",
+        "https:\\/\\/catalogue\\.hysmart\\.rethink\\.ptinovacao\\.pt\\/(?:.+\\/)?[^\\/]+",
+        "\\/\\.well-known\\/runtime\\/core\\.js",
+        "\\/\\.well-known\\/runtime\\/index\\.html",
+        "\\/\\.well-known\\/runtime\\/sandbox\\.html",
+        "\\/\\.well-known\\/runtime\\/Runtime",
+        "\\/\\.well-known\\/(?:.+\\/)?[^\\/]+",
+        "\\/\\.well-known\\/(?:.+\\/)?"
       ],
-      "strategy": "freshness",
+      "strategy": "performance",
       "maxSize": 100,
       "maxAge": 259200000,
-      "timeoutMs": 10000,
+      "timeoutMs": 20000,
       "version": 1
     }
   ],
   "hashTable": {
-    "/inline.97d4afe5ac212b59f1c3.bundle.js": "b13733d01846b85ced25835c5a754fa921481e72",
-    "/assets/fonts/Roboto/roboto-black-webfont.eot": "444e2a7c295f97340dd8586218841643c98b5feb",
-    "/main.ecfc7cfccf135298e240.bundle.js": "029c65b68d5350472385cd09aa0cdb99b4c2bce1",
-    "/assets/fonts/Roboto/roboto-black-webfont.ttf": "4f499f32d4fffa3eb4c7869fc5c8d4d75d8c2e86",
-    "/polyfills.10e1f877ff2510b03448.bundle.js": "eb28314b3aa82eb7b73f3eb571988cd47c0c2628",
-    "/assets/fonts/Roboto/roboto-black-webfont.woff": "6066572fc194b52040d36420114087d4febad417",
-    "/scripts.b203fe1c637534bc3694.bundle.js": "443b2e5c5bd3872125e0dbe881d1f383c4b72b11",
-    "/assets/fonts/Roboto/roboto-black-webfont.woff2": "adf8b876b591de0b25c294e231c1a4c3987b54d5",
+    "/inline.5a3ba4a225f2031e0d2f.bundle.js": "02b93f0c076804bcd29f946b392e5a365c221e9a",
+    "/inline.730f195b7c5c2658a7d8.bundle.js": "31a254feb1aa635a09dbaa20402dfbbc259fb5fa",
+    "/main.254a8cfb7561ca81ee75.bundle.js": "e28718e4adbd0cb18f383100a48a3483ea8f41d0",
+    "/main.9e1c250a106565d03334.bundle.js": "93c5e0ad4ebe50839ad3fcdec3359098950bf90a",
+    "/polyfills.3acd1492e361c3904bc2.bundle.js": "d0141b7d55d49ea2615471d15ea8fa1b0d4b1799",
+    "/scripts.f555775ee8299b013b51.bundle.js": "443b2e5c5bd3872125e0dbe881d1f383c4b72b11",
     "/styles.4e8b4fb7bd2ab630d494.bundle.css": "be35b625b0eaa455a15c88a0f89dde022abeab73",
+    "/favicon.ico": "f9662ac6b5983960d04c8e9b6aa738a68d339cdd",
+    "/index.html": "8ea467c1d6a574ba0c5223f51e9c114bc247f242",
+    "/assets/fonts/Roboto/roboto-black-webfont.eot": "444e2a7c295f97340dd8586218841643c98b5feb",
+    "/assets/fonts/Roboto/roboto-black-webfont.ttf": "4f499f32d4fffa3eb4c7869fc5c8d4d75d8c2e86",
+    "/assets/fonts/Roboto/roboto-black-webfont.woff": "6066572fc194b52040d36420114087d4febad417",
+    "/assets/fonts/Roboto/roboto-black-webfont.woff2": "adf8b876b591de0b25c294e231c1a4c3987b54d5",
     "/assets/fonts/Roboto/roboto-blackitalic-webfont.eot": "f60b71522861b3ca23e5d8d129802e8c6def920e",
-    "/index.html": "993711824e2785aa287d60500b213ce0e5f81d3e",
     "/assets/fonts/Roboto/roboto-blackitalic-webfont.ttf": "e4c91a676a8262221fae20835bcae97da21a00fe",
     "/assets/fonts/Roboto/roboto-blackitalic-webfont.woff": "78ee9d59f7019f97ad4760eee6df4212111efc1f",
     "/assets/fonts/Roboto/roboto-blackitalic-webfont.woff2": "0c2fba01b17b78387c59b68382e8e0bcc91a8b09",

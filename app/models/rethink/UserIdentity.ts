@@ -1,9 +1,9 @@
 export interface UserIdentity {
   guid: string;
   identifiers: string;
-  username: string;
-  cn: string;
-  avatar: string;
+  email: string;
+  name: string;
+  picture: string;
   locale: string;
   userURL: string;
 

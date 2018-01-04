@@ -85,10 +85,7 @@ import { environment } from '../environments/environment';
   providers: [
     CustomUtils,
     servicesInjectables,
-    {
-        provide: APP_BASE_HREF,
-        useFactory: getBaseLocation
-    },
+    {provide: APP_BASE_HREF, useValue: environment.baseHref}
   ],
 
   bootstrap: [
