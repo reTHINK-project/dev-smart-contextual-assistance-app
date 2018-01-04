@@ -59,10 +59,10 @@ export class ContextualCommTriggerService {
 
 
     if (this.localStorage.hasObject('context-triggers')) {
-      let mapObj = this.localStorage.getObject('context-triggers');
-      for (let k of Object.keys(mapObj)) {
+      const mapObj = this.localStorage.getObject('context-triggers');
+      for (const k of Object.keys(mapObj)) {
 
-        let currentTrigger: ContextualCommTrigger = new ContextualCommTrigger(mapObj[k]);
+        const currentTrigger: ContextualCommTrigger = new ContextualCommTrigger(mapObj[k]);
         console.log('[ContextualCommTriggerService - storage]', mapObj[k], currentTrigger);
         this.cxtTrigger.set(k, currentTrigger);
         this._contextualCommTrigger.next(currentTrigger);
@@ -84,13 +84,13 @@ export class ContextualCommTriggerService {
     return new Promise<ContextualCommTrigger>((resolve, reject) => {
       console.log('[ContextualCommTriggerService - Get Localstorage] ', name);
 
-      let contextualCommTriggerName = 'trigger-' + name;
+      const contextualCommTriggerName = 'trigger-' + name;
       let contextTrigger: ContextualCommTrigger;
 
       if (!this.cxtTrigger.has(contextualCommTriggerName)) {
         console.info('[Create a new ContextualTrigger]', name);
 
-        let context: ContextualCommTrigger = {
+        const context: ContextualCommTrigger = {
           contextName: name,
           contextScheme: 'context',
           contextResource: [HypertyResourceType.Video, HypertyResourceType.Audio, HypertyResourceType.Chat],

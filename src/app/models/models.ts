@@ -26,9 +26,9 @@ export class User implements UserIdentity {
   identifiers: string;
   idp: string;
 
-  username: string;
-  cn: string;
-  avatar: string;
+  email: string;
+  name: string;
+  picture: string;
   locale: string;
   userURL: string;
 
@@ -40,10 +40,22 @@ export class User implements UserIdentity {
 
   isLegacy: boolean;
 
+  // email: "vitorsilva@boldint.com"
+  // email_verified: true
+  // family_name: "Silva"
+  // given_name: "Vitor"
+  // hd: "boldint.com"
+  // locale: "en"
+  // name: "Vitor Silva"
+  // picture: "https://lh4.googleusercontent.com/-XCRAb8jSTIU/AAAAAAAAAAI/AAAAAAAAAB0/6FBI8MCBXDU/photo.jpg"
+  // preferred_username: "vitorsilva"
+  // sub: "115897973163620220925"
+  // userURL: "user://google.com/vitorsilva@boldint.com"
+
   constructor(obj: any) {
-    this.username = obj && obj.username;
-    this.cn       = obj && obj.cn;
-    this.avatar   = obj && obj.avatar;
+    this.email    = obj && obj.email;
+    this.name       = obj && obj.name;
+    this.picture   = obj && obj.picture;
     this.locale   = obj && obj.locale;
     this.userURL  = obj && obj.userURL;
     this.status   = obj && obj.status   || 'unavailable';
@@ -55,10 +67,10 @@ export class User implements UserIdentity {
     this.identifiers = '';
 
     // TODO: this should be removed
-    if (!this.username.includes('@')) { this.isLegacy = true; }
+    if (!this.email.includes('@')) { this.isLegacy = true; }
 
     // TODO: split by the @ from user and domain <domain>@<identifier>
-    this.guid     = this.username;
+    this.guid     = this.email;
   }
 
   startStatusObservation(availability: any) {

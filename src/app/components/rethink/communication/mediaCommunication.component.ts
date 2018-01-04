@@ -146,7 +146,7 @@ export class MediaCommunicationComponent implements OnInit, AfterViewInit, OnDes
 
     console.log('[Media Communication Component] - ' + this.mode + ' call To', user, contextID);
 
-    this.connectorService.connect(user.username, options, contextID, user.domain)
+    this.connectorService.connect(user.email, options, contextID, user.domain)
       .then((controller) => {
 
 

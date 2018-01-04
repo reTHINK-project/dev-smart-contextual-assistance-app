@@ -4,11 +4,11 @@
 
     <div class="user">
       <!-- {{modalData.user}} -->
-      <img class="rounded" src="{{modalData.user.avatar}}" alt="{{modalData.user.cn}}" title="{{modalData.user.cn}}" />
+      <img class="rounded" src="{{modalData.user.picture}}" alt="{{modalData.user.name}}" title="{{modalData.user.name}}" />
     </div>
     <div class="info">
       <h4 class="modal-title">{{modalData.title}}</h4>
-      <span class="modal-description"><b>{{modalData.user.cn}}</b> | {{modalData.size | size}} - {{modalData.mimetype}}</span>
+      <span class="modal-description"><b>{{modalData.user.name}}</b> | {{modalData.size | size}} - {{modalData.mimetype}}</span>
     </div>
 
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">

@@ -160,11 +160,11 @@ export class AppComponent implements OnInit, AfterViewInit {
       };
 
       if (message.type === 'chat') {
-        not.icon = message.user.avatar;
+        not.icon = message.user.picture;
         not.body = message.message;
       } else {
         title = 'New ' + message.type.charAt(0).toUpperCase() + message.type.substr(1);
-        not.icon = message.user.avatar;
+        not.icon = message.user.picture;
         not.body = message.message.name;
       }
 
@@ -305,11 +305,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 
       const title = 'Incoming call';
       const content = 'A ' + event.mode + ' call is Incoming from ' + event.user.username;
-      const avatar = event.user.avatar;
+      const picture = event.user.picture;
 
       this.natNotificationsService.create(title, {
         body: content,
-        icon: avatar,
+        icon: picture,
         sound: config.sounds + '/classic-ringer.mp3',
         tag: NotificationTag.INCOMING_CALL,
         vibrate: NotificationVibrate.INCOMING_CALL,
@@ -330,7 +330,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         haveActions: true,
         metadata: event,
         sound: config.sounds + '/classic-ringer.mp3',
-      }, avatar, this.actionResult)
+      }, picture, this.actionResult)
 
     }, (error: any) => {
       console.log('[Media Communication Component] - error', error);
@@ -433,7 +433,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     const metadata = actionEvent.metadata;
     const mode = metadata.mode;
-    const currentUser = this.contactService.sessionUser.username;
+    const currentUser = this.contactService.sessionUser.email;
     const paths: any = splitFromURL(metadata.metadata.name, currentUser);
 
     if (actionEvent.action === ActionType.ACCEPT) {

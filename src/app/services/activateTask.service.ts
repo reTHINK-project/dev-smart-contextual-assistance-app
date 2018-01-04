@@ -39,7 +39,7 @@ export class ActivateTaskGuard implements CanActivate {
             const context = route.params['context'];
             const task = route.params['task'];
 
-            const normalizedPath = normalizeFromURL(path, this.contactService.sessionUser.username);
+            const normalizedPath = normalizeFromURL(path, this.contactService.sessionUser.email);
 
             console.log('[Activate Task Guard] - ', context, task, state, normalizedPath);
 

@@ -115,7 +115,7 @@ export class ContextualCommComponent implements OnInit, AfterViewInit, OnDestroy
       this.userList.next(context.users);
     } else {
 
-      const normalizedPath = normalizeFromURL(this.router.url, this.contactService.sessionUser.username);
+      const normalizedPath = normalizeFromURL(this.router.url, this.contactService.sessionUser.email);
       const normalizedName = normalizeName(normalizedPath);
 
       console.log('[ContextualComm View - get parent active context]:', normalizedPath);

@@ -5,14 +5,14 @@
 <!-- TODO: This should be replaced by the user-identity -->
 <div class="user-identity">
   <div class="user-status float-left">
-    <img alt="{{message.user.avatar}}" class="rounded-circle" src="{{message.user.avatar}}">
+    <img alt="{{message.user.picture}}" class="rounded-circle" src="{{message.user.picture}}">
     <span class="status {{message.user.status}}">
       <i class="fa fa-circle{{message.user.status === 'unavailable' ? '-o' : ''}}"></i>
     </span>
   </div>
 
   <div class="user-profile">
-    <h3 class="contact-name"><a [routerLink]="['user', message.user.username]">{{message.user.cn}}</a></h3>
+    <h3 class="contact-name"><a [routerLink]="['user', message.user.email]">{{message.user.name}}</a></h3>
     <span class="extra-info">{{message.user.domain}}</span>
   </div>
 </div>

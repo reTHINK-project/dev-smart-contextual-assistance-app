@@ -21,8 +21,8 @@ export class NotificationService {
 
   addNotification(type: AlertType, message: any, metadata: any, callback: Function = null) {
 
-    let curr = this.alerts.length + 1;
-    let alert: IAlert = {
+    const curr = this.alerts.length + 1;
+    const alert: IAlert = {
       id: curr,
       type: type,
       message: {
@@ -43,7 +43,7 @@ export class NotificationService {
 
   accept(alert: IAlert) {
     const index: number = this.alerts.indexOf(alert);
-    let currAlert = this.alerts[index];
+    const currAlert = this.alerts[index];
 
     currAlert.message.reply = true;
 
@@ -55,7 +55,7 @@ export class NotificationService {
 
   reject(alert: IAlert) {
     const index: number = this.alerts.indexOf(alert);
-    let currAlert = this.alerts[index];
+    const currAlert = this.alerts[index];
 
     currAlert.message.reply = false;
     console.log('[Notification Service - reject] :', alert);
