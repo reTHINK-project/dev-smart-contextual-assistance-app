@@ -67,7 +67,7 @@ export class User implements UserIdentity {
     this.identifiers = '';
 
     // TODO: this should be removed
-    if (!this.email.includes('@')) { this.isLegacy = true; }
+    if (!this.userURL.includes('user://')) { this.isLegacy = true; }
 
     // TODO: split by the @ from user and domain <domain>@<identifier>
     this.guid     = this.email;

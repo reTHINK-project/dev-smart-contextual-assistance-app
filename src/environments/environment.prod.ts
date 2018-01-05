@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   host: 'hysmart.rethink.ptinovacao.pt',
-  baseHref: '/',
+  baseHref: '/dev-smart-contextual-assistance-app/',
   images: './assets/img',
   sounds: './assets/sounds'
 };

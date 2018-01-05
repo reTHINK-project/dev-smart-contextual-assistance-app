@@ -345,7 +345,7 @@ export class ContextualCommService {
 
       this.cxtList.forEach((context: ContextualComm) => {
 
-        if (name.includes('@')) {
+        if (name.includes('user')) {
           const users = name.split('-');
           const user1 = users[0];
           const user2 = users[1];

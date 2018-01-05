@@ -366,7 +366,7 @@ export class ContextualCommDataService {
   getContextTask(id: string): Observable<ContextualComm[]> {
     return this.contextualCommService.getContextualComms()
       .map(contexts => contexts.find(context => context.id === id))
-      .map(context => context ? context.contexts.filter(current => !current.id.includes('@')) : []);
+      .map(context => context ? context.contexts.filter(current => !current.id.includes('user')) : []);
   }
 
   getContextById(id: string): Observable<ContextualComm> {
@@ -403,7 +403,7 @@ export class ContextualCommDataService {
 
   private filterContextsById(id: string, context: ContextualComm) {
 
-    if (id.includes('@')) {
+    if (id.includes('user')) {
       const base = id.substr(0, id.lastIndexOf('/') + 1);
       const user = id.substr(id.lastIndexOf('/') + 1);
       const users = user.split('-');
@@ -439,7 +439,7 @@ export class ContextualCommDataService {
 
     const result = id1;
 
-    if (id1.includes('@') && id2.includes('@')) {
+    if (id1.includes('user') && id2.includes('user')) {
       const base = id1.substr(0, id1.lastIndexOf('/') + 1);
       const user = id1.substr(id1.lastIndexOf('/') + 1);
       const users = user.split('-');
@@ -461,7 +461,7 @@ export class ContextualCommDataService {
 
     let url: string = id;
 
-    if (id.includes('@')) {
+    if (id.includes('user')) {
       const base = id.substr(0, id.lastIndexOf('/') + 1);
       const user = id.substr(id.lastIndexOf('/') + 1);
       const users = user.split('-');

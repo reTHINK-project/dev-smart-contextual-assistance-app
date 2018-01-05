@@ -33,6 +33,7 @@ export function getUserMedia(constraints: any) {
   });
 }
 
+// TODO: This should be removed, because we have some user witch not contains an @;
 export function isAnUser(name: string): boolean {
   console.log('isAnUser - name:', name);
   let users = [];
@@ -47,7 +48,7 @@ export function isAnUser(name: string): boolean {
   const result = users.map((user) => {
     const pattern = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
     console.log('isAnUser:', pattern.test(user));
-    return pattern.test(user);
+    return true; // pattern.test(user);
   });
 
   console.log(result);
@@ -60,6 +61,7 @@ export function normalizeName(name: string, parent?: string): any {
   const splitChar = config.splitChar;
 
   const at = new RegExp(/%40/g);
+  const space = new RegExp(/%20/g);
 
   // Clear path from attributes
   if (name.indexOf('?') !== -1) {
@@ -68,6 +70,7 @@ export function normalizeName(name: string, parent?: string): any {
 
   name = name.toLowerCase();
   name = name.replace(at, '@');
+  name = name.replace(space, ' ');
 
   const normalized = {};
   let splited = [];
@@ -113,8 +116,8 @@ export function normalizeName(name: string, parent?: string): any {
   }
 
   if (user) {
-    normalized['id'] = contextId + splitChar + (task ? task  + splitChar : '') + user;
-    normalized['name'] = user;
+    normalized['id'] = contextId + splitChar + (task ? task  + splitChar : '') + 'user/' + user;
+    normalized['name'] = 'user/' + user;
     normalized['parent'] = contextId + (task ? splitChar + task : '');
   }
 
@@ -146,7 +149,7 @@ export function splitFromURL(name: string, currentUser?: string): any {
     result['context'] = context;
     result['task'] = task;
 
-    if (user.includes('@') && user.includes('-')) {
+    if (user.includes('user') && user.includes('-')) {
       const users = user.split('-');
 
       if (currentUser) {
@@ -166,7 +169,10 @@ export function normalizeFromURL(path: string, username: string): string {
   const splitChar = config.splitChar;
 
   const at = new RegExp(/%40/g);
+  const space = new RegExp(/%20/g);
+
   path = path.replace(at, '@');
+  path = path.replace(space, ' ');
 
   // Clear path from attributes
   if (path.indexOf('?') !== -1) {
@@ -176,7 +182,7 @@ export function normalizeFromURL(path: string, username: string): string {
   const pathSplited = path.split('/');
   pathSplited[0] = config.appPrefix;
 
-  if (path.includes('@') && username) {
+  if (path.includes('user') && username) {
     const lastIndex = pathSplited.length - 1;
     const last = pathSplited[lastIndex];
 
@@ -188,8 +194,8 @@ export function normalizeFromURL(path: string, username: string): string {
     pathSplited[lastIndex] = updated;
   }
 
-  const userWordIndex = pathSplited.findIndex(key => key === 'user');
-  if (userWordIndex !== -1) { pathSplited.splice(userWordIndex, 1); }
+  // const userWordIndex = pathSplited.findIndex(key => key === 'user');
+  // if (userWordIndex !== -1) { pathSplited.splice(userWordIndex, 1); }
 
   return pathSplited.join(splitChar);
 
@@ -200,7 +206,10 @@ export function normalizeNameFromURL(path: string, username: string) {
   const splitChar = config.splitChar;
 
   const at = new RegExp(/%40/g);
+  const space = new RegExp(/%20/g);
+
   path = path.replace(at, '@');
+  path = path.replace(space, ' ');
 
   // Clear path from attributes
   if (path.indexOf('?') !== -1) {
@@ -210,7 +219,7 @@ export function normalizeNameFromURL(path: string, username: string) {
   const pathSplited = path.split('/');
   pathSplited[0] = config.appPrefix;
 
-  if (path.includes('@') && username) {
+  if (path.includes('user') && username) {
     const lastIndex = pathSplited.length - 1;
     const last = pathSplited[lastIndex];
 
@@ -268,7 +277,7 @@ export function clearMyUsername(name: string, username: string): string {
 
 export function filterContextsByName(name: string, context: ContextualComm): boolean {
 
-  if (name.includes('@')) {
+  if (name.includes('user')) {
 
     const users = name.split('-');
     const user1 = users[0];
