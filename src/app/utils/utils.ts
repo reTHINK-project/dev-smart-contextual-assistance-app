@@ -134,9 +134,14 @@ export function splitFromURL(name: string, currentUser?: string): any {
   const splited = name.split(splitChar);
   const result = {};
 
+  //TODO: consider sub contexts
   const context = splited[1];
-  const task = splited[2];
-  const user = splited[3];
+  const task = splited[2] === 'user' ? splited[3] : splited[2];
+  const user = splited[2] === 'user' ? splited[4] : splited[3] === 'user' ? splited[4] : splited[3];
+
+  console.log('[ASC.utils.splitFromURL] context ', context);
+  console.log('[ASC.utils.splitFromURL] task ', task);
+  console.log('[ASC.utils.splitFromURL] user ', user);
 
   if (context) {
     result['context'] = context;
@@ -151,7 +156,6 @@ export function splitFromURL(name: string, currentUser?: string): any {
     result['context'] = context;
     result['task'] = task;
 
-    if (user.includes('user') && user.includes('-')) {
       const users = user.split('-');
 
       if (currentUser) {
@@ -159,7 +163,6 @@ export function splitFromURL(name: string, currentUser?: string): any {
       }
 
       result['user'] = users[0];
-    }
 
   }
 
@@ -268,6 +271,8 @@ export function objectToPath(value: string): string {
 }
 
 export function clearMyUsername(name: string, username: string): string {
+
+//  if (name === 'user') return username;
 
   if (name.indexOf('-') !== -1 && name.indexOf('@') !== -1 && name.includes(username)) {
     return name.replace(username, '').replace('-', '');

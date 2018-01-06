@@ -49,10 +49,10 @@ export class RoutingService {
           section = 'context';
           title = event.context.name;
 
-        } else if (event.hasOwnProperty('user') && event.user.hasOwnProperty('preferred_username')) {
+        } else if (event.hasOwnProperty('user') && event.user.hasOwnProperty('email')) {
 
           section = 'context';
-          title = event.user.preferred_username;
+          title = event.user.email;
 
         } else {
 
