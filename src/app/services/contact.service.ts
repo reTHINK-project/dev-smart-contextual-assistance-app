@@ -145,7 +145,7 @@ export class ContactService {
 
     let user: User;
     this._userList.forEach((value: User) => {
-      if (value.email === email) { user = value; }
+      if (value.preferred_username === email) { user = value; }
     });
 
     return user;

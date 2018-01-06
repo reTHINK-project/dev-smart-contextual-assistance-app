@@ -36,6 +36,8 @@ export function getUserMedia(constraints: any) {
 // TODO: This should be removed, because we have some user witch not contains an @;
 export function isAnUser(name: string): boolean {
   console.log('isAnUser - name:', name);
+
+  if (name === 'user') {return true;}
   let users = [];
   if (name.indexOf('-') !== -1) {
     users = name.split('-');

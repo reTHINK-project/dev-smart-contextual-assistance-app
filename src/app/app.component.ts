@@ -309,7 +309,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       console.log('[Media Communication Component] - event', event);
 
       const title = 'Incoming call';
-      const content = 'A ' + event.mode + ' call is Incoming from ' + event.user.username;
+      const content = 'A ' + event.mode + ' call is Incoming from ' + event.user.name;
       const picture = event.user.picture;
 
       this.natNotificationsService.create(title, {
