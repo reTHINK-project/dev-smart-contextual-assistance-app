@@ -31,6 +31,8 @@ export class User implements UserIdentity {
   picture: string;
   locale: string;
   userURL: string;
+  preferred_username: string;
+
 
   status: string;
   statustUrl: string;
@@ -53,11 +55,13 @@ export class User implements UserIdentity {
   // userURL: "user://google.com/vitorsilva@boldint.com"
 
   constructor(obj: any) {
-    this.email    = obj && obj.email || obj.name;
+    this.email    = obj && obj.email || obj.preferred_username;
+    this.email = this.email.toLowerCase();
     this.name       = obj && obj.name;
     this.picture   = obj && obj.picture;
     this.locale   = obj && obj.locale;
     this.userURL  = obj && obj.userURL;
+    this.preferred_username = obj && obj.preferred_username;
     this.status   = obj && obj.status   || 'unavailable';
     this.unread   = obj && obj.unread   || 0;
     this.domain   = obj && obj.domain   || config.domain;
@@ -67,7 +71,7 @@ export class User implements UserIdentity {
     this.identifiers = '';
 
     // TODO: this should be removed
-    if (!this.email.includes('@')) { this.isLegacy = true; }
+    if (!this.userURL.includes('user://')) { this.isLegacy = true; }
 
     // TODO: split by the @ from user and domain <domain>@<identifier>
     this.guid     = this.email;

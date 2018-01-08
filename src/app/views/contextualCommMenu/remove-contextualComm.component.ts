@@ -22,7 +22,7 @@ export class RemoveContextualCommComponent implements OnInit {
 
   open(content: ElementRef) {
 
-    const numOfAtomic = this.context.contexts.filter(context => context.id.includes('@')).length;
+    const numOfAtomic = this.context.contexts.filter(context => context.id.includes('user')).length;
     const numOfComposite = this.context.contexts.length - numOfAtomic;
     const isMainContext = (this.context.parent.length === 0);
 

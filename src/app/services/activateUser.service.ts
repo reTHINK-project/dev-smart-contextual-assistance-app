@@ -72,9 +72,10 @@ export class ActivateUserGuard implements CanActivate {
                   } else {
 
                     this.contextualCommDataService.getContextById(normalizedName.parent).subscribe((parentContext: ContextualComm) => {
+                      let userId = 
 
                       this.contextualCommDataService.createAtomicContext(
-                        [{user: currentUser.email, domain: currentUser.domain}],
+                        [{user: currentUser.userURL.split('user://')[1].split('/')[1], domain: currentUser.domain}],
                         normalizedName.name, normalizedName.id, normalizedName.parent).then((contextualComm: ContextualComm) => {
                           console.log('[Activate User Guard - Activate] - Can Activate route:', contextualComm);
                           resolve(true);

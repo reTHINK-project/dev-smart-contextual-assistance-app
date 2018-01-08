@@ -309,7 +309,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       console.log('[Media Communication Component] - event', event);
 
       const title = 'Incoming call';
-      const content = 'A ' + event.mode + ' call is Incoming from ' + event.user.username;
+      const content = 'A ' + event.mode + ' call is Incoming from ' + event.user.name;
       const picture = event.user.picture;
 
       this.natNotificationsService.create(title, {
@@ -451,14 +451,17 @@ export class AppComponent implements OnInit, AfterViewInit {
       console.log('[Media Communication Component] -  navigate to: ', paths.context, paths.task, paths.user);
 
       const navigationArgs = [paths.context];
-      let userTo;
+      let leavePath = paths.hasOwnProperty('user') ? paths.user : paths.task;
+      let userTo = clearMyUsername(leavePath, currentUser);
 
-      if (isAnUser(paths.task)) {
-        userTo = clearMyUsername(paths.task, currentUser);
+     /* if (isAnUser(leavePath)) {
+        userTo = clearMyUsername(leavePath, currentUser);
       } else {
         navigationArgs.push(paths.task);
         userTo = clearMyUsername(paths.user, currentUser);
-      }
+      }*/
+
+      if (leavePath != paths.task ) navigationArgs.push(paths.task);
 
       navigationArgs.push('user');
       navigationArgs.push(userTo);
