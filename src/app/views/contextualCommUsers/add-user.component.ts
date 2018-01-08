@@ -220,13 +220,14 @@ export class AddUserComponent implements OnInit, OnDestroy {
       }
 
       console.log('[Add User Component] - found contextualComm: ', contextualComm);
-      const existingUser = contextualComm.users.find(user => user.email === data.email);
+      //TODO: use user identifiers when available from the Identity Model
+      const existingUser = contextualComm.users.find(user => user.userURL.split('://')[1].split('/')[1] === data.email);
       console.log('[Add user component] - search for current user: ', existingUser);
 
       if (existingUser) {
 
         if (this.currentContext < contexts.length) {
-          //this.currentContext++;
+          this.currentContext++;
           console.log('[Add User Component] - the context already have the user: ', contexts.length, this.currentContext);
 
           this._recursiveCreateContext(contexts, this.currentContext);
