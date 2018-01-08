@@ -226,7 +226,7 @@ export class AddUserComponent implements OnInit, OnDestroy {
       if (existingUser) {
 
         if (this.currentContext < contexts.length) {
-          this.currentContext++;
+          //this.currentContext++;
           console.log('[Add User Component] - the context already have the user: ', contexts.length, this.currentContext);
 
           this._recursiveCreateContext(contexts, this.currentContext);
