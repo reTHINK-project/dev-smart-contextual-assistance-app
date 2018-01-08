@@ -438,7 +438,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     const metadata = actionEvent.metadata;
     const mode = metadata.mode;
-    const currentUser = this.contactService.sessionUser.email;
+    const currentUser = this.contactService.sessionUser.guid;
     const paths: any = splitFromURL(metadata.metadata.name, currentUser);
 
     if (actionEvent.action === ActionType.ACCEPT) {

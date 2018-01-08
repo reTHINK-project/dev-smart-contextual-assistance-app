@@ -307,7 +307,7 @@ export class ContextualCommDataService {
   _redirect(context: ContextualComm) {
     const basePath = this.router.url;
     const contextPathObj = normalizeName(context.id);
-    const basePathObj = normalizeNameFromURL(basePath, this.contactService.sessionUser.email);
+    const basePathObj = normalizeNameFromURL(basePath, this.contactService.sessionUser.guid);
 
     console.log('[ContextualCommData Service] - redirect', contextPathObj, basePathObj);
 

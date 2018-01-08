@@ -40,7 +40,7 @@ export class ActivateUserGuard implements CanActivate {
             const context = route.params['context'];
             const user = route.params['user'];
 
-            const normalizedPath = normalizeFromURL(path, this.contactService.sessionUser.email);
+            const normalizedPath = normalizeFromURL(path, this.contactService.sessionUser.guid);
 
             console.log('[Activate User Guard] - ', context, user, state, normalizedPath);
 
@@ -120,7 +120,7 @@ export class ActivateUserGuard implements CanActivate {
 
   private goParent(parent: string) {
 
-    const pathObject = splitFromURL(parent, this.contactService.sessionUser.email);
+    const pathObject = splitFromURL(parent, this.contactService.sessionUser.guid);
 
     let path = pathObject.context || '/';
     if (pathObject.task) { path += pathObject.task; }

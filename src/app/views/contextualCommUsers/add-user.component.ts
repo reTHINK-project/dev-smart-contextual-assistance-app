@@ -221,7 +221,7 @@ export class AddUserComponent implements OnInit, OnDestroy {
 
       console.log('[Add User Component] - found contextualComm: ', contextualComm);
       //TODO: use user identifiers when available from the Identity Model
-      const existingUser = contextualComm.users.find(user => user.userURL.split('://')[1].split('/')[1] === data.email);
+      const existingUser = contextualComm.users.find(user => user.guid === data.email.toLowerCase());
       console.log('[Add user component] - search for current user: ', existingUser);
 
       if (existingUser) {

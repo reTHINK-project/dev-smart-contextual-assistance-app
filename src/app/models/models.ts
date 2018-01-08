@@ -56,7 +56,7 @@ export class User implements UserIdentity {
 
   constructor(obj: any) {
     this.email    = obj && obj.email || obj.preferred_username;
-    this.email = this.email.toLowerCase();
+//    this.email = this.email.toLowerCase();
     this.name       = obj && obj.name;
     this.picture   = obj && obj.picture;
     this.locale   = obj && obj.locale;
@@ -74,7 +74,7 @@ export class User implements UserIdentity {
     if (!this.userURL.includes('user://')) { this.isLegacy = true; }
 
     // TODO: split by the @ from user and domain <domain>@<identifier>
-    this.guid     = this.email;
+    this.guid     = this.userURL.split('://')[1].split('/')[1].toLowerCase();
   }
 
   startStatusObservation(availability: any) {

@@ -49,7 +49,7 @@ export class ContextualCommDataResolver implements Resolve<ContextualComm> {
       if (task) { name = task; title = task; };
       if (user) { name = user; title = user; };
 
-      name = normalizeFromURL(path, this.contactService.sessionUser.email);
+      name = normalizeFromURL(path, this.contactService.sessionUser.guid);
 
       const normalizedName = normalizeName(name);
 
