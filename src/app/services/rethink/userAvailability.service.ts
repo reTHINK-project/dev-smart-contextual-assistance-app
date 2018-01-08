@@ -133,7 +133,7 @@ export class UserAvailabilityService {
     // discover and return last modified user availability hyperty
 
     return new Promise((resolve, reject) => {
-      this.availabilityObserver.discoverUsers(user.email, this.rethinkService.domain).then((discovered: Array <any>) => {
+      this.availabilityObserver.discoverUsers(user.userURL.split('://')[1].split('/')[1], this.rethinkService.domain).then((discovered: Array <any>) => {
         resolve( this.getLastModifiedAvailability(discovered) );
 
       });
