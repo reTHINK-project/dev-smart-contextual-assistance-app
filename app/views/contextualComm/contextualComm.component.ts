@@ -110,12 +110,12 @@ export class ContextualCommComponent implements OnInit, AfterViewInit, OnDestroy
 
     // Check if the context is not an atomicContext
     // TODO: we should check for an instance of Atomic and Composite Context;
-    if (!context.id.includes('@')) {
+    if (!context.id.includes('user')) {
       console.log('[ContextualComm View - is not an Atomic Context]:', context);
       this.userList.next(context.users);
     } else {
 
-      const normalizedPath = normalizeFromURL(this.router.url, this.contactService.sessionUser.email);
+      const normalizedPath = normalizeFromURL(this.router.url, this.contactService.sessionUser.guid);
       const normalizedName = normalizeName(normalizedPath);
 
       console.log('[ContextualComm View - get parent active context]:', normalizedPath);

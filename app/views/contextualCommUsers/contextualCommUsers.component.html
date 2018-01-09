@@ -35,7 +35,7 @@
       <!-- List of ContactComponent -->
       <li class="item m-0" *ngFor="let contact of contactsFilter | async">
         <a class="link"
-          [routerLink]="[this.basePath, 'user', contact.email]"
+          [routerLink]="[this.basePath, 'user', contact.guid]"
           routerLinkActive="active"
           (click)="onUserEvent($event)">
 

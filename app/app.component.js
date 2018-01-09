@@ -130,7 +130,7 @@ var AppComponent = (function () {
         this.connectorService.onInvitation.subscribe(function (event) {
             console.log('[Media Communication Component] - event', event);
             var title = 'Incoming call';
-            var content = 'A ' + event.mode + ' call is Incoming from ' + event.user.username;
+            var content = 'A ' + event.mode + ' call is Incoming from ' + event.user.name;
             var avatar = event.user.avatar;
             _this.notificationsService.create(title, content, 'info', {
                 showProgressBar: false,

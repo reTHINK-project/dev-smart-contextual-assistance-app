@@ -11,10 +11,14 @@ export class CustomUrlSerializer implements UrlSerializer {
     let dus = new DefaultUrlSerializer(),
         path = dus.serialize(tree);
 
-    let at = new RegExp(/%40/g);
+    const at = new RegExp(/%40/g);
+    const space = new RegExp(/%20/g);
+
+    path = path.replace(at, '@');
+    path = path.replace(space, ' ');
 
    // use your regex to replace as per your requirement.
-    return path.replace(at, '@');
+    return path;
   }
 
 }

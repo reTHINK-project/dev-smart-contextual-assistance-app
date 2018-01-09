@@ -163,9 +163,9 @@ export class ChatService {
 
           case 401:
           case 406: {
-            const found = this.controllerList.get(url);
+            /*const found = this.controllerList.get(url);
             console.log('Close Chat:', found);
-            found.close();
+            found.close();*/
             break;
           }
 

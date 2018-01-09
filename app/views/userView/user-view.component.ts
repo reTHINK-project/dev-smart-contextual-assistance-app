@@ -63,7 +63,7 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
 
     const path = this.router.url;
-    const name = normalizeFromURL(path, this.contactService.sessionUser.email);
+    const name = normalizeFromURL(path, this.contactService.sessionUser.guid);
     const normalizedName: any = normalizeName(name);
 
     this.contextualCommDataService.getWhenReady(normalizedName.id).then((current) => {
@@ -131,7 +131,7 @@ export class UserViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private goParent(parent: string) {
 
-    const pathObject = splitFromURL(parent, this.contactService.sessionUser.email);
+    const pathObject = splitFromURL(parent, this.contactService.sessionUser.guid);
 
     let path = pathObject.context || '/';
     if (pathObject.task) { path += pathObject.task; }

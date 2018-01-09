@@ -140,12 +140,12 @@ export class ContactService {
     return this._userList.get(userURL);
   }
 
-  getByUserName(email: string): User {
-    console.log('[Contact Service - get user: ', this._userList, email);
+  getByUserName(userId: string): User {
+    console.log('[Contact Service - get user: ', this._userList, userId);
 
     let user: User;
     this._userList.forEach((value: User) => {
-      if (value.email === email) { user = value; }
+      if (value.guid === userId) { user = value; }
     });
 
     return user;

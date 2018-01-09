@@ -93,7 +93,7 @@ export class UserAvailabilityService {
             if (user.statustUrl && availabilities[user.statustUrl]) {
               // TODO: confirm controllers is a list not an array
               user.startStatusObservation(availabilities[user.statustUrl]);
-            } else if (user.email !== this.contactService.sessionUser.email) { // don't observe myself
+            } else if (user.userURL !== this.contactService.sessionUser.userURL) { // don't observe myself
               newUsers.push(user);
             }
 
@@ -133,7 +133,7 @@ export class UserAvailabilityService {
     // discover and return last modified user availability hyperty
 
     return new Promise((resolve, reject) => {
-      this.availabilityObserver.discoverUsers(user.email, this.rethinkService.domain).then((discovered: Array <any>) => {
+      this.availabilityObserver.discoverUsers(user.userURL.split('://')[1].split('/')[1], this.rethinkService.domain).then((discovered: Array <any>) => {
         resolve( this.getLastModifiedAvailability(discovered) );
 
       });
@@ -143,7 +143,6 @@ export class UserAvailabilityService {
 
   private getLastModifiedAvailability(hyperties: Array<any>) {
     // from a list of discovered Availability Hyperty reporters return the one that was last modified
-
     let lastModifiedHyperty: any = hyperties[0];
 
     hyperties.forEach((hyperty) => {
